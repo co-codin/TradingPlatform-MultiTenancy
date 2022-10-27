@@ -30,7 +30,7 @@ class SyncPermissions extends Command
 
         $availablePermissions = [];
 
-        $permissions = collect($permissionFiles)
+        collect($permissionFiles)
             ->map(function(SplFileInfo $file) {
                 return "\\" . ucfirst(str_replace("/", "\\", str_replace(base_path() . "/", "", $file->getPath()))) . "\\" . $file->getBasename('.' . $file->getExtension());
             })

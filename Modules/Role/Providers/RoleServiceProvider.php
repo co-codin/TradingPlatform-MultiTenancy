@@ -3,7 +3,7 @@
 namespace Modules\Role\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Factory;
+use Modules\Role\Console\SyncPermissions;
 
 class RoleServiceProvider extends ServiceProvider
 {
@@ -27,6 +27,7 @@ class RoleServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
+        $this->registerCommands();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
     }
 
@@ -70,7 +71,7 @@ class RoleServiceProvider extends ServiceProvider
             $sourcePath => $viewPath
         ], ['views', $this->moduleNameLower . '-module-views']);
 
-        $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), $this->moduleNameLower);
+        $this->loadViewsFrom($sourcePath, $this->moduleNameLower);
     }
 
     /**
@@ -91,6 +92,13 @@ class RoleServiceProvider extends ServiceProvider
         }
     }
 
+    public function registerCommands()
+    {
+        $this->commands([
+            SyncPermissions::class,
+        ]);
+    }
+
     /**
      * Get the services provided by the provider.
      *
@@ -99,16 +107,5 @@ class RoleServiceProvider extends ServiceProvider
     public function provides()
     {
         return [];
-    }
-
-    private function getPublishableViewPaths(): array
-    {
-        $paths = [];
-        foreach (\Config::get('view.paths') as $path) {
-            if (is_dir($path . '/modules/' . $this->moduleNameLower)) {
-                $paths[] = $path . '/modules/' . $this->moduleNameLower;
-            }
-        }
-        return $paths;
     }
 }
