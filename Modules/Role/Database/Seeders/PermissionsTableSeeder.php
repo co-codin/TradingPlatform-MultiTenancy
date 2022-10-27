@@ -3,8 +3,9 @@
 namespace Modules\Role\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
 
-class RoleDatabaseSeeder extends Seeder
+class PermissionsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,7 +14,6 @@ class RoleDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(PermissionsTableSeeder::class);
-        $this->call(RolesTableSeeder::class);
+        Artisan::call('permission:sync');
     }
 }
