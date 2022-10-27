@@ -4,9 +4,18 @@ namespace Modules\Role\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Modules\Role\Console\SyncPermissions;
+use Modules\Role\Models\Permission;
+use Modules\Role\Models\Role;
+use Modules\Role\Policies\PermissionPolicy;
+use Modules\Role\Policies\RolePolicy;
 
 class RoleServiceProvider extends ServiceProvider
 {
+    protected array $policies = [
+        Role::class => RolePolicy::class,
+        Permission::class => PermissionPolicy::class,
+    ];
+
     /**
      * @var string $moduleName
      */
