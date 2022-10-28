@@ -4,6 +4,8 @@ namespace Modules\User\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Role\Models\Role;
+use Modules\User\Models\User;
 
 class UserDatabaseSeeder extends Seeder
 {
@@ -16,6 +18,10 @@ class UserDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+        $user = User::factory()->create([
+            'email' => 'admin@admin.ru'
+        ]);
+
+        $user->assignRole(Role::find(1));
     }
 }
