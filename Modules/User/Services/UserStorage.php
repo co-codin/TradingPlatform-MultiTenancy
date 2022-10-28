@@ -20,7 +20,7 @@ class UserStorage
 
         $user = User::create($attributes);
 
-//        $user->assignRole($attributes['role_id']);
+        $user->assignRole($attributes['role_id']);
 
         return $user;
     }
@@ -41,7 +41,7 @@ class UserStorage
             throw new Exception('Cant update user');
         }
 
-//        $user->syncRoles($attributes['role_id']);
+        $user->syncRoles($attributes['role_id']);
 
         return $user;
     }
