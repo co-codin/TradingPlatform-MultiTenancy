@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\User\Providers;
+namespace Modules\Customer\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -12,7 +12,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $moduleNamespace = 'Modules\User\Http\Controllers';
+    protected $moduleNamespace = 'Modules\Customer\Http\Controllers';
 
     /**
      * Called before routes are registered.
@@ -48,6 +48,6 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware('auth:sanctum')
             ->as('admin.')
             ->prefix('admin')
-            ->group(module_path('User', '/Routes/admin.php'));
+            ->group(module_path('Customer', '/Routes/admin.php'));
     }
 }
