@@ -1,5 +1,5 @@
 {
-    "User": true,
     "Role": true,
-    "Customer": true
+    "Customer": true,
+    "Worker": true
 }
