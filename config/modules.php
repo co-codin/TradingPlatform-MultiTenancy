@@ -60,7 +60,7 @@ return [
         'enabled' => false,
         'path' => base_path('vendor/nwidart/laravel-modules/src/Commands/stubs'),
         'files' => [
-            'routes/api' => 'Routes/api.php',
+            'routes/api' => 'Routes/admin.php',
             'scaffold/config' => 'Config/config.php',
         ],
         'replacements' => [
