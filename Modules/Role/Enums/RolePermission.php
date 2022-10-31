@@ -13,16 +13,16 @@ class RolePermission implements PermissionEnum
 
     public static function module(): string
     {
-        return 'Роли';
+        return 'Roles';
     }
 
     public static function descriptions() : array
     {
         return [
-            static::CREATE_ROLES => 'Добавление ролей',
-            static::VIEW_ROLES => 'Просмотр ролей',
-            static::EDIT_ROLES => 'Редактирование ролей',
-            static::DELETE_ROLES => 'Удаление ролей',
+            static::CREATE_ROLES => 'Create roles',
+            static::VIEW_ROLES => 'View roles',
+            static::EDIT_ROLES => 'Update roles',
+            static::DELETE_ROLES => 'Delete roles',
         ];
     }
 }
