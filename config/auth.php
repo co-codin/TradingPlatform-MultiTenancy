@@ -36,10 +36,14 @@ return [
     */
 
     'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
+        'api' => [
+            'driver' => 'sanctum',
+            'provider' => 'workers',
         ],
+        'customer' => [
+            'sanctum',
+            'provider' => 'customers'
+        ]
     ],
 
     /*
@@ -60,10 +64,14 @@ return [
     */
 
     'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+        'workers' => [
+            'driver' => 'sanctum',
+            'model' => \Modules\Worker\Models\Worker::class,
         ],
+        'customers' => [
+            'driver' => 'sanctum',
+            'model' => \Modules\Customer\Models\Customer::class,
+        ]
 
         // 'users' => [
         //     'driver' => 'database',
@@ -87,8 +95,8 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
+        'workers' => [
+            'provider' => 'workers',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
