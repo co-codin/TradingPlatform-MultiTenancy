@@ -4,7 +4,6 @@ namespace Modules\Role\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Http\Request;
 use Modules\Role\Dto\RoleDto;
 use Modules\Role\Http\Requests\RoleCreateRequest;
 use Modules\Role\Http\Requests\RolePermissionRequest;
