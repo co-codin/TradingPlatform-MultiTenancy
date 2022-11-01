@@ -3,6 +3,8 @@
 namespace Modules\Worker\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Modules\Worker\Models\Worker;
+use Modules\Worker\Policies\WorkerPolicy;
 
 class WorkerServiceProvider extends ServiceProvider
 {
@@ -15,6 +17,10 @@ class WorkerServiceProvider extends ServiceProvider
      * @var string $moduleNameLower
      */
     protected $moduleNameLower = 'worker';
+
+    protected array $policies = [
+        Worker::class => WorkerPolicy::class
+    ];
 
     /**
      * Boot the application events.
