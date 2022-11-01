@@ -18,7 +18,7 @@ class Permission extends SpatiePermission
             config('permission.table_names.role_has_permissions'),
             'permission_id',
             'role_id'
-        )->withPivot(['level']);
+        );
     }
 
     protected static function newFactory()
