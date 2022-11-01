@@ -2,6 +2,7 @@
 
 namespace Modules\Role\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Modules\Role\Console\SyncPermissions;
 use Modules\Role\Models\Permission;
@@ -116,5 +117,12 @@ class RoleServiceProvider extends ServiceProvider
     public function provides()
     {
         return [];
+    }
+
+    public function registerPolicies()
+    {
+        foreach ($this->policies as $key => $value) {
+            Gate::policy($key, $value);
+        }
     }
 }

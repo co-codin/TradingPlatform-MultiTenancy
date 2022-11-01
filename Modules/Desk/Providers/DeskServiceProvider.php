@@ -2,10 +2,17 @@
 
 namespace Modules\Desk\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Modules\Desk\Models\Desk;
+use Modules\Desk\Policies\DeskPolicy;
 
 class DeskServiceProvider extends ServiceProvider
 {
+
+    protected array $policies = [
+        Desk::class => DeskPolicy::class,
+    ];
     /**
      * @var string $moduleName
      */
@@ -79,5 +86,12 @@ class DeskServiceProvider extends ServiceProvider
     public function provides()
     {
         return [];
+    }
+
+    public function registerPolicies()
+    {
+        foreach ($this->policies as $key => $value) {
+            Gate::policy($key, $value);
+        }
     }
 }
