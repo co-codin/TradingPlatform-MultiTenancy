@@ -2,9 +2,9 @@
 
 namespace Modules\Desk\Http\Requests;
 
-use App\Http\Resources\BaseJsonResource;
+use App\Http\Requests\BaseFormRequest;
 
-class DeskUpdateRequest extends BaseJsonResource
+class DeskUpdateRequest extends BaseFormRequest
 {
     public function rules()
     {
