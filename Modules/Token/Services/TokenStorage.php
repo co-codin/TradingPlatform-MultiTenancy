@@ -16,6 +16,6 @@ class TokenStorage
 
     public function delete()
     {
-        
+
     }
 }
