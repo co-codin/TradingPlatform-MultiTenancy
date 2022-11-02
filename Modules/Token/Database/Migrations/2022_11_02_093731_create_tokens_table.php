@@ -15,7 +15,11 @@ return new class extends Migration
     {
         Schema::create('tokens', function (Blueprint $table) {
             $table->id();
-
+            $table->foreignId('worker_id')->constrained();
+            $table->string('token');
+            $table->text('description')->nullable();
+            $table->string('ip');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -32,6 +32,7 @@ class DeskServiceProvider extends ServiceProvider
     {
         $this->registerTranslations();
         $this->registerConfig();
+        $this->registerPolicies();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
     }
 

@@ -2,10 +2,17 @@
 
 namespace Modules\Token\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Modules\Token\Models\Token;
+use Modules\Token\Policies\TokenPolicy;
 
 class TokenServiceProvider extends ServiceProvider
 {
+    protected array $policies = [
+        Token::class => TokenPolicy::class,
+    ];
+
     /**
      * @var string $moduleName
      */
@@ -25,6 +32,7 @@ class TokenServiceProvider extends ServiceProvider
     {
         $this->registerTranslations();
         $this->registerConfig();
+        $this->registerPolicies();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
     }
 
@@ -79,5 +87,12 @@ class TokenServiceProvider extends ServiceProvider
     public function provides()
     {
         return [];
+    }
+
+    public function registerPolicies()
+    {
+        foreach ($this->policies as $key => $value) {
+            Gate::policy($key, $value);
+        }
     }
 }
