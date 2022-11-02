@@ -11,7 +11,7 @@ class DeskStorage
 {
     public function store(DeskDto $deskDto)
     {
-        return  Desk::query()->create($deskDto->toArray());
+        return Desk::query()->create($deskDto->toArray());
     }
 
     public function update(Desk $desk, DeskDto $deskDto)

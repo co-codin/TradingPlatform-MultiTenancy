@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Desk\Models\Desk;
+use Modules\Token\Models\Token;
 use Modules\Worker\Database\factories\WorkerFactory;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -30,6 +31,11 @@ class Worker extends Authenticatable
     public function desks()
     {
         return $this->belongsToMany(Desk::class, 'worker_desk', 'worker_id', 'desk_id');
+    }
+
+    public function tokens()
+    {
+        return $this->hasMany(Token::class);
     }
 
     protected static function newFactory()

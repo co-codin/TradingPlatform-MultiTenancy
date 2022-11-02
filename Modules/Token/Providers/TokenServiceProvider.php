@@ -1,27 +1,27 @@
 <?php
 
-namespace Modules\Desk\Providers;
+namespace Modules\Token\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
-use Modules\Desk\Models\Desk;
-use Modules\Desk\Policies\DeskPolicy;
+use Modules\Token\Models\Token;
+use Modules\Token\Policies\TokenPolicy;
 
-class DeskServiceProvider extends ServiceProvider
+class TokenServiceProvider extends ServiceProvider
 {
-
     protected array $policies = [
-        Desk::class => DeskPolicy::class,
+        Token::class => TokenPolicy::class,
     ];
+
     /**
      * @var string $moduleName
      */
-    protected $moduleName = 'Desk';
+    protected $moduleName = 'Token';
 
     /**
      * @var string $moduleNameLower
      */
-    protected $moduleNameLower = 'desk';
+    protected $moduleNameLower = 'token';
 
     /**
      * Boot the application events.
