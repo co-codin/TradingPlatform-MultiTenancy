@@ -12,7 +12,7 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        Artisan::call('permission:cache-reset');
+        Artisan::call('optimize');
 //        Storage::fake();
 //        Storage::fake('public');
     }
