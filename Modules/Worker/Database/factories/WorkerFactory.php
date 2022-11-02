@@ -11,7 +11,7 @@ class WorkerFactory extends Factory
      *
      * @var string
      */
-    protected $model = \Modules\Worker\Entities\Worker::class;
+    protected $model = \Modules\Worker\Models\Worker::class;
 
     /**
      * Define the model's default state.

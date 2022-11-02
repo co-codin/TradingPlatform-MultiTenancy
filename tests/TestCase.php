@@ -4,6 +4,7 @@ namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Storage;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -13,7 +14,12 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
         Artisan::call('optimize');
-//        Storage::fake();
-//        Storage::fake('public');
+        Storage::fake();
+        Storage::fake('public');
+    }
+
+    protected function authenticateWorker()
+    {
+
     }
 }
