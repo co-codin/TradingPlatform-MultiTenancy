@@ -3,5 +3,6 @@
     "Customer": true,
     "Worker": true,
     "Desk": true,
-    "Token": true
+    "Token": true,
+    "Department": true
 }
