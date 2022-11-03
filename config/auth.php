@@ -40,10 +40,6 @@ return [
             'driver' => 'sanctum',
             'provider' => 'workers',
         ],
-        'web' => [
-            'driver' => 'sanctum',
-            'provider' => 'workers'
-        ]
     ],
 
     /*
