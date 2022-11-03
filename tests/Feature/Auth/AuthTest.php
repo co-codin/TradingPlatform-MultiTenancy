@@ -8,20 +8,20 @@ use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
-    protected static ?Worker $user = null;
+    protected Worker $worker;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        static::$user = Worker::factory()->create([
+        $this->worker = Worker::factory()->create([
             'password' => 'admin1'
         ]);
     }
 
     public function test_login_endpoint()
     {
-        $response = $this->json('POST', route('admin.auth.login'));
+        $response = $this->json('POST', route('admin.auth.login'), $this->getRightData());
 
         $response->assertStatus(200);
 
@@ -65,7 +65,7 @@ class AuthTest extends TestCase
     protected function getRightData(): array
     {
         return [
-            'email' => static::$user->email,
+            'email' => $this->worker->email,
             'password' => 'admin1',
         ];
     }
