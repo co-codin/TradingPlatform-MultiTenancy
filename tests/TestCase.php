@@ -2,21 +2,17 @@
 
 namespace Tests;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Traits\RefreshesPermissionCache;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication;
+    use CreatesApplication, RefreshDatabase, RefreshesPermissionCache;
 
     protected function setUp(): void
     {
         parent::setUp();
-        Artisan::call('optimize');
-        Storage::fake();
-        Storage::fake('public');
-        Artisan::call('migrate');
     }
 
     protected function authenticateWorker()
