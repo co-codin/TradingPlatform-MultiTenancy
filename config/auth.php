@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
-        'passwords' => 'users',
+        'guard' => 'api',
+        'passwords' => 'workers',
     ],
 
     /*
@@ -40,9 +40,9 @@ return [
             'driver' => 'sanctum',
             'provider' => 'workers',
         ],
-        'customer' => [
-            'sanctum',
-            'provider' => 'customers'
+        'web' => [
+            'driver' => 'sanctum',
+            'provider' => 'workers'
         ]
     ],
 
@@ -65,18 +65,9 @@ return [
 
     'providers' => [
         'workers' => [
-            'driver' => 'sanctum',
+            'driver' => 'eloquent',
             'model' => \Modules\Worker\Models\Worker::class,
         ],
-        'customers' => [
-            'driver' => 'sanctum',
-            'model' => \Modules\Customer\Models\Customer::class,
-        ]
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
     /*
