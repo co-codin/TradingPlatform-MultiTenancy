@@ -40,10 +40,6 @@ return [
             'driver' => 'sanctum',
             'provider' => 'workers',
         ],
-        'customer' => [
-            'sanctum',
-            'provider' => 'customers'
-        ]
     ],
 
     /*
@@ -68,15 +64,6 @@ return [
             'driver' => 'eloquent',
             'model' => \Modules\Worker\Models\Worker::class,
         ],
-        'customers' => [
-            'driver' => 'eloquent',
-            'model' => \Modules\Customer\Models\Customer::class,
-        ]
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
     /*
