@@ -1,6 +1,5 @@
 {
     "Role": true,
-    "Customer": true,
     "Worker": true,
     "Desk": true,
     "Token": true
