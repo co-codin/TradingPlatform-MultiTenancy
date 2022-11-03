@@ -1,19 +1,19 @@
 <?php
 
 
-namespace Modules\User\Http\Resources;
+namespace Modules\Worker\Http\Resources;
 
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Role\Http\Resources\RoleResource;
-use Modules\User\Models\User;
+use Modules\Worker\Models\User;
 
 /**
  * Class AuthUserResource
  * @package Modules\User\Http\Resources
  * @mixin User
  */
-class AuthUserResource extends JsonResource
+class AuthWorkerResource extends JsonResource
 {
     public function toArray($request)
     {

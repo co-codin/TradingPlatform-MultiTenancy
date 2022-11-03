@@ -4,6 +4,7 @@ namespace Modules\Worker\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Modules\Worker\Models\Worker;
 
 class WorkerFactory extends Factory
 {
@@ -12,14 +13,14 @@ class WorkerFactory extends Factory
      *
      * @var string
      */
-    protected $model = \Modules\Worker\Models\Worker::class;
+    protected $model = Worker::class;
 
     /**
      * Define the model's default state.
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'username' => $this->faker->userName,

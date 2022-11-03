@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Modules\User\Http\Requests;
+namespace Modules\Worker\Http\Requests\User;
 
 
 use App\Http\Requests\BaseFormRequest;

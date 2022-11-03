@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Modules\User\Services;
+namespace Modules\Worker\Services;
 
 
 use Exception;
 use Hash;
-use Modules\User\Models\User;
+use Modules\Worker\Models\User;
 
 class UserStorage
 {

@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Modules\User\Policies;
+namespace Modules\Worker\Policies;
 
 use App\Policies\BasePolicy;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Modules\User\Enums\UserPermission;
-use Modules\User\Models\User;
+use Modules\Worker\Enums\UserPermission;
+use Modules\Worker\Models\User;
 
 class UserPolicy extends BasePolicy
 {

@@ -4,7 +4,8 @@
 namespace Tests\Feature\Auth;
 
 
-use Modules\User\Models\User;
+use Modules\Worker\Models\User;
+use Modules\Worker\Models\Worker;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
@@ -15,7 +16,7 @@ class AuthTest extends TestCase
     {
         parent::setUp();
 
-        User::factory()->create([
+        Worker::factory()->create([
             'email' => 'admin@stoxtech.com'
         ]);
     }
