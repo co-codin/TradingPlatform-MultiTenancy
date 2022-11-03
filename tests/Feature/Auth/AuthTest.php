@@ -3,33 +3,33 @@
 
 namespace Tests\Feature\Auth;
 
-
-use Modules\Worker\Models\User;
 use Modules\Worker\Models\Worker;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
-    protected static ?User $user = null;
+    protected static ?Worker $user = null;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         Worker::factory()->create([
-            'email' => 'admin@stoxtech.com'
+            'password' => 'admin'
         ]);
     }
 
     public function test_login_endpoint()
     {
-        $response = $this->json('POST', route('auth.login'), $this->getRightData());
+        static::$user = Worker::factory()->create();
+
+        $response = $this->json('POST', route('auth.login'));
 
         $response->assertStatus(200);
 
         $response = $this->json('POST', route('auth.login'), $this->getWrongData());
 
-        $response->assertStatus(404);
+        $response->assertStatus(400);
     }
 
     public function test_me_endpoint()
