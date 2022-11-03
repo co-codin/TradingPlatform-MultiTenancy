@@ -16,6 +16,7 @@ abstract class TestCase extends BaseTestCase
         Artisan::call('optimize');
         Storage::fake();
         Storage::fake('public');
+        Artisan::call('migrate');
     }
 
     protected function authenticateWorker()
