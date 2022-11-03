@@ -14,31 +14,29 @@ class AuthTest extends TestCase
     {
         parent::setUp();
 
-        Worker::factory()->create([
-            'password' => 'admin'
+        static::$user = Worker::factory()->create([
+            'password' => 'admin1'
         ]);
     }
 
     public function test_login_endpoint()
     {
-        static::$user = Worker::factory()->create();
-
-        $response = $this->json('POST', route('auth.login'));
+        $response = $this->json('POST', route('admin.auth.login'));
 
         $response->assertStatus(200);
 
-        $response = $this->json('POST', route('auth.login'), $this->getWrongData());
+        $response = $this->json('POST', route('admin.auth.login'), $this->getWrongData());
 
         $response->assertStatus(400);
     }
 
     public function test_me_endpoint()
     {
-        $response = $this->json('POST', route('auth.login'), $this->getRightData());
+        $response = $this->json('POST', route('admin.auth.login'), $this->getRightData());
 
         $token = $response->json('token');
 
-        $response = $this->withToken($token)->json('GET', route('auth.user'));
+        $response = $this->withToken($token)->json('GET', route('admin.auth.user'));
 
         $response->assertStatus(200);
 
@@ -47,32 +45,32 @@ class AuthTest extends TestCase
 
     public function test_failed_me_endpoint()
     {
-        $response = $this->json('GET', route('auth.user'));
+        $response = $this->json('GET', route('admin.auth.user'));
 
         $response->assertStatus(401);
     }
 
     public function test_logout()
     {
-        $response = $this->json('POST', route('auth.login'), $this->getRightData());
+        $response = $this->json('POST', route('admin.auth.login'), $this->getRightData());
 
         $token = $response->json('token');
 
-        $response = $this->withToken($token)->json('POST', route('auth.logout'));
+        $response = $this->withToken($token)->json('POST', route('admin.auth.logout'));
 
         $response->assertStatus(200);
         $this->assertEmpty(session()->get('access_token'));
     }
 
-    protected function getRightData()
+    protected function getRightData(): array
     {
         return [
-            'email' => 'admin@stoxtech.com',
+            'email' => static::$user->email,
             'password' => 'admin1',
         ];
     }
 
-    protected function getWrongData()
+    protected function getWrongData(): array
     {
         return [
             'email' => 'adm@stoxtech.com',
