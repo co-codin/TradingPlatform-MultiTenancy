@@ -9,8 +9,8 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
-use Modules\Worker\Http\Requests\ForgetPasswordRequest;
-use Modules\Worker\Http\Requests\ResetPasswordRequest;
+use Modules\User\Http\Requests\ForgetPasswordRequest;
+use Modules\User\Http\Requests\ResetPasswordRequest;
 
 class ForgetController extends Controller
 {

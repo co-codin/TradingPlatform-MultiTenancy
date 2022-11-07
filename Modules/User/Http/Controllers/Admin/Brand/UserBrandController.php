@@ -4,7 +4,7 @@ namespace Modules\User\Http\Controllers\Admin\Brand;
 
 use App\Http\Controllers\Controller;
 use Modules\User\Repositories\UserRepository;
-use Modules\Worker\Http\Requests\Brand\UserBrandUpdateRequest;
+use Modules\User\Http\Requests\Brand\UserBrandUpdateRequest;
 
 class UserBrandController extends Controller
 {

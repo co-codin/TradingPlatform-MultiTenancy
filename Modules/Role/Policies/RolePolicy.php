@@ -4,32 +4,32 @@ namespace Modules\Role\Policies;
 
 use App\Policies\BasePolicy;
 use Modules\Role\Models\Role;
-use Modules\Worker\Models\Worker;
+use Modules\User\Models\User;
 
 class RolePolicy extends BasePolicy
 {
-    public function viewAny(Worker $worker): bool
+    public function viewAny(User $user): bool
     {
-        return $this->isAdmin($worker);
+        return $this->isAdmin($user);
     }
 
-    public function view(Worker $worker, Role $role): bool
+    public function view(User $user, Role $role): bool
     {
-        return $this->isAdmin($worker);
+        return $this->isAdmin($user);
     }
 
-    public function create(Worker $worker): bool
+    public function create(User $user): bool
     {
-        return $this->isAdmin($worker);
+        return $this->isAdmin($user);
     }
 
-    public function update(Worker $worker, Role $role): bool
+    public function update(User $user, Role $role): bool
     {
-        return $this->isAdmin($worker);
+        return $this->isAdmin($user);
     }
 
-    public function delete(Worker $worker, Role $role): bool
+    public function delete(User $user, Role $role): bool
     {
-        return $this->isAdmin($worker);
+        return $this->isAdmin($user);
     }
 }

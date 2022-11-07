@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Worker\Http\Requests\Brand;
+namespace Modules\User\Http\Requests\Brand;
 
 use App\Http\Requests\BaseFormRequest;
 

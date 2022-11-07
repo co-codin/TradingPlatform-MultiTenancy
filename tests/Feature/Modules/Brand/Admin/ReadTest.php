@@ -6,19 +6,19 @@ use Illuminate\Http\Response;
 use Modules\Brand\Enums\BrandPermission;
 use Modules\Brand\Models\Brand;
 use Modules\Role\Models\Permission;
-use Modules\Worker\Models\Worker;
+use Modules\User\Models\User;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Tests\TestCase;
 
 class ReadTest extends TestCase
 {
-    protected Worker $worker;
+    protected User $user;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->worker = Worker::factory()->create([
+        $this->user = User::factory()->create([
             'email' => 'admin@admin.com'
         ]);
 
@@ -26,7 +26,7 @@ class ReadTest extends TestCase
 //            'name' => BrandPermission::VIEW_BRANDS,
 //        ]);
 //
-//        $worker->givePermissionTo($permission->name);
+//        $this->user->givePermissionTo($permission->name);
 //
 //        $response = $this->json('POST', route('admin.auth.login'), [
 //            'email' => 'admin@admin.com',
@@ -67,11 +67,11 @@ class ReadTest extends TestCase
             'name' => BrandPermission::VIEW_BRANDS,
         ]);
 
-        $this->worker->givePermissionTo($permission->name);
+        $this->user->givePermissionTo($permission->name);
 
         Brand::factory()->count($count = 5)->create();
 
-        $response = $this->actingAs($this->worker)->json('GET', route('admin.brands.index'));
+        $response = $this->actingAs($this->user)->json('GET', route('admin.brands.index'));
 
         $response->assertOk();
         $this->assertCount($count, ($response['data']));
@@ -119,11 +119,11 @@ class ReadTest extends TestCase
             'name' => BrandPermission::VIEW_BRANDS,
         ]);
 
-        $this->worker->givePermissionTo($permission->name);
+        $this->user->givePermissionTo($permission->name);
 
         $brand = Brand::factory()->create();
 
-        $response = $this->actingAs($this->worker)->json('GET', route('admin.brands.show', $brand));
+        $response = $this->actingAs($this->user)->json('GET', route('admin.brands.show', $brand));
 
         $response->assertOk();
         $response->assertJsonStructure([
