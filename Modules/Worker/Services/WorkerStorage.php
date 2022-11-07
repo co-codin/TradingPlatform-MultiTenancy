@@ -18,41 +18,41 @@ class WorkerStorage
     {
         $attributes['password'] = Hash::make($attributes['password']);
 
-        $user = Worker::create($attributes);
+        $worker = Worker::create($attributes);
 
-        $user->assignRole($attributes['role_id']);
+        $worker->assignRole($attributes['role_id']);
 
-        return $user;
+        return $worker;
     }
 
     /**
-     * @param Worker $user
+     * @param Worker $worker
      * @param array $attributes
      * @return Worker
      * @throws Exception
      */
-    public function update(Worker $user, array $attributes): Worker
+    public function update(Worker $worker, array $attributes): Worker
     {
         if ($attributes['change_password']) {
             $attributes['password'] = Hash::make($attributes['password']);
         }
 
-        if (!$user->update($attributes)) {
+        if (!$worker->update($attributes)) {
             throw new RuntimeException('Cant update user');
         }
 
-        $user->syncRoles($attributes['role_id']);
+        $worker->syncRoles($attributes['role_id']);
 
-        return $user;
+        return $worker;
     }
 
     /**
-     * @param Worker $user
+     * @param Worker $worker
      * @throws Exception
      */
-    public function destroy(Worker $user): void
+    public function destroy(Worker $worker): void
     {
-        if (!$user->delete()) {
+        if (!$worker->delete()) {
             throw new RuntimeException('Cant delete user');
         }
     }

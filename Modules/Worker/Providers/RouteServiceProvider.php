@@ -40,7 +40,6 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::middleware('api')
             ->prefix('admin')
-            ->as('admin.')
             ->group(module_path('Worker', '/Routes/admin.php'));
     }
 }
