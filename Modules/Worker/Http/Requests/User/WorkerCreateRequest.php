@@ -6,7 +6,7 @@ namespace Modules\Worker\Http\Requests\User;
 
 use App\Http\Requests\BaseFormRequest;
 
-class UserCreateRequest extends BaseFormRequest
+class WorkerCreateRequest extends BaseFormRequest
 {
     public function rules(): array
     {
@@ -26,7 +26,7 @@ class UserCreateRequest extends BaseFormRequest
                 'required',
                 'email',
                 'max:255',
-                'unique:users,email',
+                'unique:workers,email',
             ],
             'password' => [
                 'required',

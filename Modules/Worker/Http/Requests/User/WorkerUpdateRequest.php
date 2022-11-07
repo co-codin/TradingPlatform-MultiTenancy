@@ -6,7 +6,7 @@ namespace Modules\Worker\Http\Requests\User;
 
 use App\Http\Requests\BaseFormRequest;
 
-class UserUpdateRequest extends BaseFormRequest
+class WorkerUpdateRequest extends BaseFormRequest
 {
     public function rules(): array
     {
@@ -29,11 +29,7 @@ class UserUpdateRequest extends BaseFormRequest
                 'required',
                 'email',
                 'max:255',
-                'unique:users,email,' . $this->route('user'),
-            ],
-            'change_password' => [
-                'nullable',
-                'boolean',
+                'unique:workers,email,' . $this->route('user'),
             ],
             'password' => [
                 'exclude_unless:change_password,true',

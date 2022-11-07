@@ -20,19 +20,19 @@ class AuthController extends Controller
     {
         $request->validated();
 
-        $user = Worker::query()
+        $worker = Worker::query()
             ->where('email', $request->input('email'))
             ->first();
 
-        if (!$user || ! Hash::check($request->input('password'), $user->password)) {
+        if (!$worker || ! Hash::check($request->input('password'), $worker->password)) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
 
         return [
-            'user' => new AuthWorkerResource($user),
-            'token' => $user->createToken('api')->plainTextToken,
+            'worker' => new AuthWorkerResource($worker),
+            'token' => $worker->createToken('api')->plainTextToken,
         ];
     }
 
