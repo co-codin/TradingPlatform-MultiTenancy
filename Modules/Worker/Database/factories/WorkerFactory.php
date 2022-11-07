@@ -3,6 +3,7 @@
 namespace Modules\Worker\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Modules\Worker\Models\Worker;
 
@@ -27,7 +28,7 @@ class WorkerFactory extends Factory
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
             'email' => $this->faker->email,
-            'password' => bcrypt('admin'),
+            'password' => Hash::make('admin'),
             'remember_token' => Str::random(10),
             'is_active' => true,
         ];

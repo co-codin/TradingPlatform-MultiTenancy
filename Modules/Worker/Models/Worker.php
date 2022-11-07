@@ -27,6 +27,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read Role[]|Collection $roles
  * @property-read Desk[]|Collection $desks
  * @method static self create(array $attributes)
+ * @method Token createToken(string $name)
  */
 class Worker extends Authenticatable
 {

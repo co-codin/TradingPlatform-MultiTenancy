@@ -3,6 +3,7 @@
 
 namespace Tests\Feature\Auth;
 
+use Illuminate\Support\Facades\Hash;
 use Modules\Worker\Models\Worker;
 use Tests\TestCase;
 
@@ -15,14 +16,14 @@ class AuthTest extends TestCase
         parent::setUp();
 
         $this->worker = Worker::factory()->create([
-            'password' => 'admin1'
+            'password' => Hash::make('admin1'),
         ]);
     }
 
     public function test_login_endpoint()
     {
         $this->withoutExceptionHandling();
-        
+
         $response = $this->json('POST', route('admin.auth.login'), $this->getRightData());
 
         $response->assertStatus(200);

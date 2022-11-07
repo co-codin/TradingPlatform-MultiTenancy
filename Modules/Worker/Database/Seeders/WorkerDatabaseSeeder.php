@@ -4,6 +4,7 @@ namespace Modules\Worker\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Worker\Models\Worker;
 
 class WorkerDatabaseSeeder extends Seeder
 {
@@ -16,6 +17,11 @@ class WorkerDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+        // Make admin
+        Worker::factory()->create([
+            'email' => 'test@stoxtech.dev'
+        ]);
+
+        Worker::factory(10)->create();
     }
 }
