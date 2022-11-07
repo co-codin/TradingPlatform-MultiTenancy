@@ -1,7 +1,11 @@
 <?php
 
 
+<<<<<<<< HEAD:Modules/User/Http/Requests/UserUpdateRequest.php
 namespace Modules\User\Http\Requests;
+========
+namespace Modules\Worker\Http\Requests\Worker;
+>>>>>>>> staging:Modules/Worker/Http/Requests/Worker/WorkerUpdateRequest.php
 
 
 use App\Http\Requests\BaseFormRequest;

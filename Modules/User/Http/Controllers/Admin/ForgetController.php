@@ -18,17 +18,17 @@ class ForgetController extends Controller
     {
         $data = $request->validated();
 
-        return Password::sendResetLink($$data) === Password::RESET_LINK_SENT ?
+        return Password::sendResetLink($data) === Password::RESET_LINK_SENT ?
             abort(Response::HTTP_ACCEPTED) :
             abort(Response::HTTP_BAD_REQUEST);
     }
 
     public function reset(string $token, ResetPasswordRequest $request)
     {
-        $data = $request->validated();
+        $request->validated();
 
         $status = Password::reset(
-            array_merge($data, ['token' => $token]),
+            array_merge($request->only('email', 'password', 'password_confirmation'), ['token' => $token]),
             function ($user, $password) {
                 $user->forceFill([
                     'password' => Hash::make($password)
@@ -41,7 +41,7 @@ class ForgetController extends Controller
         );
 
         return $status === Password::PASSWORD_RESET ?
-            abort(Response::HTTP_ACCEPTED) :
-            abort(Response::HTTP_BAD_REQUEST);
+            abort(Response::HTTP_ACCEPTED, $status) :
+            abort(Response::HTTP_BAD_REQUEST, $status);
     }
 }
