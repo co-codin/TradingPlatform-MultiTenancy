@@ -59,11 +59,6 @@ class Worker extends Authenticatable
         );
     }
 
-    public function tokens()
-    {
-        return $this->hasMany(Token::class);
-    }
-
     protected static function newFactory()
     {
         return WorkerFactory::new();
