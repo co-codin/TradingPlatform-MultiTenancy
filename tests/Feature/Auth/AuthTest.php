@@ -33,7 +33,6 @@ class AuthTest extends TestCase
     {
         $response = $this->actingAs(static::$worker)->json('GET', route('admin.auth.user'));
 
-        var_dump($response->getContent());
         $response->assertStatus(200);
 
         $this->assertNotEmpty($response->json());
