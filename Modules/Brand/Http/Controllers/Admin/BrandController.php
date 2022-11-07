@@ -3,6 +3,8 @@
 namespace Modules\Brand\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Modules\Brand\Http\Requests\BrandCreateRequest;
+use Modules\Brand\Http\Requests\BrandUpdateRequest;
 use Modules\Brand\Http\Resources\BrandResource;
 use Modules\Brand\Models\Brand;
 use Modules\Brand\Repositories\BrandRepository;
@@ -41,7 +43,17 @@ class BrandController extends Controller
         return new BrandResource($brand);
     }
 
-    public function store()
+    public function store(BrandCreateRequest $request)
+    {
+
+    }
+
+    public function update(int $brand, BrandUpdateRequest $request)
+    {
+
+    }
+
+    public function destroy(int $brand)
     {
 
     }
