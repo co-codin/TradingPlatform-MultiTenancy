@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'api',
+        'guard' => 'web',
         'passwords' => 'users',
     ],
 
@@ -40,6 +40,10 @@ return [
             'driver' => 'sanctum',
             'provider' => 'workers',
         ],
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
     ],
 
     /*
@@ -63,6 +67,10 @@ return [
         'workers' => [
             'driver' => 'eloquent',
             'model' => \Modules\Worker\Models\Worker::class,
+        ],
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => \App\Models\User::class,
         ],
     ],
 
