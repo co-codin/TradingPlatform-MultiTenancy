@@ -28,7 +28,7 @@ class BrandRequestCriteria implements CriteriaInterface
                 AllowedFilter::trashed(),
             ])
             ->allowedIncludes([
-                'workers',
+                'users',
             ])
             ->allowedSorts([
                 'id', 'name', 'slug', 'created_at', 'updated_at', 'deleted_at',

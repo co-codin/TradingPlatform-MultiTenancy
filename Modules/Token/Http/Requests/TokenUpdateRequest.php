@@ -9,7 +9,7 @@ class TokenUpdateRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'worker_id' => 'sometimes|required|int|exists:workers,id',
+            'user_id' => 'sometimes|required|int|exists:users,id',
             'token' => 'sometimes|required|string',
             'description' => 'sometimes|nullable',
             'ip' => 'sometimes|required|string',

@@ -1,6 +1,6 @@
 {
     "Role": true,
-    "Worker": true,
+    "User": true,
     "Desk": true,
     "Token": true,
     "Department": true,
