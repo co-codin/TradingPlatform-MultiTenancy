@@ -5,12 +5,13 @@ namespace Modules\Worker\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
 
-class ForgetPasswordRequest extends BaseFormRequest
+class ResetPasswordRequest extends BaseFormRequest
 {
     public function rules(): array
     {
         return [
             'email' => 'required|email|exists:workers,email',
+            'password' => 'required|min:8|confirmed',
         ];
     }
 
@@ -18,6 +19,7 @@ class ForgetPasswordRequest extends BaseFormRequest
     {
         return [
             'email' => 'Email',
+            'password' => 'Password',
         ];
     }
 }
