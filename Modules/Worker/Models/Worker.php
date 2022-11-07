@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Brand\Models\Brand;
 use Modules\Desk\Models\Desk;
 use Modules\Token\Models\Token;
 use Modules\Worker\Database\factories\WorkerFactory;
@@ -27,6 +28,11 @@ class Worker extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function brands()
+    {
+        return $this->hasMany(Brand::class);
+    }
 
     public function desks()
     {
