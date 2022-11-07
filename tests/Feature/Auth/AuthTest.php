@@ -9,20 +9,13 @@ use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
-    protected Worker $worker;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->worker = Worker::factory()->create([
-            'password' => Hash::make('admin1'),
-        ]);
-    }
+    protected static Worker $worker;
 
     public function test_login_endpoint()
     {
-//        $this->withoutExceptionHandling();
+        static::$worker = Worker::factory()->create([
+            'password' => Hash::make('admin1'),
+        ]);
 
         $response = $this->json('POST', route('admin.auth.login'), $this->getRightData());
 
@@ -30,22 +23,24 @@ class AuthTest extends TestCase
 
         $response = $this->json('POST', route('admin.auth.login'), $this->getWrongData());
 
-        $response->assertStatus(400);
+        $response->assertStatus(422);
     }
 
+    /**
+     * @depends test_login_endpoint
+     */
     public function test_me_endpoint()
     {
-        $response = $this->json('POST', route('admin.auth.login'), $this->getRightData());
-
-        $token = $response->json('token');
-
-        $response = $this->withToken($token)->json('GET', route('admin.auth.user'));
+        $response = $this->actingAs(static::$worker)->json('GET', route('admin.auth.user'));
 
         $response->assertStatus(200);
 
         $this->assertNotEmpty($response->json());
     }
 
+    /**
+     * @depends test_login_endpoint
+     */
     public function test_failed_me_endpoint()
     {
         $response = $this->json('GET', route('admin.auth.user'));
@@ -53,13 +48,12 @@ class AuthTest extends TestCase
         $response->assertStatus(401);
     }
 
+    /**
+     * @depends test_login_endpoint
+     */
     public function test_logout()
     {
-        $response = $this->json('POST', route('admin.auth.login'), $this->getRightData());
-
-        $token = $response->json('token');
-
-        $response = $this->withToken($token)->json('POST', route('admin.auth.logout'));
+        $response = $this->actingAs(static::$worker)->json('POST', route('admin.auth.logout'));
 
         $response->assertStatus(200);
         $this->assertEmpty(session()->get('access_token'));
@@ -68,7 +62,7 @@ class AuthTest extends TestCase
     protected function getRightData(): array
     {
         return [
-            'email' => $this->worker->email,
+            'email' => static::$worker->email,
             'password' => 'admin1',
         ];
     }
