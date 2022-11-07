@@ -38,7 +38,7 @@ class BrandController extends Controller
     {
         $brand = $this->brandRepository->find($brand);
 
-        return new BrandResource($desk);
+        return new BrandResource($brand);
     }
 
     public function store()
