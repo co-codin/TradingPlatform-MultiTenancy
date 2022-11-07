@@ -22,7 +22,7 @@ class AuthTest extends TestCase
 
     public function test_login_endpoint()
     {
-        $this->withoutExceptionHandling();
+//        $this->withoutExceptionHandling();
 
         $response = $this->json('POST', route('admin.auth.login'), $this->getRightData());
 
