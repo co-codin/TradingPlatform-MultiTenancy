@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Modules\Desk\Admin;
+namespace Tests\Feature\Modules\Brand\Admin;
 
 use Tests\TestCase;
 
