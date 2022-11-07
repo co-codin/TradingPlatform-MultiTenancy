@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Brand\Database\factories\BrandFactory;
+use Modules\Worker\Models\Worker;
 
 class Brand extends Model
 {
@@ -13,13 +14,13 @@ class Brand extends Model
 
     protected $guarded = ['id'];
 
+    public function worker()
+    {
+        return $this->belongsTo(Worker::class);
+    }
+
     protected static function newFactory()
     {
         return BrandFactory::new();
-    }
-
-    public function setConnection($name)
-    {
-        return $this->slug;
     }
 }

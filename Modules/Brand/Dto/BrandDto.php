@@ -8,9 +8,11 @@ class BrandDto extends BaseDto
 {
     public ?string $name;
 
-    public ?int $worker_id;
+    public ?string $title;
+
+    public ?string $logo_url;
 
     public ?string $slug;
 
-    public ?string $description;
+    public $is_active = 1;
 }
