@@ -3,13 +3,18 @@
 namespace Modules\Brand\Services;
 
 use Modules\Brand\Dto\BrandDto;
+use Modules\Brand\Jobs\CreateBrandDBJob;
 use Modules\Brand\Models\Brand;
 
 class BrandStorage
 {
     public function store(BrandDto $brandDto)
     {
-        return Brand::query()->create($brandDto->toArray());
+        $brand = Brand::query()->create($brandDto->toArray());
+
+        dispatch(new CreateBrandDBJob($brand->slug));
+
+        return $brand;
     }
 
     public function update(Brand $brand, BrandDto $brandDto)
