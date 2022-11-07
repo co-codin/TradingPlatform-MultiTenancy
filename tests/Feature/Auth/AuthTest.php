@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Auth;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
 use Modules\User\Models\User;
 use Tests\TestCase;
@@ -14,8 +12,6 @@ class AuthTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        Artisan::call('migrate:fresh');
 
         User::factory()->create([
             'email' => 'test@admin.com',
@@ -39,13 +35,9 @@ class AuthTest extends TestCase
     {
         $response = $this->json('POST', route('admin.auth.login'), $this->getRightData());
 
-        $token = $response->json('token');
+        $this->withToken($response->json('token'));
 
-        $response = $this->withToken($token)->json('GET', route('admin.auth.user'));
-
-        dd(
-            $response->requ()
-        );
+        $response = $this->json('GET', route('admin.auth.user'));
 
         $response->assertStatus(200);
 
