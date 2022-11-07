@@ -24,13 +24,15 @@ class WorkerRequestCriteria implements CriteriaInterface
                 'created_at',
                 'updated_at',
                 'deleted_at',
-                'last_login'
+                'last_login',
+                'parent_id',
             ])
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::partial('username'),
                 AllowedFilter::partial('last_name'),
                 AllowedFilter::exact('is_active'),
+                AllowedFilter::exact('parent_id'),
                 AllowedFilter::custom('live', new LiveFilter([
                     'id' => '=',
                     'username' => 'like',
@@ -39,10 +41,16 @@ class WorkerRequestCriteria implements CriteriaInterface
                 AllowedFilter::trashed(),
             ])
             ->allowedIncludes([
-                'desks'
+                'desks',
+                'brands',
+                'parent',
+                'ancestors',
+                'descendants',
+                'children',
             ])
             ->allowedSorts([
-                'id', 'username', 'last_name', 'last_login', 'created_at', 'updated_at', 'deleted_at',
+                'id', 'username', 'last_name', 'last_login',
+                'created_at', 'updated_at', 'deleted_at', 'parent_id',
             ]);
     }
 }

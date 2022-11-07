@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
+use Kalnoy\Nestedset\NodeTrait;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Brand\Models\Brand;
 use Modules\Desk\Models\Desk;
@@ -37,6 +38,7 @@ class Worker extends Authenticatable
     use HasRoles;
     use Notifiable;
     use SoftDeletes;
+    use NodeTrait;
 
     protected $fillable = [
         'username', 'first_name', 'last_name', 'email', 'password',
