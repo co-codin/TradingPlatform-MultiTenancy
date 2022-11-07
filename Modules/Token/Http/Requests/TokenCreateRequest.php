@@ -9,7 +9,7 @@ class TokenCreateRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'worker_id' => 'required|int|exists:workers,id',
+            'user_id' => 'required|int|exists:users,id',
             'token' => 'required|string',
             'description' => 'sometimes|nullable',
             'ip' => 'required|string',

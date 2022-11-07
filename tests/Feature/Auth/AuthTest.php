@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Auth;
 
 use Illuminate\Support\Facades\Hash;
-use Modules\Worker\Models\Worker;
+use Modules\User\Models\User;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
@@ -13,7 +13,7 @@ class AuthTest extends TestCase
     {
         parent::setUp();
 
-        Worker::factory()->create([
+        User::factory()->create([
             'email' => 'test@admin.com',
             'password' => Hash::make('admin1'),
         ]);
@@ -33,13 +33,11 @@ class AuthTest extends TestCase
 
     public function test_me_endpoint(): void
     {
-        $this->withoutExceptionHandling();
-
         $response = $this->json('POST', route('admin.auth.login'), $this->getRightData());
 
-        $token = $response->json('token');
+        $this->withToken($response->json('token'));
 
-        $response = $this->withToken($token)->json('GET', route('admin.auth.user'));
+        $response = $this->json('GET', route('admin.auth.user'));
 
         $response->assertStatus(200);
 

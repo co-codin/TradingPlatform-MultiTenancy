@@ -5,32 +5,32 @@ namespace Modules\Desk\Policies;
 use App\Policies\BasePolicy;
 use Modules\Desk\Enums\DeskPermission;
 use Modules\Desk\Models\Desk;
-use Modules\Worker\Models\Worker;
+use Modules\User\Models\User;
 
 class DeskPolicy extends BasePolicy
 {
-    public function viewAny(Worker $worker): bool
+    public function viewAny(User $user): bool
     {
-        return $worker->can(DeskPermission::VIEW_DESKS);
+        return $user->can(DeskPermission::VIEW_DESKS);
     }
 
-    public function view(Worker $worker, Desk $desk): bool
+    public function view(User $user, Desk $desk): bool
     {
-        return $worker->can(DeskPermission::VIEW_DESKS);
+        return $user->can(DeskPermission::VIEW_DESKS);
     }
 
-    public function create(Worker $worker): bool
+    public function create(User $user): bool
     {
-        return $worker->can(DeskPermission::CREATE_DESKS);
+        return $user->can(DeskPermission::CREATE_DESKS);
     }
 
-    public function update(Worker $worker, Desk $desk): bool
+    public function update(User $user, Desk $desk): bool
     {
-        return $worker->can(DeskPermission::EDIT_DESKS);
+        return $user->can(DeskPermission::EDIT_DESKS);
     }
 
-    public function delete(Worker $worker, Desk $desk): bool
+    public function delete(User $user, Desk $desk): bool
     {
-        return $worker->can(DeskPermission::DELETE_DESKS);
+        return $user->can(DeskPermission::DELETE_DESKS);
     }
 }

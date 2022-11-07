@@ -11,7 +11,7 @@ class PermissionDto extends BaseDto
 
     public ?string $description;
 
-    public ?string $guard_name;
+    public ?string $guard_name = 'api';
 
     public ?array $role_ids;
 

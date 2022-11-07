@@ -5,32 +5,32 @@ namespace Modules\Token\Policies;
 use App\Policies\BasePolicy;
 use Modules\Token\Enums\TokenPermission;
 use Modules\Token\Models\Token;
-use Modules\Worker\Models\Worker;
+use Modules\User\Models\User;
 
 class TokenPolicy extends BasePolicy
 {
-    public function viewAny(Worker $worker): bool
+    public function viewAny(User $User): bool
     {
-        return $worker->can(TokenPermission::VIEW_TOKENS);
+        return $User->can(TokenPermission::VIEW_TOKENS);
     }
 
-    public function view(Worker $worker, Token $token): bool
+    public function view(User $User, Token $token): bool
     {
-        return $worker->can(TokenPermission::VIEW_TOKENS);
+        return $User->can(TokenPermission::VIEW_TOKENS);
     }
 
-    public function create(Worker $worker): bool
+    public function create(User $User): bool
     {
-        return $worker->can(TokenPermission::CREATE_TOKENS);
+        return $User->can(TokenPermission::CREATE_TOKENS);
     }
 
-    public function update(Worker $worker, Token $token): bool
+    public function update(User $User, Token $token): bool
     {
-        return $worker->can(TokenPermission::EDIT_TOKENS);
+        return $User->can(TokenPermission::EDIT_TOKENS);
     }
 
-    public function delete(Worker $worker, Token $token): bool
+    public function delete(User $User, Token $token): bool
     {
-        return $worker->can(TokenPermission::DELETE_TOKENS);
+        return $User->can(TokenPermission::DELETE_TOKENS);
     }
 }

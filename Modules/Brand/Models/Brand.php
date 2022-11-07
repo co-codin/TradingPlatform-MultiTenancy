@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Brand\Database\factories\BrandFactory;
-use Modules\Worker\Models\Worker;
+use Modules\User\Models\User;
 
 class Brand extends Model
 {
@@ -14,9 +14,9 @@ class Brand extends Model
 
     protected $guarded = ['id'];
 
-    public function worker()
+    public function user()
     {
-        return $this->belongsTo(Worker::class);
+        return $this->belongsTo(User::class);
     }
 
     protected static function newFactory()

@@ -6,7 +6,7 @@ use App\Dto\BaseDto;
 
 class TokenDto extends BaseDto
 {
-    public ?int $worker_id;
+    public ?int $user_id;
 
     public ?string $token;
 

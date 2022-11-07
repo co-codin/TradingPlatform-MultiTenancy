@@ -37,9 +37,9 @@ class BrandController extends Controller
         return BrandResource::collection($brands);
     }
 
-    public function show(int $brand)
+    public function show(Brand $brand)
     {
-        $brand = $this->brandRepository->find($brand);
+//        $brand = $this->brandRepository->find($brand);
 
         return new BrandResource($brand);
     }

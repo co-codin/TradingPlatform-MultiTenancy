@@ -33,7 +33,7 @@ return [
     |
     */
 
-    'guard' => 'web',
+    'guard' => ['web'],
 
     /*
     |--------------------------------------------------------------------------
@@ -46,7 +46,7 @@ return [
     |
     */
 
-    'expiration' => 60 * 5,
+    'expiration' => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -63,4 +63,5 @@ return [
         'verify_csrf_token' => App\Http\Middleware\VerifyCsrfToken::class,
         'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
     ],
+
 ];
