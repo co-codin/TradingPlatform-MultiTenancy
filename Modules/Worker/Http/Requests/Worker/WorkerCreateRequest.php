@@ -33,6 +33,7 @@ class WorkerCreateRequest extends BaseFormRequest
                 'string',
                 'confirmed',
             ],
+            'parent_id' => 'sometimes|int|exists:workers,id',
         ];
     }
 
