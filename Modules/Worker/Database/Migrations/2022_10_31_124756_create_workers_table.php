@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('password');
             $table->boolean('is_active')->default(true);
             $table->bigInteger('target')->nullable();
+            $table->nestedSet();
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamp('last_login')->nullable();
