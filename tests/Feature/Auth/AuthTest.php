@@ -33,19 +33,10 @@ class AuthTest extends TestCase
     {
         $response = $this->actingAs(static::$worker)->json('GET', route('admin.auth.user'));
 
+        var_dump($response->getContent());
         $response->assertStatus(200);
 
         $this->assertNotEmpty($response->json());
-    }
-
-    /**
-     * @depends test_login_endpoint
-     */
-    public function test_failed_me_endpoint()
-    {
-        $response = $this->json('GET', route('admin.auth.user'));
-
-        $response->assertStatus(401);
     }
 
     /**
@@ -57,6 +48,16 @@ class AuthTest extends TestCase
 
         $response->assertStatus(200);
         $this->assertEmpty(session()->get('access_token'));
+    }
+
+    /**
+     * @depends test_logout
+     */
+    public function test_failed_me_endpoint()
+    {
+        $response = $this->json('GET', route('admin.auth.user'));
+
+        $response->assertStatus(401);
     }
 
     protected function getRightData(): array

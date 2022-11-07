@@ -37,7 +37,7 @@ return [
 
     'guards' => [
         'api' => [
-            'driver' => 'sanctum',
+            'driver' => 'token',
             'provider' => 'workers',
         ],
         'web' => [
@@ -66,11 +66,11 @@ return [
     'providers' => [
         'workers' => [
             'driver' => 'eloquent',
-            'model' => \Modules\Worker\Models\Worker::class,
+            'model' => Modules\Worker\Models\Worker::class,
         ],
         'users' => [
             'driver' => 'eloquent',
-            'model' => \App\Models\User::class,
+            'model' => App\Models\User::class,
         ],
     ],
 
@@ -92,6 +92,12 @@ return [
     'passwords' => [
         'workers' => [
             'provider' => 'workers',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'users' => [
+            'provider' => 'users',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
