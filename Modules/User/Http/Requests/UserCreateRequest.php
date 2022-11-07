@@ -1,12 +1,6 @@
 <?php
 
-
-<<<<<<<< HEAD:Modules/User/Http/Requests/UserCreateRequest.php
 namespace Modules\User\Http\Requests;
-========
-namespace Modules\Worker\Http\Requests\Worker;
->>>>>>>> staging:Modules/Worker/Http/Requests/Worker/WorkerCreateRequest.php
-
 
 use App\Http\Requests\BaseFormRequest;
 
