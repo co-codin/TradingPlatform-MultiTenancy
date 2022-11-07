@@ -37,7 +37,7 @@ return [
 
     'guards' => [
         'api' => [
-            'driver' => 'token',
+            'driver' => 'sanctum',
             'provider' => 'workers',
         ],
         'web' => [
@@ -66,11 +66,11 @@ return [
     'providers' => [
         'workers' => [
             'driver' => 'eloquent',
-            'model' => Modules\Worker\Models\Worker::class,
+            'model' => \Modules\Worker\Models\Worker::class,
         ],
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => \App\Models\User::class,
         ],
     ],
 

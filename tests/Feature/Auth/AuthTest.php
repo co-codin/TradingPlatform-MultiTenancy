@@ -9,14 +9,20 @@ use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Worker::factory()->create([
+            'email' => 'test@admin.com',
+            'password' => Hash::make('admin1'),
+        ]);
+    }
+
     protected static Worker $worker;
 
     public function test_login_endpoint()
     {
-        static::$worker = Worker::factory()->create([
-            'password' => Hash::make('admin1'),
-        ]);
-
         $response = $this->json('POST', route('admin.auth.login'), $this->getRightData());
 
         $response->assertStatus(200);
@@ -26,12 +32,16 @@ class AuthTest extends TestCase
         $response->assertStatus(422);
     }
 
-    /**
-     * @depends test_login_endpoint
-     */
+
     public function test_me_endpoint()
     {
-        $response = $this->actingAs(static::$worker)->json('GET', route('admin.auth.user'));
+        $this->withoutExceptionHandling();
+
+        $response = $this->json('POST', route('admin.auth.login'), $this->getRightData());
+
+        $token = $response->json('token');
+
+        $response = $this->withToken($token)->json('GET', route('admin.auth.user'));
 
         $response->assertStatus(200);
 
@@ -62,7 +72,7 @@ class AuthTest extends TestCase
     protected function getRightData(): array
     {
         return [
-            'email' => static::$worker->email,
+            'email' => 'test@admin.com',
             'password' => 'admin1',
         ];
     }
