@@ -14,7 +14,18 @@ class WorkerRequestCriteria implements CriteriaInterface
     {
         return QueryBuilder::for($model)
             ->defaultSort('-id')
-            ->allowedFields(['id', 'username', 'first_name', 'last_name', 'email', 'is_active', 'created_at', 'updated_at', 'deleted_at', 'last_login'])
+            ->allowedFields([
+                'id',
+                'username',
+                'first_name',
+                'last_name',
+                'email',
+                'is_active',
+                'created_at',
+                'updated_at',
+                'deleted_at',
+                'last_login'
+            ])
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::partial('username'),
