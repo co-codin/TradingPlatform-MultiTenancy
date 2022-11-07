@@ -6,7 +6,7 @@ namespace Tests\Feature\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
-use Modules\Worker\Models\Worker;
+use Modules\User\Models\User;
 use Tests\TestCase;
 
 class ForgetTest extends TestCase
@@ -17,7 +17,7 @@ class ForgetTest extends TestCase
     {
         parent::setUp();
 
-        Worker::factory()->create([
+        User::factory()->create([
             'email' => $this->testEmail,
             'password' => Hash::make('admin1'),
         ]);
@@ -39,9 +39,9 @@ class ForgetTest extends TestCase
      */
     public function test_reset_endpoint(): void
     {
-        $worker = Worker::where(['email' => $this->testEmail])->first();
+        $user = User::where(['email' => $this->testEmail])->first();
 
-        $token = Password::createToken($worker);
+        $token = Password::createToken($user);
 
         // Test bad token
         $response = $this->json(
