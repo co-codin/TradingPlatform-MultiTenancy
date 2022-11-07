@@ -13,10 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('work_desk', function (Blueprint $table) {
-            $table->primary(['worker_id', 'desk_id'], 'id');
+        Schema::create('brands', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('worker_id')->constrained();
-            $table->foreignId('desk_id')->constrained();
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->text('description')->nullable();
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -27,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('work_desk');
+        Schema::dropIfExists('brands');
     }
 };
