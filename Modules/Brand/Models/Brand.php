@@ -17,4 +17,9 @@ class Brand extends Model
     {
         return BrandFactory::new();
     }
+
+    public function setConnection($name)
+    {
+        return $this->slug;
+    }
 }
