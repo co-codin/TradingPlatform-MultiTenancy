@@ -3,6 +3,7 @@
 namespace Modules\Worker\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Modules\Worker\Models\Worker;
 
 class WorkersTableSeeder extends Seeder
@@ -14,7 +15,7 @@ class WorkersTableSeeder extends Seeder
             'first_name' => 'admin',
             'last_name' => 'admin',
             'email' => 'admin@stoxtech.com',
-            'password' => bcrypt('password')
+            'password' => Hash::make('password'),
         ]);
     }
 }
