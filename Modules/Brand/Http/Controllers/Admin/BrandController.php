@@ -3,6 +3,7 @@
 namespace Modules\Brand\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Modules\Brand\Dto\BrandDto;
 use Modules\Brand\Http\Requests\BrandCreateRequest;
 use Modules\Brand\Http\Requests\BrandUpdateRequest;
 use Modules\Brand\Http\Resources\BrandResource;
@@ -45,16 +46,30 @@ class BrandController extends Controller
 
     public function store(BrandCreateRequest $request)
     {
+        $brandDto = BrandDto::fromFormRequest($request);
 
+        $brand = $this->brandStorage->store($brandDto);
+
+        return new BrandResource($brand);
     }
 
     public function update(int $brand, BrandUpdateRequest $request)
     {
+        $brand = $this->brandRepository->find($brand);
 
+        $brand = $this->brandStorage->update(
+            $brand, BrandDto::fromFormRequest($request)
+        );
+
+        return new BrandResource($brand);
     }
 
     public function destroy(int $brand)
     {
+        $brand = $this->brandRepository->find($brand);
 
+        $this->brandStorage->delete($brand);
+
+        return response()->noContent();
     }
 }
