@@ -30,6 +30,8 @@ class AuthController extends Controller
             ]);
         }
 
+
+
         return [
             'worker' => new AuthWorkerResource($worker),
             'token' => $worker->createToken('api')->plainTextToken,
