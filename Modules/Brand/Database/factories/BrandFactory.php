@@ -3,6 +3,7 @@
 namespace Modules\Brand\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class BrandFactory extends Factory
 {
@@ -21,8 +22,12 @@ class BrandFactory extends Factory
     public function definition()
     {
         return [
-            //
-        ];
+            'name' => $name = $this->faker->name,
+            'title' => $this->faker->title,
+            'slug' => Str::slug($name),
+            'logo_url' => $this->faker->imageUrl,
+            'is_active' => true,
+         ];
     }
 }
 

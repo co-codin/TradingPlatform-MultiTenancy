@@ -29,6 +29,11 @@ class ReadTest extends TestCase
         $this->withToken($response->json('token'));
     }
 
+    public function test_unauthenticated_or_unauthorized_user_cannot_view_brands()
+    {
+        
+    }
+
     public function test_authorized_user_can_view_brands()
     {
 
