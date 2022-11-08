@@ -40,3 +40,13 @@
   ```
   ./vendor/bin/sail composer install
   ```
+
+* DB migration
+  ```
+  ./vendor/bin/sail artisan migrate --seed
+  ```
+
+* Install Horizon
+  ```
+  ./vendor/bin/sail artisan horizon:install
+  ```
