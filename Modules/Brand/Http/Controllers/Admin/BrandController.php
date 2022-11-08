@@ -3,6 +3,7 @@
 namespace Modules\Brand\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 use Modules\Brand\Dto\BrandDto;
 use Modules\Brand\Http\Requests\BrandCreateRequest;
 use Modules\Brand\Http\Requests\BrandUpdateRequest;
@@ -37,9 +38,11 @@ class BrandController extends Controller
         return BrandResource::collection($brands);
     }
 
-    public function show(Brand $brand)
+    public function show(int $brand)
     {
-//        $brand = $this->brandRepository->find($brand);
+        $brand = $this->brandRepository->find($brand);
+
+        Session::put('brand', $brand->slug);
 
         return new BrandResource($brand);
     }
