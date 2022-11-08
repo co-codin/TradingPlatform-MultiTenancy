@@ -36,13 +36,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapAdminRoutes();
     }
 
-    /**
-     * Define the "api" routes for the application.
-     *
-     * These routes are typically stateless.
-     *
-     * @return void
-     */
+
     protected function mapAdminRoutes()
     {
         Route::middleware('auth:sanctum')

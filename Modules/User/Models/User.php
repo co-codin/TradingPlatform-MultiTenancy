@@ -8,6 +8,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Brand\Models\Brand;
+use Modules\Language\Models\Language;
 use Modules\Role\Models\Role;
 use Modules\User\Database\factories\UserFactory;
 use Spatie\Permission\Traits\HasRoles;
@@ -38,6 +40,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function brands()
+    {
+        return $this->belongsToMany(Brand::class, 'user_brand');
+    }
+
+    public function languags()
+    {
+        return $this->belongsToMany(Language::class, 'user_language');
+    }
 
     protected static function newFactory()
     {
