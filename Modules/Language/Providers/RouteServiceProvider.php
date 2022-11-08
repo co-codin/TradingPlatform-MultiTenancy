@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Brand\Providers;
+namespace Modules\Language\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -12,7 +12,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $moduleNamespace = 'Modules\Brand\Http\Controllers';
+    protected $moduleNamespace = 'Modules\Language\Http\Controllers';
 
     /**
      * Called before routes are registered.
@@ -36,12 +36,11 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapAdminRoutes();
     }
 
-
     protected function mapAdminRoutes()
     {
         Route::middleware('auth:sanctum')
             ->as('admin.')
             ->prefix('admin')
-            ->group(module_path('Brand', '/Routes/admin.php'));
+            ->group(module_path('Language', '/Routes/admin.php'));
     }
 }

@@ -4,5 +4,6 @@
     "Desk": true,
     "Token": true,
     "Department": true,
-    "Brand": true
+    "Brand": true,
+    "Language": true
 }
