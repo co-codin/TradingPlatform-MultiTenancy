@@ -5,7 +5,7 @@ namespace Modules\Brand\Services;
 class BrandDBService
 {
     protected array $tables;
-
+//migrate --path=Modules/Brand/DB/Migrations/create_user_desk_table.php
     public function createDB()
     {
 
