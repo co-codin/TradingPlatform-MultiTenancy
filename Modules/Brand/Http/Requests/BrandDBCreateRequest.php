@@ -3,6 +3,8 @@
 namespace Modules\Brand\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
+use BenSampo\Enum\Rules\EnumValue;
+use Modules\Brand\Enums\AllowedDBTables;
 
 class BrandDBCreateRequest extends BaseFormRequest
 {
@@ -12,14 +14,8 @@ class BrandDBCreateRequest extends BaseFormRequest
             'tables' => [
                 'required',
                 'array',
+                new EnumValue(AllowedDBTables::class, false),
             ]
-        ];
-    }
-
-    protected function allowedTables()
-    {
-        return [
-
         ];
     }
 }
