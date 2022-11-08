@@ -1,0 +1,11 @@
+{
+    "name": "Desk",
+    "alias": "desk",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Desk\\Providers\\DeskServiceProvider"
+    ],
+    "files": []
+}
