@@ -18,10 +18,13 @@ class AllowedDBTables extends BaseEnum
 
     const MODEL_HAS_PERMISSIONS = 'model_has_permissions';
 
-    public static function migrations()
-    {
-        return [
-            'user_language' => ''
-        ];
-    }
+    const SALE_STATUSES = 'sale_statuses';
+
+    const DEPARTMENTS = 'departments';
+
+    const DESKS = 'desks';
+
+    const LANGUAGES = 'languages';
+
+    const COUNTRIES = 'countries';
 }

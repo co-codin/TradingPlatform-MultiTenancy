@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Brand\Models\Brand;
+use Modules\Desk\Models\Desk;
 use Modules\Language\Models\Language;
 use Modules\Role\Models\Role;
 use Modules\User\Database\factories\UserFactory;
@@ -44,6 +45,11 @@ class User extends Authenticatable
     public function brands()
     {
         return $this->belongsToMany(Brand::class, 'user_brand');
+    }
+
+    public function desks()
+    {
+        return $this->belongsToMany(Desk::class, 'user_desk');
     }
 
     public function languags()
