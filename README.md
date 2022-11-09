@@ -9,7 +9,7 @@
   ```
   git clone git@bitbucket.org:stoxtech/backend.git
   ```
-* Enter into project
+* Enter project
   ```
   cd backend
   ```
@@ -17,36 +17,22 @@
   ```
   cp .env.example .env
   ```
-* Edit DB configuration
+* Enter laradock
   ```
-    DB_CONNECTION=pgsql
-    DB_HOST=pgsql
-    DB_PORT=5432
-    DB_DATABASE=postgres
-    DB_USERNAME=postgres
-    DB_PASSWORD=root
+  cd laradock
   ```
-* Install Sail 
-  ```
-  composer require laravel/sail --dev
-  ```
-
+  
 * Raise docker containers
   ```
-  ./vendor/bin/sail up -d
+   docker-compose up -d nginx workspace postgres redis
   ```
 
-* Install PHP dependencies
+* Enter workspace container
   ```
-  ./vendor/bin/sail composer install
-  ```
-
-* DB migration
-  ```
-  ./vendor/bin/sail artisan migrate --seed
+   docker-compose exec workspace bash
   ```
 
-* Install Horizon
+* Install PHP dependencies and migrate DB
   ```
-  ./vendor/bin/sail artisan horizon:install
+    composer install && php artisan key:generate && php artisan migrate && php artisan horizon:install
   ```
