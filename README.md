@@ -1,9 +1,5 @@
 # Deploy Laravel
 
-## Prerequirements
-```
-   composer | php8.1
-```
 ## Requirements
 * Clone this repo
   ```
