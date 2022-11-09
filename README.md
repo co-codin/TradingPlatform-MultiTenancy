@@ -1,9 +1,5 @@
 # Deploy Laravel
 
-## Prerequirements
-```
-   composer | php8.1
-```
 ## Requirements
 * Clone this repo
   ```
@@ -26,14 +22,10 @@
     DB_USERNAME=postgres
     DB_PASSWORD=root
   ```
-* Install Sail 
-  ```
-  composer require laravel/sail --dev
-  ```
 
 * Raise docker containers
   ```
-  ./vendor/bin/sail up -d
+  docker-compose up -d
   ```
 
 * Install PHP dependencies
