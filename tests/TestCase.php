@@ -7,7 +7,9 @@ namespace Tests;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Modules\Role\Enums\DefaultRole;
+use Modules\Role\Models\Permission;
 use Modules\Role\Models\Role;
+use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
 
 abstract class TestCase extends BaseTestCase
@@ -48,6 +50,26 @@ abstract class TestCase extends BaseTestCase
 
         $response = $this->post('/admin/auth/login', [
             'email' => 'admin@service.com',
+            'password' => 'admin',
+        ]);
+
+        $this->withToken($response->json('token'));
+    }
+
+    final protected function authenticateWithPermission(UserPermission $permissionEmum): void
+    {
+        $user = User::factory()->create([
+            'email' => 'test@service.com',
+        ]);
+
+        $permission = Permission::factory()->create([
+            'name' => $permissionEmum->value,
+        ]);
+
+        $user->givePermissionTo($permission->name);
+
+        $response = $this->post('/admin/auth/login', [
+            'email' => 'test@service.com',
             'password' => 'admin',
         ]);
 

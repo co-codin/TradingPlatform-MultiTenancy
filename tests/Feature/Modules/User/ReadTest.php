@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\User;
 
+use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
@@ -14,11 +15,10 @@ final class ReadTest extends TestCase
     {
         User::factory($count = 5)->create();
 
-        $this->authenticateUser();
-
+        $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::VIEW_USERS));
         $response = $this->get('/admin/users');
-        $response->assertOk();
 
+        $response->assertOk();
         $this->assertCount(++$count, $response['data']);
 
         $response->assertJsonStructure([
@@ -45,10 +45,9 @@ final class ReadTest extends TestCase
 
     public function test_user_can_view(): void
     {
+        $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::VIEW_USERS));
+
         $user = User::factory()->create();
-
-        $this->authenticateUser();
-
         $response = $this->get("/admin/users/{$user->id}");
 
         $response->assertOk();
@@ -72,9 +71,35 @@ final class ReadTest extends TestCase
         ]);
     }
 
-    public function test_not_unauthorized(): void
+    public function test_can_not_view_any(): void
+    {
+        $this->authenticateUser();
+        $response = $this->get('/admin/users');
+
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
+    }
+
+    public function test_can_not_view(): void
+    {
+        $user = User::factory()->create();
+
+        $this->authenticateUser();
+        $response = $this->get("/admin/users/{$user->id}");
+
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
+    }
+
+    public function test_not_unauthorized_view_any(): void
     {
         $response = $this->get('/admin/users');
+
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+    }
+
+    public function test_not_unauthorized_view(): void
+    {
+        $user = User::factory()->create();
+        $response = $this->get("/admin/users/{$user->id}");
 
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
