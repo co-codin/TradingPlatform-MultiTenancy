@@ -1,17 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\User\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Modules\User\Http\Resources\AuthUserResource;
 use Modules\User\Models\User;
 
-class AuthController extends Controller
+final class AuthController extends Controller
 {
-    public function login(Request $request)
+    /**
+     * @throws ValidationException
+     */
+    public function login(Request $request): array
     {
         $request->validate([
             'email' => 'required|email',
@@ -34,14 +40,12 @@ class AuthController extends Controller
         ];
     }
 
-    public function logout()
+    public function logout(): void
     {
-        auth()->user()->tokens()->delete();
-
-        return response([], 200);
+        Auth::user()->tokens()->delete();
     }
 
-    public function user()
+    public function user(): AuthUserResource
     {
         return new AuthUserResource(auth()->user());
     }
