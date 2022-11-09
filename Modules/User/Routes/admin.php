@@ -8,15 +8,14 @@ use Modules\User\Http\Controllers\Admin\Desk\UserDeskController;
 use Modules\User\Http\Controllers\Admin\Brand\UserBrandController;
 use Modules\User\Http\Controllers\Admin\Language\UserLanguageController;
 
-# Social Auth
-Route::group(['prefix' => 'oauth', 'as' => 'oauth.'], function () {
-    Route::get('/{provider}', [SocialAuthController::class, 'index'])->name('login');
-    Route::post('/{provider}', [SocialAuthController::class, 'auth'])->name('auth');
-});
-
 # Main Auth
 Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+    Route::post('/login/{provider}', [SocialAuthController::class, 'redirect'])->name('social.login');
+
+    Route::post('/callback/{provider}', [SocialAuthController::class, 'callback'])->name('social.callback');
+
     Route::post('/forget-password', [ForgetController::class, 'forget'])->name('forget');
     Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/user', [AuthController::class, 'user'])->name('user');
