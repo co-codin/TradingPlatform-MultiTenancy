@@ -20,6 +20,6 @@ class UserBrandController extends Controller
 
         $ids = $request->get('brands')->pluck('id')->filter()->unique();
 
-        $user->desks()->sync($ids);
+        $user->brands()->sync($ids);
     }
 }

@@ -40,6 +40,7 @@ return [
                 */
                 'annotations' => [
                     base_path('app'),
+                    base_path('Modules'),
                 ],
 
             ],
@@ -61,7 +62,9 @@ return [
              * Middleware allows to prevent unexpected access to API documentation
             */
             'middleware' => [
-                'api' => [],
+                'api' => [
+                   \App\Http\Middleware\AuthenticateBasic::class
+                ],
                 'asset' => [],
                 'docs' => [],
                 'oauth2_callback' => [],
