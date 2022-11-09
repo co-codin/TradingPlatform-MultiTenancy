@@ -1,5 +1,6 @@
 <?php
 use Modules\User\Http\Controllers\Admin\AuthController;
+use Modules\User\Http\Controllers\Admin\SocialAuthController;
 use Modules\User\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use Modules\User\Http\Controllers\Admin\ForgetController;
@@ -7,6 +8,13 @@ use Modules\User\Http\Controllers\Admin\Desk\UserDeskController;
 use Modules\User\Http\Controllers\Admin\Brand\UserBrandController;
 use Modules\User\Http\Controllers\Admin\Language\UserLanguageController;
 
+# Social Auth
+Route::group(['prefix' => 'oauth', 'as' => 'oauth.'], function () {
+    Route::get('/{provider}', [SocialAuthController::class, 'index'])->name('login');
+    Route::post('/{provider}', [SocialAuthController::class, 'auth'])->name('auth');
+});
+
+# Main Auth
 Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/forget-password', [ForgetController::class, 'forget'])->name('forget');
