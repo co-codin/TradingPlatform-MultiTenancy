@@ -13,16 +13,16 @@ final class UserPermission implements PermissionEnum
 
     public static function module(): string
     {
-        return 'Пользователи';
+        return 'Users';
     }
 
     public static function descriptions() : array
     {
         return [
-            self::CREATE_USERS => 'Добавление пользователей',
-            self::VIEW_USERS => 'Просмотр пользователей',
-            self::EDIT_USERS => 'Редактирование пользователей',
-            self::DELETE_USERS => 'Удаление пользователей',
+            self::CREATE_USERS => 'Create users',
+            self::VIEW_USERS => 'View users',
+            self::EDIT_USERS => 'Update users',
+            self::DELETE_USERS => 'Delete users',
         ];
     }
 }

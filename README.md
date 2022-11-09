@@ -30,5 +30,5 @@
 
 * Install PHP dependencies and migrate DB
   ```
-    composer install && php artisan key:generate && php artisan migrate && php artisan horizon:install
+    composer install && php artisan key:generate && php artisan migrate --seed && php artisan horizon:install
   ```
