@@ -18,6 +18,9 @@ class SocialAuthController extends Controller
     {
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function callback(string $provider): array
     {
         $user = $this->service->authenticate($provider);
