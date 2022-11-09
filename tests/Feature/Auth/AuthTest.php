@@ -1,13 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Feature\Auth;
 
 use Illuminate\Support\Facades\Hash;
 use Modules\User\Models\User;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
-class AuthTest extends TestCase
+final class AuthTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -23,13 +25,12 @@ class AuthTest extends TestCase
     {
         $response = $this->json('POST', route('admin.auth.login'), $this->getRightData());
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
 
         $response = $this->json('POST', route('admin.auth.login'), $this->getWrongData());
 
-        $response->assertStatus(422);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
-
 
     public function test_me_endpoint(): void
     {
@@ -39,7 +40,7 @@ class AuthTest extends TestCase
 
         $response = $this->json('GET', route('admin.auth.user'));
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
 
         $this->assertNotEmpty($response->json());
     }
@@ -51,12 +52,9 @@ class AuthTest extends TestCase
     {
         $response = $this->json('POST', route('admin.auth.login'), $this->getRightData());
 
-        $token = $response->json('token');
+        $response = $this->withToken($response->json('token'))->json('POST', route('admin.auth.logout'));
 
-        $response = $this->withToken($token)->json('POST', route('admin.auth.logout'));
-
-        $response->assertStatus(202);
-        $this->assertEmpty(session()->get('access_token'));
+        $response->assertStatus(Response::HTTP_OK);
     }
 
     /**
@@ -66,10 +64,10 @@ class AuthTest extends TestCase
     {
         $response = $this->json('GET', route('admin.auth.user'));
 
-        $response->assertStatus(401);
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
-    protected function getRightData(): array
+    private function getRightData(): array
     {
         return [
             'email' => 'test@admin.com',
@@ -77,7 +75,7 @@ class AuthTest extends TestCase
         ];
     }
 
-    protected function getWrongData(): array
+    private function getWrongData(): array
     {
         return [
             'email' => 'adm@stoxtech.com',
