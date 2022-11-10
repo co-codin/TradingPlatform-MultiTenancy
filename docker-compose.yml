@@ -49,7 +49,7 @@ services:
         restart: unless-stopped
         command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD}"
         volumes:
-            - redis-data/redis:/data
+            - redis-data:/data
 
 networks:
     sail:
