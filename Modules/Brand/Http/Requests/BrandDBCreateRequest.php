@@ -16,6 +16,7 @@ class BrandDBCreateRequest extends BaseFormRequest
                 'array',
                 new EnumValue(AllowedDBTables::class, false),
             ]
+//            'brand_id'
         ];
     }
 }

@@ -12,6 +12,8 @@ class BrandStorage
     {
         $brand = Brand::query()->create($brandDto->toArray());
 
+        // TODO link brand to user , user_brand table
+
         dispatch(new CreateBrandDBJob($brand->slug));
 
         return $brand;

@@ -8,11 +8,11 @@ services:
             args:
                 WWWGROUP: '${WWWGROUP}'
         image: sail-8.1/app
+        restart: unless-stopped
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
             - '${APP_PORT:-80}:80'
-            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
         environment:
             WWWUSER: '${WWWUSER}'
             LARAVEL_SAIL: 1
@@ -22,11 +22,10 @@ services:
             - '.:/var/www/html'
         networks:
             - sail
-        depends_on:
-            - pgsql
 
     pgsql:
         image: 'postgres:14'
+        restart: unless-stopped
         ports:
             - '${FORWARD_DB_PORT:-5432}:5432'
         environment:

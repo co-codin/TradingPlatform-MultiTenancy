@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\User\Http\Controllers\Admin;
 
 use OpenApi\Annotations as OA;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Modules\User\Http\Resources\AuthUserResource;
 use Modules\User\Models\User;
 
-class AuthController extends Controller
+final class AuthController extends Controller
 {
     /**
      * @OA\Post(
@@ -44,7 +47,7 @@ class AuthController extends Controller
      * @return array
      * @throws ValidationException
      */
-    public function login(Request $request)
+    public function login(Request $request): array
     {
         $request->validate([
             'email' => 'required|email',
@@ -83,11 +86,9 @@ class AuthController extends Controller
      * )
      *
      */
-    public function logout()
+    public function logout(): void
     {
-        auth()->user()->tokens()->delete();
-
-        return response([], 200);
+        Auth::user()->tokens()->delete();
     }
 
     /**
@@ -108,7 +109,7 @@ class AuthController extends Controller
      *
      * @return AuthUserResource
      */
-    public function user()
+    public function user(): AuthUserResource
     {
         return new AuthUserResource(auth()->user());
     }
