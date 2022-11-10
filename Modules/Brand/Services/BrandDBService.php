@@ -2,6 +2,8 @@
 
 namespace Modules\Brand\Services;
 
+use Modules\Brand\Jobs\MigrateBrandDBJob;
+
 class BrandDBService
 {
     protected array $tables;
@@ -11,7 +13,12 @@ class BrandDBService
 
     }
 
-    public function setTables(array $tables)
+    public function migrateDB(): void
+    {
+        MigrateBrandDBJob::dispatch($this->tables);
+    }
+
+    public function setTables(array $tables): self
     {
         $this->tables = $tables;
 

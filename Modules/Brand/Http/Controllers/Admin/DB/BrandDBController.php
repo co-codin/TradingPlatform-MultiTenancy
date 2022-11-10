@@ -18,8 +18,12 @@ class BrandDBController extends Controller
     {
         $request->validated();
 
-        if ($this->brandDBService->setTables($request->input('tables'))) {
-            return response(status: Response::HTTP_ACCEPTED);
-        }
+        $this
+            ->brandDBService
+            ->setTables($request->input('tables'))
+            ->migrateDB();
+
+        return response(status: Response::HTTP_ACCEPTED);
+
     }
 }
