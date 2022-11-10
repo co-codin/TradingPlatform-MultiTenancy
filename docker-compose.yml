@@ -22,8 +22,6 @@ services:
             - '.:/var/www/html'
         networks:
             - sail
-        depends_on:
-            - pgsql
 
     pgsql:
         image: 'postgres:14'
