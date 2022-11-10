@@ -43,9 +43,20 @@ services:
             retries: 3
             timeout: 5s
 
+    redis:
+        image: redis:alpine
+        restart: unless-stopped
+        command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD}"
+        volumes:
+            - redis-data:/data
+        networks:
+            - sail
+
 networks:
     sail:
         driver: bridge
 volumes:
     sail-pgsql:
+        driver: local
+    redis-data:
         driver: local

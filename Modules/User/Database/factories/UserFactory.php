@@ -4,14 +4,14 @@ namespace Modules\User\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
-use Modules\User\Models\User;
 use Illuminate\Support\Str;
+use Modules\User\Models\User;
 
-class UserFactory extends Factory
+final class UserFactory extends Factory
 {
     protected $model = User::class;
 
-    public function definition()
+    public function definition(): array
     {
         return [
             'username' => $this->faker->userName,
@@ -21,6 +21,17 @@ class UserFactory extends Factory
             'password' => Hash::make('admin'),
             'remember_token' => Str::random(10),
             'is_active' => true,
+            'target' => $this->faker->randomNumber(),
+            'parent_id' => null,
         ];
+    }
+
+    public function withParent(): self
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'parent_id' => User::all()->random()->id,
+            ];
+        });
     }
 }

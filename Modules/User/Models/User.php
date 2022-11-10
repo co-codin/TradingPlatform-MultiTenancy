@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\User\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -26,12 +28,19 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read Role[]|Collection $roles
  * @method static self create(array $attributes)
  */
-class User extends Authenticatable
+final class User extends Authenticatable
 {
     use Notifiable, HasRoles, HasApiTokens, HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name', 'email', 'password',
+        'username',
+        'first_name',
+        'last_name',
+        'email',
+        'password',
+        'is_active',
+        'target',
+        'parent_id',
     ];
 
     protected $hidden = [
