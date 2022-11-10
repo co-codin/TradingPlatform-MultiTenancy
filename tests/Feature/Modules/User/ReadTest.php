@@ -71,6 +71,15 @@ final class ReadTest extends TestCase
         ]);
     }
 
+    public function test_user_can_view_not_found(): void
+    {
+        $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::VIEW_USERS));
+
+        $response = $this->get("/admin/users/10");
+
+        $response->assertNotFound();
+    }
+
     public function test_can_not_view_any(): void
     {
         $this->authenticateUser();
