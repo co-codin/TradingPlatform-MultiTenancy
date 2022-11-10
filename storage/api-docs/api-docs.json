@@ -194,6 +194,34 @@
                     }
                 }
             }
+        },
+        "/admin/auth/login/{provider}": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "OAuth provider login endpoint",
+                "operationId": "d7faf6de8b626da990c15a2ab1615605",
+                "parameters": [
+                    {
+                        "name": "provider",
+                        "in": "path",
+                        "description": "OAuth provider name",
+                        "schema": {
+                            "type": "string",
+                            "example": "google"
+                        }
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "Redirects to Google auth"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
         }
     },
     "components": {
