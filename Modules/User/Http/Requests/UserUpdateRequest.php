@@ -1,22 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\User\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
 
-class UserUpdateRequest extends BaseFormRequest
+final class UserUpdateRequest extends BaseFormRequest
 {
     public function rules(): array
     {
         return [
-            'role_id' => [
+            'username' => [
                 'sometimes',
                 'required',
-                'array',
-                'min:1',
-                'exists:roles,id',
+                'string',
+                'max:255',
             ],
-            'name' => [
+            'first_name' => [
+                'sometimes',
+                'required',
+                'string',
+                'max:255',
+            ],
+            'last_name' => [
                 'sometimes',
                 'required',
                 'string',
@@ -29,6 +36,8 @@ class UserUpdateRequest extends BaseFormRequest
                 'max:255',
                 'unique:users,email,' . $this->route('user'),
             ],
+            'is_active' => 'boolean',
+            'parent_id' => 'integer|exists:users,id',
             'change_password' => [
                 'nullable',
                 'boolean',
@@ -39,10 +48,17 @@ class UserUpdateRequest extends BaseFormRequest
                 'string',
                 'confirmed',
             ],
+            'role_id' => [
+                'sometimes',
+                'required',
+                'array',
+                'min:1',
+                'exists:roles,id',
+            ],
         ];
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'role_id' => 'Роль',
