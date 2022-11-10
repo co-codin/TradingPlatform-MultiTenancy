@@ -20,13 +20,6 @@ class Brand extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function setConnection($name)
-    {
-        $this->connection = Session::get('brand') ?? $name;
-
-        return $this;
-    }
-
     protected static function newFactory()
     {
         return BrandFactory::new();

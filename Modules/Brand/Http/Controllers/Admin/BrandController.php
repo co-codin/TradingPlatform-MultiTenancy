@@ -42,8 +42,6 @@ class BrandController extends Controller
     {
         $brand = $this->brandRepository->find($brand);
 
-        Session::put('brand', $brand->slug);
-
         return new BrandResource($brand);
     }
 
