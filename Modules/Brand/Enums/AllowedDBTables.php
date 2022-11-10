@@ -6,25 +6,25 @@ use App\Enums\BaseEnum;
 
 class AllowedDBTables extends BaseEnum
 {
-    const USER_LANGUAGE = 'user_language';
+    public const USER_LANGUAGE = 'user_language';
 
-    const USER_DEPARTMENT = 'user_department';
+    public const USER_DEPARTMENT = 'user_department';
 
-    const USER_DESK = 'user_desk';
+    public const USER_DESK = 'user_desk';
 
-    const USER_COUNTRY = 'user_country';
+    public const USER_COUNTRY = 'user_country';
 
-    const MODEL_HAS_ROLES = 'model_has_roles';
+    public const MODEL_HAS_ROLES = 'model_has_roles';
 
-    const MODEL_HAS_PERMISSIONS = 'model_has_permissions';
+    public const MODEL_HAS_PERMISSIONS = 'model_has_permissions';
 
-    const SALE_STATUSES = 'sale_statuses';
+    public const SALE_STATUSES = 'sale_statuses';
 
-    const DEPARTMENTS = 'departments';
+    public const DEPARTMENTS = 'departments';
 
-    const DESKS = 'desks';
+    public const DESKS = 'desks';
 
-    const LANGUAGES = 'languages';
+    public const LANGUAGES = 'languages';
 
-    const COUNTRIES = 'countries';
+    public const COUNTRIES = 'countries';
 }
