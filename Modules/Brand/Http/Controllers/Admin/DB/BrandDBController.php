@@ -14,12 +14,13 @@ class BrandDBController extends Controller
         protected BrandDBService $brandDBService
     ){}
 
-    public function store(BrandDBCreateRequest $request)
+    public function store(int $brand, BrandDBCreateRequest $request)
     {
         $request->validated();
 
         $this
             ->brandDBService
+            ->setBrand()
             ->setTables($request->input('tables'))
             ->migrateDB();
 

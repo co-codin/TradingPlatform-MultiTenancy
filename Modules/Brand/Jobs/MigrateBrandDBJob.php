@@ -25,6 +25,7 @@ class MigrateBrandDBJob implements ShouldQueue
 
     public function handle(): void
     {
+        putenv('');
         foreach ($this->tables as $table) {
             Artisan::call(sprintf(
                 'migrate --database=%s --path=%s'
