@@ -42,19 +42,20 @@ services:
             test: ["CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}"]
             retries: 3
             timeout: 5s
-    
+
     redis:
         image: redis:alpine
-        container_name: myapp-redis
+        container_name: redis
+        restart: unless-stopped
         command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD}"
         volumes:
-            - ./data/redis:/data
-        ports:
-            - "8002:6379"
+            - redis-data/redis:/data
 
 networks:
     sail:
         driver: bridge
 volumes:
     sail-pgsql:
+        driver: local
+    redis-data:
         driver: local
