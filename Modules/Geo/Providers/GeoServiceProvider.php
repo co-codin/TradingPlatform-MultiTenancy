@@ -2,11 +2,21 @@
 
 namespace Modules\Geo\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\Geo\Models\Country;
+use Modules\Geo\Policies\CountryPolicy;
 
 class GeoServiceProvider extends ServiceProvider
 {
+    /**
+     * @var array
+     */
+    protected array $policies = [
+        Country::class => CountryPolicy::class,
+    ];
+
     /**
      * @var string $moduleName
      */
@@ -26,7 +36,7 @@ class GeoServiceProvider extends ServiceProvider
     {
         $this->registerTranslations();
         $this->registerConfig();
-        $this->registerViews();
+        $this->registerPolicies();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
     }
 
@@ -110,5 +120,17 @@ class GeoServiceProvider extends ServiceProvider
             }
         }
         return $paths;
+    }
+
+    /**
+     * Register policies.
+     *
+     * @return void
+     */
+    public function registerPolicies()
+    {
+        foreach ($this->policies as $key => $value) {
+            Gate::policy($key, $value);
+        }
     }
 }

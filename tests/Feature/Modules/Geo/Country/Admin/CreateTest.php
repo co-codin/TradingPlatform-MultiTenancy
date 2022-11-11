@@ -24,7 +24,7 @@ class CreateTest extends TestCase
             'email' => 'admin@admin.com'
         ])
             ->givePermissionTo(Permission::factory()->create([
-                'name' => CountryPermission::VIEW_COUNTRIES,
+                'name' => CountryPermission::CREATE_COUNTRIES,
             ])?->name);
     }
 
@@ -39,12 +39,14 @@ class CreateTest extends TestCase
 
         $response = $this->actingAs($this->user)->postJson(route('admin.countries.store'), $data->toArray());
 
-        $response->assertOk();
+        $response->assertCreated();
 
         $response->assertJson([
-            'name' => $data['name'],
-            'iso2' => $data['iso2'],
-            'iso3' => $data['iso3'],
+            'data' => [
+                'name' => $data['name'],
+                'iso2' => $data['iso2'],
+                'iso3' => $data['iso3'],
+            ],
         ]);
     }
 
@@ -63,50 +65,140 @@ class CreateTest extends TestCase
     }
 
     /**
-     * Test user can`t create country with existed name.
+     * Test country name exist.
      *
      * @return void
      */
-    public function test_user_cant_create_country_with_existed_name(): void
+    public function test_country_name_exist(): void
     {
         $country = Country::factory()->create();
 
-        $data = Country::factory()->make()->setAttribute('name', $country->name);
+        $data = Country::factory()->make(['name' => $country->name]);
 
         $response = $this->actingAs($this->user)->postJson(route('admin.countries.store'), $data->toArray());
 
-        $response->assertForbidden();
+        $response->assertUnprocessable();
     }
 
     /**
-     * Test user can`t create country with existed iso2.
+     * Test country iso2 exist.
      *
      * @return void
      */
-    public function test_user_cant_create_country_with_existed_iso2(): void
+    public function test_country_iso2_exist(): void
     {
         $country = Country::factory()->create();
 
-        $data = Country::factory()->make()->setAttribute('iso2', $country->iso2);
+        $data = Country::factory()->make(['iso2' => $country->iso2]);
 
         $response = $this->actingAs($this->user)->postJson(route('admin.countries.store'), $data->toArray());
 
-        $response->assertForbidden();
+        $response->assertUnprocessable();
     }
 
     /**
-     * Test user can`t create country with existed iso3.
+     * Test country iso3 exist.
      *
      * @return void
      */
-    public function test_user_cant_create_country_with_existed_iso3(): void
+    public function test_country_iso3_exist(): void
     {
         $country = Country::factory()->create();
 
-        $data = Country::factory()->make(['iso3' => $country->iso3])->setAttribute('iso3', $country->iso3);
+        $data = Country::factory()->make(['iso3' => $country->iso3]);
 
         $response = $this->actingAs($this->user)->postJson(route('admin.countries.store'), $data->toArray());
 
-        $response->assertForbidden();
+        $response->assertUnprocessable();
+    }
+
+    /**
+     * Test country name required.
+     *
+     * @return void
+     */
+    public function test_country_name_is_required(): void
+    {
+        $data = Country::factory()->make()->toArray();
+        unset($data['name']);
+
+        $response = $this->actingAs($this->user)->postJson(route('admin.countries.store'), $data);
+
+        $response->assertUnprocessable();
+    }
+
+    /**
+     * Test country iso2 required.
+     *
+     * @return void
+     */
+    public function test_country_iso2_is_required(): void
+    {
+        $data = Country::factory()->make()->toArray();
+        unset($data['iso2']);
+
+        $response = $this->actingAs($this->user)->postJson(route('admin.countries.store'), $data);
+
+        $response->assertUnprocessable();
+    }
+
+    /**
+     * Test country iso3 required.
+     *
+     * @return void
+     */
+    public function test_country_iso3_is_required(): void
+    {
+        $data = Country::factory()->make()->toArray();
+        unset($data['iso3']);
+
+        $response = $this->actingAs($this->user)->postJson(route('admin.countries.store'), $data);
+
+        $response->assertUnprocessable();
+    }
+
+    /**
+     * Test country name is string.
+     *
+     * @return void
+     */
+    public function test_country_name_is_string(): void
+    {
+        $data = Country::factory()->make();
+        $data->name = 1;
+
+        $response = $this->actingAs($this->user)->postJson(route('admin.countries.store'), $data->toArray());
+
+        $response->assertUnprocessable();
+    }
+
+    /**
+     * Test country iso2 is string.
+     *
+     * @return void
+     */
+    public function test_country_iso2_is_string(): void
+    {
+        $data = Country::factory()->make();
+        $data->iso2 = 1;
+
+        $response = $this->actingAs($this->user)->postJson(route('admin.countries.store'), $data->toArray());
+
+        $response->assertUnprocessable();
+    }
+
+    /**
+     * Test country iso3 required.
+     *
+     * @return void
+     */
+    public function test_country_iso3_is_string(): void
+    {
+        $data = Country::factory()->make();
+        $data->iso3 = 1;
+
+        $response = $this->actingAs($this->user)->postJson(route('admin.countries.store'), $data->toArray());
+
+        $response->assertUnprocessable();
     }
 }

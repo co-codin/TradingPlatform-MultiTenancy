@@ -3,6 +3,7 @@
 namespace Modules\Geo\Services;
 
 use LogicException;
+use Modules\Geo\Dto\CountryDto;
 use Modules\Geo\Models\Country;
 
 class CountryStorage
@@ -10,25 +11,25 @@ class CountryStorage
     /**
      * Store country.
      *
-     * @param array $data
+     * @param CountryDto $dto
      * @return Country
      */
-    public function store(array $data): Country
+    public function store(CountryDto $dto): Country
     {
-        return Country::create($data);
+        return Country::create($dto->toArray());
     }
 
     /**
      * Update country.
      *
      * @param Country $country
-     * @param array $data
+     * @param CountryDto $dto
      * @return Country
      * @throws LogicException
      */
-    public function update(Country $country, array $data): Country
+    public function update(Country $country, CountryDto $dto): Country
     {
-        if (! $country->update($data)) {
+        if (! $country->update($dto->toArray())) {
             throw new LogicException(__('Can not update country'));
         }
 

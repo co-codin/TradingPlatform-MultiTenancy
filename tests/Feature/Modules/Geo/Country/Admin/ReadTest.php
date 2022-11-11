@@ -83,10 +83,12 @@ class ReadTest extends TestCase
         $response->assertOk();
 
         $response->assertJson([
-            'id' => $country->id,
-            'name' => $country->name,
-            'iso2' => $country->iso2,
-            'iso3' => $country->iso3,
+            'data' => [
+                'id' => $country->id,
+                'name' => $country->name,
+                'iso2' => $country->iso2,
+                'iso3' => $country->iso3,
+            ]
         ]);
     }
 

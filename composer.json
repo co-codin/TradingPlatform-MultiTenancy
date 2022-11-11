@@ -9,7 +9,6 @@
         "bensampo/laravel-enum": "^6.1",
         "darkaonline/l5-swagger": "^8.4",
         "fruitcake/laravel-cors": "^3.0",
-        "greenlion/php-sql-parser": "^4.5",
         "guzzlehttp/guzzle": "^7.2",
         "kalnoy/nestedset": "^6.0",
         "laravel/framework": "^9.19",

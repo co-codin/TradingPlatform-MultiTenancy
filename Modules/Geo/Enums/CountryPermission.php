@@ -9,7 +9,7 @@ class CountryPermission implements PermissionEnum
     /**
      * @var string
      */
-    const STORE_COUNTRIES = 'store countries';
+    const CREATE_COUNTRIES = 'create countries';
 
     /**
      * @var string
@@ -19,7 +19,7 @@ class CountryPermission implements PermissionEnum
     /**
      * @var string
      */
-    const UPDATE_COUNTRIES = 'edit countries';
+    const EDIT_COUNTRIES = 'edit countries';
 
     /**
      * @var string
@@ -40,9 +40,9 @@ class CountryPermission implements PermissionEnum
     public static function descriptions(): array
     {
         return [
-            static::STORE_COUNTRIES => 'store countries',
+            static::CREATE_COUNTRIES => 'store countries',
             static::VIEW_COUNTRIES => 'View countries',
-            static::UPDATE_COUNTRIES => 'Update countries',
+            static::EDIT_COUNTRIES => 'Update countries',
             static::DELETE_COUNTRIES => 'Delete countries',
         ];
     }

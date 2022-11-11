@@ -3,24 +3,22 @@
 namespace Modules\Geo\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\JsonResponse;
-use Modules\Geo\Http\Requests\CountryDeleteRequest;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
+use Modules\Geo\Dto\CountryDto;
 use Modules\Geo\Http\Requests\CountryIndexRequest;
-use Modules\Geo\Http\Requests\CountryShowRequest;
 use Modules\Geo\Http\Requests\CountryStoreRequest;
 use Modules\Geo\Http\Requests\CountryUpdateRequest;
 use Modules\Geo\Http\Resources\CountryCollection;
 use Modules\Geo\Http\Resources\CountryResource;
+use Modules\Geo\Models\Country;
 use Modules\Geo\Repositories\CountryRepository;
 use Modules\Geo\Services\CountryStorage;
+use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 class CountryController extends Controller
 {
-    /**
-     * @var int
-     */
-    public const PER_PAGE = 20;
-
     /**
      * @param CountryRepository $repository
      * @param CountryStorage $storage
@@ -40,27 +38,6 @@ class CountryController extends Controller
      *      tags={"Country"},
      *      summary="Get countries list",
      *      description="Returns countries list data.",
-     *      @OA\Parameter(
-     *          description="Paginate",
-     *          in="query",
-     *          name="paginate",
-     *          required=false,
-     *          example=1
-     *      ),
-     *      @OA\Parameter(
-     *          description="Page",
-     *          in="query",
-     *          name="page",
-     *          required=false,
-     *          example=1
-     *      ),
-     *      @OA\Parameter(
-     *          description="Per page",
-     *          in="query",
-     *          name="per_page",
-     *          required=false,
-     *          example=20
-     *      ),
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
@@ -78,17 +55,15 @@ class CountryController extends Controller
      *
      * Display countries list.
      *
-     * @param CountryIndexRequest $request
-     * @return JsonResponse
+     * @return JsonResource
+     * @throws AuthorizationException
      */
-    public function index(CountryIndexRequest $request): JsonResponse
+    public function index(): JsonResource
     {
-        return $this->sendResponse(
-            new CountryCollection(
-                $request->boolean('paginate') ?
-                    $this->repository->paginate($request->get('per_page', SELF::PER_PAGE)) :
-                    $this->repository->get(),
-            )
+        $this->authorize('viewAny', Country::class);
+
+        return new CountryCollection(
+            $this->repository->jsonPaginate(),
         );
     }
 
@@ -138,13 +113,17 @@ class CountryController extends Controller
      * Store country.
      *
      * @param CountryStoreRequest $request
-     * @return JsonResponse
+     * @return JsonResource
+     * @throws AuthorizationException
+     * @throws UnknownProperties
      */
-    public function store(CountryStoreRequest $request): JsonResponse
+    public function store(CountryStoreRequest $request): JsonResource
     {
-        return $this->sendResponse(
-            new CountryResource(
-                $this->storage->store($request->validated())
+        $this->authorize('create', Country::class);
+
+        return new CountryResource(
+            $this->storage->store(
+                new CountryDto($request->validated())
             )
         );
     }
@@ -179,17 +158,17 @@ class CountryController extends Controller
      * )
      *
      * Show the country.
-     * @param CountryShowRequest $request
      * @param int $id
-     * @return JsonResponse
+     * @return JsonResource
+     * @throws AuthorizationException
      */
-    public function show(CountryShowRequest $request, int $id): JsonResponse
+    public function show(int $id): JsonResource
     {
-        return $this->sendResponse(
-            new CountryResource(
-                $this->repository->find($id)
-            )
-        );
+        $country = $this->repository->find($id);
+
+        $this->authorize('view', $country);
+
+        return new CountryResource($country);
     }
 
     /**
@@ -246,16 +225,20 @@ class CountryController extends Controller
      *
      * @param CountryUpdateRequest $request
      * @param int $id
-     * @return JsonResponse
+     * @return JsonResource
+     * @throws AuthorizationException
+     * @throws UnknownProperties
      */
-    public function update(CountryUpdateRequest $request, int $id): JsonResponse
+    public function update(CountryUpdateRequest $request, int $id): JsonResource
     {
-        return $this->sendResponse(
-            new CountryResource(
-                $this->storage->update(
-                    $this->repository->find($id),
-                    $request->validated(),
-                )
+        $country = $this->repository->find($id);
+
+        $this->authorize('update', $country);
+
+        return new CountryResource(
+            $this->storage->update(
+                $country,
+                new CountryDto($request->validated()),
             )
         );
     }
@@ -291,16 +274,18 @@ class CountryController extends Controller
      *
      * Remove the country.
      *
-     * @param CountryDeleteRequest $request
      * @param int $id
-     * @return JsonResponse
+     * @return Response
+     * @throws AuthorizationException
      */
-    public function destroy(CountryDeleteRequest $request, int $id): JsonResponse
+    public function destroy(int $id): Response
     {
-        return $this->sendResponse(
-            new CountryResource(
-                $this->repository->find($id)
-            )
-        );
+        $country = $this->repository->find($id);
+
+        $this->authorize('delete', $country);
+
+        $this->storage->delete($country);
+
+        return response()->noContent();
     }
 }
