@@ -1,20 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\User\Http\Controllers\Admin\Brand;
 
 use App\Http\Controllers\Controller;
-use Modules\User\Repositories\UserRepository;
+use Illuminate\Auth\Access\AuthorizationException;
 use Modules\User\Http\Requests\Brand\UserBrandUpdateRequest;
+use Modules\User\Repositories\UserRepository;
 
-class UserBrandController extends Controller
+final class UserBrandController extends Controller
 {
     public function __construct(
         protected UserRepository $userRepository
-    ) {}
+    ) {
+    }
 
-    public function update(UserBrandUpdateRequest $request, int $user)
+    /**
+     * @throws AuthorizationException
+     */
+    public function update(UserBrandUpdateRequest $request, int $id): void
     {
-        $user = $this->userRepository->find($user);
+        $user = $this->userRepository->find($id);
 
         $this->authorize('update', $user);
 

@@ -1,20 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\User\Http\Controllers\Admin\Desk;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Access\AuthorizationException;
 use Modules\User\Http\Requests\Desk\UserDeskUpdateRequest;
 use Modules\User\Repositories\UserRepository;
 
-class UserDeskController extends Controller
+final class UserDeskController extends Controller
 {
     public function __construct(
         protected UserRepository $userRepository
-    ) {}
+    ) {
+    }
 
-    public function update(UserDeskUpdateRequest $request, int $user)
+    /**
+     * @throws AuthorizationException
+     */
+    public function update(UserDeskUpdateRequest $request, int $id): void
     {
-        $user = $this->userRepository->find($user);
+        $user = $this->userRepository->find($id);
 
         $this->authorize('update', $user);
 

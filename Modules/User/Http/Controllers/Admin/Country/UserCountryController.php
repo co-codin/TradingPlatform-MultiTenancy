@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Modules\User\Http\Controllers\Admin\Language;
+namespace Modules\User\Http\Controllers\Admin\Country;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
-use Modules\User\Http\Requests\Language\UserLanguageUpdateRequest;
+use Modules\User\Http\Requests\Country\UserCountryUpdateRequest;
 use Modules\User\Repositories\UserRepository;
 
-final class UserLanguageController extends Controller
+final class UserCountryController extends Controller
 {
     public function __construct(
         protected UserRepository $userRepository
@@ -19,14 +19,14 @@ final class UserLanguageController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function update(UserLanguageUpdateRequest $request, int $id): void
+    public function update(UserCountryUpdateRequest $request, int $id): void
     {
         $user = $this->userRepository->find($id);
 
         $this->authorize('update', $user);
 
-        $ids = $request->get('languages')->pluck('id')->filter()->unique();
+        $ids = $request->get('countries')->pluck('id')->filter()->unique();
 
-        $user->languages()->sync($ids);
+        $user->countries()->sync($ids);
     }
 }
