@@ -5,6 +5,234 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/admin/countries": {
+            "get": {
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Get countries list",
+                "description": "Returns countries list data.",
+                "operationId": "countries.index",
+                "parameters": [
+                    {
+                        "name": "paginate",
+                        "in": "query",
+                        "description": "Paginate",
+                        "required": false,
+                        "example": 1
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page",
+                        "required": false,
+                        "example": 1
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Per page",
+                        "required": false,
+                        "example": 20
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CountryCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Store country",
+                "description": "Returns country data.",
+                "operationId": "countries.store",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name",
+                        "required": true,
+                        "example": "Russia"
+                    },
+                    {
+                        "name": "iso2",
+                        "in": "query",
+                        "description": "ISO2",
+                        "required": true,
+                        "example": "RU"
+                    },
+                    {
+                        "name": "iso3",
+                        "in": "query",
+                        "description": "ISO3",
+                        "required": true,
+                        "example": "RUS"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Country"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/admin/countries/{id}": {
+            "get": {
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Get country",
+                "description": "Returns country data.",
+                "operationId": "countries.show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Country id",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Country"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Delete country",
+                "description": "Returns status.",
+                "operationId": "countries.delete",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "Id",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Country"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Update country",
+                "description": "Returns country data.",
+                "operationId": "countries.update",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "Id",
+                        "required": true,
+                        "example": 1
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name",
+                        "required": false,
+                        "example": "Russia"
+                    },
+                    {
+                        "name": "iso2",
+                        "in": "query",
+                        "description": "ISO2",
+                        "required": false,
+                        "example": "RU"
+                    },
+                    {
+                        "name": "iso3",
+                        "in": "query",
+                        "description": "ISO3",
+                        "required": false,
+                        "example": "RUS"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Country"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
         "/admin/auth/login": {
             "post": {
                 "tags": [
@@ -198,6 +426,63 @@
     },
     "components": {
         "schemas": {
+            "CountryCollection": {
+                "title": "Country Collection",
+                "properties": {
+                    "data": {
+                        "title": "Country Collection",
+                        "description": "Countries",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Country"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "CountryCollection"
+                }
+            },
+            "Country": {
+                "title": "Country",
+                "description": "Country model",
+                "properties": {
+                    "id": {
+                        "description": "Country.",
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Russia"
+                    },
+                    "iso2": {
+                        "type": "string",
+                        "example": "ru"
+                    },
+                    "iso3": {
+                        "type": "string",
+                        "example": "rus"
+                    },
+                    "created_at": {
+                        "type": "date-time",
+                        "example": "1970-01-01"
+                    },
+                    "updated_at": {
+                        "type": "date-time",
+                        "example": "1970-01-01"
+                    },
+                    "deleted_at": {
+                        "type": "date-time",
+                        "example": "1970-01-01"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Country"
+                }
+            },
             "Role": {
                 "type": "object"
             },
