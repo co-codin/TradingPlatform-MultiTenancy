@@ -103,7 +103,7 @@ final class UserController extends Controller
      * @OA\Post(
      *     path="/admin/users",
      *     tags={"User"},
-     *     summary="Adds a new user",
+     *     summary="Add a new user",
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/json",
@@ -163,7 +163,7 @@ final class UserController extends Controller
      * @OA\Put(
      *     path="/users/{id}",
      *     tags={"User"},
-     *     summary="Updates a user",
+     *     summary="Update a user",
      *     @OA\Parameter(
      *         description="User id",
      *         in="path",
@@ -224,7 +224,7 @@ final class UserController extends Controller
      * @OA\Patch(
      *     path="/users/{id}",
      *     tags={"User"},
-     *     summary="Updates a user",
+     *     summary="Update a user",
      *     @OA\Parameter(
      *         description="User id",
      *         in="path",
@@ -290,7 +290,7 @@ final class UserController extends Controller
      * @OA\Delete(
      *     path="/users/{id}",
      *     tags={"User"},
-     *     summary="Deletes a user",
+     *     summary="Delete a user",
      *     @OA\Parameter(
      *         description="User id",
      *         in="path",
