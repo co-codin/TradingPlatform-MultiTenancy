@@ -13,6 +13,7 @@ final class UserPermission extends Enum implements PermissionEnum
     public const VIEW_USERS = 'view users';
     public const EDIT_USERS = 'edit users';
     public const DELETE_USERS = 'delete users';
+    public const BAN_USERS = 'ban users';
 
     public static function descriptions(): array
     {
@@ -21,6 +22,7 @@ final class UserPermission extends Enum implements PermissionEnum
             self::VIEW_USERS => 'View users',
             self::EDIT_USERS => 'Edit users',
             self::DELETE_USERS => 'Delete users',
+            self::BAN_USERS => 'Ban users',
         ];
     }
 
