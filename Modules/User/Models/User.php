@@ -37,22 +37,14 @@ final class User extends Authenticatable
      */
     public const DEFAULT_AUTH_GUARD = 'sanctum';
 
-    protected $fillable = [
-        'username',
-        'first_name',
-        'last_name',
-        'email',
-        'password',
-        'is_active',
-        'target',
-        'parent_id',
-    ];
+    protected $guarded = ['id'];
 
     protected $hidden = [
         'password', 'remember_token',
     ];
 
     protected $casts = [
+        'banned_at' => 'datetime',
         'email_verified_at' => 'datetime',
     ];
 

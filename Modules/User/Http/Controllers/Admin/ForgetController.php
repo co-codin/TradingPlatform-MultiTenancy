@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Modules\User\Http\Requests\ForgetPasswordRequest;
 use Modules\User\Http\Requests\ResetPasswordRequest;
 
@@ -107,6 +108,12 @@ class ForgetController extends Controller
         $status = Password::reset(
             array_merge($request->only('email', 'password', 'password_confirmation'), ['token' => $token]),
             function ($user, $password) {
+                if ($user->banned_at) {
+                    throw ValidationException::withMessages([
+                        'email' => ['The provided credentials are incorrect.'],
+                    ]);
+                }
+
                 $user->forceFill([
                     'password' => Hash::make($password)
                 ])->setRememberToken(Str::random(60));
