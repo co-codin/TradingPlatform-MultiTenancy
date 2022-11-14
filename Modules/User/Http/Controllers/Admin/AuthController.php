@@ -58,6 +58,12 @@ final class AuthController extends Controller
             ->where('email', $request->input('email'))
             ->first();
 
+        if ($user->banned_at) {
+            throw ValidationException::withMessages([
+                'message' => ['You have been banned'],
+            ]);
+        }
+
         if (! $user || ! Hash::check($request->input('password'), $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],

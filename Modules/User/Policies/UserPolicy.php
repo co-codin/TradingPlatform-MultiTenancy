@@ -3,14 +3,11 @@
 namespace Modules\User\Policies;
 
 use App\Policies\BasePolicy;
-use Illuminate\Auth\Access\HandlesAuthorization;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
 
 class UserPolicy extends BasePolicy
 {
-    use HandlesAuthorization;
-
     /**
      * View any policy.
      *
@@ -71,5 +68,27 @@ class UserPolicy extends BasePolicy
     public function delete(User $user, User $selectedUser): bool
     {
         return $user->can(UserPermission::DELETE_USERS);
+    }
+
+    /**
+     * Ban user policy.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function ban(User $user): bool
+    {
+        return $user->can(UserPermission::BAN_USERS);
+    }
+
+    /**
+     * Unban user policy.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function unban(User $user): bool
+    {
+        return $user->can(UserPermission::BAN_USERS);
     }
 }

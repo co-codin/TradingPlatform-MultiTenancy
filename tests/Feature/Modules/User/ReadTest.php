@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\User;
+namespace Tests\Feature\Modules\User;
 
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
@@ -11,7 +11,10 @@ use Tests\TestCase;
 
 final class ReadTest extends TestCase
 {
-    public function test_user_can_view_any(): void
+    /**
+     * @test
+     */
+    public function user_can_view_any(): void
     {
         User::factory($count = 5)->create();
 
@@ -44,7 +47,10 @@ final class ReadTest extends TestCase
         ]);
     }
 
-    public function test_user_can_view(): void
+    /**
+     * @test
+     */
+    public function user_can_view(): void
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::VIEW_USERS));
 
@@ -73,16 +79,22 @@ final class ReadTest extends TestCase
         ]);
     }
 
-    public function test_user_can_view_not_found(): void
+    /**
+     * @test
+     */
+    public function user_can_view_not_found(): void
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::VIEW_USERS));
 
-        $response = $this->get("/admin/users/10");
+        $response = $this->get('/admin/users/10');
 
         $response->assertNotFound();
     }
 
-    public function test_can_not_view_any(): void
+    /**
+     * @test
+     */
+    public function can_not_view_any(): void
     {
         $this->authenticateUser();
         $response = $this->get('/admin/users');
@@ -90,7 +102,10 @@ final class ReadTest extends TestCase
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
-    public function test_can_not_view(): void
+    /**
+     * @test
+     */
+    public function can_not_view(): void
     {
         $user = User::factory()->create();
 
@@ -100,14 +115,20 @@ final class ReadTest extends TestCase
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
-    public function test_not_unauthorized_view_any(): void
+    /**
+     * @test
+     */
+    public function not_unauthorized_view_any(): void
     {
         $response = $this->get('/admin/users');
 
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
-    public function test_not_unauthorized_view(): void
+    /**
+     * @test
+     */
+    public function not_unauthorized_view(): void
     {
         $user = User::factory()->create();
         $response = $this->get("/admin/users/{$user->id}");

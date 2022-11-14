@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\User\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -327,5 +328,91 @@ final class UserController extends Controller
         $this->userStorage->destroy($user);
 
         return response()->noContent();
+    }
+
+    /**
+     * @OA\Patch (
+     *     path="/users/{id}/ban",
+     *     tags={"User"},
+     *     summary="Ban a user",
+     *     @OA\Parameter(
+     *         description="User id",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="No content"
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized Error"
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Forbidden Error"
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Not Found"
+     *     )
+     * )
+     * @throws AuthorizationException
+     * @throws Exception
+     */
+    public function ban(int $id)
+    {
+        $user = $this->userRepository->find($id);
+
+        $this->authorize('ban', $user);
+
+        $user->update([
+            'banned_at' => Carbon::now()->toDateTimeString()
+        ]);
+    }
+
+    /**
+     * @OA\Patch (
+     *     path="/users/{id}/unban",
+     *     tags={"User"},
+     *     summary="Unban a user",
+     *     @OA\Parameter(
+     *         description="User id",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="No content"
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized Error"
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Forbidden Error"
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Not Found"
+     *     )
+     * )
+     * @throws AuthorizationException
+     * @throws Exception
+     */
+    public function unban(int $id)
+    {
+        $user = $this->userRepository->find($id);
+
+        $this->authorize('ban', $user);
+
+        $user->update([
+            'banned_at' => Carbon::now()->toDateTimeString()
+        ]);
     }
 }

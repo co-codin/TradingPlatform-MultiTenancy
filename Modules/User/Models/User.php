@@ -46,6 +46,11 @@ final class User extends Authenticatable
     /**
      * @inheritdoc
      */
+    protected $guarded = ['id'];
+
+    /**
+     * @inheritdoc
+     */
     protected $fillable = [
         'username',
         'first_name',
@@ -68,6 +73,7 @@ final class User extends Authenticatable
      * @inheritdoc
      */
     protected $casts = [
+        'banned_at' => 'datetime',
         'email_verified_at' => 'datetime',
     ];
 

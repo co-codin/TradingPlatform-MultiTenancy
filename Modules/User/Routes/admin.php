@@ -30,6 +30,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     # Language
     Route::put('/users/{user}/language', [UserLanguageController::class, 'update'])->name('users.language.update');
 
+
+    # Ban
+    Route::patch('/users/{id}/ban', [UserController::class, ['ban']])->name('users.ban');
+    Route::patch('/users/{id}/unban', [UserController::class, ['unban']])->name('users.unban');
+
     Route::apiResource('users', UserController::class);
 
 });
