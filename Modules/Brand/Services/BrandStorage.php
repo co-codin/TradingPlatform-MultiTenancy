@@ -12,7 +12,7 @@ class BrandStorage
     {
         $brand = Brand::query()->create($brandDto->toArray());
 
-        // TODO link brand to user , user_brand table
+        auth()->user()->brands()->attach($brand->id);
 
         dispatch(new CreateBrandDBJob($brand->slug));
 
