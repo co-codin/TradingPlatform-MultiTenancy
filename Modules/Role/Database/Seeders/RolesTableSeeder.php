@@ -3,14 +3,31 @@
 namespace Modules\Role\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Modules\Brand\Enums\BrandPermission;
+use Modules\Role\Enums\DefaultRole;
 use Modules\Role\Models\Permission;
 use Modules\Role\Models\Role;
 
 class RolesTableSeeder extends Seeder
 {
-    protected $roles = [
-        'Администратор' => '*',
-        'Продакт' => '*',
+    protected array $roles = [
+//        DefaultRole::ADMIN => '*',
+        'Brand Admin' => [
+            BrandPermission::VIEW_BRANDS,
+            BrandPermission::CREATE_BRANDS,
+            BrandPermission::EDIT_BRANDS,
+            BrandPermission::DELETE_BRANDS,
+        ],
+//        'Brand Manager' => '*',
+//        'Desk Admin' => '*',
+//        'Compliance' => '*',
+//        'Conversion Manager' => '*',
+//        'Conversion Agent' => '*',
+//        'Retention Manager' => '*',
+//        'Affiliate' => '*',
+//        'Affiliate Manager' => '*',
+//        'Support' => '*',
+//        'IT' => '*',
     ];
 
     public function run()
@@ -29,9 +46,11 @@ class RolesTableSeeder extends Seeder
 
             $permissions = $permissions !== "*" ? $permissions : $this->prepareAllPermissions();
 
-            $permissionRecords = Permission::whereIn('name', array_keys($permissions))
+            $permissionRecords = Permission::query()->whereIn('name', $permissions)
                 ->get()
-                ->toArray();
+                ->pluck('id')
+                ->toArray()
+            ;
 
             $role->permissions()->sync($permissionRecords);
         }
