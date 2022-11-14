@@ -11,7 +11,7 @@ class BrandCreateRequest extends BaseFormRequest
         return [
             'name' => 'required|string|max:255',
             'title' => 'required|string|max:255',
-            'slug' => 'required|string|regex:/^[a-z0-9_\-]*$/|unique:brands,slug',
+            'slug' => 'required|string|regex:/^[a-z0-9_\]*$/|unique:brands,slug',
             'logo_url' => 'required|string|max:255',
             'is_active' => 'sometimes|boolean'
         ];
