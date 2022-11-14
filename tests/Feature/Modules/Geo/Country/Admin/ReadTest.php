@@ -2,9 +2,8 @@
 
 namespace Tests\Feature\Modules\Geo\Country\Admin;
 
+use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Modules\Geo\Enums\CountryPermission;
 use Modules\Geo\Models\Country;
 use Modules\Role\Models\Permission;
@@ -28,6 +27,14 @@ class ReadTest extends TestCase
             ->givePermissionTo(Permission::factory()->create([
                 'name' => CountryPermission::VIEW_COUNTRIES,
             ])?->name);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function actingAs(UserContract $user, $guard = null): TestCase
+    {
+        return parent::actingAs($user, $guard ?: User::DEFAULT_AUTH_GUARD);
     }
 
     /**

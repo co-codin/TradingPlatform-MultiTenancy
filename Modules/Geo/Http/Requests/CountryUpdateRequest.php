@@ -15,9 +15,9 @@ class CountryUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'filled|string|unique:countries,name',
-            'iso2' => 'filled|string|unique:countries,iso2',
-            'iso3' => 'filled|string|unique:countries,iso3',
+            'name' => "sometimes|required|string|unique:countries,name,{$this->route('country')}",
+            'iso2' => "sometimes|required|string|unique:countries,iso2,{$this->route('country')}",
+            'iso3' => "sometimes|required|string|unique:countries,iso3,{$this->route('country')}",
         ];
     }
 }

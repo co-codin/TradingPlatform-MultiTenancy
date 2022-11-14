@@ -2,10 +2,8 @@
 
 namespace Modules\User\Repositories\Criteria;
 
-use App\Filters\ToggleFilter;
 use App\Http\Filters\LiveFilter;
 use App\Repositories\Criteria\BaseCriteria;
-use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;

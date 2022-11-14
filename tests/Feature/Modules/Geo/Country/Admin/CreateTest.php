@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Modules\Geo\Country\Admin;
 
+use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Geo\Enums\CountryPermission;
 use Modules\Geo\Models\Country;
@@ -26,6 +27,14 @@ class CreateTest extends TestCase
             ->givePermissionTo(Permission::factory()->create([
                 'name' => CountryPermission::CREATE_COUNTRIES,
             ])?->name);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function actingAs(UserContract $user, $guard = null): TestCase
+    {
+        return parent::actingAs($user, $guard ?: User::DEFAULT_AUTH_GUARD);
     }
 
     /**

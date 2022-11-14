@@ -16,7 +16,13 @@ class CountryStorage
      */
     public function store(CountryDto $dto): Country
     {
-        return Country::create($dto->toArray());
+        $country = Country::create($dto->toArray());
+
+        if (! $country) {
+            throw new LogicException(__('Can not create country'));
+        }
+
+        return $country;
     }
 
     /**
