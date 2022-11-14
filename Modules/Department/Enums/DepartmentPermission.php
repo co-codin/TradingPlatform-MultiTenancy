@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Geo\Enums;
+namespace Modules\Department\Enums;
 
 use Modules\Role\Contracts\PermissionEnum;
 

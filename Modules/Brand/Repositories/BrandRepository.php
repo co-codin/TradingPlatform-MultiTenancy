@@ -8,7 +8,7 @@ use Modules\Brand\Repositories\Criteria\BrandRequestCriteria;
 
 class BrandRepository extends BaseRepository
 {
-    public function model()
+    public function model(): string
     {
         return Brand::class;
     }

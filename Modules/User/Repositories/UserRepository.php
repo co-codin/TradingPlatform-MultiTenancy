@@ -11,7 +11,7 @@ use Prettus\Repository\Exceptions\RepositoryException;
 
 class UserRepository extends BaseRepository
 {
-    public function model()
+    public function model(): string
     {
         return User::class;
     }
