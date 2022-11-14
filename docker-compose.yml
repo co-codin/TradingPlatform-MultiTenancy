@@ -18,6 +18,8 @@ services:
             LARAVEL_SAIL: 1
             XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
             XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
+            APP_DOMAIN: '${APP_DOMAIN}'
+            APP_ENV: '${APP_EMV:-LOCAL}'
         volumes:
             - '.:/var/www/html'
         networks:
@@ -33,6 +35,8 @@ services:
             POSTGRES_DB: '${DB_DATABASE}'
             POSTGRES_USER: '${DB_USERNAME}'
             POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
+            APP_DOMAIN: '{APP_DOMAIN}'
+            APP_ENV: '${APP_EMV:-LOCAL}'
         volumes:
             - 'sail-pgsql:/var/lib/postgresql/data'
             - './vendor/laravel/sail/database/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
@@ -47,6 +51,9 @@ services:
         image: redis:alpine
         restart: unless-stopped
         command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD}"
+        environment:
+            APP_DOMAIN: '{APP_DOMAIN}'
+            APP_ENV: '${APP_EMV:-LOCAL}'
         volumes:
             - redis-data:/data
         networks:

@@ -10,6 +10,21 @@ use App\Http\Resources\BaseJsonResource;
  *     schema="Role",
  *     type="object"
  * )
+ *
+ * @OA\Schema (
+ *     schema="RoleCollection",
+ *     type="object",
+ *     @OA\Property(
+ *         property="data",
+ *         type="array",
+ *         @OA\Items(ref="#/components/schemas/Role")
+ *     ),
+ *     @OA\Property(
+ *         property="meta",
+ *         type="object",
+ *         ref="#/components/schemas/Meta"
+ *     )
+ * )
  */
 class RoleResource extends BaseJsonResource
 {

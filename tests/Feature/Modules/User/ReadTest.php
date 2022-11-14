@@ -37,7 +37,8 @@ final class ReadTest extends TestCase
                     'deleted_at',
                     'last_login',
                     'created_at',
-//                    'roles',
+                    //'roles',
+                    //'permissions',
                 ],
             ],
         ]);
@@ -66,7 +67,8 @@ final class ReadTest extends TestCase
                 'deleted_at',
                 'last_login',
                 'created_at',
-//                'roles',
+                //'roles',
+                //'permissions',
             ],
         ]);
     }
