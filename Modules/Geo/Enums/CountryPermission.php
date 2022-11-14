@@ -42,7 +42,7 @@ class CountryPermission implements PermissionEnum
         return [
             static::CREATE_COUNTRIES => 'Create countries',
             static::VIEW_COUNTRIES => 'View countries',
-            static::EDIT_COUNTRIES => 'Update countries',
+            static::EDIT_COUNTRIES => 'Edit countries',
             static::DELETE_COUNTRIES => 'Delete countries',
         ];
     }

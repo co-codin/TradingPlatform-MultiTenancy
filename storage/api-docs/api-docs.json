@@ -5,6 +5,225 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/admin/departments": {
+            "get": {
+                "tags": [
+                    "Department"
+                ],
+                "summary": "Get departments list",
+                "description": "Returns departments list data.",
+                "operationId": "departments.index",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DepartmentCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Department"
+                ],
+                "summary": "Store department",
+                "description": "Returns department data.",
+                "operationId": "departments.store",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name",
+                        "required": true,
+                        "example": "Name"
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "Title",
+                        "required": true,
+                        "example": "Title"
+                    },
+                    {
+                        "name": "is_active",
+                        "in": "query",
+                        "description": "Is active",
+                        "required": false,
+                        "example": 1
+                    },
+                    {
+                        "name": "is_default",
+                        "in": "query",
+                        "description": "Is default",
+                        "required": false,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DepartmentResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/admin/departments/{id}": {
+            "get": {
+                "tags": [
+                    "Department"
+                ],
+                "summary": "Get department",
+                "description": "Returns department data.",
+                "operationId": "departments.show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Department id",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DepartmentResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Department"
+                ],
+                "summary": "Delete department",
+                "description": "Returns status.",
+                "operationId": "departments.delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Department id",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DepartmentResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Department"
+                ],
+                "summary": "Update department",
+                "description": "Returns department data.",
+                "operationId": "departments.update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Department id",
+                        "required": true,
+                        "example": 1
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name",
+                        "required": false,
+                        "example": "Name"
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "Title",
+                        "required": false,
+                        "example": "Title"
+                    },
+                    {
+                        "name": "is_active",
+                        "in": "query",
+                        "description": "Is active",
+                        "required": false,
+                        "example": 1
+                    },
+                    {
+                        "name": "is_default",
+                        "in": "query",
+                        "description": "Is default",
+                        "required": false,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DepartmentResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
         "/admin/countries": {
             "get": {
                 "tags": [
@@ -68,7 +287,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Country"
+                                    "$ref": "#/components/schemas/CountryResource"
                                 }
                             }
                         }
@@ -105,7 +324,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Country"
+                                    "$ref": "#/components/schemas/CountryResource"
                                 }
                             }
                         }
@@ -127,9 +346,9 @@
                 "operationId": "countries.delete",
                 "parameters": [
                     {
-                        "name": "name",
+                        "name": "id",
                         "in": "path",
-                        "description": "Id",
+                        "description": "Country id",
                         "required": true,
                         "example": 1
                     }
@@ -140,7 +359,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Country"
+                                    "$ref": "#/components/schemas/CountryResource"
                                 }
                             }
                         }
@@ -162,9 +381,9 @@
                 "operationId": "countries.update",
                 "parameters": [
                     {
-                        "name": "name",
+                        "name": "id",
                         "in": "path",
-                        "description": "Id",
+                        "description": "Country id",
                         "required": true,
                         "example": 1
                     },
@@ -196,7 +415,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Country"
+                                    "$ref": "#/components/schemas/CountryResource"
                                 }
                             }
                         }
@@ -296,6 +515,59 @@
                     },
                     "401": {
                         "description": "Unauthorized Error"
+                    }
+                }
+            }
+        },
+        "/admin/users/{userId}/department": {
+            "patch": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update user departments",
+                "description": "Returns user data.",
+                "operationId": "users.departments.update",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "example": 1
+                    },
+                    {
+                        "name": "departments",
+                        "in": "path",
+                        "description": "Department ids",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            },
+                            "example": [
+                                1,
+                                2
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
                     }
                 }
             }
@@ -784,26 +1056,95 @@
     },
     "components": {
         "schemas": {
-            "CountryCollection": {
-                "title": "Country Collection",
+            "Department": {
+                "title": "Department",
+                "description": "Department model",
+                "required": [
+                    "id",
+                    "name",
+                    "title",
+                    "is_active",
+                    "is_default",
+                    "created_at",
+                    "updated_at",
+                    "deleted_at"
+                ],
                 "properties": {
-                    "data": {
-                        "title": "Country Collection",
-                        "description": "Countries",
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/Country"
-                        }
+                    "id": {
+                        "description": "Department.",
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Name"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Title"
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "example": 1
+                    },
+                    "is_default": {
+                        "type": "boolean",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "type": "date-time",
+                        "example": "1970-01-01"
+                    },
+                    "updated_at": {
+                        "type": "date-time",
+                        "example": "1970-01-01"
+                    },
+                    "deleted_at": {
+                        "type": "date-time",
+                        "example": "1970-01-01",
+                        "nullable": true
                     }
                 },
                 "type": "object",
                 "xml": {
-                    "name": "CountryCollection"
+                    "name": "Department"
                 }
+            },
+            "DepartmentCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Department"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "DepartmentResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Department"
+                    }
+                },
+                "type": "object"
             },
             "Country": {
                 "title": "Country",
                 "description": "Country model",
+                "required": [
+                    "id",
+                    "name",
+                    "iso2",
+                    "iso3",
+                    "created_at",
+                    "updated_at",
+                    "deleted_at"
+                ],
                 "properties": {
                     "id": {
                         "description": "Country.",
@@ -817,11 +1158,11 @@
                     },
                     "iso2": {
                         "type": "string",
-                        "example": "ru"
+                        "example": "RU"
                     },
                     "iso3": {
                         "type": "string",
-                        "example": "rus"
+                        "example": "RUS"
                     },
                     "created_at": {
                         "type": "date-time",
@@ -833,13 +1174,36 @@
                     },
                     "deleted_at": {
                         "type": "date-time",
-                        "example": "1970-01-01"
+                        "example": "1970-01-01",
+                        "nullable": true
                     }
                 },
                 "type": "object",
                 "xml": {
                     "name": "Country"
                 }
+            },
+            "CountryCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Country"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "CountryResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Country"
+                    }
+                },
+                "type": "object"
             },
             "Permission": {
                 "type": "object"

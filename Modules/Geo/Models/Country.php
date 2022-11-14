@@ -31,15 +31,6 @@ class Country extends Model
     ];
 
     /**
-     * @inheritdoc
-     */
-    protected $fillable = [
-        'name',
-        'iso2',
-        'iso3',
-    ];
-
-    /**
      * @inheritDoc
      */
     protected static function newFactory(): CountryFactory
