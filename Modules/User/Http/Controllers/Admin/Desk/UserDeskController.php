@@ -25,7 +25,7 @@ final class UserDeskController extends Controller
 
         $this->authorize('update', $user);
 
-        $ids = $request->get('desks')->pluck('id')->filter()->unique();
+        $ids = $request->collect('desks')->pluck('id')->filter()->unique();
 
         $user->desks()->sync($ids);
     }

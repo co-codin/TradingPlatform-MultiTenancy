@@ -25,7 +25,7 @@ final class UserCountryController extends Controller
 
         $this->authorize('update', $user);
 
-        $ids = $request->get('countries')->pluck('id')->filter()->unique();
+        $ids = $request->collect('countries')->pluck('id')->filter()->unique();
 
         $user->countries()->sync($ids);
     }

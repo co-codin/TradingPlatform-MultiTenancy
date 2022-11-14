@@ -25,7 +25,7 @@ final class UserDepartmentController extends Controller
 
         $this->authorize('update', $user);
 
-        $ids = $request->get('departments')->pluck('id')->filter()->unique();
+        $ids = $request->collect('departments')->pluck('id')->filter()->unique();
 
         $user->departments()->sync($ids);
     }

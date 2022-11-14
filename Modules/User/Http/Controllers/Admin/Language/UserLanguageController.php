@@ -25,7 +25,7 @@ final class UserLanguageController extends Controller
 
         $this->authorize('update', $user);
 
-        $ids = $request->get('languages')->pluck('id')->filter()->unique();
+        $ids = $request->collect('languages')->pluck('id')->filter()->unique();
 
         $user->languages()->sync($ids);
     }

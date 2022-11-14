@@ -25,7 +25,7 @@ final class UserBrandController extends Controller
 
         $this->authorize('update', $user);
 
-        $ids = $request->get('brands')->pluck('id')->filter()->unique();
+        $ids = $request->collect('brands')->pluck('id')->filter()->unique();
 
         $user->brands()->sync($ids);
     }
