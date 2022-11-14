@@ -7,10 +7,8 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Modules\Geo\Dto\CountryDto;
-use Modules\Geo\Http\Requests\CountryIndexRequest;
 use Modules\Geo\Http\Requests\CountryStoreRequest;
 use Modules\Geo\Http\Requests\CountryUpdateRequest;
-use Modules\Geo\Http\Resources\CountryCollection;
 use Modules\Geo\Http\Resources\CountryResource;
 use Modules\Geo\Models\Country;
 use Modules\Geo\Repositories\CountryRepository;
@@ -62,9 +60,7 @@ class CountryController extends Controller
     {
         $this->authorize('viewAny', Country::class);
 
-        return new CountryCollection(
-            $this->repository->jsonPaginate(),
-        );
+        return CountryResource::collection($this->repository->jsonPaginate());
     }
 
     /**
@@ -98,7 +94,7 @@ class CountryController extends Controller
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Country")
+     *          @OA\JsonContent(ref="#/components/schemas/CountryResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -122,9 +118,7 @@ class CountryController extends Controller
         $this->authorize('create', Country::class);
 
         return new CountryResource(
-            $this->storage->store(
-                new CountryDto($request->validated())
-            )
+            $this->storage->store(CountryDto::fromFormRequest($request)),
         );
     }
 
@@ -145,7 +139,7 @@ class CountryController extends Controller
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Country")
+     *          @OA\JsonContent(ref="#/components/schemas/CountryResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -209,7 +203,7 @@ class CountryController extends Controller
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Country")
+     *          @OA\JsonContent(ref="#/components/schemas/CountryResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -238,8 +232,8 @@ class CountryController extends Controller
         return new CountryResource(
             $this->storage->update(
                 $country,
-                new CountryDto($request->validated()),
-            )
+                CountryDto::fromFormRequest($request)
+            ),
         );
     }
 
@@ -260,7 +254,7 @@ class CountryController extends Controller
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/Country")
+     *          @OA\JsonContent(ref="#/components/schemas/CountryResource")
      *       ),
      *      @OA\Response(
      *          response=401,
