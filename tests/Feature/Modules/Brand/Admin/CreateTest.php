@@ -4,6 +4,7 @@ namespace Tests\Feature\Modules\Brand\Admin;
 
 use Modules\Brand\Enums\BrandPermission;
 use Modules\Brand\Models\Brand;
+use Tests\TestCase;
 
 class CreateTest extends TestCase
 {
