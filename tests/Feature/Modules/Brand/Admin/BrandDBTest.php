@@ -25,8 +25,11 @@ class BrandDBTest extends TestCase
      */
     public function test_db_migrate_job()
     {
-        MigrateBrandDBJob::dispatchNow('brand', AllowedDBTables::asArray());
 
-        
+        MigrateBrandDBJob::dispatchNow('brand', array_values(AllowedDBTables::asArray()));
+
+        foreach (array_values(AllowedDBTables::asArray()) as $table) {
+            $this->assertTrue(DB::table($table)->exists());
+        }
     }
 }

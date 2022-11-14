@@ -6,11 +6,11 @@ use App\Enums\BaseEnum;
 
 class AllowedDBTables extends BaseEnum
 {
-    public const USER_LANGUAGE = 'user_language';
+//    public const USER_LANGUAGE = 'user_language';
 
-    public const USER_DEPARTMENT = 'user_department';
+//    public const USER_DEPARTMENT = 'user_department';
 
-    public const USER_DESK = 'user_desk';
+//    public const USER_DESK = 'user_desk';
 
     public const USER_COUNTRY = 'user_country';
 

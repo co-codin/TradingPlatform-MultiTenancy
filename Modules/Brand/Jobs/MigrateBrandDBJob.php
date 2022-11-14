@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Config;
 
 class MigrateBrandDBJob implements ShouldQueue
 {
@@ -17,22 +18,30 @@ class MigrateBrandDBJob implements ShouldQueue
     use InteractsWithQueue;
     use SerializesModels;
 
-    protected array $tables;
+    protected ?string $db = null;
+
+    protected ?array $tables = null;
 
     public function __construct(string $db, array $tables)
     {
+        $this->db = $db;
+        $this->tables = $tables;
     }
 
     public function handle(): void
     {
-        putenv("DB_DATABASE=$this->db");
-        $migrationsPath = base_path('Modules/Brand/DB/Migrations/');
+//        Config::set('config.databse.connections.pgsql.database', $this->db);
+//        putenv("DB_DATABASE=$this->db");
+        $migrationsPath = 'Modules/Brand/DB/Migrations/';
 
         foreach ($this->tables as $table) {
             Artisan::call(sprintf(
-                'migrate --path=%s',
-                "{$migrationsPath}create_{$table}_table.php"
+                'brand-migrate --path=%s --database=%s',
+                "{$migrationsPath}create_{$table}_table.php",
+                $this->db
             ));
+
+//            dd($result);
         }
     }
 }

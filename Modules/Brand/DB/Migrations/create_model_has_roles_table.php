@@ -14,16 +14,16 @@ return new class extends Migration
     public function up()
     {
         Schema::create('model_has_roles', function (Blueprint $table) {
-            $table->id();
-            $table->string('model')->nullable(false);
-            $table->bigInteger('model_id')->nullable(false);
             $table->bigInteger('role_id')->nullable(false);
-            $table->timestamps();
+            $table->string('model_type')->nullable(false);
+            $table->bigInteger('model_id')->nullable(false);
 
             $table->foreign('role_id')
                 ->on('roles')
                 ->references('id')
                 ->onDelete('cascade');
+
+            $table->index(['model_type', 'model_id']);
         });
     }
 

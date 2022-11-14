@@ -14,8 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('model_has_permissions', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->bigInteger('permission_id')->unsigned()->nullable(false);
+            $table->string('model_type')->nullable(false);
+            $table->bigInteger('model_id')->unsigned()->nullable(false);
+
+            $table->index(['model_type', 'model_id']);
         });
     }
 

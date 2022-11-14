@@ -2,8 +2,10 @@
 
 namespace Modules\Brand\Providers;
 
+use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Modules\Brand\Commands\BrandMigrationCommand;
 use Modules\Brand\Models\Brand;
 use Modules\Brand\Policies\BrandPolicy;
 
@@ -44,6 +46,12 @@ class BrandServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(RouteServiceProvider::class);
+        $this->app->singleton(Migrator::class, function ($app) {
+            return $app['migrator'];
+        });
+        $this->commands([
+            BrandMigrationCommand::class,
+        ]);
     }
 
     /**
