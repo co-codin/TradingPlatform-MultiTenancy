@@ -2,20 +2,32 @@
 
 namespace Modules\Role\Repositories\Criteria;
 
-use Prettus\Repository\Contracts\CriteriaInterface;
+use App\Repositories\Criteria\BaseCriteria;
 use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class PermissionRequestCriteria implements CriteriaInterface
+class PermissionRequestCriteria extends BaseCriteria
 {
+    /**
+     * @inheritdoc
+     */
+    protected array $allowedModelFields = [
+        'id',
+        'name',
+        'description',
+        'guard_name',
+        'module',
+    ];
+
+    /**
+     * @inheritDoc
+     */
     public function apply($model, RepositoryInterface $repository)
     {
         return QueryBuilder::for($model)
             ->defaultSort('id')
-            ->allowedFields([
-                'id', 'name', 'description', 'guard_name', 'module',
-            ])
+            ->allowedFields($this->allowedModelFields())
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::partial('name'),

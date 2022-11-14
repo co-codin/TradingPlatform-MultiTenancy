@@ -2,21 +2,32 @@
 
 namespace Modules\User\Repositories\Criteria;
 
-use App\Filters\ToggleFilter;
 use App\Http\Filters\LiveFilter;
-use Prettus\Repository\Contracts\CriteriaInterface;
+use App\Repositories\Criteria\BaseCriteria;
 use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class UserRequestCriteria implements CriteriaInterface
+class UserRequestCriteria extends BaseCriteria
 {
+    /**
+     * @inheritdoc
+     */
+    protected array $allowedModelFields = [
+        'id',
+        'name',
+        'email',
+    ];
+
+    /**
+     * @inheritDoc
+     */
     public function apply($model, RepositoryInterface $repository)
     {
         return QueryBuilder::for($model)
             ->defaultSort('-id')
             ->allowedFields(array_merge(
-                static::allowedUserFields(),
+                $this->allowedModelFields(),
             ))
             ->allowedFilters([
                 AllowedFilter::exact('id'),
@@ -40,20 +51,5 @@ class UserRequestCriteria implements CriteriaInterface
                 'created_at',
                 'updated_at',
             ]);
-    }
-
-    public static function allowedUserFields($prefix = null): array
-    {
-        $fields = [
-            'id',
-            'name',
-            'email',
-        ];
-
-        if(!$prefix) {
-            return $fields;
-        }
-
-        return array_map(fn($field) => $prefix . "." . $field, $fields);
     }
 }

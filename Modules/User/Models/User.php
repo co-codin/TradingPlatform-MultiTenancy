@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\User\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -9,6 +12,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Brand\Models\Brand;
+use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
 use Modules\Language\Models\Language;
 use Modules\Role\Models\Role;
@@ -24,40 +28,87 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string $email
  * @property-read Role $role
  * @property-read Role[]|Collection $roles
+ * @property-read Brand[]|Collection $brands
+ * @property-read Department[]|Collection $departments
+ * @property-read Desk[]|Collection $desks
+ * @property-read Language[]|Collection $languages
  * @method static self create(array $attributes)
  */
-class User extends Authenticatable
+final class User extends Authenticatable
 {
     use Notifiable, HasRoles, HasApiTokens, HasFactory, SoftDeletes;
 
-    protected $fillable = [
-        'name', 'email', 'password',
+    /**
+     * @var string
+     */
+    public const DEFAULT_AUTH_GUARD = 'sanctum';
+
+    /**
+     * @inheritdoc
+     */
+    protected $guarded = [
+        'id',
     ];
 
+    /**
+     * @inheritdoc
+     */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
+    /**
+     * @inheritdoc
+     */
     protected $casts = [
+        'banned_at' => 'datetime',
         'email_verified_at' => 'datetime',
     ];
 
-    public function brands()
+    /**
+     * Brands relation.
+     *
+     * @return BelongsToMany
+     */
+    public function brands(): BelongsToMany
     {
         return $this->belongsToMany(Brand::class, 'user_brand');
     }
 
-    public function desks()
+    /**
+     * Departments relation.
+     *
+     * @return BelongsToMany
+     */
+    public function departments(): BelongsToMany
+    {
+        return $this->belongsToMany(Department::class, 'user_department');
+    }
+
+    /**
+     * Desks relation.
+     *
+     * @return BelongsToMany
+     */
+    public function desks(): BelongsToMany
     {
         return $this->belongsToMany(Desk::class, 'user_desk');
     }
 
-    public function languags()
+    /**
+     * Languages relation.
+     *
+     * @return BelongsToMany
+     */
+    public function languages(): BelongsToMany
     {
         return $this->belongsToMany(Language::class, 'user_language');
     }
 
-    protected static function newFactory()
+    /**
+     * @inheritDoc
+     */
+    protected static function newFactory(): UserFactory
     {
         return UserFactory::new();
     }

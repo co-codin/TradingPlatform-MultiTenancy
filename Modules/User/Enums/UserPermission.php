@@ -1,28 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\User\Enums;
 
+use BenSampo\Enum\Enum;
 use Modules\Role\Contracts\PermissionEnum;
 
-final class UserPermission implements PermissionEnum
+final class UserPermission extends Enum implements PermissionEnum
 {
-    const CREATE_USERS = 'create users';
-    const VIEW_USERS = 'view users';
-    const EDIT_USERS = 'edit users';
-    const DELETE_USERS = 'delete users';
+    public const CREATE_USERS = 'create users';
+    public const VIEW_USERS = 'view users';
+    public const EDIT_USERS = 'edit users';
+    public const DELETE_USERS = 'delete users';
+    public const BAN_USERS = 'ban users';
 
-    public static function module(): string
-    {
-        return 'Users';
-    }
-
-    public static function descriptions() : array
+    public static function descriptions(): array
     {
         return [
             self::CREATE_USERS => 'Create users',
             self::VIEW_USERS => 'View users',
-            self::EDIT_USERS => 'Update users',
+            self::EDIT_USERS => 'Edit users',
             self::DELETE_USERS => 'Delete users',
+            self::BAN_USERS => 'Ban users',
         ];
+    }
+
+    public static function module(): string
+    {
+        return 'User';
     }
 }
