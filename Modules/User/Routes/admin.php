@@ -32,10 +32,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::put('/users/{id}/language', [UserLanguageController::class, 'update'])->name('user.language.update');
 
     // Country
-    Route::put('/users/{id}/country', [UserCountryController::class, 'update'])->name('user.language.update');
+    Route::put('/users/{id}/country', [UserCountryController::class, 'update'])->name('user.country.update');
 
     // Department
-    Route::put('/users/{id}/department', [UserDepartmentController::class, 'update'])->name('user.language.update');
+    Route::put('/users/{id}/department', [UserDepartmentController::class, 'update'])->name('user.department.update');
 
 
     # Ban
