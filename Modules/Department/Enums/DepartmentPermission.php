@@ -42,7 +42,7 @@ class DepartmentPermission implements PermissionEnum
         return [
             static::CREATE_DEPARTMENTS => 'Create departments',
             static::VIEW_DEPARTMENTS => 'View departments',
-            static::EDIT_DEPARTMENTS => 'Update departments',
+            static::EDIT_DEPARTMENTS => 'Edit departments',
             static::DELETE_DEPARTMENTS => 'Delete departments',
         ];
     }

@@ -46,20 +46,8 @@ final class User extends Authenticatable
     /**
      * @inheritdoc
      */
-    protected $guarded = ['id'];
-
-    /**
-     * @inheritdoc
-     */
-    protected $fillable = [
-        'username',
-        'first_name',
-        'last_name',
-        'email',
-        'password',
-        'is_active',
-        'target',
-        'parent_id',
+    protected $guarded = [
+        'id',
     ];
 
     /**

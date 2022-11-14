@@ -33,24 +33,6 @@ class Department extends Model
     ];
 
     /**
-     * @inheritdoc
-     */
-    protected $fillable = [
-        'name',
-        'title',
-        'is_active',
-        'is_default',
-    ];
-
-    /**
-     * @inheritdoc
-     */
-    protected $casts = [
-        'is_active' => 'boolean',
-        'is_default' => 'boolean',
-    ];
-
-    /**
      * @inheritDoc
      */
     protected static function newFactory(): DepartmentFactory
