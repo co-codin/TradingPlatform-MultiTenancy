@@ -18,10 +18,8 @@ class CountryTableSeeder extends Seeder
 
         $rows = array_filter($rows, fn($value) => !is_null($value['iso3']));
 
-        Country::query()->truncate();
-
         foreach ($rows as $row) {
-            Country::query()->create([
+            Country::query()->updateOrCreate([
                 'name' => $row['name'],
                 'iso2' => $row['iso2'],
                 'iso3' => $row['iso3'],
