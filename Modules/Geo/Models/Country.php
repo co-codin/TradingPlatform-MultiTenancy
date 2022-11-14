@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Geo\Database\factories\CountryFactory;
 
 /**
- * Class User
+ * Class Country
  *
- * @package Modules\User\Models
+ * @package Modules\Country\Models
  * @property int $id
  * @property string $name
  * @property string $iso2
