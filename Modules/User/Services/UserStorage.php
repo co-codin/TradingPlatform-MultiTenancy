@@ -5,7 +5,7 @@ namespace Modules\User\Services;
 
 
 use Exception;
-use Hash;
+use Illuminate\Support\Facades\Hash;
 use Modules\User\Models\User;
 
 class UserStorage
