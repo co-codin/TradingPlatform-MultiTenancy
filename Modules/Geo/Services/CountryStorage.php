@@ -45,13 +45,13 @@ class CountryStorage
     /**
      * Delete country.
      *
-     * @param Country $brand
+     * @param Country $country
      * @return bool
      */
-    public function delete(Country $brand): bool
+    public function delete(Country $country): bool
     {
-        if (! $brand->delete()) {
-            throw new LogicException(__('Can not delete brand'));
+        if (! $country->delete()) {
+            throw new LogicException(__('Can not delete country'));
         }
 
         return true;

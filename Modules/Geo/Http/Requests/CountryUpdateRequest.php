@@ -3,7 +3,6 @@
 namespace Modules\Geo\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Modules\Geo\Enums\CountryPermission;
 
 class CountryUpdateRequest extends FormRequest
 {
