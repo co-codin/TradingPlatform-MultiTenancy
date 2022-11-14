@@ -36,7 +36,7 @@ class BrandMigrationCommand extends MigrateCommand
             return 1;
         }
 
-        $this->migrator->usingConnection($this->option('database'), function () {
+        $this->migrator->usingConnection('pgsql', function () {
             $this->prepareDatabase();
 
             // Next, we will check to see if a path option has been defined. If it has
