@@ -17,9 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('title');
-            $table->boolean('is_active')->default(false);
-            $table->bigInteger('parent_id')->unsigned()->nullable(false);
+            $table->boolean('is_active')->default(true);
+            $table->nestedSet();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

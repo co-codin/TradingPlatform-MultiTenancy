@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('iso2', 3)->nullable(false)->unique();
             $table->timestamps();
 
+            $table->softDeletes();
+
         });
     }
 

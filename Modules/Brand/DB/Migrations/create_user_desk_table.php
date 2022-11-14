@@ -14,12 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('user_desk', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('desk_id')->unsigned();
-            $table->timestamps();
-
-
+            $table->primary(['user_id', 'desk_id'], 'id');
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('desk_id')->constrained();
         });
     }
 
