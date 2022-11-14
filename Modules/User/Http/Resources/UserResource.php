@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Modules\User\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Brand\Http\Resources\BrandResource;
+use Modules\Department\Http\Resources\DepartmentResource;
+use Modules\Desk\Http\Resources\DeskResource;
 use Modules\Role\Http\Resources\PermissionResource;
 use Modules\Role\Http\Resources\RoleResource;
 use Modules\User\Models\User;
@@ -79,6 +82,10 @@ final class UserResource extends JsonResource
         return array_merge(parent::toArray($request), [
             'roles' => RoleResource::collection($this->whenLoaded('roles')),
             'permissions' => PermissionResource::collection($this->whenLoaded('permissions')),
+            'brands' => BrandResource::collection($this->whenLoaded('brands')),
+            'departments' => DepartmentResource::collection($this->whenLoaded('departments')),
+            'desks' => DeskResource::collection($this->whenLoaded('desks')),
+            'languages' => $this->whenLoaded('languages'),
         ]);
     }
 }

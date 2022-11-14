@@ -169,36 +169,4 @@ class UpdateTest extends TestCase
 
         $response->assertUnprocessable();
     }
-
-//    /**
-//     * Test department is_active field is boolean.
-//     *
-//     * @return void
-//     */
-//    public function test_department_is_active_field_is_boolean(): void
-//    {
-//        $department = Department::factory()->create();
-//        $data = Department::factory()->make();
-//        $data->is_active = json_encode([]);
-//
-//        $response = $this->actingAs($this->user)->patchJson(route('admin.departments.update', ['department' => $department->id]), $data->toArray());
-//
-//        $response->assertUnprocessable();
-//    }
-//
-//    /**
-//     * Test department is_default field is boolean.
-//     *
-//     * @return void
-//     */
-//    public function test_department_is_default_field_is_boolean(): void
-//    {
-//        $department = Department::factory()->create();
-//        $data = Department::factory()->make();
-//        $data->is_default = json_encode([]);
-//
-//        $response = $this->actingAs($this->user)->patchJson(route('admin.departments.update', ['department' => $department->id]), $data->toArray());
-//
-//        $response->assertUnprocessable();
-//    }
 }

@@ -1,5 +1,6 @@
 <?php
 use Modules\User\Http\Controllers\Admin\AuthController;
+use Modules\User\Http\Controllers\Admin\Department\UserDepartmentController;
 use Modules\User\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use Modules\User\Http\Controllers\Admin\ForgetController;
@@ -18,13 +19,16 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     # Desk
-    Route::put('users/{user}/desk', [UserDeskController::class, 'update'])->name('user.desk.update');
+    Route::put('users/{user}/desk', [UserDeskController::class, 'update'])->name('users.desk.update');
+
+    # Department
+    Route::put('users/{user}/department', [UserDepartmentController::class, 'update'])->name('users.department.update');
 
     # Brand
-    Route::put('users/{user}/brand', [UserBrandController::class, 'update'])->name('user.brand.update');
+    Route::put('users/{user}/brand', [UserBrandController::class, 'update'])->name('users.brand.update');
 
     # Language
-    Route::put('/users/{user}/language', [UserLanguageController::class, 'update'])->name('user.language.update');
+    Route::put('/users/{user}/language', [UserLanguageController::class, 'update'])->name('users.language.update');
 
     Route::apiResource('users', UserController::class);
 

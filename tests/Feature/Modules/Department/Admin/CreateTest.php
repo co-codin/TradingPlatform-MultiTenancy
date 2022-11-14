@@ -165,34 +165,4 @@ class CreateTest extends TestCase
 
         $response->assertUnprocessable();
     }
-
-//    /**
-//     * Test department is_active field is boolean.
-//     *
-//     * @return void
-//     */
-//    public function test_department_is_active_field_is_boolean(): void
-//    {
-//        $data = Department::factory()->make();
-//        $data->is_active = 'Hello world!';
-//
-//        $response = $this->actingAs($this->user)->postJson(route('admin.departments.store'), $data->toArray());
-//
-//        $response->assertUnprocessable();
-//    }
-//
-//    /**
-//     * Test department is_default field is boolean.
-//     *
-//     * @return void
-//     */
-//    public function test_department_is_default_field_is_boolean(): void
-//    {
-//        $data = Department::factory()->make();
-//        $data->is_default = 'Hello world!';
-//
-//        $response = $this->actingAs($this->user)->postJson(route('admin.departments.store'), $data->toArray());
-//
-//        $response->assertUnprocessable();
-//    }
 }

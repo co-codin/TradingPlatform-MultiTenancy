@@ -26,8 +26,8 @@ class DepartmentFactory extends Factory
         return [
             'name' => $this->faker->name,
             'title' => $this->faker->title,
-            'is_active' => (bool) random_int(0, 1),
-            'is_default' => (bool) random_int(0, 1),
+            'is_active' => $this->faker->boolean(),
+            'is_default' => $this->faker->boolean(),
         ];
     }
 }
