@@ -15,6 +15,11 @@ return new class extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->nullable(false);
+            $table->string('title');
+            $table->boolean('is_active')->default(true);
+            $table->bigInteger('default_department_id')->unsigned();
+            $table->boolean('is_default')->default(false);
             $table->timestamps();
         });
     }

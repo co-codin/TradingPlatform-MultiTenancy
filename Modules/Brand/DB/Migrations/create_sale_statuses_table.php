@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('sale_statuses', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('title');
+            $table->boolean('is_active')->default(true);
+            $table->string('color', 8);
             $table->timestamps();
         });
     }

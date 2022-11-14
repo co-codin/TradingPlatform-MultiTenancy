@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('user_log', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('user_id')->unsigned()->nullable(false);
+            $table->string('level');
+            $table->text('message');
             $table->timestamps();
         });
     }

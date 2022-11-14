@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('user_country', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('user_id')->unsigned()->nullable(false);
+            $table->bigInteger('country_id')->unsigned()->nullable(false);
             $table->timestamps();
         });
     }

@@ -15,7 +15,11 @@ return new class extends Migration
     {
         Schema::create('user_desk', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('desk_id')->unsigned();
             $table->timestamps();
+
+
         });
     }
 

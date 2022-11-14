@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Session;
 use Modules\Brand\Database\factories\BrandFactory;
 use Modules\User\Models\User;
 
+/**
+ * @property int $id;
+ * @property string $title;
+ * @property string $logo_url;
+ * @property bool $is_active;
+ * @property string $slug;
+ *
+ */
 class Brand extends Model
 {
     use HasFactory, SoftDeletes;

@@ -15,7 +15,15 @@ return new class extends Migration
     {
         Schema::create('model_has_roles', function (Blueprint $table) {
             $table->id();
+            $table->string('model')->nullable(false);
+            $table->bigInteger('model_id')->nullable(false);
+            $table->bigInteger('role_id')->nullable(false);
             $table->timestamps();
+
+            $table->foreign('role_id')
+                ->on('roles')
+                ->references('id')
+                ->onDelete('cascade');
         });
     }
 

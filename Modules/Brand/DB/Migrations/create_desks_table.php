@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('desks', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('title');
+            $table->boolean('is_active')->default(false);
+            $table->bigInteger('parent_id')->unsigned()->nullable(false);
             $table->timestamps();
         });
     }

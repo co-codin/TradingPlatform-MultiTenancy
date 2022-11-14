@@ -2,23 +2,20 @@
 
 namespace Modules\Brand\Services;
 
+use Modules\Brand\Jobs\CreateBrandDBJob;
 use Modules\Brand\Jobs\MigrateBrandDBJob;
 use Modules\Brand\Models\Brand;
+use Illuminate\Support\Facades\Bus;
 
 class BrandDBService
 {
     protected Brand $brand;
 
     protected array $tables;
-//migrate --path=Modules/Brand/DB/Migrations/create_user_desk_table.php
-    public function createDB()
-    {
-
-    }
 
     public function migrateDB(): void
     {
-        MigrateBrandDBJob::dispatch($this->tables);
+        MigrateBrandDBJob::dispatch($this->brand->slug, $this->tables);
     }
 
     public function setBrand(Brand $brand): self

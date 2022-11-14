@@ -19,16 +19,19 @@ class MigrateBrandDBJob implements ShouldQueue
 
     protected array $tables;
 
-    public function __construct(array $tables)
+    public function __construct(string $db, array $tables)
     {
     }
 
     public function handle(): void
     {
-        putenv('');
+        putenv("DB_DATABASE=$this->db");
+        $migrationsPath = base_path('Modules/Brand/DB/Migrations/');
+
         foreach ($this->tables as $table) {
             Artisan::call(sprintf(
-                'migrate --database=%s --path=%s'
+                'migrate --path=%s',
+                "{$migrationsPath}create_{$table}_table.php"
             ));
         }
     }
