@@ -21,9 +21,6 @@ class CreateBrandDBJob implements ShouldQueue
 
     public function handle()
     {
-        if (DB::selectOne("SELECT 1 FROM pg_database WHERE datname = ?", [$this->slug]) === null) {
-            DB::commit();
-            DB::statement("CREATE DATABASE $this->slug");
-        }
+        DB::unprepared("CREATE SCHEMA IF NOT EXISTS new_schema");
     }
 }

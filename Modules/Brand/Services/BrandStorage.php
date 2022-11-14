@@ -2,6 +2,7 @@
 
 namespace Modules\Brand\Services;
 
+use Illuminate\Support\Facades\DB;
 use Modules\Brand\Dto\BrandDto;
 use Modules\Brand\Jobs\CreateBrandDBJob;
 use Modules\Brand\Models\Brand;
