@@ -11,13 +11,16 @@ use Prettus\Repository\Exceptions\RepositoryException;
 
 class UserRepository extends BaseRepository
 {
+    /**
+     * @inheritDoc
+     */
     public function model(): string
     {
         return User::class;
     }
 
     /**
-     * @throws RepositoryException
+     * @inheritDoc
      */
     public function boot()
     {

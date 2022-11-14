@@ -8,11 +8,17 @@ use Modules\Desk\Repositories\Criteria\DeskRequestCriteria;
 
 class DeskRepository extends BaseRepository
 {
-    public function model()
+    /**
+     * @inheritDoc
+     */
+    public function model(): string
     {
         return Desk::class;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function boot()
     {
         $this->pushCriteria(DeskRequestCriteria::class);

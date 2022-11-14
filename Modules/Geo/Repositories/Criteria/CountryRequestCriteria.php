@@ -1,14 +1,13 @@
 <?php
 
-namespace Modules\User\Repositories\Criteria;
+namespace Modules\Geo\Repositories\Criteria;
 
-use App\Http\Filters\LiveFilter;
 use App\Repositories\Criteria\BaseCriteria;
 use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class UserRequestCriteria extends BaseCriteria
+class CountryRequestCriteria extends BaseCriteria
 {
     /**
      * @inheritdoc
@@ -16,7 +15,8 @@ class UserRequestCriteria extends BaseCriteria
     protected array $allowedModelFields = [
         'id',
         'name',
-        'email',
+        'iso2',
+        'iso3',
     ];
 
     /**
@@ -32,24 +32,20 @@ class UserRequestCriteria extends BaseCriteria
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::partial('name'),
-                AllowedFilter::partial('email'),
-                AllowedFilter::custom('live', new LiveFilter([
-                    'id' => '=',
-                    'name' => 'like',
-                    'email' => 'like',
-                ])),
+                AllowedFilter::partial('iso2'),
+                AllowedFilter::partial('iso3'),
+                AllowedFilter::partial('created_at'),
+                AllowedFilter::partial('updated_at'),
                 AllowedFilter::trashed(),
-            ])
-            ->allowedIncludes([
-                'roles',
-                'roles.permissions',
             ])
             ->allowedSorts([
                 'id',
                 'name',
-                'email',
+                'iso2',
+                'iso3',
                 'created_at',
                 'updated_at',
+                'deleted_at',
             ]);
     }
 }

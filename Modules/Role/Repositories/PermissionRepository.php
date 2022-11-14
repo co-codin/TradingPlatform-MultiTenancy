@@ -8,11 +8,17 @@ use Modules\Role\Repositories\Criteria\PermissionRequestCriteria;
 
 class PermissionRepository extends BaseRepository
 {
-    public function model()
+    /**
+     * @inheritDoc
+     */
+    public function model(): string
     {
         return Permission::class;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function boot()
     {
         $this->pushCriteria(PermissionRequestCriteria::class);

@@ -53,11 +53,6 @@ class ReadTest extends TestCase
         $response = $this->withToken($response->json('token'))
             ->json('GET', route('admin.brands.index'));
 
-
-//        dd(
-//            auth('sanctum')->user()
-//        );
-
         $response->assertStatus(ResponseAlias::HTTP_FORBIDDEN);
     }
 

@@ -8,11 +8,17 @@ use Modules\Role\Repositories\Criteria\RoleRequestCriteria;
 
 class RoleRepository extends BaseRepository
 {
-    public function model()
+    /**
+     * @inheritDoc
+     */
+    public function model(): string
     {
         return Role::class;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function boot()
     {
         $this->pushCriteria(RoleRequestCriteria::class);

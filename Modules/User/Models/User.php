@@ -32,6 +32,11 @@ final class User extends Authenticatable
 {
     use Notifiable, HasRoles, HasApiTokens, HasFactory, SoftDeletes;
 
+    /**
+     * @var string
+     */
+    public const DEFAULT_AUTH_GUARD = 'sanctum';
+
     protected $fillable = [
         'username',
         'first_name',

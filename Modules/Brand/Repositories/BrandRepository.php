@@ -8,11 +8,17 @@ use Modules\Brand\Repositories\Criteria\BrandRequestCriteria;
 
 class BrandRepository extends BaseRepository
 {
+    /**
+     * @inheritDoc
+     */
     public function model(): string
     {
         return Brand::class;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function boot()
     {
         $this->pushCriteria(BrandRequestCriteria::class);
