@@ -13,10 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_desk', function (Blueprint $table) {
-            $table->primary(['user_id', 'desk_id'], 'id');
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('desk_id')->constrained();
+        Schema::create('departments', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('title');
+            $table->boolean('is_active')->default(true);
+            $table->boolean('is_default')->default(false);
+            $table->timestamps();
         });
     }
 
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_desk');
+        Schema::dropIfExists('departments');
     }
 };

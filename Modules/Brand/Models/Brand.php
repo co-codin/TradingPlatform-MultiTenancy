@@ -10,6 +10,14 @@ use Modules\User\Models\User;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
+/**
+ * @property int $id;
+ * @property string $title;
+ * @property string $logo_url;
+ * @property bool $is_active;
+ * @property string $slug;
+ *
+ */
 class Brand extends Model
 {
     use HasFactory, SoftDeletes, LogsActivity;

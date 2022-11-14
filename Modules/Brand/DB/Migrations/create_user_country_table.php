@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_desk', function (Blueprint $table) {
-            $table->primary(['user_id', 'desk_id'], 'id');
+        Schema::create('user_country', function (Blueprint $table) {
+            $table->primary(['user_id', 'country_id'], 'id');
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('desk_id')->constrained();
+            $table->foreignId('country_id')->constrained();
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_desk');
+        Schema::dropIfExists('user_country');
     }
 };

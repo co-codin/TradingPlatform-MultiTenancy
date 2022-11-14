@@ -15,8 +15,8 @@ class BrandDBCreateRequest extends BaseFormRequest
                 'required',
                 'array',
                 new EnumValue(AllowedDBTables::class, false),
-            ]
-//            'brand_id'
+            ],
+            'brand_id' => 'required|exists:brands,id',
         ];
     }
 }
