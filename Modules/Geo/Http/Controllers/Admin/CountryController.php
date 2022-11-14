@@ -152,6 +152,7 @@ class CountryController extends Controller
      * )
      *
      * Show the country.
+     *
      * @param int $id
      * @return JsonResource
      * @throws AuthorizationException
@@ -173,9 +174,9 @@ class CountryController extends Controller
      *      summary="Update country",
      *      description="Returns country data.",
      *      @OA\Parameter(
-     *          description="Id",
+     *          description="Country id",
      *          in="path",
-     *          name="name",
+     *          name="id",
      *          required=true,
      *          example=1
      *      ),
@@ -245,9 +246,9 @@ class CountryController extends Controller
      *      summary="Delete country",
      *      description="Returns status.",
      *      @OA\Parameter(
-     *          description="Id",
+     *          description="Country id",
      *          in="path",
-     *          name="name",
+     *          name="id",
      *          required=true,
      *          example=1
      *      ),

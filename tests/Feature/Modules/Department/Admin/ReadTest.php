@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Modules\Department;
 
+use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Department\Enums\DepartmentPermission;
 use Modules\Department\Models\Department;
@@ -26,6 +27,14 @@ class ReadTest extends TestCase
             ->givePermissionTo(Permission::factory()->create([
                 'name' => DepartmentPermission::VIEW_DEPARTMENTS,
             ])?->name);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function actingAs(UserContract $user, $guard = null): TestCase
+    {
+        return parent::actingAs($user, $guard ?: User::DEFAULT_AUTH_GUARD);
     }
 
     /**

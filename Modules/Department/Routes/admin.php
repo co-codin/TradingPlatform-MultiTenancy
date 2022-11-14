@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Modules\Department\Http\Controllers\DepartmentController;
+use Modules\Department\Http\Controllers\Admin\DepartmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +14,4 @@ use Modules\Department\Http\Controllers\DepartmentController;
 |
 */
 
-Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::apiResource('departments', DepartmentController::class);
-});
+Route::apiResource('departments', DepartmentController::class);
