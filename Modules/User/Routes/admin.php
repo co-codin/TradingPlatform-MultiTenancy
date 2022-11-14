@@ -21,9 +21,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     # Desk
     Route::put('users/{user}/desk', [UserDeskController::class, 'update'])->name('users.desk.update');
 
-    # Department
-    Route::put('users/{user}/department', [UserDepartmentController::class, 'update'])->name('users.department.update');
-
     # Brand
     Route::put('users/{user}/brand', [UserBrandController::class, 'update'])->name('users.brand.update');
 
