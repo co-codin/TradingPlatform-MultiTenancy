@@ -32,22 +32,19 @@ final class User extends Authenticatable
 {
     use Notifiable, HasRoles, HasApiTokens, HasFactory, SoftDeletes;
 
-    protected $fillable = [
-        'username',
-        'first_name',
-        'last_name',
-        'email',
-        'password',
-        'is_active',
-        'target',
-        'parent_id',
-    ];
+    /**
+     * @var string
+     */
+    public const DEFAULT_AUTH_GUARD = 'sanctum';
+
+    protected $guarded = ['id'];
 
     protected $hidden = [
         'password', 'remember_token',
     ];
 
     protected $casts = [
+        'banned_at' => 'datetime',
         'email_verified_at' => 'datetime',
     ];
 

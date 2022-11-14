@@ -37,5 +37,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     // Department
     Route::put('/users/{id}/department', [UserDepartmentController::class, 'update'])->name('user.language.update');
 
+
+    # Ban
+    Route::patch('/users/{id}/ban', [UserController::class, ['ban']])->name('users.ban');
+    Route::patch('/users/{id}/unban', [UserController::class, ['unban']])->name('users.unban');
+
     Route::apiResource('users', UserController::class);
 });

@@ -8,11 +8,17 @@ use Modules\Token\Repositories\Criteria\TokenRequestCriteria;
 
 class TokenRepository extends BaseRepository
 {
-    public function model()
+    /**
+     * @inheritDoc
+     */
+    public function model(): string
     {
         return Token::class;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function boot()
     {
         $this->pushCriteria(TokenRequestCriteria::class);
