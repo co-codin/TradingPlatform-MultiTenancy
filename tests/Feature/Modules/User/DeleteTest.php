@@ -1,6 +1,8 @@
 <?php
 
-namespace Modules\User;
+declare(strict_types=1);
+
+namespace Tests\Feature\Modules\User;
 
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
@@ -9,7 +11,10 @@ use Tests\TestCase;
 
 final class DeleteTest extends TestCase
 {
-    public function test_user_can_delete(): void
+    /**
+     * @test
+     */
+    public function user_can_delete(): void
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::DELETE_USERS));
 
@@ -20,16 +25,22 @@ final class DeleteTest extends TestCase
         $this->assertSoftDeleted($user);
     }
 
-    public function test_user_can_delete_not_found(): void
+    /**
+     * @test
+     */
+    public function user_can_delete_not_found(): void
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::DELETE_USERS));
 
-        $response = $this->delete("/admin/users/10");
+        $response = $this->delete('/admin/users/1000');
 
         $response->assertNotFound();
     }
 
-    public function test_can_not_delete(): void
+    /**
+     * @test
+     */
+    public function can_not_delete(): void
     {
         $this->authenticateUser();
 
@@ -39,7 +50,10 @@ final class DeleteTest extends TestCase
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
-    public function test_not_unauthorized(): void
+    /**
+     * @test
+     */
+    public function not_unauthorized(): void
     {
         $user = User::factory()->create();
         $response = $this->delete("/admin/users/$user->id");
