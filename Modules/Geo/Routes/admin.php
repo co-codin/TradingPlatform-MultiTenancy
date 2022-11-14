@@ -14,6 +14,4 @@ use Modules\Geo\Http\Controllers\Admin\CountryController;
 |
 */
 
-Route::group(['middleware' => 'auth:api'], function () {
-    Route::apiResource('countries', CountryController::class);
-});
+Route::apiResource('countries', CountryController::class);
