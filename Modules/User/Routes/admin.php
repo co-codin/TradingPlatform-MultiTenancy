@@ -1,6 +1,6 @@
 <?php
+
 use Modules\User\Http\Controllers\Admin\AuthController;
-use Modules\User\Http\Controllers\Admin\Department\UserDepartmentController;
 use Modules\User\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use Modules\User\Http\Controllers\Admin\ForgetController;
@@ -27,10 +27,12 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     # Language
     Route::put('/users/{user}/language', [UserLanguageController::class, 'update'])->name('users.language.update');
 
-
     # Ban
-    Route::patch('/users/{user}/ban', [UserController::class, ['ban']])->name('users.ban');
-    Route::patch('/users/{user}/unban', [UserController::class, ['unban']])->name('users.unban');
+    Route::patch('/users/{user}/ban', [UserController::class, 'ban'])->name('users.ban');
+    Route::patch('/users/{user}/unban', [UserController::class, 'unban'])->name('users.unban');
+
+    # Batch
+    Route::patch('/users/{user}/update/batch', [UserController::class, 'updateBatch'])->name('users.update.batch');
 
     Route::apiResource('users', UserController::class);
 

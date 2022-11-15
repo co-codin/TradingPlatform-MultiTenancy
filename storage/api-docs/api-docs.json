@@ -1067,6 +1067,99 @@
                     }
                 }
             }
+        },
+        "/admin/users/{userId}/update/batch": {
+            "patch": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Unban a user",
+                "operationId": "3ce5cc2c84a9fc5bb2e8c22d33013685",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "example": "1"
+                    },
+                    {
+                        "name": "users",
+                        "in": "path",
+                        "description": "Users data",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "first_name": {
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "target": {
+                                        "type": "integer"
+                                    },
+                                    "parent_id": {
+                                        "type": "integer"
+                                    },
+                                    "role_id": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "change_password": {
+                                        "description": "Must be set to true if the password is changed.",
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
         }
     },
     "components": {

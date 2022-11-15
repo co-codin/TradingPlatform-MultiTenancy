@@ -16,10 +16,7 @@ final class UserBanRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'users' => [
-                'required',
-                'array',
-            ],
+            'users' => 'required|array',
             'users.*.id' => 'distinct|integer|exists:users,id',
         ];
     }
