@@ -13,6 +13,7 @@ use Modules\Geo\Http\Resources\CountryResource;
 use Modules\Geo\Models\Country;
 use Modules\Geo\Repositories\CountryRepository;
 use Modules\Geo\Services\CountryStorage;
+use OpenApi\Annotations as OA;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 class CountryController extends Controller
@@ -33,6 +34,7 @@ class CountryController extends Controller
      * @OA\Get(
      *      path="/admin/countries",
      *      operationId="countries.index",
+     *      security={ {"sanctum": {} }},
      *      tags={"Country"},
      *      summary="Get countries list",
      *      description="Returns countries list data.",
@@ -67,6 +69,7 @@ class CountryController extends Controller
      * @OA\Post(
      *      path="/admin/countries",
      *      operationId="countries.store",
+     *      security={ {"sanctum": {} }},
      *      tags={"Country"},
      *      summary="Store country",
      *      description="Returns country data.",
@@ -126,6 +129,7 @@ class CountryController extends Controller
      * @OA\Get(
      *      path="/admin/countries/{id}",
      *      operationId="countries.show",
+     *      security={ {"sanctum": {} }},
      *      tags={"Country"},
      *      summary="Get country",
      *      description="Returns country data.",
@@ -170,6 +174,7 @@ class CountryController extends Controller
      * @OA\Patch(
      *      path="/admin/countries/{id}",
      *      operationId="countries.update",
+     *      security={ {"sanctum": {} }},
      *      tags={"Country"},
      *      summary="Update country",
      *      description="Returns country data.",
@@ -242,6 +247,7 @@ class CountryController extends Controller
      * @OA\Delete(
      *      path="/admin/countries/{id}",
      *      operationId="countries.delete",
+     *      security={ {"sanctum": {} }},
      *      tags={"Country"},
      *      summary="Delete country",
      *      description="Returns status.",

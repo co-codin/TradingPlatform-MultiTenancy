@@ -15,6 +15,7 @@ use Modules\Department\Http\Resources\DepartmentResource;
 use Modules\Department\Models\Department;
 use Modules\Department\Repositories\DepartmentRepository;
 use Modules\Department\Services\DepartmentStorage;
+use OpenApi\Annotations as OA;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 class DepartmentController extends Controller
@@ -35,6 +36,7 @@ class DepartmentController extends Controller
      * @OA\Get(
      *      path="/admin/departments",
      *      operationId="departments.index",
+     *      security={ {"sanctum": {} }},
      *      tags={"Department"},
      *      summary="Get departments list",
      *      description="Returns departments list data.",
@@ -69,6 +71,7 @@ class DepartmentController extends Controller
      * @OA\Post(
      *      path="/admin/departments",
      *      operationId="departments.store",
+     *      security={ {"sanctum": {} }},
      *      tags={"Department"},
      *      summary="Store department",
      *      description="Returns department data.",
@@ -135,6 +138,7 @@ class DepartmentController extends Controller
      * @OA\Get(
      *      path="/admin/departments/{id}",
      *      operationId="departments.show",
+     *      security={ {"sanctum": {} }},
      *      tags={"Department"},
      *      summary="Get department",
      *      description="Returns department data.",
@@ -179,6 +183,7 @@ class DepartmentController extends Controller
      * @OA\Patch(
      *      path="/admin/departments/{id}",
      *      operationId="departments.update",
+     *      security={ {"sanctum": {} }},
      *      tags={"Department"},
      *      summary="Update department",
      *      description="Returns department data.",
@@ -258,6 +263,7 @@ class DepartmentController extends Controller
      * @OA\Delete(
      *      path="/admin/departments/{id}",
      *      operationId="departments.delete",
+     *      security={ {"sanctum": {} }},
      *      tags={"Department"},
      *      summary="Delete department",
      *      description="Returns status.",
