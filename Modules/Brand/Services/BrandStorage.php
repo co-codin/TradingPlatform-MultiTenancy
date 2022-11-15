@@ -2,6 +2,7 @@
 
 namespace Modules\Brand\Services;
 
+use Illuminate\Support\Facades\DB;
 use Modules\Brand\Dto\BrandDto;
 use Modules\Brand\Jobs\CreateBrandDBJob;
 use Modules\Brand\Models\Brand;
@@ -12,7 +13,7 @@ class BrandStorage
     {
         $brand = Brand::query()->create($brandDto->toArray());
 
-        // TODO link brand to user , user_brand table
+        auth()->user()->brands()->attach($brand->id);
 
         dispatch(new CreateBrandDBJob($brand->slug));
 

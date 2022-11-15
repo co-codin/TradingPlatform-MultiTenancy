@@ -1,14 +1,15 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Modules\User\Services;
 
-
 use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Modules\User\Models\User;
 
-class UserStorage
+final class UserStorage
 {
     /**
      * @param array $attributes
@@ -20,7 +21,7 @@ class UserStorage
 
         $user = User::create($attributes);
 
-        $user->assignRole($attributes['role_id']);
+        $user->assignRole($attributes['roles']);
 
         return $user;
     }
@@ -33,15 +34,17 @@ class UserStorage
      */
     public function update(User $user, array $attributes): User
     {
-        if ($attributes['change_password']) {
+        if (isset($attributes['change_password'], $attributes['password'])) {
             $attributes['password'] = Hash::make($attributes['password']);
         }
 
-        if (!$user->update($attributes)) {
+        if (! $user->update($attributes)) {
             throw new Exception('Cant update user');
         }
 
-        $user->syncRoles($attributes['role_id']);
+        if (isset($attributes['roles'])) {
+            $user->syncRoles($attributes['roles']);
+        }
 
         return $user;
     }

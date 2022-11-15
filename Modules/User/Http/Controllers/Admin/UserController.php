@@ -9,14 +9,17 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
+use Modules\User\Http\Requests\UserBanRequest;
+use Illuminate\Support\Arr;
 use Modules\User\Http\Requests\UserCreateRequest;
+use Modules\User\Http\Requests\UserUpdateBatchRequest;
 use Modules\User\Http\Requests\UserUpdateRequest;
 use Modules\User\Http\Resources\UserResource;
 use Modules\User\Models\User;
 use Modules\User\Repositories\UserRepository;
 use Modules\User\Services\UserStorage;
-use OpenApi\Annotations as OA;
 
 final class UserController extends Controller
 {
@@ -30,6 +33,7 @@ final class UserController extends Controller
      * @OA\Get(
      *     path="/admin/users",
      *     tags={"User"},
+     *     security={ {"sanctum": {} }},
      *     summary="Get users data",
      *     @OA\Response(
      *          response=200,
@@ -61,6 +65,7 @@ final class UserController extends Controller
      * @OA\Get(
      *     path="/admin/users/{id}",
      *     tags={"User"},
+     *     security={ {"sanctum": {} }},
      *     summary="Get user data",
      *     @OA\Parameter(
      *          name="id",
@@ -104,6 +109,7 @@ final class UserController extends Controller
      * @OA\Post(
      *     path="/admin/users",
      *     tags={"User"},
+     *     security={ {"sanctum": {} }},
      *     summary="Add a new user",
      *     @OA\RequestBody(
      *         @OA\MediaType(
@@ -127,7 +133,7 @@ final class UserController extends Controller
      *                 @OA\Property(property="is_active", type="boolean"),
      *                 @OA\Property(property="target", type="integer"),
      *                 @OA\Property(property="parent_id", type="integer"),
-     *                 @OA\Property(property="role_id", type="array", @OA\Items(type="integer")),
+     *                 @OA\Property(property="roles", type="array", @OA\Items(type="integer")),
      *             )
      *         )
      *     ),
@@ -162,8 +168,9 @@ final class UserController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/users/{id}",
+     *     path="/admin/users/{id}",
      *     tags={"User"},
+     *     security={ {"sanctum": {} }},
      *     summary="Update a user",
      *     @OA\Parameter(
      *         description="User id",
@@ -223,8 +230,9 @@ final class UserController extends Controller
      *     )
      * ),
      * @OA\Patch(
-     *     path="/users/{id}",
+     *     path="/admin/users/{id}",
      *     tags={"User"},
+     *     security={ {"sanctum": {} }},
      *     summary="Update a user",
      *     @OA\Parameter(
      *         description="User id",
@@ -284,13 +292,14 @@ final class UserController extends Controller
 
         $user = $this->userStorage->update($user, $request->validated());
 
-        return new UserResource($user);
+        return new UserResource($user->load('roles'));
     }
 
     /**
      * @OA\Delete(
-     *     path="/users/{id}",
+     *     path="/admin/users/{id}",
      *     tags={"User"},
+     *     security={ {"sanctum": {} }},
      *     summary="Delete a user",
      *     @OA\Parameter(
      *         description="User id",
@@ -332,13 +341,14 @@ final class UserController extends Controller
 
     /**
      * @OA\Patch (
-     *     path="/users/{id}/ban",
+     *     path="/admin/users/{userId}/ban",
      *     tags={"User"},
+     *     security={ {"sanctum": {} }},
      *     summary="Ban a user",
      *     @OA\Parameter(
      *         description="User id",
      *         in="path",
-     *         name="id",
+     *         name="userId",
      *         required=true,
      *         @OA\Schema(type="integer"),
      *     ),
@@ -359,35 +369,139 @@ final class UserController extends Controller
      *          description="Not Found"
      *     )
      * )
+     *
+     * Ban user.
+     *
+     * @param UserBanRequest $request
+     * @param int $user
+     * @return JsonResource
+     *
      * @throws AuthorizationException
      * @throws Exception
      */
-    public function ban(int $id)
+    public function ban(UserBanRequest $request, int $user): JsonResource
     {
-        $user = $this->userRepository->find($id);
+        $user = $this->userRepository->find($user);
 
         $this->authorize('ban', $user);
 
-        $user->update([
-            'banned_at' => Carbon::now()->toDateTimeString()
-        ]);
+        $users = collect();
+
+        foreach ($request->get('users', []) as $item) {
+            $users->push(
+                $this->userStorage->update(
+                    $this->userRepository->find($item['id']),
+                    [
+                        'banned_at' => Carbon::now()->toDateTimeString()
+                    ],
+                )
+            );
+        }
+
+        return UserResource::collection($users);
     }
 
     /**
      * @OA\Patch (
-     *     path="/users/{id}/unban",
+     *     path="/admin/users/{userId}/unban",
+     *     tags={"User"},
+     *     security={ {"sanctum": {} }},
+     *     summary="Unban a user",
+     *     @OA\Parameter(
+     *         description="User id",
+     *         in="path",
+     *         name="userId",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="No content"
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized Error"
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Forbidden Error"
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Not Found"
+     *     )
+     * )
+     *
+     * Ban user.
+     *
+     * @param UserBanRequest $request
+     * @param int $user
+     * @return JsonResource
+     *
+     * @throws AuthorizationException
+     * @throws Exception
+     */
+    public function unban(UserBanRequest $request, int $user): JsonResource
+    {
+        $user = $this->userRepository->find($user);
+
+        $this->authorize('ban', $user);
+
+        $users = collect();
+
+        foreach ($request->get('users', []) as $item) {
+            $users->push(
+                $this->userStorage->update(
+                    $this->userRepository->find($item['id']),
+                    [
+                        'banned_at' => null,
+                    ],
+                )
+            );
+        }
+
+        return UserResource::collection($users);
+    }
+
+    /**
+     * @OA\Patch (
+     *     path="/admin/users/{userId}/update/batch",
      *     tags={"User"},
      *     summary="Unban a user",
      *     @OA\Parameter(
      *         description="User id",
      *         in="path",
-     *         name="id",
+     *         name="userId",
      *         required=true,
-     *         @OA\Schema(type="integer"),
+     *         example="1"
+     *     ),
+     *     @OA\Parameter(
+     *         description="Users data",
+     *         in="path",
+     *         name="users",
+     *         required=true,
+     *         @OA\Schema(
+     *              type="array",
+     *              @OA\Items(
+     *                  @OA\Property(property="username", type="string"),
+     *                  @OA\Property(property="first_name", type="string"),
+     *                  @OA\Property(property="last_name", type="string"),
+     *                  @OA\Property(property="email", type="string", format="email"),
+     *                  @OA\Property(property="password", type="string", format="password"),
+     *                  @OA\Property(property="password_confirmation", type="string", format="password"),
+     *                  @OA\Property(property="is_active", type="boolean"),
+     *                  @OA\Property(property="target", type="integer"),
+     *                  @OA\Property(property="parent_id", type="integer"),
+     *                  @OA\Property(property="role_id", type="array", @OA\Items(type="integer")),
+     *                  @OA\Property(property="change_password", type="boolean",
+     *                      description="Must be set to true if the password is changed."),
+     *              ),
+     *          ),
      *     ),
      *     @OA\Response(
-     *         response=204,
-     *         description="No content"
+     *         response=200,
+     *         description="Ok",
+     *         @OA\JsonContent(ref="#/components/schemas/UserCollection")
      *     ),
      *     @OA\Response(
      *          response=401,
@@ -402,17 +516,30 @@ final class UserController extends Controller
      *          description="Not Found"
      *     )
      * )
+     *
+     * Update batch users.
+     *
+     * @param UserUpdateBatchRequest $request
+     * @param int $user
+     * @return JsonResource
      * @throws AuthorizationException
      * @throws Exception
      */
-    public function unban(int $id)
+    public function updateBatch(UserUpdateBatchRequest $request, int $user): JsonResource
     {
-        $user = $this->userRepository->find($id);
+        $this->authorize('update', $this->userRepository->find($user));
 
-        $this->authorize('ban', $user);
+        $users = collect();
 
-        $user->update([
-            'banned_at' => Carbon::now()->toDateTimeString()
-        ]);
+        foreach ($request->get('users', []) as $item) {
+            $users->push(
+                $this->userStorage->update(
+                    $this->userRepository->find($item['id']),
+                    Arr::except($item, ['id']),
+                )
+            );
+        }
+
+        return UserResource::collection($users);
     }
 }
