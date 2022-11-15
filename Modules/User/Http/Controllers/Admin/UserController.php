@@ -9,7 +9,9 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
+use Modules\User\Http\Requests\UserBanRequest;
 use Modules\User\Http\Requests\UserCreateRequest;
 use Modules\User\Http\Requests\UserUpdateRequest;
 use Modules\User\Http\Resources\UserResource;
@@ -332,13 +334,13 @@ final class UserController extends Controller
 
     /**
      * @OA\Patch (
-     *     path="/users/{id}/ban",
+     *     path="/users/{userId}/ban",
      *     tags={"User"},
      *     summary="Ban a user",
      *     @OA\Parameter(
      *         description="User id",
      *         in="path",
-     *         name="id",
+     *         name="userId",
      *         required=true,
      *         @OA\Schema(type="integer"),
      *     ),
@@ -359,29 +361,47 @@ final class UserController extends Controller
      *          description="Not Found"
      *     )
      * )
+     *
+     * Ban user.
+     *
+     * @param UserBanRequest $request
+     * @param int $user
+     * @return JsonResource
+     *
      * @throws AuthorizationException
      * @throws Exception
      */
-    public function ban(int $id)
+    public function ban(UserBanRequest $request, int $user): JsonResource
     {
-        $user = $this->userRepository->find($id);
+        $user = $this->userRepository->find($user);
 
         $this->authorize('ban', $user);
 
-        $user->update([
-            'banned_at' => Carbon::now()->toDateTimeString()
-        ]);
+        $users = collect();
+
+        foreach ($request->get('users', []) as $item) {
+            $users->push(
+                $this->userStorage->update(
+                    $this->userRepository->find($item['id']),
+                    [
+                        'banned_at' => Carbon::now()->toDateTimeString()
+                    ],
+                )
+            );
+        }
+
+        return UserResource::collection($users);
     }
 
     /**
      * @OA\Patch (
-     *     path="/users/{id}/unban",
+     *     path="/users/{userId}/unban",
      *     tags={"User"},
      *     summary="Unban a user",
      *     @OA\Parameter(
      *         description="User id",
      *         in="path",
-     *         name="id",
+     *         name="userId",
      *         required=true,
      *         @OA\Schema(type="integer"),
      *     ),
@@ -402,17 +422,35 @@ final class UserController extends Controller
      *          description="Not Found"
      *     )
      * )
+     *
+     * Ban user.
+     *
+     * @param UserBanRequest $request
+     * @param int $user
+     * @return JsonResource
+     *
      * @throws AuthorizationException
      * @throws Exception
      */
-    public function unban(int $id)
+    public function unban(UserBanRequest $request, int $user): JsonResource
     {
-        $user = $this->userRepository->find($id);
+        $user = $this->userRepository->find($user);
 
         $this->authorize('ban', $user);
 
-        $user->update([
-            'banned_at' => Carbon::now()->toDateTimeString()
-        ]);
+        $users = collect();
+
+        foreach ($request->get('users', []) as $item) {
+            $users->push(
+                $this->userStorage->update(
+                    $this->userRepository->find($item['id']),
+                    [
+                        'banned_at' => null,
+                    ],
+                )
+            );
+        }
+
+        return UserResource::collection($users);
     }
 }

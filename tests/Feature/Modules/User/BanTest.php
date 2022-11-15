@@ -39,14 +39,16 @@ final class BanTest extends TestCase
     {
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->user = User::factory()->create([
-            'email' => 'admin@admin.com',
-        ])->givePermissionTo(Permission::factory()->create([
-            'name' => UserPermission::BAN_USERS,
-        ])?->name);
+        $this->user = User::factory()->create()
+            ->givePermissionTo(Permission::factory()->create([
+                'name' => UserPermission::BAN_USERS,
+            ]));
     }
 }

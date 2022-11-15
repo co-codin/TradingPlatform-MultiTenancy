@@ -29,8 +29,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
 
     # Ban
-    Route::patch('/users/{id}/ban', [UserController::class, ['ban']])->name('users.ban');
-    Route::patch('/users/{id}/unban', [UserController::class, ['unban']])->name('users.unban');
+    Route::patch('/users/{user}/ban', [UserController::class, ['ban']])->name('users.ban');
+    Route::patch('/users/{user}/unban', [UserController::class, ['unban']])->name('users.unban');
 
     Route::apiResource('users', UserController::class);
 
