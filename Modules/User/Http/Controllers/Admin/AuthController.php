@@ -80,6 +80,7 @@ final class AuthController extends Controller
      * @OA\Post(
      *     path="/admin/auth/logout",
      *     tags={"Auth"},
+     *     security={ {"sanctum": {} }},
      *     summary="User Logout",
      *     @OA\Response(
      *          response=200,
@@ -101,6 +102,7 @@ final class AuthController extends Controller
      * @OA\Get(
      *     path="/admin/auth/user",
      *     tags={"Auth"},
+     *     security={ {"sanctum": {} }},
      *     summary="Authorized user data",
      *     @OA\Response(
      *          response=200,

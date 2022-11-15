@@ -48,10 +48,10 @@ final class UserUpdateRequest extends BaseFormRequest
                 'string',
                 'confirmed',
             ],
-            'role_id' => [
+            'roles.*.id' => [
                 'sometimes',
                 'required',
-                'array',
+                'integer',
                 'min:1',
                 'exists:roles,id',
             ],

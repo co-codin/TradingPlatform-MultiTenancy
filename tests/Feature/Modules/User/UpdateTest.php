@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature\Modules\User;
 
 use Exception;
-use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Role\Enums\DefaultRole;
 use Modules\Role\Models\Permission;
@@ -33,10 +32,10 @@ final class UpdateTest extends TestCase
                 'parent_id' => User::inRandomOrder()->first()->id,
                 'change_password' => true,
                 'password_confirmation' => 'admin',
-                'role_id' => [
+                'roles' => [
                     Role::factory()->create([
                         'name' => DefaultRole::ADMIN,
-                    ])->id,
+                    ])->toArray(),
                 ],
             ]
         ));
@@ -129,7 +128,7 @@ final class UpdateTest extends TestCase
      *
      * @throws Exception
      */
-    public function authorized_user_can_update_patch(): void
+    public function authorized_user_can_update_batch(): void
     {
         $authUserWithPermission = User::factory()->create()
             ->givePermissionTo(Permission::factory()->create([
@@ -179,7 +178,7 @@ final class UpdateTest extends TestCase
      *
      * @throws Exception
      */
-    public function unauthorized_user_cant_update_patch(): void
+    public function unauthorized_user_cant_update_batch(): void
     {
         $user = User::factory()->create();
 
@@ -221,7 +220,7 @@ final class UpdateTest extends TestCase
      *
      * @throws Exception
      */
-    public function authorized_user_without_permissions_cant_update_patch(): void
+    public function authorized_user_without_permissions_cant_update_batch(): void
     {
         $authUserWithoutPermission = User::factory()->create();
 
