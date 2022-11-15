@@ -24,16 +24,9 @@ abstract class TestCase extends BaseTestCase
 
     final protected function authenticateUser(): void
     {
-        User::factory()->create([
+        $this->actingAs(User::factory()->create([
             'email' => 'test@service.com',
-        ]);
-
-        $response = $this->post('/admin/auth/login', [
-            'email' => 'test@service.com',
-            'password' => 'admin',
-        ]);
-
-        $this->withToken($response->json('token'));
+        ]), User::DEFAULT_AUTH_GUARD);
     }
 
     final protected function authenticateAdmin(): void
@@ -48,12 +41,7 @@ abstract class TestCase extends BaseTestCase
 
         $user->roles()->sync($role);
 
-        $response = $this->post('/admin/auth/login', [
-            'email' => 'admin@service.com',
-            'password' => 'admin',
-        ]);
-
-        $this->withToken($response->json('token'));
+        $this->actingAs($user, User::DEFAULT_AUTH_GUARD);
     }
 
     final protected function authenticateWithPermission(PermissionEnum $permissionEnum): void
@@ -68,12 +56,6 @@ abstract class TestCase extends BaseTestCase
 
         $user->givePermissionTo($permission->name);
 
-        $response = $this->post('/admin/auth/login', [
-            'email' => 'test@service.com',
-            'password' => 'admin',
-        ]);
-
-        $this->withToken($response->json('token'));
+        $this->actingAs($user, User::DEFAULT_AUTH_GUARD);
     }
 }
-

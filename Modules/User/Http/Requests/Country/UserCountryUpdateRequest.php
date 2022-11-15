@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Modules\User\Http\Requests\Language;
+namespace Modules\User\Http\Requests\Country;
 
 use App\Http\Requests\BaseFormRequest;
 
-final class UserLanguageUpdateRequest extends BaseFormRequest
+final class UserCountryUpdateRequest extends BaseFormRequest
 {
     public function rules(): array
     {
         return [
-            'languages' => [
+            'countries' => [
                 'required',
                 'array',
             ],
-            'languages.*.id' => 'distinct|integer|exists:languages,id',
+            'countries.*.id' => 'distinct|integer|exists:countries,id',
         ];
     }
 }
