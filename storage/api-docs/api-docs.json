@@ -1000,16 +1000,16 @@
                 }
             }
         },
-        "/users/{id}/ban": {
+        "/users/{userId}/ban": {
             "patch": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Ban a user",
-                "operationId": "58884eb1091801447e71ddae688673b2",
+                "operationId": "92c451938fd311b3b5046869f31cf4cb",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "userId",
                         "in": "path",
                         "description": "User id",
                         "required": true,
@@ -1034,16 +1034,16 @@
                 }
             }
         },
-        "/users/{id}/unban": {
+        "/users/{userId}/unban": {
             "patch": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Unban a user",
-                "operationId": "e84dc39f49a584f81ccb8f37dc359433",
+                "operationId": "bbc96d03fd3155fdc49678036a761374",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "userId",
                         "in": "path",
                         "description": "User id",
                         "required": true,
