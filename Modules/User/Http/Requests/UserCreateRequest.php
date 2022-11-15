@@ -40,9 +40,9 @@ final class UserCreateRequest extends BaseFormRequest
             'is_active' => 'boolean',
             'target' => 'numeric',
             'parent_id' => 'integer|exists:users,id',
-            'role_id' => [
+            'roles.*.id' => [
                 'required',
-                'array',
+                'integer',
                 'min:1',
                 'exists:roles,id',
             ],

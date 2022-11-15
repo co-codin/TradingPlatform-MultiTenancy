@@ -760,7 +760,7 @@
                                     "parent_id": {
                                         "type": "integer"
                                     },
-                                    "role_id": {
+                                    "roles": {
                                         "type": "array",
                                         "items": {
                                             "type": "integer"
@@ -1088,16 +1088,16 @@
                 ]
             }
         },
-        "/admin/users/{id}/ban": {
+        "/admin/users/{userId}/ban": {
             "patch": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Ban a user",
-                "operationId": "3cdbbf42f775cfdee69cf8920588aaab",
+                "operationId": "72f0d268350ad0d52b7f086cdd6c4140",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "userId",
                         "in": "path",
                         "description": "User id",
                         "required": true,
@@ -1127,16 +1127,16 @@
                 ]
             }
         },
-        "/admin/users/{id}/unban": {
+        "/admin/users/{userId}/unban": {
             "patch": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Unban a user",
-                "operationId": "c8fb9d919ac2b253c93ee3c620c39357",
+                "operationId": "1ea86a2cfee21df5be9dae6aa0648108",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "userId",
                         "in": "path",
                         "description": "User id",
                         "required": true,

@@ -26,10 +26,10 @@ final class CreateTest extends TestCase
             [
                 'parent_id' => User::all()->random()->id,
                 'password_confirmation' => 'admin',
-                'role_id' => [
+                'roles' => [
                     Role::factory()->create([
                         'name' => DefaultRole::ADMIN,
-                    ])->id,
+                    ])->toArray(),
                 ],
             ]
         ));

@@ -16,15 +16,15 @@ final class UserUpdateBatchRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'username' => 'sometimes|required||max:255',
-            'first_name' => 'sometimes|required|string|max:255',
-            'last_name' => 'sometimes|required|string|max:255',
-            'email' => "sometimes|required|email|max:255|unique:users,email,{$this->route('user')}",
-            'is_active' => 'boolean',
-            'parent_id' => 'integer|exists:users,id',
-            'change_password' => 'nullable|boolean',
-            'password' => 'exclude_unless:change_password,true|required|string|confirmed',
-            'role_id' => 'sometimes|required|array|min:1|exists:roles,id',
+            'users' => 'required|max:255',
+            'users.*.id' => 'required|integer|exists:users,id',
+            'users.*.first_name' => 'sometimes|required|string|max:255',
+            'users.*.last_name' => 'sometimes|required|string|max:255',
+            'users.*.email' => "sometimes|required|email|max:255|unique:users,email",
+            'users.*.is_active' => 'boolean',
+            'users.*.parent_id' => 'integer|exists:users,id',
+            'users.*.password' => 'sometimes|required|password',
+            'users.*.roles.*.id' => 'sometimes|required|integer|min:1|exists:roles,id',
         ];
     }
 }
