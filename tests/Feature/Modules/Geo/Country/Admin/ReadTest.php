@@ -15,22 +15,7 @@ class ReadTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * @inheritDoc
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = User::factory()->create([
-                'email' => 'admin@admin.com'
-            ])
-            ->givePermissionTo(Permission::factory()->create([
-                'name' => CountryPermission::VIEW_COUNTRIES,
-            ])?->name);
-    }
-
-    /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function actingAs(UserContract $user, $guard = null): TestCase
     {
@@ -41,8 +26,10 @@ class ReadTest extends TestCase
      * Test authorized user can get countries list.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_authorized_user_can_get_countries_list(): void
+    public function authorized_user_can_get_countries_list(): void
     {
         $country = Country::factory()->create();
 
@@ -57,8 +44,8 @@ class ReadTest extends TestCase
                     'name' => $country->name,
                     'iso2' => $country->iso2,
                     'iso3' => $country->iso3,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -66,8 +53,10 @@ class ReadTest extends TestCase
      * Test unauthorized user cant get countries list.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_unauthorized_user_cant_get_countries_list(): void
+    public function unauthorized_user_cant_get_countries_list(): void
     {
         Country::factory()->create();
 
@@ -80,8 +69,10 @@ class ReadTest extends TestCase
      * Test authorized user can get countries list.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_authorized_user_can_get_country(): void
+    public function authorized_user_can_get_country(): void
     {
         $country = Country::factory()->create();
 
@@ -95,7 +86,7 @@ class ReadTest extends TestCase
                 'name' => $country->name,
                 'iso2' => $country->iso2,
                 'iso3' => $country->iso3,
-            ]
+            ],
         ]);
     }
 
@@ -103,13 +94,30 @@ class ReadTest extends TestCase
      * Test unauthorized user cant get countries list.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_unauthorized_user_cant_get_country(): void
+    public function unauthorized_user_cant_get_country(): void
     {
         $country = Country::factory()->create();
 
         $response = $this->getJson(route('admin.countries.show', ['country' => $country->id]));
 
         $response->assertUnauthorized();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = User::factory()->create([
+            'email' => 'admin@admin.com',
+        ])
+            ->givePermissionTo(Permission::factory()->create([
+                'name' => CountryPermission::VIEW_COUNTRIES,
+            ])?->name);
     }
 }

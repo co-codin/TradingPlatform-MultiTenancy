@@ -6,7 +6,7 @@ namespace Modules\User\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
 
-final class UserUpdateRequest extends BaseFormRequest
+class UserUpdateRequest extends BaseFormRequest
 {
     public function rules(): array
     {
