@@ -1166,13 +1166,13 @@
                 ]
             }
         },
-        "/admin/users/{userId}/update/batch": {
+        "/admin/users/{userId}/batch": {
             "patch": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Unban a user",
-                "operationId": "3ce5cc2c84a9fc5bb2e8c22d33013685",
+                "operationId": "0623f39c74e2e1d6e1c587998e7385ff",
                 "parameters": [
                     {
                         "name": "userId",
