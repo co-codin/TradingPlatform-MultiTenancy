@@ -30,7 +30,12 @@
                     "403": {
                         "description": "Forbidden"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -86,7 +91,12 @@
                     "403": {
                         "description": "Forbidden"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/admin/departments/{id}": {
@@ -123,7 +133,12 @@
                     "403": {
                         "description": "Forbidden"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -158,7 +173,12 @@
                     "403": {
                         "description": "Forbidden"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "patch": {
                 "tags": [
@@ -221,7 +241,12 @@
                     "403": {
                         "description": "Forbidden"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/admin/countries": {
@@ -249,7 +274,12 @@
                     "403": {
                         "description": "Forbidden"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -298,7 +328,12 @@
                     "403": {
                         "description": "Forbidden"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/admin/countries/{id}": {
@@ -335,7 +370,12 @@
                     "403": {
                         "description": "Forbidden"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -370,7 +410,12 @@
                     "403": {
                         "description": "Forbidden"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "patch": {
                 "tags": [
@@ -426,7 +471,12 @@
                     "403": {
                         "description": "Forbidden"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/admin/auth/login": {
@@ -492,7 +542,12 @@
                     "401": {
                         "description": "Unauthorized Error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/admin/auth/user": {
@@ -516,7 +571,12 @@
                     "401": {
                         "description": "Unauthorized Error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/admin/auth/forget-password": {
@@ -643,7 +703,12 @@
                     "403": {
                         "description": "Forbidden Error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -727,7 +792,12 @@
                     "403": {
                         "description": "Forbidden Error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/admin/users/{id}": {
@@ -768,16 +838,19 @@
                     "404": {
                         "description": "Not Found"
                     }
-                }
-            }
-        },
-        "/users/{id}": {
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
             "put": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Update a user",
-                "operationId": "d408b63881e2b95841f5141b62c4de62",
+                "operationId": "aee72c85b8409481adc2da2331ac4235",
                 "parameters": [
                     {
                         "name": "id",
@@ -872,14 +945,19 @@
                     "404": {
                         "description": "Not Found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Delete a user",
-                "operationId": "ef4d3ce7b7ab9cc8eeecb522357b8a9c",
+                "operationId": "f20bc0c0224ff31144373176b069a3ed",
                 "parameters": [
                     {
                         "name": "id",
@@ -904,14 +982,19 @@
                     "404": {
                         "description": "Not Found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "patch": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Update a user",
-                "operationId": "dd77f0b6ac733c887997c7f3e77d0a84",
+                "operationId": "353c5f8a0be775669d58e53ac4bd339e",
                 "parameters": [
                     {
                         "name": "id",
@@ -997,16 +1080,21 @@
                     "404": {
                         "description": "Not Found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
-        "/users/{id}/ban": {
+        "/admin/users/{id}/ban": {
             "patch": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Ban a user",
-                "operationId": "58884eb1091801447e71ddae688673b2",
+                "operationId": "3cdbbf42f775cfdee69cf8920588aaab",
                 "parameters": [
                     {
                         "name": "id",
@@ -1031,16 +1119,21 @@
                     "404": {
                         "description": "Not Found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
-        "/users/{id}/unban": {
+        "/admin/users/{id}/unban": {
             "patch": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Unban a user",
-                "operationId": "e84dc39f49a584f81ccb8f37dc359433",
+                "operationId": "c8fb9d919ac2b253c93ee3c620c39357",
                 "parameters": [
                     {
                         "name": "id",
@@ -1065,7 +1158,12 @@
                     "404": {
                         "description": "Not Found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         }
     },
@@ -1439,6 +1537,13 @@
                     }
                 },
                 "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "sanctum": {
+                "type": "http",
+                "description": "Laravel Sanctum token authentication",
+                "scheme": "bearer"
             }
         }
     }
