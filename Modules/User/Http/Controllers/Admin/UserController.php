@@ -32,6 +32,7 @@ final class UserController extends Controller
      * @OA\Get(
      *     path="/admin/users",
      *     tags={"User"},
+     *     security={ {"sanctum": {} }},
      *     summary="Get users data",
      *     @OA\Response(
      *          response=200,
@@ -63,6 +64,7 @@ final class UserController extends Controller
      * @OA\Get(
      *     path="/admin/users/{id}",
      *     tags={"User"},
+     *     security={ {"sanctum": {} }},
      *     summary="Get user data",
      *     @OA\Parameter(
      *          name="id",
@@ -106,6 +108,7 @@ final class UserController extends Controller
      * @OA\Post(
      *     path="/admin/users",
      *     tags={"User"},
+     *     security={ {"sanctum": {} }},
      *     summary="Add a new user",
      *     @OA\RequestBody(
      *         @OA\MediaType(
@@ -164,8 +167,9 @@ final class UserController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/users/{id}",
+     *     path="/admin/users/{id}",
      *     tags={"User"},
+     *     security={ {"sanctum": {} }},
      *     summary="Update a user",
      *     @OA\Parameter(
      *         description="User id",
@@ -225,8 +229,9 @@ final class UserController extends Controller
      *     )
      * ),
      * @OA\Patch(
-     *     path="/users/{id}",
+     *     path="/admin/users/{id}",
      *     tags={"User"},
+     *     security={ {"sanctum": {} }},
      *     summary="Update a user",
      *     @OA\Parameter(
      *         description="User id",
@@ -291,8 +296,9 @@ final class UserController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/users/{id}",
+     *     path="/admin/users/{id}",
      *     tags={"User"},
+     *     security={ {"sanctum": {} }},
      *     summary="Delete a user",
      *     @OA\Parameter(
      *         description="User id",
@@ -334,8 +340,9 @@ final class UserController extends Controller
 
     /**
      * @OA\Patch (
-     *     path="/users/{id}/ban",
+     *     path="/admin/users/{id}/ban",
      *     tags={"User"},
+     *     security={ {"sanctum": {} }},
      *     summary="Ban a user",
      *     @OA\Parameter(
      *         description="User id",
@@ -377,8 +384,9 @@ final class UserController extends Controller
 
     /**
      * @OA\Patch (
-     *     path="/users/{id}/unban",
+     *     path="/admin/users/{id}/unban",
      *     tags={"User"},
+     *     security={ {"sanctum": {} }},
      *     summary="Unban a user",
      *     @OA\Parameter(
      *         description="User id",
