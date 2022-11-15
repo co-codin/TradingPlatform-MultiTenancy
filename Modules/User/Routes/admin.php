@@ -32,7 +32,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::patch('/users/{id}/ban', [UserController::class, ['ban']])->name('users.ban');
     Route::patch('/users/{id}/unban', [UserController::class, ['unban']])->name('users.unban');
 
+    # Batch
     Route::patch('/users/{user}/update/batch', [UserController::class, 'updateBatch'])->name('users.update.batch');
+
     Route::apiResource('users', UserController::class);
 
 });
