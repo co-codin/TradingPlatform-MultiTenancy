@@ -834,10 +834,7 @@
                                         "type": "integer"
                                     },
                                     "role_id": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "integer"
-                                        }
+                                        "type": "integer"
                                     },
                                     "change_password": {
                                         "description": "Must be set to true if the password is changed.",
@@ -959,10 +956,7 @@
                                         "type": "integer"
                                     },
                                     "role_id": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "integer"
-                                        }
+                                        "type": "integer"
                                     },
                                     "change_password": {
                                         "description": "Must be set to true if the password is changed.",
@@ -1123,10 +1117,7 @@
                                         "type": "integer"
                                     },
                                     "role_id": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "integer"
-                                        }
+                                        "type": "integer"
                                     },
                                     "change_password": {
                                         "description": "Must be set to true if the password is changed.",

@@ -42,7 +42,7 @@ final class UserStorage
         }
 
         if (isset($attributes['role_id'])) {
-            $user->syncRoles();
+            $user->syncRoles($attributes['role_id']);
         }
 
         return $user;
