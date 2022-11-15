@@ -695,7 +695,7 @@
                                     "parent_id": {
                                         "type": "integer"
                                     },
-                                    "role_id": {
+                                    "roles": {
                                         "type": "array",
                                         "items": {
                                             "type": "integer"
@@ -834,7 +834,10 @@
                                         "type": "integer"
                                     },
                                     "role_id": {
-                                        "type": "integer"
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
                                     },
                                     "change_password": {
                                         "description": "Must be set to true if the password is changed.",
@@ -956,7 +959,10 @@
                                         "type": "integer"
                                     },
                                     "role_id": {
-                                        "type": "integer"
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
                                     },
                                     "change_password": {
                                         "description": "Must be set to true if the password is changed.",
@@ -1117,7 +1123,10 @@
                                         "type": "integer"
                                     },
                                     "role_id": {
-                                        "type": "integer"
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
                                     },
                                     "change_password": {
                                         "description": "Must be set to true if the password is changed.",

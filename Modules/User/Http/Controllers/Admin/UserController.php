@@ -130,7 +130,7 @@ final class UserController extends Controller
      *                 @OA\Property(property="is_active", type="boolean"),
      *                 @OA\Property(property="target", type="integer"),
      *                 @OA\Property(property="parent_id", type="integer"),
-     *                 @OA\Property(property="role_id", type="array", @OA\Items(type="integer")),
+     *                 @OA\Property(property="roles", type="array", @OA\Items(type="integer")),
      *             )
      *         )
      *     ),
@@ -197,7 +197,7 @@ final class UserController extends Controller
      *                 @OA\Property(property="is_active", type="boolean"),
      *                 @OA\Property(property="target", type="integer"),
      *                 @OA\Property(property="parent_id", type="integer"),
-     *                 @OA\Property(property="role_id", type="integer"),
+     *                 @OA\Property(property="role_id", type="array", @OA\Items(type="integer")),
      *                 @OA\Property(property="change_password", type="boolean",
      *                     description="Must be set to true if the password is changed."),
      *             )
@@ -249,7 +249,7 @@ final class UserController extends Controller
      *                 @OA\Property(property="is_active", type="boolean"),
      *                 @OA\Property(property="target", type="integer"),
      *                 @OA\Property(property="parent_id", type="integer"),
-     *                 @OA\Property(property="role_id", type="integer"),
+     *                 @OA\Property(property="role_id", type="array", @OA\Items(type="integer")),
      *                 @OA\Property(property="change_password", type="boolean",
      *                     description="Must be set to true if the password is changed."),
      *             )
@@ -287,7 +287,7 @@ final class UserController extends Controller
 
         $user = $this->userStorage->update($user, $request->validated());
 
-        return new UserResource($user);
+        return new UserResource($user->load('roles'));
     }
 
     /**
@@ -484,7 +484,7 @@ final class UserController extends Controller
      *                  @OA\Property(property="is_active", type="boolean"),
      *                  @OA\Property(property="target", type="integer"),
      *                  @OA\Property(property="parent_id", type="integer"),
-     *                  @OA\Property(property="role_id", type="integer"),
+     *                  @OA\Property(property="role_id", type="array", @OA\Items(type="integer")),
      *                  @OA\Property(property="change_password", type="boolean",
      *                      description="Must be set to true if the password is changed."),
      *              ),

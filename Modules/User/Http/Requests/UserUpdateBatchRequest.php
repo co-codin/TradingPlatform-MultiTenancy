@@ -24,7 +24,7 @@ final class UserUpdateBatchRequest extends BaseFormRequest
             'users.*.is_active' => 'boolean',
             'users.*.parent_id' => 'integer|exists:users,id',
             'users.*.password' => 'sometimes|required|password',
-            'users.*.role_id' => 'sometimes|required|integer|min:1|exists:roles,id',
+            'users.*.roles.*.id' => 'sometimes|required|integer|min:1|exists:roles,id',
         ];
     }
 }

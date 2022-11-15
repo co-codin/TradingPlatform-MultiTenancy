@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\User\Services;
 
 use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Modules\User\Models\User;
 
@@ -20,7 +21,7 @@ final class UserStorage
 
         $user = User::create($attributes);
 
-        $user->assignRole($attributes['role_id']);
+        $user->assignRole($attributes['roles']);
 
         return $user;
     }
@@ -41,8 +42,8 @@ final class UserStorage
             throw new Exception('Cant update user');
         }
 
-        if (isset($attributes['role_id'])) {
-            $user->syncRoles($attributes['role_id']);
+        if (isset($attributes['roles'])) {
+            $user->syncRoles($attributes['roles']);
         }
 
         return $user;

@@ -32,10 +32,10 @@ final class UpdateTest extends TestCase
                 'parent_id' => User::inRandomOrder()->first()->id,
                 'change_password' => true,
                 'password_confirmation' => 'admin',
-                'role_id' => [
+                'roles' => [
                     Role::factory()->create([
                         'name' => DefaultRole::ADMIN,
-                    ])->id,
+                    ])->toArray(),
                 ],
             ]
         ));
