@@ -15,22 +15,7 @@ class UpdateTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * @inheritDoc
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = User::factory()->create([
-            'email' => 'admin@admin.com'
-        ])
-            ->givePermissionTo(Permission::factory()->create([
-                'name' => CountryPermission::EDIT_COUNTRIES,
-            ])?->name);
-    }
-
-    /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function actingAs(UserContract $user, $guard = null): TestCase
     {
@@ -41,8 +26,10 @@ class UpdateTest extends TestCase
      * Test authorized user can update country.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_authorized_user_can_update_country(): void
+    public function authorized_user_can_update_country(): void
     {
         $country = Country::factory()->create();
         $data = Country::factory()->make();
@@ -64,8 +51,10 @@ class UpdateTest extends TestCase
      * Test unauthorized user can`t update country.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_unauthorized_user_cant_update_country(): void
+    public function unauthorized_user_cant_update_country(): void
     {
         $country = Country::factory()->create();
         $data = Country::factory()->make();
@@ -79,8 +68,10 @@ class UpdateTest extends TestCase
      * Test country name exist.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_country_name_exist(): void
+    public function country_name_exist(): void
     {
         $country = Country::factory()->create();
         $targetCountry = Country::factory()->create();
@@ -95,8 +86,10 @@ class UpdateTest extends TestCase
      * Test country iso2 exist.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_country_iso2_exist(): void
+    public function country_iso2_exist(): void
     {
         $country = Country::factory()->create();
         $targetCountry = Country::factory()->create();
@@ -111,8 +104,10 @@ class UpdateTest extends TestCase
      * Test country iso3 exist.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_country_iso3_exist(): void
+    public function country_iso3_exist(): void
     {
         $country = Country::factory()->create();
         $targetCountry = Country::factory()->create();
@@ -127,8 +122,10 @@ class UpdateTest extends TestCase
      * Test country name filled.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_country_name_is_filled(): void
+    public function country_name_is_filled(): void
     {
         $country = Country::factory()->create();
         $data = Country::factory()->make(['name' => null])->toArray();
@@ -142,8 +139,10 @@ class UpdateTest extends TestCase
      * Test country iso2 filled.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_country_iso2_is_filled(): void
+    public function country_iso2_is_filled(): void
     {
         $country = Country::factory()->create();
         $data = Country::factory()->make(['iso2' => null])->toArray();
@@ -157,8 +156,10 @@ class UpdateTest extends TestCase
      * Test country iso3 filled.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_country_iso3_is_filled(): void
+    public function country_iso3_is_filled(): void
     {
         $country = Country::factory()->create();
         $data = Country::factory()->make(['iso3' => null])->toArray();
@@ -172,8 +173,10 @@ class UpdateTest extends TestCase
      * Test country name is string.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_country_name_is_string(): void
+    public function country_name_is_string(): void
     {
         $country = Country::factory()->create();
         $data = Country::factory()->make();
@@ -188,8 +191,10 @@ class UpdateTest extends TestCase
      * Test country iso2 is string.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_country_iso2_is_string(): void
+    public function country_iso2_is_string(): void
     {
         $country = Country::factory()->create();
         $data = Country::factory()->make();
@@ -204,8 +209,10 @@ class UpdateTest extends TestCase
      * Test country iso3 required.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_country_iso3_is_string(): void
+    public function country_iso3_is_string(): void
     {
         $country = Country::factory()->create();
         $data = Country::factory()->make();
@@ -214,5 +221,20 @@ class UpdateTest extends TestCase
         $response = $this->actingAs($this->user)->patchJson(route('admin.countries.update', ['country' => $country->id]), $data->toArray());
 
         $response->assertUnprocessable();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = User::factory()->create([
+            'email' => 'admin@admin.com',
+        ])
+            ->givePermissionTo(Permission::factory()->create([
+                'name' => CountryPermission::EDIT_COUNTRIES,
+            ])?->name);
     }
 }
