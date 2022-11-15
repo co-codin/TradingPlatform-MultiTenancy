@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Geo\Dto;
 
 use App\Dto\BaseDto;
 
-class CountryDto extends BaseDto
+final class CountryDto extends BaseDto
 {
     /**
      * @var string|null $name

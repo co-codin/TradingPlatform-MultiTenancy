@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Geo\Providers;
 
 use App\Providers\BaseModuleServiceProvider;
 use Modules\Geo\Models\Country;
 use Modules\Geo\Policies\CountryPolicy;
 
-class GeoServiceProvider extends BaseModuleServiceProvider
+final class GeoServiceProvider extends BaseModuleServiceProvider
 {
     /**
      * @var array

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Modules\Geo\Repositories\Criteria;
+namespace Modules\Language\Repositories\Criteria;
 
 use App\Repositories\Criteria\BaseCriteria;
 use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-final class CountryRequestCriteria extends BaseCriteria
+final class LanguageRequestCriteria extends BaseCriteria
 {
     /**
      * @inheritdoc
@@ -17,8 +17,7 @@ final class CountryRequestCriteria extends BaseCriteria
     protected array $allowedModelFields = [
         'id',
         'name',
-        'iso2',
-        'iso3',
+        'code',
     ];
 
     /**
@@ -34,8 +33,7 @@ final class CountryRequestCriteria extends BaseCriteria
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::partial('name'),
-                AllowedFilter::partial('iso2'),
-                AllowedFilter::partial('iso3'),
+                AllowedFilter::partial('code'),
                 AllowedFilter::partial('created_at'),
                 AllowedFilter::partial('updated_at'),
                 AllowedFilter::trashed(),
@@ -43,8 +41,7 @@ final class CountryRequestCriteria extends BaseCriteria
             ->allowedSorts([
                 'id',
                 'name',
-                'iso2',
-                'iso3',
+                'code',
                 'created_at',
                 'updated_at',
                 'deleted_at',

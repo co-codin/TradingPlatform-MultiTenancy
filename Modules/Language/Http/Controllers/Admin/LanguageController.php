@@ -2,30 +2,30 @@
 
 declare(strict_types=1);
 
-namespace Modules\Geo\Http\Controllers\Admin;
+namespace Modules\Language\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
-use Modules\Geo\Dto\CountryDto;
-use Modules\Geo\Http\Requests\CountryStoreRequest;
-use Modules\Geo\Http\Requests\CountryUpdateRequest;
-use Modules\Geo\Http\Resources\CountryResource;
-use Modules\Geo\Models\Country;
-use Modules\Geo\Repositories\CountryRepository;
-use Modules\Geo\Services\CountryStorage;
+use Modules\Language\Dto\LanguageDto;
+use Modules\Language\Http\Requests\LanguageStoreRequest;
+use Modules\Language\Http\Requests\LanguageUpdateRequest;
+use Modules\Language\Http\Resources\LanguageResource;
+use Modules\Language\Models\Language;
+use Modules\Language\Repositories\LanguageRepository;
+use Modules\Language\Services\LanguageStorage;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
-final class CountryController extends Controller
+final class LanguageController extends Controller
 {
     /**
-     * @param CountryRepository $repository
-     * @param CountryStorage $storage
+     * @param LanguageRepository $repository
+     * @param LanguageStorage $storage
      */
     public function __construct(
-        protected CountryRepository $repository,
-        protected CountryStorage $storage,
+        protected LanguageRepository $repository,
+        protected LanguageStorage $storage,
     )
     {
         //
@@ -33,16 +33,16 @@ final class CountryController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/admin/countries",
-     *      operationId="countries.index",
+     *      path="/admin/languages",
+     *      operationId="languages.index",
      *      security={ {"sanctum": {} }},
-     *      tags={"Country"},
-     *      summary="Get countries list",
-     *      description="Returns countries list data.",
+     *      tags={"Language"},
+     *      summary="Get languages list",
+     *      description="Returns languages list data.",
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/CountryCollection")
+     *          @OA\JsonContent(ref="#/components/schemas/LanguageCollection")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -54,26 +54,26 @@ final class CountryController extends Controller
      *      )
      * )
      *
-     * Display countries list.
+     * Display languages list.
      *
      * @return JsonResource
      * @throws AuthorizationException
      */
     public function index(): JsonResource
     {
-        $this->authorize('viewAny', Country::class);
+        $this->authorize('viewAny', Language::class);
 
-        return CountryResource::collection($this->repository->jsonPaginate());
+        return LanguageResource::collection($this->repository->jsonPaginate());
     }
 
     /**
      * @OA\Post(
-     *      path="/admin/countries",
-     *      operationId="countries.store",
+     *      path="/admin/languages",
+     *      operationId="languages.store",
      *      security={ {"sanctum": {} }},
-     *      tags={"Country"},
-     *      summary="Store country",
-     *      description="Returns country data.",
+     *      tags={"Language"},
+     *      summary="Store language",
+     *      description="Returns language data.",
      *      @OA\Parameter(
      *          description="Name",
      *          in="query",
@@ -98,7 +98,7 @@ final class CountryController extends Controller
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/CountryResource")
+     *          @OA\JsonContent(ref="#/components/schemas/LanguageResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -110,32 +110,32 @@ final class CountryController extends Controller
      *      )
      * )
      *
-     * Store country.
+     * Store language.
      *
-     * @param CountryStoreRequest $request
+     * @param LanguageStoreRequest $request
      * @return JsonResource
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
-    public function store(CountryStoreRequest $request): JsonResource
+    public function store(LanguageStoreRequest $request): JsonResource
     {
-        $this->authorize('create', Country::class);
+        $this->authorize('create', Language::class);
 
-        return new CountryResource(
-            $this->storage->store(CountryDto::fromFormRequest($request)),
+        return new LanguageResource(
+            $this->storage->store(LanguageDto::fromFormRequest($request)),
         );
     }
 
     /**
      * @OA\Get(
-     *      path="/admin/countries/{id}",
-     *      operationId="countries.show",
+     *      path="/admin/languages/{id}",
+     *      operationId="languages.show",
      *      security={ {"sanctum": {} }},
-     *      tags={"Country"},
-     *      summary="Get country",
-     *      description="Returns country data.",
+     *      tags={"Language"},
+     *      summary="Get language",
+     *      description="Returns language data.",
      *      @OA\Parameter(
-     *          description="Country id",
+     *          description="Language id",
      *          in="path",
      *          name="id",
      *          required=true,
@@ -144,7 +144,7 @@ final class CountryController extends Controller
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/CountryResource")
+     *          @OA\JsonContent(ref="#/components/schemas/LanguageResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -156,7 +156,7 @@ final class CountryController extends Controller
      *      )
      * )
      *
-     * Show the country.
+     * Show the language.
      *
      * @param int $id
      * @return JsonResource
@@ -164,23 +164,23 @@ final class CountryController extends Controller
      */
     public function show(int $id): JsonResource
     {
-        $country = $this->repository->find($id);
+        $language = $this->repository->find($id);
 
-        $this->authorize('view', $country);
+        $this->authorize('view', $language);
 
-        return new CountryResource($country);
+        return new LanguageResource($language);
     }
 
     /**
      * @OA\Patch(
-     *      path="/admin/countries/{id}",
-     *      operationId="countries.update",
+     *      path="/admin/languages/{id}",
+     *      operationId="languages.update",
      *      security={ {"sanctum": {} }},
-     *      tags={"Country"},
-     *      summary="Update country",
-     *      description="Returns country data.",
+     *      tags={"Language"},
+     *      summary="Update language",
+     *      description="Returns language data.",
      *      @OA\Parameter(
-     *          description="Country id",
+     *          description="Language id",
      *          in="path",
      *          name="id",
      *          required=true,
@@ -210,7 +210,7 @@ final class CountryController extends Controller
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/CountryResource")
+     *          @OA\JsonContent(ref="#/components/schemas/LanguageResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -222,38 +222,38 @@ final class CountryController extends Controller
      *      )
      * )
      *
-     * Update the country.
+     * Update the language.
      *
-     * @param CountryUpdateRequest $request
+     * @param LanguageUpdateRequest $request
      * @param int $id
      * @return JsonResource
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
-    public function update(CountryUpdateRequest $request, int $id): JsonResource
+    public function update(LanguageUpdateRequest $request, int $id): JsonResource
     {
-        $country = $this->repository->find($id);
+        $language = $this->repository->find($id);
 
-        $this->authorize('update', $country);
+        $this->authorize('update', $language);
 
-        return new CountryResource(
+        return new LanguageResource(
             $this->storage->update(
-                $country,
-                CountryDto::fromFormRequest($request)
+                $language,
+                LanguageDto::fromFormRequest($request)
             ),
         );
     }
 
     /**
      * @OA\Delete(
-     *      path="/admin/countries/{id}",
-     *      operationId="countries.delete",
+     *      path="/admin/languages/{id}",
+     *      operationId="languages.delete",
      *      security={ {"sanctum": {} }},
-     *      tags={"Country"},
-     *      summary="Delete country",
+     *      tags={"Language"},
+     *      summary="Delete language",
      *      description="Returns status.",
      *      @OA\Parameter(
-     *          description="Country id",
+     *          description="Language id",
      *          in="path",
      *          name="id",
      *          required=true,
@@ -262,7 +262,7 @@ final class CountryController extends Controller
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/CountryResource")
+     *          @OA\JsonContent(ref="#/components/schemas/LanguageResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -274,7 +274,7 @@ final class CountryController extends Controller
      *      )
      * )
      *
-     * Remove the country.
+     * Remove the language.
      *
      * @param int $id
      * @return Response
@@ -282,11 +282,11 @@ final class CountryController extends Controller
      */
     public function destroy(int $id): Response
     {
-        $country = $this->repository->find($id);
+        $language = $this->repository->find($id);
 
-        $this->authorize('delete', $country);
+        $this->authorize('delete', $language);
 
-        $this->storage->delete($country);
+        $this->storage->delete($language);
 
         return response()->noContent();
     }

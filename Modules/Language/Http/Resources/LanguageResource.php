@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Modules\Geo\Http\Resources;
+namespace Modules\Language\Http\Resources;
 
 use App\Http\Resources\BaseJsonResource;
 use Illuminate\Http\Request;
-use Modules\Geo\Models\Country;
+use Modules\Language\Models\Language;
 
 /**
- * Country.
+ * Language.
  *
  * @OA\Schema(
- *     schema="Country",
- *     title="Country",
- *     description="Country model",
+ *     schema="Language",
+ *     title="Language",
+ *     description="Language model",
  *     required={
  *         "id",
  *         "name",
@@ -24,23 +24,22 @@ use Modules\Geo\Models\Country;
  *         "updated_at",
  *         "deleted_at",
  *     },
- *     @OA\Xml(name="Country"),
+ *     @OA\Xml(name="Language"),
  *     @OA\Property(property="id", type="integer", readOnly="true", example="1"),
- *     @OA\Property(property="name", type="string", example="Russia"),
- *     @OA\Property(property="iso2", type="string", example="RU"),
- *     @OA\Property(property="iso3", type="string", example="RUS"),
+ *     @OA\Property(property="name", type="string", example="Russian"),
+ *     @OA\Property(property="code", type="string", example="rus"),
  *     @OA\Property(property="created_at", type="date-time", example="1970-01-01"),
  *     @OA\Property(property="updated_at", type="date-time", example="1970-01-01"),
  *     @OA\Property(property="deleted_at", type="date-time", example="1970-01-01", nullable=true),
  * ),
  *
  * @OA\Schema (
- *     schema="CountryCollection",
+ *     schema="LanguageCollection",
  *     type="object",
  *     @OA\Property(
  *         property="data",
  *         type="array",
- *         @OA\Items(ref="#/components/schemas/Country")
+ *         @OA\Items(ref="#/components/schemas/Language")
  *     ),
  *     @OA\Property(
  *         property="meta",
@@ -50,21 +49,21 @@ use Modules\Geo\Models\Country;
  * ),
  *
  * @OA\Schema (
- *     schema="CountryResource",
+ *     schema="LanguageResource",
  *     type="object",
  *     @OA\Property(
  *         property="data",
  *         type="object",
- *         ref="#/components/schemas/Country"
+ *         ref="#/components/schemas/Language"
  *     )
  * )
  *
- * Class CountryResource
+ * Class LanguageResource
  *
- * @package Modules\Geo\Http\Resources
- * @mixin Country
+ * @package Modules\Language\Http\Resources
+ * @mixin Language
  */
-final class CountryResource extends BaseJsonResource
+class LanguageResource extends BaseJsonResource
 {
     /**
      * Transform the resource into an array.
@@ -77,8 +76,7 @@ final class CountryResource extends BaseJsonResource
         return [
             'id' => $this->resource->id,
             'name' => $this->resource->name,
-            'iso2' => $this->resource->iso2,
-            'iso3' => $this->resource->iso3,
+            'code' => $this->resource->code,
             'created_at' => $this->resource->created_at,
             'updated_at' => $this->resource->updated_at,
             'deleted_at' => $this->resource->deleted_at,

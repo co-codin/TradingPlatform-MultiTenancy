@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Modules\Geo\Repositories;
+namespace Modules\Language\Repositories;
 
 use App\Repositories\BaseRepository;
-use Modules\Geo\Models\Country;
-use Modules\Geo\Repositories\Criteria\CountryRequestCriteria;
+use Modules\Language\Models\Language;
+use Modules\Language\Repositories\Criteria\LanguageRequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
 
-final class CountryRepository extends BaseRepository
+final class LanguageRepository extends BaseRepository
 {
     /**
      * @inheritDoc
      */
     public function model(): string
     {
-        return Country::class;
+        return Language::class;
     }
 
     /**
@@ -25,6 +25,6 @@ final class CountryRepository extends BaseRepository
      */
     public function boot()
     {
-        $this->pushCriteria(CountryRequestCriteria::class);
+        $this->pushCriteria(LanguageRequestCriteria::class);
     }
 }

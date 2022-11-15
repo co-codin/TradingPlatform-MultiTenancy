@@ -2,9 +2,9 @@
 
 namespace Modules\Geo\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseFormRequest;
 
-class CountryStoreRequest extends FormRequest
+final class CountryStoreRequest extends BaseFormRequest
 {
     /**
      * Get the validation rules that apply to the request.
