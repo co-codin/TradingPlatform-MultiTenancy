@@ -16,7 +16,7 @@ use Illuminate\Support\Arr;
 use Modules\User\Http\Requests\UserCreateRequest;
 use Modules\User\Http\Requests\UserUpdateBatchRequest;
 use Modules\User\Http\Requests\UserUpdateRequest;
-use Modules\User\Http\Resources\WorkerResource;
+use Modules\User\Http\Resources\UserResource;
 use Modules\User\Models\User;
 use Modules\User\Repositories\UserRepository;
 use Modules\User\Services\UserStorage;
@@ -59,7 +59,7 @@ final class UserController extends Controller
         $this->authorize('viewAny', User::class);
         $users = $this->userRepository->jsonPaginate();
 
-        return WorkerResource::collection($users);
+        return UserResource::collection($users);
     }
 
     /**
@@ -95,15 +95,15 @@ final class UserController extends Controller
      * )
      *
      * @param  int  $id
-     * @return WorkerResource
+     * @return UserResource
      * @throws AuthorizationException
      */
-    public function show(int $id): WorkerResource
+    public function show(int $id): UserResource
     {
         $user = $this->userRepository->find($id);
         $this->authorize('view', $user);
 
-        return new WorkerResource($user);
+        return new UserResource($user);
     }
 
     /**
@@ -158,13 +158,13 @@ final class UserController extends Controller
      * )
      * @throws AuthorizationException
      */
-    public function store(UserCreateRequest $request): WorkerResource
+    public function store(UserCreateRequest $request): UserResource
     {
         $this->authorize('create', User::class);
 
         $user = $this->userStorage->store($request->validated());
 
-        return new WorkerResource($user);
+        return new UserResource($user);
     }
 
     /**
@@ -289,7 +289,7 @@ final class UserController extends Controller
      * )
      * @throws AuthorizationException
      */
-    public function update(int $id, UserUpdateRequest $request): WorkerResource
+    public function update(int $id, UserUpdateRequest $request): UserResource
     {
         $user = $this->userRepository->find($id);
 
@@ -297,7 +297,7 @@ final class UserController extends Controller
 
         $user = $this->userStorage->update($user, $request->validated());
 
-        return new WorkerResource($user->load('roles'));
+        return new UserResource($user->load('roles'));
     }
 
     /**
@@ -403,7 +403,7 @@ final class UserController extends Controller
 
         abort_if($users->isEmpty(), ResponseAlias::HTTP_UNAUTHORIZED);
 
-        return WorkerResource::collection($users);
+        return UserResource::collection($users);
     }
 
     /**
@@ -465,7 +465,7 @@ final class UserController extends Controller
 
         abort_if($users->isEmpty(), ResponseAlias::HTTP_UNAUTHORIZED);
 
-        return WorkerResource::collection($users);
+        return UserResource::collection($users);
     }
 
     /**
@@ -543,6 +543,6 @@ final class UserController extends Controller
 
         abort_if($users->isEmpty(), ResponseAlias::HTTP_UNAUTHORIZED);
 
-        return WorkerResource::collection($users);
+        return UserResource::collection($users);
     }
 }

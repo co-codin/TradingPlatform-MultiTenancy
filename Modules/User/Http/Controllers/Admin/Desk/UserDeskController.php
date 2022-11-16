@@ -19,12 +19,12 @@ final class UserDeskController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/admin/users/{id}/desk",
-     *     tags={"User"},
+     *     path="/admin/workers/{id}/desk",
+     *     tags={"Worker"},
      *     security={ {"sanctum": {} }},
-     *     summary="Update user desks",
+     *     summary="Update worker desks",
      *     @OA\Parameter(
-     *         description="User id",
+     *         description="Worker id",
      *         in="path",
      *         name="id",
      *         required=true,

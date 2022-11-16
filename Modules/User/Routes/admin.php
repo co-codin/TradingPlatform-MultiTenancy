@@ -26,23 +26,29 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::put('/workers/{id}/desk', [UserDeskController::class, 'update'])->name('workers.desk.update');
 
     // Brand
-    Route::put('/workers/{id}/brand', [UserBrandController::class, 'update'])->name('workers.brand.update');
+    Route::put('/workers/{id}/brand', [UserBrandController::class, 'update'])->name('users.brand.update');
 
     // Ban
-    Route::patch('/workers/ban', [UserController::class, 'ban'])->name('workers.ban');
-    Route::patch('/workers/unban', [UserController::class, 'unban'])->name('workers.unban');
+    Route::patch('/workers/ban', [UserController::class, 'ban'])->name('users.ban');
+    Route::patch('/workers/unban', [UserController::class, 'unban'])->name('users.unban');
 
     // Batch
-    Route::patch('/workers/update/batch', [UserController::class, 'updateBatch'])->name('workers.batch.update');
+    Route::patch('/workers/update/batch', [UserController::class, 'updateBatch'])->name('users.batch.update');
 
     // Country
-    Route::put('/workers/{id}/country', [UserCountryController::class, 'update'])->name('workers.country.update');
+    Route::put('/workers/{id}/country', [UserCountryController::class, 'update'])->name('users.country.update');
 
     // Department
-    Route::put('/workers/{id}/department', [UserDepartmentController::class, 'update'])->name('workers.department.update');
+    Route::put('/workers/{id}/department', [UserDepartmentController::class, 'update'])->name('users.department.update');
 
     // Language
-    Route::put('/workers/{id}/language', [UserLanguageController::class, 'update'])->name('workers.language.update');
+    Route::put('/workers/{id}/language', [UserLanguageController::class, 'update'])->name('users.language.update');
 
-    Route::apiResource('workers', UserController::class);
+    Route::apiResource('workers', UserController::class)->names([
+        'index' => 'users.index',
+        'show' => 'users.show',
+        'store' => 'users.store',
+        'update' => 'users.update',
+        'destroy' => 'users.destroy',
+    ]);
 });

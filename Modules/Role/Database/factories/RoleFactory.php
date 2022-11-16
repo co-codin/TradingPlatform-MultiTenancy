@@ -21,7 +21,7 @@ class RoleFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'key' => $this->faker->name,
+//            'key' => $this->faker->name,
             'guard_name' => 'api'
         ];
     }

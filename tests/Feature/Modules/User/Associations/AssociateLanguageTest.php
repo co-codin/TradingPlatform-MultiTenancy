@@ -19,7 +19,7 @@ final class AssociateLanguageTest extends TestCase
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
         $user = User::factory()->create();
-        $response = $this->put("/admin/users/$user->id/language", [
+        $response = $this->put("/admin/workers/$user->id/language", [
             'languages' => [
                 Language::factory()->create(),
                 Language::factory()->create(),
@@ -36,7 +36,7 @@ final class AssociateLanguageTest extends TestCase
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
-        $response = $this->put('/admin/users/10/language', [
+        $response = $this->put('/admin/workers/10/language', [
             'languages' => [
                 Language::factory()->create(),
             ],
@@ -53,7 +53,7 @@ final class AssociateLanguageTest extends TestCase
         $this->authenticateUser();
 
         $user = User::factory()->create();
-        $response = $this->put("/admin/users/$user->id/language", [
+        $response = $this->put("/admin/workers/$user->id/language", [
             'languages' => [
                 Language::factory()->create(),
             ],
@@ -67,7 +67,7 @@ final class AssociateLanguageTest extends TestCase
      */
     public function not_unauthorized(): void
     {
-        $response = $this->put('/admin/users/1/language');
+        $response = $this->put('/admin/workers/1/language');
 
         $response->assertUnauthorized();
     }

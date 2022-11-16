@@ -8,6 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Brand\Http\Resources\BrandResource;
 use Modules\Department\Http\Resources\DepartmentResource;
 use Modules\Desk\Http\Resources\DeskResource;
+use Modules\Language\Http\Resources\LanguageResource;
 use Modules\Role\Http\Resources\PermissionResource;
 use Modules\Role\Http\Resources\RoleResource;
 use Modules\User\Models\User;
@@ -70,7 +71,7 @@ use Modules\User\Models\User;
  * @package Modules\User\Http\Resources
  * @mixin User
  */
-final class WorkerResource extends JsonResource
+final class UserResource extends JsonResource
 {
     public function toArray($request)
     {
@@ -80,7 +81,7 @@ final class WorkerResource extends JsonResource
             'brands' => BrandResource::collection($this->whenLoaded('brands')),
             'departments' => DepartmentResource::collection($this->whenLoaded('departments')),
             'desks' => DeskResource::collection($this->whenLoaded('desks')),
-            'languages' => $this->whenLoaded('languages'),
+            'languages' => LanguageResource::collection($this->whenLoaded('languages')),
         ]);
     }
 }

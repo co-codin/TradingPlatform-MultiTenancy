@@ -19,7 +19,7 @@ final class AssociateBrandTest extends TestCase
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
         $user = User::factory()->create();
-        $response = $this->put("/admin/users/$user->id/brand", [
+        $response = $this->put("/admin/workers/$user->id/brand", [
             'brands' => [
                 Brand::factory()->create(),
                 Brand::factory()->create(),
@@ -36,7 +36,7 @@ final class AssociateBrandTest extends TestCase
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
-        $response = $this->put('/admin/users/10/brand', [
+        $response = $this->put('/admin/workers/10/brand', [
             'brands' => [
                 Brand::factory()->create(),
             ],
@@ -53,7 +53,7 @@ final class AssociateBrandTest extends TestCase
         $this->authenticateUser();
 
         $user = User::factory()->create();
-        $response = $this->put("/admin/users/$user->id/brand", [
+        $response = $this->put("/admin/workers/$user->id/brand", [
             'brands' => [
                 Brand::factory()->create(),
             ],
@@ -67,7 +67,7 @@ final class AssociateBrandTest extends TestCase
      */
     public function not_unauthorized(): void
     {
-        $response = $this->put('/admin/users/1/brand');
+        $response = $this->put('/admin/workers/1/brand');
 
         $response->assertUnauthorized();
     }

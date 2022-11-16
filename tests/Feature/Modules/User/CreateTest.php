@@ -21,15 +21,17 @@ final class CreateTest extends TestCase
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::CREATE_USERS));
 
-        $response = $this->post('/admin/users', array_merge(
+        $response = $this->post('/admin/workers', array_merge(
             User::factory()->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
             [
                 'parent_id' => User::all()->random()->id,
                 'password_confirmation' => 'admin',
                 'roles' => [
-                    Role::factory()->create([
-                        'name' => DefaultRole::ADMIN,
-                    ])->toArray(),
+                    [
+                        'id' => Role::factory()->create([
+                            'name' => DefaultRole::ADMIN,
+                        ])->id,
+                    ],
                 ],
             ]
         ));
@@ -59,7 +61,7 @@ final class CreateTest extends TestCase
     {
         $this->authenticateUser();
 
-        $response = $this->post('/admin/users', array_merge(
+        $response = $this->post('/admin/workers', array_merge(
             User::factory()->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
             [
                 'parent_id' => User::all()->random()->id,
@@ -80,7 +82,7 @@ final class CreateTest extends TestCase
      */
     public function not_unauthorized(): void
     {
-        $response = $this->post('/admin/users');
+        $response = $this->post('/admin/workers');
 
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }

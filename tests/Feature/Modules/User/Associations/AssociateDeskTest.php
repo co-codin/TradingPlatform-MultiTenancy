@@ -19,7 +19,7 @@ final class AssociateDeskTest extends TestCase
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
         $user = User::factory()->create();
-        $response = $this->put("/admin/users/$user->id/desk", [
+        $response = $this->put("/admin/workers/$user->id/desk", [
             'desks' => [
                 Desk::factory()->create(),
                 Desk::factory()->create(),
@@ -36,7 +36,7 @@ final class AssociateDeskTest extends TestCase
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
-        $response = $this->put('/admin/users/10/desk', [
+        $response = $this->put('/admin/workers/10/desk', [
             'desks' => [
                 Desk::factory()->create(),
             ],
@@ -53,7 +53,7 @@ final class AssociateDeskTest extends TestCase
         $this->authenticateUser();
 
         $user = User::factory()->create();
-        $response = $this->put("/admin/users/$user->id/desk", [
+        $response = $this->put("/admin/workers/$user->id/desk", [
             'desks' => [
                 Desk::factory()->create(),
             ],
@@ -67,7 +67,7 @@ final class AssociateDeskTest extends TestCase
      */
     public function not_unauthorized(): void
     {
-        $response = $this->put('/admin/users/1/desk');
+        $response = $this->put('/admin/workers/1/desk');
 
         $response->assertUnauthorized();
     }

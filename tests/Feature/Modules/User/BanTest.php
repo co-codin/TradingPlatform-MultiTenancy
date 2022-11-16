@@ -29,7 +29,7 @@ final class BanTest extends TestCase
             $userIds[] = ['id' => $user->id];
         }
 
-        $response = $this->patchJson(route('admin.workers.ban'), ['users' => $userIds]);
+        $response = $this->patchJson(route('admin.users.ban'), ['users' => $userIds]);
 
         $response->assertOk();
 
@@ -56,7 +56,7 @@ final class BanTest extends TestCase
             $userIds[] = ['id' => $user->id];
         }
 
-        $response = $this->patchJson(route('admin.workers.ban'), ['users' => $userIds]);
+        $response = $this->patchJson(route('admin.users.ban'), ['users' => $userIds]);
 
         $response->assertUnauthorized();
     }
@@ -77,7 +77,7 @@ final class BanTest extends TestCase
             $userIds[] = ['id' => $user->id];
         }
 
-        $response = $this->patchJson(route('admin.workers.ban'), ['users' => $userIds]);
+        $response = $this->patchJson(route('admin.users.ban'), ['users' => $userIds]);
 
         $response->assertUnauthorized();
     }
@@ -100,7 +100,7 @@ final class BanTest extends TestCase
             $userIds[] = ['id' => $user->id];
         }
 
-        $response = $this->patchJson(route('admin.workers.unban'), ['users' => $userIds]);
+        $response = $this->patchJson(route('admin.users.unban'), ['users' => $userIds]);
 
         $response->assertOk();
 
@@ -127,7 +127,7 @@ final class BanTest extends TestCase
             $userIds[] = ['id' => $user->id];
         }
 
-        $response = $this->patchJson(route('admin.workers.unban'), ['users' => $userIds]);
+        $response = $this->patchJson(route('admin.users.unban'), ['users' => $userIds]);
 
         $response->assertUnauthorized();
     }
@@ -148,7 +148,7 @@ final class BanTest extends TestCase
             $userIds[] = ['id' => $user->id];
         }
 
-        $response = $this->patchJson(route('admin.workers.ban'), ['users' => $userIds]);
+        $response = $this->patchJson(route('admin.users.ban'), ['users' => $userIds]);
 
         $response->assertUnauthorized();
     }

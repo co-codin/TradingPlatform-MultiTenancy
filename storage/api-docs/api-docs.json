@@ -809,18 +809,18 @@
                 ]
             }
         },
-        "/admin/users/{id}/brand": {
+        "/admin/workers/{id}/brand": {
             "put": {
                 "tags": [
-                    "User"
+                    "Worker"
                 ],
-                "summary": "Update user brands",
-                "operationId": "6223ec1ce9a66b2cf1ec7ba272bf588a",
+                "summary": "Update worker brands",
+                "operationId": "f925d8c3fc4affbee411ed10cf59b255",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "User id",
+                        "description": "Worker id",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -880,18 +880,18 @@
                 ]
             }
         },
-        "/admin/users/{id}/country": {
+        "/admin/workers/{id}/country": {
             "put": {
                 "tags": [
-                    "User"
+                    "Worker"
                 ],
-                "summary": "Update user countries",
-                "operationId": "c33830bcddc9d131d21961413b367fcb",
+                "summary": "Update worker countries",
+                "operationId": "de69e9dad98cbd42520160619ad9ec93",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "User id",
+                        "description": "Worker id",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -951,18 +951,18 @@
                 ]
             }
         },
-        "/admin/users/{id}/department": {
+        "/admin/workers/{id}/department": {
             "put": {
                 "tags": [
-                    "User"
+                    "Worker"
                 ],
-                "summary": "Update user departments",
-                "operationId": "479e28f8b5afdf2bb1894e1961719658",
+                "summary": "Update worker departments",
+                "operationId": "331336218a2f76ceb0720f5e6cbbcca6",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "User id",
+                        "description": "Worker id",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -1022,18 +1022,18 @@
                 ]
             }
         },
-        "/admin/users/{id}/desk": {
+        "/admin/workers/{id}/desk": {
             "put": {
                 "tags": [
-                    "User"
+                    "Worker"
                 ],
-                "summary": "Update user desks",
-                "operationId": "d77641dbce00fb61d0268282b662e7fa",
+                "summary": "Update worker desks",
+                "operationId": "3c369b7abc43a3752e2f6faa4b65cc93",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "User id",
+                        "description": "Worker id",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -1193,18 +1193,18 @@
                 }
             }
         },
-        "/admin/users/{id}/language": {
+        "/admin/workers/{id}/language": {
             "put": {
                 "tags": [
-                    "User"
+                    "Worker"
                 ],
-                "summary": "Update user languages",
-                "operationId": "098a33c066bb27cbb1b72fb7cf8e6fa3",
+                "summary": "Update worker languages",
+                "operationId": "d1983466c95ec4772f21be6e61c69520",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "User id",
+                        "description": "Worker id",
                         "required": true,
                         "schema": {
                             "type": "integer"
