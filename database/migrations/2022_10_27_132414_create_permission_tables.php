@@ -35,7 +35,7 @@ class CreatePermissionTables extends Migration
             $table->string('name')->unique();
         });
 
-        Schema::create('modules', function (Blueprint $table) {
+        Schema::create('models', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->unique();
         });
@@ -43,14 +43,14 @@ class CreatePermissionTables extends Migration
         Schema::create($tableNames['permissions'], function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->foreignId('module_id')->constrained();
+            $table->foreignId('model_id')->constrained();
             $table->foreignId('action_id')->constrained();
             $table->foreignId('column_id')->nullable()->constrained();
 
             $table->string('guard_name');
             $table->timestamps();
 
-            $table->unique(['module_id', 'action_id', 'column_id']);
+            $table->unique(['model_id', 'action_id', 'column_id']);
         });
 
         Schema::create($tableNames['roles'], function (Blueprint $table) use ($teams, $columnNames) {
