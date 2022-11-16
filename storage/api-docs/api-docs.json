@@ -1907,13 +1907,16 @@
                         "example": 1
                     },
                     "created_at": {
-                        "type": "date-time"
+                        "type": "string",
+                        "format": "date-time"
                     },
                     "updated_at": {
-                        "type": "date-time"
+                        "type": "string",
+                        "format": "date-time"
                     },
                     "deleted_at": {
-                        "type": "date-time",
+                        "type": "string",
+                        "format": "date-time",
                         "nullable": true
                     }
                 },
@@ -1976,13 +1979,16 @@
                         "example": "RUS"
                     },
                     "created_at": {
-                        "type": "date-time"
+                        "type": "string",
+                        "format": "date-time"
                     },
                     "updated_at": {
-                        "type": "date-time"
+                        "type": "string",
+                        "format": "date-time"
                     },
                     "deleted_at": {
-                        "type": "date-time",
+                        "type": "string",
+                        "format": "date-time",
                         "nullable": true
                     }
                 },
@@ -2041,13 +2047,16 @@
                         "example": "rus"
                     },
                     "created_at": {
-                        "type": "date-time"
+                        "type": "string",
+                        "format": "date-time"
                     },
                     "updated_at": {
-                        "type": "date-time"
+                        "type": "string",
+                        "format": "date-time"
                     },
                     "deleted_at": {
-                        "type": "date-time",
+                        "type": "string",
+                        "format": "date-time",
                         "nullable": true
                     }
                 },

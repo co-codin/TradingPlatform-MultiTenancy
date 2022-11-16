@@ -29,9 +29,9 @@ use Modules\Geo\Models\Country;
  *     @OA\Property(property="name", type="string", example="Russia"),
  *     @OA\Property(property="iso2", type="string", example="RU"),
  *     @OA\Property(property="iso3", type="string", example="RUS"),
- *     @OA\Property(property="created_at", type="date-time"),
- *     @OA\Property(property="updated_at", type="date-time"),
- *     @OA\Property(property="deleted_at", type="date-time", nullable=true),
+ *     @OA\Property(property="created_at", type="string", format="date-time"),
+ *     @OA\Property(property="updated_at", type="string", format="date-time"),
+ *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true),
  * ),
  *
  * @OA\Schema (
