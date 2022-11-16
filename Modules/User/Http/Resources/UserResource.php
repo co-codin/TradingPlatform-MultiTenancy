@@ -82,6 +82,7 @@ final class UserResource extends JsonResource
             'departments' => DepartmentResource::collection($this->whenLoaded('departments')),
             'desks' => DeskResource::collection($this->whenLoaded('desks')),
             'languages' => LanguageResource::collection($this->whenLoaded('languages')),
+            'display_options' => DisplayOptionResource::collection($this->whenLoaded('displayOptions'))
         ]);
     }
 }

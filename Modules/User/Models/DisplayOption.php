@@ -4,6 +4,7 @@ namespace Modules\User\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\User\Database\factories\UserDisplayOptionFactory;
 
 class DisplayOption extends Model
@@ -16,7 +17,12 @@ class DisplayOption extends Model
         'columns' => 'array',
     ];
 
-    public function user()
+    /**
+     * Display options relation.
+     *
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
