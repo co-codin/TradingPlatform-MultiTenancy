@@ -174,7 +174,7 @@ final class UserController extends Controller
      *     security={ {"sanctum": {} }},
      *     summary="Update a worker",
      *     @OA\Parameter(
-     *         description="User id",
+     *         description="Worker id",
      *         in="path",
      *         name="id",
      *         required=true,
