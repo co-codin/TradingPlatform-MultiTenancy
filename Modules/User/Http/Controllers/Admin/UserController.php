@@ -474,7 +474,7 @@ final class UserController extends Controller
      * @OA\Patch (
      *     path="/admin/users/batch",
      *     tags={"User"},
-     *     summary="Batch update users",
+     *     security={ {"sanctum": {} }},
      *     @OA\Parameter(
      *         description="Users data",
      *         in="path",

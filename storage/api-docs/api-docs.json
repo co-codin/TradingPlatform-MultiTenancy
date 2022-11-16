@@ -479,6 +479,236 @@
                 ]
             }
         },
+        "/admin/languages": {
+            "get": {
+                "tags": [
+                    "Language"
+                ],
+                "summary": "Get languages list",
+                "description": "Returns languages list data.",
+                "operationId": "languages.index",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LanguageCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Language"
+                ],
+                "summary": "Store language",
+                "description": "Returns language data.",
+                "operationId": "languages.store",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name",
+                        "required": true,
+                        "example": "Russia"
+                    },
+                    {
+                        "name": "iso2",
+                        "in": "query",
+                        "description": "ISO2",
+                        "required": true,
+                        "example": "RU"
+                    },
+                    {
+                        "name": "iso3",
+                        "in": "query",
+                        "description": "ISO3",
+                        "required": true,
+                        "example": "RUS"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LanguageResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/languages/{id}": {
+            "get": {
+                "tags": [
+                    "Language"
+                ],
+                "summary": "Get language",
+                "description": "Returns language data.",
+                "operationId": "languages.show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Language id",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LanguageResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Language"
+                ],
+                "summary": "Delete language",
+                "description": "Returns status.",
+                "operationId": "languages.delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Language id",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LanguageResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Language"
+                ],
+                "summary": "Update language",
+                "description": "Returns language data.",
+                "operationId": "languages.update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Language id",
+                        "required": true,
+                        "example": 1
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name",
+                        "required": false,
+                        "example": "Russia"
+                    },
+                    {
+                        "name": "iso2",
+                        "in": "query",
+                        "description": "ISO2",
+                        "required": false,
+                        "example": "RU"
+                    },
+                    {
+                        "name": "iso3",
+                        "in": "query",
+                        "description": "ISO3",
+                        "required": false,
+                        "example": "RUS"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LanguageResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/auth/login": {
             "post": {
                 "tags": [
@@ -1547,7 +1777,6 @@
                 "tags": [
                     "User"
                 ],
-                "summary": "Batch update users",
                 "operationId": "bd6cc12aee0a9dc3c6b44a92eaa40bc3",
                 "parameters": [
                     {
@@ -1630,7 +1859,12 @@
                     "404": {
                         "description": "Not Found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         }
     },
@@ -1673,16 +1907,13 @@
                         "example": 1
                     },
                     "created_at": {
-                        "type": "date-time",
-                        "example": "1970-01-01"
+                        "type": "date-time"
                     },
                     "updated_at": {
-                        "type": "date-time",
-                        "example": "1970-01-01"
+                        "type": "date-time"
                     },
                     "deleted_at": {
                         "type": "date-time",
-                        "example": "1970-01-01",
                         "nullable": true
                     }
                 },
@@ -1745,16 +1976,13 @@
                         "example": "RUS"
                     },
                     "created_at": {
-                        "type": "date-time",
-                        "example": "1970-01-01"
+                        "type": "date-time"
                     },
                     "updated_at": {
-                        "type": "date-time",
-                        "example": "1970-01-01"
+                        "type": "date-time"
                     },
                     "deleted_at": {
                         "type": "date-time",
-                        "example": "1970-01-01",
                         "nullable": true
                     }
                 },
@@ -1781,6 +2009,71 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/Country"
+                    }
+                },
+                "type": "object"
+            },
+            "Language": {
+                "title": "Language",
+                "description": "Language model",
+                "required": [
+                    "id",
+                    "name",
+                    "iso2",
+                    "iso3",
+                    "created_at",
+                    "updated_at",
+                    "deleted_at"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Language.",
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Russian"
+                    },
+                    "code": {
+                        "type": "string",
+                        "example": "rus"
+                    },
+                    "created_at": {
+                        "type": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "date-time"
+                    },
+                    "deleted_at": {
+                        "type": "date-time",
+                        "nullable": true
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Language"
+                }
+            },
+            "LanguageCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Language"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "LanguageResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Language"
                     }
                 },
                 "type": "object"

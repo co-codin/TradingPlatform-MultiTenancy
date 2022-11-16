@@ -18,14 +18,6 @@ final class ReadTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * {@inheritDoc}
-     */
-    public function actingAs(UserContract $user, $guard = null): TestCase
-    {
-        return parent::actingAs($user, $guard ?: User::DEFAULT_AUTH_GUARD);
-    }
-
-    /**
      * Test authorized user can get languages list.
      *
      * @return void
@@ -34,9 +26,11 @@ final class ReadTest extends TestCase
      */
     public function authorized_user_can_get_languages_list(): void
     {
+        $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::VIEW_LANGUAGES));
+
         $language = Language::factory()->create();
 
-        $response = $this->actingAs($this->user)->getJson(route('admin.languages.index'));
+        $response = $this->getJson(route('admin.languages.index'));
 
         $response->assertOk();
 
@@ -76,9 +70,11 @@ final class ReadTest extends TestCase
      */
     public function authorized_user_can_get_language(): void
     {
+        $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::VIEW_LANGUAGES));
+
         $language = Language::factory()->create();
 
-        $response = $this->actingAs($this->user)->getJson(route('admin.languages.show', ['language' => $language->id]));
+        $response = $this->getJson(route('admin.languages.show', ['language' => $language->id]));
 
         $response->assertOk();
 
@@ -118,10 +114,5 @@ final class ReadTest extends TestCase
             'brand-migrate --path=%s',
             "Modules/Brand/DB/Migrations/create_languages_table.php",
         ));
-
-        $this->user = User::factory()->create()
-            ->givePermissionTo(Permission::factory()->create([
-                'name' => LanguagePermission::VIEW_LANGUAGES,
-            ]));
     }
 }

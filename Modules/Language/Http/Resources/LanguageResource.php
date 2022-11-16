@@ -28,9 +28,9 @@ use Modules\Language\Models\Language;
  *     @OA\Property(property="id", type="integer", readOnly="true", example="1"),
  *     @OA\Property(property="name", type="string", example="Russian"),
  *     @OA\Property(property="code", type="string", example="rus"),
- *     @OA\Property(property="created_at", type="date-time", example="1970-01-01"),
- *     @OA\Property(property="updated_at", type="date-time", example="1970-01-01"),
- *     @OA\Property(property="deleted_at", type="date-time", example="1970-01-01", nullable=true),
+ *     @OA\Property(property="created_at", type="date-time"),
+ *     @OA\Property(property="updated_at", type="date-time"),
+ *     @OA\Property(property="deleted_at", type="date-time", nullable=true),
  * ),
  *
  * @OA\Schema (

@@ -15,38 +15,17 @@ class DeleteTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * @inheritDoc
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = User::factory()->create([
-            'email' => 'admin@admin.com'
-        ])
-            ->givePermissionTo(Permission::factory()->create([
-                'name' => DepartmentPermission::DELETE_DEPARTMENTS,
-            ])?->name);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function actingAs(UserContract $user, $guard = null): TestCase
-    {
-        return parent::actingAs($user, $guard ?: User::DEFAULT_AUTH_GUARD);
-    }
-
-    /**
      * Test authorized user can delete department.
      *
      * @return void
      */
     public function test_authorized_user_can_delete_department(): void
     {
+        $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::DELETE_DEPARTMENTS));
+
         $department = Department::factory()->create();
 
-        $response = $this->actingAs($this->user)->deleteJson(route('admin.departments.destroy', ['department' => $department->id]));
+        $response = $this->deleteJson(route('admin.departments.destroy', ['department' => $department->id]));
 
         $response->assertNoContent();
     }

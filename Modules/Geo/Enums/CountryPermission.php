@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Geo\Enums;
 
+use App\Enums\BaseEnum;
 use Modules\Role\Contracts\PermissionEnum;
 
-final class CountryPermission implements PermissionEnum
+final class CountryPermission extends BaseEnum implements PermissionEnum
 {
     /**
      * @var string

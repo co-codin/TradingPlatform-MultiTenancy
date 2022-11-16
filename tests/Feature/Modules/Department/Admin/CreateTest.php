@@ -15,38 +15,17 @@ class CreateTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * @inheritDoc
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = User::factory()->create([
-            'email' => 'admin@admin.com'
-        ])
-            ->givePermissionTo(Permission::factory()->create([
-                'name' => DepartmentPermission::CREATE_DEPARTMENTS,
-            ])?->name);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function actingAs(UserContract $user, $guard = null): TestCase
-    {
-        return parent::actingAs($user, $guard ?: User::DEFAULT_AUTH_GUARD);
-    }
-
-    /**
      * Test authorized user can create department.
      *
      * @return void
      */
     public function test_authorized_user_can_create_department(): void
     {
+        $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::CREATE_DEPARTMENTS));
+
         $data = Department::factory()->make();
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.departments.store'), $data->toArray());
+        $response = $this->postJson(route('admin.departments.store'), $data->toArray());
 
         $response->assertCreated();
 
@@ -81,11 +60,13 @@ class CreateTest extends TestCase
      */
     public function test_department_name_exist(): void
     {
+        $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::CREATE_DEPARTMENTS));
+
         $department = Department::factory()->create();
 
         $data = Department::factory()->make(['name' => $department->name]);
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.departments.store'), $data->toArray());
+        $response = $this->postJson(route('admin.departments.store'), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -97,11 +78,13 @@ class CreateTest extends TestCase
      */
     public function test_department_title_exist(): void
     {
+        $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::CREATE_DEPARTMENTS));
+
         $department = Department::factory()->create();
 
         $data = Department::factory()->make(['title' => $department->title]);
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.departments.store'), $data->toArray());
+        $response = $this->postJson(route('admin.departments.store'), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -113,10 +96,12 @@ class CreateTest extends TestCase
      */
     public function test_department_name_is_required(): void
     {
+        $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::CREATE_DEPARTMENTS));
+
         $data = Department::factory()->make()->toArray();
         unset($data['name']);
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.departments.store'), $data);
+        $response = $this->postJson(route('admin.departments.store'), $data);
 
         $response->assertUnprocessable();
     }
@@ -128,10 +113,12 @@ class CreateTest extends TestCase
      */
     public function test_department_title_is_required(): void
     {
+        $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::CREATE_DEPARTMENTS));
+
         $data = Department::factory()->make()->toArray();
         unset($data['title']);
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.departments.store'), $data);
+        $response = $this->postJson(route('admin.departments.store'), $data);
 
         $response->assertUnprocessable();
     }
@@ -143,10 +130,12 @@ class CreateTest extends TestCase
      */
     public function test_department_name_is_string(): void
     {
+        $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::CREATE_DEPARTMENTS));
+
         $data = Department::factory()->make();
         $data->name = 1;
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.departments.store'), $data->toArray());
+        $response = $this->postJson(route('admin.departments.store'), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -158,10 +147,12 @@ class CreateTest extends TestCase
      */
     public function test_department_title_is_string(): void
     {
+        $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::CREATE_DEPARTMENTS));
+
         $data = Department::factory()->make();
         $data->title = 1;
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.departments.store'), $data->toArray());
+        $response = $this->postJson(route('admin.departments.store'), $data->toArray());
 
         $response->assertUnprocessable();
     }

@@ -29,9 +29,9 @@ use Modules\Department\Models\Department;
  *     @OA\Property(property="title", type="string", example="Title"),
  *     @OA\Property(property="is_active", type="boolean", example=1),
  *     @OA\Property(property="is_default", type="boolean", example=1),
- *     @OA\Property(property="created_at", type="date-time", example="1970-01-01"),
- *     @OA\Property(property="updated_at", type="date-time", example="1970-01-01"),
- *     @OA\Property(property="deleted_at", type="date-time", example="1970-01-01", nullable=true),
+ *     @OA\Property(property="created_at", type="date-time"),
+ *     @OA\Property(property="updated_at", type="date-time"),
+ *     @OA\Property(property="deleted_at", type="date-time", nullable=true),
  * ),
  *
  * @OA\Schema (
