@@ -15,38 +15,17 @@ class ReadTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * @inheritDoc
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = User::factory()->create([
-                'email' => 'admin@admin.com'
-            ])
-            ->givePermissionTo(Permission::factory()->create([
-                'name' => DepartmentPermission::VIEW_DEPARTMENTS,
-            ])?->name);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function actingAs(UserContract $user, $guard = null): TestCase
-    {
-        return parent::actingAs($user, $guard ?: User::DEFAULT_AUTH_GUARD);
-    }
-
-    /**
      * Test authorized user can get departments list.
      *
      * @return void
      */
     public function test_authorized_user_can_get_departments_list(): void
     {
+        $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::VIEW_DEPARTMENTS));
+
         $department = Department::factory()->create();
 
-        $response = $this->actingAs($this->user)->getJson(route('admin.departments.index'));
+        $response = $this->getJson(route('admin.departments.index'));
 
         $response->assertOk();
 
@@ -82,9 +61,11 @@ class ReadTest extends TestCase
      */
     public function test_authorized_user_can_get_country(): void
     {
+        $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::VIEW_DEPARTMENTS));
+
         $department = Department::factory()->create();
 
-        $response = $this->actingAs($this->user)->getJson(route('admin.departments.show', ['department' => $department->id]));
+        $response = $this->getJson(route('admin.departments.show', ['department' => $department->id]));
 
         $response->assertOk();
 

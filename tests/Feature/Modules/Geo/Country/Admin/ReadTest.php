@@ -15,14 +15,6 @@ class ReadTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * {@inheritDoc}
-     */
-    public function actingAs(UserContract $user, $guard = null): TestCase
-    {
-        return parent::actingAs($user, $guard ?: User::DEFAULT_AUTH_GUARD);
-    }
-
-    /**
      * Test authorized user can get countries list.
      *
      * @return void
@@ -31,9 +23,11 @@ class ReadTest extends TestCase
      */
     public function authorized_user_can_get_countries_list(): void
     {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
+
         $country = Country::factory()->create();
 
-        $response = $this->actingAs($this->user)->getJson(route('admin.countries.index'));
+        $response = $this->getJson(route('admin.countries.index'));
 
         $response->assertOk();
 
@@ -74,9 +68,11 @@ class ReadTest extends TestCase
      */
     public function authorized_user_can_get_country(): void
     {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
+
         $country = Country::factory()->create();
 
-        $response = $this->actingAs($this->user)->getJson(route('admin.countries.show', ['country' => $country->id]));
+        $response = $this->getJson(route('admin.countries.show', ['country' => $country->id]));
 
         $response->assertOk();
 
@@ -104,20 +100,5 @@ class ReadTest extends TestCase
         $response = $this->getJson(route('admin.countries.show', ['country' => $country->id]));
 
         $response->assertUnauthorized();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = User::factory()->create([
-            'email' => 'admin@admin.com',
-        ])
-            ->givePermissionTo(Permission::factory()->create([
-                'name' => CountryPermission::VIEW_COUNTRIES,
-            ])?->name);
     }
 }

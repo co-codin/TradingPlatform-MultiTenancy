@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Language\Enums;
 
+use App\Enums\BaseEnum;
 use Modules\Role\Contracts\PermissionEnum;
 
-final class LanguagePermission implements PermissionEnum
+final class LanguagePermission extends BaseEnum implements PermissionEnum
 {
     /**
      * @var string

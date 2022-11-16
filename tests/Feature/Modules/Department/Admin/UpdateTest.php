@@ -15,39 +15,18 @@ class UpdateTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * @inheritDoc
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = User::factory()->create([
-            'email' => 'admin@admin.com'
-        ])
-            ->givePermissionTo(Permission::factory()->create([
-                'name' => DepartmentPermission::EDIT_DEPARTMENTS,
-            ])?->name);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function actingAs(UserContract $user, $guard = null): TestCase
-    {
-        return parent::actingAs($user, $guard ?: User::DEFAULT_AUTH_GUARD);
-    }
-
-    /**
      * Test authorized user can update department.
      *
      * @return void
      */
     public function test_authorized_user_can_update_department(): void
     {
+        $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::EDIT_DEPARTMENTS));
+
         $department = Department::factory()->create();
         $data = Department::factory()->make();
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.departments.update', ['department' => $department->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.departments.update', ['department' => $department->id]), $data->toArray());
 
         $response->assertOk();
 
@@ -68,6 +47,8 @@ class UpdateTest extends TestCase
      */
     public function test_unauthorized_user_cant_update_department(): void
     {
+        $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::EDIT_DEPARTMENTS));
+
         $department = Department::factory()->create();
         $data = Department::factory()->make();
 
@@ -83,11 +64,13 @@ class UpdateTest extends TestCase
      */
     public function test_department_name_exist(): void
     {
+        $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::EDIT_DEPARTMENTS));
+
         $department = Department::factory()->create();
         $targetDepartment = Department::factory()->create();
         $data = Department::factory()->make(['name' => $department->name]);
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.departments.update', ['department' => $targetDepartment->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.departments.update', ['department' => $targetDepartment->id]), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -99,11 +82,13 @@ class UpdateTest extends TestCase
      */
     public function test_department_title_exist(): void
     {
+        $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::EDIT_DEPARTMENTS));
+
         $department = Department::factory()->create();
         $targetDepartment = Department::factory()->create();
         $data = Department::factory()->make(['title' => $department->title]);
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.departments.update', ['department' => $targetDepartment->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.departments.update', ['department' => $targetDepartment->id]), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -115,10 +100,12 @@ class UpdateTest extends TestCase
      */
     public function test_department_name_is_filled(): void
     {
+        $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::EDIT_DEPARTMENTS));
+
         $department = Department::factory()->create();
         $data = Department::factory()->make(['name' => null])->toArray();
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.departments.update', ['department' => $department->id]), $data);
+        $response = $this->patchJson(route('admin.departments.update', ['department' => $department->id]), $data);
 
         $response->assertUnprocessable();
     }
@@ -130,10 +117,12 @@ class UpdateTest extends TestCase
      */
     public function test_department_title_is_filled(): void
     {
+        $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::EDIT_DEPARTMENTS));
+
         $department = Department::factory()->create();
         $data = Department::factory()->make(['title' => null])->toArray();
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.departments.update', ['department' => $department->id]), $data);
+        $response = $this->patchJson(route('admin.departments.update', ['department' => $department->id]), $data);
 
         $response->assertUnprocessable();
     }
@@ -145,11 +134,13 @@ class UpdateTest extends TestCase
      */
     public function test_department_name_is_string(): void
     {
+        $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::EDIT_DEPARTMENTS));
+
         $department = Department::factory()->create();
         $data = Department::factory()->make();
         $data->name = 1;
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.departments.update', ['department' => $department->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.departments.update', ['department' => $department->id]), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -161,11 +152,13 @@ class UpdateTest extends TestCase
      */
     public function test_department_title_is_string(): void
     {
+        $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::EDIT_DEPARTMENTS));
+
         $department = Department::factory()->create();
         $data = Department::factory()->make();
         $data->title = 1;
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.departments.update', ['department' => $department->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.departments.update', ['department' => $department->id]), $data->toArray());
 
         $response->assertUnprocessable();
     }

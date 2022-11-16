@@ -15,14 +15,6 @@ class UpdateTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * {@inheritDoc}
-     */
-    public function actingAs(UserContract $user, $guard = null): TestCase
-    {
-        return parent::actingAs($user, $guard ?: User::DEFAULT_AUTH_GUARD);
-    }
-
-    /**
      * Test authorized user can update country.
      *
      * @return void
@@ -31,10 +23,12 @@ class UpdateTest extends TestCase
      */
     public function authorized_user_can_update_country(): void
     {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
+
         $country = Country::factory()->create();
         $data = Country::factory()->make();
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.countries.update', ['country' => $country->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.countries.update', ['country' => $country->id]), $data->toArray());
 
         $response->assertOk();
 
@@ -73,11 +67,13 @@ class UpdateTest extends TestCase
      */
     public function country_name_exist(): void
     {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
+
         $country = Country::factory()->create();
         $targetCountry = Country::factory()->create();
         $data = Country::factory()->make(['name' => $country->name]);
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.countries.update', ['country' => $targetCountry->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.countries.update', ['country' => $targetCountry->id]), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -91,11 +87,13 @@ class UpdateTest extends TestCase
      */
     public function country_iso2_exist(): void
     {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
+
         $country = Country::factory()->create();
         $targetCountry = Country::factory()->create();
         $data = Country::factory()->make(['iso2' => $country->iso2]);
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.countries.update', ['country' => $targetCountry->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.countries.update', ['country' => $targetCountry->id]), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -109,11 +107,13 @@ class UpdateTest extends TestCase
      */
     public function country_iso3_exist(): void
     {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
+
         $country = Country::factory()->create();
         $targetCountry = Country::factory()->create();
         $data = Country::factory()->make(['iso3' => $country->iso3]);
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.countries.update', ['country' => $targetCountry->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.countries.update', ['country' => $targetCountry->id]), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -127,10 +127,12 @@ class UpdateTest extends TestCase
      */
     public function country_name_is_filled(): void
     {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
+
         $country = Country::factory()->create();
         $data = Country::factory()->make(['name' => null])->toArray();
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.countries.update', ['country' => $country->id]), $data);
+        $response = $this->patchJson(route('admin.countries.update', ['country' => $country->id]), $data);
 
         $response->assertUnprocessable();
     }
@@ -144,10 +146,12 @@ class UpdateTest extends TestCase
      */
     public function country_iso2_is_filled(): void
     {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
+
         $country = Country::factory()->create();
         $data = Country::factory()->make(['iso2' => null])->toArray();
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.countries.update', ['country' => $country->id]), $data);
+        $response = $this->patchJson(route('admin.countries.update', ['country' => $country->id]), $data);
 
         $response->assertUnprocessable();
     }
@@ -161,10 +165,12 @@ class UpdateTest extends TestCase
      */
     public function country_iso3_is_filled(): void
     {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
+
         $country = Country::factory()->create();
         $data = Country::factory()->make(['iso3' => null])->toArray();
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.countries.update', ['country' => $country->id]), $data);
+        $response = $this->patchJson(route('admin.countries.update', ['country' => $country->id]), $data);
 
         $response->assertUnprocessable();
     }
@@ -178,11 +184,13 @@ class UpdateTest extends TestCase
      */
     public function country_name_is_string(): void
     {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
+
         $country = Country::factory()->create();
         $data = Country::factory()->make();
         $data->name = 1;
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.countries.update', ['country' => $country->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.countries.update', ['country' => $country->id]), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -196,11 +204,13 @@ class UpdateTest extends TestCase
      */
     public function country_iso2_is_string(): void
     {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
+
         $country = Country::factory()->create();
         $data = Country::factory()->make();
         $data->iso2 = 1;
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.countries.update', ['country' => $country->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.countries.update', ['country' => $country->id]), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -214,27 +224,14 @@ class UpdateTest extends TestCase
      */
     public function country_iso3_is_string(): void
     {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
+
         $country = Country::factory()->create();
         $data = Country::factory()->make();
         $data->iso3 = 1;
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.countries.update', ['country' => $country->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.countries.update', ['country' => $country->id]), $data->toArray());
 
         $response->assertUnprocessable();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = User::factory()->create([
-            'email' => 'admin@admin.com',
-        ])
-            ->givePermissionTo(Permission::factory()->create([
-                'name' => CountryPermission::EDIT_COUNTRIES,
-            ])?->name);
     }
 }

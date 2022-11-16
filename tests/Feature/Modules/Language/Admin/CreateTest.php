@@ -19,14 +19,6 @@ final class CreateTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * {@inheritDoc}
-     */
-    public function actingAs(UserContract $user, $guard = null): TestCase
-    {
-        return parent::actingAs($user, $guard ?: User::DEFAULT_AUTH_GUARD);
-    }
-
-    /**
      * Test authorized user can create language.
      *
      * @return void
@@ -35,9 +27,11 @@ final class CreateTest extends TestCase
      */
     public function authorized_user_can_create_language(): void
     {
+        $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::CREATE_LANGUAGES));
+
         $data = Language::factory()->make();
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.languages.store'), $data->toArray());
+        $response = $this->postJson(route('admin.languages.store'), $data->toArray());
 
         $response->assertCreated();
 
@@ -74,11 +68,13 @@ final class CreateTest extends TestCase
      */
     public function language_name_exist(): void
     {
+        $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::CREATE_LANGUAGES));
+
         $language = Language::factory()->create();
 
         $data = Language::factory()->make(['name' => $language->name]);
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.languages.store'), $data->toArray());
+        $response = $this->postJson(route('admin.languages.store'), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -92,11 +88,13 @@ final class CreateTest extends TestCase
      */
     public function language_code_exist(): void
     {
+        $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::CREATE_LANGUAGES));
+
         $language = Language::factory()->create();
 
         $data = Language::factory()->make(['code' => $language->code]);
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.languages.store'), $data->toArray());
+        $response = $this->postJson(route('admin.languages.store'), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -110,10 +108,12 @@ final class CreateTest extends TestCase
      */
     public function language_name_is_required(): void
     {
+        $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::CREATE_LANGUAGES));
+
         $data = Language::factory()->make()->toArray();
         unset($data['name']);
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.languages.store'), $data);
+        $response = $this->postJson(route('admin.languages.store'), $data);
 
         $response->assertUnprocessable();
     }
@@ -127,10 +127,12 @@ final class CreateTest extends TestCase
      */
     public function language_code_is_required(): void
     {
+        $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::CREATE_LANGUAGES));
+
         $data = Language::factory()->make()->toArray();
         unset($data['code']);
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.languages.store'), $data);
+        $response = $this->postJson(route('admin.languages.store'), $data);
 
         $response->assertUnprocessable();
     }
@@ -144,10 +146,12 @@ final class CreateTest extends TestCase
      */
     public function language_name_is_string(): void
     {
+        $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::CREATE_LANGUAGES));
+
         $data = Language::factory()->make();
         $data->name = 1;
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.languages.store'), $data->toArray());
+        $response = $this->postJson(route('admin.languages.store'), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -161,10 +165,12 @@ final class CreateTest extends TestCase
      */
     public function language_code_is_string(): void
     {
+        $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::CREATE_LANGUAGES));
+
         $data = Language::factory()->make();
         $data->code = 1;
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.languages.store'), $data->toArray());
+        $response = $this->postJson(route('admin.languages.store'), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -180,10 +186,5 @@ final class CreateTest extends TestCase
             'brand-migrate --path=%s',
             "Modules/Brand/DB/Migrations/create_languages_table.php",
         ));
-
-        $this->user = User::factory()->create()
-            ->givePermissionTo(Permission::factory()->create([
-                'name' => LanguagePermission::CREATE_LANGUAGES,
-            ]));
     }
 }

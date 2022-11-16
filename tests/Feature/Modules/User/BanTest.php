@@ -20,6 +20,8 @@ final class BanTest extends TestCase
      */
     public function authorized_user_can_ban_user(): void
     {
+        $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::BAN_USERS));
+
         $userData = User::factory(3)->create();
         $userIds = [];
 
@@ -27,8 +29,7 @@ final class BanTest extends TestCase
             $userIds[] = ['id' => $user->id];
         }
 
-        $response = $this->actingAs($this->user, User::DEFAULT_AUTH_GUARD)
-            ->patchJson(
+        $response = $this->patchJson(
                 route('admin.users.ban', ['user' => $this->user->id]),
                 ['users' => $userIds],
             );
@@ -49,6 +50,8 @@ final class BanTest extends TestCase
      */
     public function authorized_user_without_permission_cant_ban_user(): void
     {
+        $this->authenticateUser();
+
         $userData = User::factory(3)->create();
         $userIds = [];
 
@@ -56,8 +59,7 @@ final class BanTest extends TestCase
             $userIds[] = ['id' => $user->id];
         }
 
-        $response = $this->actingAs(User::factory()->create(), User::DEFAULT_AUTH_GUARD)
-            ->patchJson(
+        $response = $this->patchJson(
                 route('admin.users.ban', ['user' => $this->user->id]),
                 ['users' => $userIds],
             );
@@ -98,6 +100,8 @@ final class BanTest extends TestCase
      */
     public function authorized_user_can_unban_user(): void
     {
+        $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::BAN_USERS));
+
         $userData = User::factory(3)->create();
         $userIds = [];
 
@@ -105,8 +109,7 @@ final class BanTest extends TestCase
             $userIds[] = ['id' => $user->id];
         }
 
-        $response = $this->actingAs($this->user, User::DEFAULT_AUTH_GUARD)
-            ->patchJson(
+        $response = $this->patchJson(
                 route('admin.users.unban', ['user' => $this->user->id]),
                 ['users' => $userIds],
             );
@@ -127,6 +130,8 @@ final class BanTest extends TestCase
      */
     public function authorized_user_without_permission_cant_unban_user(): void
     {
+        $this->authenticateUser();
+
         $userData = User::factory(3)->create();
         $userIds = [];
 
@@ -134,8 +139,7 @@ final class BanTest extends TestCase
             $userIds[] = ['id' => $user->id];
         }
 
-        $response = $this->actingAs(User::factory()->create(), User::DEFAULT_AUTH_GUARD)
-            ->patchJson(
+        $response = $this->patchJson(
                 route('admin.users.unban', ['user' => $this->user->id]),
                 ['users' => $userIds],
             );
@@ -159,24 +163,13 @@ final class BanTest extends TestCase
             $userIds[] = ['id' => $user->id];
         }
 
+        $user = User::factory()->create();
+
         $response = $this->patchJson(
-            route('admin.users.unban', ['user' => $this->user->id]),
+            route('admin.users.unban', ['user' => $user->id]),
             ['users' => $userIds],
         );
 
         $response->assertUnauthorized();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = User::factory()->create()
-            ->givePermissionTo(Permission::factory()->create([
-                'name' => UserPermission::BAN_USERS,
-            ]));
     }
 }

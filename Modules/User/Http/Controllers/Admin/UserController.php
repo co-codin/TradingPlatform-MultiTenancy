@@ -467,6 +467,7 @@ final class UserController extends Controller
      * @OA\Patch (
      *     path="/admin/users/{userId}/update/batch",
      *     tags={"User"},
+     *     security={ {"sanctum": {} }},
      *     summary="Unban a user",
      *     @OA\Parameter(
      *         description="User id",

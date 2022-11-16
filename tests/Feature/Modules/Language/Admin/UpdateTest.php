@@ -18,14 +18,6 @@ final class UpdateTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * {@inheritDoc}
-     */
-    public function actingAs(UserContract $user, $guard = null): TestCase
-    {
-        return parent::actingAs($user, $guard ?: User::DEFAULT_AUTH_GUARD);
-    }
-
-    /**
      * Test authorized user can update language.
      *
      * @return void
@@ -34,10 +26,12 @@ final class UpdateTest extends TestCase
      */
     public function authorized_user_can_update_language(): void
     {
+        $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::EDIT_LANGUAGES));
+
         $language = Language::factory()->create();
         $data = Language::factory()->make();
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.languages.update', ['language' => $language->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.languages.update', ['language' => $language->id]), $data->toArray());
 
         $response->assertOk();
 
@@ -75,11 +69,13 @@ final class UpdateTest extends TestCase
      */
     public function language_name_exist(): void
     {
+        $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::EDIT_LANGUAGES));
+
         $language = Language::factory()->create();
         $targetLanguage = Language::factory()->create();
         $data = Language::factory()->make(['name' => $language->name]);
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.languages.update', ['language' => $targetLanguage->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.languages.update', ['language' => $targetLanguage->id]), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -93,11 +89,13 @@ final class UpdateTest extends TestCase
      */
     public function language_code_exist(): void
     {
+        $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::EDIT_LANGUAGES));
+
         $language = Language::factory()->create();
         $targetLanguage = Language::factory()->create();
         $data = Language::factory()->make(['code' => $language->code]);
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.languages.update', ['language' => $targetLanguage->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.languages.update', ['language' => $targetLanguage->id]), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -111,10 +109,12 @@ final class UpdateTest extends TestCase
      */
     public function language_name_is_filled(): void
     {
+        $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::EDIT_LANGUAGES));
+
         $language = Language::factory()->create();
         $data = Language::factory()->make(['name' => null])->toArray();
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.languages.update', ['language' => $language->id]), $data);
+        $response = $this->patchJson(route('admin.languages.update', ['language' => $language->id]), $data);
 
         $response->assertUnprocessable();
     }
@@ -128,10 +128,12 @@ final class UpdateTest extends TestCase
      */
     public function language_code_is_filled(): void
     {
+        $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::EDIT_LANGUAGES));
+
         $language = Language::factory()->create();
         $data = Language::factory()->make(['code' => null])->toArray();
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.languages.update', ['language' => $language->id]), $data);
+        $response = $this->patchJson(route('admin.languages.update', ['language' => $language->id]), $data);
 
         $response->assertUnprocessable();
     }
@@ -145,11 +147,13 @@ final class UpdateTest extends TestCase
      */
     public function language_name_is_string(): void
     {
+        $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::EDIT_LANGUAGES));
+
         $language = Language::factory()->create();
         $data = Language::factory()->make();
         $data->name = 1;
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.languages.update', ['language' => $language->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.languages.update', ['language' => $language->id]), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -163,11 +167,13 @@ final class UpdateTest extends TestCase
      */
     public function language_code_is_string(): void
     {
+        $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::EDIT_LANGUAGES));
+
         $language = Language::factory()->create();
         $data = Language::factory()->make();
         $data->code = 1;
 
-        $response = $this->actingAs($this->user)->patchJson(route('admin.languages.update', ['language' => $language->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.languages.update', ['language' => $language->id]), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -183,10 +189,5 @@ final class UpdateTest extends TestCase
             'brand-migrate --path=%s',
             "Modules/Brand/DB/Migrations/create_languages_table.php",
         ));
-
-        $this->user = User::factory()->create()
-            ->givePermissionTo(Permission::factory()->create([
-                'name' => LanguagePermission::EDIT_LANGUAGES,
-            ]));
     }
 }

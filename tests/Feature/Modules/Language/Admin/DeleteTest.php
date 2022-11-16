@@ -18,14 +18,6 @@ final class DeleteTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * {@inheritDoc}
-     */
-    public function actingAs(UserContract $user, $guard = null): TestCase
-    {
-        return parent::actingAs($user, $guard ?: User::DEFAULT_AUTH_GUARD);
-    }
-
-    /**
      * Test authorized user can delete language.
      *
      * @return void
@@ -34,9 +26,11 @@ final class DeleteTest extends TestCase
      */
     public function authorized_user_can_delete_language(): void
     {
+        $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::DELETE_LANGUAGES));
+
         $language = Language::factory()->create();
 
-        $response = $this->actingAs($this->user)->deleteJson(route('admin.languages.destroy', ['language' => $language->id]));
+        $response = $this->deleteJson(route('admin.languages.destroy', ['language' => $language->id]));
 
         $response->assertNoContent();
     }
@@ -68,10 +62,5 @@ final class DeleteTest extends TestCase
             'brand-migrate --path=%s',
             "Modules/Brand/DB/Migrations/create_languages_table.php",
         ));
-
-        $this->user = User::factory()->create()
-            ->givePermissionTo(Permission::factory()->create([
-                'name' => LanguagePermission::DELETE_LANGUAGES,
-            ]));
     }
 }

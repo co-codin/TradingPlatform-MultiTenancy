@@ -2,9 +2,10 @@
 
 namespace Modules\Department\Enums;
 
+use App\Enums\BaseEnum;
 use Modules\Role\Contracts\PermissionEnum;
 
-class DepartmentPermission implements PermissionEnum
+class DepartmentPermission extends BaseEnum implements PermissionEnum
 {
     /**
      * @var string

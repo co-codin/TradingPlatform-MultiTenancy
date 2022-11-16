@@ -15,14 +15,6 @@ class CreateTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * {@inheritDoc}
-     */
-    public function actingAs(UserContract $user, $guard = null): TestCase
-    {
-        return parent::actingAs($user, $guard ?: User::DEFAULT_AUTH_GUARD);
-    }
-
-    /**
      * Test authorized user can create country.
      *
      * @return void
@@ -31,9 +23,11 @@ class CreateTest extends TestCase
      */
     public function authorized_user_can_create_country(): void
     {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
+
         $data = Country::factory()->make();
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.countries.store'), $data->toArray());
+        $response = $this->postJson(route('admin.countries.store'), $data->toArray());
 
         $response->assertCreated();
 
@@ -71,11 +65,13 @@ class CreateTest extends TestCase
      */
     public function country_name_exist(): void
     {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
+
         $country = Country::factory()->create();
 
         $data = Country::factory()->make(['name' => $country->name]);
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.countries.store'), $data->toArray());
+        $response = $this->postJson(route('admin.countries.store'), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -89,11 +85,13 @@ class CreateTest extends TestCase
      */
     public function country_iso2_exist(): void
     {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
+
         $country = Country::factory()->create();
 
         $data = Country::factory()->make(['iso2' => $country->iso2]);
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.countries.store'), $data->toArray());
+        $response = $this->postJson(route('admin.countries.store'), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -107,11 +105,13 @@ class CreateTest extends TestCase
      */
     public function country_iso3_exist(): void
     {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
+
         $country = Country::factory()->create();
 
         $data = Country::factory()->make(['iso3' => $country->iso3]);
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.countries.store'), $data->toArray());
+        $response = $this->postJson(route('admin.countries.store'), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -125,10 +125,12 @@ class CreateTest extends TestCase
      */
     public function country_name_is_required(): void
     {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
+
         $data = Country::factory()->make()->toArray();
         unset($data['name']);
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.countries.store'), $data);
+        $response = $this->postJson(route('admin.countries.store'), $data);
 
         $response->assertUnprocessable();
     }
@@ -142,10 +144,12 @@ class CreateTest extends TestCase
      */
     public function country_iso2_is_required(): void
     {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
+
         $data = Country::factory()->make()->toArray();
         unset($data['iso2']);
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.countries.store'), $data);
+        $response = $this->postJson(route('admin.countries.store'), $data);
 
         $response->assertUnprocessable();
     }
@@ -159,10 +163,12 @@ class CreateTest extends TestCase
      */
     public function country_iso3_is_required(): void
     {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
+
         $data = Country::factory()->make()->toArray();
         unset($data['iso3']);
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.countries.store'), $data);
+        $response = $this->postJson(route('admin.countries.store'), $data);
 
         $response->assertUnprocessable();
     }
@@ -176,10 +182,12 @@ class CreateTest extends TestCase
      */
     public function country_name_is_string(): void
     {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
+
         $data = Country::factory()->make();
         $data->name = 1;
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.countries.store'), $data->toArray());
+        $response = $this->postJson(route('admin.countries.store'), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -193,10 +201,12 @@ class CreateTest extends TestCase
      */
     public function country_iso2_is_string(): void
     {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
+
         $data = Country::factory()->make();
         $data->iso2 = 1;
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.countries.store'), $data->toArray());
+        $response = $this->postJson(route('admin.countries.store'), $data->toArray());
 
         $response->assertUnprocessable();
     }
@@ -210,26 +220,13 @@ class CreateTest extends TestCase
      */
     public function country_iso3_is_string(): void
     {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
+
         $data = Country::factory()->make();
         $data->iso3 = 1;
 
-        $response = $this->actingAs($this->user)->postJson(route('admin.countries.store'), $data->toArray());
+        $response = $this->postJson(route('admin.countries.store'), $data->toArray());
 
         $response->assertUnprocessable();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = User::factory()->create([
-            'email' => 'admin@admin.com',
-        ])
-            ->givePermissionTo(Permission::factory()->create([
-                'name' => CountryPermission::CREATE_COUNTRIES,
-            ])?->name);
     }
 }

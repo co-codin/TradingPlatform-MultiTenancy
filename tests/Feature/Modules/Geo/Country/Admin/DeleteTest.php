@@ -15,14 +15,6 @@ class DeleteTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * {@inheritDoc}
-     */
-    public function actingAs(UserContract $user, $guard = null): TestCase
-    {
-        return parent::actingAs($user, $guard ?: User::DEFAULT_AUTH_GUARD);
-    }
-
-    /**
      * Test authorized user can delete country.
      *
      * @return void
@@ -31,9 +23,11 @@ class DeleteTest extends TestCase
      */
     public function authorized_user_can_delete_country(): void
     {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::DELETE_COUNTRIES));
+
         $country = Country::factory()->create();
 
-        $response = $this->actingAs($this->user)->deleteJson(route('admin.countries.destroy', ['country' => $country->id]));
+        $response = $this->deleteJson(route('admin.countries.destroy', ['country' => $country->id]));
 
         $response->assertNoContent();
     }
@@ -52,20 +46,5 @@ class DeleteTest extends TestCase
         $response = $this->patchJson(route('admin.countries.destroy', ['country' => $country->id]));
 
         $response->assertUnauthorized();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = User::factory()->create([
-            'email' => 'admin@admin.com',
-        ])
-            ->givePermissionTo(Permission::factory()->create([
-                'name' => CountryPermission::DELETE_COUNTRIES,
-            ])?->name);
     }
 }
