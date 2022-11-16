@@ -24,16 +24,17 @@ final class UpdateTest extends TestCase
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
         $user = User::factory()->create();
-        $response = $this->put("/admin/users/$user->id", array_merge(
-            User::factory()->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
+        $response = $this->put("/admin/workers/$user->id", array_merge(
+            User::factory()->withParent()->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
             [
-                'parent_id' => User::inRandomOrder()->first()->id,
                 'change_password' => true,
                 'password_confirmation' => 'admin',
                 'roles' => [
-                    Role::factory()->create([
-                        'name' => DefaultRole::ADMIN,
-                    ])->toArray(),
+                    [
+                        'id' => Role::factory()->create([
+                            'name' => DefaultRole::ADMIN,
+                        ])->id,
+                    ],
                 ],
             ]
         ));
@@ -66,16 +67,20 @@ final class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
-        $response = $this->put('/admin/users/10', array_merge(
+        $userId = User::orderByDesc('id')->first()?->id + 1 ?? 1;
+
+        $response = $this->put("/admin/workers/{$userId}", array_merge(
             User::factory()->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
             [
                 'parent_id' => User::all()->random()->id,
                 'change_password' => true,
                 'password_confirmation' => 'admin',
-                'role_id' => [
-                    Role::factory()->create([
-                        'name' => DefaultRole::ADMIN,
-                    ])->id,
+                'roles' => [
+                    [
+                        'id' => Role::factory()->create([
+                            'name' => DefaultRole::ADMIN,
+                        ])->id,
+                    ],
                 ],
             ]
         ));
@@ -91,15 +96,17 @@ final class UpdateTest extends TestCase
         $this->authenticateUser();
 
         $user = User::factory()->create();
-        $response = $this->put("/admin/users/$user->id", array_merge(
+        $response = $this->put("/admin/workers/$user->id", array_merge(
             User::factory()->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
             [
-                'parent_id' => User::all()->random()->id,
+                'parent_id' => User::factory()->create()->id,
                 'password_confirmation' => 'admin',
-                'role_id' => [
-                    Role::factory()->create([
-                        'name' => DefaultRole::ADMIN,
-                    ])->id,
+                'roles' => [
+                    [
+                        'id' => Role::factory()->create([
+                            'name' => DefaultRole::ADMIN,
+                        ])->id,
+                    ],
                 ],
             ]
         ));
@@ -112,7 +119,7 @@ final class UpdateTest extends TestCase
      */
     public function not_unauthorized(): void
     {
-        $response = $this->put('/admin/users');
+        $response = $this->put('/admin/workers');
 
         $response->assertStatus(Response::HTTP_METHOD_NOT_ALLOWED);
     }

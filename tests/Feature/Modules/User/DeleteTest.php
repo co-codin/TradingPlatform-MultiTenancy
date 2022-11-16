@@ -19,7 +19,7 @@ final class DeleteTest extends TestCase
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::DELETE_USERS));
 
         $user = User::factory()->create();
-        $response = $this->delete("/admin/users/$user->id");
+        $response = $this->delete("/admin/workers/$user->id");
 
         $response->assertNoContent();
         $this->assertSoftDeleted($user);
@@ -32,7 +32,7 @@ final class DeleteTest extends TestCase
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::DELETE_USERS));
 
-        $response = $this->delete('/admin/users/1000');
+        $response = $this->delete('/admin/workers/1000');
 
         $response->assertNotFound();
     }
@@ -45,7 +45,7 @@ final class DeleteTest extends TestCase
         $this->authenticateUser();
 
         $user = User::factory()->create();
-        $response = $this->delete("/admin/users/$user->id");
+        $response = $this->delete("/admin/workers/$user->id");
 
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
@@ -56,7 +56,7 @@ final class DeleteTest extends TestCase
     public function not_unauthorized(): void
     {
         $user = User::factory()->create();
-        $response = $this->delete("/admin/users/$user->id");
+        $response = $this->delete("/admin/workers/$user->id");
 
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }

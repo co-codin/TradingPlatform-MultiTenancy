@@ -19,12 +19,12 @@ final class UserCountryController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/admin/users/{id}/country",
-     *     tags={"User"},
+     *     path="/admin/workers/{id}/country",
+     *     tags={"Worker"},
      *     security={ {"sanctum": {} }},
-     *     summary="Update user countries",
+     *     summary="Update worker countries",
      *     @OA\Parameter(
-     *         description="User id",
+     *         description="Worker id",
      *         in="path",
      *         name="id",
      *         required=true,

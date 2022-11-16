@@ -22,27 +22,33 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
+    // Desk
+    Route::put('/workers/{id}/desk', [UserDeskController::class, 'update'])->name('workers.desk.update');
+
     // Brand
-    Route::put('/users/{id}/brand', [UserBrandController::class, 'update'])->name('users.brand.update');
+    Route::put('/workers/{id}/brand', [UserBrandController::class, 'update'])->name('users.brand.update');
 
     // Ban
-    Route::patch('/users/ban', [UserController::class, 'ban'])->name('users.ban');
-    Route::patch('/users/unban', [UserController::class, 'unban'])->name('users.unban');
+    Route::patch('/workers/ban', [UserController::class, 'ban'])->name('users.ban');
+    Route::patch('/workers/unban', [UserController::class, 'unban'])->name('users.unban');
 
     // Batch
-    Route::patch('/users/update/batch', [UserController::class, 'updateBatch'])->name('users.batch.update');
+    Route::patch('/workers/update/batch', [UserController::class, 'updateBatch'])->name('users.batch.update');
 
     // Country
-    Route::put('/users/{id}/country', [UserCountryController::class, 'update'])->name('users.country.update');
+    Route::put('/workers/{id}/country', [UserCountryController::class, 'update'])->name('users.country.update');
 
     // Department
-    Route::put('/users/{id}/department', [UserDepartmentController::class, 'update'])->name('users.department.update');
-
-    // Desk
-    Route::put('/users/{id}/desk', [UserDeskController::class, 'update'])->name('users.desk.update');
+    Route::put('/workers/{id}/department', [UserDepartmentController::class, 'update'])->name('users.department.update');
 
     // Language
-    Route::put('/users/{id}/language', [UserLanguageController::class, 'update'])->name('users.language.update');
+    Route::put('/workers/{id}/language', [UserLanguageController::class, 'update'])->name('users.language.update');
 
-    Route::apiResource('users', UserController::class);
+    Route::apiResource('workers', UserController::class)->names([
+        'index' => 'users.index',
+        'show' => 'users.show',
+        'store' => 'users.store',
+        'update' => 'users.update',
+        'destroy' => 'users.destroy',
+    ]);
 });

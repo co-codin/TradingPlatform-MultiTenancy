@@ -19,12 +19,12 @@ final class UserLanguageController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/admin/users/{id}/language",
-     *     tags={"User"},
+     *     path="/admin/workers/{id}/language",
+     *     tags={"Worker"},
      *     security={ {"sanctum": {} }},
-     *     summary="Update user languages",
+     *     summary="Update worker languages",
      *     @OA\Parameter(
-     *         description="User id",
+     *         description="Worker id",
      *         in="path",
      *         name="id",
      *         required=true,

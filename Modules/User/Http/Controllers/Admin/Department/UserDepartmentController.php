@@ -19,12 +19,12 @@ final class UserDepartmentController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/admin/users/{id}/department",
-     *     tags={"User"},
+     *     path="/admin/workers/{id}/department",
+     *     tags={"Worker"},
      *     security={ {"sanctum": {} }},
-     *     summary="Update user departments",
+     *     summary="Update worker departments",
      *     @OA\Parameter(
-     *         description="User id",
+     *         description="Worker id",
      *         in="path",
      *         name="id",
      *         required=true,

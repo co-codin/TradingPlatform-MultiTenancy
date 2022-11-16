@@ -34,7 +34,7 @@ final class UserUpdateRequest extends BaseFormRequest
                 'required',
                 'email',
                 'max:255',
-                'unique:users,email,' . $this->route('user'),
+                'unique:users,email,' . $this->route('worker'),
             ],
             'is_active' => 'boolean',
             'parent_id' => 'integer|exists:users,id',

@@ -19,7 +19,7 @@ final class AssociateDepartmentTest extends TestCase
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
         $user = User::factory()->create();
-        $response = $this->put("/admin/users/$user->id/department", [
+        $response = $this->put("/admin/workers/$user->id/department", [
             'departments' => [
                 Department::factory()->create(),
                 Department::factory()->create(),
@@ -36,7 +36,7 @@ final class AssociateDepartmentTest extends TestCase
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
-        $response = $this->put('/admin/users/10/department', [
+        $response = $this->put('/admin/workers/10/department', [
             'departments' => [
                 Department::factory()->create(),
             ],
@@ -53,7 +53,7 @@ final class AssociateDepartmentTest extends TestCase
         $this->authenticateUser();
 
         $user = User::factory()->create();
-        $response = $this->put("/admin/users/$user->id/department", [
+        $response = $this->put("/admin/workers/$user->id/department", [
             'departments' => [
                 Department::factory()->create(),
             ],
@@ -67,7 +67,7 @@ final class AssociateDepartmentTest extends TestCase
      */
     public function not_unauthorized(): void
     {
-        $response = $this->put('/admin/users/1/department');
+        $response = $this->put('/admin/workers/1/department');
 
         $response->assertUnauthorized();
     }

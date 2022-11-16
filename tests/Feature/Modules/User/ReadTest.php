@@ -19,7 +19,7 @@ final class ReadTest extends TestCase
         User::factory($count = 5)->create();
 
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::VIEW_USERS));
-        $response = $this->get('/admin/users');
+        $response = $this->get('/admin/workers');
 
         $response->assertOk();
         $this->assertCount(++$count, $response['data']);
@@ -55,7 +55,7 @@ final class ReadTest extends TestCase
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::VIEW_USERS));
 
         $user = User::factory()->create();
-        $response = $this->get("/admin/users/{$user->id}");
+        $response = $this->get("/admin/workers/{$user->id}");
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -86,7 +86,7 @@ final class ReadTest extends TestCase
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::VIEW_USERS));
 
-        $response = $this->get('/admin/users/10');
+        $response = $this->get('/admin/workers/10');
 
         $response->assertNotFound();
     }
@@ -97,7 +97,7 @@ final class ReadTest extends TestCase
     public function can_not_view_any(): void
     {
         $this->authenticateUser();
-        $response = $this->get('/admin/users');
+        $response = $this->get('/admin/workers');
 
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
@@ -110,7 +110,7 @@ final class ReadTest extends TestCase
         $user = User::factory()->create();
 
         $this->authenticateUser();
-        $response = $this->get("/admin/users/{$user->id}");
+        $response = $this->get("/admin/workers/{$user->id}");
 
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
@@ -120,7 +120,7 @@ final class ReadTest extends TestCase
      */
     public function not_unauthorized_view_any(): void
     {
-        $response = $this->get('/admin/users');
+        $response = $this->get('/admin/workers');
 
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
@@ -131,7 +131,7 @@ final class ReadTest extends TestCase
     public function not_unauthorized_view(): void
     {
         $user = User::factory()->create();
-        $response = $this->get("/admin/users/{$user->id}");
+        $response = $this->get("/admin/workers/{$user->id}");
 
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }

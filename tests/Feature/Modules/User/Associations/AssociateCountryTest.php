@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\User\Associations;
 
-use Modules\Country\Models\Country;
 use Modules\Geo\Database\Seeders\CountryTableSeeder;
+use Modules\Geo\Models\Country;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
 use Tests\TestCase;
@@ -21,7 +21,7 @@ final class AssociateCountryTest extends TestCase
 
         $user = User::factory()->create();
         $this->seed(CountryTableSeeder::class);
-        $response = $this->put("/admin/users/$user->id/country", [
+        $response = $this->put("/admin/workers/$user->id/country", [
             'countries' => [
                 Country::all()->random(),
                 Country::all()->random(),
@@ -39,7 +39,7 @@ final class AssociateCountryTest extends TestCase
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
         $this->seed(CountryTableSeeder::class);
-        $response = $this->put('/admin/users/10/country', [
+        $response = $this->put('/admin/workers/10/country', [
             'countries' => [
                 Country::all()->random(),
             ],
@@ -57,7 +57,7 @@ final class AssociateCountryTest extends TestCase
 
         $user = User::factory()->create();
         $this->seed(CountryTableSeeder::class);
-        $response = $this->put("/admin/users/$user->id/country", [
+        $response = $this->put("/admin/workers/$user->id/country", [
             'countries' => [
                 Country::all()->random(),
             ],
@@ -71,7 +71,7 @@ final class AssociateCountryTest extends TestCase
      */
     public function not_unauthorized(): void
     {
-        $response = $this->put('/admin/users/1/country');
+        $response = $this->put('/admin/workers/1/country');
 
         $response->assertUnauthorized();
     }

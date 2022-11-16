@@ -19,12 +19,12 @@ final class UserBrandController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/admin/users/{id}/brand",
-     *     tags={"User"},
+     *     path="/admin/workers/{id}/brand",
+     *     tags={"Worker"},
      *     security={ {"sanctum": {} }},
-     *     summary="Update user brands",
+     *     summary="Update worker brands",
      *     @OA\Parameter(
-     *         description="User id",
+     *         description="Worker id",
      *         in="path",
      *         name="id",
      *         required=true,
