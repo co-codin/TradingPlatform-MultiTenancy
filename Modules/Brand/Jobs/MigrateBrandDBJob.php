@@ -30,18 +30,23 @@ class MigrateBrandDBJob implements ShouldQueue
 
     public function handle(): void
     {
-//        Config::set('config.databse.connections.pgsql.database', $this->db);
-//        putenv("DB_DATABASE=$this->db");
-        $migrationsPath = 'Modules/Brand/DB/Migrations/';
-
         foreach ($this->tables as $table) {
-            Artisan::call(sprintf(
-                'brand-migrate --path=%s --database=%s',
-                "{$migrationsPath}create_{$table}_table.php",
-                $this->db
-            ));
 
-//            dd($result);
         }
     }
+
+//    public function handle(): void
+//    {
+//        $migrationsPath = 'Modules/Brand/DB/Migrations/';
+//
+//        foreach ($this->tables as $table) {
+//            Artisan::call(sprintf(
+//                'brand-migrate --path=%s --database=%s',
+//                "{$migrationsPath}create_{$table}_table.php",
+//                $this->db
+//            ));
+//
+////            dd($result);
+//        }
+//    }
 }

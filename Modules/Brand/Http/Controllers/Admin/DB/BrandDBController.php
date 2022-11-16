@@ -23,7 +23,7 @@ class BrandDBController extends Controller
      * @param BrandDBCreateRequest $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|Response
      */
-    public function store(int $brand_id, BrandDBCreateRequest $request)
+    public function store(BrandDBCreateRequest $request, int $brand_id)
     {
         $request->validated();
 

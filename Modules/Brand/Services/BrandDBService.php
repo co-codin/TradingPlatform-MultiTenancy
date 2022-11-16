@@ -13,6 +13,45 @@ class BrandDBService
 
     protected array $tables;
 
+    /**
+     * @var array
+     */
+    protected const ALLOWED_MODULES = [
+        'Department' => 'Department',
+        'Desk' => 'Desk',
+        'Geo' => 'Geo',
+        'Language' => 'Language',
+        'Role' => 'Role',
+        'Token' => 'Token',
+        'User' => 'User',
+    ];
+
+    /**
+     * @var array
+     */
+    protected const ALLOWED_RELATIONS = [
+        'user_country' => [
+            self::ALLOWED_MODULES['User'],
+            self::ALLOWED_MODULES['Geo'],
+        ],
+        'user_language' => [
+            self::ALLOWED_MODULES['User'],
+            self::ALLOWED_MODULES['Language'],
+        ],
+        'user_department' => [
+            self::ALLOWED_MODULES['User'],
+            self::ALLOWED_MODULES['Department'],
+        ],
+        'desk_language' => [
+            self::ALLOWED_MODULES['Desk'],
+            self::ALLOWED_MODULES['Language'],
+        ],
+        'desk_country' => [
+            self::ALLOWED_MODULES['Desk'],
+            self::ALLOWED_MODULES['Geo'],
+        ],
+    ];
+
     public function migrateDB(): void
     {
         MigrateBrandDBJob::dispatch($this->brand->slug, $this->tables);
