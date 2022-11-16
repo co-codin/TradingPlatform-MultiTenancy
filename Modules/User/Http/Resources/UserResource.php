@@ -15,7 +15,7 @@ use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema (
- *     schema="User",
+ *     schema="Worker",
  *     type="object",
  *     required={
  *         "id",
@@ -24,8 +24,6 @@ use OpenApi\Annotations as OA;
  *         "last_name",
  *         "email",
  *         "is_active",
- *         "_lft",
- *         "_rgt",
  *         "created_at",
  *         "updated_at",
  *     },
@@ -36,8 +34,6 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="email", type="string", format="email"),
  *     @OA\Property(property="is_active", type="boolean"),
  *     @OA\Property(property="target", type="integer", nullable=true),
- *     @OA\Property(property="_lft", type="integer"),
- *     @OA\Property(property="_rgt", type="integer"),
  *     @OA\Property(property="created_at", type="string", format="date-time"),
  *     @OA\Property(property="updated_at", type="string", format="date-time"),
  *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true),
@@ -47,7 +43,7 @@ use OpenApi\Annotations as OA;
  * ),
  *
  * @OA\Schema (
- *     schema="UserCollection",
+ *     schema="WorkerCollection",
  *     type="object",
  *     @OA\Property(
  *         property="data",
