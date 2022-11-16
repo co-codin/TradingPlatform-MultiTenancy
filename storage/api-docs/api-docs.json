@@ -1396,10 +1396,15 @@
                                     "parent_id": {
                                         "type": "integer"
                                     },
-                                    "role_id": {
+                                    "roles": {
                                         "type": "array",
                                         "items": {
-                                            "type": "integer"
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "change_password": {
@@ -1443,21 +1448,29 @@
                 ]
             }
         },
-        "/admin/users/{userId}/ban": {
+        "/admin/users/ban": {
             "patch": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Ban a user",
-                "operationId": "72f0d268350ad0d52b7f086cdd6c4140",
+                "operationId": "0c7b8e5ba378af8897a76b313e3270e2",
                 "parameters": [
                     {
-                        "name": "userId",
+                        "name": "users",
                         "in": "path",
-                        "description": "User id",
+                        "description": "Users data",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
                         }
                     }
                 ],
@@ -1482,21 +1495,29 @@
                 ]
             }
         },
-        "/admin/users/{userId}/unban": {
+        "/admin/users/unban": {
             "patch": {
                 "tags": [
                     "User"
                 ],
                 "summary": "Unban a user",
-                "operationId": "1ea86a2cfee21df5be9dae6aa0648108",
+                "operationId": "929ca79ac0e9081d13d5ed12791b761e",
                 "parameters": [
                     {
-                        "name": "userId",
+                        "name": "users",
                         "in": "path",
-                        "description": "User id",
+                        "description": "Users data",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
                         }
                     }
                 ],
@@ -1521,21 +1542,14 @@
                 ]
             }
         },
-        "/admin/users/{userId}/update/batch": {
+        "/admin/users/batch": {
             "patch": {
                 "tags": [
                     "User"
                 ],
-                "summary": "Unban a user",
-                "operationId": "3ce5cc2c84a9fc5bb2e8c22d33013685",
+                "summary": "Batch update users",
+                "operationId": "bd6cc12aee0a9dc3c6b44a92eaa40bc3",
                 "parameters": [
-                    {
-                        "name": "userId",
-                        "in": "path",
-                        "description": "User id",
-                        "required": true,
-                        "example": "1"
-                    },
                     {
                         "name": "users",
                         "in": "path",
@@ -1575,10 +1589,15 @@
                                     "parent_id": {
                                         "type": "integer"
                                     },
-                                    "role_id": {
+                                    "roles": {
                                         "type": "array",
                                         "items": {
-                                            "type": "integer"
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "change_password": {

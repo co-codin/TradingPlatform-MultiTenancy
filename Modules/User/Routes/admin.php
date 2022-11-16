@@ -22,14 +22,15 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    // Desk
-    Route::put('/users/{id}/desk', [UserDeskController::class, 'update'])->name('users.desk.update');
-
     // Brand
     Route::put('/users/{id}/brand', [UserBrandController::class, 'update'])->name('users.brand.update');
 
-    // Language
-    Route::put('/users/{id}/language', [UserLanguageController::class, 'update'])->name('users.language.update');
+    // Ban
+    Route::patch('/users/ban', [UserController::class, 'ban'])->name('users.ban');
+    Route::patch('/users/unban', [UserController::class, 'unban'])->name('users.unban');
+
+    // Batch
+    Route::patch('/users/update/batch', [UserController::class, 'updateBatch'])->name('users.batch.update');
 
     // Country
     Route::put('/users/{id}/country', [UserCountryController::class, 'update'])->name('users.country.update');
@@ -37,12 +38,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     // Department
     Route::put('/users/{id}/department', [UserDepartmentController::class, 'update'])->name('users.department.update');
 
-    // Ban
-    Route::patch('/users/{user}/ban', [UserController::class, 'ban'])->name('users.ban');
-    Route::patch('/users/{user}/unban', [UserController::class, 'unban'])->name('users.unban');
+    // Desk
+    Route::put('/users/{id}/desk', [UserDeskController::class, 'update'])->name('users.desk.update');
 
-    // Batch
-    Route::patch('/users/{user}/update/batch', [UserController::class, 'updateBatch'])->name('users.update.batch');
+    // Language
+    Route::put('/users/{id}/language', [UserLanguageController::class, 'update'])->name('users.language.update');
 
     Route::apiResource('users', UserController::class);
 });

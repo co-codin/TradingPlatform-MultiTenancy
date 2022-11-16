@@ -12,8 +12,6 @@ use Tests\TestCase;
 
 class ReadTest extends TestCase
 {
-    protected User $user;
-
     protected function setUp(): void
     {
         parent::setUp();
