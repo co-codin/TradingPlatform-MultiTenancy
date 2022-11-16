@@ -26,10 +26,7 @@ final class LanguageController extends Controller
     public function __construct(
         protected LanguageRepository $repository,
         protected LanguageStorage $storage,
-    )
-    {
-        //
-    }
+    ) {}
 
     /**
      * @OA\Get(
