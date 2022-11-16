@@ -23,7 +23,7 @@ class CreateTest extends TestCase
      */
     public function authorized_user_can_create_country(): void
     {
-        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::CREATE_COUNTRIES));
 
         $data = Country::factory()->make();
 
@@ -65,7 +65,7 @@ class CreateTest extends TestCase
      */
     public function country_name_exist(): void
     {
-        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::CREATE_COUNTRIES));
 
         $country = Country::factory()->create();
 
@@ -85,7 +85,7 @@ class CreateTest extends TestCase
      */
     public function country_iso2_exist(): void
     {
-        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::CREATE_COUNTRIES));
 
         $country = Country::factory()->create();
 
@@ -105,7 +105,7 @@ class CreateTest extends TestCase
      */
     public function country_iso3_exist(): void
     {
-        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::CREATE_COUNTRIES));
 
         $country = Country::factory()->create();
 
@@ -125,7 +125,7 @@ class CreateTest extends TestCase
      */
     public function country_name_is_required(): void
     {
-        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::CREATE_COUNTRIES));
 
         $data = Country::factory()->make()->toArray();
         unset($data['name']);
@@ -144,7 +144,7 @@ class CreateTest extends TestCase
      */
     public function country_iso2_is_required(): void
     {
-        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::CREATE_COUNTRIES));
 
         $data = Country::factory()->make()->toArray();
         unset($data['iso2']);
@@ -163,7 +163,7 @@ class CreateTest extends TestCase
      */
     public function country_iso3_is_required(): void
     {
-        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::CREATE_COUNTRIES));
 
         $data = Country::factory()->make()->toArray();
         unset($data['iso3']);
@@ -182,7 +182,7 @@ class CreateTest extends TestCase
      */
     public function country_name_is_string(): void
     {
-        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::CREATE_COUNTRIES));
 
         $data = Country::factory()->make();
         $data->name = 1;
@@ -201,7 +201,7 @@ class CreateTest extends TestCase
      */
     public function country_iso2_is_string(): void
     {
-        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::CREATE_COUNTRIES));
 
         $data = Country::factory()->make();
         $data->iso2 = 1;
@@ -220,7 +220,7 @@ class CreateTest extends TestCase
      */
     public function country_iso3_is_string(): void
     {
-        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::CREATE_COUNTRIES));
 
         $data = Country::factory()->make();
         $data->iso3 = 1;

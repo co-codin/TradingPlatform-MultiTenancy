@@ -23,7 +23,7 @@ class UpdateTest extends TestCase
      */
     public function authorized_user_can_update_country(): void
     {
-        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
 
         $country = Country::factory()->create();
         $data = Country::factory()->make();
@@ -67,7 +67,7 @@ class UpdateTest extends TestCase
      */
     public function country_name_exist(): void
     {
-        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
 
         $country = Country::factory()->create();
         $targetCountry = Country::factory()->create();
@@ -87,7 +87,7 @@ class UpdateTest extends TestCase
      */
     public function country_iso2_exist(): void
     {
-        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
 
         $country = Country::factory()->create();
         $targetCountry = Country::factory()->create();
@@ -107,7 +107,7 @@ class UpdateTest extends TestCase
      */
     public function country_iso3_exist(): void
     {
-        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
 
         $country = Country::factory()->create();
         $targetCountry = Country::factory()->create();
@@ -127,7 +127,7 @@ class UpdateTest extends TestCase
      */
     public function country_name_is_filled(): void
     {
-        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
 
         $country = Country::factory()->create();
         $data = Country::factory()->make(['name' => null])->toArray();
@@ -146,7 +146,7 @@ class UpdateTest extends TestCase
      */
     public function country_iso2_is_filled(): void
     {
-        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
 
         $country = Country::factory()->create();
         $data = Country::factory()->make(['iso2' => null])->toArray();
@@ -165,7 +165,7 @@ class UpdateTest extends TestCase
      */
     public function country_iso3_is_filled(): void
     {
-        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
 
         $country = Country::factory()->create();
         $data = Country::factory()->make(['iso3' => null])->toArray();
@@ -184,7 +184,7 @@ class UpdateTest extends TestCase
      */
     public function country_name_is_string(): void
     {
-        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
 
         $country = Country::factory()->create();
         $data = Country::factory()->make();
@@ -204,7 +204,7 @@ class UpdateTest extends TestCase
      */
     public function country_iso2_is_string(): void
     {
-        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
 
         $country = Country::factory()->create();
         $data = Country::factory()->make();
@@ -224,7 +224,7 @@ class UpdateTest extends TestCase
      */
     public function country_iso3_is_string(): void
     {
-        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
 
         $country = Country::factory()->create();
         $data = Country::factory()->make();

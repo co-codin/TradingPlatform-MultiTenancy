@@ -29,10 +29,7 @@ final class BanTest extends TestCase
             $userIds[] = ['id' => $user->id];
         }
 
-        $response = $this->patchJson(
-                route('admin.users.ban', ['user' => $this->user->id]),
-                ['users' => $userIds],
-            );
+        $response = $this->patchJson(route('admin.users.ban'), ['users' => $userIds]);
 
         $response->assertOk();
 
@@ -59,12 +56,9 @@ final class BanTest extends TestCase
             $userIds[] = ['id' => $user->id];
         }
 
-        $response = $this->patchJson(
-                route('admin.users.ban', ['user' => $this->user->id]),
-                ['users' => $userIds],
-            );
+        $response = $this->patchJson(route('admin.users.ban'), ['users' => $userIds]);
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**
@@ -83,10 +77,7 @@ final class BanTest extends TestCase
             $userIds[] = ['id' => $user->id];
         }
 
-        $response = $this->patchJson(
-            route('admin.users.ban', ['user' => $this->user->id]),
-            ['users' => $userIds],
-        );
+        $response = $this->patchJson(route('admin.users.ban'), ['users' => $userIds]);
 
         $response->assertUnauthorized();
     }
@@ -109,10 +100,7 @@ final class BanTest extends TestCase
             $userIds[] = ['id' => $user->id];
         }
 
-        $response = $this->patchJson(
-                route('admin.users.unban', ['user' => $this->user->id]),
-                ['users' => $userIds],
-            );
+        $response = $this->patchJson(route('admin.users.unban'), ['users' => $userIds]);
 
         $response->assertOk();
 
@@ -139,12 +127,9 @@ final class BanTest extends TestCase
             $userIds[] = ['id' => $user->id];
         }
 
-        $response = $this->patchJson(
-                route('admin.users.unban', ['user' => $this->user->id]),
-                ['users' => $userIds],
-            );
+        $response = $this->patchJson(route('admin.users.unban'), ['users' => $userIds]);
 
-        $response->assertForbidden();
+        $response->assertUnauthorized();
     }
 
     /**
@@ -163,12 +148,7 @@ final class BanTest extends TestCase
             $userIds[] = ['id' => $user->id];
         }
 
-        $user = User::factory()->create();
-
-        $response = $this->patchJson(
-            route('admin.users.unban', ['user' => $user->id]),
-            ['users' => $userIds],
-        );
+        $response = $this->patchJson(route('admin.users.ban'), ['users' => $userIds]);
 
         $response->assertUnauthorized();
     }

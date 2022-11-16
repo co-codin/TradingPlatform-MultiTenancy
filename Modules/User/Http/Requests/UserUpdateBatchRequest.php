@@ -23,7 +23,8 @@ final class UserUpdateBatchRequest extends BaseFormRequest
             'users.*.email' => "sometimes|required|email|max:255|unique:users,email",
             'users.*.is_active' => 'boolean',
             'users.*.parent_id' => 'integer|exists:users,id',
-            'users.*.password' => 'sometimes|required|password',
+            'users.*.change_password' => 'nullable|boolean',
+            'users.*.password' => 'exclude_unless:change_password,true|required|string|confirmed',
             'users.*.roles.*.id' => 'sometimes|required|integer|min:1|exists:roles,id',
         ];
     }

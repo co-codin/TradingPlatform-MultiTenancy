@@ -47,8 +47,6 @@ class UpdateTest extends TestCase
      */
     public function test_unauthorized_user_cant_update_department(): void
     {
-        $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::EDIT_DEPARTMENTS));
-
         $department = Department::factory()->create();
         $data = Department::factory()->make();
 

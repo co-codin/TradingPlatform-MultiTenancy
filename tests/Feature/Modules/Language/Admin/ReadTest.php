@@ -70,7 +70,7 @@ final class ReadTest extends TestCase
      */
     public function authorized_user_can_get_language(): void
     {
-        $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::DELETE_LANGUAGES));
+        $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::VIEW_LANGUAGES));
 
         $language = Language::factory()->create();
 

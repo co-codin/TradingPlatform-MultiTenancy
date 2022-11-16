@@ -22,7 +22,7 @@ final class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'is_active' => true,
             'target' => $this->faker->randomNumber(),
-            'parent_id' => null,
+            'parent_id' => User::inRandomOrder()->first()?->id,
         ];
     }
 
