@@ -105,6 +105,11 @@ final class User extends Authenticatable
         return $this->belongsToMany(Language::class, 'user_language');
     }
 
+    public function displayOptions()
+    {
+        return $this->hasMany(DisplayOption::class);
+    }
+
     /**
      * @inheritDoc
      */
