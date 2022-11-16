@@ -1,12 +1,16 @@
 <?php
 
-use Modules\User\Http\Controllers\Admin\AuthController;
-use Modules\User\Http\Controllers\Admin\UserController;
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Route;
-use Modules\User\Http\Controllers\Admin\ForgetController;
-use Modules\User\Http\Controllers\Admin\Desk\UserDeskController;
+use Modules\User\Http\Controllers\Admin\AuthController;
 use Modules\User\Http\Controllers\Admin\Brand\UserBrandController;
+use Modules\User\Http\Controllers\Admin\Country\UserCountryController;
+use Modules\User\Http\Controllers\Admin\Department\UserDepartmentController;
+use Modules\User\Http\Controllers\Admin\Desk\UserDeskController;
+use Modules\User\Http\Controllers\Admin\ForgetController;
 use Modules\User\Http\Controllers\Admin\Language\UserLanguageController;
+use Modules\User\Http\Controllers\Admin\UserController;
 
 Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login');
@@ -18,22 +22,27 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    # Desk
-    Route::put('users/{user}/desk', [UserDeskController::class, 'update'])->name('users.desk.update');
+    // Brand
+    Route::put('/users/{id}/brand', [UserBrandController::class, 'update'])->name('users.brand.update');
 
-    # Brand
-    Route::put('users/{user}/brand', [UserBrandController::class, 'update'])->name('users.brand.update');
+    // Ban
+    Route::patch('/users/ban', [UserController::class, 'ban'])->name('users.ban');
+    Route::patch('/users/unban', [UserController::class, 'unban'])->name('users.unban');
 
-    # Language
-    Route::put('/users/{user}/language', [UserLanguageController::class, 'update'])->name('users.language.update');
+    // Batch
+    Route::patch('/users/update/batch', [UserController::class, 'updateBatch'])->name('users.batch.update');
 
-    # Ban
-    Route::patch('/users/{user}/ban', [UserController::class, 'ban'])->name('users.ban');
-    Route::patch('/users/{user}/unban', [UserController::class, 'unban'])->name('users.unban');
+    // Country
+    Route::put('/users/{id}/country', [UserCountryController::class, 'update'])->name('users.country.update');
 
-    # Batch
-    Route::patch('/users/{user}/update/batch', [UserController::class, 'updateBatch'])->name('users.update.batch');
+    // Department
+    Route::put('/users/{id}/department', [UserDepartmentController::class, 'update'])->name('users.department.update');
+
+    // Desk
+    Route::put('/users/{id}/desk', [UserDeskController::class, 'update'])->name('users.desk.update');
+
+    // Language
+    Route::put('/users/{id}/language', [UserLanguageController::class, 'update'])->name('users.language.update');
 
     Route::apiResource('users', UserController::class);
-
 });
