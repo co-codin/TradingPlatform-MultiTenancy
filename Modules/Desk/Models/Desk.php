@@ -40,7 +40,7 @@ class Desk extends Model
      *
      * @return BelongsToMany
      */
-    public function language(): BelongsToMany
+    public function languages(): BelongsToMany
     {
         return $this->belongsToMany(Language::class, 'desk_language');
     }
@@ -50,7 +50,7 @@ class Desk extends Model
      *
      * @return BelongsToMany
      */
-    public function country(): BelongsToMany
+    public function countries(): BelongsToMany
     {
         return $this->belongsToMany(Country::class, 'desk_country');
     }
