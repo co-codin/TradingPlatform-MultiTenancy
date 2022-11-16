@@ -53,7 +53,7 @@ final class UpdateBatchTest extends TestCase
             ],
         ];
 
-        $response = $this->patchJson(route('admin.users.batch.update'), $data);
+        $response = $this->patchJson(route('admin.workers.batch.update'), $data);
 
         $response->assertOk();
 
@@ -114,7 +114,7 @@ final class UpdateBatchTest extends TestCase
             ],
         ];
 
-        $response = $this->patchJson(route('admin.users.batch.update'), $data);
+        $response = $this->patchJson(route('admin.workers.batch.update'), $data);
 
         $response->assertUnauthorized();
     }
@@ -156,7 +156,7 @@ final class UpdateBatchTest extends TestCase
             ],
         ];
 
-        $response = $this->patchJson(route('admin.users.batch.update'), $data);
+        $response = $this->patchJson(route('admin.workers.batch.update'), $data);
 
         $response->assertUnauthorized();
     }

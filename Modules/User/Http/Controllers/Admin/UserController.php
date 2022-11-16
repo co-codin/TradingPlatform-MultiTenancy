@@ -8,8 +8,6 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
@@ -18,7 +16,7 @@ use Illuminate\Support\Arr;
 use Modules\User\Http\Requests\UserCreateRequest;
 use Modules\User\Http\Requests\UserUpdateBatchRequest;
 use Modules\User\Http\Requests\UserUpdateRequest;
-use Modules\User\Http\Resources\UserResource;
+use Modules\User\Http\Resources\WorkerResource;
 use Modules\User\Models\User;
 use Modules\User\Repositories\UserRepository;
 use Modules\User\Services\UserStorage;
@@ -34,14 +32,14 @@ final class UserController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/admin/users",
-     *     tags={"User"},
+     *     path="/admin/workers",
+     *     tags={"Worker"},
      *     security={ {"sanctum": {} }},
-     *     summary="Get users data",
+     *     summary="Get workers",
      *     @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="#/components/schemas/UserCollection")
+     *          @OA\JsonContent(ref="#/components/schemas/WorkerCollection")
      *     ),
      *     @OA\Response(
      *          response=401,
@@ -61,15 +59,15 @@ final class UserController extends Controller
         $this->authorize('viewAny', User::class);
         $users = $this->userRepository->jsonPaginate();
 
-        return UserResource::collection($users);
+        return WorkerResource::collection($users);
     }
 
     /**
      * @OA\Get(
-     *     path="/admin/users/{id}",
-     *     tags={"User"},
+     *     path="/admin/workers/{id}",
+     *     tags={"Worker"},
      *     security={ {"sanctum": {} }},
-     *     summary="Get user data",
+     *     summary="Get worker data",
      *     @OA\Parameter(
      *          name="id",
      *          in="path",
@@ -80,7 +78,7 @@ final class UserController extends Controller
      *     @OA\Response(
      *          response=200,
      *          description="success",
-     *          @OA\JsonContent(ref="#/components/schemas/UserResource")
+     *          @OA\JsonContent(ref="#/components/schemas/WorkerResource")
      *     ),
      *     @OA\Response(
      *          response=401,
@@ -97,23 +95,23 @@ final class UserController extends Controller
      * )
      *
      * @param  int  $id
-     * @return UserResource
+     * @return WorkerResource
      * @throws AuthorizationException
      */
-    public function show(int $id): UserResource
+    public function show(int $id): WorkerResource
     {
         $user = $this->userRepository->find($id);
         $this->authorize('view', $user);
 
-        return new UserResource($user);
+        return new WorkerResource($user);
     }
 
     /**
      * @OA\Post(
-     *     path="/admin/users",
-     *     tags={"User"},
+     *     path="/admin/workers",
+     *     tags={"Worker"},
      *     security={ {"sanctum": {} }},
-     *     summary="Add a new user",
+     *     summary="Add a new worker",
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/json",
@@ -143,7 +141,7 @@ final class UserController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="OK",
-     *         @OA\JsonContent(ref="#/components/schemas/UserResource")
+     *         @OA\JsonContent(ref="#/components/schemas/WorkerResource")
      *     ),
      *     @OA\Response(
      *         response=400,
@@ -160,21 +158,21 @@ final class UserController extends Controller
      * )
      * @throws AuthorizationException
      */
-    public function store(UserCreateRequest $request): UserResource
+    public function store(UserCreateRequest $request): WorkerResource
     {
         $this->authorize('create', User::class);
 
         $user = $this->userStorage->store($request->validated());
 
-        return new UserResource($user);
+        return new WorkerResource($user);
     }
 
     /**
      * @OA\Put(
-     *     path="/admin/users/{id}",
-     *     tags={"User"},
+     *     path="/admin/workers/{id}",
+     *     tags={"Worker"},
      *     security={ {"sanctum": {} }},
-     *     summary="Update a user",
+     *     summary="Update a worker",
      *     @OA\Parameter(
      *         description="User id",
      *         in="path",
@@ -213,7 +211,7 @@ final class UserController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Ok",
-     *         @OA\JsonContent(ref="#/components/schemas/UserResource")
+     *         @OA\JsonContent(ref="#/components/schemas/WorkerResource")
      *     ),
      *     @OA\Response(
      *         response=400,
@@ -233,12 +231,12 @@ final class UserController extends Controller
      *     )
      * ),
      * @OA\Patch(
-     *     path="/admin/users/{id}",
-     *     tags={"User"},
+     *     path="/admin/workers/{id}",
+     *     tags={"Worker"},
      *     security={ {"sanctum": {} }},
-     *     summary="Update a user",
+     *     summary="Update a worker",
      *     @OA\Parameter(
-     *         description="User id",
+     *         description="Worker id",
      *         in="path",
      *         name="id",
      *         required=true,
@@ -270,7 +268,7 @@ final class UserController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Ok",
-     *         @OA\JsonContent(ref="#/components/schemas/UserResource")
+     *         @OA\JsonContent(ref="#/components/schemas/WorkerResource")
      *     ),
      *     @OA\Response(
      *         response=400,
@@ -291,7 +289,7 @@ final class UserController extends Controller
      * )
      * @throws AuthorizationException
      */
-    public function update(int $id, UserUpdateRequest $request): UserResource
+    public function update(int $id, UserUpdateRequest $request): WorkerResource
     {
         $user = $this->userRepository->find($id);
 
@@ -299,17 +297,17 @@ final class UserController extends Controller
 
         $user = $this->userStorage->update($user, $request->validated());
 
-        return new UserResource($user->load('roles'));
+        return new WorkerResource($user->load('roles'));
     }
 
     /**
      * @OA\Delete(
-     *     path="/admin/users/{id}",
-     *     tags={"User"},
+     *     path="/admin/workers/{id}",
+     *     tags={"Worker"},
      *     security={ {"sanctum": {} }},
-     *     summary="Delete a user",
+     *     summary="Delete a worker",
      *     @OA\Parameter(
-     *         description="User id",
+     *         description="Worker id",
      *         in="path",
      *         name="id",
      *         required=true,
@@ -348,10 +346,10 @@ final class UserController extends Controller
 
     /**
      * @OA\Patch (
-     *     path="/admin/users/ban",
-     *     tags={"User"},
+     *     path="/admin/workers/ban",
+     *     tags={"Worker"},
      *     security={ {"sanctum": {} }},
-     *     summary="Ban a user",
+     *     summary="Ban a worker",
      *     @OA\Parameter(
      *         description="Users data",
      *         in="path",
@@ -405,15 +403,15 @@ final class UserController extends Controller
 
         abort_if($users->isEmpty(), ResponseAlias::HTTP_UNAUTHORIZED);
 
-        return UserResource::collection($users);
+        return WorkerResource::collection($users);
     }
 
     /**
      * @OA\Patch (
-     *     path="/admin/users/unban",
-     *     tags={"User"},
+     *     path="/admin/workers/unban",
+     *     tags={"Worker"},
      *     security={ {"sanctum": {} }},
-     *     summary="Unban a user",
+     *     summary="Unban a worker",
      *     @OA\Parameter(
      *         description="Users data",
      *         in="path",
@@ -467,14 +465,15 @@ final class UserController extends Controller
 
         abort_if($users->isEmpty(), ResponseAlias::HTTP_UNAUTHORIZED);
 
-        return UserResource::collection($users);
+        return WorkerResource::collection($users);
     }
 
     /**
      * @OA\Patch (
-     *     path="/admin/users/batch",
-     *     tags={"User"},
+     *     path="/admin/workers/batch",
+     *     tags={"Worker"},
      *     security={ {"sanctum": {} }},
+     *     summary="Unban a worker",
      *     @OA\Parameter(
      *         description="Users data",
      *         in="path",
@@ -505,7 +504,7 @@ final class UserController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Ok",
-     *         @OA\JsonContent(ref="#/components/schemas/UserCollection")
+     *         @OA\JsonContent(ref="#/components/schemas/WorkerCollection")
      *     ),
      *     @OA\Response(
      *          response=401,
@@ -544,6 +543,6 @@ final class UserController extends Controller
 
         abort_if($users->isEmpty(), ResponseAlias::HTTP_UNAUTHORIZED);
 
-        return UserResource::collection($users);
+        return WorkerResource::collection($users);
     }
 }

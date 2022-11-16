@@ -1264,20 +1264,20 @@
                 ]
             }
         },
-        "/admin/users": {
+        "/admin/workers": {
             "get": {
                 "tags": [
-                    "User"
+                    "Worker"
                 ],
-                "summary": "Get users data",
-                "operationId": "171bb7d93b7f0f01405478fb16ef06e0",
+                "summary": "Get workers",
+                "operationId": "ccb21f208e5fbe9dbd47c9d39829e205",
                 "responses": {
                     "200": {
                         "description": "success",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UserCollection"
+                                    "$ref": "#/components/schemas/WorkerCollection"
                                 }
                             }
                         }
@@ -1297,10 +1297,10 @@
             },
             "post": {
                 "tags": [
-                    "User"
+                    "Worker"
                 ],
-                "summary": "Add a new user",
-                "operationId": "61b655ae0e6a9124c7dc7894433abd92",
+                "summary": "Add a new worker",
+                "operationId": "da31777849413b599e5ffe4bc77f9db2",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -1363,7 +1363,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UserResource"
+                                    "$ref": "#/components/schemas/WorkerResource"
                                 }
                             }
                         }
@@ -1385,13 +1385,13 @@
                 ]
             }
         },
-        "/admin/users/{id}": {
+        "/admin/workers/{id}": {
             "get": {
                 "tags": [
-                    "User"
+                    "Worker"
                 ],
-                "summary": "Get user data",
-                "operationId": "45b2504665adb58cbf032acf30d74a37",
+                "summary": "Get worker data",
+                "operationId": "359da0eae0f04a73c55066cd67112f82",
                 "parameters": [
                     {
                         "name": "id",
@@ -1409,7 +1409,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UserResource"
+                                    "$ref": "#/components/schemas/WorkerResource"
                                 }
                             }
                         }
@@ -1432,10 +1432,10 @@
             },
             "put": {
                 "tags": [
-                    "User"
+                    "Worker"
                 ],
-                "summary": "Update a user",
-                "operationId": "aee72c85b8409481adc2da2331ac4235",
+                "summary": "Update a worker",
+                "operationId": "278a2b82092a5514efe40bafeba5f9f1",
                 "parameters": [
                     {
                         "name": "id",
@@ -1513,7 +1513,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UserResource"
+                                    "$ref": "#/components/schemas/WorkerResource"
                                 }
                             }
                         }
@@ -1539,15 +1539,15 @@
             },
             "delete": {
                 "tags": [
-                    "User"
+                    "Worker"
                 ],
-                "summary": "Delete a user",
-                "operationId": "f20bc0c0224ff31144373176b069a3ed",
+                "summary": "Delete a worker",
+                "operationId": "cdf83c0b6567f662b50ddc5a811c8d91",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "User id",
+                        "description": "Worker id",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -1576,15 +1576,15 @@
             },
             "patch": {
                 "tags": [
-                    "User"
+                    "Worker"
                 ],
-                "summary": "Update a user",
-                "operationId": "353c5f8a0be775669d58e53ac4bd339e",
+                "summary": "Update a worker",
+                "operationId": "29a2d3523eea86f75d65ccc3e599bc8e",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "User id",
+                        "description": "Worker id",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -1653,7 +1653,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UserResource"
+                                    "$ref": "#/components/schemas/WorkerResource"
                                 }
                             }
                         }
@@ -1678,13 +1678,13 @@
                 ]
             }
         },
-        "/admin/users/ban": {
+        "/admin/workers/ban": {
             "patch": {
                 "tags": [
-                    "User"
+                    "Worker"
                 ],
-                "summary": "Ban a user",
-                "operationId": "0c7b8e5ba378af8897a76b313e3270e2",
+                "summary": "Ban a worker",
+                "operationId": "b572b98a9b3cebdcc4224313a9cc9082",
                 "parameters": [
                     {
                         "name": "users",
@@ -1725,13 +1725,13 @@
                 ]
             }
         },
-        "/admin/users/unban": {
+        "/admin/workers/unban": {
             "patch": {
                 "tags": [
-                    "User"
+                    "Worker"
                 ],
-                "summary": "Unban a user",
-                "operationId": "929ca79ac0e9081d13d5ed12791b761e",
+                "summary": "Unban a worker",
+                "operationId": "b9f6246813a23ac224d11adb3164484a",
                 "parameters": [
                     {
                         "name": "users",
@@ -1772,12 +1772,13 @@
                 ]
             }
         },
-        "/admin/users/batch": {
+        "/admin/workers/batch": {
             "patch": {
                 "tags": [
-                    "User"
+                    "Worker"
                 ],
-                "operationId": "bd6cc12aee0a9dc3c6b44a92eaa40bc3",
+                "summary": "Unban a worker",
+                "operationId": "48faec29a28ad96a63087701cc1b49c1",
                 "parameters": [
                     {
                         "name": "users",
@@ -1845,7 +1846,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/UserCollection"
+                                    "$ref": "#/components/schemas/WorkerCollection"
                                 }
                             }
                         }
@@ -2154,7 +2155,7 @@
                 },
                 "type": "object"
             },
-            "User": {
+            "Worker": {
                 "required": [
                     "id",
                     "username",
@@ -2162,8 +2163,6 @@
                     "last_name",
                     "email",
                     "is_active",
-                    "_lft",
-                    "_rgt",
                     "created_at",
                     "updated_at"
                 ],
@@ -2190,12 +2189,6 @@
                     "target": {
                         "type": "integer",
                         "nullable": true
-                    },
-                    "_lft": {
-                        "type": "integer"
-                    },
-                    "_rgt": {
-                        "type": "integer"
                     },
                     "created_at": {
                         "type": "string",
@@ -2230,12 +2223,12 @@
                 },
                 "type": "object"
             },
-            "UserCollection": {
+            "WorkerCollection": {
                 "properties": {
                     "data": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/User"
+                            "$ref": "#/components/schemas/Worker"
                         }
                     },
                     "meta": {
@@ -2244,10 +2237,10 @@
                 },
                 "type": "object"
             },
-            "UserResource": {
+            "WorkerResource": {
                 "properties": {
                     "data": {
-                        "$ref": "#/components/schemas/User"
+                        "$ref": "#/components/schemas/Worker"
                     }
                 },
                 "type": "object"
