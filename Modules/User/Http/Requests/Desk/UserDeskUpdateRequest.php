@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\User\Http\Requests\Desk;
 
 use App\Http\Requests\BaseFormRequest;
 
-class UserDeskUpdateRequest extends BaseFormRequest
+final class UserDeskUpdateRequest extends BaseFormRequest
 {
-    public function rules()
+    public function rules(): array
     {
         return [
             'desks' => [
