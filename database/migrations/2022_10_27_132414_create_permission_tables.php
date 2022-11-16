@@ -45,7 +45,7 @@ class CreatePermissionTables extends Migration
 
             $table->foreignId('module_id')->constrained();
             $table->foreignId('action_id')->constrained();
-            $table->foreignId('column_id')->constrained();
+            $table->foreignId('column_id')->nullable()->constrained();
 
 //            $table->string('name');       // For MySQL 8.0 use string('name', 125);
             $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
