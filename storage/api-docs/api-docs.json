@@ -1041,10 +1041,15 @@
                                     "parent_id": {
                                         "type": "integer"
                                     },
-                                    "role_id": {
+                                    "roles": {
                                         "type": "array",
                                         "items": {
-                                            "type": "integer"
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "change_password": {
@@ -1171,7 +1176,7 @@
                 "tags": [
                     "User"
                 ],
-                "summary": "Unban a user",
+                "summary": "Batch update users",
                 "operationId": "0623f39c74e2e1d6e1c587998e7385ff",
                 "parameters": [
                     {
@@ -1220,10 +1225,15 @@
                                     "parent_id": {
                                         "type": "integer"
                                     },
-                                    "role_id": {
+                                    "roles": {
                                         "type": "array",
                                         "items": {
-                                            "type": "integer"
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "change_password": {

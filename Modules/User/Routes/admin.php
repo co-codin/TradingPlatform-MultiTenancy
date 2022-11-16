@@ -28,11 +28,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::put('/users/{user}/language', [UserLanguageController::class, 'update'])->name('users.language.update');
 
     # Ban
-    Route::patch('/users/{user}/ban', [UserController::class, 'ban'])->name('users.ban');
-    Route::patch('/users/{user}/unban', [UserController::class, 'unban'])->name('users.unban');
+    Route::patch('/users/ban', [UserController::class, 'ban'])->name('users.ban');
+    Route::patch('/users/unban', [UserController::class, 'unban'])->name('users.unban');
 
     # Batch
-    Route::patch('/users/{user}/batch', [UserController::class, 'updateBatch'])->name('users.batch.update');
+    Route::patch('/users/batch', [UserController::class, 'updateBatch'])->name('users.batch.update');
 
     Route::apiResource('users', UserController::class);
 
