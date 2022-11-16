@@ -37,18 +37,14 @@ abstract class TestCase extends BaseTestCase
      */
     final protected function authenticateUser(): void
     {
-        $this->setUser(
-            User::factory()->create([
-                'email' => 'test@service.com',
-            ])
-        );
-
-        $response = $this->post('/admin/auth/login', [
+        $user = User::factory()->create([
             'email' => 'test@service.com',
-            'password' => 'admin',
         ]);
 
-        $this->withToken($response->json('token'));
+        $this->setUser($user);
+
+        $this->actingAs($user, User::DEFAULT_AUTH_GUARD);
+
     }
 
     /**
@@ -70,12 +66,7 @@ abstract class TestCase extends BaseTestCase
 
         $this->setUser($user);
 
-        $response = $this->post('/admin/auth/login', [
-            'email' => 'admin@service.com',
-            'password' => 'admin',
-        ]);
-
-        $this->withToken($response->json('token'));
+        $this->actingAs($user, User::DEFAULT_AUTH_GUARD);
     }
 
     /**
@@ -98,12 +89,7 @@ abstract class TestCase extends BaseTestCase
 
         $this->setUser($user);
 
-        $response = $this->post('/admin/auth/login', [
-            'email' => 'test@service.com',
-            'password' => 'admin',
-        ]);
-
-        $this->withToken($response->json('token'));
+        $this->actingAs($user, User::DEFAULT_AUTH_GUARD);
     }
 
     /**
@@ -129,4 +115,3 @@ abstract class TestCase extends BaseTestCase
         return $this->user;
     }
 }
-
