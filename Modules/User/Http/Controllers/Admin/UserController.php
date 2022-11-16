@@ -259,7 +259,7 @@ final class UserController extends Controller
      *                 @OA\Property(property="parent_id", type="integer"),
      *                 @OA\Property(property="roles", type="array",
      *                     @OA\Items(
-     *                         OA\Property(property="id", type="integer"),
+     *                         @OA\Property(property="id", type="integer"),
      *                     ),
      *                 ),
      *                 @OA\Property(property="change_password", type="boolean",
