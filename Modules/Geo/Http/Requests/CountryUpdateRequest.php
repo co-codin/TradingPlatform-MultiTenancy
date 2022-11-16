@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Geo\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseFormRequest;
 
-class CountryUpdateRequest extends FormRequest
+final class CountryUpdateRequest extends BaseFormRequest
 {
     /**
      * Get the validation rules that apply to the request.

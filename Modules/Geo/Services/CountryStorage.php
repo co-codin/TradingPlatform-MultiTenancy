@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Geo\Services;
 
 use LogicException;
 use Modules\Geo\Dto\CountryDto;
 use Modules\Geo\Models\Country;
 
-class CountryStorage
+final class CountryStorage
 {
     /**
      * Store country.

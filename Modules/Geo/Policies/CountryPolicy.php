@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Geo\Policies;
 
 use App\Policies\BasePolicy;
@@ -7,7 +9,7 @@ use Modules\Geo\Enums\CountryPermission;
 use Modules\Geo\Models\Country;
 use Modules\User\Models\User;
 
-class CountryPolicy extends BasePolicy
+final class CountryPolicy extends BasePolicy
 {
     /**
      * View any country policy.

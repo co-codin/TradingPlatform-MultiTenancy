@@ -3,6 +3,7 @@
 namespace Modules\Brand\Providers;
 
 use App\Providers\BaseModuleServiceProvider;
+use Modules\Brand\Commands\BrandMigrationCommand;
 use Modules\Brand\Models\Brand;
 use Modules\Brand\Policies\BrandPolicy;
 
@@ -13,6 +14,13 @@ class BrandServiceProvider extends BaseModuleServiceProvider
      */
     protected array $policies = [
         Brand::class => BrandPolicy::class,
+    ];
+
+    /**
+     * @inheritdoc
+     */
+    protected array $commands = [
+        BrandMigrationCommand::class,
     ];
 
     /**

@@ -8,7 +8,7 @@ use Illuminate\Database\Console\Migrations\MigrateCommand;
 use Illuminate\Database\Migrations\Migrator;
 use Illuminate\Support\Facades\Config;
 
-class BrandMigrationCommand extends MigrateCommand
+final class BrandMigrationCommand extends MigrateCommand
 {
     protected $signature = 'brand-migrate {--database= : The database connection to use}
                 {--force : Force the operation to run when in production}

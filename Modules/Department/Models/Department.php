@@ -5,13 +5,13 @@ namespace Modules\Department\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Department\Database\factories\DepartmentFactory;
 use Modules\User\Models\User;
 
 /**
  * Class Department
  *
- * @package Modules\Department\Models
  * @property int $id
  * @property string $name
  * @property string $title
@@ -23,7 +23,7 @@ use Modules\User\Models\User;
  */
 class Department extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * @inheritdoc

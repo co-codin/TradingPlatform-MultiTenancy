@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Geo\Enums;
 
 use Modules\Role\Contracts\PermissionEnum;
 
-class CountryPermission implements PermissionEnum
+final class CountryPermission implements PermissionEnum
 {
     /**
      * @var string

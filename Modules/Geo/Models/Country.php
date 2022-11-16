@@ -10,7 +10,6 @@ use Modules\Geo\Database\factories\CountryFactory;
 /**
  * Class Country
  *
- * @package Modules\Country\Models
  * @property int $id
  * @property string $name
  * @property string $iso2
