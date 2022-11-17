@@ -15,7 +15,7 @@ class BrandStorage
 
         auth()->user()->brands()->attach($brand->id);
 
-        dispatch(new CreateBrandDBJob($brand->slug));
+//        dispatch(new CreateBrandDBJob($brand->slug));
 
         return $brand;
     }

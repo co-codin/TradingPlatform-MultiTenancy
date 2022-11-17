@@ -1,35 +1,65 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Brand\Admin;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Modules\Brand\Enums\AllowedDBTables;
 use Modules\Brand\Jobs\CreateBrandDBJob;
 use Modules\Brand\Jobs\MigrateBrandDBJob;
-use Tests\TestCase;
+use Modules\Brand\Models\Brand;
+use Modules\Brand\Services\BrandDBService;
+use Illuminate\Foundation\Testing\TestCase;
+use Tests\Traits\HasAuth;
 
-class BrandDBTest extends TestCase
+final class BrandDBTest extends TestCase
 {
-    public function test_db_create_job()
-    {
-        CreateBrandDBJob::dispatchNow('brand');
+    use HasAuth;
+//    use DatabaseTransactions;
 
-        $this->assertNotNull(DB::selectOne("SELECT 1 FROM pg_database WHERE datname = ?", ['brand']));
-    }
+//    public function test_db_create_job()
+//    {
+//        CreateBrandDBJob::dispatchNow('brand');
+//
+//        $this->assertNotNull(DB::selectOne("SELECT 1 FROM pg_database WHERE datname = ?", ['brand']));
+//    }
+//
+//    /**
+//     * @depends test_db_create_job
+//     *
+//     * @return void
+//     */
+//    public function test_db_migrate_job()
+//    {
+//
+//        MigrateBrandDBJob::dispatchNow('brand', array_values(AllowedDBTables::asArray()));
+//
+//        foreach (array_values(AllowedDBTables::asArray()) as $table) {
+//            $this->assertTrue(DB::table($table)->exists());
+//        }
+//    }
 
     /**
-     * @depends test_db_create_job
-     *
-     * @return void
+     * @test
      */
-    public function test_db_migrate_job()
+    public function test_import(): void
     {
+        $this->authenticateUser();
 
-        MigrateBrandDBJob::dispatchNow('brand', array_values(AllowedDBTables::asArray()));
-
-        foreach (array_values(AllowedDBTables::asArray()) as $table) {
-            $this->assertTrue(DB::table($table)->exists());
+        try {
+            $brand = Brand::factory()->create();
+        } catch (\Throwable $e) {
+            dd($e->getMessage());
         }
+
+        $response = $this->post(route('admin.brands.db.import', ['brand' => $brand]), [
+            'modules' => array_values(BrandDBService::ALLOWED_MODULES),
+        ], [
+            'Brand' => $brand->slug,
+        ]);
+        dd($response->json('message'));
     }
 }

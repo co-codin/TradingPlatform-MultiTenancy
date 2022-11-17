@@ -23,16 +23,21 @@ class BrandDBController extends Controller
      * @param BrandDBCreateRequest $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|Response
      */
-    public function store(int $brand_id, BrandDBCreateRequest $request)
+    public function store(BrandDBCreateRequest $request, int $brandId)
     {
         $request->validated();
 
         $this->brandDBService
-            ->setBrand($this->brandRepository->find($brand_id))
-            ->setTables($request->input('tables'))
+            ->setBrand($this->brandRepository->find($brandId))
+            ->setModules($request->input('modules'))
             ->migrateDB();
 
         return response(status: Response::HTTP_ACCEPTED);
 
+    }
+
+    public function import(BrandDBCreateRequest $request, int $brand_id)
+    {
+        $this->store($request, $brand_id);
     }
 }

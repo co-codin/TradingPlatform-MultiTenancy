@@ -11,12 +11,11 @@ class BrandDBCreateRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'tables' => [
+            'modules' => [
                 'required',
                 'array',
-                new EnumValue(AllowedDBTables::class, false),
+//                new EnumValue(AllowedDBTables::class, false),
             ],
-            'brand_id' => 'required|exists:brands,id',
         ];
     }
 }
