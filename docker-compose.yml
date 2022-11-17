@@ -24,6 +24,9 @@ services:
             - '.:/var/www/html'
         networks:
             - sail
+        depends_on:
+            - redis
+            - pgsql
 
     pgsql:
         image: 'postgres:14'
@@ -43,7 +46,7 @@ services:
         networks:
             - sail
         healthcheck:
-            test: ["CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}"]
+            test: [ "CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}" ]
             retries: 3
             timeout: 5s
 
@@ -51,6 +54,8 @@ services:
         image: redis:alpine
         restart: unless-stopped
         command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD}"
+        ports:
+            - '${FORWARD_REDIS_PORT:-6379}:6379'
         environment:
             APP_DOMAIN: '{APP_DOMAIN}'
             APP_ENV: '${APP_EMV:-LOCAL}'

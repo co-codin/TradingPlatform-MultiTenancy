@@ -2,20 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Modules\User\Http\Controllers\Admin;
+namespace Modules\User\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Carbon\CarbonImmutable;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Modules\User\Http\Requests\LoginRequest;
 use Modules\User\Http\Resources\AuthUserResource;
+use Modules\User\Models\User;
 use Modules\User\Services\UserStorage;
 use OpenApi\Annotations as OA;
 
-final class AuthController extends Controller
+final class TokenAuthController extends Controller
 {
     public function __construct(
         protected UserStorage $userStorage,
@@ -24,9 +25,9 @@ final class AuthController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/admin/auth/login",
+     *     path="/admin/token-auth/login",
      *     tags={"Auth"},
-     *     summary="Frontend auth worker",
+     *     summary="Get a token by creds",
      *     @OA\RequestBody(
      *          required=true,
      *          @OA\MediaType(
@@ -45,7 +46,8 @@ final class AuthController extends Controller
      *     ),
      *     @OA\Response(
      *          response=200,
-     *          description="success"
+     *          description="success",
+     *          @OA\JsonContent(ref="#/components/schemas/AuthUserResponse")
      *     ),
      *     @OA\Response(
      *          response=422,
@@ -55,40 +57,48 @@ final class AuthController extends Controller
      * )
      *
      * @param  LoginRequest  $request
+     * @return array
      *
      * @throws ValidationException
      * @throws Exception
-     * @noinspection NullPointerExceptionInspection
      */
-    public function login(LoginRequest $request): void
+    public function login(LoginRequest $request): array
     {
-        if (
-            ! Auth::attempt([
-                'email' => $request->validated('email'), 'password' => $request->validated('password'),
-            ], $request->validated('remember_me', false))
-        ) {
+        $user = User::where('email', $request->validated('email'))->first();
+
+        if (!$user || !Hash::check($request->validated('password'), $user->password)) {
             throw ValidationException::withMessages([
                 'message' => ['The provided credentials are incorrect.'],
             ]);
         }
 
-        $user = Auth::user();
         if ($user->banned_at) {
             throw ValidationException::withMessages([
                 'message' => ['You have been banned'],
             ]);
         }
 
-        $request->session()->regenerate();
+        $expiredAt = CarbonImmutable::now()->add(
+            $request->validated('remember_me', false)
+                ? config('auth.api_token_prolonged_expires_in')
+                : config('auth.api_token_expires_in')
+        );
+
         $this->userStorage->update($user, ['last_login' => CarbonImmutable::now()]);
+
+        return [
+            'user' => new AuthUserResource($user),
+            'token' => $user->createToken('api', expiresAt: $expiredAt)->plainTextToken,
+            'expired_at' => $expiredAt->toDateTimeString(),
+        ];
     }
 
     /**
      * @OA\Post(
-     *     path="/admin/auth/logout",
+     *     path="/admin/token-auth/logout",
      *     tags={"Auth"},
      *     security={ {"sanctum": {} }},
-     *     summary="User Logout",
+     *     summary="User api logout",
      *     @OA\Response(
      *          response=200,
      *          description="success"
@@ -98,37 +108,9 @@ final class AuthController extends Controller
      *          description="Unauthorized Error"
      *     )
      * )
-     *
-     * @param  Request  $request
      */
-    public function logout(Request $request): void
+    public function logout(): void
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-    }
-
-    /**
-     * @OA\Get(
-     *     path="/admin/auth/user",
-     *     tags={"Auth"},
-     *     security={ {"sanctum": {} }},
-     *     summary="Authorized worker data",
-     *     @OA\Response(
-     *          response=200,
-     *          description="success",
-     *          @OA\JsonContent(ref="#/components/schemas/AuthUserResource")
-     *     ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="Unauthorized Error"
-     *     )
-     * )
-     *
-     * @return AuthUserResource
-     */
-    public function user(): AuthUserResource
-    {
-        return new AuthUserResource(auth()->user());
+        Auth::user()->tokens()->where('name', 'api')->delete();
     }
 }
