@@ -34,11 +34,12 @@ final class AuthController extends Controller
      *              @OA\Schema (
      *                  required={
      *                      "email",
-     *                      "password",
+     *                      "password"
      *                  },
      *                  type="object",
      *                  @OA\Property(property="email", type="string", format="email"),
-     *                  @OA\Property(property="password", type="string", format="password")
+     *                  @OA\Property(property="password", type="string", format="password"),
+     *                  @OA\Property(property="remember_me", type="boolean")
      *              )
      *          )
      *     ),
