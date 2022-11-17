@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('logo_url');
             $table->boolean('is_active')->default(true);
-            $table->jsonb('tables')->default('{}');
+            $table->jsonb('tables')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

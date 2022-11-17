@@ -25,6 +25,10 @@ class Brand extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'tables' => 'array',
+    ];
+
     /**
      * {@inheritdoc}
      */

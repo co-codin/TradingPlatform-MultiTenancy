@@ -4,7 +4,7 @@ namespace Modules\Brand\Services;
 
 use Illuminate\Support\Facades\DB;
 use Modules\Brand\Dto\BrandDto;
-use Modules\Brand\Jobs\CreateBrandDBJob;
+use Modules\Brand\Jobs\CreateSchemaJob;
 use Modules\Brand\Models\Brand;
 
 class BrandStorage
@@ -15,7 +15,7 @@ class BrandStorage
 
         auth()->user()->brands()->attach($brand->id);
 
-//        dispatch(new CreateBrandDBJob($brand->slug));
+//        dispatch(new CreateSchemaJob($brand->slug));
 
         return $brand;
     }

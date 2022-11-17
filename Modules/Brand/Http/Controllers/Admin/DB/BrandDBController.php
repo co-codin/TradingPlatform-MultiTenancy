@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace Modules\Brand\Http\Controllers\Admin\DB;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Response;
 use Modules\Brand\Http\Requests\BrandDBCreateRequest;
 use Modules\Brand\Repositories\BrandRepository;
 use Modules\Brand\Services\BrandDBService;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class BrandDBController extends Controller
 {
@@ -16,28 +16,15 @@ class BrandDBController extends Controller
         protected BrandRepository $brandRepository,
     ){}
 
-    /**
-     *
-     *
-     * @param int $brand
-     * @param BrandDBCreateRequest $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|Response
-     */
-    public function store(BrandDBCreateRequest $request, int $brandId)
+    public function import(BrandDBCreateRequest $request, int $brand)
     {
-        $request->validated();
-
         $this->brandDBService
-            ->setBrand($this->brandRepository->find($brandId))
+            ->setBrand($this->brandRepository->find($brand))
             ->setModules($request->input('modules'))
-            ->migrateDB();
+            ->migrateDB()
+            ->migrateData()
+        ;
 
-        return response(status: Response::HTTP_ACCEPTED);
-
-    }
-
-    public function import(BrandDBCreateRequest $request, int $brand_id)
-    {
-        $this->store($request, $brand_id);
+        return response(status: ResponseAlias::HTTP_ACCEPTED);
     }
 }
