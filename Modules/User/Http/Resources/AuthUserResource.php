@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Modules\User\Http\Resources;
 
-use OpenApi\Annotations as OA;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Role\Http\Resources\RoleResource;
 use Modules\User\Models\User;
+use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema (
@@ -46,17 +47,22 @@ use Modules\User\Models\User;
  *
  * @OA\Schema (
  *     schema="AuthUserResponse",
+ *     required={
+ *         "user",
+ *         "token",
+ *         "expired_at",
+ *     },
  *     type="object",
  *     @OA\Property(
  *         property="user",
  *         type="object",
  *         ref="#/components/schemas/AuthUser"
  *     ),
- *     @OA\Property(property="token", type="string")
+ *     @OA\Property(property="token", type="string"),
+ *     @OA\Property(property="expired_at", type="string", format="date-time", example="2022-12-17 08:44:09")
  * )
  *
  * Class AuthUserResource
- * @package Modules\User\Http\Resources
  * @mixin User
  */
 class AuthUserResource extends JsonResource

@@ -13,16 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('brands', function (Blueprint $table) {
+        Schema::create('desks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string("title");
-            $table->string('slug')->unique();
-            $table->string('logo_url');
+            $table->string('title');
             $table->boolean('is_active')->default(true);
-            $table->jsonb('tables')->default('{}');
-            $table->softDeletes();
+            $table->nestedSet();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('brands');
+        Schema::dropIfExists('desks');
     }
 };

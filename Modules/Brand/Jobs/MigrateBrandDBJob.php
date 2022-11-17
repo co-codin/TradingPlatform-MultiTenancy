@@ -10,38 +10,47 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Schema;
+use Nwidart\Modules\Facades\Module;
 
-class MigrateBrandDBJob implements ShouldQueue
+class MigrateBrandDBJob// implements ShouldQueue
 {
     use Dispatchable;
     use Queueable;
     use InteractsWithQueue;
     use SerializesModels;
 
-    protected ?string $db = null;
-
-    protected ?array $tables = null;
-
-    public function __construct(string $db, array $tables)
-    {
-        $this->db = $db;
-        $this->tables = $tables;
-    }
+    public function __construct(
+        private readonly string $db,
+        private readonly array $modules = []
+    )
+    {}
 
     public function handle(): void
     {
-//        Config::set('config.databse.connections.pgsql.database', $this->db);
-//        putenv("DB_DATABASE=$this->db");
-        $migrationsPath = 'Modules/Brand/DB/Migrations/';
+        try {
+            $appModules = Module::all();
 
-        foreach ($this->tables as $table) {
-            Artisan::call(sprintf(
-                'brand-migrate --path=%s --database=%s',
-                "{$migrationsPath}create_{$table}_table.php",
-                $this->db
-            ));
+            foreach ($this->modules as $module) {
+                if (isset($appModules[$module])) {
+                    $migrations = array_values(
+                        array_diff(
+                            scandir(base_path("/Modules/{$module}/Database/Migrations")),
+                            ['..', '.']),
+                    );
 
-//            dd($result);
+                    foreach ($migrations as $migration) {
+                        Artisan::call(sprintf(
+                            'brand-migrate --path=%s --database=%s',
+                            "/Modules/{$module}/Database/Migrations/",
+                            $this->db
+                        ));
+                    }
+                }
+            }
+            dd('as');
+        } catch (\Throwable $e) {
+            dd($e->getMessage());
         }
     }
 }

@@ -42,9 +42,6 @@ abstract class BaseModuleServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->app->singleton(\Illuminate\Database\Migrations\Migrator::class, function ($app) {
-            return $app['migrator'];
-        });
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerPolicies();
