@@ -9,9 +9,9 @@ class UserDisplayOptionCreateRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|unique:display_options,name',
+            'name' => 'required|string',
             'columns' => 'nullable|array',
-            'columns.*.' => 'required|string'
+            'columns.*' => 'required|string'
         ];
     }
 }

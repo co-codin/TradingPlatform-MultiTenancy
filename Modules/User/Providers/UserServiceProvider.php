@@ -3,7 +3,9 @@
 namespace Modules\User\Providers;
 
 use App\Providers\BaseModuleServiceProvider;
+use Modules\User\Models\DisplayOption;
 use Modules\User\Models\User;
+use Modules\User\Policies\UserDisplayOptionPolicy;
 use Modules\User\Policies\UserPolicy;
 
 class UserServiceProvider extends BaseModuleServiceProvider
@@ -13,6 +15,7 @@ class UserServiceProvider extends BaseModuleServiceProvider
      */
     protected array $policies = [
         User::class => UserPolicy::class,
+        DisplayOption::class => UserDisplayOptionPolicy::class,
     ];
 
     /**

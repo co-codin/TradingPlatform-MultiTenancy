@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace Modules\User\Repositories;
 
 use App\Repositories\BaseRepository;
-use Modules\User\Models\User;
-use Modules\User\Repositories\Criteria\UserRequestCriteria;
+use Modules\User\Models\DisplayOption;
+use Modules\User\Repositories\Criteria\DisplayOptionCriteria;
 
-final class UserRepository extends BaseRepository
+final class DisplayOptionRepository extends BaseRepository
 {
     /**
      * {@inheritDoc}
      */
     final public function model(): string
     {
-        return User::class;
+        return DisplayOption::class;
     }
 
     /**
@@ -23,6 +23,6 @@ final class UserRepository extends BaseRepository
      */
     final public function boot()
     {
-        $this->pushCriteria(UserRequestCriteria::class);
+        $this->pushCriteria(DisplayOptionCriteria::class);
     }
 }

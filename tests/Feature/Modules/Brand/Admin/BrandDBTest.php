@@ -45,21 +45,21 @@ final class BrandDBTest extends TestCase
     /**
      * @test
      */
-    public function test_import(): void
-    {
-        $this->authenticateUser();
-
-        try {
-            $brand = Brand::factory()->create();
-        } catch (\Throwable $e) {
-            dd($e->getMessage());
-        }
-
-        $response = $this->post(route('admin.brands.db.import', ['brand' => $brand]), [
-            'modules' => array_values(BrandDBService::ALLOWED_MODULES),
-        ], [
-            'Brand' => $brand->slug,
-        ]);
-        dd($response->json('message'));
-    }
+//    public function test_import(): void
+//    {
+//        $this->authenticateUser();
+//
+//        try {
+//            $brand = Brand::factory()->create();
+//        } catch (\Throwable $e) {
+//            dd($e->getMessage());
+//        }
+//
+//        $response = $this->post(route('admin.brands.db.import', ['brand' => $brand]), [
+//            'modules' => array_values(BrandDBService::ALLOWED_MODULES),
+//        ], [
+//            'Brand' => $brand->slug,
+//        ]);
+//        dd($response->json('message'));
+//    }
 }
