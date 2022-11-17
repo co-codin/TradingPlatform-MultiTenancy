@@ -26,7 +26,7 @@ class Brand extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class, 'user_brand');
     }
 
     public function getActivitylogOptions(): LogOptions
