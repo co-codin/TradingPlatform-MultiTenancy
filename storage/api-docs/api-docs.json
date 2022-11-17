@@ -733,6 +733,9 @@
                                     "password": {
                                         "type": "string",
                                         "format": "password"
+                                    },
+                                    "remember_me": {
+                                        "type": "boolean"
                                     }
                                 },
                                 "type": "object"
