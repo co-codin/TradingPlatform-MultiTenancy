@@ -54,7 +54,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     ]);
 
     Route::apiResource(
-        'workers/display-options',
+        'workers.display-options',
         UserDisplayOptionController::class,
         [
             'except' => [

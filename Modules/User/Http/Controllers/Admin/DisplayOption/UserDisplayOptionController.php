@@ -12,6 +12,7 @@ use Illuminate\Http\Response;
 use Modules\User\Http\Requests\DisplayOption\UserDisplayOptionCreateRequest;
 use Modules\User\Http\Requests\DisplayOption\UserDisplayOptionUpdateRequest;
 use Modules\User\Http\Resources\DisplayOptionResource;
+use Modules\User\Models\DisplayOption;
 use Modules\User\Repositories\UserRepository;
 use Modules\User\Services\UserDisplayOptionStorage;
 use Modules\User\Services\UserStorage;
@@ -69,10 +70,10 @@ class UserDisplayOptionController extends Controller
      * @throws AuthorizationException
      */
     public function store(UserDisplayOptionCreateRequest $request, int $user): JsonResource
-    {dd('asedasd');
+    {
         $user = $this->userRepository->find($user);
 
-        $this->authorize('create', $user);
+        $this->authorize('create', DisplayOption::class);
 
         return new DisplayOptionResource(
             $this->userStorage->storeDisplayOption($user, $request->validated())
@@ -197,7 +198,7 @@ class UserDisplayOptionController extends Controller
     {
         $user = $this->userRepository->find($user);
 
-        $this->authorize('update', [$user, $displayOption]);
+        $this->authorize('update', [DisplayOption::class, $displayOption]);
 
         return new DisplayOptionResource(
             $this->userStorage->updateDisplayOption($user, $displayOption, $request->validated())
@@ -248,12 +249,13 @@ class UserDisplayOptionController extends Controller
      * @param int $displayOption
      * @return Response
      * @throws AuthorizationException
+     * @throws Exception
      */
     public function destroy(int $user, int $displayOption): Response
     {
         $user = $this->userRepository->find($user);
 
-        $this->authorize('delete', [$user, $displayOption]);
+        $this->authorize('delete', [DisplayOption::class, $displayOption]);
 
         $this->userStorage->destroyDisplayOption($user, $displayOption);
 

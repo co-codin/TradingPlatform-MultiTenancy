@@ -24,7 +24,7 @@ class UserDisplayOptionFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'name' => $this->faker->name(),
+            'name' => $this->faker->unique()->name(),
             'columns' => $this->faker->randomElements(array_values(DisplayOption::AVAILABLE_COLUMNS)),
         ];
     }
