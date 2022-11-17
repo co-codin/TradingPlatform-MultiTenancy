@@ -33,12 +33,12 @@ class Brand extends Model
      * {@inheritdoc}
      */
     protected $dispatchesEvents = [
-        'created' => BrandCreated::class,
+//        'created' => BrandCreated::class,
     ];
 
-    public function user()
+    public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class, 'user_brand');
     }
 
     public function getActivitylogOptions(): LogOptions

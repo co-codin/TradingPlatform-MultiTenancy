@@ -11,6 +11,7 @@ use Modules\User\Http\Controllers\Admin\Desk\UserDeskController;
 use Modules\User\Http\Controllers\Admin\ForgetController;
 use Modules\User\Http\Controllers\Admin\Language\UserLanguageController;
 use Modules\User\Http\Controllers\Admin\UserController;
+use Modules\User\Http\Controllers\Admin\DisplayOption\UserDisplayOptionController;
 
 Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login');
@@ -27,6 +28,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     // Brand
     Route::put('/workers/{id}/brand', [UserBrandController::class, 'update'])->name('users.brand.update');
+
+    // Display options
+    Route::apiResource('/workers/{id}/display_options', UserDisplayOptionController::class)->except('index');
 
     // Ban
     Route::patch('/workers/ban', [UserController::class, 'ban'])->name('users.ban');

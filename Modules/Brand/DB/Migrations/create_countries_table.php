@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable(false);
             $table->string('iso2', 3)->nullable(false)->unique();
-            $table->string('iso2', 3)->nullable(false)->unique();
+            $table->string('iso3', 3)->nullable(false)->unique();
             $table->timestamps();
 
             $table->softDeletes();
