@@ -2,8 +2,8 @@
 
 namespace Modules\Brand\Services;
 
-use Modules\Brand\Jobs\CreateBrandDBJob;
-use Modules\Brand\Jobs\MigrateBrandDBJob;
+use Modules\Brand\Jobs\CreateSchemaJob;
+use Modules\Brand\Jobs\MigrateStructureJob;
 use Modules\Brand\Models\Brand;
 use Illuminate\Support\Facades\Bus;
 
@@ -19,7 +19,6 @@ class BrandDBService
         'Language' => 'Language',
         'Role' => 'Role',
         'Token' => 'Token',
-        'User' => 'User',
     ];
 
     /**
@@ -59,7 +58,7 @@ class BrandDBService
      */
     public function migrateDB(): void
     {
-        MigrateBrandDBJob::dispatch($this->brand->slug, $this->modules);
+        MigrateStructureJob::dispatch($this->brand->slug, $this->modules);
     }
 
     /**

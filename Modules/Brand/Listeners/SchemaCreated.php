@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
 use Modules\Brand\Events\BrandCreated;
 use Modules\User\Models\User;
 
-final class CreateBrandSchemaOnBrandCreated //implements ShouldQueue
+final class SchemaCreated //implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue;
 
