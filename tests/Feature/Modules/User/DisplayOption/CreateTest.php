@@ -62,30 +62,6 @@ class CreateTest extends TestCase
     }
 
     /**
-     * Test name exist.
-     *
-     * @return void
-     *
-     * @test
-     */
-    public function name_exist(): void
-    {
-        $this->authenticateWithPermission(
-            UserDisplayOptionPermission::fromValue(
-                UserDisplayOptionPermission::CREATE_USER_DISPLAY_OPTIONS
-            )
-        );
-
-        $displayOption = DisplayOption::factory()->create(['user_id' => $this->getUser()->id]);
-
-        $data = DisplayOption::factory()->make(['user_id' => $this->getUser()->id, 'name' => $displayOption->name]);
-
-        $response = $this->post(route('admin.users.display-options.store', ['worker' => $this->getUser()->id]), $data->toArray());
-
-        $response->assertUnprocessable();
-    }
-
-    /**
      * Test name required.
      *
      * @return void
