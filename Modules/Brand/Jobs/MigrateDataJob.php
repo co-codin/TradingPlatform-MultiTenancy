@@ -36,6 +36,6 @@ class MigrateDataJob implements ShouldQueue
 
 //        DB::connection($this->db)->insert($users);
 
-        // такая же логика по другим таблицам 
+        // такая же логика по другим таблицам
     }
 }
