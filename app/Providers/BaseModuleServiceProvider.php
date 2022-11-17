@@ -46,7 +46,6 @@ abstract class BaseModuleServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerPolicies();
         $this->registerCommands();
-        $this->loadMigrationsFrom(module_path($this->getModuleName(), 'Database/Migrations'));
     }
 
     /**

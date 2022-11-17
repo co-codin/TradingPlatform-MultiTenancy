@@ -22,4 +22,10 @@ class UserServiceProvider extends BaseModuleServiceProvider
     {
         return 'User';
     }
+
+    public function boot(): void
+    {
+        parent::boot();
+        $this->loadMigrationsFrom(module_path($this->getModuleName(), 'Database/Migrations'));
+    }
 }
