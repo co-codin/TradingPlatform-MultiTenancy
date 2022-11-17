@@ -1093,6 +1093,268 @@
                 ]
             }
         },
+        "/admin/workers/{workerId}/display-options": {
+            "post": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Add a new worker`s display option",
+                "operationId": "3cc600033e060b1e0944ae3bdb4c4997",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "columns"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "columns": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DisplayOptionResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/workers/{workerId}/display-options/{displayOptionId}": {
+            "put": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Update a worker`s display option",
+                "operationId": "51d02c2d6ad4c4ec2c46906af4903f3d",
+                "parameters": [
+                    {
+                        "name": "workerId",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "displayOptionId",
+                        "in": "path",
+                        "description": "Display option id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "columns": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DisplayOptionResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Delete a worker`s display option",
+                "operationId": "f9b2b9345ed6e7406acaeaca2b488eaf",
+                "parameters": [
+                    {
+                        "name": "workerId",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "displayOptionId",
+                        "in": "path",
+                        "description": "Display option id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Update a worker",
+                "operationId": "a68dabe45a22274481c43a5afcb9c937",
+                "parameters": [
+                    {
+                        "name": "workerId",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "displayOptionId",
+                        "in": "path",
+                        "description": "Display option id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "columns": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DisplayOptionResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/auth/forget-password": {
             "post": {
                 "tags": [
@@ -2160,6 +2422,60 @@
                     },
                     "token": {
                         "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "DisplayOption": {
+                "required": [
+                    "id",
+                    "user_id",
+                    "name",
+                    "columns"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "user_id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "columns": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "user": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Worker"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "DisplayOptionCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DisplayOption"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "DisplayOptionResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/DisplayOption"
                     }
                 },
                 "type": "object"
