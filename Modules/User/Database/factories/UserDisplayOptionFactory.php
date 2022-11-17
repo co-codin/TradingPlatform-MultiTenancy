@@ -13,7 +13,7 @@ class UserDisplayOptionFactory extends Factory
      *
      * @var string
      */
-    protected $model = \Modules\User\Models\DisplayOption::class;
+    protected $model = DisplayOption::class;
 
     /**
      * Define the model's default state.

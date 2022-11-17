@@ -13,6 +13,7 @@ use Modules\User\Http\Requests\DisplayOption\UserDisplayOptionCreateRequest;
 use Modules\User\Http\Requests\DisplayOption\UserDisplayOptionUpdateRequest;
 use Modules\User\Http\Resources\DisplayOptionResource;
 use Modules\User\Models\DisplayOption;
+use Modules\User\Repositories\DisplayOptionRepository;
 use Modules\User\Repositories\UserRepository;
 use Modules\User\Services\UserDisplayOptionStorage;
 use Modules\User\Services\UserStorage;
@@ -21,6 +22,7 @@ class UserDisplayOptionController extends Controller
 {
     public function __construct(
         protected UserRepository $userRepository,
+        protected DisplayOptionRepository $displayOptionRepository,
         protected UserStorage $userStorage
     ) {}
 
@@ -30,6 +32,13 @@ class UserDisplayOptionController extends Controller
      *     tags={"Worker"},
      *     security={ {"sanctum": {} }},
      *     summary="Add a new worker`s display option",
+     *     @OA\Parameter(
+     *         description="Worker id",
+     *         in="path",
+     *         name="workerId",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/json",
@@ -197,11 +206,12 @@ class UserDisplayOptionController extends Controller
     public function update(UserDisplayOptionUpdateRequest $request, int $user, int $displayOption): JsonResource
     {
         $user = $this->userRepository->find($user);
+        $displayOption = $this->displayOptionRepository->find($displayOption);
 
         $this->authorize('update', [DisplayOption::class, $displayOption]);
 
         return new DisplayOptionResource(
-            $this->userStorage->updateDisplayOption($user, $displayOption, $request->validated())
+            $this->userStorage->updateDisplayOption($user, $displayOption->id, $request->validated())
         );
     }
 
@@ -254,10 +264,11 @@ class UserDisplayOptionController extends Controller
     public function destroy(int $user, int $displayOption): Response
     {
         $user = $this->userRepository->find($user);
+        $displayOption = $this->displayOptionRepository->find($displayOption);
 
         $this->authorize('delete', [DisplayOption::class, $displayOption]);
 
-        $this->userStorage->destroyDisplayOption($user, $displayOption);
+        $this->userStorage->destroyDisplayOption($user, $displayOption->id);
 
         return response()->noContent();
     }

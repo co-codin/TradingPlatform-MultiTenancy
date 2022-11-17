@@ -70,33 +70,6 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * Test name exist.
-     *
-     * @return void
-     *
-     * @test
-     */
-    public function name_exist(): void
-    {
-        $this->authenticateWithPermission(
-            UserDisplayOptionPermission::fromValue(
-                UserDisplayOptionPermission::EDIT_USER_DISPLAY_OPTIONS
-            )
-        );
-
-        $displayOption = DisplayOption::factory()->create(['user_id' => $this->getUser()->id]);
-        $targetDisplayOption = DisplayOption::factory()->create(['user_id' => $this->getUser()->id]);
-        $data = DisplayOption::factory()->make(['user_id' => $this->getUser()->id, 'name' => $displayOption->name]);
-
-        $response = $this->patch(
-            route('admin.users.display-options.update', ['worker' => $this->getUser()->id, 'display_option' => $targetDisplayOption->id]),
-            $data->toArray()
-        );
-
-        $response->assertUnprocessable();
-    }
-
-    /**
      * Test name filled.
      *
      * @return void
