@@ -5,15 +5,20 @@ declare(strict_types=1);
 namespace Tests\Feature\Modules\Brand\Admin;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Modules\Brand\Enums\AllowedDBTables;
 use Modules\Brand\Jobs\CreateBrandDBJob;
 use Modules\Brand\Jobs\MigrateBrandDBJob;
-use Tests\TestCase;
+use Modules\Brand\Models\Brand;
+use Modules\Brand\Services\BrandDBService;
+use Illuminate\Foundation\Testing\TestCase;
+use Tests\Traits\HasAuth;
 
 final class BrandDBTest extends TestCase
 {
-    use DatabaseTransactions;
+    use HasAuth;
+//    use DatabaseTransactions;
 
 //    public function test_db_create_job()
 //    {
@@ -41,8 +46,20 @@ final class BrandDBTest extends TestCase
      * @test
      */
     public function test_import(): void
-    {dd('asdasda');
-        $response = $this->post(route('admin.brands.db.import'));
-        dd($response->json());
+    {
+        $this->authenticateUser();
+
+        try {
+            $brand = Brand::factory()->create();
+        } catch (\Throwable $e) {
+            dd($e->getMessage());
+        }
+
+        $response = $this->post(route('admin.brands.db.import', ['brand' => $brand]), [
+            'modules' => array_values(BrandDBService::ALLOWED_MODULES),
+        ], [
+            'Brand' => $brand->slug,
+        ]);
+        dd($response->json('message'));
     }
 }

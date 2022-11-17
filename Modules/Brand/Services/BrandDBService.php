@@ -9,14 +9,10 @@ use Illuminate\Support\Facades\Bus;
 
 class BrandDBService
 {
-    protected Brand $brand;
-
-    protected array $tables;
-
     /**
      * @var array
      */
-    protected const ALLOWED_MODULES = [
+    public const ALLOWED_MODULES = [
         'Department' => 'Department',
         'Desk' => 'Desk',
         'Geo' => 'Geo',
@@ -29,7 +25,7 @@ class BrandDBService
     /**
      * @var array
      */
-    protected const ALLOWED_RELATIONS = [
+    public const ALLOWED_RELATIONS = [
         'user_country' => [
             self::ALLOWED_MODULES['User'],
             self::ALLOWED_MODULES['Geo'],
@@ -52,11 +48,24 @@ class BrandDBService
         ],
     ];
 
+    public function __construct(
+        private Brand $brand,
+        private array $modules = []
+    )
+    {}
+
+    /**
+     * @return void
+     */
     public function migrateDB(): void
     {
-        MigrateBrandDBJob::dispatch($this->brand->slug, $this->tables);
+        MigrateBrandDBJob::dispatch($this->brand->slug, $this->modules);
     }
 
+    /**
+     * @param Brand $brand
+     * @return $this
+     */
     public function setBrand(Brand $brand): self
     {
         $this->brand = $brand;
@@ -64,9 +73,13 @@ class BrandDBService
         return $this;
     }
 
-    public function setTables(array $tables): self
+    /**
+     * @param array $modules
+     * @return $this
+     */
+    public function setModules(array $modules): self
     {
-        $this->tables = $tables;
+        $this->modules = $modules;
 
         return $this;
     }

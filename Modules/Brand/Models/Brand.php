@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Brand\Database\factories\BrandFactory;
+use Modules\Brand\Events\BrandCreated;
 use Modules\User\Models\User;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -23,6 +24,13 @@ class Brand extends Model
     use HasFactory, SoftDeletes, LogsActivity;
 
     protected $guarded = ['id'];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $dispatchesEvents = [
+        'created' => BrandCreated::class,
+    ];
 
     public function user()
     {
