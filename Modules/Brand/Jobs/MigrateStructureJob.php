@@ -31,29 +31,16 @@ class MigrateStructureJob implements ShouldQueue
      */
     public function handle(): void
     {
+        $appModules = Module::all();
+
         try {
-            $appModules = Module::all();
-
-            $migrations = array_values(
-                array_diff(
-                    scandir(base_path("/Modules/User/Database/Migrations")),
-                    ['..', '.']),
-            );
-
-            foreach ($migrations as $migration) {
-                Artisan::call(sprintf(
-                    'brand-migrate --path=%s --database=%s',
-                    "/Modules/User/Database/Migrations/",
-                    $this->db
-                ));
-            }
-
             foreach ($this->modules as $module) {
                 if (isset($appModules[$module])) {
                     $migrations = array_values(
                         array_diff(
                             scandir(base_path("/Modules/{$module}/Database/Migrations")),
-                            ['..', '.']),
+                            ['..', '.']
+                        ),
                     );
 
                     foreach ($migrations as $migration) {

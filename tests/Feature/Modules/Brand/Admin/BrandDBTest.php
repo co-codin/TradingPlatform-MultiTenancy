@@ -8,17 +8,20 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Modules\Brand\Enums\AllowedDBTables;
+use Modules\Brand\Enums\BrandPermission;
 use Modules\Brand\Jobs\CreateSchemaJob;
 use Modules\Brand\Jobs\MigrateStructureJob;
 use Modules\Brand\Models\Brand;
 use Modules\Brand\Services\BrandDBService;
 use Illuminate\Foundation\Testing\TestCase;
+use Modules\Role\Models\Permission;
+use Modules\User\Models\User;
 use Tests\Traits\HasAuth;
 
 final class BrandDBTest extends TestCase
 {
     use HasAuth;
-//    use DatabaseTransactions;
+    use DatabaseTransactions;
 
 //    public function test_db_create_job()
 //    {
@@ -45,21 +48,25 @@ final class BrandDBTest extends TestCase
     /**
      * @test
      */
-//    public function test_import(): void
-//    {
-//        $this->authenticateUser();
-//
-//        try {
-//            $brand = Brand::factory()->create();
-//        } catch (\Throwable $e) {
-//            dd($e->getMessage());
-//        }
-//
-//        $response = $this->post(route('admin.brands.db.import', ['brand' => $brand]), [
-//            'modules' => array_values(BrandDBService::ALLOWED_MODULES),
-//        ], [
-//            'Brand' => $brand->slug,
-//        ]);
-//        dd($response->json('message'));
-//    }
+    public function test_import(): void
+    {
+        try {
+            $this->authenticateWithPermission(BrandPermission::fromValue(BrandPermission::VIEW_BRANDS));
+
+            $brand = Brand::factory()->create();
+
+            $response = $this->post(
+                route('admin.brands.db.import', ['brand' => $brand]),
+                [
+                    'modules' => array_values(BrandDBService::ALLOWED_MODULES),
+                ],
+                [
+                    'Brand' => $brand->slug,
+                ]
+            );
+        } catch (\Throwable $e) {
+            dd($e->getTrace());
+        }
+        dd($response->json());
+    }
 }
