@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 use Nwidart\Modules\Facades\Module;
 
-class MigrateBrandDBJob// implements ShouldQueue
+class MigrateStructureJob implements ShouldQueue
 {
     use Dispatchable;
     use Queueable;
@@ -26,10 +26,27 @@ class MigrateBrandDBJob// implements ShouldQueue
     )
     {}
 
+    /**
+     * @throws \Exception
+     */
     public function handle(): void
     {
         try {
             $appModules = Module::all();
+
+            $migrations = array_values(
+                array_diff(
+                    scandir(base_path("/Modules/User/Database/Migrations")),
+                    ['..', '.']),
+            );
+
+            foreach ($migrations as $migration) {
+                Artisan::call(sprintf(
+                    'brand-migrate --path=%s --database=%s',
+                    "/Modules/User/Database/Migrations/",
+                    $this->db
+                ));
+            }
 
             foreach ($this->modules as $module) {
                 if (isset($appModules[$module])) {
@@ -48,9 +65,8 @@ class MigrateBrandDBJob// implements ShouldQueue
                     }
                 }
             }
-            dd('as');
         } catch (\Throwable $e) {
-            dd($e->getMessage());
+            throw new \Exception($e->getMessage());
         }
     }
 }

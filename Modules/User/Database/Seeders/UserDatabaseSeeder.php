@@ -21,11 +21,11 @@ class UserDatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
-        $role = Role::factory()->create([
-            'name' => DefaultRole::ADMIN,
-            'key' => DefaultRole::ADMIN
-        ]);
-
-        $user->assignRole($role);
+//        $role = Role::factory()->create([
+//            'name' => DefaultRole::ADMIN,
+//            'key' => DefaultRole::ADMIN
+//        ]);
+//
+//        $user->assignRole($role);
     }
 }

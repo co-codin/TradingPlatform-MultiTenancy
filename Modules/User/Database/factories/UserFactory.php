@@ -17,7 +17,7 @@ final class UserFactory extends Factory
             'username' => $this->faker->userName,
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
-            'email' => $this->faker->email,
+            'email' => $this->faker->unique()->email,
             'password' => Hash::make('admin'),
             'remember_token' => Str::random(10),
             'is_active' => true,

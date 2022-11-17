@@ -39,6 +39,8 @@ class BrandServiceProvider extends BaseModuleServiceProvider
     {
         parent::boot();
 
+        $this->loadMigrationsFrom(module_path($this->getModuleName(), 'Database/Migrations'));
+
         $this->app->singleton(Migrator::class, function ($app) {
             return $app['migrator'];
         });

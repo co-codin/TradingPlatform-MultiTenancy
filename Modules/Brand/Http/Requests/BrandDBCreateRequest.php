@@ -14,7 +14,7 @@ class BrandDBCreateRequest extends BaseFormRequest
             'modules' => [
                 'required',
                 'array',
-//                new EnumValue(AllowedDBTables::class, false),
+                new EnumValue(AllowedDBTables::class, false),
             ],
         ];
     }

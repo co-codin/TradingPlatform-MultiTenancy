@@ -22,4 +22,10 @@ class TokenServiceProvider extends BaseModuleServiceProvider
     {
         return 'Token';
     }
+
+    public function boot(): void
+    {
+        parent::boot();
+        $this->loadMigrationsFrom(module_path($this->getModuleName(), 'Database/Migrations'));
+    }
 }

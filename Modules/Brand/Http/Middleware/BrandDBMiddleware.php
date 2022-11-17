@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Middleware;
+namespace Modules\Brand\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\RedirectResponse;
@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Modules\Brand\Models\Brand;
 
 final class BrandDBMiddleware
 {
@@ -23,7 +24,8 @@ final class BrandDBMiddleware
     public function handle(Request $request, Closure $next)
     {
         DB::purge('pgsql');
-        Config::set('database.connections.pgsql.database', $request->header('Brand'));
+        $brand = Brand::query()->find($request->header(['brand_id']));
+        Config::set('database.connections.pgsql.database', $brand->slug);
 
         return $next($request);
     }
