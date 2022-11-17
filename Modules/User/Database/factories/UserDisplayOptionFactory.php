@@ -3,6 +3,8 @@
 namespace Modules\User\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\User\Models\DisplayOption;
+use Modules\User\Models\User;
 
 class UserDisplayOptionFactory extends Factory
 {
@@ -21,7 +23,9 @@ class UserDisplayOptionFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'user_id' => User::factory(),
+            'name' => $this->faker->unique()->name(),
+            'columns' => $this->faker->randomElements(array_values(DisplayOption::AVAILABLE_COLUMNS)),
         ];
     }
 }

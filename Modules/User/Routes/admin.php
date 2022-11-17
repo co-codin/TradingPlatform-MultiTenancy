@@ -29,9 +29,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     // Brand
     Route::put('/workers/{id}/brand', [UserBrandController::class, 'update'])->name('users.brand.update');
 
-    // Display options
-    Route::apiResource('/workers/{id}/display_options', UserDisplayOptionController::class)->except('index');
-
     // Ban
     Route::patch('/workers/ban', [UserController::class, 'ban'])->name('users.ban');
     Route::patch('/workers/unban', [UserController::class, 'unban'])->name('users.unban');
@@ -55,4 +52,20 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         'update' => 'users.update',
         'destroy' => 'users.destroy',
     ]);
+
+    Route::apiResource(
+        'workers.display-options',
+        UserDisplayOptionController::class,
+        [
+            'except' => [
+                'index',
+                'show'
+            ],
+            'names' => [
+                'store' => 'users.display-options.store',
+                'update' => 'users.display-options.update',
+                'destroy' => 'users.display-options.destroy',
+            ],
+        ]
+    );
 });

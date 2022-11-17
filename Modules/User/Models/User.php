@@ -33,6 +33,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read Department[]|Collection $departments
  * @property-read Desk[]|Collection $desks
  * @property-read Language[]|Collection $languages
+ * @property-read DisplayOption[]|Collection $displayOptions
  * @method static self create(array $attributes)
  */
 final class User extends Authenticatable
