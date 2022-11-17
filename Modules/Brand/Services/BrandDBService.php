@@ -3,6 +3,7 @@
 namespace Modules\Brand\Services;
 
 use Modules\Brand\Jobs\CreateSchemaJob;
+use Modules\Brand\Jobs\MigrateDataJob;
 use Modules\Brand\Jobs\MigrateStructureJob;
 use Modules\Brand\Models\Brand;
 use Illuminate\Support\Facades\Bus;
@@ -53,12 +54,17 @@ class BrandDBService
     )
     {}
 
-    /**
-     * @return void
-     */
-    public function migrateDB(): void
+
+    public function migrateDB()
     {
         MigrateStructureJob::dispatch($this->brand->slug, $this->modules);
+
+        return $this;
+    }
+
+    public function migrateData(): void
+    {
+        MigrateDataJob::dispatch($this->brand->slug);
     }
 
     /**

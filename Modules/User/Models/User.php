@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Kalnoy\Nestedset\NodeTrait;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Brand\Models\Brand;
 use Modules\Department\Models\Department;
@@ -37,7 +38,7 @@ use Spatie\Permission\Traits\HasRoles;
  */
 final class User extends Authenticatable
 {
-    use Notifiable, HasRoles, HasApiTokens, HasFactory, SoftDeletes;
+    use Notifiable, HasRoles, HasApiTokens, HasFactory, SoftDeletes, NodeTrait;
 
     /**
      * @var string

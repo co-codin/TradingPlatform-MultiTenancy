@@ -26,6 +26,9 @@ class MigrateStructureJob implements ShouldQueue
     )
     {}
 
+    /**
+     * @throws \Exception
+     */
     public function handle(): void
     {
         try {
@@ -62,9 +65,8 @@ class MigrateStructureJob implements ShouldQueue
                     }
                 }
             }
-            dd('as');
         } catch (\Throwable $e) {
-            dd($e->getMessage());
+            throw new \Exception($e->getMessage());
         }
     }
 }

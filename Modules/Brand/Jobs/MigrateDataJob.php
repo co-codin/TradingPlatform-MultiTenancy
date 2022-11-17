@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\DB;
 
 class MigrateDataJob implements ShouldQueue
 {
@@ -16,10 +17,14 @@ class MigrateDataJob implements ShouldQueue
     use SerializesModels;
 
     public function __construct(
-        private readonly string $db,
-        private readonly array $modules = []
+        private readonly string $db
     )
     {}
 
+    public function handle()
+    {
+        $users = auth('sanctum')->user()->ancestors()->merge(auth('sanctum')->user()->descendants());
 
+//        DB::connection($this->db)->insert($users);
+    }
 }
