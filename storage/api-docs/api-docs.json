@@ -721,12 +721,18 @@
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
                                 "properties": {
                                     "email": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "format": "email"
                                     },
                                     "password": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "format": "password"
                                     }
                                 },
                                 "type": "object"
@@ -2154,12 +2160,22 @@
                 "type": "object"
             },
             "AuthUserResponse": {
+                "required": [
+                    "user",
+                    "token",
+                    "expired_at"
+                ],
                 "properties": {
                     "user": {
                         "$ref": "#/components/schemas/AuthUser"
                     },
                     "token": {
                         "type": "string"
+                    },
+                    "expired_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
                     }
                 },
                 "type": "object"
