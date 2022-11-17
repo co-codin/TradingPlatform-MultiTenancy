@@ -56,7 +56,7 @@ final class UserController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        $this->authorize('viewAny', User::class);
+//        $this->authorize('viewAny', User::class);
         $users = $this->userRepository->jsonPaginate();
 
         return UserResource::collection($users);
@@ -101,7 +101,7 @@ final class UserController extends Controller
     public function show(int $id): UserResource
     {
         $user = $this->userRepository->find($id);
-        $this->authorize('view', $user);
+//        $this->authorize('view', $user);
 
         return new UserResource($user);
     }
@@ -160,7 +160,7 @@ final class UserController extends Controller
      */
     public function store(UserCreateRequest $request): UserResource
     {
-        $this->authorize('create', User::class);
+//        $this->authorize('create', User::class);
 
         $user = $this->userStorage->store($request->validated());
 
@@ -293,7 +293,7 @@ final class UserController extends Controller
     {
         $user = $this->userRepository->find($id);
 
-        $this->authorize('update', $user);
+//        $this->authorize('update', $user);
 
         $user = $this->userStorage->update($user, $request->validated());
 
@@ -337,7 +337,7 @@ final class UserController extends Controller
     {
         $user = $this->userRepository->find($id);
 
-        $this->authorize('delete', $user);
+//        $this->authorize('delete', $user);
 
         $this->userStorage->destroy($user);
 
