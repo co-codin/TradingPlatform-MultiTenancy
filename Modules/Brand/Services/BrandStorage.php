@@ -13,7 +13,7 @@ class BrandStorage
     {
         $brand = Brand::query()->create($brandDto->toArray());
 
-        auth()->user()->brands()->attach($brand->id);
+        auth('sanctum')->user()->brands()->attach($brand->id);
 
 //        dispatch(new CreateSchemaJob($brand->slug));
 
