@@ -2333,6 +2333,9 @@
                     "401": {
                         "description": "Unauthorized Error"
                     },
+                    "404": {
+                        "description": "Not found"
+                    },
                     "419": {
                         "description": "CSRF token mismatch"
                     }
