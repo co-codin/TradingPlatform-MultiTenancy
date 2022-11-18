@@ -18,6 +18,14 @@ class SyncPermissions extends Command
 
     protected $description = 'synchronize all permissions';
 
+    protected array $actions = [
+        'create',
+        'edit',
+        'view',
+        'delete',
+        'ban',
+    ];
+
     public function handle()
     {
         $permissionFiles = Finder::create()
@@ -28,7 +36,7 @@ class SyncPermissions extends Command
             ->name('/Permission.php$/')
             ->files();
 
-        $availablePermissions = [];
+//        $availablePermissions = [];
 
         collect($permissionFiles)
             ->map(function(SplFileInfo $file) {
@@ -37,21 +45,21 @@ class SyncPermissions extends Command
             ->filter(fn(string $class) => is_subclass_of($class, PermissionEnum::class))
             ->each(function($enumClass) use(&$availablePermissions) {
                 foreach($enumClass::descriptions() as $value => $text) {
-                    $availablePermissions[] = $value;
+//                    $availablePermissions[] = $value;
                     Permission::query()
                         ->updateOrCreate(
-                            ['name' => $value],
+//                            ['name' => $value],
                             [
                                 'description' => $text,
                                 'guard_name' => 'api',
-                                'module' => method_exists($enumClass, 'module') ? $enumClass::module() : null
+//                                'module' => method_exists($enumClass, 'module') ? $enumClass::module() : null
                             ]
                         );
                 }
             });
 
-        Permission::query()
-            ->whereNotIn('name', $availablePermissions)
-            ->delete();
+//        Permission::query()
+//            ->whereNotIn('name', $availablePermissions)
+//            ->delete();
     }
 }
