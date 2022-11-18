@@ -2,11 +2,9 @@
 
 namespace Modules\Brand\Services;
 
-use Modules\Brand\Jobs\CreateSchemaJob;
 use Modules\Brand\Jobs\MigrateDataJob;
 use Modules\Brand\Jobs\MigrateStructureJob;
 use Modules\Brand\Models\Brand;
-use Illuminate\Support\Facades\Bus;
 
 class BrandDBService
 {
@@ -20,6 +18,15 @@ class BrandDBService
         'Language' => 'Language',
         'Role' => 'Role',
         'Token' => 'Token',
+        'User' => 'User',
+    ];
+
+    /**
+     * @var array
+     */
+    public const EXCEPT_MIGRATION_KEY_WORDS = [
+        'brand' => 'brand',
+        'brands' => 'brands'
     ];
 
     /**
@@ -37,6 +44,14 @@ class BrandDBService
         'user_department' => [
             self::ALLOWED_MODULES['User'],
             self::ALLOWED_MODULES['Department'],
+        ],
+        'user_desk' => [
+            self::ALLOWED_MODULES['User'],
+            self::ALLOWED_MODULES['Department'],
+        ],
+        'tokens' => [
+            self::ALLOWED_MODULES['User'],
+            self::ALLOWED_MODULES['Token'],
         ],
         'desk_language' => [
             self::ALLOWED_MODULES['Desk'],

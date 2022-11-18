@@ -1,0 +1,49 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Modules\Brand\Enums\BrandPermission;
+use Modules\Brand\Events\Tenant\BrandTenantIdentified;
+use Modules\Brand\Models\Brand;
+use Modules\User\Models\User;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
+
+final class SetTenant
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param Request $request
+     * @param Closure $next
+     * @return RedirectResponse|Response|mixed
+     */
+    public function handle(Request $request, Closure $next)
+    {
+        $tenant = $this->resolveTenant($request);
+
+        BrandTenantIdentified::dispatch($tenant);
+
+        return $next($request);
+    }
+
+    /**
+     * Resolve tenant.
+     *
+     * @param Request $request
+     * @return Brand
+     */
+    private function resolveTenant(Request $request): Brand
+    {
+        $tenant = Brand::where('slug', $request->header('Tenant'))->first();
+
+        abort_if(! $request->user()->can(BrandPermission::VIEW_BRANDS), ResponseAlias::HTTP_FORBIDDEN);
+
+        return $tenant;
+    }
+}

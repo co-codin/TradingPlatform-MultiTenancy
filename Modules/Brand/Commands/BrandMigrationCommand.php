@@ -6,6 +6,7 @@ namespace Modules\Brand\Commands;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\Console\Migrations\MigrateCommand;
 use Illuminate\Database\Migrations\Migrator;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 
 final class BrandMigrationCommand extends MigrateCommand
@@ -23,43 +24,15 @@ final class BrandMigrationCommand extends MigrateCommand
      *
      * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         if (! $this->confirmToProceed()) {
             return 1;
         }
 
-        $this->migrator->usingConnection('pgsql', function () {
-            $this->intoDatabase(function () {
-                $this->migrator->setOutput($this->output);
-            });
-        });
+        $this->migrator->setConnection($this->option('database'));
+        $this->migrator->run($this->option('path'));
 
         return 0;
-    }
-
-    /**
-     * Prepare the migration database for running.
-     *
-     * @return void
-     */
-    protected function prepareDatabase(): void
-    {
-        Config::set('database.connections.pgsql.database', $this->option('database'));
-
-        if (! $this->migrator->hasRunAnyMigrations()) {
-            $this->loadSchemaState();
-        }
-    }
-
-    protected function intoDatabase(callable $function)
-    {
-        $database = Config::get('database.connections.pgsql.database');
-
-        $this->prepareDatabase();
-
-        call_user_func($function);
-
-        Config::set('database.connections.pgsql.database', $database);
     }
 }

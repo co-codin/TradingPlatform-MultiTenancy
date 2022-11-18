@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Modules\Brand\Http\Controllers\Admin\DB;
 
 use App\Http\Controllers\Controller;
+use App\Services\Tenant\Manager;
 use Modules\Brand\Http\Requests\BrandDBImportRequest;
 use Modules\Brand\Repositories\BrandRepository;
 use Modules\Brand\Services\BrandDBService;

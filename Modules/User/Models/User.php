@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\User\Models;
 
+use App\Models\Traits\ForTenant;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -39,7 +40,7 @@ use Spatie\Permission\Traits\HasRoles;
  */
 final class User extends Authenticatable
 {
-    use Notifiable, HasRoles, HasApiTokens, HasFactory, SoftDeletes, NodeTrait;
+    use ForTenant, Notifiable, HasRoles, HasApiTokens, HasFactory, SoftDeletes, NodeTrait;
 
     /**
      * @var string

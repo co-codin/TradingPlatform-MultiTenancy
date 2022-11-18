@@ -50,6 +50,7 @@ final class BrandDBTest extends TestCase
      */
     public function test_import(): void
     {
+        DB::rollBack();
         try {
             $this->authenticateWithPermission(BrandPermission::fromValue(BrandPermission::VIEW_BRANDS));
 
@@ -58,14 +59,19 @@ final class BrandDBTest extends TestCase
             $response = $this->post(
                 route('admin.brands.db.import', ['brand' => $brand]),
                 [
-                    'modules' => array_values(BrandDBService::ALLOWED_MODULES),
+                    'modules' => array_values(['Department' => 'Department',
+                        'Desk' => 'Desk',
+                        'Geo' => 'Geo',
+                        'Language' => 'Language',
+                        'Role' => 'Role',
+                        'Token' => 'Token','User' => 'User']),
                 ],
                 [
-                    'Brand' => $brand->slug,
+                    'Tenant' => $brand->slug,
                 ]
             );
         } catch (\Throwable $e) {
-            dd($e->getTrace());
+            dd($e->getMessage());
         }
         dd($response->json());
     }

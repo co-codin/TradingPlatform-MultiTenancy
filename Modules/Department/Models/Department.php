@@ -2,6 +2,7 @@
 
 namespace Modules\Department\Models;
 
+use App\Models\Traits\ForTenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -23,7 +24,7 @@ use Modules\User\Models\User;
  */
 class Department extends Model
 {
-    use HasFactory, SoftDeletes;
+    use ForTenant, HasFactory, SoftDeletes;
 
     /**
      * @inheritdoc

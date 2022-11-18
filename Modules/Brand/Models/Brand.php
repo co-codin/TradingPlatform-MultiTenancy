@@ -2,6 +2,7 @@
 
 namespace Modules\Brand\Models;
 
+use App\Contracts\HasTenantDBConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -19,7 +20,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property string $slug;
  *
  */
-class Brand extends Model
+class Brand extends Model implements HasTenantDBConnection
 {
     use HasFactory, SoftDeletes, LogsActivity;
 
@@ -33,7 +34,7 @@ class Brand extends Model
      * {@inheritdoc}
      */
     protected $dispatchesEvents = [
-//        'created' => BrandCreated::class,
+        'created' => BrandCreated::class,
     ];
 
     public function users()
@@ -55,5 +56,15 @@ class Brand extends Model
     protected static function newFactory()
     {
         return BrandFactory::new();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTenantConnectionData(): array
+    {
+        return [
+            'database' => $this->slug,
+        ];
     }
 }
