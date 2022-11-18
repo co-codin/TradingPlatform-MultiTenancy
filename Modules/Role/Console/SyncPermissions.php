@@ -4,6 +4,8 @@ namespace Modules\Role\Console;
 
 use Illuminate\Console\Command;
 use Modules\Role\Contracts\PermissionEnum;
+use Modules\Role\Models\Action;
+use Modules\Role\Models\Model;
 use Modules\Role\Models\Permission;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;
@@ -18,14 +20,6 @@ class SyncPermissions extends Command
 
     protected $description = 'synchronize all permissions';
 
-    protected array $actions = [
-        'create',
-        'edit',
-        'view',
-        'delete',
-        'ban',
-    ];
-
     public function handle()
     {
         $permissionFiles = Finder::create()
@@ -35,9 +29,7 @@ class SyncPermissions extends Command
             ])
             ->name('/Permission.php$/')
             ->files();
-
-//        $availablePermissions = [];
-
+        
         collect($permissionFiles)
             ->map(function(SplFileInfo $file) {
                 return "\\" . ucfirst(str_replace("/", "\\", str_replace(base_path() . "/", "", $file->getPath()))) . "\\" . $file->getBasename('.' . $file->getExtension());
@@ -45,21 +37,27 @@ class SyncPermissions extends Command
             ->filter(fn(string $class) => is_subclass_of($class, PermissionEnum::class))
             ->each(function($enumClass) use(&$availablePermissions) {
                 foreach($enumClass::descriptions() as $value => $text) {
-//                    $availablePermissions[] = $value;
+                    $actionName = explode(" ", $value)[0];
+
+                    $action = Action::query()->firstOrCreate([
+                        'name' => $actionName,
+                    ]);
+                    $model = Model::query()->firstOrCreate([
+                        'name' => $enumClass::module(),
+                    ]);
+
+                    $availablePermissions[] = $value;
                     Permission::query()
                         ->updateOrCreate(
-//                            ['name' => $value],
                             [
-                                'description' => $text,
+                                'action_id' => $action->id,
+                                'model_id' => $model->id,
+                            ],
+                            [
                                 'guard_name' => 'api',
-//                                'module' => method_exists($enumClass, 'module') ? $enumClass::module() : null
                             ]
                         );
                 }
             });
-
-//        Permission::query()
-//            ->whereNotIn('name', $availablePermissions)
-//            ->delete();
     }
 }

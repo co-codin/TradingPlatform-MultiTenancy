@@ -8,6 +8,8 @@ class Column extends Model
 {
     protected $guarded = ['id'];
 
+    public $timestamps = false;
+
     public function permissions()
     {
         return $this->hasMany(Permission::class);

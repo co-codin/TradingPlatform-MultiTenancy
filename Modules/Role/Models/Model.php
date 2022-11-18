@@ -8,6 +8,8 @@ class Model extends BaseModel
 {
     protected $guarded = ['id'];
 
+    public $timestamps = false;
+
     public function permissions()
     {
         return $this->hasMany(Permission::class);
