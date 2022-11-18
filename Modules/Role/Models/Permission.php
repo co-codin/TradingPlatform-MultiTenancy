@@ -21,6 +21,21 @@ class Permission extends SpatiePermission
         );
     }
 
+    public function model()
+    {
+        return $this->belongsTo(Model::class);
+    }
+
+    public function action()
+    {
+        return $this->belongsTo(Action::class);
+    }
+
+    public function column()
+    {
+        return $this->belongsTo(Column::class);
+    }
+
     protected static function newFactory()
     {
         return PermissionFactory::new();
