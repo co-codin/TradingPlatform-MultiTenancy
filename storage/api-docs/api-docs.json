@@ -714,7 +714,7 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Auth User",
+                "summary": "Steteful login worker",
                 "operationId": "0000595c89318605a085f8278dfb593f",
                 "requestBody": {
                     "required": true,
@@ -744,15 +744,19 @@
                     }
                 },
                 "responses": {
-                    "200": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
+                    "204": {
+                        "description": "No content. The session ID is returned in a cookie named `laravel_session`. You need to include this cookie in subsequent requests.",
+                        "headers": {
+                            "Set-Cookie": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AuthUserResponse"
+                                    "type": "string",
+                                    "example": "laravel_session=eyJpdiI6IjZKZm...%3D; Path=/; Domain=localhost; HttpOnly; Expires=Fri, 18 Nov 2022 13:25:26 GMT;"
                                 }
                             }
                         }
+                    },
+                    "419": {
+                        "description": "CSRF token mismatch"
                     },
                     "422": {
                         "description": "Validation Error",
@@ -772,11 +776,14 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "User Logout",
+                "summary": "Steteful logout worker",
                 "operationId": "623a31a6ecbba78e4ee88edad388b138",
                 "responses": {
-                    "200": {
-                        "description": "success"
+                    "204": {
+                        "description": "No content"
+                    },
+                    "419": {
+                        "description": "CSRF token mismatch"
                     },
                     "401": {
                         "description": "Unauthorized Error"
@@ -784,7 +791,7 @@
                 },
                 "security": [
                     {
-                        "sanctum": []
+                        "sanctum_frontend": []
                     }
                 ]
             }
@@ -794,7 +801,7 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Authorized user data",
+                "summary": "Authorized worker data",
                 "operationId": "3b211723942663a3046347a8b9f9004a",
                 "responses": {
                     "200": {
@@ -813,7 +820,7 @@
                 },
                 "security": [
                     {
-                        "sanctum": []
+                        "sanctum_frontend": []
                     }
                 ]
             }
@@ -1109,6 +1116,17 @@
                 ],
                 "summary": "Add a new worker`s display option",
                 "operationId": "3cc600033e060b1e0944ae3bdb4c4997",
+                "parameters": [
+                    {
+                        "name": "workerId",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -2138,6 +2156,193 @@
                     }
                 ]
             }
+        },
+        "/admin/token-auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Stateless api login",
+                "operationId": "b40fd09c2695f363a2b940db1faaed2f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "remember_me": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "token",
+                                        "expired_at"
+                                    ],
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        },
+                                        "expired_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2022-12-17 08:44:09"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/token-auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Steteless api logout",
+                "operationId": "ef4e90a1af0c82dae472f057e366226e",
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/token/create": {
+            "post": {
+                "tags": [
+                    "Token"
+                ],
+                "summary": "Create new token",
+                "operationId": "616eb681a84071fa303f4308e31b07c6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "token_name"
+                                ],
+                                "properties": {
+                                    "token_name": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "token"
+                                    ],
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "419": {
+                        "description": "CSRF token mismatch"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/token/delete": {
+            "delete": {
+                "tags": [
+                    "Token"
+                ],
+                "summary": "Delete token",
+                "operationId": "e9ad65032766a13ba65cf0371a2adcf8",
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "419": {
+                        "description": "CSRF token mismatch"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -2424,27 +2629,6 @@
                 },
                 "type": "object"
             },
-            "AuthUserResponse": {
-                "required": [
-                    "user",
-                    "token",
-                    "expired_at"
-                ],
-                "properties": {
-                    "user": {
-                        "$ref": "#/components/schemas/AuthUser"
-                    },
-                    "token": {
-                        "type": "string"
-                    },
-                    "expired_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2022-12-17 08:44:09"
-                    }
-                },
-                "type": "object"
-            },
             "DisplayOption": {
                 "required": [
                     "id",
@@ -2639,8 +2823,14 @@
         "securitySchemes": {
             "sanctum": {
                 "type": "http",
-                "description": "Laravel Sanctum token authentication",
+                "description": "Laravel Sanctum token stateless authentication",
                 "scheme": "bearer"
+            },
+            "sanctum_frontend": {
+                "type": "apiKey",
+                "in": "cookie",
+                "name": "laravel_session",
+                "description": "Laravel Sanctum stateful authentication"
             }
         }
     }
