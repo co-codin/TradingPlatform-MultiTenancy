@@ -6,7 +6,7 @@ namespace Modules\User\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-final class LoginAuthRequest extends FormRequest
+final class LoginRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

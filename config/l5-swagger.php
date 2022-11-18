@@ -197,25 +197,19 @@ return [
                 */
                 'sanctum' => [
                     'type' => 'http',
-                    'description' => 'Laravel Sanctum token authentication',
+                    'description' => 'Laravel Sanctum token stateless authentication',
                     'scheme' => 'bearer',
+                ],
+                'sanctum_frontend' => [
+                    'type' => 'apiKey',
+                    'in' => 'cookie',
+                    'name' => 'laravel_session',
+                    'description' => 'Laravel Sanctum stateful authentication',
                 ],
 
             ],
             'security' => [
-                /*
-                 * Examples of Securities
-                */
-                [
-                    /*
-                    'oauth2_security_example' => [
-                        'read',
-                        'write'
-                    ],
-
-                    'passport' => []
-                    */
-                ],
+                //
             ],
         ],
 
