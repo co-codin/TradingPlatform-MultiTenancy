@@ -69,6 +69,15 @@ final class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function toArray()
+    {
+        if (auth()->check()) {
+            $this->makeVisible($this->hidden);
+        }
+
+        return parent::toArray();
+    }
+
     /**
      * Brands relation.
      *

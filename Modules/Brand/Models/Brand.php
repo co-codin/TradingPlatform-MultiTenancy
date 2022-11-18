@@ -39,7 +39,7 @@ class Brand extends Model implements HasTenantDBConnection
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_brand');
+        return $this->setConnection($this->getConnectionName())->belongsToMany(User::class, 'user_brand');
     }
 
     public function getActivitylogOptions(): LogOptions

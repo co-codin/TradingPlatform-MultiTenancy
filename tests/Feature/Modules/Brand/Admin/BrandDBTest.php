@@ -52,9 +52,19 @@ final class BrandDBTest extends TestCase
     {
         DB::rollBack();
         try {
-            $this->authenticateWithPermission(BrandPermission::fromValue(BrandPermission::VIEW_BRANDS));
 
-            $brand = Brand::factory()->create();
+            $user = User::factory()->withParent()->create();
+
+            $permission = Permission::whereName(BrandPermission::fromValue(BrandPermission::VIEW_BRANDS)->value)->first() ??
+                Permission::factory()->create([
+                    'name' => BrandPermission::fromValue(BrandPermission::VIEW_BRANDS)->value,
+                ]);
+
+            $user->givePermissionTo($permission->name);
+
+            $this->actingAs($user, User::DEFAULT_AUTH_GUARD);
+
+            $brand = $user->brands()->create(Brand::factory()->make()->toArray());
 
             $response = $this->post(
                 route('admin.brands.db.import', ['brand' => $brand]),

@@ -2,9 +2,17 @@
 
 namespace Modules\Brand\Services;
 
+use App\Services\Tenant\Manager;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Modules\Brand\Jobs\MigrateDataJob;
 use Modules\Brand\Jobs\MigrateStructureJob;
 use Modules\Brand\Models\Brand;
+use Modules\User\Models\User;
+use Nwidart\Modules\Facades\Module;
 
 class BrandDBService
 {
@@ -63,23 +71,75 @@ class BrandDBService
         ],
     ];
 
+    /**
+     * @param Brand $brand
+     * @param array $modules
+     */
     public function __construct(
         private Brand $brand,
         private array $modules = []
     )
     {}
 
-
-    public function migrateDB()
+    /**
+     * @return $this
+     */
+    public function migrateDB(): static
     {
-        MigrateStructureJob::dispatch($this->brand->slug, $this->modules);
+        $appModules = Module::all();
+
+        if (! Schema::connection(Manager::TENANT_CONNECTION_NAME)->hasTable('migrations')) {
+            Artisan::call(sprintf(
+                'migrate:install --database=%s',
+                Manager::TENANT_CONNECTION_NAME
+            ));
+        }
+
+        foreach ($this->modules as $module) {
+            if (isset($appModules[$module])) {
+                Artisan::call(sprintf(
+                    'brand-migrate %s --database=%s',
+                    $this->prepareMigrations($module),
+                    Manager::TENANT_CONNECTION_NAME
+                ));
+            }
+        }
 
         return $this;
     }
 
     public function migrateData(): void
     {
-        MigrateDataJob::dispatch($this->brand->slug);
+        $userData = collect();
+
+        app(Manager::class)->escapeTenant(function () use (&$userData) {
+            foreach ($this->brand->users()->get() as $user) {
+                $this->mergeNode('ancestors', $userData, $user);
+                $this->mergeNode('descendants', $userData, $user);
+            }
+        });
+
+        foreach ($userData as $user) {
+            $user = User::create($user->toArray());
+            dd($user);
+        }
+        dd(User::all());
+//        MigrateDataJob::dispatch($this->brand->slug);
+    }
+
+    public function mergeNode(string $key, &$userData, $user)
+    {
+        $methodName = 'get'.ucfirst($key);
+        $ancestors = $user->{$methodName}();
+
+        while ($ancestors->isNotEmpty()) {
+            $userData = $userData->merge($ancestors);
+
+            foreach ($ancestors as $ancestor) {
+                $this->mergeNode($key, $userData, $ancestor);
+            }
+            $ancestors = collect();
+        }
     }
 
     /**
@@ -102,5 +162,36 @@ class BrandDBService
         $this->modules = $modules;
 
         return $this;
+    }
+
+    private function prepareMigrations($module)
+    {
+        $migrations = array_values(
+            array_diff(
+                scandir(base_path("/Modules/{$module}/Database/Migrations")),
+                ['..', '.']
+            ),
+        );
+
+        return implode(' ', Arr::map($migrations, function ($migration) use ($module) {
+            foreach (BrandDBService::ALLOWED_RELATIONS as $relation => $modules) {
+                if (
+                    stripos($migration, $relation) !== false &&
+                    ! in_array($modules, $this->modules)
+                ) {
+                    if (! in_array($modules, $this->modules)) {
+                        return false;
+                    }
+                }
+            }
+
+            foreach (BrandDBService::EXCEPT_MIGRATION_KEY_WORDS as $exceptKeyWord) {
+                if ( stripos($migration, $exceptKeyWord) !== false) {
+                    return false;
+                }
+            }
+
+            return '--path='.base_path("Modules/{$module}/Database/Migrations/{$migration}");
+        }));
     }
 }

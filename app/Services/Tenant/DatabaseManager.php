@@ -33,7 +33,7 @@ class DatabaseManager
      */
     public function connectToTenant(): void
     {
-        $this->db->reconnect('tenant');
+        $this->db->reconnect(Manager::TENANT_CONNECTION_NAME);
     }
 
     /**
@@ -41,7 +41,7 @@ class DatabaseManager
      */
     public function purge(): void
     {
-        $this->db->purge('tenant');
+        $this->db->purge(Manager::TENANT_CONNECTION_NAME);
     }
 
     /**

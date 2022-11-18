@@ -30,8 +30,9 @@ final class BrandMigrationCommand extends MigrateCommand
             return 1;
         }
 
-        $this->migrator->setConnection($this->option('database'));
-        $this->migrator->run($this->option('path'));
+        $this->migrator->usingConnection($this->option('database'), function () {
+            $this->migrator->run($this->option('path'));
+        });
 
         return 0;
     }
