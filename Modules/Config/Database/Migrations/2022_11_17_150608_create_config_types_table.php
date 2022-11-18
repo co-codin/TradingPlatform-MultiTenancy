@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('config_types', function (Blueprint $table) {
             $table->id();
-
+            $table->string('type');
+            $table->string('name');
             $table->timestamps();
         });
     }

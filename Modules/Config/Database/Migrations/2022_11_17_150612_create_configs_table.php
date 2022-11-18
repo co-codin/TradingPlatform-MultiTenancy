@@ -15,7 +15,10 @@ return new class extends Migration
     {
         Schema::create('configs', function (Blueprint $table) {
             $table->id();
-
+            $table->foreignId('config_type_id')->constrained();
+            $table->string('data_type');
+            $table->string('name');
+            $table->string('value');
             $table->timestamps();
         });
     }

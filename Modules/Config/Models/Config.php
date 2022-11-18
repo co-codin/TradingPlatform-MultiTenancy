@@ -12,6 +12,11 @@ class Config extends Model
 
     protected $guarded = ['id'];
 
+    public function configType()
+    {
+        return $this->belongsTo(ConfigType::class);
+    }
+
     protected static function newFactory()
     {
         return ConfigFactory::new();

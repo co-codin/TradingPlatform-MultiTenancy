@@ -12,6 +12,11 @@ class ConfigType extends Model
 
     protected $guarded = ['id'];
 
+    public function configs()
+    {
+        return $this->hasMany(Config::class);
+    }
+
     protected static function newFactory()
     {
         return ConfigTypeFactory::new();
