@@ -6,5 +6,6 @@
     "Department": true,
     "Brand": true,
     "Language": true,
-    "Geo": true
+    "Geo": true,
+    "Config": true
 }
