@@ -93,6 +93,10 @@ final class TokenController extends Controller
      *          description="Unauthorized Error"
      *     ),
      *     @OA\Response(
+     *          response=404,
+     *          description="Not found"
+     *     ),
+     *     @OA\Response(
      *          response=419,
      *          description="CSRF token mismatch"
      *     ),
@@ -103,10 +107,9 @@ final class TokenController extends Controller
      */
     public function delete(Request $request): Response
     {
-        $request->validate([
-            'token_name' => 'required',
-        ]);
-        Auth::user()->tokens()->where('name', $request->token_name)->delete();
+        $request->validate(['token_name' => 'required']);
+        $token = Auth::user()->tokens()->where('name', $request->token_name)->firstOrFail();
+        $token->delete();
 
         return response()->noContent();
     }
