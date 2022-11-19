@@ -19,12 +19,11 @@ class BrandController extends Controller
         protected BrandStorage $brandStorage,
 
     ) {
-        $this->authorizeResource(Brand::class, 'brand');
     }
 
     public function all()
     {
-        $this->authorize('viewAny');
+//        $this->authorize('viewAny');
 
         $brands = $this->brandRepository->all();
 
@@ -33,6 +32,8 @@ class BrandController extends Controller
 
     public function index()
     {
+//        $this->authorize('viewAny', Brand::class);
+
         $brands = $this->brandRepository->jsonPaginate();
 
         return BrandResource::collection($brands);
@@ -42,13 +43,15 @@ class BrandController extends Controller
     {
         $brand = $this->brandRepository->find($brand);
 
-        Session::put('brand', $brand->slug);
+//        $this->authorize('view', $brand);
 
         return new BrandResource($brand);
     }
 
     public function store(BrandCreateRequest $request)
     {
+//        $this->authorize('create',  Brand::class);
+
         $brandDto = BrandDto::fromFormRequest($request);
 
         $brand = $this->brandStorage->store($brandDto);
@@ -60,6 +63,8 @@ class BrandController extends Controller
     {
         $brand = $this->brandRepository->find($brand);
 
+//        $this->authorize('update', $brand);
+
         $brand = $this->brandStorage->update(
             $brand, BrandDto::fromFormRequest($request)
         );
@@ -70,6 +75,8 @@ class BrandController extends Controller
     public function destroy(int $brand)
     {
         $brand = $this->brandRepository->find($brand);
+
+//        $this->authorize('delete', $brand);
 
         $this->brandStorage->delete($brand);
 

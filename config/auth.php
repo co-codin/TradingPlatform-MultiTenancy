@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'api',
+        'guard' => 'web',
         'passwords' => 'users',
     ],
 
@@ -113,4 +113,6 @@ return [
 
     'password_timeout' => 10800,
 
+    'api_token_expires_in' => env('API_TOKEN_EXPIRES_IN', '7days'),
+    'api_token_prolonged_expires_in' => env('API_TOKEN_PROLONGED_EXPIRES_IN', '30days'),
 ];

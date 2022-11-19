@@ -1,21 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\User\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
 
-class UserCreateRequest extends BaseFormRequest
+final class UserCreateRequest extends BaseFormRequest
 {
     public function rules(): array
     {
         return [
-            'role_id' => [
+            'username' => [
                 'required',
-                'array',
-                'min:1',
-                'exists:roles,id',
+                'string',
+                'max:255',
             ],
-            'name' => [
+            'first_name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'last_name' => [
                 'required',
                 'string',
                 'max:255',
@@ -31,13 +37,22 @@ class UserCreateRequest extends BaseFormRequest
                 'string',
                 'confirmed',
             ],
+            'is_active' => 'boolean',
+            'target' => 'numeric',
+            'parent_id' => 'integer|exists:users,id',
+            'roles.*.id' => [
+                'required',
+                'integer',
+                'min:1',
+                'exists:roles,id',
+            ],
         ];
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
-            'role_id' => 'Роль',
+            'role_id' => 'Role',
         ];
     }
 }

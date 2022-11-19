@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\User\Http\Requests\Language;
 
 use App\Http\Requests\BaseFormRequest;
 
-class UserLanguageUpdateRequest extends BaseFormRequest
+final class UserLanguageUpdateRequest extends BaseFormRequest
 {
-    public function rules()
+    public function rules(): array
     {
         return [
             'languages' => [

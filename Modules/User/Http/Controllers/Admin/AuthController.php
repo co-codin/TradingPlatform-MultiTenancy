@@ -1,37 +1,64 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\User\Http\Controllers\Admin;
 
-use OpenApi\Annotations as OA;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
+use Carbon\CarbonImmutable;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Modules\User\Http\Requests\LoginRequest;
 use Modules\User\Http\Resources\AuthUserResource;
-use Modules\User\Models\User;
+use Modules\User\Services\UserStorage;
+use OpenApi\Annotations as OA;
 
-class AuthController extends Controller
+final class AuthController extends Controller
 {
+    public function __construct(
+        protected UserStorage $userStorage,
+    ) {
+    }
+
     /**
      * @OA\Post(
      *     path="/admin/auth/login",
      *     tags={"Auth"},
-     *     summary="Auth User",
+     *     summary="Steteful login worker",
      *     @OA\RequestBody(
      *          required=true,
      *          @OA\MediaType(
      *              mediaType="application/json",
-     *              @OA\Schema (
+     *              @OA\Schema(
+     *                  required={
+     *                      "email",
+     *                      "password"
+     *                  },
      *                  type="object",
-     *                  @OA\Property(property="email", type="string"),
-     *                  @OA\Property(property="password", type="string")
+     *                  @OA\Property(property="email", type="string", format="email"),
+     *                  @OA\Property(property="password", type="string", format="password"),
+     *                  @OA\Property(property="remember_me", type="boolean")
      *              )
      *          )
      *     ),
      *     @OA\Response(
-     *          response=200,
-     *          description="success",
-     *          @OA\JsonContent(ref="#/components/schemas/AuthUserResponse")
+     *          response=204,
+     *          description="No content. The session ID is returned in a cookie named `laravel_session`. You need to include this cookie in subsequent requests.",
+     *          headers={
+     *              @OA\Header(
+     *                  header="Set-Cookie",
+     *                  @OA\Schema(
+     *                      type="string",
+     *                      example="laravel_session=eyJpdiI6IjZKZm...%3D; Path=/; Domain=localhost; HttpOnly; Expires=Fri, 18 Nov 2022 13:25:26 GMT;"
+     *                  )
+     *              )
+     *          }
+     *     ),
+     *     @OA\Response(
+     *          response=419,
+     *          description="CSRF token mismatch"
      *     ),
      *     @OA\Response(
      *          response=422,
@@ -40,41 +67,51 @@ class AuthController extends Controller
      *     )
      * )
      *
-     * @param Request $request
-     * @return array
+     * @param  LoginRequest  $request
+     * @return Response
+     *
      * @throws ValidationException
+     * @throws \Exception
+     * @noinspection NullPointerExceptionInspection
      */
-    public function login(Request $request)
+    public function login(LoginRequest $request): Response
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        $user = User::query()
-            ->where('email', $request->input('email'))
-            ->first();
-
-        if (! $user || ! Hash::check($request->input('password'), $user->password)) {
+        if (
+            ! Auth::attempt([
+                'email' => $request->validated('email'), 'password' => $request->validated('password'),
+            ], $request->validated('remember_me', false))
+        ) {
             throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
+                'message' => ['The provided credentials are incorrect.'],
             ]);
         }
 
-        return [
-            'user' => new AuthUserResource($user),
-            'token' => $user->createToken('api')->plainTextToken,
-        ];
+        $user = Auth::user();
+        if ($user->banned_at) {
+            throw ValidationException::withMessages([
+                'message' => ['You have been banned'],
+            ]);
+        }
+
+        $request->session()->regenerate();
+        $this->userStorage->update($user, ['last_login' => CarbonImmutable::now()]);
+
+        return response()->noContent();
     }
 
     /**
      * @OA\Post(
      *     path="/admin/auth/logout",
      *     tags={"Auth"},
-     *     summary="User Logout",
+     *     security={ {"sanctum_frontend": {} }},
+     *     summary="Steteful logout worker",
      *     @OA\Response(
-     *          response=200,
-     *          description="success"
+     *          response=204,
+     *          description="No content"
+     *     ),
+     *     @OA\Response(
+     *          response=419,
+     *          description="CSRF token mismatch"
      *     ),
      *     @OA\Response(
      *          response=401,
@@ -82,19 +119,24 @@ class AuthController extends Controller
      *     )
      * )
      *
+     * @param  Request  $request
+     * @return Response
      */
-    public function logout()
+    public function logout(Request $request): Response
     {
-        auth()->user()->tokens()->delete();
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        return response([], 200);
+        return response()->noContent();
     }
 
     /**
      * @OA\Get(
      *     path="/admin/auth/user",
      *     tags={"Auth"},
-     *     summary="Authorized user data",
+     *     security={ {"sanctum_frontend": {} }},
+     *     summary="Authorized worker data",
      *     @OA\Response(
      *          response=200,
      *          description="success",
@@ -108,7 +150,7 @@ class AuthController extends Controller
      *
      * @return AuthUserResource
      */
-    public function user()
+    public function user(): AuthUserResource
     {
         return new AuthUserResource(auth()->user());
     }

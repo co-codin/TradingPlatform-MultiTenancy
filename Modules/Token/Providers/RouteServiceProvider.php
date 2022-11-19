@@ -45,7 +45,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapAdminRoutes()
     {
-        Route::middleware('auth:sanctum')
+        Route::middleware(['api', 'auth:sanctum'])
             ->as('admin.')
             ->prefix('admin')
             ->group(module_path('Token', '/Routes/admin.php'));

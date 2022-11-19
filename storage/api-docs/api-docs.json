@@ -5,24 +5,737 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/admin/departments": {
+            "get": {
+                "tags": [
+                    "Department"
+                ],
+                "summary": "Get departments list",
+                "description": "Returns departments list data.",
+                "operationId": "departments.index",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DepartmentCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Department"
+                ],
+                "summary": "Store department",
+                "description": "Returns department data.",
+                "operationId": "departments.store",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name",
+                        "required": true,
+                        "example": "Name"
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "Title",
+                        "required": true,
+                        "example": "Title"
+                    },
+                    {
+                        "name": "is_active",
+                        "in": "query",
+                        "description": "Is active",
+                        "required": false,
+                        "example": 1
+                    },
+                    {
+                        "name": "is_default",
+                        "in": "query",
+                        "description": "Is default",
+                        "required": false,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DepartmentResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/departments/{id}": {
+            "get": {
+                "tags": [
+                    "Department"
+                ],
+                "summary": "Get department",
+                "description": "Returns department data.",
+                "operationId": "departments.show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Department id",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DepartmentResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Department"
+                ],
+                "summary": "Delete department",
+                "description": "Returns status.",
+                "operationId": "departments.delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Department id",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DepartmentResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Department"
+                ],
+                "summary": "Update department",
+                "description": "Returns department data.",
+                "operationId": "departments.update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Department id",
+                        "required": true,
+                        "example": 1
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name",
+                        "required": false,
+                        "example": "Name"
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "Title",
+                        "required": false,
+                        "example": "Title"
+                    },
+                    {
+                        "name": "is_active",
+                        "in": "query",
+                        "description": "Is active",
+                        "required": false,
+                        "example": 1
+                    },
+                    {
+                        "name": "is_default",
+                        "in": "query",
+                        "description": "Is default",
+                        "required": false,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DepartmentResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/countries": {
+            "get": {
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Get countries list",
+                "description": "Returns countries list data.",
+                "operationId": "countries.index",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CountryCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Store country",
+                "description": "Returns country data.",
+                "operationId": "countries.store",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name",
+                        "required": true,
+                        "example": "Russia"
+                    },
+                    {
+                        "name": "iso2",
+                        "in": "query",
+                        "description": "ISO2",
+                        "required": true,
+                        "example": "RU"
+                    },
+                    {
+                        "name": "iso3",
+                        "in": "query",
+                        "description": "ISO3",
+                        "required": true,
+                        "example": "RUS"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CountryResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/countries/{id}": {
+            "get": {
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Get country",
+                "description": "Returns country data.",
+                "operationId": "countries.show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Country id",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CountryResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Delete country",
+                "description": "Returns status.",
+                "operationId": "countries.delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Country id",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CountryResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Update country",
+                "description": "Returns country data.",
+                "operationId": "countries.update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Country id",
+                        "required": true,
+                        "example": 1
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name",
+                        "required": false,
+                        "example": "Russia"
+                    },
+                    {
+                        "name": "iso2",
+                        "in": "query",
+                        "description": "ISO2",
+                        "required": false,
+                        "example": "RU"
+                    },
+                    {
+                        "name": "iso3",
+                        "in": "query",
+                        "description": "ISO3",
+                        "required": false,
+                        "example": "RUS"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CountryResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/languages": {
+            "get": {
+                "tags": [
+                    "Language"
+                ],
+                "summary": "Get languages list",
+                "description": "Returns languages list data.",
+                "operationId": "languages.index",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LanguageCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Language"
+                ],
+                "summary": "Store language",
+                "description": "Returns language data.",
+                "operationId": "languages.store",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name",
+                        "required": true,
+                        "example": "Russia"
+                    },
+                    {
+                        "name": "iso2",
+                        "in": "query",
+                        "description": "ISO2",
+                        "required": true,
+                        "example": "RU"
+                    },
+                    {
+                        "name": "iso3",
+                        "in": "query",
+                        "description": "ISO3",
+                        "required": true,
+                        "example": "RUS"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LanguageResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/languages/{id}": {
+            "get": {
+                "tags": [
+                    "Language"
+                ],
+                "summary": "Get language",
+                "description": "Returns language data.",
+                "operationId": "languages.show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Language id",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LanguageResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Language"
+                ],
+                "summary": "Delete language",
+                "description": "Returns status.",
+                "operationId": "languages.delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Language id",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LanguageResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Language"
+                ],
+                "summary": "Update language",
+                "description": "Returns language data.",
+                "operationId": "languages.update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Language id",
+                        "required": true,
+                        "example": 1
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name",
+                        "required": false,
+                        "example": "Russia"
+                    },
+                    {
+                        "name": "iso2",
+                        "in": "query",
+                        "description": "ISO2",
+                        "required": false,
+                        "example": "RU"
+                    },
+                    {
+                        "name": "iso3",
+                        "in": "query",
+                        "description": "ISO3",
+                        "required": false,
+                        "example": "RUS"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LanguageResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/auth/login": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Auth User",
+                "summary": "Steteful login worker",
                 "operationId": "0000595c89318605a085f8278dfb593f",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
                                 "properties": {
                                     "email": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "format": "email"
                                     },
                                     "password": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "remember_me": {
+                                        "type": "boolean"
                                     }
                                 },
                                 "type": "object"
@@ -31,15 +744,19 @@
                     }
                 },
                 "responses": {
-                    "200": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
+                    "204": {
+                        "description": "No content. The session ID is returned in a cookie named `laravel_session`. You need to include this cookie in subsequent requests.",
+                        "headers": {
+                            "Set-Cookie": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/AuthUserResponse"
+                                    "type": "string",
+                                    "example": "laravel_session=eyJpdiI6IjZKZm...%3D; Path=/; Domain=localhost; HttpOnly; Expires=Fri, 18 Nov 2022 13:25:26 GMT;"
                                 }
                             }
                         }
+                    },
+                    "419": {
+                        "description": "CSRF token mismatch"
                     },
                     "422": {
                         "description": "Validation Error",
@@ -59,16 +776,24 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "User Logout",
+                "summary": "Steteful logout worker",
                 "operationId": "623a31a6ecbba78e4ee88edad388b138",
                 "responses": {
-                    "200": {
-                        "description": "success"
+                    "204": {
+                        "description": "No content"
+                    },
+                    "419": {
+                        "description": "CSRF token mismatch"
                     },
                     "401": {
                         "description": "Unauthorized Error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum_frontend": []
+                    }
+                ]
             }
         },
         "/admin/auth/user": {
@@ -76,7 +801,7 @@
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Authorized user data",
+                "summary": "Authorized worker data",
                 "operationId": "3b211723942663a3046347a8b9f9004a",
                 "responses": {
                     "200": {
@@ -92,7 +817,569 @@
                     "401": {
                         "description": "Unauthorized Error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum_frontend": []
+                    }
+                ]
+            }
+        },
+        "/admin/workers/{id}/brand": {
+            "put": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Update worker brands",
+                "operationId": "f925d8c3fc4affbee411ed10cf59b255",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "brands"
+                                ],
+                                "properties": {
+                                    "brands": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Brand id",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/workers/{id}/country": {
+            "put": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Update worker countries",
+                "operationId": "de69e9dad98cbd42520160619ad9ec93",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "countries"
+                                ],
+                                "properties": {
+                                    "countries": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Country id",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/workers/{id}/department": {
+            "put": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Update worker departments",
+                "operationId": "331336218a2f76ceb0720f5e6cbbcca6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "departments"
+                                ],
+                                "properties": {
+                                    "departments": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Department id",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/workers/{id}/desk": {
+            "put": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Update worker desks",
+                "operationId": "3c369b7abc43a3752e2f6faa4b65cc93",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "desks"
+                                ],
+                                "properties": {
+                                    "desks": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Desk id",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/workers/{workerId}/display-options": {
+            "post": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Add a new worker`s display option",
+                "operationId": "3cc600033e060b1e0944ae3bdb4c4997",
+                "parameters": [
+                    {
+                        "name": "workerId",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "columns"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "columns": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DisplayOptionResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/workers/{workerId}/display-options/{displayOptionId}": {
+            "put": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Update a worker`s display option",
+                "operationId": "51d02c2d6ad4c4ec2c46906af4903f3d",
+                "parameters": [
+                    {
+                        "name": "workerId",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "displayOptionId",
+                        "in": "path",
+                        "description": "Display option id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "columns": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DisplayOptionResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Delete a worker`s display option",
+                "operationId": "f9b2b9345ed6e7406acaeaca2b488eaf",
+                "parameters": [
+                    {
+                        "name": "workerId",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "displayOptionId",
+                        "in": "path",
+                        "description": "Display option id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Update a worker",
+                "operationId": "a68dabe45a22274481c43a5afcb9c937",
+                "parameters": [
+                    {
+                        "name": "workerId",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "displayOptionId",
+                        "in": "path",
+                        "description": "Display option id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "columns": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DisplayOptionResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/admin/auth/forget-password": {
@@ -194,11 +1481,1110 @@
                     }
                 }
             }
+        },
+        "/admin/workers/{id}/language": {
+            "put": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Update worker languages",
+                "operationId": "d1983466c95ec4772f21be6e61c69520",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "languages"
+                                ],
+                                "properties": {
+                                    "languages": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Language id",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/workers": {
+            "get": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Get workers",
+                "operationId": "ccb21f208e5fbe9dbd47c9d39829e205",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/WorkerCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Add a new worker",
+                "operationId": "da31777849413b599e5ffe4bc77f9db2",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "username",
+                                    "first_name",
+                                    "last_name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation",
+                                    "role_id"
+                                ],
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "first_name": {
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "target": {
+                                        "type": "integer"
+                                    },
+                                    "parent_id": {
+                                        "type": "integer"
+                                    },
+                                    "roles": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/WorkerResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/workers/{id}": {
+            "get": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Get worker data",
+                "operationId": "359da0eae0f04a73c55066cd67112f82",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/WorkerResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Update a worker",
+                "operationId": "278a2b82092a5514efe40bafeba5f9f1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "username",
+                                    "first_name",
+                                    "last_name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation",
+                                    "role_id"
+                                ],
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "first_name": {
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "target": {
+                                        "type": "integer"
+                                    },
+                                    "parent_id": {
+                                        "type": "integer"
+                                    },
+                                    "role_id": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "change_password": {
+                                        "description": "Must be set to true if the password is changed.",
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/WorkerResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Delete a worker",
+                "operationId": "cdf83c0b6567f662b50ddc5a811c8d91",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Update a worker",
+                "operationId": "29a2d3523eea86f75d65ccc3e599bc8e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "first_name": {
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "target": {
+                                        "type": "integer"
+                                    },
+                                    "parent_id": {
+                                        "type": "integer"
+                                    },
+                                    "roles": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "change_password": {
+                                        "description": "Must be set to true if the password is changed.",
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/WorkerResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/workers/ban": {
+            "patch": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Ban a worker",
+                "operationId": "b572b98a9b3cebdcc4224313a9cc9082",
+                "parameters": [
+                    {
+                        "name": "users",
+                        "in": "path",
+                        "description": "Users data",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/workers/unban": {
+            "patch": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Unban a worker",
+                "operationId": "b9f6246813a23ac224d11adb3164484a",
+                "parameters": [
+                    {
+                        "name": "users",
+                        "in": "path",
+                        "description": "Users data",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/workers/batch": {
+            "patch": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Unban a worker",
+                "operationId": "48faec29a28ad96a63087701cc1b49c1",
+                "parameters": [
+                    {
+                        "name": "users",
+                        "in": "path",
+                        "description": "Users data",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "first_name": {
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "target": {
+                                        "type": "integer"
+                                    },
+                                    "parent_id": {
+                                        "type": "integer"
+                                    },
+                                    "roles": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "change_password": {
+                                        "description": "Must be set to true if the password is changed.",
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/WorkerCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/token-auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Stateless api login",
+                "operationId": "b40fd09c2695f363a2b940db1faaed2f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "remember_me": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "token",
+                                        "expired_at"
+                                    ],
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        },
+                                        "expired_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2022-12-17 08:44:09"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/token-auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Steteless api logout",
+                "operationId": "ef4e90a1af0c82dae472f057e366226e",
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/token/create": {
+            "post": {
+                "tags": [
+                    "Token"
+                ],
+                "summary": "Create new token",
+                "operationId": "616eb681a84071fa303f4308e31b07c6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "token_name"
+                                ],
+                                "properties": {
+                                    "token_name": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "token"
+                                    ],
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "419": {
+                        "description": "CSRF token mismatch"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/token/delete": {
+            "delete": {
+                "tags": [
+                    "Token"
+                ],
+                "summary": "Delete token",
+                "operationId": "e9ad65032766a13ba65cf0371a2adcf8",
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    },
+                    "419": {
+                        "description": "CSRF token mismatch"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
         }
     },
     "components": {
         "schemas": {
+            "Department": {
+                "title": "Department",
+                "description": "Department model",
+                "required": [
+                    "id",
+                    "name",
+                    "title",
+                    "is_active",
+                    "is_default",
+                    "created_at",
+                    "updated_at",
+                    "deleted_at"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Department.",
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Name"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Title"
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "example": 1
+                    },
+                    "is_default": {
+                        "type": "boolean",
+                        "example": 1
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Department"
+                }
+            },
+            "DepartmentCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Department"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "DepartmentResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Department"
+                    }
+                },
+                "type": "object"
+            },
+            "Country": {
+                "title": "Country",
+                "description": "Country model",
+                "required": [
+                    "id",
+                    "name",
+                    "iso2",
+                    "iso3",
+                    "created_at",
+                    "updated_at",
+                    "deleted_at"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Country.",
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Russia"
+                    },
+                    "iso2": {
+                        "type": "string",
+                        "example": "RU"
+                    },
+                    "iso3": {
+                        "type": "string",
+                        "example": "RUS"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Country"
+                }
+            },
+            "CountryCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Country"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "CountryResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Country"
+                    }
+                },
+                "type": "object"
+            },
+            "Language": {
+                "title": "Language",
+                "description": "Language model",
+                "required": [
+                    "id",
+                    "name",
+                    "iso2",
+                    "iso3",
+                    "created_at",
+                    "updated_at",
+                    "deleted_at"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Language.",
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Russian"
+                    },
+                    "code": {
+                        "type": "string",
+                        "example": "rus"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Language"
+                }
+            },
+            "LanguageCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Language"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "LanguageResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Language"
+                    }
+                },
+                "type": "object"
+            },
+            "Permission": {
+                "type": "object"
+            },
             "Role": {
+                "type": "object"
+            },
+            "RoleCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Role"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
                 "type": "object"
             },
             "AuthUser": {
@@ -246,13 +2632,146 @@
                 },
                 "type": "object"
             },
-            "AuthUserResponse": {
+            "DisplayOption": {
+                "required": [
+                    "id",
+                    "user_id",
+                    "name",
+                    "columns"
+                ],
                 "properties": {
-                    "user": {
-                        "$ref": "#/components/schemas/AuthUser"
+                    "id": {
+                        "type": "integer"
                     },
-                    "token": {
+                    "user_id": {
+                        "type": "integer"
+                    },
+                    "name": {
                         "type": "string"
+                    },
+                    "columns": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "user": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Worker"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "DisplayOptionCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/DisplayOption"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "DisplayOptionResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/DisplayOption"
+                    }
+                },
+                "type": "object"
+            },
+            "Worker": {
+                "required": [
+                    "id",
+                    "username",
+                    "first_name",
+                    "last_name",
+                    "email",
+                    "is_active",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "first_name": {
+                        "type": "string"
+                    },
+                    "last_name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "is_active": {
+                        "type": "boolean"
+                    },
+                    "target": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "last_login": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "permissions": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Permission"
+                        }
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Role"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "WorkerCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Worker"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "WorkerResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Worker"
                     }
                 },
                 "type": "object"
@@ -302,6 +2821,19 @@
                     }
                 },
                 "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "sanctum": {
+                "type": "http",
+                "description": "Laravel Sanctum token stateless authentication",
+                "scheme": "bearer"
+            },
+            "sanctum_frontend": {
+                "type": "apiKey",
+                "in": "cookie",
+                "name": "laravel_session",
+                "description": "Laravel Sanctum stateful authentication"
             }
         }
     }

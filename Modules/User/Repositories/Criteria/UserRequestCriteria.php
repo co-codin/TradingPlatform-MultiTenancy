@@ -2,29 +2,35 @@
 
 namespace Modules\User\Repositories\Criteria;
 
-use App\Filters\ToggleFilter;
 use App\Http\Filters\LiveFilter;
-use Prettus\Repository\Contracts\CriteriaInterface;
+use App\Repositories\Criteria\BaseCriteria;
+use Modules\Brand\Repositories\Criteria\BrandRequestCriteria;
 use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class UserRequestCriteria implements CriteriaInterface
+class UserRequestCriteria extends BaseCriteria
 {
+    /**
+     * @inheritDoc
+     */
     public function apply($model, RepositoryInterface $repository)
     {
         return QueryBuilder::for($model)
             ->defaultSort('-id')
             ->allowedFields(array_merge(
-                static::allowedUserFields(),
+               static::allowedUserFields(),
+                BrandRequestCriteria::allowedBrandFields('brands')
             ))
             ->allowedFilters([
                 AllowedFilter::exact('id'),
-                AllowedFilter::partial('name'),
+                AllowedFilter::partial('username'),
                 AllowedFilter::partial('email'),
+                AllowedFilter::partial('last_name'),
                 AllowedFilter::custom('live', new LiveFilter([
                     'id' => '=',
-                    'name' => 'like',
+                    'username' => 'like',
+                    'last_name' => 'like',
                     'email' => 'like',
                 ])),
                 AllowedFilter::trashed(),
@@ -32,11 +38,17 @@ class UserRequestCriteria implements CriteriaInterface
             ->allowedIncludes([
                 'roles',
                 'roles.permissions',
+                'parent',
+                'ancestors',
+                'descendants',
+                'children',
+                'brands',
             ])
             ->allowedSorts([
                 'id',
-                'name',
+                'last_name',
                 'email',
+                'last_login',
                 'created_at',
                 'updated_at',
             ]);
@@ -46,8 +58,17 @@ class UserRequestCriteria implements CriteriaInterface
     {
         $fields = [
             'id',
-            'name',
+            'username',
+            'first_name',
+            'last_name',
+            'is_active',
+            'target',
+            'last_login',
+            'created_at',
+            'parent_id',
             'email',
+            'updated_at',
+            'deleted_at',
         ];
 
         if(!$prefix) {

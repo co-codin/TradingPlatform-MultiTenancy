@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\User\Http\Requests\Brand;
 
 use App\Http\Requests\BaseFormRequest;
 
-class UserBrandUpdateRequest extends BaseFormRequest
+final class UserBrandUpdateRequest extends BaseFormRequest
 {
-    public function rules()
+    public function rules(): array
     {
         return [
             'brands' => [

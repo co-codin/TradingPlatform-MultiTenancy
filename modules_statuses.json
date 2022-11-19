@@ -5,5 +5,7 @@
     "Token": true,
     "Department": true,
     "Brand": true,
-    "Language": true
+    "Language": true,
+    "Geo": true,
+    "Config": true
 }

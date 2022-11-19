@@ -5,20 +5,20 @@ return [
     'documentations' => [
         'default' => [
             'api' => [
-                'title' => 'L5 Swagger UI',
+                'title' => 'Stoxtech Admin API',
             ],
 
             'routes' => [
                 /*
                  * Route for accessing api documentation interface
                 */
-                'api' => 'api/documentation',
+                'api' => '/api/documentation',
             ],
             'paths' => [
                 /*
                  * Edit to include full URL in ui for assets
                 */
-                'use_absolute_path' => env('L5_SWAGGER_USE_ABSOLUTE_PATH', true),
+                'use_absolute_path' => env('L5_SWAGGER_USE_ABSOLUTE_PATH', false),
 
                 /*
                  * File name of the generated json documentation file
@@ -63,7 +63,7 @@ return [
             */
             'middleware' => [
                 'api' => [
-                   \App\Http\Middleware\AuthenticateBasic::class
+                    \App\Http\Middleware\AuthenticateBasic::class,
                 ],
                 'asset' => [],
                 'docs' => [],
@@ -194,28 +194,22 @@ return [
                         ],
                     ],
                 ],
-                'sanctum' => [ // Unique name of security
-                    'type' => 'apiKey', // Valid values are "basic", "apiKey" or "oauth2".
-                    'description' => 'Enter token in format (Bearer <token>)',
-                    'name' => 'Authorization', // The name of the header or query parameter to be used.
-                    'in' => 'header', // The location of the API key. Valid values are "query" or "header".
-                ],
                 */
+                'sanctum' => [
+                    'type' => 'http',
+                    'description' => 'Laravel Sanctum token stateless authentication',
+                    'scheme' => 'bearer',
+                ],
+                'sanctum_frontend' => [
+                    'type' => 'apiKey',
+                    'in' => 'cookie',
+                    'name' => 'laravel_session',
+                    'description' => 'Laravel Sanctum stateful authentication',
+                ],
+
             ],
             'security' => [
-                /*
-                 * Examples of Securities
-                */
-                [
-                    /*
-                    'oauth2_security_example' => [
-                        'read',
-                        'write'
-                    ],
-
-                    'passport' => []
-                    */
-                ],
+                //
             ],
         ],
 

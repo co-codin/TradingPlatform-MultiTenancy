@@ -1,25 +1,27 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Modules\User\Repositories;
-
 
 use App\Repositories\BaseRepository;
 use Modules\User\Models\User;
 use Modules\User\Repositories\Criteria\UserRequestCriteria;
-use Prettus\Repository\Exceptions\RepositoryException;
 
-class UserRepository extends BaseRepository
+final class UserRepository extends BaseRepository
 {
-    public function model()
+    /**
+     * {@inheritDoc}
+     */
+    final public function model(): string
     {
         return User::class;
     }
 
     /**
-     * @throws RepositoryException
+     * {@inheritDoc}
      */
-    public function boot()
+    final public function boot()
     {
         $this->pushCriteria(UserRequestCriteria::class);
     }

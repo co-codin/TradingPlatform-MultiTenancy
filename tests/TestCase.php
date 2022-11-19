@@ -1,19 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Support\Facades\Artisan;
+use Tests\Traits\HasAuth;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication, RefreshDatabase;
+    use CreatesApplication, DatabaseTransactions, HasAuth;
 
+    /**
+     * {@inheritDoc}
+     */
     protected function setUp(): void
     {
         parent::setUp();
-        Artisan::call('optimize');
+
+        $this->withoutMiddleware(VerifyCsrfToken::class);
     }
 }
-

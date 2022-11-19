@@ -2,97 +2,47 @@
 
 namespace Modules\Brand\Providers;
 
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\ServiceProvider;
+use App\Providers\BaseModuleServiceProvider;
+use Illuminate\Database\Migrations\Migrator;
+use Modules\Brand\Commands\BrandMigrationCommand;
 use Modules\Brand\Models\Brand;
 use Modules\Brand\Policies\BrandPolicy;
 
-class BrandServiceProvider extends ServiceProvider
+class BrandServiceProvider extends BaseModuleServiceProvider
 {
+    /**
+     * {@inheritdoc}
+     */
     protected array $policies = [
         Brand::class => BrandPolicy::class,
     ];
 
     /**
-     * @var string $moduleName
+     * {@inheritdoc}
      */
-    protected $moduleName = 'Brand';
+    protected array $commands = [
+        BrandMigrationCommand::class,
+    ];
 
     /**
-     * @var string $moduleNameLower
+     * {@inheritDoc}
      */
-    protected $moduleNameLower = 'brand';
-
-    /**
-     * Boot the application events.
-     *
-     * @return void
-     */
-    public function boot()
+    public function getModuleName(): string
     {
-        $this->registerTranslations();
-        $this->registerConfig();
-        $this->registerPolicies();
-        $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        return 'Brand';
     }
 
     /**
-     * Register the service provider.
-     *
-     * @return void
+     * {@inheritDoc}
      */
-    public function register()
+    public function boot(): void
     {
-        $this->app->register(RouteServiceProvider::class);
-    }
+        parent::boot();
 
-    /**
-     * Register config.
-     *
-     * @return void
-     */
-    protected function registerConfig()
-    {
-        $this->publishes([
-            module_path($this->moduleName, 'Config/config.php') => config_path($this->moduleNameLower . '.php'),
-        ], 'config');
-        $this->mergeConfigFrom(
-            module_path($this->moduleName, 'Config/config.php'), $this->moduleNameLower
-        );
-    }
+        $this->loadMigrationsFrom(module_path($this->getModuleName(), 'Database/Migrations'));
 
-    /**
-     * Register translations.
-     *
-     * @return void
-     */
-    public function registerTranslations()
-    {
-        $langPath = resource_path('lang/modules/' . $this->moduleNameLower);
-
-        if (is_dir($langPath)) {
-            $this->loadTranslationsFrom($langPath, $this->moduleNameLower);
-            $this->loadJsonTranslationsFrom($langPath, $this->moduleNameLower);
-        } else {
-            $this->loadTranslationsFrom(module_path($this->moduleName, 'Resources/lang'), $this->moduleNameLower);
-            $this->loadJsonTranslationsFrom(module_path($this->moduleName, 'Resources/lang'), $this->moduleNameLower);
-        }
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [];
-    }
-
-    public function registerPolicies()
-    {
-        foreach ($this->policies as $key => $value) {
-            Gate::policy($key, $value);
-        }
+        $this->app->singleton(Migrator::class, function ($app) {
+            return $app['migrator'];
+        });
     }
 }
