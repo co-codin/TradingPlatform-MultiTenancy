@@ -42,6 +42,8 @@ return new class extends Migration
             $table->foreignId('action_id')->constrained();
             $table->foreignId('column_id')->nullable()->constrained();
 
+            $table->string('name');
+
             $table->string('guard_name');
             $table->timestamps();
 
