@@ -45,23 +45,6 @@ use OpenApi\Annotations as OA;
  *     )
  * )
  *
- * @OA\Schema (
- *     schema="AuthUserResponse",
- *     required={
- *         "user",
- *         "token",
- *         "expired_at",
- *     },
- *     type="object",
- *     @OA\Property(
- *         property="user",
- *         type="object",
- *         ref="#/components/schemas/AuthUser"
- *     ),
- *     @OA\Property(property="token", type="string"),
- *     @OA\Property(property="expired_at", type="string", format="date-time", example="2022-12-17 08:44:09")
- * )
- *
  * Class AuthUserResource
  * @mixin User
  */
