@@ -53,20 +53,26 @@ final class BrandDBTest extends TestCase
         DB::rollBack();
         try {
 
-            $user = User::factory()->withParent()->create();
+            $user = User::whereEmail('test@service.com')->first() ??
+                User::factory()->withParent()->create([
+                    'email' => 'test@service.com',
+                ]);
 
-            $permission = Permission::whereName(BrandPermission::fromValue(BrandPermission::VIEW_BRANDS)->value)->first() ??
+            $permission = Permission::where(
+                    'name',
+                    BrandPermission::fromValue(
+                        BrandPermission::VIEW_BRANDS
+                    )->value
+                )->first() ??
                 Permission::factory()->create([
                     'name' => BrandPermission::fromValue(BrandPermission::VIEW_BRANDS)->value,
                 ]);
 
-            $user->givePermissionTo($permission->name);
-
-            $this->actingAs($user, User::DEFAULT_AUTH_GUARD);
+            $user->givePermissionTo($permission);
 
             $brand = $user->brands()->create(Brand::factory()->make()->toArray());
 
-            $response = $this->post(
+            $response = $this->actingAs($user, User::DEFAULT_AUTH_GUARD)->post(
                 route('admin.brands.db.import', ['brand' => $brand]),
                 [
                     'modules' => array_values(['Department' => 'Department',
@@ -81,7 +87,7 @@ final class BrandDBTest extends TestCase
                 ]
             );
         } catch (\Throwable $e) {
-            dd($e->getMessage());
+            dd($e->getTrace());
         }
         dd($response->json());
     }

@@ -30,7 +30,7 @@ final class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'parent_id' => User::all()->random()->id,
+                'parent_id' => User::inRandomOrder()->first()?->id,
             ];
         });
     }
