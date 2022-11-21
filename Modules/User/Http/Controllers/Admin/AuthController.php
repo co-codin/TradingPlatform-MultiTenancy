@@ -6,12 +6,12 @@ namespace Modules\User\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Carbon\CarbonImmutable;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Modules\User\Http\Requests\LoginAuthRequest;
+use Modules\User\Http\Requests\LoginRequest;
 use Modules\User\Http\Resources\AuthUserResource;
-use Modules\User\Models\User;
 use Modules\User\Services\UserStorage;
 use OpenApi\Annotations as OA;
 
@@ -26,12 +26,12 @@ final class AuthController extends Controller
      * @OA\Post(
      *     path="/admin/auth/login",
      *     tags={"Auth"},
-     *     summary="Auth User",
+     *     summary="Steteful login worker",
      *     @OA\RequestBody(
      *          required=true,
      *          @OA\MediaType(
      *              mediaType="application/json",
-     *              @OA\Schema (
+     *              @OA\Schema(
      *                  required={
      *                      "email",
      *                      "password"
@@ -44,9 +44,21 @@ final class AuthController extends Controller
      *          )
      *     ),
      *     @OA\Response(
-     *          response=200,
-     *          description="success",
-     *          @OA\JsonContent(ref="#/components/schemas/AuthUserResponse")
+     *          response=204,
+     *          description="No content. The session ID is returned in a cookie named `laravel_session`. You need to include this cookie in subsequent requests.",
+     *          headers={
+     *              @OA\Header(
+     *                  header="Set-Cookie",
+     *                  @OA\Schema(
+     *                      type="string",
+     *                      example="laravel_session=eyJpdiI6IjZKZm...%3D; Path=/; Domain=localhost; HttpOnly; Expires=Fri, 18 Nov 2022 13:25:26 GMT;"
+     *                  )
+     *              )
+     *          }
+     *     ),
+     *     @OA\Response(
+     *          response=419,
+     *          description="CSRF token mismatch"
      *     ),
      *     @OA\Response(
      *          response=422,
@@ -55,69 +67,76 @@ final class AuthController extends Controller
      *     )
      * )
      *
-     * @param  LoginAuthRequest  $request
-     * @return array
+     * @param  LoginRequest  $request
+     * @return Response
      *
      * @throws ValidationException
+     * @throws \Exception
+     * @noinspection NullPointerExceptionInspection
      */
-    public function login(LoginAuthRequest $request): array
+    public function login(LoginRequest $request): Response
     {
-        $user = User::where('email', $request->validated('email'))->first();
-
-        if (! $user || ! Hash::check($request->validated('password'), $user->password)) {
+        if (
+            ! Auth::attempt([
+                'email' => $request->validated('email'), 'password' => $request->validated('password'),
+            ], $request->validated('remember_me', false))
+        ) {
             throw ValidationException::withMessages([
                 'message' => ['The provided credentials are incorrect.'],
             ]);
         }
 
+        $user = Auth::user();
         if ($user->banned_at) {
             throw ValidationException::withMessages([
                 'message' => ['You have been banned'],
             ]);
         }
 
-        $expiredAt = CarbonImmutable::now()->add(
-            $request->validated('remember_me', false)
-                ? config('auth.api_token_prolonged_expires_in')
-                : config('auth.api_token_expires_in')
-        );
-
+        $request->session()->regenerate();
         $this->userStorage->update($user, ['last_login' => CarbonImmutable::now()]);
 
-        return [
-            'user' => new AuthUserResource($user),
-            'token' => $user->createToken('api', expiresAt: $expiredAt)->plainTextToken,
-            'expired_at' => $expiredAt->toDateTimeString(),
-        ];
+        return response()->noContent();
     }
 
     /**
      * @OA\Post(
      *     path="/admin/auth/logout",
      *     tags={"Auth"},
-     *     security={ {"sanctum": {} }},
-     *     summary="User Logout",
+     *     security={ {"sanctum_frontend": {} }},
+     *     summary="Steteful logout worker",
      *     @OA\Response(
-     *          response=200,
-     *          description="success"
+     *          response=204,
+     *          description="No content"
+     *     ),
+     *     @OA\Response(
+     *          response=419,
+     *          description="CSRF token mismatch"
      *     ),
      *     @OA\Response(
      *          response=401,
      *          description="Unauthorized Error"
      *     )
      * )
+     *
+     * @param  Request  $request
+     * @return Response
      */
-    public function logout(): void
+    public function logout(Request $request): Response
     {
-        Auth::user()->tokens()->delete();
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return response()->noContent();
     }
 
     /**
      * @OA\Get(
      *     path="/admin/auth/user",
      *     tags={"Auth"},
-     *     security={ {"sanctum": {} }},
-     *     summary="Authorized user data",
+     *     security={ {"sanctum_frontend": {} }},
+     *     summary="Authorized worker data",
      *     @OA\Response(
      *          response=200,
      *          description="success",

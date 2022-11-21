@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Modules\User\Models;
 
 use App\Models\Traits\ForTenant;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Kalnoy\Nestedset\NodeTrait;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Brand\Models\Brand;
@@ -24,7 +24,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 /**
  * Class User
- * @package Modules\User\Models
+ *
  * @property int $id
  * @property string $first_name
  * @property string $last_name
@@ -36,6 +36,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read Desk[]|Collection $desks
  * @property-read Language[]|Collection $languages
  * @property-read DisplayOption[]|Collection $displayOptions
+ *
  * @method static self create(array $attributes)
  */
 final class User extends Authenticatable
@@ -45,24 +46,24 @@ final class User extends Authenticatable
     /**
      * @var string
      */
-    public const DEFAULT_AUTH_GUARD = 'sanctum';
+    public const DEFAULT_AUTH_GUARD = 'api';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected $guarded = [
         'id',
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected $casts = [
         'banned_at' => 'datetime',
@@ -129,7 +130,7 @@ final class User extends Authenticatable
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected static function newFactory(): UserFactory
     {

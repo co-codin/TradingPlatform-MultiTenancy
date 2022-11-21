@@ -13,7 +13,7 @@ final class GetCurrentUserTest extends TestCase
      */
     public function me_endpoint(): void
     {
-        $this->authenticateUser();
+        $this->authenticateUser('web');
 
         $response = $this->get(route('admin.auth.user'));
 

@@ -23,9 +23,10 @@ trait HasAuth
     /**
      * Authenticate user.
      *
+     * @param  string  $guard
      * @return void
      */
-    final protected function authenticateUser(): void
+    final protected function authenticateUser(string $guard = User::DEFAULT_AUTH_GUARD): void
     {
         $user = User::factory()->create([
             'email' => 'test@service.com',
@@ -33,16 +34,16 @@ trait HasAuth
 
         $this->setUser($user);
 
-        $this->actingAs($user, User::DEFAULT_AUTH_GUARD);
-
+        $this->actingAs($user, $guard);
     }
 
     /**
      * Authenticate admin.
      *
+     * @param  string  $guard
      * @return void
      */
-    final protected function authenticateAdmin(): void
+    final protected function authenticateAdmin(string $guard = User::DEFAULT_AUTH_GUARD): void
     {
         $user = User::factory()->create([
             'email' => 'admin@service.com',
@@ -62,11 +63,14 @@ trait HasAuth
     /**
      * Authenticate user with permission.
      *
-     * @param PermissionEnum $permissionEnum
+     * @param  PermissionEnum  $permissionEnum
+     * @param  string  $guard
      * @return void
      */
-    final protected function authenticateWithPermission(PermissionEnum $permissionEnum): void
-    {
+    final protected function authenticateWithPermission(
+        PermissionEnum $permissionEnum,
+        string $guard = User::DEFAULT_AUTH_GUARD
+    ): void {
         $user = User::whereEmail('test@service.com')->first() ??
             User::factory()->create([
                 'email' => 'test@service.com',
@@ -77,17 +81,17 @@ trait HasAuth
                 'name' => $permissionEnum->value,
             ]);
 
-        $user->givePermissionTo($permission->name);
+        $user->givePermissionTo($permission);
 
         $this->setUser($user);
 
-        $this->actingAs($user, User::DEFAULT_AUTH_GUARD);
+        $this->actingAs($user, $guard);
     }
 
     /**
      * Set user.
      *
-     * @param User $user
+     * @param  User  $user
      * @return $this
      */
     final protected function setUser(User $user): static

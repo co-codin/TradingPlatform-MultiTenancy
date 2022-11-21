@@ -21,7 +21,7 @@ class DeskPermission implements PermissionEnum
         return [
             static::CREATE_DESKS => 'Create desks',
             static::VIEW_DESKS => 'View desks',
-            static::EDIT_DESKS => 'Update desks',
+            static::EDIT_DESKS => 'Edit desks',
             static::DELETE_DESKS => 'Delete desks',
         ];
     }

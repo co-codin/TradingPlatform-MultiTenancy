@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Auth;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Modules\User\Models\User;
 use Tests\TestCase;
 
-final class LoginTest extends TestCase
+final class ApiLoginTest extends TestCase
 {
     /**
      * @test
@@ -17,35 +16,43 @@ final class LoginTest extends TestCase
     public function login_success(): void
     {
         $user = $this->getUser();
-        $response = $this->post(route('admin.auth.login'), [
+        $response = $this->post(route('admin.token-auth.login'), [
             'email' => $user->email,
             'password' => 'admin1',
         ]);
 
-        $response->assertNoContent();
+        $response->assertOk();
+
+        $response->assertJsonStructure([
+            'token',
+            'expired_at',
+        ]);
+        $this->assertNotNull($user->tokens()->where('name', 'api')->first());
+        $this->actingAs($user)->withToken($response->json('token'));
         $this->assertAuthenticatedAs($user);
     }
 
     /**
      * @test
+     * @depends login_success
      */
     public function login_remember_success(): void
     {
         $user = $this->getUser();
-        $response = $this->post(route('admin.auth.login'), [
-            'email' => 'test@admin.com',
+        $response = $this->post(route('admin.token-auth.login'), [
+            'email' => $user->email,
             'password' => 'admin1',
             'remember_me' => true,
         ]);
 
-        $response->assertNoContent();
-        $this->assertAuthenticatedAs($user);
+        $response->assertOk();
 
-        $response->assertCookie(Auth::guard()->getRecallerName(), vsprintf('%s|%s|%s', [
-            $user->id,
-            $user->getRememberToken(),
-            $user->password,
-        ]));
+        $response->assertJsonStructure([
+            'token',
+            'expired_at',
+        ]);
+        $this->actingAs($user)->withToken($response->json('token'));
+        $this->assertAuthenticatedAs($user);
     }
 
     /**
@@ -54,7 +61,7 @@ final class LoginTest extends TestCase
     public function login_failed(): void
     {
         $user = $this->getUser();
-        $response = $this->post(route('admin.auth.login'), [
+        $response = $this->post(route('admin.token-auth.login'), [
             'email' => $user->email,
             'password' => 'random',
         ]);
