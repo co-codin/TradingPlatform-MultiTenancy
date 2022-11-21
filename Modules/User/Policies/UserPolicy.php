@@ -69,26 +69,4 @@ class UserPolicy extends BasePolicy
     {
         return $user->can(UserPermission::DELETE_USERS);
     }
-
-    /**
-     * Ban user policy.
-     *
-     * @param User $user
-     * @return bool
-     */
-    public function ban(User $user): bool
-    {
-        return $user->can(UserPermission::BAN_USERS);
-    }
-
-    /**
-     * Unban user policy.
-     *
-     * @param User $user
-     * @return bool
-     */
-    public function unban(User $user): bool
-    {
-        return $user->can(UserPermission::BAN_USERS);
-    }
 }
