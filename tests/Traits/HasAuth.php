@@ -71,19 +71,21 @@ trait HasAuth
         PermissionEnum $permissionEnum,
         string $guard = User::DEFAULT_AUTH_GUARD
     ): void {
-        $user = User::factory()->create([
-            'email' => 'test@service.com',
-        ]);
+        $user = User::whereEmail('test@service.com')->first() ??
+            User::factory()->create([
+                'email' => 'test@service.com',
+            ]);
 
-        $permission = Permission::factory()->create([
-            'name' => $permissionEnum->value,
-        ]);
+        $permission = Permission::whereName($permissionEnum->value)->first() ??
+            Permission::factory()->create([
+                'name' => $permissionEnum->value,
+            ]);
 
-        $user->givePermissionTo($permission->name);
+        $user->givePermissionTo($permission);
 
         $this->setUser($user);
 
-        $this->actingAs($user, User::DEFAULT_AUTH_GUARD);
+        $this->actingAs($user, $guard);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Modules\Geo\Models;
 
+use App\Models\Traits\ForTenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -20,7 +21,7 @@ use Modules\Geo\Database\factories\CountryFactory;
  */
 class Country extends Model
 {
-    use HasFactory, SoftDeletes;
+    use ForTenant, HasFactory, SoftDeletes;
 
     /**
      * @inheritdoc

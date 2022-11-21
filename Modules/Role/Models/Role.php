@@ -2,6 +2,7 @@
 
 namespace Modules\Role\Models;
 
+use App\Models\Traits\ForTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Modules\Role\Database\factories\RoleFactory;
@@ -9,7 +10,7 @@ use Spatie\Permission\Models\Role as SpatieRole;
 
 class Role extends SpatieRole
 {
-    use HasFactory;
+    use ForTenant, HasFactory;
 
     public function permissions(): BelongsToMany
     {

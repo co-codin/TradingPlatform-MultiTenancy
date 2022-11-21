@@ -4,9 +4,11 @@ namespace Modules\Brand\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
 use BenSampo\Enum\Rules\EnumValue;
+use Illuminate\Validation\Rule;
 use Modules\Brand\Enums\AllowedDBTables;
+use Modules\Brand\Services\BrandDBService;
 
-class BrandDBCreateRequest extends BaseFormRequest
+class BrandDBImportRequest extends BaseFormRequest
 {
     public function rules()
     {
@@ -14,7 +16,7 @@ class BrandDBCreateRequest extends BaseFormRequest
             'modules' => [
                 'required',
                 'array',
-                new EnumValue(AllowedDBTables::class, false),
+                Rule::in(BrandDBService::ALLOWED_MODULES),
             ],
         ];
     }

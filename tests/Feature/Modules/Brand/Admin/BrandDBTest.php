@@ -8,17 +8,20 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Modules\Brand\Enums\AllowedDBTables;
+use Modules\Brand\Enums\BrandPermission;
 use Modules\Brand\Jobs\CreateSchemaJob;
 use Modules\Brand\Jobs\MigrateStructureJob;
 use Modules\Brand\Models\Brand;
 use Modules\Brand\Services\BrandDBService;
 use Illuminate\Foundation\Testing\TestCase;
+use Modules\Role\Models\Permission;
+use Modules\User\Models\User;
 use Tests\Traits\HasAuth;
 
 final class BrandDBTest extends TestCase
 {
     use HasAuth;
-//    use DatabaseTransactions;
+    use DatabaseTransactions;
 
 //    public function test_db_create_job()
 //    {
@@ -45,21 +48,41 @@ final class BrandDBTest extends TestCase
     /**
      * @test
      */
-//    public function test_import(): void
-//    {
-//        $this->authenticateUser();
-//
-//        try {
-//            $brand = Brand::factory()->create();
-//        } catch (\Throwable $e) {
-//            dd($e->getMessage());
-//        }
-//
-//        $response = $this->post(route('admin.brands.db.import', ['brand' => $brand]), [
-//            'modules' => array_values(BrandDBService::ALLOWED_MODULES),
-//        ], [
-//            'Brand' => $brand->slug,
-//        ]);
-//        dd($response->json('message'));
-//    }
+    public function test_import(): void
+    {
+        DB::rollBack();
+        try {
+
+            $user = User::factory()->withParent()->create();
+
+            $permission = Permission::whereName(BrandPermission::fromValue(BrandPermission::VIEW_BRANDS)->value)->first() ??
+                Permission::factory()->create([
+                    'name' => BrandPermission::fromValue(BrandPermission::VIEW_BRANDS)->value,
+                ]);
+
+            $user->givePermissionTo($permission->name);
+
+            $this->actingAs($user, User::DEFAULT_AUTH_GUARD);
+
+            $brand = $user->brands()->create(Brand::factory()->make()->toArray());
+
+            $response = $this->post(
+                route('admin.brands.db.import', ['brand' => $brand]),
+                [
+                    'modules' => array_values(['Department' => 'Department',
+                        'Desk' => 'Desk',
+                        'Geo' => 'Geo',
+                        'Language' => 'Language',
+                        'Role' => 'Role',
+                        'Token' => 'Token','User' => 'User']),
+                ],
+                [
+                    'Tenant' => $brand->slug,
+                ]
+            );
+        } catch (\Throwable $e) {
+            dd($e->getMessage());
+        }
+        dd($response->json());
+    }
 }

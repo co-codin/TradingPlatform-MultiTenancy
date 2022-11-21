@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace Modules\User\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Modules\User\Http\Requests\UserBanRequest;
-use Illuminate\Support\Arr;
 use Modules\User\Http\Requests\UserCreateRequest;
 use Modules\User\Http\Requests\UserUpdateBatchRequest;
 use Modules\User\Http\Requests\UserUpdateRequest;
 use Modules\User\Http\Resources\UserResource;
 use Modules\User\Models\User;
 use Modules\User\Repositories\UserRepository;
+use Modules\User\Services\UserBanService;
+use Modules\User\Services\UserBatchService;
 use Modules\User\Services\UserStorage;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -26,7 +26,9 @@ final class UserController extends Controller
 {
     public function __construct(
         protected UserStorage $userStorage,
-        protected UserRepository $userRepository
+        protected UserRepository $userRepository,
+        protected UserBanService $userBanService,
+        protected UserBatchService $userBatchService,
     ) {
     }
 
@@ -290,6 +292,7 @@ final class UserController extends Controller
      *     )
      * )
      * @throws AuthorizationException
+     * @throws Exception
      */
     public function update(int $id, UserUpdateRequest $request): UserResource
     {
@@ -391,17 +394,9 @@ final class UserController extends Controller
      */
     public function ban(UserBanRequest $request): JsonResource
     {
-        $users = collect();
-
-        foreach ($request->get('users', []) as $item) {
-            $user = $this->userRepository->find($item['id']);
-
-            if ($request->user()->can('ban', $user)) {
-                $users->push(
-                    $this->userStorage->update($user, ['banned_at' => Carbon::now()->toDateTimeString()])
-                );
-            }
-        }
+        $users = $this->userBanService
+            ->setAuthUser($request->user())
+            ->banUsers($request->get('users', []));
 
         abort_if($users->isEmpty(), ResponseAlias::HTTP_UNAUTHORIZED);
 
@@ -453,17 +448,9 @@ final class UserController extends Controller
      */
     public function unban(UserBanRequest $request): JsonResource
     {
-        $users = collect();
-
-        foreach ($request->get('users', []) as $item) {
-            $user = $this->userRepository->find($item['id']);
-
-            if ($request->user()->can('ban', $user)) {
-                $users->push(
-                    $this->userStorage->update($user, ['banned_at' => null])
-                );
-            }
-        }
+        $users = $this->userBanService
+            ->setAuthUser($request->user())
+            ->unbanUsers($request->get('users', []));
 
         abort_if($users->isEmpty(), ResponseAlias::HTTP_UNAUTHORIZED);
 
@@ -531,17 +518,7 @@ final class UserController extends Controller
      */
     public function updateBatch(UserUpdateBatchRequest $request): JsonResource
     {
-        $users = collect();
-
-        foreach ($request->get('users', []) as $item) {
-            $user = $this->userRepository->find($item['id']);
-
-            if ($request->user()->can('update', $user)) {
-                $users->push(
-                    $this->userStorage->update($user, Arr::except($item, ['id']))
-                );
-            }
-        }
+        $users = $this->userBatchService->updateBatch($request->get('users', []));
 
         abort_if($users->isEmpty(), ResponseAlias::HTTP_UNAUTHORIZED);
 
