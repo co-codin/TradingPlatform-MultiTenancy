@@ -54,8 +54,6 @@ services:
         image: redis:alpine
         restart: unless-stopped
         command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD}"
-        ports:
-            - '${FORWARD_REDIS_PORT:-6379}:6379'
         environment:
             APP_DOMAIN: '{APP_DOMAIN}'
             APP_ENV: '${APP_EMV:-LOCAL}'
