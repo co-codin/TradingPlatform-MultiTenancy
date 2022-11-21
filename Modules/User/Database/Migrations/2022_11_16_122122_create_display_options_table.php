@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->string('name')->nullable();
-            $table->jsonb('columns');
-            $table->jsonb('settings');
+            $table->json('columns');
+            $table->json('settings');
             $table->timestamps();
 
             $table->unique(['user_id', 'name']);
