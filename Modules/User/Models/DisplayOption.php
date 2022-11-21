@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\User\Database\factories\UserDisplayOptionFactory;
+use Modules\User\Dto\DisplayOptionColumnsDto;
+use Modules\User\Dto\DisplayOptionSettingsDto;
 
 class DisplayOption extends Model
 {
@@ -19,15 +21,32 @@ class DisplayOption extends Model
         'login' => 'login',
         'first_name' => 'first_name',
         'last_name' => 'last_name',
-        'global_id' => 'global_id',
-        'global_name' => 'global_name',
-        'department' => 'department',
-        'shift_management' => 'shift_management',
-        'traders_amount' => 'traders_amount',
-        'total_deposits' => 'total_deposits',
-        'default_voip' => 'default_voip',
-        'voip_extensions' => 'voip_extensions',
-        'active' => 'active',
+        'email' => 'email',
+        'is_active' => 'is_active',
+        'target' => 'target',
+        'last_login' => 'last_login',
+        'banned_at' => 'banned_at',
+        'created_at' => 'created_at',
+        'updated_at' => 'updated_at',
+        'deleted_at' => 'deleted_at',
+    ];
+
+    /**
+     * @var array
+     */
+    public const DEFAULT_COLUMN_VALUES = [
+        self::AVAILABLE_COLUMNS['id'] => 'ID',
+        self::AVAILABLE_COLUMNS['login'] => 'Login',
+        self::AVAILABLE_COLUMNS['first_name'] => 'First name',
+        self::AVAILABLE_COLUMNS['last_name'] => 'Last name',
+        self::AVAILABLE_COLUMNS['email'] => 'Email',
+        self::AVAILABLE_COLUMNS['is_active'] => 'Is active',
+        self::AVAILABLE_COLUMNS['target'] => 'Target',
+        self::AVAILABLE_COLUMNS['last_login'] => 'Last login',
+        self::AVAILABLE_COLUMNS['banned_at'] => 'Banned at',
+        self::AVAILABLE_COLUMNS['created_at'] => 'Created at',
+        self::AVAILABLE_COLUMNS['updated_at'] => 'Updated at',
+        self::AVAILABLE_COLUMNS['deleted_at'] => 'Deleted at',
     ];
 
     /**
@@ -39,7 +58,8 @@ class DisplayOption extends Model
      * {@inheritdoc}
      */
     protected $casts = [
-        'columns' => 'array',
+        'columns' => DisplayOptionColumnsDto::class,
+        'settings' => DisplayOptionSettingsDto::class,
     ];
 
     /**

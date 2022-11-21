@@ -19,6 +19,7 @@ use Modules\Desk\Models\Desk;
 use Modules\Language\Models\Language;
 use Modules\Role\Models\Role;
 use Modules\User\Database\factories\UserFactory;
+use Modules\User\Events\UserCreated;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -67,6 +68,13 @@ final class User extends Authenticatable
     protected $casts = [
         'banned_at' => 'datetime',
         'email_verified_at' => 'datetime',
+    ];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $dispatchesEvents = [
+        'created' => UserCreated::class,
     ];
 
     /**

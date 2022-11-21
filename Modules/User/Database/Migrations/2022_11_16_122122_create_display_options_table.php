@@ -16,9 +16,12 @@ return new class extends Migration
         Schema::create('display_options', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('name')->unique();
-            $table->json('columns')->nullable();
+            $table->string('name')->nullable();
+            $table->jsonb('columns');
+            $table->jsonb('settings');
             $table->timestamps();
+
+            $table->unique(['user_id', 'name']);
         });
     }
 
