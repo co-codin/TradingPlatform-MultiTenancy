@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\User\Dto;
 
 use App\Dto\BaseDto;
@@ -7,7 +9,7 @@ use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Modules\User\Models\DisplayOption;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
-class DisplayOptionColumnsDto extends BaseDto implements CastsAttributes
+final class DisplayOptionColumnsDto extends BaseDto implements CastsAttributes
 {
     public DisplayOptionColumnItemDto|array $login = [];
     public DisplayOptionColumnItemDto|array $first_name = [];
@@ -28,7 +30,7 @@ class DisplayOptionColumnsDto extends BaseDto implements CastsAttributes
      * @param array $attributes
      * @return array
      */
-    public function get($model, string $key, $value, array $attributes): array
+    final public function get($model, string $key, $value, array $attributes): array
     {
         return json_decode($value, true);
     }
@@ -41,7 +43,7 @@ class DisplayOptionColumnsDto extends BaseDto implements CastsAttributes
      * @return string
      * @throws UnknownProperties
      */
-    public function set($model, string $key, $value, array $attributes): string
+    final public function set($model, string $key, $value, array $attributes): string
     {
         foreach ($this->getPublicProperties() as $property) {
             $name = $property->getName();

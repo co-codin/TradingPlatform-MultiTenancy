@@ -21,24 +21,7 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        try {
-dd(User::factory()->create()->displayOptions);
-            dd(DisplayOption::create([
-                'user_id' => User::factory()->create()->id,
-                'name' => 'test',
-                'columns' => [
-                    'first_name' => [
-                        'value' => 'First namdasdasde',
-                        'order' => 1,
-                        'visible' => true,
-                    ],
-                    'last_name' => [],
-                    'test' => [],
-                ],
-            ]));
-        } catch (\Throwable $e) {
-            dd($e->getMessage());
-        }
+
         $this->withoutMiddleware(VerifyCsrfToken::class);
     }
 }

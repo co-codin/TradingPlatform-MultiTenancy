@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\User\Dto;
 
 use App\Dto\BaseDto;
 
-class DisplayOptionColumnItemDto extends BaseDto
+final class DisplayOptionColumnItemDto extends BaseDto
 {
     /**
      * @var string

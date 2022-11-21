@@ -26,6 +26,7 @@ class UserDisplayOptionFactory extends Factory
             'user_id' => User::factory(),
             'name' => $this->faker->unique()->name(),
             'columns' => [],
+            'settings' => [],
         ];
     }
 }
