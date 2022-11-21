@@ -1,31 +1,40 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Modules\User\Services;
 
-use Illuminate\Http\RedirectResponse;
+use Laravel\Socialite\Facades\Socialite;
 use Modules\User\Models\User;
 use Modules\User\Repositories\UserRepository;
-use Symfony\Component\HttpFoundation\RedirectResponse as BaseRedirectResponse;
-use Laravel\Socialite\Facades\Socialite;
 
-class SocialAuthService
+final class SocialAuthService
 {
-    protected UserRepository $repository;
+    private string $provider;
 
-    public function __construct(UserRepository $repository)
-    {
+    /**
+     * @param  UserRepository  $repository
+     */
+    public function __construct(
+        private readonly UserRepository $repository
+    ) {
     }
 
-    public function authenticate(string $provider): ?User
+    /**
+     * @return User|null
+     */
+    public function findUser(): ?User
     {
-        $providerUser = Socialite::driver($provider)->user();
+        $providerUser = Socialite::driver($this->provider)->user();
 
         return $this->repository->findByField(['email' => $providerUser->getEmail()])->first();
     }
 
-    public function redirect(string $provider): RedirectResponse|BaseRedirectResponse
+    /**
+     * @param  string  $provider
+     */
+    public function setProvider(string $provider): void
     {
-        return Socialite::driver($provider)->redirect();
+        $this->provider = $provider;
     }
 }

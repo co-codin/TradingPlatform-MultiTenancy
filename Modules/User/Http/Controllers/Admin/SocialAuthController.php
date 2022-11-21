@@ -1,41 +1,63 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Modules\User\Http\Controllers\Admin;
 
-use OpenApi\Annotations as OA;
 use App\Http\Controllers\Controller;
-use Laravel\Socialite\Facades\Socialite;
-use Modules\User\Http\Resources\AuthUserResource;
-use Modules\User\Services\SocialAuthService;
-use Illuminate\Validation\ValidationException;
+use Carbon\CarbonImmutable;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+use Laravel\Socialite\Facades\Socialite;
+use Modules\User\Services\SocialAuthService;
+use Modules\User\Services\UserStorage;
+use OpenApi\Annotations as OA;
 
-class SocialAuthController extends Controller
+final class SocialAuthController extends Controller
 {
-    protected SocialAuthService $service;
-
-    public function __construct(SocialAuthService $service)
-    {
+    public function __construct(
+        protected UserStorage $userStorage,
+    ) {
     }
 
     /**
+     * @param  Request  $request
+     * @param  string  $provider
+     * @param  SocialAuthService  $service
+     * @return Application|RedirectResponse|Redirector
+     *
      * @throws ValidationException
+     * @throws Exception
      */
-    public function callback(string $provider): array
+    public function callback(Request $request, string $provider, SocialAuthService $service)
     {
-        $user = $this->service->authenticate($provider);
+        $service->setProvider($provider);
+        $user = $service->findUser();
 
-        if ($user === null) {
+        if (! $user) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
 
-        return [
-            'user' => new AuthUserResource($user),
-            'token' => $user->createToken('api')->plainTextToken,
-        ];
+        Auth::login($user, session('remember_me', false));
+        if ($user->banned_at) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            throw ValidationException::withMessages([
+                'message' => ['You have been banned'],
+            ]);
+        }
+        $request->session()->regenerate();
+        $this->userStorage->update($user, ['last_login' => CarbonImmutable::now()]);
+
+        return redirect(session('redirect_url'));
     }
 
     /**
@@ -46,27 +68,56 @@ class SocialAuthController extends Controller
      *     @OA\Parameter(
      *          name="provider",
      *          in="path",
+     *          required=true,
      *          description="OAuth provider name",
      *          @OA\Schema (
      *              type="string",
      *              example="google"
      *          )
      *     ),
+     *     @OA\Parameter(
+     *          name="remember_me",
+     *          in="query",
+     *          description="Remember user",
+     *          @OA\Schema (
+     *              type="integer",
+     *              enum={"1", "0"}
+     *          ),
+     *     ),
+     *     @OA\Parameter(
+     *          name="redirect_url",
+     *          in="query",
+     *          required=true,
+     *          description="URL where the user will be redirected after authentication",
+     *          @OA\Schema (type="string")
+     *     ),
      *     @OA\Response(
      *          response=302,
-     *          description="Redirects to Google auth"
+     *          description="Redirects to auth page",
      *     ),
      *     @OA\Response(
      *          response=400,
      *          description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="Validation Error",
+     *          @OA\JsonContent(ref="#/components/schemas/ValidationError")
      *     )
      * )
      *
-     * @param string $provider
+     * @param  Request  $request
+     * @param  string  $provider
      * @return RedirectResponse
      */
-    public function redirect(string $provider): RedirectResponse
+    public function redirect(Request $request, string $provider): RedirectResponse
     {
+        $request->validate(['remember_me' => 'bool', 'redirect_url' => 'required|url']);
+        session([
+            'remember_me' => (bool) $request->query('remember_me', false),
+            'redirect_url' => $request->query('redirect_url'),
+        ]);
+
         return Socialite::driver($provider)->redirect();
     }
 }
