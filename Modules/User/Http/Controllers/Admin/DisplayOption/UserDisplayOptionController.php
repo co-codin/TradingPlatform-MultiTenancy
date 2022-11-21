@@ -211,7 +211,7 @@ class UserDisplayOptionController extends Controller
         $this->authorize('update', [DisplayOption::class, $displayOption]);
 
         return new DisplayOptionResource(
-            $this->userDisplayOptionStorage->update($user, $displayOption->id, $request->validated())
+            $this->userDisplayOptionStorage->update($user, $displayOption, $request->validated())
         );
     }
 
@@ -268,7 +268,7 @@ class UserDisplayOptionController extends Controller
 
         $this->authorize('delete', [DisplayOption::class, $displayOption]);
 
-        $this->userDisplayOptionStorage->destroy($user, $displayOption->id);
+        $this->userDisplayOptionStorage->destroy($user, $displayOption);
 
         return response()->noContent();
     }
