@@ -92,12 +92,24 @@ abstract class BaseModuleServiceProvider extends ServiceProvider
     /**
      * Register policies.
      *
+     * @param string|null $modelKey
+     * @param array $policies
      * @return void
      */
-    public function registerPolicies(): void
+    public function registerPolicies(?string $modelKey = null, array $policies = []): void
     {
-        foreach ($this->policies as $key => $value) {
-            Gate::policy($key, $value);
+        $policies = $policies ?? $this->policies;
+
+        foreach ($policies as $key => $value) {
+            $key = $modelKey ?? $key;
+
+            switch (true) {
+                case is_array($value):
+                    $this->registerPolicies($key, $value);
+                    break;
+                default:
+                    Gate::policy($key, $value);
+            }
         }
     }
 

@@ -2,6 +2,7 @@
 
 namespace Modules\Desk\Models;
 
+use App\Models\Traits\ForTenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -15,7 +16,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Desk extends Model
 {
-    use HasFactory, SoftDeletes, NodeTrait, LogsActivity;
+    use ForTenant, HasFactory, SoftDeletes, NodeTrait, LogsActivity;
 
     protected $guarded = ['id'];
 
