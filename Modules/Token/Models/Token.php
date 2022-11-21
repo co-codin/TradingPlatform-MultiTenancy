@@ -2,6 +2,7 @@
 
 namespace Modules\Token\Models;
 
+use App\Models\Traits\ForTenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,7 +13,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Token extends Model
 {
-    use HasFactory, SoftDeletes, LogsActivity;
+    use ForTenant, HasFactory, SoftDeletes, LogsActivity;
 
     protected $guarded = ['id'];
 
