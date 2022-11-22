@@ -29,6 +29,42 @@ final class SocialAuthController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *     path="/admin/auth/callback/{provider}",
+     *     tags={"Auth"},
+     *     summary="OAuth provider callback endpoint",
+     *     @OA\Parameter(
+     *          name="provider",
+     *          in="path",
+     *          required=true,
+     *          description="OAuth provider name",
+     *          @OA\Schema (
+     *              type="string",
+     *              example="google"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=302,
+     *          description="Redirects to `redirect_url` with cookies (and possibly validation or application errors in query params)",
+     *          headers={
+     *              @OA\Header(
+     *                  header="Set-Cookie",
+     *                  @OA\Schema(
+     *                      type="string",
+     *                      example="laravel_session=eyJpdiI6IjZKZm...%3D; Path=/; Domain=localhost; HttpOnly; Expires=Fri, 18 Nov 2022 13:25:26 GMT;"
+     *                  )
+     *              ),
+     *              @OA\Header(
+     *                  header="Location",
+     *                  @OA\Schema(
+     *                      type="string",
+     *                      example="{redirect_url}?code=422&message%5Bmessage%5D=The%20provided%20credentials%20are%20incorrect.&message%5Berrors%5D%5Bemail%5D%5B0%5D=The%20provided%20credentials%20are%20incorrect"
+     *                  )
+     *              )
+     *          }
+     *     )
+     * )
+     *
      * @param  Request  $request
      * @param  string  $provider
      * @param  SocialAuthService  $service
@@ -66,13 +102,13 @@ final class SocialAuthController extends Controller
                 ];
             }
 
-            $result = [
+            $info = [
                 'code' => $code ?? Response::HTTP_INTERNAL_SERVER_ERROR,
                 'message' => $message ?? $e->getMessage(),
             ];
         }
 
-        return redirect(session('redirect_url') . (isset($result) ? '?' . Arr::query($result) : null));
+        return redirect(session('redirect_url') . (isset($info) ? '?' . Arr::query($info) : null));
     }
 
     /**
