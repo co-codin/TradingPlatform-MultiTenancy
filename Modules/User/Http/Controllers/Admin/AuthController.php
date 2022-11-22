@@ -48,10 +48,19 @@ final class AuthController extends Controller
      *          description="No content. The session ID is returned in a cookie named `laravel_session`. You need to include this cookie in subsequent requests.",
      *          headers={
      *              @OA\Header(
-     *                  header="Set-Cookie",
+     *                  header="Set-Cookie(example-1)",
+     *                  description="Encrypted session ID cookie",
      *                  @OA\Schema(
      *                      type="string",
      *                      example="laravel_session=eyJpdiI6IjZKZm...%3D; Path=/; Domain=localhost; HttpOnly; Expires=Fri, 18 Nov 2022 13:25:26 GMT;"
+     *                  )
+     *              ),
+     *              @OA\Header(
+     *                  header="Set-Cookie(example-2)",
+     *                  description="Encrypted recaller cookie. Set if `remember_me=true` was received",
+     *                  @OA\Schema(
+     *                      type="string",
+     *                      example="remember_web_59ba...=eyJpdiI6IjZKZm...%3D; Path=/; Domain=localhost; HttpOnly; Expires=Fri, 18 Nov 2022 13:25:26 GMT;"
      *                  )
      *              )
      *          }
