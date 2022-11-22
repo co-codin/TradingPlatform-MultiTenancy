@@ -2,7 +2,7 @@
 
 namespace App\Services\Tenant;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Contracts\HasTenantDBConnection;
 
 class Manager
 {
@@ -12,23 +12,23 @@ class Manager
     public const TENANT_CONNECTION_NAME = 'tenant';
 
     /**
-     * @var ?Model
+     * @var ?HasTenantDBConnection
      */
-    protected ?Model $tenant;
+    protected ?HasTenantDBConnection $tenant;
 
     /**
-     * @param ?Model $tenant
+     * @param ?HasTenantDBConnection $tenant
      * @return void
      */
-    public function setTenant(?Model $tenant = null): void
+    public function setTenant(?HasTenantDBConnection $tenant = null): void
     {
         $this->tenant = $tenant;
     }
 
     /**
-     * @return Model
+     * @return HasTenantDBConnection
      */
-    public function getTenant(): Model
+    public function getTenant(): HasTenantDBConnection
     {
         return $this->tenant;
     }

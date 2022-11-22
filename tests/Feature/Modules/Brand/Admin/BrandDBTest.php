@@ -16,13 +16,13 @@ use Modules\Brand\Services\BrandDBService;
 use Illuminate\Foundation\Testing\TestCase;
 use Modules\Role\Models\Permission;
 use Modules\User\Models\User;
+use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
 
-final class BrandDBTest extends TestCase
+final class BrandDBTest extends BrandTestCase
 {
-    use HasAuth;
-    use DatabaseTransactions;
-
+//    use DatabaseTransactions;
+//
 //    public function test_db_create_job()
 //    {
 //        CreateSchemaJob::dispatchNow('brand');
@@ -50,7 +50,6 @@ final class BrandDBTest extends TestCase
      */
     public function test_import(): void
     {
-        DB::rollBack();
         try {
 
             $user = User::whereEmail('test@service.com')->first() ??
@@ -70,20 +69,20 @@ final class BrandDBTest extends TestCase
 
             $user->givePermissionTo($permission);
 
-            $brand = $user->brands()->create(Brand::factory()->make()->toArray());
+            $this->brand->users()->attach($user);
 
             $response = $this->actingAs($user, User::DEFAULT_AUTH_GUARD)->post(
-                route('admin.brands.db.import', ['brand' => $brand]),
+                route('admin.brands.db.import', ['brand' => $this->brand]),
                 [
                     'modules' => array_values(['Department' => 'Department',
                         'Desk' => 'Desk',
                         'Geo' => 'Geo',
                         'Language' => 'Language',
                         'Role' => 'Role',
-                        'Token' => 'Token','User' => 'User']),
+                        'Token' => 'Token', 'User']),
                 ],
                 [
-                    'Tenant' => $brand->slug,
+                    'Tenant' => $this->brand->slug,
                 ]
             );
         } catch (\Throwable $e) {

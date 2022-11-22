@@ -11,7 +11,7 @@ trait ForTenant
      * @return bool
      */
     public function isIncrementing(): bool
-    {dump($this->getConnectionName() === Manager::TENANT_CONNECTION_NAME);
+    {
         return $this->getConnectionName() === Manager::TENANT_CONNECTION_NAME ? false : $this->incrementing;
     }
 

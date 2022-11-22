@@ -47,7 +47,7 @@ class MigrateStructureJob implements ShouldQueue
             foreach ($this->modules as $module) {
                 if (isset($appModules[$module])) {
                     Artisan::call(sprintf(
-                        'brand-migrate %s --database=%s',
+                        'brand:migrate %s --database=%s',
                         $this->prepareMigrations($module),
                         Manager::TENANT_CONNECTION_NAME
                     ));

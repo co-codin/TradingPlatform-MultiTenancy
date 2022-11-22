@@ -5,13 +5,10 @@ namespace Modules\Brand\Services;
 use App\Services\Tenant\Manager;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Modules\Brand\Jobs\MigrateDataJob;
-use Modules\Brand\Jobs\MigrateStructureJob;
 use Modules\Brand\Models\Brand;
 use Modules\User\Models\User;
+use Nwidart\Modules\Collection;
 use Nwidart\Modules\Facades\Module;
 
 class BrandDBService
@@ -71,23 +68,27 @@ class BrandDBService
         ],
     ];
 
+    private Collection $availableModules;
+
     /**
      * @param Brand $brand
      * @param array $modules
+     * @param Collection|null $availableModules
      */
     public function __construct(
         private Brand $brand,
-        private array $modules = []
+        private array $modules = [],
+        ?Collection $availableModules = null,
     )
-    {}
+    {
+        $this->availableModules = $availableModules ?? Module::all();
+    }
 
     /**
      * @return $this
      */
     public function migrateDB(): static
     {
-        $appModules = Module::all();
-
         if (! Schema::connection(Manager::TENANT_CONNECTION_NAME)->hasTable('migrations')) {
             Artisan::call(sprintf(
                 'migrate:install --database=%s',
@@ -95,10 +96,23 @@ class BrandDBService
             ));
         }
 
-        foreach ($this->modules as $module) {
-            if (isset($appModules[$module])) {
+        $forMigrate = array_values(array_diff($this->modules, $this->brand->tables ?? []));
+        $forRollback = array_values(array_diff($this->brand->tables ?? [], $this->modules));
+
+        foreach ($forMigrate as $module) {
+            if (isset($this->availableModules[$module])) {
                 Artisan::call(sprintf(
-                    'brand-migrate %s --database=%s',
+                    'brand:migrate %s --database=%s',
+                    $this->prepareMigrations($module),
+                    Manager::TENANT_CONNECTION_NAME
+                ));
+            }
+        }
+
+        foreach ($forRollback as $module) {
+            if (isset($this->availableModules[$module])) {
+                Artisan::call(sprintf(
+                    'brand:migrate-rollback %s --database=%s',
                     $this->prepareMigrations($module),
                     Manager::TENANT_CONNECTION_NAME
                 ));
@@ -110,6 +124,17 @@ class BrandDBService
 
     public function migrateData(): void
     {
+        $this->migrateUserData();
+
+//        MigrateDataJob::dispatch($this->brand->slug);
+    }
+
+    private function migrateUserData(): void
+    {
+        if (! isset($this->modules['User'], $this->availableModules['User'])) {
+            return;
+        }
+
         $userData = collect();
 
         app(Manager::class)->escapeTenant(function () use (&$userData) {
@@ -120,11 +145,8 @@ class BrandDBService
         });
 
         foreach ($userData as $user) {
-            $user = User::create($user->toArray());
-            dd($user);
+            $user = User::query()->insert($user->toArray());
         }
-        dd(User::all());
-//        MigrateDataJob::dispatch($this->brand->slug);
     }
 
     public function mergeNode(string $key, &$userData, $user)
