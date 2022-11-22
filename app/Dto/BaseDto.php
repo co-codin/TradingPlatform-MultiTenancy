@@ -4,6 +4,8 @@ namespace App\Dto;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Foundation\Http\FormRequest;
+use ReflectionClass;
+use ReflectionProperty;
 use Spatie\DataTransferObject\Arr;
 use Spatie\DataTransferObject\DataTransferObject;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
@@ -120,5 +122,15 @@ abstract class BaseDto extends DataTransferObject implements Arrayable
         }
 
         return $array;
+    }
+
+    /**
+     * Get public properties.
+     *
+     * @return array
+     */
+    public function getPublicProperties(): array
+    {
+        return (new ReflectionClass($this))->getProperties(ReflectionProperty::IS_PUBLIC);
     }
 }

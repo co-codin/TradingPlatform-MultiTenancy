@@ -23,7 +23,7 @@ class UserDisplayOptionController extends Controller
     public function __construct(
         protected UserRepository $userRepository,
         protected DisplayOptionRepository $displayOptionRepository,
-        protected UserStorage $userStorage
+        protected UserDisplayOptionStorage $userDisplayOptionStorage
     ) {}
 
     /**
@@ -85,7 +85,7 @@ class UserDisplayOptionController extends Controller
         $this->authorize('create', DisplayOption::class);
 
         return new DisplayOptionResource(
-            $this->userStorage->storeDisplayOption($user, $request->validated())
+            $this->userDisplayOptionStorage->store($user, $request->validated())
         );
     }
 
@@ -211,7 +211,7 @@ class UserDisplayOptionController extends Controller
         $this->authorize('update', [DisplayOption::class, $displayOption]);
 
         return new DisplayOptionResource(
-            $this->userStorage->updateDisplayOption($user, $displayOption->id, $request->validated())
+            $this->userDisplayOptionStorage->update($user, $displayOption, $request->validated())
         );
     }
 
@@ -268,7 +268,7 @@ class UserDisplayOptionController extends Controller
 
         $this->authorize('delete', [DisplayOption::class, $displayOption]);
 
-        $this->userStorage->destroyDisplayOption($user, $displayOption->id);
+        $this->userDisplayOptionStorage->destroy($user, $displayOption);
 
         return response()->noContent();
     }
