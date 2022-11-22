@@ -34,7 +34,6 @@ final class SocialAuthController extends Controller
      * @param  SocialAuthService  $service
      * @return Application|RedirectResponse|Redirector
      *
-     * @throws ValidationException
      * @throws Exception
      */
     public function callback(Request $request, string $provider, SocialAuthService $service)
@@ -49,15 +48,13 @@ final class SocialAuthController extends Controller
                 ]);
             }
 
-            Auth::login($user, session('remember_me', false));
             if ($user->banned_at) {
-                Auth::logout();
-                $request->session()->invalidate();
-                $request->session()->regenerateToken();
                 throw ValidationException::withMessages([
                     'banned' => 'You have been banned',
                 ]);
             }
+
+            Auth::login($user, session('remember_me', false));
             $request->session()->regenerate();
             $this->userStorage->update($user, ['last_login' => CarbonImmutable::now()]);
         } catch (Throwable $e) {
