@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Brand\Services;
 
-use App\Services\Tenant\Manager;
 use Modules\Brand\Jobs\MigrateStructureJob;
 use Modules\Brand\Jobs\SeedUserIntoTenantDBJob;
 use Modules\Brand\Models\Brand;
@@ -82,6 +81,8 @@ final class BrandDBService
     }
 
     /**
+     * Dispatch migration brand db.
+     *
      * @return BrandDBService
      */
     public function migrateDB(): BrandDBService
@@ -92,6 +93,8 @@ final class BrandDBService
     }
 
     /**
+     * Dispatch seeder into brand db.
+     *
      * @return BrandDBService
      */
     public function seedData(): BrandDBService
@@ -113,6 +116,8 @@ final class BrandDBService
     }
 
     /**
+     * Set brand.
+     *
      * @param Brand $brand
      * @return $this
      */
@@ -124,6 +129,8 @@ final class BrandDBService
     }
 
     /**
+     * Set new modules.
+     *
      * @param array $modules
      * @return $this
      */
@@ -135,6 +142,8 @@ final class BrandDBService
     }
 
     /**
+     * Set available modules.
+     *
      * @param array $availableModules
      * @return $this
      */

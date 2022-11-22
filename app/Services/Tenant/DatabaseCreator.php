@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Schema;
 class DatabaseCreator
 {
     /**
+     * Create DB.
+     *
      * @param string $dbName
      * @return bool
      */
@@ -17,6 +19,8 @@ class DatabaseCreator
     }
 
     /**
+     * Create schema.
+     *
      * @param string $schemaName
      * @return bool
      */
@@ -26,6 +30,8 @@ class DatabaseCreator
     }
 
     /**
+     * Drop schema.
+     *
      * @param string $schemaName
      * @return bool
      */
@@ -34,4 +40,3 @@ class DatabaseCreator
         return DB::unprepared("DROP SCHEMA IF EXISTS {$schemaName} CASCADE");
     }
 }
-

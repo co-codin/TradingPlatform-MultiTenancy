@@ -11,7 +11,6 @@ use Illuminate\Http\Response;
 use Modules\Brand\Enums\BrandPermission;
 use Modules\Brand\Events\Tenant\BrandTenantIdentified;
 use Modules\Brand\Models\Brand;
-use Modules\User\Models\User;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 final class SetTenant

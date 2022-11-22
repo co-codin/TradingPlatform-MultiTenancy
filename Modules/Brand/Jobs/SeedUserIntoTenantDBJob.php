@@ -25,7 +25,7 @@ class SeedUserIntoTenantDBJob implements ShouldQueue
     public function __construct(
         public readonly HasTenantDBConnection $tenant,
     ) {
-        $this->onQueue('tenant');
+        $this->onQueue(Manager::TENANT_CONNECTION_NAME);
     }
 
     /**

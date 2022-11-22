@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Support\Facades\Queue;
 use Modules\Brand\Models\Brand;
 use Tests\Traits\HasAuth;
 
@@ -22,8 +21,6 @@ abstract class BrandTestCase extends BaseTestCase
     {
         parent::setUp();
 
-//        Queue::fake();
-
         $this->brand = Brand::factory()->create();
     }
 
@@ -32,7 +29,8 @@ abstract class BrandTestCase extends BaseTestCase
      */
     protected function tearDown(): void
     {
-        dd($this->brand->delete());
+        $this->brand->delete();
+
         parent::tearDown();
 
     }

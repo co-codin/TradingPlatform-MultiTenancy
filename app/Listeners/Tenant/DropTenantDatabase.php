@@ -6,6 +6,7 @@ namespace App\Listeners\Tenant;
 
 use App\Contracts\TenantEventCreated;
 use App\Services\Tenant\DatabaseCreator;
+use App\Services\Tenant\Manager;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -26,14 +27,6 @@ final class DropTenantDatabase implements ShouldQueue
     ) {}
 
     /**
-     * @return string
-     */
-    public function viaQueue(): string
-    {
-        return 'tenant';
-    }
-
-    /**
      * Handle the event.
      *
      * @param TenantEventCreated $event
@@ -45,5 +38,13 @@ final class DropTenantDatabase implements ShouldQueue
         if (!$this->databaseCreator->dropSchema($event->getTenantSchemaName())) {
             throw new Exception('Database failed to be created.');
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function viaQueue(): string
+    {
+        return Manager::TENANT_CONNECTION_NAME;
     }
 }
