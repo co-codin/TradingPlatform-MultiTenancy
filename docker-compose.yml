@@ -20,6 +20,10 @@ services:
             XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
             APP_DOMAIN: '${APP_DOMAIN}'
             APP_ENV: '${APP_ENV:-local}'
+            AUTH_GOOGLE_CLIENT_ID: '${AUTH_GOOGLE_CLIENT_ID}'
+            AUTH_GOOGLE_CLIENT_SECRET: '${AUTH_GOOGLE_CLIENT_SECRET}'
+            AUTH_GOOGLE_CLIENT_REDIRECT: '${AUTH_GOOGLE_CLIENT_REDIRECT}'
+
         volumes:
             - '.:/var/www/html'
         networks:
