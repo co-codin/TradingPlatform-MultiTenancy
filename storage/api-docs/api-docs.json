@@ -1553,6 +1553,66 @@
                 ]
             }
         },
+        "/admin/auth/login/{provider}": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "OAuth provider login endpoint",
+                "operationId": "d7faf6de8b626da990c15a2ab1615605",
+                "parameters": [
+                    {
+                        "name": "provider",
+                        "in": "path",
+                        "description": "OAuth provider name",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "google"
+                        }
+                    },
+                    {
+                        "name": "remember_me",
+                        "in": "query",
+                        "description": "Remember user",
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                "1",
+                                "0"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "redirect_url",
+                        "in": "query",
+                        "description": "URL where the user will be redirected after authentication",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "Redirects to auth page"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/admin/workers": {
             "get": {
                 "tags": [
