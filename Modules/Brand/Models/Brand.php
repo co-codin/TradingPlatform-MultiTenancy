@@ -6,8 +6,10 @@ use App\Contracts\HasTenantDBConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 use Modules\Brand\Database\factories\BrandFactory;
 use Modules\Brand\Events\BrandCreated;
+use Modules\Brand\Events\BrandDeleted;
 use Modules\User\Models\User;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -35,6 +37,7 @@ class Brand extends Model implements HasTenantDBConnection
      */
     protected $dispatchesEvents = [
         'created' => BrandCreated::class,
+        'deleted' => BrandDeleted::class,
     ];
 
     public function users()
@@ -64,7 +67,15 @@ class Brand extends Model implements HasTenantDBConnection
     public function getTenantConnectionData(): array
     {
         return [
-            'database' => $this->slug,
+            'search_path' => $this->getTenantSchemaName(),
         ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTenantSchemaName(): string
+    {
+        return Str::snake(Str::camel($this->slug));
     }
 }

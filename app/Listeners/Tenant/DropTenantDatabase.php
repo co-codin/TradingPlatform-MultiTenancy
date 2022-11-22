@@ -13,7 +13,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 
-final class CreateTenantDatabase implements ShouldQueue
+final class DropTenantDatabase implements ShouldQueue
 {
     use Dispatchable;
     use Queueable;
@@ -23,7 +23,7 @@ final class CreateTenantDatabase implements ShouldQueue
      * @param DatabaseCreator $databaseCreator
      */
     public function __construct(
-        public DatabaseCreator $databaseCreator,
+        protected DatabaseCreator $databaseCreator
     ) {}
 
     /**
@@ -35,7 +35,7 @@ final class CreateTenantDatabase implements ShouldQueue
      */
     public function handle(TenantEventCreated $event): void
     {
-        if (! $this->databaseCreator->createSchema($event->getTenantSchemaName())) {
+        if (!$this->databaseCreator->dropSchema($event->getTenantSchemaName())) {
             throw new Exception('Database failed to be created.');
         }
     }
