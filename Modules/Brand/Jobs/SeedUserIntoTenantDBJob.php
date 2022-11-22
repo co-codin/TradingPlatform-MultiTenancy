@@ -10,7 +10,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use Modules\Brand\Events\Tenant\BrandTenantIdentified;
 use Modules\User\Models\User;
 
@@ -24,7 +23,7 @@ class SeedUserIntoTenantDBJob implements ShouldQueue
      * @param HasTenantDBConnection $tenant
      */
     public function __construct(
-        private readonly HasTenantDBConnection $tenant,
+        public readonly HasTenantDBConnection $tenant,
     ) {
         $this->onQueue('tenant');
     }
@@ -38,17 +37,15 @@ class SeedUserIntoTenantDBJob implements ShouldQueue
 
         $userData = collect();
 
-        $manager = new Manager();
+        app(Manager::class)->escapeTenant(function () use (&$userData) {
+            foreach ($this->tenant->users()->get() as $user) {
+                $this->mergeNode('ancestors', $userData, $user);
+                $this->mergeNode('descendants', $userData, $user);
+            }
+        });
 
-        $manager->setTenant();
-        foreach ($this->tenant->users()->get() as $user) {
-            $this->mergeNode('ancestors', $userData, $user);
-            $this->mergeNode('descendants', $userData, $user);
-        }
-        $manager->setTenant($this->queue);
-
-        foreach ($userData as $user) {
-            User::insert($user->toArray());
+        foreach ($userData->unique('id') as $user) {
+            User::insert($user->makeVisible(['password'])->toArray());
         }
 
         return true;

@@ -23,8 +23,14 @@ final class DropTenantDatabase implements ShouldQueue
      */
     public function __construct(
         protected DatabaseCreator $databaseCreator
-    ) {
-        $this->onQueue('tenant');
+    ) {}
+
+    /**
+     * @return string
+     */
+    public function viaQueue(): string
+    {
+        return 'tenant';
     }
 
     /**

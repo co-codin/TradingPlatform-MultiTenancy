@@ -6,12 +6,13 @@ namespace Modules\Brand\Events;
 
 use App\Contracts\HasTenantDBConnection;
 use App\Contracts\TenantEventCreated;
-use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
 class BrandEvent implements TenantEventCreated
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable, SerializesModels, InteractsWithQueue;
 
     /**
      * Create a new event instance.

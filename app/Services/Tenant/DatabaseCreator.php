@@ -31,7 +31,7 @@ class DatabaseCreator
      */
     public function dropSchema(string $schemaName): bool
     {
-        return DB::unprepared("DROP SCHEMA IF EXISTS {$schemaName}");
+        return DB::unprepared("DROP SCHEMA IF EXISTS {$schemaName} CASCADE");
     }
 }
 

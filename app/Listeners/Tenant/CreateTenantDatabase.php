@@ -23,8 +23,14 @@ final class CreateTenantDatabase implements ShouldQueue
      */
     public function __construct(
         public DatabaseCreator $databaseCreator,
-    ) {
-        $this->onQueue('tenant');
+    ) {}
+
+    /**
+     * @return string
+     */
+    public function viaQueue(): string
+    {
+        return 'tenant';
     }
 
     /**
