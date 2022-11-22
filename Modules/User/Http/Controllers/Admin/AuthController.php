@@ -82,14 +82,17 @@ final class AuthController extends Controller
             ], $request->validated('remember_me', false))
         ) {
             throw ValidationException::withMessages([
-                'message' => ['The provided credentials are incorrect.'],
+                'credentials' => 'The provided credentials are incorrect.',
             ]);
         }
 
         $user = Auth::user();
         if ($user->banned_at) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
             throw ValidationException::withMessages([
-                'message' => ['You have been banned'],
+                'banned' => 'You have been banned',
             ]);
         }
 

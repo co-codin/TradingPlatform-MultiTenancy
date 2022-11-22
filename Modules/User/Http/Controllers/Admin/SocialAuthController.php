@@ -10,13 +10,16 @@ use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Laravel\Socialite\Facades\Socialite;
 use Modules\User\Services\SocialAuthService;
 use Modules\User\Services\UserStorage;
 use OpenApi\Annotations as OA;
+use Throwable;
 
 final class SocialAuthController extends Controller
 {
@@ -36,28 +39,43 @@ final class SocialAuthController extends Controller
      */
     public function callback(Request $request, string $provider, SocialAuthService $service)
     {
-        $service->setProvider($provider);
-        $user = $service->findUser();
+        try {
+            $service->setProvider($provider);
+            $user = $service->findUser();
 
-        if (! $user) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
+            if (! $user) {
+                throw ValidationException::withMessages([
+                    'email' => 'The provided credentials are incorrect.',
+                ]);
+            }
+
+            Auth::login($user, session('remember_me', false));
+            if ($user->banned_at) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+                throw ValidationException::withMessages([
+                    'banned' => 'You have been banned',
+                ]);
+            }
+            $request->session()->regenerate();
+            $this->userStorage->update($user, ['last_login' => CarbonImmutable::now()]);
+        } catch (Throwable $e) {
+            if ($e instanceof ValidationException) {
+                $code = $e->status;
+                $message = [
+                    'message' => $e->getMessage(),
+                    'errors' => $e->errors(),
+                ];
+            }
+
+            $result = [
+                'code' => $code ?? Response::HTTP_INTERNAL_SERVER_ERROR,
+                'message' => $message ?? $e->getMessage(),
+            ];
         }
 
-        Auth::login($user, session('remember_me', false));
-        if ($user->banned_at) {
-            Auth::logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
-            throw ValidationException::withMessages([
-                'message' => ['You have been banned'],
-            ]);
-        }
-        $request->session()->regenerate();
-        $this->userStorage->update($user, ['last_login' => CarbonImmutable::now()]);
-
-        return redirect(session('redirect_url'));
+        return redirect(session('redirect_url') . (isset($result) ? '?' . Arr::query($result) : null));
     }
 
     /**
