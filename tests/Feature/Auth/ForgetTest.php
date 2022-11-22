@@ -13,16 +13,6 @@ class ForgetTest extends TestCase
 {
     protected string $testEmail = 'test@admin.com';
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        User::factory()->create([
-            'email' => $this->testEmail,
-            'password' => Hash::make('admin1'),
-        ]);
-    }
-
     public function test_forget_endpoint(): void
     {
         $response = $this->json('POST', route('admin.auth.forget'), $this->getRighData());
@@ -69,6 +59,16 @@ class ForgetTest extends TestCase
         );
 
         $response->assertStatus(202);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        User::factory()->create([
+            'email' => $this->testEmail,
+            'password' => Hash::make('admin1'),
+        ]);
     }
 
     protected function getRighData(): array

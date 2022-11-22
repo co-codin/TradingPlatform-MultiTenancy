@@ -10,11 +10,6 @@ use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 abstract class BaseDtoCollection extends SupportCollection
 {
-    /**
-     * method return single dto::class
-     * @return string
-     */
-    abstract public function getSingleDtoClass(): string;
 
     /**
      * DtoCollection constructor.
@@ -44,6 +39,11 @@ abstract class BaseDtoCollection extends SupportCollection
     {
         return new static($items);
     }
+    /**
+     * method return single dto::class
+     * @return string
+     */
+    abstract public function getSingleDtoClass(): string;
 
     /**
      * @param array|string ...$keys
