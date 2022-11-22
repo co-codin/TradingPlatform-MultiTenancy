@@ -34,7 +34,7 @@ class Brand extends Model implements HasTenantDBConnection
      * {@inheritdoc}
      */
     protected $dispatchesEvents = [
-        'created' => BrandCreated::class,
+//        'created' => BrandCreated::class,
     ];
 
     public function users()

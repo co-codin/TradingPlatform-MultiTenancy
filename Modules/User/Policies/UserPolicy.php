@@ -16,6 +16,13 @@ class UserPolicy extends BasePolicy
      */
     public function viewAny(User $user): bool
     {
+        // logics
+        
+//        $permissions = $user->roles()->permissions()->where('name', UserPermission::VIEW_USERS)->with('column')->get()->pluck('column.name');
+
+//        $fields = request()->get('field[users]');
+
+
         return $user->can(UserPermission::VIEW_USERS);
     }
 
