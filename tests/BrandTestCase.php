@@ -22,7 +22,7 @@ abstract class BrandTestCase extends BaseTestCase
     {
         parent::setUp();
 
-        Queue::fake();
+//        Queue::fake();
 
         $this->brand = Brand::factory()->create();
     }

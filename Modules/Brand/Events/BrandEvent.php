@@ -6,7 +6,7 @@ namespace Modules\Brand\Events;
 
 use App\Contracts\HasTenantDBConnection;
 use App\Contracts\TenantEventCreated;
-use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 class BrandEvent implements TenantEventCreated
@@ -18,7 +18,7 @@ class BrandEvent implements TenantEventCreated
      *
      * @return void
      */
-    final public function __construct(public readonly HasTenantDBConnection $tenant)
+    final public function __construct(public HasTenantDBConnection $tenant)
     {}
 
     /**

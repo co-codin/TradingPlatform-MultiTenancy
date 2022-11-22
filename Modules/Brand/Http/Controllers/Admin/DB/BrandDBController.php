@@ -33,7 +33,7 @@ final class BrandDBController extends Controller
             ->setBrand($this->brandRepository->find($brand))
             ->setModules($request->input('modules'))
             ->migrateDB()
-            ->migrateData();
+            ->seedData();
 
         return response(status: ResponseAlias::HTTP_ACCEPTED);
     }

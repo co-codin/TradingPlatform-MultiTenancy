@@ -1,17 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Brand\Services;
 
 use App\Services\Tenant\Manager;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Schema;
+use Modules\Brand\Jobs\MigrateStructureJob;
+use Modules\Brand\Jobs\SeedUserIntoTenantDBJob;
 use Modules\Brand\Models\Brand;
-use Modules\User\Models\User;
-use Nwidart\Modules\Collection;
 use Nwidart\Modules\Facades\Module;
 
-class BrandDBService
+final class BrandDBService
 {
     /**
      * @var array
@@ -68,100 +67,49 @@ class BrandDBService
         ],
     ];
 
-    private Collection $availableModules;
-
     /**
      * @param Brand $brand
      * @param array $modules
-     * @param Collection|null $availableModules
+     * @param array $availableModules
      */
     public function __construct(
         private Brand $brand,
         private array $modules = [],
-        ?Collection $availableModules = null,
+        private array $availableModules = [],
     )
     {
-        $this->availableModules = $availableModules ?? Module::all();
+        $this->availableModules = $availableModules ?: array_keys(Module::all());
     }
 
     /**
-     * @return $this
+     * @return BrandDBService
      */
-    public function migrateDB(): static
+    public function migrateDB(): BrandDBService
     {
-        if (! Schema::connection(Manager::TENANT_CONNECTION_NAME)->hasTable('migrations')) {
-            Artisan::call(sprintf(
-                'migrate:install --database=%s',
-                Manager::TENANT_CONNECTION_NAME
-            ));
-        }
-
-        $forMigrate = array_values(array_diff($this->modules, $this->brand->tables ?? []));
-        $forRollback = array_values(array_diff($this->brand->tables ?? [], $this->modules));
-
-        foreach ($forMigrate as $module) {
-            if (isset($this->availableModules[$module])) {
-                Artisan::call(sprintf(
-                    'brand:migrate %s --database=%s',
-                    $this->prepareMigrations($module),
-                    Manager::TENANT_CONNECTION_NAME
-                ));
-            }
-        }
-
-        foreach ($forRollback as $module) {
-            if (isset($this->availableModules[$module])) {
-                Artisan::call(sprintf(
-                    'brand:migrate-rollback %s --database=%s',
-                    $this->prepareMigrations($module),
-                    Manager::TENANT_CONNECTION_NAME
-                ));
-            }
-        }
+        MigrateStructureJob::dispatch($this->brand, $this->modules, $this->availableModules);
 
         return $this;
     }
 
-    public function migrateData(): void
+    /**
+     * @return BrandDBService
+     */
+    public function seedData(): BrandDBService
     {
-        $this->migrateUserData();
+        SeedUserIntoTenantDBJob::dispatchIf($this->isAvailableModule('User'), $this->brand);
 
-//        MigrateDataJob::dispatch($this->brand->slug);
+        return $this;
     }
 
-    private function migrateUserData(): void
+    /**
+     * When module is available do some.
+     *
+     * @param string $moduleName
+     * @return bool
+     */
+    private function isAvailableModule(string $moduleName): bool
     {
-        if (! isset($this->modules['User'], $this->availableModules['User'])) {
-            return;
-        }
-
-        $userData = collect();
-
-        app(Manager::class)->escapeTenant(function () use (&$userData) {
-            foreach ($this->brand->users()->get() as $user) {
-                $this->mergeNode('ancestors', $userData, $user);
-                $this->mergeNode('descendants', $userData, $user);
-            }
-        });
-
-        foreach ($userData as $user) {
-            $user = User::query()->insert($user->toArray());
-        }
-    }
-
-    public function mergeNode(string $key, &$userData, $user)
-    {
-        $methodName = 'get'.ucfirst($key);
-        $ancestors = $user->{$methodName}();
-
-        while ($ancestors->isNotEmpty()) {
-            $userData = $userData->merge($ancestors);
-
-            foreach ($ancestors as $ancestor) {
-                $this->mergeNode($key, $userData, $ancestor);
-            }
-            $ancestors = collect();
-        }
+        return in_array($moduleName, $this->modules) && in_array($moduleName, $this->availableModules);
     }
 
     /**
@@ -186,34 +134,14 @@ class BrandDBService
         return $this;
     }
 
-    private function prepareMigrations($module)
+    /**
+     * @param array $availableModules
+     * @return $this
+     */
+    public function setAvailableModules(array $availableModules): self
     {
-        $migrations = array_values(
-            array_diff(
-                scandir(base_path("/Modules/{$module}/Database/Migrations")),
-                ['..', '.']
-            ),
-        );
+        $this->availableModules = $availableModules;
 
-        return implode(' ', Arr::map($migrations, function ($migration) use ($module) {
-            foreach (BrandDBService::ALLOWED_RELATIONS as $relation => $modules) {
-                if (
-                    stripos($migration, $relation) !== false &&
-                    ! in_array($modules, $this->modules)
-                ) {
-                    if (! in_array($modules, $this->modules)) {
-                        return false;
-                    }
-                }
-            }
-
-            foreach (BrandDBService::EXCEPT_MIGRATION_KEY_WORDS as $exceptKeyWord) {
-                if ( stripos($migration, $exceptKeyWord) !== false) {
-                    return false;
-                }
-            }
-
-            return '--path='.base_path("Modules/{$module}/Database/Migrations/{$migration}");
-        }));
+        return $this;
     }
 }
