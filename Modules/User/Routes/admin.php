@@ -22,7 +22,9 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.', 'middleware' => 'web'], funct
     Route::get('/login/{provider}', [SocialAuthController::class, 'redirect'])->name('social.login');
     Route::get('/callback/{provider}', [SocialAuthController::class, 'callback'])->name('social.callback');
 
-    Route::post('/forget-password', [ForgetController::class, 'forget'])->name('forget');
+    Route::post('/forget-password', [ForgetController::class, 'forget'])->name('password.forget');
+    Route::post('/reset-password', [ForgetController::class, 'reset'])->name('password.reset');
+
     Route::group(['middleware' => 'auth:web'], function () {
         Route::get('/user', [AuthController::class, 'user'])->name('user');
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
