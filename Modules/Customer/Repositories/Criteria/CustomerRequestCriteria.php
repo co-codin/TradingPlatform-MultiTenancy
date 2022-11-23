@@ -1,15 +1,14 @@
 <?php
 
-namespace Modules\Brand\Repositories\Criteria;
+namespace Modules\Customer\Repositories\Criteria;
 
 use App\Http\Filters\LiveFilter;
 use App\Repositories\Criteria\BaseCriteria;
-use Modules\User\Repositories\Criteria\UserRequestCriteria;
 use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class BrandRequestCriteria extends BaseCriteria
+class CustomerRequestCriteria extends BaseCriteria
 {
     /**
      * @inheritDoc
@@ -19,8 +18,7 @@ class BrandRequestCriteria extends BaseCriteria
         return QueryBuilder::for($model)
             ->defaultSort('-id')
             ->allowedFields(array_merge(
-                static::allowedBrandFields(),
-                UserRequestCriteria::allowedUserFields('users'),
+                static::allowedCustomerFields(),
             ))
             ->allowedFilters([
                 AllowedFilter::exact('id'),
@@ -35,24 +33,19 @@ class BrandRequestCriteria extends BaseCriteria
                 AllowedFilter::trashed(),
             ])
             ->allowedIncludes([
-                'users',
+
             ])
             ->allowedSorts([
-                'id', 'name', 'slug', 'created_at', 'updated_at', 'deleted_at',
+
             ]);
     }
 
-    public static function allowedBrandFields($prefix = null): array
+    public static function allowedCustomerFields($prefix = null): array
     {
         $fields = [
             'id',
             'user_id',
-            'name',
-            'slug',
-            'description',
-            'created_at',
-            'updated_at',
-            'deleted_at',
+
         ];
 
         if(!$prefix) {
