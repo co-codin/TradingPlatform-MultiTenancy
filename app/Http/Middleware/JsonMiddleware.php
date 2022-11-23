@@ -16,12 +16,14 @@ final class JsonMiddleware
      *
      * @param  Request  $request
      * @param  Closure(Request): (Response|RedirectResponse)  $next
-     * @return Response|RedirectResponse
+     * @return Response
      */
-    public function handle(Request $request, Closure $next)
+    final public function handle(Request $request, Closure $next): Response
     {
         $request->headers->set('Accept', 'application/json');
 
-        return $next($request);
+        $response = $next($request);
+
+        return $response->isSuccessful() ? $response : response(__('Internal server error'), 500);
     }
 }

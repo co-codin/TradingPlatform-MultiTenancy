@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Arr;
+
 return [
     'default' => 'default',
     'documentations' => [
