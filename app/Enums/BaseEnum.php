@@ -16,20 +16,6 @@ abstract class BaseEnum extends BenSampoEnum implements LocalizedEnum
 {
     protected static ?string $moduleName = null;
 
-    protected static function setModuleName(): void
-    {
-        static::$moduleName = null;
-
-        $namespaceName = static::class;
-        $findMe = "Modules";
-        $pos = strpos($namespaceName, $findMe);
-
-        if ($pos !== false) {
-            preg_match("~[\\\\]+\\w+[\\\\]~", $namespaceName, $matches);
-            static::$moduleName = strtolower(stripslashes($matches[0]));
-        }
-    }
-
     /**
      * Get the default localization key.
      *
@@ -55,6 +41,20 @@ abstract class BaseEnum extends BenSampoEnum implements LocalizedEnum
     public static function getFilterItemValue(string $value): ?string
     {
         return $value;
+    }
+
+    protected static function setModuleName(): void
+    {
+        static::$moduleName = null;
+
+        $namespaceName = static::class;
+        $findMe = "Modules";
+        $pos = strpos($namespaceName, $findMe);
+
+        if ($pos !== false) {
+            preg_match("~[\\\\]+\\w+[\\\\]~", $namespaceName, $matches);
+            static::$moduleName = strtolower(stripslashes($matches[0]));
+        }
     }
 
     public function toArray(): array
