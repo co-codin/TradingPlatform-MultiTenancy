@@ -6,6 +6,7 @@ namespace App\Http\Middleware;
 
 use App\Contracts\HasTenantDBConnection;
 use Closure;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -23,11 +24,18 @@ final class SetTenant
      * @param Closure $next
      * @param bool $required
      * @return RedirectResponse|Response|mixed
+     * @throws Exception
      */
     public function handle(Request $request, Closure $next, bool $required = false)
     {
+        $hasHeader = $request->hasHeader('Tenant');
+
+        if ($required && ! $hasHeader) {
+            throw new Exception(__('Tenant header is required.'));
+        }
+
         BrandTenantIdentified::dispatchIf(
-            $request->hasHeader('Tenant') && $required,
+            $request->hasHeader('Tenant'),
             $this->resolveTenant($request),
         );
 
