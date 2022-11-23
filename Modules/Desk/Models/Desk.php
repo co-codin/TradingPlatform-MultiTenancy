@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kalnoy\Nestedset\NodeTrait;
+use Modules\Customer\Models\Customer;
 use Modules\Desk\Database\factories\DeskFactory;
 use Modules\Geo\Models\Country;
 use Modules\Language\Models\Language;
@@ -54,5 +55,10 @@ class Desk extends Model
     public function countries(): BelongsToMany
     {
         return $this->belongsToMany(Country::class, 'desk_country');
+    }
+
+    public function customers()
+    {
+        return $this->hasMany(Customer::class);
     }
 }
