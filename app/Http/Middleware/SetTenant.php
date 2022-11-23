@@ -21,12 +21,13 @@ final class SetTenant
      *
      * @param Request $request
      * @param Closure $next
+     * @param bool $required
      * @return RedirectResponse|Response|mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, bool $required = false)
     {
         BrandTenantIdentified::dispatchIf(
-            $request->hasHeader('Tenant'),
+            $request->hasHeader('Tenant') && $required,
             $this->resolveTenant($request),
         );
 
