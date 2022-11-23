@@ -4,6 +4,7 @@ namespace Modules\Customer\Repositories\Criteria;
 
 use App\Http\Filters\LiveFilter;
 use App\Repositories\Criteria\BaseCriteria;
+use Modules\User\Repositories\Criteria\UserRequestCriteria;
 use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -19,6 +20,8 @@ class CustomerRequestCriteria extends BaseCriteria
             ->defaultSort('-id')
             ->allowedFields(array_merge(
                 static::allowedCustomerFields(),
+                UserRequestCriteria::allowedUserFields('affiliateUser'),
+
             ))
             ->allowedFilters([
                 AllowedFilter::exact('id'),
@@ -33,7 +36,7 @@ class CustomerRequestCriteria extends BaseCriteria
                 AllowedFilter::trashed(),
             ])
             ->allowedIncludes([
-
+                'desk', 'department', 'affiliateUser'
             ])
             ->allowedSorts([
 
