@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Customer\Models\Customer;
 use Modules\Department\Database\factories\DepartmentFactory;
 use Modules\User\Models\User;
 
@@ -39,6 +40,11 @@ class Department extends Model
     protected static function newFactory(): DepartmentFactory
     {
         return DepartmentFactory::new();
+    }
+
+    public function customers()
+    {
+        return $this->hasMany(Customer::class);
     }
 
     /**
