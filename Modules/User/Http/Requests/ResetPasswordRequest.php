@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\User\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
 
-class ResetPasswordRequest extends BaseFormRequest
+final class ResetPasswordRequest extends BaseFormRequest
 {
     public function rules(): array
     {
         return [
             'email' => 'required|email|exists:users,email',
             'password' => 'required|min:8|confirmed',
+            'token' => 'required',
         ];
     }
 
@@ -19,6 +22,7 @@ class ResetPasswordRequest extends BaseFormRequest
         return [
             'email' => 'Email',
             'password' => 'Password',
+            'token' => 'Token',
         ];
     }
 }

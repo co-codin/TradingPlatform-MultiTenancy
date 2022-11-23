@@ -1393,18 +1393,22 @@
         "/admin/auth/forget-password": {
             "post": {
                 "tags": [
-                    "Forget"
+                    "Auth"
                 ],
-                "summary": "Send Reset Password Token",
+                "summary": "Send Reset Password Notification",
                 "operationId": "212329c887ce235d8381524c68ebd655",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "email"
+                                ],
                                 "properties": {
                                     "email": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "format": "email"
                                     }
                                 },
                                 "type": "object"
@@ -1414,7 +1418,7 @@
                 },
                 "responses": {
                     "202": {
-                        "description": "success"
+                        "description": "Accepted"
                     },
                     "422": {
                         "description": "Validation Error",
@@ -1432,36 +1436,38 @@
                 }
             }
         },
-        "/admin/auth/reset-password/{token}": {
+        "/admin/auth/reset-password": {
             "post": {
                 "tags": [
-                    "Forget"
+                    "Auth"
                 ],
-                "summary": "Reset Password Link",
-                "operationId": "2ada68af24e912b99fc5b58c90b0040f",
-                "parameters": [
-                    {
-                        "name": "token",
-                        "in": "path",
-                        "description": "Reset Password Token",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
+                "summary": "Reset Password",
+                "operationId": "fd92177ef7dd76fc2b43ea065f7e2fe1",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "email",
+                                    "password",
+                                    "password_confirmation",
+                                    "token"
+                                ],
                                 "properties": {
                                     "email": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "format": "email"
                                     },
                                     "password": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "format": "password"
                                     },
                                     "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "token": {
                                         "type": "string"
                                     }
                                 },
@@ -1472,7 +1478,7 @@
                 },
                 "responses": {
                     "202": {
-                        "description": "success"
+                        "description": "Accepted"
                     },
                     "422": {
                         "description": "Validation Error",
