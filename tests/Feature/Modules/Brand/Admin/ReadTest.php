@@ -12,27 +12,6 @@ use Tests\TestCase;
 
 class ReadTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = User::factory()->create([
-            'email' => 'admin@admin.com'
-        ]);
-
-//        $permission = Permission::factory()->create([
-//            'name' => BrandPermission::VIEW_BRANDS,
-//        ]);
-//
-//        $this->user->givePermissionTo($permission->name);
-//
-//        $response = $this->json('POST', route('admin.auth.login'), [
-//            'email' => 'admin@admin.com',
-//            'password' => 'admin',
-//        ]);
-//
-//        $this->withToken($response->json('token'));
-    }
 
     public function test_unauthenticated_user_cannot_view_brands()
     {
@@ -131,5 +110,26 @@ class ReadTest extends TestCase
                 'created_at',
             ]
         ]);
+    }
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = User::factory()->create([
+            'email' => 'admin@admin.com'
+        ]);
+
+//        $permission = Permission::factory()->create([
+//            'name' => BrandPermission::VIEW_BRANDS,
+//        ]);
+//
+//        $this->user->givePermissionTo($permission->name);
+//
+//        $response = $this->json('POST', route('admin.auth.login'), [
+//            'email' => 'admin@admin.com',
+//            'password' => 'admin',
+//        ]);
+//
+//        $this->withToken($response->json('token'));
     }
 }
