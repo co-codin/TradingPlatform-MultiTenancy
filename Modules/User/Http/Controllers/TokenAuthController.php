@@ -76,13 +76,13 @@ final class TokenAuthController extends Controller
 
         if (! $user || ! Hash::check($request->validated('password'), $user->password)) {
             throw ValidationException::withMessages([
-                'message' => ['The provided credentials are incorrect.'],
+                'credentials' => 'The provided credentials are incorrect.',
             ]);
         }
 
         if ($user->banned_at) {
             throw ValidationException::withMessages([
-                'message' => ['You have been banned'],
+                'banned' => 'You have been banned',
             ]);
         }
 

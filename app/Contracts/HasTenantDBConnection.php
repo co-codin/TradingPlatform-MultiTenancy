@@ -12,4 +12,11 @@ interface HasTenantDBConnection
      * @return array
      */
     public function getTenantConnectionData(): array;
+
+    /**
+     * Get tenant schema name.
+     *
+     * @return string
+     */
+    public function getTenantSchemaName(): string;
 }

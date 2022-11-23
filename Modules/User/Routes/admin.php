@@ -11,12 +11,17 @@ use Modules\User\Http\Controllers\Admin\Desk\UserDeskController;
 use Modules\User\Http\Controllers\Admin\DisplayOption\UserDisplayOptionController;
 use Modules\User\Http\Controllers\Admin\ForgetController;
 use Modules\User\Http\Controllers\Admin\Language\UserLanguageController;
+use Modules\User\Http\Controllers\Admin\SocialAuthController;
 use Modules\User\Http\Controllers\Admin\UserController;
 use Modules\User\Http\Controllers\TokenAuthController;
 use Modules\User\Http\Controllers\TokenController;
 
 Route::group(['prefix' => 'auth', 'as' => 'auth.', 'middleware' => 'web'], function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+    Route::get('/login/{provider}', [SocialAuthController::class, 'redirect'])->name('social.login');
+    Route::get('/callback/{provider}', [SocialAuthController::class, 'callback'])->name('social.callback');
+
     Route::post('/forget-password', [ForgetController::class, 'forget'])->name('forget');
     Route::group(['middleware' => 'auth:web'], function () {
         Route::get('/user', [AuthController::class, 'user'])->name('user');
@@ -74,7 +79,7 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
         [
             'except' => [
                 'index',
-                'show'
+                'show',
             ],
             'names' => [
                 'store' => 'users.display-options.store',

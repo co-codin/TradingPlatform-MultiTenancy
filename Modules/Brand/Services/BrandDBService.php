@@ -1,20 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Brand\Services;
 
-use App\Services\Tenant\Manager;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
-use Modules\Brand\Jobs\MigrateDataJob;
 use Modules\Brand\Jobs\MigrateStructureJob;
+use Modules\Brand\Jobs\SeedUserIntoTenantDBJob;
 use Modules\Brand\Models\Brand;
-use Modules\User\Models\User;
 use Nwidart\Modules\Facades\Module;
 
-class BrandDBService
+final class BrandDBService
 {
     /**
      * @var array
@@ -74,75 +69,55 @@ class BrandDBService
     /**
      * @param Brand $brand
      * @param array $modules
+     * @param array $availableModules
      */
     public function __construct(
         private Brand $brand,
-        private array $modules = []
+        private array $modules = [],
+        private array $availableModules = [],
     )
-    {}
+    {
+        $this->availableModules = $availableModules ?: array_keys(Module::all());
+    }
 
     /**
-     * @return $this
+     * Dispatch migration brand db.
+     *
+     * @return BrandDBService
      */
-    public function migrateDB(): static
+    public function migrateDB(): BrandDBService
     {
-        $appModules = Module::all();
-
-        if (! Schema::connection(Manager::TENANT_CONNECTION_NAME)->hasTable('migrations')) {
-            Artisan::call(sprintf(
-                'migrate:install --database=%s',
-                Manager::TENANT_CONNECTION_NAME
-            ));
-        }
-
-        foreach ($this->modules as $module) {
-            if (isset($appModules[$module])) {
-                Artisan::call(sprintf(
-                    'brand-migrate %s --database=%s',
-                    $this->prepareMigrations($module),
-                    Manager::TENANT_CONNECTION_NAME
-                ));
-            }
-        }
+        MigrateStructureJob::dispatch($this->brand, $this->modules, $this->availableModules);
 
         return $this;
     }
 
-    public function migrateData(): void
+    /**
+     * Dispatch seeder into brand db.
+     *
+     * @return BrandDBService
+     */
+    public function seedData(): BrandDBService
     {
-        $userData = collect();
+        SeedUserIntoTenantDBJob::dispatchIf($this->isAvailableModule('User'), $this->brand);
 
-        app(Manager::class)->escapeTenant(function () use (&$userData) {
-            foreach ($this->brand->users()->get() as $user) {
-                $this->mergeNode('ancestors', $userData, $user);
-                $this->mergeNode('descendants', $userData, $user);
-            }
-        });
-
-        foreach ($userData as $user) {
-            $user = User::create($user->toArray());
-            dd($user);
-        }
-        dd(User::all());
-//        MigrateDataJob::dispatch($this->brand->slug);
-    }
-
-    public function mergeNode(string $key, &$userData, $user)
-    {
-        $methodName = 'get'.ucfirst($key);
-        $ancestors = $user->{$methodName}();
-
-        while ($ancestors->isNotEmpty()) {
-            $userData = $userData->merge($ancestors);
-
-            foreach ($ancestors as $ancestor) {
-                $this->mergeNode($key, $userData, $ancestor);
-            }
-            $ancestors = collect();
-        }
+        return $this;
     }
 
     /**
+     * When module is available do some.
+     *
+     * @param string $moduleName
+     * @return bool
+     */
+    private function isAvailableModule(string $moduleName): bool
+    {
+        return in_array($moduleName, $this->modules) && in_array($moduleName, $this->availableModules);
+    }
+
+    /**
+     * Set brand.
+     *
      * @param Brand $brand
      * @return $this
      */
@@ -154,6 +129,8 @@ class BrandDBService
     }
 
     /**
+     * Set new modules.
+     *
      * @param array $modules
      * @return $this
      */
@@ -164,34 +141,16 @@ class BrandDBService
         return $this;
     }
 
-    private function prepareMigrations($module)
+    /**
+     * Set available modules.
+     *
+     * @param array $availableModules
+     * @return $this
+     */
+    public function setAvailableModules(array $availableModules): self
     {
-        $migrations = array_values(
-            array_diff(
-                scandir(base_path("/Modules/{$module}/Database/Migrations")),
-                ['..', '.']
-            ),
-        );
+        $this->availableModules = $availableModules;
 
-        return implode(' ', Arr::map($migrations, function ($migration) use ($module) {
-            foreach (BrandDBService::ALLOWED_RELATIONS as $relation => $modules) {
-                if (
-                    stripos($migration, $relation) !== false &&
-                    ! in_array($modules, $this->modules)
-                ) {
-                    if (! in_array($modules, $this->modules)) {
-                        return false;
-                    }
-                }
-            }
-
-            foreach (BrandDBService::EXCEPT_MIGRATION_KEY_WORDS as $exceptKeyWord) {
-                if ( stripos($migration, $exceptKeyWord) !== false) {
-                    return false;
-                }
-            }
-
-            return '--path='.base_path("Modules/{$module}/Database/Migrations/{$migration}");
-        }));
+        return $this;
     }
 }

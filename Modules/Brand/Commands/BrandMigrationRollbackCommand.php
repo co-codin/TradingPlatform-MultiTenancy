@@ -8,9 +8,9 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\Console\Migrations\MigrateCommand;
 use Illuminate\Database\Migrations\Migrator;
 
-final class BrandMigrationCommand extends MigrateCommand
+final class BrandMigrationRollbackCommand extends MigrateCommand
 {
-    protected $signature = 'brand:migrate {--database= : The database connection to use}
+    protected $signature = 'brand:migrate-rollback {--database= : The database connection to use}
                 {--path=* : The path(s) to the migrations files to be executed}';
 
     public function __construct(Migrator $migrator, Dispatcher $dispatcher)
@@ -25,12 +25,12 @@ final class BrandMigrationCommand extends MigrateCommand
      */
     public function handle(): int
     {
-        if (! $this->confirmToProceed()) {
+        if (!$this->confirmToProceed()) {
             return 1;
         }
 
         $this->migrator->usingConnection($this->option('database'), function () {
-            $this->migrator->run($this->option('path'));
+            $this->migrator->rollback($this->option('path'));
         });
 
         return 0;
