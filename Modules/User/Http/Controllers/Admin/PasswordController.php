@@ -19,7 +19,7 @@ use Modules\User\Models\User;
 use Modules\User\Repositories\UserRepository;
 use OpenApi\Annotations as OA;
 
-final class ForgetController extends Controller
+final class PasswordController extends Controller
 {
     /**
      * @OA\Post(

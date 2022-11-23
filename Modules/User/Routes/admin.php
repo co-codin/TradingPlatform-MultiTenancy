@@ -9,8 +9,8 @@ use Modules\User\Http\Controllers\Admin\Country\UserCountryController;
 use Modules\User\Http\Controllers\Admin\Department\UserDepartmentController;
 use Modules\User\Http\Controllers\Admin\Desk\UserDeskController;
 use Modules\User\Http\Controllers\Admin\DisplayOption\UserDisplayOptionController;
-use Modules\User\Http\Controllers\Admin\ForgetController;
 use Modules\User\Http\Controllers\Admin\Language\UserLanguageController;
+use Modules\User\Http\Controllers\Admin\PasswordController;
 use Modules\User\Http\Controllers\Admin\SocialAuthController;
 use Modules\User\Http\Controllers\Admin\UserController;
 use Modules\User\Http\Controllers\TokenAuthController;
@@ -22,8 +22,8 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.', 'middleware' => 'web'], funct
     Route::get('/login/{provider}', [SocialAuthController::class, 'redirect'])->name('social.login');
     Route::get('/callback/{provider}', [SocialAuthController::class, 'callback'])->name('social.callback');
 
-    Route::post('/forget-password', [ForgetController::class, 'forget'])->name('password.forget');
-    Route::post('/reset-password', [ForgetController::class, 'reset'])->name('password.reset');
+    Route::post('/forget-password', [PasswordController::class, 'forget'])->name('password.forget');
+    Route::post('/reset-password', [PasswordController::class, 'reset'])->name('password.reset');
 
     Route::group(['middleware' => 'auth:web'], function () {
         Route::get('/user', [AuthController::class, 'user'])->name('user');
