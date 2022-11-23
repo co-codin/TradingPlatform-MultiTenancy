@@ -38,15 +38,15 @@ return new class extends Migration
             $table->boolean('is_active_trading')->default(true);
             $table->boolean('is_test')->default(false);
 
-            $table->foreignId('affiliate_worker_id')->nullable()->constrained();
-            $table->foreignId('conversion_worker_id')->nullable()->constrained();
-            $table->foreignId('retention_worker_id')->nullable()->constrained();
-            $table->foreignId('compliance_worker_id')->nullable()->constrained();
-            $table->foreignId('support_worker_id')->nullable()->constrained();
-            $table->foreignId('conversion_manager_worker_id')->nullable()->constrained();
-            $table->foreignId('retention_manager_worker_id')->nullable()->constrained();
-            $table->foreignId('first_conversion_worker_id')->nullable()->constrained();
-            $table->foreignId('first_retention_worker_id')->nullable()->constrained();
+            $table->foreignId('affiliate_user_id')->nullable()->constrained()->on('users');
+            $table->foreignId('conversion_user_id')->nullable()->constrained()->on('users');
+            $table->foreignId('retention_user_id')->nullable()->constrained()->on('users');
+            $table->foreignId('compliance_user_id')->nullable()->constrained()->on('users');
+            $table->foreignId('support_user_id')->nullable()->constrained()->on('users');
+            $table->foreignId('conversion_manager_user_id')->nullable()->constrained()->on('users');
+            $table->foreignId('retention_manager_user_id')->nullable()->constrained()->on('users');
+            $table->foreignId('first_conversion_user_id')->nullable()->constrained()->on('users');
+            $table->foreignId('first_retention_user_id')->nullable()->constrained()->on('users');
 
             $table->foreignId('desk_id')->nullable()->constrained();
             $table->foreignId('department_id')->nullable()->constrained();
@@ -68,7 +68,7 @@ return new class extends Migration
 
             $table->unsignedFloat('balance')->nullable();
             $table->unsignedFloat('balance_usd')->nullable();
-            
+
             $table->softDeletes();
             $table->timestamps();
         });
