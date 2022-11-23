@@ -105,6 +105,16 @@ abstract class BaseDto extends DataTransferObject implements Arrayable
         return new static(array_merge($this->toArray(), ...$args));
     }
 
+    /**
+     * Get public properties.
+     *
+     * @return array
+     */
+    public function getPublicProperties(): array
+    {
+        return (new ReflectionClass($this))->getProperties(ReflectionProperty::IS_PUBLIC);
+    }
+
     protected function parseArray(array $array): array
     {
         foreach ($array as $key => $value) {
@@ -122,15 +132,5 @@ abstract class BaseDto extends DataTransferObject implements Arrayable
         }
 
         return $array;
-    }
-
-    /**
-     * Get public properties.
-     *
-     * @return array
-     */
-    public function getPublicProperties(): array
-    {
-        return (new ReflectionClass($this))->getProperties(ReflectionProperty::IS_PUBLIC);
     }
 }

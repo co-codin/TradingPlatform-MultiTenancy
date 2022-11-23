@@ -59,22 +59,6 @@ abstract class BaseModuleServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register config.
-     *
-     * @return void
-     */
-    protected function registerConfig(): void
-    {
-        $this->publishes([
-            module_path($this->getModuleName(), 'Config/config.php') => config_path($this->getModuleNameLower() . '.php'),
-        ], 'config');
-
-        $this->mergeConfigFrom(
-            module_path($this->getModuleName(), 'Config/config.php'), $this->getModuleNameLower()
-        );
-    }
-
-    /**
      * Register translations.
      *
      * @return void
@@ -141,5 +125,21 @@ abstract class BaseModuleServiceProvider extends ServiceProvider
     public function getModuleNameLower(): string
     {
         return mb_strtolower($this->getModuleName());
+    }
+
+    /**
+     * Register config.
+     *
+     * @return void
+     */
+    protected function registerConfig(): void
+    {
+        $this->publishes([
+            module_path($this->getModuleName(), 'Config/config.php') => config_path($this->getModuleNameLower() . '.php'),
+        ], 'config');
+
+        $this->mergeConfigFrom(
+            module_path($this->getModuleName(), 'Config/config.php'), $this->getModuleNameLower()
+        );
     }
 }
