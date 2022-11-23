@@ -16,4 +16,6 @@ use Modules\Language\Http\Controllers\Admin\LanguageController;
 |
 */
 
-Route::apiResource('languages', LanguageController::class);
+Route::group(['middleware' => 'tenant.set:1'], function () {
+    Route::apiResource('languages', LanguageController::class);
+});

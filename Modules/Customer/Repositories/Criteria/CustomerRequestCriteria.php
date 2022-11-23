@@ -1,15 +1,17 @@
 <?php
 
-namespace Modules\Desk\Repositories\Criteria;
+namespace Modules\Customer\Repositories\Criteria;
 
 use App\Http\Filters\LiveFilter;
 use App\Repositories\Criteria\BaseCriteria;
-use Modules\Customer\Repositories\Criteria\CustomerRequestCriteria;
+use Modules\Department\Repositories\Criteria\DepartmentRequestCriteria;
+use Modules\Desk\Repositories\Criteria\DeskRequestCriteria;
+use Modules\User\Repositories\Criteria\UserRequestCriteria;
 use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class DeskRequestCriteria extends BaseCriteria
+class CustomerRequestCriteria extends BaseCriteria
 {
     /**
      * @inheritDoc
@@ -19,45 +21,37 @@ class DeskRequestCriteria extends BaseCriteria
         return QueryBuilder::for($model)
             ->defaultSort('-id')
             ->allowedFields(array_merge(
-                static::allowedDeskFields(),
-                CustomerRequestCriteria::allowedCustomerFields('customers')
+                static::allowedCustomerFields(),
+                UserRequestCriteria::allowedUserFields('affiliateUser'),
+                DeskRequestCriteria::allowedDeskFields('desk'),
+                DepartmentRequestCriteria::allowedDepartmentFields('department')
             ))
             ->allowedFilters([
                 AllowedFilter::exact('id'),
+                AllowedFilter::exact('user_id'),
                 AllowedFilter::partial('name'),
-                AllowedFilter::partial('title'),
-                AllowedFilter::exact('is_active'),
-                AllowedFilter::exact('parent_id'),
+                AllowedFilter::partial('slug'),
                 AllowedFilter::custom('live', new LiveFilter([
                     'id' => '=',
                     'name' => 'like',
-                    'title' => 'like',
+                    'slug' => 'like',
                 ])),
                 AllowedFilter::trashed(),
             ])
             ->allowedIncludes([
-                'parent',
-                'ancestors',
-                'descendants',
-                'children',
-                'customers',
+                'desk', 'department', 'affiliateUser'
             ])
             ->allowedSorts([
-                'id', 'name', 'title', 'created_at', 'updated_at', 'deleted_at',
+
             ]);
     }
 
-    public static function allowedDeskFields($prefix = null): array
+    public static function allowedCustomerFields($prefix = null): array
     {
         $fields = [
             'id',
-            'name',
-            'title',
-            'is_active',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-            'parent_id',
+            'user_id',
+
         ];
 
         if(!$prefix) {

@@ -44,50 +44,49 @@ Route::group(['prefix' => 'token', 'as' => 'token.', 'middleware' => 'api'], fun
 });
 
 Route::group(['middleware' => ['api', 'auth:api']], function () {
-    // Desk
-    Route::put('/workers/{id}/desk', [UserDeskController::class, 'update'])->name('workers.desk.update');
+    Route::group(['middleware' => 'tenant.set:1'], function () {
+        // Desk
+        Route::put('/workers/{id}/desk', [UserDeskController::class, 'update'])->name('workers.desk.update');
 
-    // Brand
-    Route::put('/workers/{id}/brand', [UserBrandController::class, 'update'])->name('users.brand.update');
+        // Brand
+        Route::put('/workers/{id}/brand', [UserBrandController::class, 'update'])->name('users.brand.update');
 
-    // Ban
-    Route::patch('/workers/ban', [UserController::class, 'ban'])->name('users.ban');
-    Route::patch('/workers/unban', [UserController::class, 'unban'])->name('users.unban');
+        // Ban
+        Route::patch('/workers/ban', [UserController::class, 'ban'])->name('users.ban');
+        Route::patch('/workers/unban', [UserController::class, 'unban'])->name('users.unban');
 
-    // Batch
-    Route::patch('/workers/update/batch', [UserController::class, 'updateBatch'])->name('users.batch.update');
+        // Batch
+        Route::patch('/workers/update/batch', [UserController::class, 'updateBatch'])->name('users.batch.update');
 
-    // Country
-    Route::put('/workers/{id}/country', [UserCountryController::class, 'update'])->name('users.country.update');
+        // Country
+        Route::put('/workers/{id}/country', [UserCountryController::class, 'update'])->name('users.country.update');
 
-    // Department
-    Route::put('/workers/{id}/department', [UserDepartmentController::class, 'update'])
-        ->name('users.department.update');
+        // Department
+        Route::put('/workers/{id}/department', [UserDepartmentController::class, 'update'])->name('users.department.update');
 
-    // Language
-    Route::put('/workers/{id}/language', [UserLanguageController::class, 'update'])->name('users.language.update');
+        // Language
+        Route::put('/workers/{id}/language', [UserLanguageController::class, 'update'])->name('users.language.update');
+    });
 
-    Route::apiResource('workers', UserController::class)->names([
-        'index' => 'users.index',
-        'show' => 'users.show',
-        'store' => 'users.store',
-        'update' => 'users.update',
-        'destroy' => 'users.destroy',
-    ]);
+    Route::group(['middleware' => 'tenant.set'], function () {
+        Route::apiResource('workers', UserController::class)
+            ->names([
+                'index' => 'users.index',
+                'show' => 'users.show',
+                'store' => 'users.store',
+                'update' => 'users.update',
+                'destroy' => 'users.destroy',
+            ]);
 
-    Route::apiResource(
-        'workers.display-options',
-        UserDisplayOptionController::class,
-        [
-            'except' => [
+        Route::apiResource('workers.display-options', UserDisplayOptionController::class)
+            ->except([
                 'index',
                 'show',
-            ],
-            'names' => [
+            ])
+            ->names([
                 'store' => 'users.display-options.store',
                 'update' => 'users.display-options.update',
                 'destroy' => 'users.display-options.destroy',
-            ],
-        ]
-    );
+            ]);
+    });
 });

@@ -14,4 +14,6 @@ use Modules\Geo\Http\Controllers\Admin\CountryController;
 |
 */
 
-Route::apiResource('countries', CountryController::class);
+Route::group(['middleware' => 'tenant.set:1'], function () {
+    Route::apiResource('countries', CountryController::class);
+});
