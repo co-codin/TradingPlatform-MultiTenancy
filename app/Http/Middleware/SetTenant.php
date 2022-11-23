@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
+use App\Contracts\HasTenantDBConnection;
 use Closure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -24,9 +25,10 @@ final class SetTenant
      */
     public function handle(Request $request, Closure $next)
     {
-        $tenant = $this->resolveTenant($request);
-
-        BrandTenantIdentified::dispatch($tenant);
+        BrandTenantIdentified::dispatchIf(
+            $request->hasHeader('Tenant'),
+            $this->resolveTenant($request),
+        );
 
         return $next($request);
     }
@@ -35,9 +37,9 @@ final class SetTenant
      * Resolve tenant.
      *
      * @param Request $request
-     * @return Brand
+     * @return HasTenantDBConnection
      */
-    private function resolveTenant(Request $request): Brand
+    private function resolveTenant(Request $request): HasTenantDBConnection
     {
         $tenant = Brand::where('slug', $request->header('Tenant'))->first();
 
