@@ -34,6 +34,41 @@ return new class extends Migration
 
             $table->tinyInteger('verification_status_id')->nullable();
 
+            $table->boolean('is_active')->default(true);
+            $table->boolean('is_active_trading')->default(true);
+            $table->boolean('is_test')->default(false);
+
+            $table->foreignId('affiliate_worker_id')->nullable()->constrained();
+            $table->foreignId('conversion_worker_id')->nullable()->constrained();
+            $table->foreignId('retention_worker_id')->nullable()->constrained();
+            $table->foreignId('compliance_worker_id')->nullable()->constrained();
+            $table->foreignId('support_worker_id')->nullable()->constrained();
+            $table->foreignId('conversion_manager_worker_id')->nullable()->constrained();
+            $table->foreignId('retention_manager_worker_id')->nullable()->constrained();
+            $table->foreignId('first_conversion_worker_id')->nullable()->constrained();
+            $table->foreignId('first_retention_worker_id')->nullable()->constrained();
+
+            $table->foreignId('desk_id')->nullable()->constrained();
+            $table->foreignId('department_id')->nullable()->constrained();
+
+            $table->timestamp('last_online')->nullable();
+            $table->timestamp('first_autologin_time')->nullable();
+            $table->timestamp('first_login_time')->nullable();
+            $table->timestamp('first_deposit_date')->nullable();
+            $table->timestamp('last_approved_deposit_date')->nullable();
+            $table->timestamp('last_pending_deposit_date')->nullable();
+            $table->timestamp('last_pending_withdrawal_date')->nullable();
+            $table->timestamp('last_communication_date')->nullable();
+
+            // affiliation
+//            $table->foreignId('campaign_id')->nullable()->constrained();
+//            $table->string('offer_name')->nullable();
+//            $table->string('offer_url')->nullable();
+//            $table->string('comment_about_customer')->nullable();
+
+            $table->unsignedFloat('balance')->nullable();
+            $table->unsignedFloat('balance_usd')->nullable();
+            
             $table->softDeletes();
             $table->timestamps();
         });
