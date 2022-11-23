@@ -24,6 +24,11 @@ final class JsonMiddleware
 
         $response = $next($request);
 
-        return $response->isSuccessful() ? $response : new Response(__('Internal server error'), 500);
+        return match (true) {
+            boolval(config('app.debug')) => $response,
+            $response->isSuccessful() => $response,
+            $response->isNotFound() => new Response(__('Not found.'), 404),
+            default => new Response(__('Internal server error'), 500),
+        };
     }
 }
