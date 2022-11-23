@@ -18,10 +18,17 @@ final class JsonMiddleware
      * @param  Closure(Request): (Response|RedirectResponse)  $next
      * @return Response|RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+    final public function handle(Request $request, Closure $next): Response|RedirectResponse
     {
         $request->headers->set('Accept', 'application/json');
 
-        return $next($request);
+        $response = $next($request);
+
+        return match (true) {
+            boolval(config('app.debug')) => $response,
+            $response->isSuccessful() => $response,
+            $response->isNotFound() => new Response(__('Not found.'), 404),
+            default => new Response(__('Internal server error'), 500),
+        };
     }
 }
