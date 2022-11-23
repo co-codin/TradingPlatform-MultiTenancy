@@ -98,7 +98,7 @@ class ForgetController extends Controller
      * )
      *
      * @param string $token
-     * @param ResetPasswordRequest $request
+     * @param ResetPasswordRequest $requestв
      * @return never
      */
     public function reset(string $token, ResetPasswordRequest $request)

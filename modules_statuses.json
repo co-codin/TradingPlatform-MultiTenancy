@@ -8,5 +8,6 @@
     "Language": true,
     "Geo": true,
     "Config": true,
-    "Customer": true
+    "Customer": true,
+    "Campaign": true
 }
