@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
- use Illuminate\Support\Facades\Gate;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
- use Modules\Role\Enums\DefaultRole;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Gate;
+use Modules\Role\Enums\DefaultRole;
 
- class AuthServiceProvider extends ServiceProvider
+final class AuthServiceProvider extends ServiceProvider
 {
     /**
      * The model to policy mappings for the application.
@@ -28,6 +32,13 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 
         Gate::before(function ($user, $ability) {
             return $user->hasRole(DefaultRole::ADMIN) ? true : null;
+        });
+
+        ResetPassword::createUrlUsing(function ($user, string $token) {
+            return config('frontend_url') . '/auth/new-password?' . Arr::query([
+                'token' => $token,
+                'email' => $user->getEmailForPasswordReset(),
+            ]);
         });
     }
 }

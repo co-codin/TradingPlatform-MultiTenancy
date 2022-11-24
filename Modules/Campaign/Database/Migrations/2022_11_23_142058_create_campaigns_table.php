@@ -13,12 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('configs', function (Blueprint $table) {
+        Schema::create('campaigns', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('config_type_id')->constrained();
-            $table->string('data_type');
-            $table->string('name');
-            $table->json('value');
+
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('configs');
+        Schema::dropIfExists('campaigns');
     }
 };
