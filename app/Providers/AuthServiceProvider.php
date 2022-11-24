@@ -35,7 +35,7 @@ final class AuthServiceProvider extends ServiceProvider
         });
 
         ResetPassword::createUrlUsing(function ($user, string $token) {
-            return config('frontend_url') . '/auth/new-password?' . Arr::query([
+            return config('app.frontend_url') . '/auth/new-password?' . Arr::query([
                 'token' => $token,
                 'email' => $user->getEmailForPasswordReset(),
             ]);
