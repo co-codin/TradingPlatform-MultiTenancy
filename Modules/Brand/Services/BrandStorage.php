@@ -17,7 +17,7 @@ final class BrandStorage
      */
     final public function store(BrandDto $brandDto): Brand
     {
-        return Brand::create($brandDto->toArray());
+        return Brand::query()->create($brandDto->toArray());
     }
 
     /**
