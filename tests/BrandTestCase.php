@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Testing\TestResponse;
+use Modules\Brand\Events\BrandCreated;
 use Modules\Brand\Events\Tenant\BrandTenantIdentified;
 use Modules\Brand\Jobs\MigrateStructureJob;
 use Modules\Brand\Models\Brand;
@@ -30,17 +31,18 @@ abstract class BrandTestCase extends BaseTestCase
     {
         parent::setUp();
 
-        Queue::fake();
-//        Event::fake();
-//        Bus::fake();
+//        Queue::fake();
+        Event::fake();
+        Bus::fake();
 
-        $this->brand = Brand::factory()->create();
         $this->expectsJobs(CreateTenantDatabase::class);
+        $this->brand = Brand::factory()->create();
 
-        sleep(10);
+        sleep(5);
         try {
-//            Bus::assertDispatched(CreateTenantDatabase::class);
-            Queue::assertPushed(CreateTenantDatabase::class);
+            Event::assertDispatched(BrandCreated::class);
+            Bus::assertDispatched(CreateTenantDatabase::class);
+//            Queue::assertPushed(CreateTenantDatabase::class);
         } catch (\Throwable $e) {
             dd($e->getMessage());
         }
