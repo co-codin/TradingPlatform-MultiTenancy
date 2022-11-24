@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('config_type_id')->constrained();
             $table->string('data_type');
             $table->string('name');
-            $table->string('value');
+            $table->json('value');
             $table->timestamps();
         });
     }
