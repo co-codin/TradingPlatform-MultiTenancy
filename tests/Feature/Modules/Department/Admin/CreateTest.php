@@ -2,17 +2,25 @@
 
 namespace Tests\Feature\Modules\Department\Admin;
 
+use App\Listeners\Tenant\CreateTenantDatabase;
 use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Bus;
+use Modules\Brand\Jobs\CreateSchemaJob;
+use Modules\Brand\Jobs\MigrateStructureJob;
+use Modules\Brand\Services\BrandDBService;
 use Modules\Department\Enums\DepartmentPermission;
 use Modules\Department\Models\Department;
 use Modules\Role\Models\Permission;
 use Modules\User\Models\User;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
+use Tests\BrandTestCase;
 use Tests\TestCase;
+use Tests\Traits\HasAuth;
 
-class CreateTest extends TestCase
+class CreateTest extends BrandTestCase
 {
-    use DatabaseTransactions;
+    use HasAuth;
 
     /**
      * Test authorized user can create department.
@@ -21,22 +29,38 @@ class CreateTest extends TestCase
      */
     public function test_authorized_user_can_create_department(): void
     {
-        $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::CREATE_DEPARTMENTS));
+        try {
+            $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::CREATE_DEPARTMENTS));
 
-        $data = Department::factory()->make();
+            $data = Department::factory()->make();
 
-        $response = $this->postJson(route('admin.departments.store'), $data->toArray());
+            $this->expectsJobs(CreateTenantDatabase::class);
 
-        $response->assertCreated();
+            $this->migrateModules([BrandDBService::ALLOWED_MODULES['Department']]);
 
-        $response->assertJson([
-            'data' => [
-                'name' => $data['name'],
-                'title' => $data['title'],
-                'is_active' => $data['is_active'],
-                'is_default' => $data['is_default'],
-            ],
-        ]);
+//            $response->assertStatus(ResponseAlias::HTTP_ACCEPTED);
+
+            dump($this->brand->slug);
+            Bus::assertDispatched(MigrateStructureJob::class);
+
+            $response = $this->post(route('admin.departments.store'), $data->toArray());
+dd($response->json(['message']));
+            $response->assertCreated();
+
+            $response->assertJson([
+                'data' => [
+                    'name' => $data['name'],
+                    'title' => $data['title'],
+                    'is_active' => $data['is_active'],
+                    'is_default' => $data['is_default'],
+                ],
+            ]);
+
+            dd('as');
+        } catch (\Throwable $e) {
+            dd($e->getMessage());
+        }
+
     }
 
     /**

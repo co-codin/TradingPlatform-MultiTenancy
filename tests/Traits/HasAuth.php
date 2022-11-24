@@ -70,10 +70,13 @@ trait HasAuth
     final protected function authenticateWithPermission(
         PermissionEnum $permissionEnum,
         string $guard = User::DEFAULT_AUTH_GUARD
-    ): void {
-        $user = User::whereEmail('test@service.com')->first() ??
+    ): void
+    {
+        $email = 'test@service.com';
+
+        $user = User::whereEmail($email)->first() ??
             User::factory()->create([
-                'email' => 'test@service.com',
+                'email' => $email,
             ]);
 
         $permission = Permission::whereName($permissionEnum->value)->first() ??

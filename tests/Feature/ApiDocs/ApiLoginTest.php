@@ -11,17 +11,17 @@ class ApiLoginTest extends TestCase
 {
     public function test_api_login(): void
     {
+        $password = 'password';
+
         $user = User::factory()->create([
-            'email' => 'test@admin.com',
-            'password' => Hash::make('admin1'),
+            'email' => 'test@stoxtech.com',
+            'password' => Hash::make('password'),
         ]);
 
-        $response = $this->actingAs($user)->get('/api/documentation');
+        $response = $this->get('/api/documentation', [
+            'Authorization' => 'Basic '. base64_encode("{$user->email}:{$password}")
+        ]);
 
         $response->assertStatus(200);
-
-        $response = $this->get('/api/documentation');
-
-        $response->assertStatus(401);
     }
 }
