@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Modules\Role\Enums\DefaultRole;
 
@@ -34,11 +35,10 @@ final class AuthServiceProvider extends ServiceProvider
         });
 
         ResetPassword::createUrlUsing(function ($user, string $token) {
-            return config('frontend_url')
-                . route('admin.auth.password.reset', [
-                    'token' => $token,
-                    'email' => $user->getEmailForPasswordReset(),
-                ]);
+            return config('frontend_url') . '/auth/new-password?' . Arr::query([
+                'token' => $token,
+                'email' => $user->getEmailForPasswordReset(),
+            ]);
         });
     }
 }
