@@ -47,7 +47,7 @@ final class User extends Authenticatable
     /**
      * @var string
      */
-    public const DEFAULT_AUTH_GUARD = 'sanctum';
+    public const DEFAULT_AUTH_GUARD = 'api';
 
     /**
      * {@inheritdoc}

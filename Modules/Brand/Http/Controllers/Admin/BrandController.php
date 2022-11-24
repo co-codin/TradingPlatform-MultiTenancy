@@ -15,6 +15,7 @@ use Modules\Brand\Http\Resources\BrandResource;
 use Modules\Brand\Models\Brand;
 use Modules\Brand\Repositories\BrandRepository;
 use Modules\Brand\Services\BrandStorage;
+use Modules\User\Models\User;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 final class BrandController extends Controller
@@ -60,7 +61,7 @@ final class BrandController extends Controller
      */
     final public function all(): JsonResource
     {
-        $this->authorize('viewAny');
+        $this->authorize('viewAny', Brand::class);
 
         return BrandResource::collection($this->brandRepository->all());
     }
