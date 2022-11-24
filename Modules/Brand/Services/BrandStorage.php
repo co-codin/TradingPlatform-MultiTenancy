@@ -1,39 +1,52 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Brand\Services;
 
-use Illuminate\Support\Facades\DB;
 use Modules\Brand\Dto\BrandDto;
-use Modules\Brand\Jobs\CreateSchemaJob;
 use Modules\Brand\Models\Brand;
 
-class BrandStorage
+final class BrandStorage
 {
-    public function store(BrandDto $brandDto)
+    /**
+     * Store brand.
+     *
+     * @param BrandDto $brandDto
+     * @return Brand
+     */
+    final public function store(BrandDto $brandDto): Brand
     {
-        $brand = Brand::query()->create($brandDto->toArray());
-
-        auth('sanctum')->user()->brands()->attach($brand->id);
-
-//        dispatch(new CreateSchemaJob($brand->slug));
-
-        return $brand;
+        return Brand::create($brandDto->toArray());
     }
 
-    public function update(Brand $brand, BrandDto $brandDto)
+    /**
+     * Update brand.
+     *
+     * @param Brand $brand
+     * @param BrandDto $brandDto
+     * @return Brand
+     */
+    final public function update(Brand $brand, BrandDto $brandDto): Brand
     {
         $attributes = $brandDto->toArray();
 
-        if (!$brand->update($attributes)) {
+        if (! $brand->update($attributes)) {
             throw new \LogicException('can not update brand.');
         }
 
         return $brand;
     }
 
-    public function delete(Brand $brand)
+    /**
+     * Destroy brand.
+     *
+     * @param Brand $brand
+     * @return void
+     */
+    final public function delete(Brand $brand): void
     {
-        if (!$brand->delete()) {
+        if (! $brand->delete()) {
             throw new \LogicException('can not delete brand');
         }
     }
