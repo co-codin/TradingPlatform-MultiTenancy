@@ -6,6 +6,7 @@ use App\Listeners\Tenant\CreateTenantDatabase;
 use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Event;
 use Modules\Brand\Jobs\CreateSchemaJob;
 use Modules\Brand\Jobs\MigrateStructureJob;
 use Modules\Brand\Services\BrandDBService;
@@ -41,8 +42,10 @@ class CreateTest extends BrandTestCase
 //            $response->assertStatus(ResponseAlias::HTTP_ACCEPTED);
 
             dump($this->brand->slug);
-            Bus::assertDispatched(MigrateStructureJob::class);
 
+            $e = Event::assertDispatched(CreateTenantDatabase::class);
+            $dd = Bus::assertDispatched(MigrateStructureJob::class);
+dd($e, $dd);
             $response = $this->post(route('admin.departments.store'), $data->toArray());
 dd($response->json(['message']));
             $response->assertCreated();

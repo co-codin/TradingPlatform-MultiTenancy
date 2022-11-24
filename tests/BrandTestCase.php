@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use App\Listeners\Tenant\CreateTenantDatabase;
 use App\Services\Tenant\Manager;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Bus;
@@ -29,8 +30,21 @@ abstract class BrandTestCase extends BaseTestCase
     {
         parent::setUp();
 
-        $this->brand = Brand::factory()->create();
+        Queue::fake();
+//        Event::fake();
+//        Bus::fake();
 
+        $this->brand = Brand::factory()->create();
+        $this->expectsJobs(CreateTenantDatabase::class);
+
+        sleep(10);
+        try {
+//            Bus::assertDispatched(CreateTenantDatabase::class);
+            Queue::assertPushed(CreateTenantDatabase::class);
+        } catch (\Throwable $e) {
+            dd($e->getMessage());
+        }
+dd('s');
         $this->withHeader('Tenant', $this->brand->slug);
     }
 
