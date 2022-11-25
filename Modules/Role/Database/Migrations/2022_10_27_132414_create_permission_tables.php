@@ -155,5 +155,8 @@ return new class extends Migration
         Schema::drop($tableNames['model_has_permissions']);
         Schema::drop($tableNames['roles']);
         Schema::drop($tableNames['permissions']);
+        Schema::drop('columns');
+        Schema::drop('models');
+        Schema::drop('actions');
     }
 };

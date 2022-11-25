@@ -17,6 +17,7 @@ final class CountryStoreRequest extends BaseFormRequest
             'name' => 'required|string|unique:countries,name',
             'iso2' => 'required|string|unique:countries,iso2',
             'iso3' => 'required|string|unique:countries,iso3',
+            'currency' => 'sometimes|required|string',
         ];
     }
 }
