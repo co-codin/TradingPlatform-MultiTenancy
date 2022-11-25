@@ -58,6 +58,26 @@ final class ResetTest extends TestCase
     /**
      * @test
      */
+    public function invalid_user(): void
+    {
+        $user = User::factory()->create([
+            'email' => 'test@admin.com',
+            'password' => Hash::make('admin1'),
+        ]);
+        $response = $this->post(route('admin.auth.password.reset'), [
+            'email' => 'test@non-existent.test',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+            'token' => Password::createToken($user),
+        ]);
+
+        $response->assertStatus(Response::HTTP_BAD_REQUEST);
+        $response->assertJsonPath('message', Password::INVALID_USER);
+    }
+
+    /**
+     * @test
+     */
     public function unprocessable(): void
     {
         $response = $this->post(route('admin.auth.password.reset'), [

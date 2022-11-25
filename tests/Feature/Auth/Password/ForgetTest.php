@@ -68,7 +68,7 @@ final class ForgetTest extends TestCase
     {
         $response = $this->post(route('admin.auth.password.forget'), ['email' => 'test@non-existent.test']);
 
-        $response->assertUnprocessable();
-        $response->assertJsonValidationErrorFor('email');
+        $response->assertStatus(Response::HTTP_ACCEPTED);
+        $response->assertContent(Password::RESET_LINK_SENT);
     }
 }
