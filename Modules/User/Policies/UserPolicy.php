@@ -3,21 +3,25 @@
 namespace Modules\User\Policies;
 
 use App\Policies\BasePolicy;
+use Illuminate\Http\Request;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
 
 class UserPolicy extends BasePolicy
 {
-    /**
-     * View any policy.
-     *
-     * @param User $user
-     * @return bool
-     */
+//    /**
+//     * View any policy.
+//     *
+//     * @param User $user
+//     * @return bool
+//     */
     public function viewAny(User $user): bool
     {
+        parent::viewAny($user);
+        dd('sa');
+        dd($request, $user);
         // logics
-        
+
 //        $permissions = $user->roles()->permissions()->where('name', UserPermission::VIEW_USERS)->with('column')->get()->pluck('column.name');
 
 //        $fields = request()->get('field[users]');
@@ -29,12 +33,13 @@ class UserPolicy extends BasePolicy
     /**
      * View policy.
      *
+     * @param Request $request
      * @param User $user
-     * @param User $selectedUser
+     * @param $model
      * @return bool
      */
-    public function view(User $user, User $selectedUser): bool
-    {
+    public function view(User $user, $model): bool
+    {dd('sa');
         return $user->can(UserPermission::VIEW_USERS);
     }
 
