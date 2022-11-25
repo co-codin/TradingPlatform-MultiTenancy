@@ -28,6 +28,7 @@ final class SetTenant
      */
     public function handle(Request $request, Closure $next, bool $required = false)
     {
+        return $next($request);
         $hasHeader = $request->hasHeader('Tenant');
 
         if ($required && ! $hasHeader) {

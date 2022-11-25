@@ -17,17 +17,7 @@ class UserPolicy extends BasePolicy
 //     */
     public function viewAny(User $user): bool
     {
-        parent::viewAny($user);
-        dd('sa');
-        dd($request, $user);
-        // logics
-
-//        $permissions = $user->roles()->permissions()->where('name', UserPermission::VIEW_USERS)->with('column')->get()->pluck('column.name');
-
-//        $fields = request()->get('field[users]');
-
-
-        return $user->can(UserPermission::VIEW_USERS);
+        return parent::viewAny($user) && $user->can(UserPermission::VIEW_USERS);
     }
 
     /**
@@ -80,5 +70,21 @@ class UserPolicy extends BasePolicy
     public function delete(User $user, User $selectedUser): bool
     {
         return $user->can(UserPermission::DELETE_USERS);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPermissionName(string $nameEnum): string
+    {
+        return UserPermission::class::${$nameEnum};
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getFieldName(): string
+    {
+        return 'users';
     }
 }

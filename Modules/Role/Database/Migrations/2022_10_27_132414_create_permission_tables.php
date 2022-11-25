@@ -45,12 +45,18 @@ return new class extends Migration
 
             $table->foreignId('model_id')->constrained();
             $table->foreignId('action_id')->constrained();
-            $table->foreignId('column_id')->nullable()->constrained();
 
+            $table->string('name');
             $table->string('guard_name');
             $table->timestamps();
 
-            $table->unique(['model_id', 'action_id', 'column_id']);
+            $table->unique(['model_id', 'action_id']);
+        });
+
+        Schema::create('permission_column', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->foreignId('permission_id')->constrained();
+            $table->foreignId('column_id')->constrained();
         });
 
         Schema::create($tableNames['roles'], function (Blueprint $table) use ($teams, $columnNames) {
@@ -154,6 +160,7 @@ return new class extends Migration
         Schema::drop($tableNames['model_has_roles']);
         Schema::drop($tableNames['model_has_permissions']);
         Schema::drop($tableNames['roles']);
+        Schema::drop('permission_column');
         Schema::drop($tableNames['permissions']);
         Schema::drop('columns');
         Schema::drop('models');

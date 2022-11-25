@@ -33,4 +33,14 @@ class RoleServiceProvider extends BaseModuleServiceProvider
     {
         return 'Role';
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function boot(): void
+    {
+        parent::boot();
+
+        $this->loadMigrationsFrom(base_path("Modules/{$this->getModuleName()}/Database/Migrations"));
+    }
 }
