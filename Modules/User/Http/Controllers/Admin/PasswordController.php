@@ -62,6 +62,10 @@ final class PasswordController extends Controller
     {
         $user = $repository->findByField(['email' => $request->validated('email')])->first();
 
+        if (! $user) {
+            return response(Password::RESET_LINK_SENT, Response::HTTP_ACCEPTED);
+        }
+
         if ($user->banned_at) {
             throw ValidationException::withMessages(['banned' => 'You have been banned']);
         }
