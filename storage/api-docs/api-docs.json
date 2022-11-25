@@ -727,6 +727,13 @@
                         "description": "ISO3",
                         "required": true,
                         "example": "RUS"
+                    },
+                    {
+                        "name": "currency",
+                        "in": "query",
+                        "description": "Currency",
+                        "required": true,
+                        "example": "RUB"
                     }
                 ],
                 "responses": {
@@ -870,6 +877,13 @@
                         "description": "ISO3",
                         "required": false,
                         "example": "RUS"
+                    },
+                    {
+                        "name": "currency",
+                        "in": "query",
+                        "description": "Currency",
+                        "required": false,
+                        "example": "RUB"
                     }
                 ],
                 "responses": {
@@ -1808,112 +1822,6 @@
                 ]
             }
         },
-        "/admin/auth/forget-password": {
-            "post": {
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "Send Reset Password Notification",
-                "operationId": "212329c887ce235d8381524c68ebd655",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "email"
-                                ],
-                                "properties": {
-                                    "email": {
-                                        "type": "string",
-                                        "format": "email"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "202": {
-                        "description": "Accepted"
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationError"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    }
-                }
-            }
-        },
-        "/admin/auth/reset-password": {
-            "post": {
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "Reset Password",
-                "operationId": "fd92177ef7dd76fc2b43ea065f7e2fe1",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "email",
-                                    "password",
-                                    "password_confirmation",
-                                    "token"
-                                ],
-                                "properties": {
-                                    "email": {
-                                        "type": "string",
-                                        "format": "email"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "format": "password"
-                                    },
-                                    "password_confirmation": {
-                                        "type": "string",
-                                        "format": "password"
-                                    },
-                                    "token": {
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "202": {
-                        "description": "Accepted"
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationError"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    }
-                }
-            }
-        },
         "/admin/workers/{id}/language": {
             "put": {
                 "tags": [
@@ -1983,6 +1891,112 @@
                         "sanctum": []
                     }
                 ]
+            }
+        },
+        "/admin/auth/forget-password": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Send Reset Password Notification",
+                "operationId": "6588ee88df2cbd2ec882d00b8ec24eb2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Accepted"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/admin/auth/reset-password": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Reset Password",
+                "operationId": "f90e47572b7c88223f3c144e7ca73026",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password",
+                                    "password_confirmation",
+                                    "token"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "token": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Accepted"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
             }
         },
         "/admin/auth/callback/{provider}": {
@@ -2133,43 +2147,57 @@
                                     "email",
                                     "password",
                                     "password_confirmation",
-                                    "role_id"
+                                    "roles"
                                 ],
                                 "properties": {
                                     "username": {
-                                        "type": "string"
+                                        "description": "Worker username"
                                     },
                                     "first_name": {
+                                        "description": "First name",
                                         "type": "string"
                                     },
                                     "last_name": {
+                                        "description": "Last name",
                                         "type": "string"
                                     },
                                     "email": {
+                                        "description": "Email",
                                         "type": "string",
                                         "format": "email"
                                     },
                                     "password": {
+                                        "description": "Password",
                                         "type": "string",
                                         "format": "password"
                                     },
                                     "password_confirmation": {
+                                        "description": "Password confirmation",
                                         "type": "string",
                                         "format": "password"
                                     },
                                     "is_active": {
+                                        "description": "Worker activity flag",
                                         "type": "boolean"
                                     },
                                     "target": {
+                                        "description": "Target amount for the worker",
                                         "type": "integer"
                                     },
                                     "parent_id": {
+                                        "description": "Parent worker ID",
                                         "type": "integer"
                                     },
                                     "roles": {
+                                        "description": "Array of roles ID",
                                         "type": "array",
                                         "items": {
-                                            "type": "integer"
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     }
                                 },
@@ -2217,7 +2245,7 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "User id",
+                        "description": "Worker ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -2261,7 +2289,7 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Worker id",
+                        "description": "Worker ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -2279,43 +2307,58 @@
                                     "email",
                                     "password",
                                     "password_confirmation",
-                                    "role_id"
+                                    "roles"
                                 ],
                                 "properties": {
                                     "username": {
+                                        "description": "Worker username",
                                         "type": "string"
                                     },
                                     "first_name": {
+                                        "description": "First name",
                                         "type": "string"
                                     },
                                     "last_name": {
+                                        "description": "Last name",
                                         "type": "string"
                                     },
                                     "email": {
+                                        "description": "Email",
                                         "type": "string",
                                         "format": "email"
                                     },
                                     "password": {
+                                        "description": "Password",
                                         "type": "string",
                                         "format": "password"
                                     },
                                     "password_confirmation": {
+                                        "description": "Password confirmation",
                                         "type": "string",
                                         "format": "password"
                                     },
                                     "is_active": {
+                                        "description": "Worker activity flag",
                                         "type": "boolean"
                                     },
                                     "target": {
+                                        "description": "Target amount for the worker",
                                         "type": "integer"
                                     },
                                     "parent_id": {
+                                        "description": "Parent worker ID",
                                         "type": "integer"
                                     },
-                                    "role_id": {
+                                    "roles": {
+                                        "description": "Array of roles ID",
                                         "type": "array",
                                         "items": {
-                                            "type": "integer"
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "change_password": {
@@ -2368,7 +2411,7 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Worker id",
+                        "description": "Worker ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -2405,7 +2448,7 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Worker id",
+                        "description": "Worker ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -2418,36 +2461,46 @@
                             "schema": {
                                 "properties": {
                                     "username": {
+                                        "description": "Worker username",
                                         "type": "string"
                                     },
                                     "first_name": {
+                                        "description": "First name",
                                         "type": "string"
                                     },
                                     "last_name": {
+                                        "description": "Last name",
                                         "type": "string"
                                     },
                                     "email": {
+                                        "description": "Email",
                                         "type": "string",
                                         "format": "email"
                                     },
                                     "password": {
+                                        "description": "Password",
                                         "type": "string",
                                         "format": "password"
                                     },
                                     "password_confirmation": {
+                                        "description": "Password confirmation",
                                         "type": "string",
                                         "format": "password"
                                     },
                                     "is_active": {
+                                        "description": "Worker activity flag",
                                         "type": "boolean"
                                     },
                                     "target": {
+                                        "description": "Target amount for the worker",
                                         "type": "integer"
                                     },
                                     "parent_id": {
+                                        "description": "Parent worker ID",
                                         "type": "integer"
                                     },
                                     "roles": {
+                                        "description": "Array of roles ID",
                                         "type": "array",
                                         "items": {
                                             "properties": {
@@ -2504,27 +2557,37 @@
                 "tags": [
                     "Worker"
                 ],
-                "summary": "Ban a worker",
+                "summary": "Ban workers",
                 "operationId": "b572b98a9b3cebdcc4224313a9cc9082",
-                "parameters": [
-                    {
-                        "name": "users",
-                        "in": "path",
-                        "description": "Users data",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "users"
+                                ],
                                 "properties": {
-                                    "id": {
-                                        "type": "integer"
+                                    "users": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Worker ID",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     }
                                 },
                                 "type": "object"
                             }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "204": {
                         "description": "No content"
@@ -2551,27 +2614,37 @@
                 "tags": [
                     "Worker"
                 ],
-                "summary": "Unban a worker",
+                "summary": "Unban workers",
                 "operationId": "b9f6246813a23ac224d11adb3164484a",
-                "parameters": [
-                    {
-                        "name": "users",
-                        "in": "path",
-                        "description": "Users data",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "users"
+                                ],
                                 "properties": {
-                                    "id": {
-                                        "type": "integer"
+                                    "users": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Worker ID",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     }
                                 },
                                 "type": "object"
                             }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "204": {
                         "description": "No content"
@@ -2598,69 +2671,92 @@
                 "tags": [
                     "Worker"
                 ],
-                "summary": "Unban a worker",
+                "summary": "Batch worker update",
                 "operationId": "48faec29a28ad96a63087701cc1b49c1",
-                "parameters": [
-                    {
-                        "name": "users",
-                        "in": "path",
-                        "description": "Users data",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "users"
+                                ],
                                 "properties": {
-                                    "username": {
-                                        "type": "string"
-                                    },
-                                    "first_name": {
-                                        "type": "string"
-                                    },
-                                    "last_name": {
-                                        "type": "string"
-                                    },
-                                    "email": {
-                                        "type": "string",
-                                        "format": "email"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "format": "password"
-                                    },
-                                    "password_confirmation": {
-                                        "type": "string",
-                                        "format": "password"
-                                    },
-                                    "is_active": {
-                                        "type": "boolean"
-                                    },
-                                    "target": {
-                                        "type": "integer"
-                                    },
-                                    "parent_id": {
-                                        "type": "integer"
-                                    },
-                                    "roles": {
+                                    "users": {
                                         "type": "array",
                                         "items": {
+                                            "required": [
+                                                "id"
+                                            ],
                                             "properties": {
                                                 "id": {
+                                                    "description": "Worker ID",
                                                     "type": "integer"
+                                                },
+                                                "username": {
+                                                    "description": "Worker username",
+                                                    "type": "string"
+                                                },
+                                                "first_name": {
+                                                    "description": "First name",
+                                                    "type": "string"
+                                                },
+                                                "last_name": {
+                                                    "description": "Last name",
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "description": "Email",
+                                                    "type": "string",
+                                                    "format": "email"
+                                                },
+                                                "password": {
+                                                    "description": "Password",
+                                                    "type": "string",
+                                                    "format": "password"
+                                                },
+                                                "password_confirmation": {
+                                                    "description": "Password confirmation",
+                                                    "type": "string",
+                                                    "format": "password"
+                                                },
+                                                "is_active": {
+                                                    "description": "Worker activity flag",
+                                                    "type": "boolean"
+                                                },
+                                                "target": {
+                                                    "description": "Target amount for the worker",
+                                                    "type": "integer"
+                                                },
+                                                "parent_id": {
+                                                    "description": "Parent worker ID",
+                                                    "type": "integer"
+                                                },
+                                                "roles": {
+                                                    "description": "Array of roles ID",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "change_password": {
+                                                    "description": "Must be set to true if the password is changed.",
+                                                    "type": "boolean"
                                                 }
                                             },
                                             "type": "object"
                                         }
-                                    },
-                                    "change_password": {
-                                        "description": "Must be set to true if the password is changed.",
-                                        "type": "boolean"
                                     }
                                 },
                                 "type": "object"
                             }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "Ok",
@@ -3085,6 +3181,10 @@
                         "type": "string",
                         "example": "RUS"
                     },
+                    "currency": {
+                        "type": "string",
+                        "example": "RUB"
+                    },
                     "created_at": {
                         "type": "string",
                         "format": "date-time"
@@ -3326,53 +3426,70 @@
                 ],
                 "properties": {
                     "id": {
+                        "description": "Worker ID",
                         "type": "integer"
                     },
                     "username": {
+                        "description": "Worker username",
                         "type": "string"
                     },
                     "first_name": {
+                        "description": "First name",
                         "type": "string"
                     },
                     "last_name": {
+                        "description": "Last name",
                         "type": "string"
                     },
                     "email": {
+                        "description": "Email",
                         "type": "string",
                         "format": "email"
                     },
                     "is_active": {
+                        "description": "Worker activity flag",
                         "type": "boolean"
                     },
                     "target": {
+                        "description": "Target amount for the worker",
                         "type": "integer",
                         "nullable": true
                     },
                     "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "deleted_at": {
+                        "description": "Date and time of creation",
                         "type": "string",
                         "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "updated_at": {
+                        "description": "Date and time of last update",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "deleted_at": {
+                        "description": "Date and time of last update",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
                         "nullable": true
                     },
                     "last_login": {
+                        "description": "Date and time of soft delete",
                         "type": "string",
                         "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
                         "nullable": true
                     },
                     "permissions": {
+                        "description": "Permission array",
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/Permission"
                         }
                     },
                     "roles": {
+                        "description": "Array of roles",
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/Role"
@@ -3467,7 +3584,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }

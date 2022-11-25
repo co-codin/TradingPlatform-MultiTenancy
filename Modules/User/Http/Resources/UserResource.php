@@ -12,6 +12,7 @@ use Modules\Language\Http\Resources\LanguageResource;
 use Modules\Role\Http\Resources\PermissionResource;
 use Modules\Role\Http\Resources\RoleResource;
 use Modules\User\Models\User;
+use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema (
@@ -27,19 +28,19 @@ use Modules\User\Models\User;
  *         "created_at",
  *         "updated_at",
  *     },
- *     @OA\Property(property="id", type="integer"),
- *     @OA\Property(property="username", type="string"),
- *     @OA\Property(property="first_name", type="string"),
- *     @OA\Property(property="last_name", type="string"),
- *     @OA\Property(property="email", type="string", format="email"),
- *     @OA\Property(property="is_active", type="boolean"),
- *     @OA\Property(property="target", type="integer", nullable=true),
- *     @OA\Property(property="created_at", type="string", format="date-time"),
- *     @OA\Property(property="updated_at", type="string", format="date-time"),
- *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true),
- *     @OA\Property(property="last_login", type="string", format="date-time", nullable=true),
- *     @OA\Property(property="permissions", type="array", @OA\Items(ref="#/components/schemas/Permission")),
- *     @OA\Property(property="roles", type="array", @OA\Items(ref="#/components/schemas/Role"))
+ *     @OA\Property(property="id", type="integer", description="Worker ID"),
+ *     @OA\Property(property="username", type="string", description="Worker username"),
+ *     @OA\Property(property="first_name", type="string", description="First name"),
+ *     @OA\Property(property="last_name", type="string", description="Last name"),
+ *     @OA\Property(property="email", type="string", format="email", description="Email"),
+ *     @OA\Property(property="is_active", type="boolean", description="Worker activity flag"),
+ *     @OA\Property(property="target", type="integer", nullable=true, description="Target amount for the worker"),
+ *     @OA\Property(property="created_at", type="string", format="date-time", description="Date and time of creation", example="2022-12-17 08:44:09"),
+ *     @OA\Property(property="updated_at", type="string", format="date-time", description="Date and time of last update", example="2022-12-17 08:44:09"),
+ *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true, description="Date and time of last update", example="2022-12-17 08:44:09"),
+ *     @OA\Property(property="last_login", type="string", format="date-time", nullable=true, description="Date and time of soft delete", example="2022-12-17 08:44:09"),
+ *     @OA\Property(property="permissions", type="array", @OA\Items(ref="#/components/schemas/Permission"), description="Permission array"),
+ *     @OA\Property(property="roles", type="array", @OA\Items(ref="#/components/schemas/Role"), description="Array of roles")
  * ),
  *
  * @OA\Schema (
@@ -68,7 +69,6 @@ use Modules\User\Models\User;
  * )
  *
  * Class WorkerResource
- * @package Modules\User\Http\Resources
  * @mixin User
  */
 final class UserResource extends JsonResource
@@ -82,7 +82,7 @@ final class UserResource extends JsonResource
             'departments' => DepartmentResource::collection($this->whenLoaded('departments')),
             'desks' => DeskResource::collection($this->whenLoaded('desks')),
             'languages' => LanguageResource::collection($this->whenLoaded('languages')),
-            'display_options' => DisplayOptionResource::collection($this->whenLoaded('displayOptions'))
+            'display_options' => DisplayOptionResource::collection($this->whenLoaded('displayOptions')),
         ]);
     }
 }
