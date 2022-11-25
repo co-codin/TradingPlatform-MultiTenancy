@@ -28,9 +28,10 @@ trait HasAuth
      */
     final protected function authenticateUser(string $guard = User::DEFAULT_AUTH_GUARD): void
     {
-        $user = User::factory()->create([
-            'email' => 'test@service.com',
-        ]);
+        $user = User::whereEmail('user@service.com')->first() ??
+            User::factory()->create([
+                'email' => 'user@service.com',
+            ]);
 
         $this->setUser($user);
 
@@ -45,9 +46,10 @@ trait HasAuth
      */
     final protected function authenticateAdmin(string $guard = User::DEFAULT_AUTH_GUARD): void
     {
-        $user = User::factory()->create([
-            'email' => 'admin@service.com',
-        ]);
+        $user = User::whereEmail('admin@service.com')->first() ??
+            User::factory()->create([
+                'email' => 'admin@service.com',
+            ]);
 
         $role = Role::factory()->create([
             'name' => DefaultRole::ADMIN,

@@ -9,44 +9,46 @@ use Modules\Role\Models\Permission;
 use Modules\User\Models\User;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Tests\TestCase;
+use Tests\Traits\HasAuth;
 
 class ReadTest extends TestCase
 {
-
+    /**
+     * @test
+     */
     public function test_unauthenticated_user_cannot_view_brands()
     {
-        $response = $this->json('GET', route('admin.brands.index'));
+        $response = $this->get(route('admin.brands.index'));
 
-        $response->assertStatus(ResponseAlias::HTTP_UNAUTHORIZED);
+
+        $response->assertUnauthorized();
     }
 
+    /**
+     * @test
+     */
     public function test_unauthorized_user_cannot_view_brands()
     {
-        $response = $this->json('POST', route('admin.auth.login'), [
-            'email' => 'admin@admin.com',
-            'password' => 'admin',
-        ]);
+        $this->authenticateUser();
 
-        $response = $this->withToken($response->json('token'))
-            ->json('GET', route('admin.brands.index'));
+        $response = $this->get(route('admin.brands.index'));
 
-        $response->assertStatus(ResponseAlias::HTTP_FORBIDDEN);
+        $response->assertForbidden();
     }
 
+    /**
+     * @test
+     */
     public function test_authorized_user_can_view_brands()
     {
-        $permission = Permission::factory()->create([
-            'name' => BrandPermission::VIEW_BRANDS,
-        ]);
+        $this->authenticateWithPermission(BrandPermission::fromValue(BrandPermission::VIEW_BRANDS));
 
-        $this->user->givePermissionTo($permission->name);
+        Brand::factory()->count(5)->create();
 
-        Brand::factory()->count($count = 5)->create();
+        $response = $this->get(route('admin.brands.index'));
 
-        $response = $this->actingAs($this->user)->json('GET', route('admin.brands.index'));
+        $response->assertSuccessful();
 
-        $response->assertOk();
-        $this->assertCount($count, ($response['data']));
         $response->assertJsonStructure([
             'data' => [
                 [
@@ -85,19 +87,19 @@ class ReadTest extends TestCase
         ]);
     }
 
+    /**
+     * @test
+     */
     public function test_authorized_user_can_view_single_brand()
     {
-        $permission = Permission::factory()->create([
-            'name' => BrandPermission::VIEW_BRANDS,
-        ]);
-
-        $this->user->givePermissionTo($permission->name);
+        $this->authenticateWithPermission(BrandPermission::fromValue(BrandPermission::VIEW_BRANDS));
 
         $brand = Brand::factory()->create();
 
-        $response = $this->actingAs($this->user)->json('GET', route('admin.brands.show', $brand));
+        $response = $this->get(route('admin.brands.show', $brand));
 
         $response->assertOk();
+
         $response->assertJsonStructure([
             'data' => [
                 'id',
@@ -110,26 +112,5 @@ class ReadTest extends TestCase
                 'created_at',
             ]
         ]);
-    }
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = User::factory()->create([
-            'email' => 'admin@admin.com'
-        ]);
-
-//        $permission = Permission::factory()->create([
-//            'name' => BrandPermission::VIEW_BRANDS,
-//        ]);
-//
-//        $this->user->givePermissionTo($permission->name);
-//
-//        $response = $this->json('POST', route('admin.auth.login'), [
-//            'email' => 'admin@admin.com',
-//            'password' => 'admin',
-//        ]);
-//
-//        $this->withToken($response->json('token'));
     }
 }

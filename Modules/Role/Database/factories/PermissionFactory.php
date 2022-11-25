@@ -22,11 +22,11 @@ class PermissionFactory extends Factory
      */
     public function definition()
     {
-        $model = Model::factory()->create();
-        $action = Action::factory()->create();
+        $model = Model::inRandomOrder()->first() ?? Model::factory()->create();
+        $action = Action::inRandomOrder()->first() ?? Action::factory()->create();
 
         return [
-            'name' => mb_strtolower("{$action} {$model}"),
+            'name' => mb_strtolower("{$action->name} {$model->name}"),
             'model_id' => $model,
             'action_id' => $action,
             'guard_name' => User::DEFAULT_AUTH_GUARD,
