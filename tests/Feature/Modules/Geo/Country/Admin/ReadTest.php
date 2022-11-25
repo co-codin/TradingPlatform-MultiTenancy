@@ -38,6 +38,7 @@ class ReadTest extends TestCase
                     'name' => $country->name,
                     'iso2' => $country->iso2,
                     'iso3' => $country->iso3,
+                    'currency' => $country->currency,
                 ],
             ],
         ]);
@@ -82,6 +83,7 @@ class ReadTest extends TestCase
                 'name' => $country->name,
                 'iso2' => $country->iso2,
                 'iso3' => $country->iso3,
+                'currency' => $country->currency,
             ],
         ]);
     }

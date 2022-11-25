@@ -25,6 +25,7 @@ class CountryFactory extends Factory
             'name' => $this->faker->unique()->country,
             'iso2' => $this->faker->unique()->countryCode,
             'iso3' => $this->faker->unique()->countryISOAlpha3,
+            'currency' => $this->faker->unique()->currencyCode,
         ];
     }
 }

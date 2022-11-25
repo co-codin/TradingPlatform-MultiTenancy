@@ -36,6 +36,7 @@ class CreateTest extends TestCase
                 'name' => $data['name'],
                 'iso2' => $data['iso2'],
                 'iso3' => $data['iso3'],
+                'currency' => $data['currency'],
             ],
         ]);
     }
@@ -224,6 +225,25 @@ class CreateTest extends TestCase
 
         $data = Country::factory()->make();
         $data->iso3 = 1;
+
+        $response = $this->postJson(route('admin.countries.store'), $data->toArray());
+
+        $response->assertUnprocessable();
+    }
+
+    /**
+     * Test country currency required.
+     *
+     * @return void
+     *
+     * @test
+     */
+    public function country_currency_is_string(): void
+    {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::CREATE_COUNTRIES));
+
+        $data = Country::factory()->make();
+        $data->currency = 1;
 
         $response = $this->postJson(route('admin.countries.store'), $data->toArray());
 

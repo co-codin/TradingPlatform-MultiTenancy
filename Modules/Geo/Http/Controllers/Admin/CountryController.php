@@ -95,6 +95,13 @@ final class CountryController extends Controller
      *          required=true,
      *          example="RUS"
      *      ),
+     *      @OA\Parameter(
+     *          description="Currency",
+     *          in="query",
+     *          name="currency",
+     *          required=true,
+     *          example="RUB"
+     *      ),
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
@@ -206,6 +213,13 @@ final class CountryController extends Controller
      *          name="iso3",
      *          required=false,
      *          example="RUS"
+     *      ),
+     *      @OA\Parameter(
+     *          description="Currency",
+     *          in="query",
+     *          name="currency",
+     *          required=false,
+     *          example="RUB"
      *      ),
      *      @OA\Response(
      *          response=201,
