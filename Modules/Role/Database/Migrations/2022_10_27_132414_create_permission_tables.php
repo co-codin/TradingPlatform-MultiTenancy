@@ -7,11 +7,6 @@ use Spatie\Permission\PermissionRegistrar;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         $tableNames = config('permission.table_names');
@@ -46,6 +41,8 @@ return new class extends Migration
             $table->foreignId('model_id')->constrained();
             $table->foreignId('action_id')->constrained();
             $table->foreignId('column_id')->nullable()->constrained();
+
+            $table->string('name');
 
             $table->string('guard_name');
             $table->timestamps();
@@ -137,11 +134,6 @@ return new class extends Migration
             ->forget(config('permission.cache.key'));
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         $tableNames = config('permission.table_names');
@@ -156,7 +148,7 @@ return new class extends Migration
         Schema::drop($tableNames['roles']);
         Schema::drop($tableNames['permissions']);
         Schema::drop('columns');
-        Schema::drop('models');
         Schema::drop('actions');
+        Schema::drop('models');
     }
 };

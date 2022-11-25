@@ -2,6 +2,7 @@
 
 namespace Modules\Role\Models;
 
+use App\Models\Traits\ForTenant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model as BaseModel;
@@ -19,7 +20,7 @@ use Modules\User\Models\User;
 
 class Model extends BaseModel
 {
-    use HasFactory;
+    use ForTenant, HasFactory;
 
     /**
      * @var array
