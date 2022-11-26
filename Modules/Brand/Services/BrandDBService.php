@@ -1,14 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Brand\Services;
 
-use Modules\Brand\Jobs\CreateSchemaJob;
-use Modules\Brand\Jobs\MigrateDataJob;
 use Modules\Brand\Jobs\MigrateStructureJob;
+use Modules\Brand\Jobs\SeedUserIntoTenantDBJob;
 use Modules\Brand\Models\Brand;
-use Illuminate\Support\Facades\Bus;
+use Nwidart\Modules\Facades\Module;
 
-class BrandDBService
+final class BrandDBService
 {
     /**
      * @var array
@@ -20,6 +21,15 @@ class BrandDBService
         'Language' => 'Language',
         'Role' => 'Role',
         'Token' => 'Token',
+        'User' => 'User',
+    ];
+
+    /**
+     * @var array
+     */
+    public const EXCEPT_MIGRATION_KEY_WORDS = [
+        'brand' => 'brand',
+        'brands' => 'brands'
     ];
 
     /**
@@ -38,6 +48,14 @@ class BrandDBService
             self::ALLOWED_MODULES['User'],
             self::ALLOWED_MODULES['Department'],
         ],
+        'user_desk' => [
+            self::ALLOWED_MODULES['User'],
+            self::ALLOWED_MODULES['Department'],
+        ],
+        'tokens' => [
+            self::ALLOWED_MODULES['User'],
+            self::ALLOWED_MODULES['Token'],
+        ],
         'desk_language' => [
             self::ALLOWED_MODULES['Desk'],
             self::ALLOWED_MODULES['Language'],
@@ -48,26 +66,58 @@ class BrandDBService
         ],
     ];
 
+    /**
+     * @param Brand $brand
+     * @param array $modules
+     * @param array $availableModules
+     */
     public function __construct(
         private Brand $brand,
-        private array $modules = []
+        private array $modules = [],
+        private array $availableModules = [],
     )
-    {}
-
-
-    public function migrateDB()
     {
-        MigrateStructureJob::dispatch($this->brand->slug, $this->modules);
+        $this->availableModules = $availableModules ?: array_keys(Module::all());
+    }
+
+    /**
+     * Dispatch migration brand db.
+     *
+     * @return BrandDBService
+     */
+    public function migrateDB(): BrandDBService
+    {
+        MigrateStructureJob::dispatch($this->brand, $this->modules, $this->availableModules);
 
         return $this;
     }
 
-    public function migrateData(): void
+    /**
+     * Dispatch seeder into brand db.
+     *
+     * @return BrandDBService
+     */
+    public function seedData(): BrandDBService
     {
-        MigrateDataJob::dispatch($this->brand->slug);
+        SeedUserIntoTenantDBJob::dispatchIf($this->isAvailableModule('User'), $this->brand);
+
+        return $this;
     }
 
     /**
+     * When module is available do some.
+     *
+     * @param string $moduleName
+     * @return bool
+     */
+    private function isAvailableModule(string $moduleName): bool
+    {
+        return in_array($moduleName, $this->modules) && in_array($moduleName, $this->availableModules);
+    }
+
+    /**
+     * Set brand.
+     *
      * @param Brand $brand
      * @return $this
      */
@@ -79,12 +129,27 @@ class BrandDBService
     }
 
     /**
+     * Set new modules.
+     *
      * @param array $modules
      * @return $this
      */
     public function setModules(array $modules): self
     {
         $this->modules = $modules;
+
+        return $this;
+    }
+
+    /**
+     * Set available modules.
+     *
+     * @param array $availableModules
+     * @return $this
+     */
+    public function setAvailableModules(array $availableModules): self
+    {
+        $this->availableModules = $availableModules;
 
         return $this;
     }

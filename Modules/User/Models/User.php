@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\User\Models;
 
+use App\Models\Traits\ForTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -19,6 +20,7 @@ use Modules\Desk\Models\Desk;
 use Modules\Language\Models\Language;
 use Modules\Role\Models\Role;
 use Modules\User\Database\factories\UserFactory;
+use Modules\User\Events\UserCreated;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -40,7 +42,7 @@ use Spatie\Permission\Traits\HasRoles;
  */
 final class User extends Authenticatable
 {
-    use Notifiable, HasRoles, HasApiTokens, HasFactory, SoftDeletes, NodeTrait;
+    use ForTenant, Notifiable, HasRoles, HasApiTokens, HasFactory, SoftDeletes, NodeTrait;
 
     /**
      * @var string
@@ -67,6 +69,22 @@ final class User extends Authenticatable
     protected $casts = [
         'banned_at' => 'datetime',
         'email_verified_at' => 'datetime',
+    ];
+
+    public function toArray()
+    {
+        if (auth()->check()) {
+            $this->makeVisible($this->hidden);
+        }
+
+        return parent::toArray();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $dispatchesEvents = [
+        'created' => UserCreated::class,
     ];
 
     /**

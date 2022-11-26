@@ -7,5 +7,7 @@
     "Brand": true,
     "Language": true,
     "Geo": true,
-    "Config": true
+    "Config": true,
+    "Customer": true,
+    "Campaign": true
 }

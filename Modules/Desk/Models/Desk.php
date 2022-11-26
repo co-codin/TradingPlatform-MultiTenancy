@@ -2,11 +2,13 @@
 
 namespace Modules\Desk\Models;
 
+use App\Models\Traits\ForTenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kalnoy\Nestedset\NodeTrait;
+use Modules\Customer\Models\Customer;
 use Modules\Desk\Database\factories\DeskFactory;
 use Modules\Geo\Models\Country;
 use Modules\Language\Models\Language;
@@ -15,7 +17,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Desk extends Model
 {
-    use HasFactory, SoftDeletes, NodeTrait, LogsActivity;
+    use ForTenant, HasFactory, SoftDeletes, NodeTrait, LogsActivity;
 
     protected $guarded = ['id'];
 
@@ -53,5 +55,10 @@ class Desk extends Model
     public function countries(): BelongsToMany
     {
         return $this->belongsToMany(Country::class, 'desk_country');
+    }
+
+    public function customers()
+    {
+        return $this->hasMany(Customer::class);
     }
 }

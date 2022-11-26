@@ -10,17 +10,6 @@ use Spatie\QueryBuilder\QueryBuilder;
 class DepartmentRequestCriteria extends BaseCriteria
 {
     /**
-     * @inheritdoc
-     */
-    protected array $allowedModelFields = [
-        'id',
-        'name',
-        'title',
-        'is_active',
-        'is_default',
-    ];
-
-    /**
      * @inheritDoc
      */
     public function apply($model, RepositoryInterface $repository)
@@ -28,7 +17,7 @@ class DepartmentRequestCriteria extends BaseCriteria
         return QueryBuilder::for($model)
             ->defaultSort('-id')
             ->allowedFields(array_merge(
-                $this->allowedModelFields(),
+                static::allowedDepartmentFields(),
             ))
             ->allowedFilters([
                 AllowedFilter::exact('id'),
@@ -48,5 +37,22 @@ class DepartmentRequestCriteria extends BaseCriteria
                 'updated_at',
                 'deleted_at',
             ]);
+    }
+
+    public static function allowedDepartmentFields($prefix = null): array
+    {
+        $fields = [
+            'id',
+            'name',
+            'title',
+            'is_active',
+            'is_default',
+        ];
+
+        if(!$prefix) {
+            return $fields;
+        }
+
+        return array_map(fn($field) => $prefix . "." . $field, $fields);
     }
 }

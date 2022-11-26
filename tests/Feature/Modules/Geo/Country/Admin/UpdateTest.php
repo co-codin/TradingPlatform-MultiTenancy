@@ -37,6 +37,7 @@ class UpdateTest extends TestCase
                 'name' => $data['name'],
                 'iso2' => $data['iso2'],
                 'iso3' => $data['iso3'],
+                'currency' => $data['currency'],
             ],
         ]);
     }
@@ -176,6 +177,25 @@ class UpdateTest extends TestCase
     }
 
     /**
+     * Test country currency filled.
+     *
+     * @return void
+     *
+     * @test
+     */
+    public function country_currency_is_filled(): void
+    {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
+
+        $country = Country::factory()->create();
+        $data = Country::factory()->make(['currency' => null])->toArray();
+
+        $response = $this->patchJson(route('admin.countries.update', ['country' => $country->id]), $data);
+
+        $response->assertUnprocessable();
+    }
+
+    /**
      * Test country name is string.
      *
      * @return void
@@ -229,6 +249,26 @@ class UpdateTest extends TestCase
         $country = Country::factory()->create();
         $data = Country::factory()->make();
         $data->iso3 = 1;
+
+        $response = $this->patchJson(route('admin.countries.update', ['country' => $country->id]), $data->toArray());
+
+        $response->assertUnprocessable();
+    }
+
+    /**
+     * Test country currency required.
+     *
+     * @return void
+     *
+     * @test
+     */
+    public function country_currency_is_string(): void
+    {
+        $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
+
+        $country = Country::factory()->create();
+        $data = Country::factory()->make();
+        $data->currency = 1;
 
         $response = $this->patchJson(route('admin.countries.update', ['country' => $country->id]), $data->toArray());
 

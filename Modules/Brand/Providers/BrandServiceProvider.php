@@ -5,6 +5,7 @@ namespace Modules\Brand\Providers;
 use App\Providers\BaseModuleServiceProvider;
 use Illuminate\Database\Migrations\Migrator;
 use Modules\Brand\Commands\BrandMigrationCommand;
+use Modules\Brand\Commands\BrandMigrationRollbackCommand;
 use Modules\Brand\Models\Brand;
 use Modules\Brand\Policies\BrandPolicy;
 
@@ -22,6 +23,7 @@ class BrandServiceProvider extends BaseModuleServiceProvider
      */
     protected array $commands = [
         BrandMigrationCommand::class,
+        BrandMigrationRollbackCommand::class,
     ];
 
     /**

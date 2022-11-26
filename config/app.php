@@ -55,6 +55,7 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    'frontend_url' => env('FRONTEND_APP_URL', 'http://localhost'),
 
     'asset_url' => env('ASSET_URL'),
 
@@ -196,6 +197,7 @@ return [
         App\Providers\HorizonServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
+        App\Providers\TenantServiceProvider::class,
 
     ],
 

@@ -59,22 +59,6 @@ abstract class BaseModuleServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register config.
-     *
-     * @return void
-     */
-    protected function registerConfig(): void
-    {
-        $this->publishes([
-            module_path($this->getModuleName(), 'Config/config.php') => config_path($this->getModuleNameLower() . '.php'),
-        ], 'config');
-
-        $this->mergeConfigFrom(
-            module_path($this->getModuleName(), 'Config/config.php'), $this->getModuleNameLower()
-        );
-    }
-
-    /**
      * Register translations.
      *
      * @return void
@@ -92,12 +76,24 @@ abstract class BaseModuleServiceProvider extends ServiceProvider
     /**
      * Register policies.
      *
+     * @param string|null $modelKey
+     * @param array $policies
      * @return void
      */
-    public function registerPolicies(): void
+    public function registerPolicies(?string $modelKey = null, array $policies = []): void
     {
-        foreach ($this->policies as $key => $value) {
-            Gate::policy($key, $value);
+        $policies = $policies ?? $this->policies;
+
+        foreach ($policies as $key => $value) {
+            $key = $modelKey ?? $key;
+
+            switch (true) {
+                case is_array($value):
+                    $this->registerPolicies($key, $value);
+                    break;
+                default:
+                    Gate::policy($key, $value);
+            }
         }
     }
 
@@ -129,5 +125,21 @@ abstract class BaseModuleServiceProvider extends ServiceProvider
     public function getModuleNameLower(): string
     {
         return mb_strtolower($this->getModuleName());
+    }
+
+    /**
+     * Register config.
+     *
+     * @return void
+     */
+    protected function registerConfig(): void
+    {
+        $this->publishes([
+            module_path($this->getModuleName(), 'Config/config.php') => config_path($this->getModuleNameLower() . '.php'),
+        ], 'config');
+
+        $this->mergeConfigFrom(
+            module_path($this->getModuleName(), 'Config/config.php'), $this->getModuleNameLower()
+        );
     }
 }

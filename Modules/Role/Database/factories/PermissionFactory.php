@@ -2,6 +2,9 @@
 namespace Modules\Role\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Role\Models\Action;
+use Modules\Role\Models\Model;
+use Modules\User\Models\User;
 
 class PermissionFactory extends Factory
 {
@@ -19,10 +22,14 @@ class PermissionFactory extends Factory
      */
     public function definition()
     {
+        $model = Model::inRandomOrder()->first() ?? Model::factory()->create();
+        $action = Action::inRandomOrder()->first() ?? Action::factory()->create();
+
         return [
-            'name' => $this->faker->name,
-            'description' => $this->faker->sentence(4),
-            'guard_name' => 'api',
+            'name' => mb_strtolower("{$action->name} {$model->name}"),
+            'model_id' => $model,
+            'action_id' => $action,
+            'guard_name' => User::DEFAULT_AUTH_GUARD,
         ];
     }
 }

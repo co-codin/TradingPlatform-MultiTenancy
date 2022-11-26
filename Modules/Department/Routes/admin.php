@@ -14,4 +14,6 @@ use Modules\Department\Http\Controllers\Admin\DepartmentController;
 |
 */
 
-Route::apiResource('departments', DepartmentController::class);
+Route::group(['middleware' => 'tenant.set:1'], function () {
+    Route::apiResource('departments', DepartmentController::class);
+});

@@ -5,6 +5,424 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/admin/brands/all": {
+            "get": {
+                "tags": [
+                    "Brand"
+                ],
+                "summary": "Get brands list",
+                "description": "Returns brands list data.",
+                "operationId": "brands.all",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BrandCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/brands": {
+            "get": {
+                "tags": [
+                    "Brand"
+                ],
+                "summary": "Get brands list",
+                "description": "Returns brands list data.",
+                "operationId": "brands.index",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BrandCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Brand"
+                ],
+                "summary": "Store brand",
+                "description": "Returns brand data.",
+                "operationId": "brands.store",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "title",
+                                    "slug",
+                                    "logo_url"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "slug": {
+                                        "type": "string"
+                                    },
+                                    "logo_url": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "tables": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BrandResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/brands/{id}": {
+            "get": {
+                "tags": [
+                    "Brand"
+                ],
+                "summary": "Show brand",
+                "description": "Returns brand data.",
+                "operationId": "brands.show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Brand id",
+                        "required": true,
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BrandResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Brand"
+                ],
+                "summary": "Update a brand",
+                "operationId": "a2095cdf34924899b60bb49de21eb565",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Brand id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "slug": {
+                                        "type": "string"
+                                    },
+                                    "logo_url": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "tables": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BrandResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Brand"
+                ],
+                "summary": "Delete a brand",
+                "operationId": "8ee4bf224461c4894c6e30148a6523a3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Brand id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Brand"
+                ],
+                "summary": "Update a brand",
+                "operationId": "3335140a0f1ae501a78cbd3506a3d173",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Brand id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "slug": {
+                                        "type": "string"
+                                    },
+                                    "logo_url": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    },
+                                    "tables": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BrandResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/brands/{id}/db/import": {
+            "post": {
+                "tags": [
+                    "Brand"
+                ],
+                "summary": "Import db brand",
+                "description": "Import tables into brand db.",
+                "operationId": "brands.db.import",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "modules"
+                                ],
+                                "properties": {
+                                    "modules": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/departments": {
             "get": {
                 "tags": [
@@ -309,6 +727,13 @@
                         "description": "ISO3",
                         "required": true,
                         "example": "RUS"
+                    },
+                    {
+                        "name": "currency",
+                        "in": "query",
+                        "description": "Currency",
+                        "required": true,
+                        "example": "RUB"
                     }
                 ],
                 "responses": {
@@ -452,6 +877,13 @@
                         "description": "ISO3",
                         "required": false,
                         "example": "RUS"
+                    },
+                    {
+                        "name": "currency",
+                        "in": "query",
+                        "description": "Currency",
+                        "required": false,
+                        "example": "RUB"
                     }
                 ],
                 "responses": {
@@ -747,10 +1179,18 @@
                     "204": {
                         "description": "No content. The session ID is returned in a cookie named `laravel_session`. You need to include this cookie in subsequent requests.",
                         "headers": {
-                            "Set-Cookie": {
+                            "Set-Cookie(example-1)": {
+                                "description": "Encrypted session ID cookie",
                                 "schema": {
                                     "type": "string",
                                     "example": "laravel_session=eyJpdiI6IjZKZm...%3D; Path=/; Domain=localhost; HttpOnly; Expires=Fri, 18 Nov 2022 13:25:26 GMT;"
+                                }
+                            },
+                            "Set-Cookie(example-2)": {
+                                "description": "Encrypted recaller cookie. Set if `remember_me=true` was received",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "remember_web_59ba...=eyJpdiI6IjZKZm...%3D; Path=/; Domain=localhost; HttpOnly; Expires=Fri, 18 Nov 2022 13:25:26 GMT;"
                                 }
                             }
                         }
@@ -1382,106 +1822,6 @@
                 ]
             }
         },
-        "/admin/auth/forget-password": {
-            "post": {
-                "tags": [
-                    "Forget"
-                ],
-                "summary": "Send Reset Password Token",
-                "operationId": "212329c887ce235d8381524c68ebd655",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "email": {
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "202": {
-                        "description": "success"
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationError"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    }
-                }
-            }
-        },
-        "/admin/auth/reset-password/{token}": {
-            "post": {
-                "tags": [
-                    "Forget"
-                ],
-                "summary": "Reset Password Link",
-                "operationId": "2ada68af24e912b99fc5b58c90b0040f",
-                "parameters": [
-                    {
-                        "name": "token",
-                        "in": "path",
-                        "description": "Reset Password Token",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "email": {
-                                        "type": "string"
-                                    },
-                                    "password": {
-                                        "type": "string"
-                                    },
-                                    "password_confirmation": {
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "202": {
-                        "description": "success"
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationError"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    }
-                }
-            }
-        },
         "/admin/workers/{id}/language": {
             "put": {
                 "tags": [
@@ -1553,6 +1893,212 @@
                 ]
             }
         },
+        "/admin/auth/forget-password": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Send Reset Password Notification",
+                "operationId": "6588ee88df2cbd2ec882d00b8ec24eb2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Accepted"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/admin/auth/reset-password": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Reset Password",
+                "operationId": "f90e47572b7c88223f3c144e7ca73026",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password",
+                                    "password_confirmation",
+                                    "token"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "token": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Accepted"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/admin/auth/callback/{provider}": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "OAuth provider callback endpoint",
+                "operationId": "7e90017f737dac29a1d287d87bc7cc15",
+                "parameters": [
+                    {
+                        "name": "provider",
+                        "in": "path",
+                        "description": "OAuth provider name",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "google"
+                        }
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "Redirects to `redirect_url` with cookies (and possibly validation or application errors in query params)",
+                        "headers": {
+                            "Set-Cookie": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "laravel_session=eyJpdiI6IjZKZm...%3D; Path=/; Domain=localhost; HttpOnly; Expires=Fri, 18 Nov 2022 13:25:26 GMT;"
+                                }
+                            },
+                            "Location": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "{redirect_url}?code=422&message%5Bmessage%5D=The%20provided%20credentials%20are%20incorrect.&message%5Berrors%5D%5Bemail%5D%5B0%5D=The%20provided%20credentials%20are%20incorrect"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/auth/login/{provider}": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "OAuth provider login endpoint",
+                "operationId": "d7faf6de8b626da990c15a2ab1615605",
+                "parameters": [
+                    {
+                        "name": "provider",
+                        "in": "path",
+                        "description": "OAuth provider name",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "google"
+                        }
+                    },
+                    {
+                        "name": "remember_me",
+                        "in": "query",
+                        "description": "Remember user",
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                "1",
+                                "0"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "redirect_url",
+                        "in": "query",
+                        "description": "URL where the user will be redirected after authentication",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "Redirects to auth page"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/admin/workers": {
             "get": {
                 "tags": [
@@ -1601,43 +2147,57 @@
                                     "email",
                                     "password",
                                     "password_confirmation",
-                                    "role_id"
+                                    "roles"
                                 ],
                                 "properties": {
                                     "username": {
-                                        "type": "string"
+                                        "description": "Worker username"
                                     },
                                     "first_name": {
+                                        "description": "First name",
                                         "type": "string"
                                     },
                                     "last_name": {
+                                        "description": "Last name",
                                         "type": "string"
                                     },
                                     "email": {
+                                        "description": "Email",
                                         "type": "string",
                                         "format": "email"
                                     },
                                     "password": {
+                                        "description": "Password",
                                         "type": "string",
                                         "format": "password"
                                     },
                                     "password_confirmation": {
+                                        "description": "Password confirmation",
                                         "type": "string",
                                         "format": "password"
                                     },
                                     "is_active": {
+                                        "description": "Worker activity flag",
                                         "type": "boolean"
                                     },
                                     "target": {
+                                        "description": "Target amount for the worker",
                                         "type": "integer"
                                     },
                                     "parent_id": {
+                                        "description": "Parent worker ID",
                                         "type": "integer"
                                     },
                                     "roles": {
+                                        "description": "Array of roles ID",
                                         "type": "array",
                                         "items": {
-                                            "type": "integer"
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     }
                                 },
@@ -1685,7 +2245,7 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "User id",
+                        "description": "Worker ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -1729,7 +2289,7 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Worker id",
+                        "description": "Worker ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -1747,43 +2307,58 @@
                                     "email",
                                     "password",
                                     "password_confirmation",
-                                    "role_id"
+                                    "roles"
                                 ],
                                 "properties": {
                                     "username": {
+                                        "description": "Worker username",
                                         "type": "string"
                                     },
                                     "first_name": {
+                                        "description": "First name",
                                         "type": "string"
                                     },
                                     "last_name": {
+                                        "description": "Last name",
                                         "type": "string"
                                     },
                                     "email": {
+                                        "description": "Email",
                                         "type": "string",
                                         "format": "email"
                                     },
                                     "password": {
+                                        "description": "Password",
                                         "type": "string",
                                         "format": "password"
                                     },
                                     "password_confirmation": {
+                                        "description": "Password confirmation",
                                         "type": "string",
                                         "format": "password"
                                     },
                                     "is_active": {
+                                        "description": "Worker activity flag",
                                         "type": "boolean"
                                     },
                                     "target": {
+                                        "description": "Target amount for the worker",
                                         "type": "integer"
                                     },
                                     "parent_id": {
+                                        "description": "Parent worker ID",
                                         "type": "integer"
                                     },
-                                    "role_id": {
+                                    "roles": {
+                                        "description": "Array of roles ID",
                                         "type": "array",
                                         "items": {
-                                            "type": "integer"
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "change_password": {
@@ -1836,7 +2411,7 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Worker id",
+                        "description": "Worker ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -1873,7 +2448,7 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Worker id",
+                        "description": "Worker ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -1886,36 +2461,46 @@
                             "schema": {
                                 "properties": {
                                     "username": {
+                                        "description": "Worker username",
                                         "type": "string"
                                     },
                                     "first_name": {
+                                        "description": "First name",
                                         "type": "string"
                                     },
                                     "last_name": {
+                                        "description": "Last name",
                                         "type": "string"
                                     },
                                     "email": {
+                                        "description": "Email",
                                         "type": "string",
                                         "format": "email"
                                     },
                                     "password": {
+                                        "description": "Password",
                                         "type": "string",
                                         "format": "password"
                                     },
                                     "password_confirmation": {
+                                        "description": "Password confirmation",
                                         "type": "string",
                                         "format": "password"
                                     },
                                     "is_active": {
+                                        "description": "Worker activity flag",
                                         "type": "boolean"
                                     },
                                     "target": {
+                                        "description": "Target amount for the worker",
                                         "type": "integer"
                                     },
                                     "parent_id": {
+                                        "description": "Parent worker ID",
                                         "type": "integer"
                                     },
                                     "roles": {
+                                        "description": "Array of roles ID",
                                         "type": "array",
                                         "items": {
                                             "properties": {
@@ -1972,27 +2557,37 @@
                 "tags": [
                     "Worker"
                 ],
-                "summary": "Ban a worker",
+                "summary": "Ban workers",
                 "operationId": "b572b98a9b3cebdcc4224313a9cc9082",
-                "parameters": [
-                    {
-                        "name": "users",
-                        "in": "path",
-                        "description": "Users data",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "users"
+                                ],
                                 "properties": {
-                                    "id": {
-                                        "type": "integer"
+                                    "users": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Worker ID",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     }
                                 },
                                 "type": "object"
                             }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "204": {
                         "description": "No content"
@@ -2019,27 +2614,37 @@
                 "tags": [
                     "Worker"
                 ],
-                "summary": "Unban a worker",
+                "summary": "Unban workers",
                 "operationId": "b9f6246813a23ac224d11adb3164484a",
-                "parameters": [
-                    {
-                        "name": "users",
-                        "in": "path",
-                        "description": "Users data",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "users"
+                                ],
                                 "properties": {
-                                    "id": {
-                                        "type": "integer"
+                                    "users": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Worker ID",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     }
                                 },
                                 "type": "object"
                             }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "204": {
                         "description": "No content"
@@ -2066,69 +2671,92 @@
                 "tags": [
                     "Worker"
                 ],
-                "summary": "Unban a worker",
+                "summary": "Batch worker update",
                 "operationId": "48faec29a28ad96a63087701cc1b49c1",
-                "parameters": [
-                    {
-                        "name": "users",
-                        "in": "path",
-                        "description": "Users data",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "users"
+                                ],
                                 "properties": {
-                                    "username": {
-                                        "type": "string"
-                                    },
-                                    "first_name": {
-                                        "type": "string"
-                                    },
-                                    "last_name": {
-                                        "type": "string"
-                                    },
-                                    "email": {
-                                        "type": "string",
-                                        "format": "email"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "format": "password"
-                                    },
-                                    "password_confirmation": {
-                                        "type": "string",
-                                        "format": "password"
-                                    },
-                                    "is_active": {
-                                        "type": "boolean"
-                                    },
-                                    "target": {
-                                        "type": "integer"
-                                    },
-                                    "parent_id": {
-                                        "type": "integer"
-                                    },
-                                    "roles": {
+                                    "users": {
                                         "type": "array",
                                         "items": {
+                                            "required": [
+                                                "id"
+                                            ],
                                             "properties": {
                                                 "id": {
+                                                    "description": "Worker ID",
                                                     "type": "integer"
+                                                },
+                                                "username": {
+                                                    "description": "Worker username",
+                                                    "type": "string"
+                                                },
+                                                "first_name": {
+                                                    "description": "First name",
+                                                    "type": "string"
+                                                },
+                                                "last_name": {
+                                                    "description": "Last name",
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "description": "Email",
+                                                    "type": "string",
+                                                    "format": "email"
+                                                },
+                                                "password": {
+                                                    "description": "Password",
+                                                    "type": "string",
+                                                    "format": "password"
+                                                },
+                                                "password_confirmation": {
+                                                    "description": "Password confirmation",
+                                                    "type": "string",
+                                                    "format": "password"
+                                                },
+                                                "is_active": {
+                                                    "description": "Worker activity flag",
+                                                    "type": "boolean"
+                                                },
+                                                "target": {
+                                                    "description": "Target amount for the worker",
+                                                    "type": "integer"
+                                                },
+                                                "parent_id": {
+                                                    "description": "Parent worker ID",
+                                                    "type": "integer"
+                                                },
+                                                "roles": {
+                                                    "description": "Array of roles ID",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "change_password": {
+                                                    "description": "Must be set to true if the password is changed.",
+                                                    "type": "boolean"
                                                 }
                                             },
                                             "type": "object"
                                         }
-                                    },
-                                    "change_password": {
-                                        "description": "Must be set to true if the password is changed.",
-                                        "type": "boolean"
                                     }
                                 },
                                 "type": "object"
                             }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "Ok",
@@ -2350,6 +2978,101 @@
     },
     "components": {
         "schemas": {
+            "Brand": {
+                "title": "Brand",
+                "description": "Brand model",
+                "required": [
+                    "id",
+                    "name",
+                    "title",
+                    "slug",
+                    "logo_url",
+                    "is_active",
+                    "tables",
+                    "created_at",
+                    "updated_at",
+                    "deleted_at"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Brand.",
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Brand name"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Brand title"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "brand-slug"
+                    },
+                    "logo_url": {
+                        "type": "string",
+                        "example": "/logo-url"
+                    },
+                    "is_active": {
+                        "type": "boolean",
+                        "example": "true"
+                    },
+                    "tables": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "workers": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Worker"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Brand"
+                }
+            },
+            "BrandCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Brand"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "BrandResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Brand"
+                    }
+                },
+                "type": "object"
+            },
             "Department": {
                 "title": "Department",
                 "description": "Department model",
@@ -2457,6 +3180,10 @@
                     "iso3": {
                         "type": "string",
                         "example": "RUS"
+                    },
+                    "currency": {
+                        "type": "string",
+                        "example": "RUB"
                     },
                     "created_at": {
                         "type": "string",
@@ -2699,53 +3426,70 @@
                 ],
                 "properties": {
                     "id": {
+                        "description": "Worker ID",
                         "type": "integer"
                     },
                     "username": {
+                        "description": "Worker username",
                         "type": "string"
                     },
                     "first_name": {
+                        "description": "First name",
                         "type": "string"
                     },
                     "last_name": {
+                        "description": "Last name",
                         "type": "string"
                     },
                     "email": {
+                        "description": "Email",
                         "type": "string",
                         "format": "email"
                     },
                     "is_active": {
+                        "description": "Worker activity flag",
                         "type": "boolean"
                     },
                     "target": {
+                        "description": "Target amount for the worker",
                         "type": "integer",
                         "nullable": true
                     },
                     "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "deleted_at": {
+                        "description": "Date and time of creation",
                         "type": "string",
                         "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "updated_at": {
+                        "description": "Date and time of last update",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "deleted_at": {
+                        "description": "Date and time of last update",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
                         "nullable": true
                     },
                     "last_login": {
+                        "description": "Date and time of soft delete",
                         "type": "string",
                         "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
                         "nullable": true
                     },
                     "permissions": {
+                        "description": "Permission array",
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/Permission"
                         }
                     },
                     "roles": {
+                        "description": "Array of roles",
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/Role"
@@ -2834,6 +3578,15 @@
                 "in": "cookie",
                 "name": "laravel_session",
                 "description": "Laravel Sanctum stateful authentication"
+            },
+            "oauth2_google": {
+                "type": "oauth2",
+                "description": "Google OAuth2 stateful authentication",
+                "flows": {
+                    "implicit": {
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
+                    }
+                }
             }
         }
     }

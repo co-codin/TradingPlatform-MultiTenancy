@@ -28,9 +28,12 @@ trait HasAuth
      */
     final protected function authenticateUser(string $guard = User::DEFAULT_AUTH_GUARD): void
     {
-        $user = User::factory()->create([
-            'email' => 'test@service.com',
-        ]);
+        $email = 'user@service.com';
+
+        $user = User::whereEmail($email)->first() ??
+            User::factory()->create([
+                'email' => $email,
+            ]);
 
         $this->setUser($user);
 
@@ -45,9 +48,12 @@ trait HasAuth
      */
     final protected function authenticateAdmin(string $guard = User::DEFAULT_AUTH_GUARD): void
     {
-        $user = User::factory()->create([
-            'email' => 'admin@service.com',
-        ]);
+        $email = 'admin@service.com';
+
+        $user = User::whereEmail($email)->first() ??
+            User::factory()->create([
+                'email' => $email,
+            ]);
 
         $role = Role::factory()->create([
             'name' => DefaultRole::ADMIN,
@@ -70,20 +76,25 @@ trait HasAuth
     final protected function authenticateWithPermission(
         PermissionEnum $permissionEnum,
         string $guard = User::DEFAULT_AUTH_GUARD
-    ): void {
-        $user = User::factory()->create([
-            'email' => 'test@service.com',
-        ]);
+    ): void
+    {
+        $email = 'test@service.com';
 
-        $permission = Permission::factory()->create([
-            'name' => $permissionEnum->value,
-        ]);
+        $user = User::whereEmail($email)->first() ??
+            User::factory()->create([
+                'email' => $email,
+            ]);
 
-        $user->givePermissionTo($permission->name);
+        $permission = Permission::whereName($permissionEnum->value)->first() ??
+            Permission::factory()->create([
+                'name' => $permissionEnum->value,
+            ]);
+
+        $user->givePermissionTo($permission);
 
         $this->setUser($user);
 
-        $this->actingAs($user, User::DEFAULT_AUTH_GUARD);
+        $this->actingAs($user, $guard);
     }
 
     /**

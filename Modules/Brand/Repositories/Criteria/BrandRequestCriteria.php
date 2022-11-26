@@ -11,7 +11,6 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class BrandRequestCriteria extends BaseCriteria
 {
-
     /**
      * @inheritDoc
      */
