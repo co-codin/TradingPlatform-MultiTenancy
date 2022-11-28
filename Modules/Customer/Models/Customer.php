@@ -2,17 +2,24 @@
 
 namespace Modules\Customer\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\ForTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Sanctum\HasApiTokens;
 use Modules\Customer\Database\factories\CustomerFactory;
 use Modules\Customer\Models\Traits\CustomerRelations;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Customer extends Model
+class Customer extends Authenticatable
 {
-    use HasFactory, SoftDeletes, CustomerRelations;
+    use HasFactory, SoftDeletes, CustomerRelations, HasRoles, HasApiTokens, ForTenant;
 
     protected $guarded = ['id'];
+
+    protected $hidden = [
+        'password',
+    ];
 
     protected $casts = [
         'last_online' => 'datetime',
