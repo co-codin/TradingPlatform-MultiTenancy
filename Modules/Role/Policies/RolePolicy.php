@@ -3,33 +3,78 @@
 namespace Modules\Role\Policies;
 
 use App\Policies\BasePolicy;
+use Illuminate\Database\Eloquent\Model;
+use Modules\Role\Enums\RolePermission;
 use Modules\Role\Models\Role;
 use Modules\User\Models\User;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class RolePolicy extends BasePolicy
 {
+    /**
+     * {@inheritdoc}
+     */
+    protected array $permissions = [
+        'viewAny' => RolePermission::VIEW_ROLES,
+        'view' => RolePermission::VIEW_ROLES,
+    ];
+
+    /**
+     * View any policy.
+     *
+     * @param User $user
+     * @return bool
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function viewAny(User $user): bool
     {
-        return $this->isAdmin($user);
+        $permission = $this->getPermissionName(__FUNCTION__);
+
+        return $permission &&
+            $user->isAdmin() &&
+            $this->checkPermissionColumns($user, $permission);
     }
 
-    public function view(User $user, Role $role): bool
+    /**
+     * View policy.
+     *
+     * @param User $user
+     * @param Model $model
+     * @return bool
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function view(User $user, Model $model): bool
     {
-        return $this->isAdmin($user);
+        $permission = $this->getPermissionName(__FUNCTION__);
+
+        return $permission &&
+            $user->isAdmin() &&
+            $this->checkPermissionColumns($user, $permission);
     }
 
     public function create(User $user): bool
     {
-        return $this->isAdmin($user);
+        return $user->isAdmin();
     }
 
     public function update(User $user, Role $role): bool
     {
-        return $this->isAdmin($user);
+        return $user->isAdmin();
     }
 
     public function delete(User $user, Role $role): bool
     {
-        return $this->isAdmin($user);
+        return $user->isAdmin();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getRequestFieldName(): string
+    {
+        return 'roles';
     }
 }
