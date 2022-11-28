@@ -13,26 +13,26 @@ class PermissionPolicy extends BasePolicy
 
     public function viewAny(User $user): bool
     {
-        return $this->isAdmin($user);
+        return $user->isAdmin();
     }
 
     public function view(User $user, Permission $permission): bool
     {
-        return $this->isAdmin($user);
+        return $user->isAdmin();
     }
 
     public function create(User $user): bool
     {
-        return $this->isAdmin($user);
+        return $user->isAdmin();
     }
 
     public function update(User $user, Permission $permission): bool
     {
-        return $this->isAdmin($user);
+        return $user->isAdmin();
     }
 
     public function delete(User $user, Permission $permission): bool
     {
-        return $this->isAdmin($user);
+        return $user->isAdmin();
     }
 }
