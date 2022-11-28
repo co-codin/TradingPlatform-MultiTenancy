@@ -4,62 +4,34 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Brand\Admin;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
-use Modules\Brand\Enums\AllowedDBTables;
 use Modules\Brand\Enums\BrandPermission;
-use Modules\Brand\Jobs\CreateSchemaJob;
-use Modules\Brand\Jobs\MigrateStructureJob;
-use Modules\Brand\Models\Brand;
 use Modules\Brand\Services\BrandDBService;
-use Illuminate\Foundation\Testing\TestCase;
-use Modules\Role\Models\Permission;
-use Modules\User\Models\User;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
 
 final class BrandDBTest extends BrandTestCase
 {
+    use HasAuth;
+
     /**
      * @test
      */
     public function test_import(): void
     {
-        $user = User::whereEmail('test@service.com')->first() ??
-            User::factory()->withParent()->create([
-                'email' => 'test@service.com',
-            ]);
+        $this->authenticateWithPermission(BrandPermission::fromValue(BrandPermission::VIEW_BRANDS));
 
-        $permission = Permission::where(
-                'name',
-                BrandPermission::fromValue(
-                    BrandPermission::VIEW_BRANDS
-                )->value
-            )->first() ??
-            Permission::factory()->create([
-                'name' => BrandPermission::fromValue(BrandPermission::VIEW_BRANDS)->value,
-            ]);
+        $this->brand->users()->attach($this->getUser());
 
-        $user->givePermissionTo($permission);
-
-        $this->brand->users()->attach($user);
-
-        $response = $this->actingAs($user, User::DEFAULT_AUTH_GUARD)->post(
-            route('admin.brands.db.import', ['brand' => $this->brand]),
-            [
-                'modules' => array_values(['Department' => 'Department',
-                    'Desk' => 'Desk',
-                    'Geo' => 'Geo',
-                    'Language' => 'Language',
-                    'Role' => 'Role',
-                    'Token' => 'Token', 'User']),
-            ],
-            [
-                'Tenant' => $this->brand->slug,
-            ]
-        );
+        $response = $this->import([
+            BrandDBService::ALLOWED_MODULES['Department'],
+            BrandDBService::ALLOWED_MODULES['Desk'],
+            BrandDBService::ALLOWED_MODULES['Geo'],
+            BrandDBService::ALLOWED_MODULES['Language'],
+            BrandDBService::ALLOWED_MODULES['Role'],
+            BrandDBService::ALLOWED_MODULES['Token'],
+            BrandDBService::ALLOWED_MODULES['User'],
+        ]);
 
         $response->assertStatus(ResponseAlias::HTTP_ACCEPTED);
     }

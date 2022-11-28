@@ -20,6 +20,7 @@ use Modules\User\Repositories\UserRepository;
 use Modules\User\Services\UserBanService;
 use Modules\User\Services\UserBatchService;
 use Modules\User\Services\UserStorage;
+use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 final class UserController extends Controller
@@ -54,6 +55,7 @@ final class UserController extends Controller
      * )
      *
      * @return AnonymousResourceCollection
+     *
      * @throws AuthorizationException
      */
     public function index(): AnonymousResourceCollection
@@ -74,7 +76,7 @@ final class UserController extends Controller
      *     @OA\Parameter(
      *          name="id",
      *          in="path",
-     *          description="User id",
+     *          description="Worker ID",
      *          required=true,
      *          @OA\Schema (type="integer")
      *     ),
@@ -99,6 +101,7 @@ final class UserController extends Controller
      *
      * @param  int  $id
      * @return UserResource
+     *
      * @throws AuthorizationException
      */
     public function show(int $id): UserResource
@@ -127,18 +130,20 @@ final class UserController extends Controller
      *                     "email",
      *                     "password",
      *                     "password_confirmation",
-     *                     "role_id",
+     *                     "roles",
      *                 },
-     *                 @OA\Property(property="username", type="string"),
-     *                 @OA\Property(property="first_name", type="string"),
-     *                 @OA\Property(property="last_name", type="string"),
-     *                 @OA\Property(property="email", type="string", format="email"),
-     *                 @OA\Property(property="password", type="string", format="password"),
-     *                 @OA\Property(property="password_confirmation", type="string", format="password"),
-     *                 @OA\Property(property="is_active", type="boolean"),
-     *                 @OA\Property(property="target", type="integer"),
-     *                 @OA\Property(property="parent_id", type="integer"),
-     *                 @OA\Property(property="roles", type="array", @OA\Items(type="integer")),
+     *                 @OA\Property(property="username", description="Worker username"),
+     *                 @OA\Property(property="first_name", type="string", description="First name"),
+     *                 @OA\Property(property="last_name", type="string", description="Last name"),
+     *                 @OA\Property(property="email", type="string", format="email", description="Email"),
+     *                 @OA\Property(property="password", type="string", format="password", description="Password"),
+     *                 @OA\Property(property="password_confirmation", type="string", format="password", description="Password confirmation"),
+     *                 @OA\Property(property="is_active", type="boolean", description="Worker activity flag"),
+     *                 @OA\Property(property="target", type="integer", description="Target amount for the worker"),
+     *                 @OA\Property(property="parent_id", type="integer", description="Parent worker ID"),
+     *                 @OA\Property(property="roles", type="array", description="Array of roles ID",
+     *                     @OA\Items(@OA\Property(property="id", type="integer")),
+     *                 ),
      *             )
      *         )
      *     ),
@@ -160,6 +165,7 @@ final class UserController extends Controller
      *          description="Forbidden Error"
      *     ),
      * )
+     *
      * @throws AuthorizationException
      */
     public function store(UserCreateRequest $request): UserResource
@@ -178,7 +184,7 @@ final class UserController extends Controller
      *     security={ {"sanctum": {} }},
      *     summary="Update a worker",
      *     @OA\Parameter(
-     *         description="Worker id",
+     *         description="Worker ID",
      *         in="path",
      *         name="id",
      *         required=true,
@@ -195,18 +201,20 @@ final class UserController extends Controller
      *                     "email",
      *                     "password",
      *                     "password_confirmation",
-     *                     "role_id",
+     *                     "roles",
      *                 },
-     *                 @OA\Property(property="username", type="string"),
-     *                 @OA\Property(property="first_name", type="string"),
-     *                 @OA\Property(property="last_name", type="string"),
-     *                 @OA\Property(property="email", type="string", format="email"),
-     *                 @OA\Property(property="password", type="string", format="password"),
-     *                 @OA\Property(property="password_confirmation", type="string", format="password"),
-     *                 @OA\Property(property="is_active", type="boolean"),
-     *                 @OA\Property(property="target", type="integer"),
-     *                 @OA\Property(property="parent_id", type="integer"),
-     *                 @OA\Property(property="role_id", type="array", @OA\Items(type="integer")),
+     *                 @OA\Property(property="username", type="string", description="Worker username"),
+     *                 @OA\Property(property="first_name", type="string", description="First name"),
+     *                 @OA\Property(property="last_name", type="string", description="Last name"),
+     *                 @OA\Property(property="email", type="string", format="email", description="Email"),
+     *                 @OA\Property(property="password", type="string", format="password", description="Password"),
+     *                 @OA\Property(property="password_confirmation", type="string", format="password", description="Password confirmation"),
+     *                 @OA\Property(property="is_active", type="boolean", description="Worker activity flag"),
+     *                 @OA\Property(property="target", type="integer", description="Target amount for the worker"),
+     *                 @OA\Property(property="parent_id", type="integer", description="Parent worker ID"),
+     *                 @OA\Property(property="roles", type="array", description="Array of roles ID",
+     *                     @OA\Items(@OA\Property(property="id", type="integer")),
+     *                 ),
      *                 @OA\Property(property="change_password", type="boolean",
      *                     description="Must be set to true if the password is changed."),
      *             )
@@ -240,7 +248,7 @@ final class UserController extends Controller
      *     security={ {"sanctum": {} }},
      *     summary="Update a worker",
      *     @OA\Parameter(
-     *         description="Worker id",
+     *         description="Worker ID",
      *         in="path",
      *         name="id",
      *         required=true,
@@ -250,19 +258,17 @@ final class UserController extends Controller
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
-     *                 @OA\Property(property="username", type="string"),
-     *                 @OA\Property(property="first_name", type="string"),
-     *                 @OA\Property(property="last_name", type="string"),
-     *                 @OA\Property(property="email", type="string", format="email"),
-     *                 @OA\Property(property="password", type="string", format="password"),
-     *                 @OA\Property(property="password_confirmation", type="string", format="password"),
-     *                 @OA\Property(property="is_active", type="boolean"),
-     *                 @OA\Property(property="target", type="integer"),
-     *                 @OA\Property(property="parent_id", type="integer"),
-     *                 @OA\Property(property="roles", type="array",
-     *                     @OA\Items(
-     *                         @OA\Property(property="id", type="integer"),
-     *                     ),
+     *                 @OA\Property(property="username", type="string", description="Worker username"),
+     *                 @OA\Property(property="first_name", type="string", description="First name"),
+     *                 @OA\Property(property="last_name", type="string", description="Last name"),
+     *                 @OA\Property(property="email", type="string", format="email", description="Email"),
+     *                 @OA\Property(property="password", type="string", format="password", description="Password"),
+     *                 @OA\Property(property="password_confirmation", type="string", format="password", description="Password confirmation"),
+     *                 @OA\Property(property="is_active", type="boolean", description="Worker activity flag"),
+     *                 @OA\Property(property="target", type="integer", description="Target amount for the worker"),
+     *                 @OA\Property(property="parent_id", type="integer", description="Parent worker ID"),
+     *                 @OA\Property(property="roles", type="array", description="Array of roles ID",
+     *                     @OA\Items(@OA\Property(property="id", type="integer")),
      *                 ),
      *                 @OA\Property(property="change_password", type="boolean",
      *                     description="Must be set to true if the password is changed."),
@@ -291,6 +297,7 @@ final class UserController extends Controller
      *          description="Not Found"
      *     )
      * )
+     *
      * @throws AuthorizationException
      * @throws Exception
      */
@@ -312,7 +319,7 @@ final class UserController extends Controller
      *     security={ {"sanctum": {} }},
      *     summary="Delete a worker",
      *     @OA\Parameter(
-     *         description="Worker id",
+     *         description="Worker ID",
      *         in="path",
      *         name="id",
      *         required=true,
@@ -335,6 +342,7 @@ final class UserController extends Controller
      *          description="Not Found"
      *     )
      * )
+     *
      * @throws AuthorizationException
      * @throws Exception
      */
@@ -354,18 +362,19 @@ final class UserController extends Controller
      *     path="/admin/workers/ban",
      *     tags={"Worker"},
      *     security={ {"sanctum": {} }},
-     *     summary="Ban a worker",
-     *     @OA\Parameter(
-     *         description="Users data",
-     *         in="path",
-     *         name="users",
-     *         required=true,
-     *         @OA\Schema(
-     *              type="array",
-     *              @OA\Items(
-     *                  @OA\Property(property="id", type="integer"),
-     *              ),
-     *          ),
+     *     summary="Ban workers",
+     *     @OA\RequestBody(
+     *        @OA\MediaType(
+     *            mediaType="application/json",
+     *            @OA\Schema(
+     *                required={"users"},
+     *                @OA\Property(property="users", type="array",
+     *                    @OA\Items(required={"id"},
+     *                        @OA\Property(property="id", type="integer", description="Worker ID")
+     *                    ),
+     *                )
+     *            ),
+     *        ),
      *     ),
      *     @OA\Response(
      *         response=204,
@@ -387,7 +396,7 @@ final class UserController extends Controller
      *
      * Ban user.
      *
-     * @param UserBanRequest $request
+     * @param  UserBanRequest  $request
      * @return JsonResource
      *
      * @throws Exception
@@ -396,7 +405,7 @@ final class UserController extends Controller
     {
         $users = $this->userBanService
             ->setAuthUser($request->user())
-            ->banUsers($request->get('users', []));
+            ->banUsers($request->validated('users', []));
 
         abort_if($users->isEmpty(), ResponseAlias::HTTP_UNAUTHORIZED);
 
@@ -408,18 +417,19 @@ final class UserController extends Controller
      *     path="/admin/workers/unban",
      *     tags={"Worker"},
      *     security={ {"sanctum": {} }},
-     *     summary="Unban a worker",
-     *     @OA\Parameter(
-     *         description="Users data",
-     *         in="path",
-     *         name="users",
-     *         required=true,
-     *         @OA\Schema(
-     *              type="array",
-     *              @OA\Items(
-     *                  @OA\Property(property="id", type="integer"),
-     *              ),
-     *          ),
+     *     summary="Unban workers",
+     *     @OA\RequestBody(
+     *        @OA\MediaType(
+     *            mediaType="application/json",
+     *            @OA\Schema(
+     *                required={"users"},
+     *                @OA\Property(property="users", type="array",
+     *                    @OA\Items(required={"id"},
+     *                        @OA\Property(property="id", type="integer", description="Worker ID")
+     *                    ),
+     *                )
+     *            ),
+     *        ),
      *     ),
      *     @OA\Response(
      *         response=204,
@@ -441,7 +451,7 @@ final class UserController extends Controller
      *
      * Ban user.
      *
-     * @param UserBanRequest $request
+     * @param  UserBanRequest  $request
      * @return JsonResource
      *
      * @throws Exception
@@ -450,7 +460,7 @@ final class UserController extends Controller
     {
         $users = $this->userBanService
             ->setAuthUser($request->user())
-            ->unbanUsers($request->get('users', []));
+            ->unbanUsers($request->validated('users', []));
 
         abort_if($users->isEmpty(), ResponseAlias::HTTP_UNAUTHORIZED);
 
@@ -462,33 +472,33 @@ final class UserController extends Controller
      *     path="/admin/workers/batch",
      *     tags={"Worker"},
      *     security={ {"sanctum": {} }},
-     *     summary="Unban a worker",
-     *     @OA\Parameter(
-     *         description="Users data",
-     *         in="path",
-     *         name="users",
-     *         required=true,
-     *         @OA\Schema(
-     *              type="array",
-     *              @OA\Items(
-     *                  @OA\Property(property="username", type="string"),
-     *                  @OA\Property(property="first_name", type="string"),
-     *                  @OA\Property(property="last_name", type="string"),
-     *                  @OA\Property(property="email", type="string", format="email"),
-     *                  @OA\Property(property="password", type="string", format="password"),
-     *                  @OA\Property(property="password_confirmation", type="string", format="password"),
-     *                  @OA\Property(property="is_active", type="boolean"),
-     *                  @OA\Property(property="target", type="integer"),
-     *                  @OA\Property(property="parent_id", type="integer"),
-     *                  @OA\Property(property="roles", type="array",
-     *                      @OA\Items(
-     *                          @OA\Property(property="id", type="integer"),
-     *                      ),
-     *                  ),
-     *                  @OA\Property(property="change_password", type="boolean",
-     *                      description="Must be set to true if the password is changed."),
-     *              ),
-     *          ),
+     *     summary="Batch worker update",
+     *     @OA\RequestBody(
+     *        @OA\MediaType(
+     *            mediaType="application/json",
+     *            @OA\Schema(
+     *                required={"users"},
+     *                @OA\Property(property="users", type="array",
+     *                    @OA\Items(required={"id"},
+     *                        @OA\Property(property="id", type="integer", description="Worker ID"),
+     *                        @OA\Property(property="username", type="string", description="Worker username"),
+     *                        @OA\Property(property="first_name", type="string", description="First name"),
+     *                        @OA\Property(property="last_name", type="string", description="Last name"),
+     *                        @OA\Property(property="email", type="string", format="email", description="Email"),
+     *                        @OA\Property(property="password", type="string", format="password", description="Password"),
+     *                        @OA\Property(property="password_confirmation", type="string", format="password", description="Password confirmation"),
+     *                        @OA\Property(property="is_active", type="boolean", description="Worker activity flag"),
+     *                        @OA\Property(property="target", type="integer", description="Target amount for the worker"),
+     *                        @OA\Property(property="parent_id", type="integer", description="Parent worker ID"),
+     *                        @OA\Property(property="roles", type="array", description="Array of roles ID",
+     *                            @OA\Items(@OA\Property(property="id", type="integer")),
+     *                        ),
+     *                        @OA\Property(property="change_password", type="boolean",
+     *                            description="Must be set to true if the password is changed."),
+     *                    )
+     *                )
+     *            ),
+     *        ),
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -511,14 +521,14 @@ final class UserController extends Controller
      *
      * Update batch users.
      *
-     * @param UserUpdateBatchRequest $request
+     * @param  UserUpdateBatchRequest  $request
      * @return JsonResource
      *
      * @throws Exception
      */
     public function updateBatch(UserUpdateBatchRequest $request): JsonResource
     {
-        $users = $this->userBatchService->updateBatch($request->get('users', []));
+        $users = $this->userBatchService->updateBatch($request->validated('users', []));
 
         abort_if($users->isEmpty(), ResponseAlias::HTTP_UNAUTHORIZED);
 
