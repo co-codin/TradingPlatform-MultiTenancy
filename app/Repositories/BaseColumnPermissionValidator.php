@@ -49,7 +49,7 @@ abstract class BaseColumnPermissionValidator
      */
     final protected function boot(): void
     {
-        if ($this->getPermission()?->columns()->count() === 0) {
+        if ($this->getPermission()?->columns()->count() == 0) {
             return;
         }
 
@@ -85,7 +85,7 @@ abstract class BaseColumnPermissionValidator
      *
      * @return Request|null
      */
-    public function getRequest(): ?Request
+    final public function getRequest(): ?Request
     {
         return $this->request;
     }
@@ -95,7 +95,7 @@ abstract class BaseColumnPermissionValidator
      *
      * @return Permission|null
      */
-    public function getPermission(): ?Permission
+    final public function getPermission(): ?Permission
     {
         return $this->permission;
     }

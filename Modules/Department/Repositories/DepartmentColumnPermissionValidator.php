@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Modules\Brand\Repositories;
+namespace Modules\Department\Repositories;
 
 use App\Repositories\BaseColumnPermissionValidator;
-use Modules\Brand\Enums\BrandPermission;
+use Modules\Department\Enums\DepartmentPermission;
 
-final class BrandColumnPermissionValidator extends BaseColumnPermissionValidator
+final class DepartmentColumnPermissionValidator extends BaseColumnPermissionValidator
 {
     /**
      * {@inheritDoc}
      */
     final protected function getRequestFieldName(): string
     {
-        return 'brands';
+        return 'departments';
     }
 
     /**
@@ -22,6 +22,6 @@ final class BrandColumnPermissionValidator extends BaseColumnPermissionValidator
      */
     final protected function getBasePermissionName(): string
     {
-        return BrandPermission::VIEW_BRANDS;
+        return DepartmentPermission::VIEW_DEPARTMENTS;
     }
 }

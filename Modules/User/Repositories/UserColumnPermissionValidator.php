@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\User\Repositories;
 
 use App\Repositories\BaseColumnPermissionValidator;
 use Modules\User\Enums\UserPermission;
 
-class UserColumnPermissionValidator extends BaseColumnPermissionValidator
+final class UserColumnPermissionValidator extends BaseColumnPermissionValidator
 {
     /**
      * {@inheritDoc}
      */
-    protected function getRequestFieldName(): string
+    final protected function getRequestFieldName(): string
     {
         return 'users';
     }
@@ -18,7 +20,7 @@ class UserColumnPermissionValidator extends BaseColumnPermissionValidator
     /**
      * {@inheritDoc}
      */
-    protected function getBasePermissionName(): string
+    final protected function getBasePermissionName(): string
     {
         return UserPermission::VIEW_USERS;
     }
