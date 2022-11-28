@@ -37,8 +37,8 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="target", type="integer", nullable=true, description="Target amount for the worker"),
  *     @OA\Property(property="created_at", type="string", format="date-time", description="Date and time of creation", example="2022-12-17 08:44:09"),
  *     @OA\Property(property="updated_at", type="string", format="date-time", description="Date and time of last update", example="2022-12-17 08:44:09"),
- *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true, description="Date and time of last update", example="2022-12-17 08:44:09"),
- *     @OA\Property(property="last_login", type="string", format="date-time", nullable=true, description="Date and time of soft delete", example="2022-12-17 08:44:09"),
+ *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true, description="Date and time of soft delete", example="2022-12-17 08:44:09"),
+ *     @OA\Property(property="last_login", type="string", format="date-time", nullable=true, description="Date and time of last login", example="2022-12-17 08:44:09"),
  *     @OA\Property(property="permissions", type="array", @OA\Items(ref="#/components/schemas/Permission"), description="Permission array"),
  *     @OA\Property(property="roles", type="array", @OA\Items(ref="#/components/schemas/Role"), description="Array of roles")
  * ),
