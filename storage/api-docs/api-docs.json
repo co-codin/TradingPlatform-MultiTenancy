@@ -3468,14 +3468,14 @@
                         "example": "2022-12-17 08:44:09"
                     },
                     "deleted_at": {
-                        "description": "Date and time of last update",
+                        "description": "Date and time of soft delete",
                         "type": "string",
                         "format": "date-time",
                         "example": "2022-12-17 08:44:09",
                         "nullable": true
                     },
                     "last_login": {
-                        "description": "Date and time of soft delete",
+                        "description": "Date and time of last login",
                         "type": "string",
                         "format": "date-time",
                         "example": "2022-12-17 08:44:09",
