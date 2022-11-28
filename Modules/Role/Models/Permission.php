@@ -31,9 +31,9 @@ class Permission extends SpatiePermission
         return $this->belongsTo(Action::class);
     }
 
-    public function column()
+    public function columns()
     {
-        return $this->belongsTo(Column::class);
+        return $this->belongsToMany(Column::class, 'permission_column');
     }
 
     protected static function newFactory()
