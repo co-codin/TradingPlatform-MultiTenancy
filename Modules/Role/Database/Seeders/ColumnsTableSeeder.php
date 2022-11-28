@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Modules\Role\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Modules\Role\Models\Column;
 
-final class RoleDatabaseSeeder extends Seeder
+final class ColumnsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,8 +16,6 @@ final class RoleDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(PermissionsTableSeeder::class);
-        $this->call(RolesTableSeeder::class);
-        $this->call(ColumnsTableSeeder::class);
+        Column::factory()->count(count(Column::NAMES))->create();
     }
 }

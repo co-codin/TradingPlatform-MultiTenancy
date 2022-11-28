@@ -1,20 +1,38 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Role\Models;
 
 use App\Models\Traits\ForTenant;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Modules\Role\Database\factories\ColumnFactory;
 
-class Column extends Model
+final class Column extends Model
 {
     use ForTenant;
 
+    /**
+     * @var array
+     */
+    public const NAMES = [
+        // TODO: Add names of Columns
+    ];
+    public $timestamps = false;
     protected $guarded = ['id'];
 
-    public $timestamps = false;
-
-    public function permissions()
+    /**
+     * {@inheritDoc}
+     */
+    protected static function newFactory(): Factory
     {
-        return $this->hasMany(Permission::class);
+        return ColumnFactory::new();
+    }
+
+    public function permissions(): BelongsToMany
+    {
+        return $this->belongsToMany(Permission::class);
     }
 }
