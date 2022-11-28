@@ -1141,6 +1141,38 @@
                 ]
             }
         },
+        "/admin/roles": {
+            "get": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Get roles",
+                "operationId": "d134eb6a4ba203fb7448af7ab321c376",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RoleCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/auth/login": {
             "post": {
                 "tags": [
@@ -3298,6 +3330,57 @@
                 "type": "object"
             },
             "Role": {
+                "required": [
+                    "id",
+                    "name",
+                    "guard_name",
+                    "key",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Role ID",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "User",
+                        "type": "string"
+                    },
+                    "guard_name": {
+                        "description": "api",
+                        "type": "string"
+                    },
+                    "key": {
+                        "description": "key",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "description": "Date and time of creation",
+                        "type": "string",
+                        "format": "timestamp"
+                    },
+                    "updated_at": {
+                        "description": "Date and time of last update",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "deleted_at": {
+                        "description": "Date and time of soft delete",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": true
+                    },
+                    "permissions": {
+                        "description": "Permission array",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Permission"
+                        }
+                    }
+                },
                 "type": "object"
             },
             "RoleCollection": {
@@ -3310,6 +3393,14 @@
                     },
                     "meta": {
                         "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "RoleResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Worker"
                     }
                 },
                 "type": "object"
@@ -3584,7 +3675,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }
