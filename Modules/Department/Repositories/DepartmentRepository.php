@@ -23,6 +23,7 @@ class DepartmentRepository extends BaseRepository
      */
     public function boot()
     {
+        $this->pushColumnPermissionValidator(DepartmentColumnPermissionValidator::class);
         $this->pushCriteria(DepartmentRequestCriteria::class);
     }
 }
