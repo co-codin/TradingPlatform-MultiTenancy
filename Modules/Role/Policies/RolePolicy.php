@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Role\Policies;
 
 use App\Policies\BasePolicy;
@@ -7,22 +9,18 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\Role\Enums\RolePermission;
 use Modules\Role\Models\Role;
 use Modules\User\Models\User;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
-class RolePolicy extends BasePolicy
+final class RolePolicy extends BasePolicy
 {
     /**
      * View any policy.
      *
      * @param User $user
      * @return bool
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
-    public function viewAny(User $user): bool
+    final public function viewAny(User $user): bool
     {
-        return $user->isAdmin();
+        return $user->can(RolePermission::VIEW_ROLES);
     }
 
     /**
@@ -32,23 +30,43 @@ class RolePolicy extends BasePolicy
      * @param Model $model
      * @return bool
      */
-    public function view(User $user, Model $model): bool
+    final public function view(User $user, Model $model): bool
     {
-        return $user->isAdmin();
+        return $user->can(RolePermission::VIEW_ROLES);
     }
 
-    public function create(User $user): bool
+    /**
+     * Create role policy.
+     *
+     * @param User $user
+     * @return bool
+     */
+    final public function create(User $user): bool
     {
-        return $user->isAdmin();
+        return $user->can(RolePermission::CREATE_ROLES);
     }
 
-    public function update(User $user, Role $role): bool
+    /**
+     * Update role policy.
+     *
+     * @param User $user
+     * @param Role $role
+     * @return bool
+     */
+    final public function update(User $user, Role $role): bool
     {
-        return $user->isAdmin();
+        return $user->can(RolePermission::EDIT_ROLES);
     }
 
-    public function delete(User $user, Role $role): bool
+    /**
+     * Delete role policy.
+     *
+     * @param User $user
+     * @param Role $role
+     * @return bool
+     */
+    final public function delete(User $user, Role $role): bool
     {
-        return $user->isAdmin();
+        return $user->can(RolePermission::DELETE_ROLES);
     }
 }

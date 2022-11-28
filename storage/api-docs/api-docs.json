@@ -1171,6 +1171,330 @@
                         "sanctum": []
                     }
                 ]
+            },
+            "post": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Add a new role",
+                "operationId": "b5335ad634fc1f4475b8e43e43dba0e3",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "guard_name",
+                                    "key",
+                                    "permissions"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of role"
+                                    },
+                                    "guard_name": {
+                                        "description": "Guard name",
+                                        "type": "string"
+                                    },
+                                    "key": {
+                                        "description": "Key",
+                                        "type": "string"
+                                    },
+                                    "roles": {
+                                        "description": "Array of permission`s ID",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RoleResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/roles/{id}": {
+            "get": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Get role data",
+                "operationId": "5476a17a1a8e92e4ae380afa959f0d20",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Role ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RoleResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Update a role",
+                "operationId": "2c5c949404129653d34fb02ee487248f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Role ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "guard_name",
+                                    "key",
+                                    "permissions"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of role"
+                                    },
+                                    "guard_name": {
+                                        "description": "Guard name",
+                                        "type": "string"
+                                    },
+                                    "key": {
+                                        "description": "Key",
+                                        "type": "string"
+                                    },
+                                    "roles": {
+                                        "description": "Array of permission`s ID",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RoleResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Delete a role",
+                "operationId": "a83de148463c08c56e7c3ba05f86a5c2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Role ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Update a role",
+                "operationId": "8b8fc1ffafc15a4acbdf89044b13b1d7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Role ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of role"
+                                    },
+                                    "guard_name": {
+                                        "description": "Guard name",
+                                        "type": "string"
+                                    },
+                                    "key": {
+                                        "description": "Key",
+                                        "type": "string"
+                                    },
+                                    "roles": {
+                                        "description": "Array of permission`s ID",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RoleResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/admin/auth/login": {
@@ -3327,6 +3651,71 @@
                 "type": "object"
             },
             "Permission": {
+                "required": [
+                    "id",
+                    "name",
+                    "guard_name",
+                    "model_id",
+                    "action_id",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Role ID",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "User",
+                        "type": "string"
+                    },
+                    "guard_name": {
+                        "description": "api",
+                        "type": "string"
+                    },
+                    "action_id": {
+                        "description": "Action ID",
+                        "type": "integer"
+                    },
+                    "model_id": {
+                        "description": "Model ID",
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "description": "Date and time of creation",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "1970-01-01 00:00:00"
+                    },
+                    "updated_at": {
+                        "description": "Date and time of last update",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "1970-01-01 00:00:00"
+                    }
+                },
+                "type": "object"
+            },
+            "PermissionCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Permission"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "PermissionResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Permission"
+                    }
+                },
                 "type": "object"
             },
             "Role": {
@@ -3358,20 +3747,14 @@
                     "created_at": {
                         "description": "Date and time of creation",
                         "type": "string",
-                        "format": "timestamp"
+                        "format": "date-time",
+                        "example": "1970-01-01 00:00:00"
                     },
                     "updated_at": {
                         "description": "Date and time of last update",
                         "type": "string",
                         "format": "date-time",
-                        "example": "2022-12-17 08:44:09"
-                    },
-                    "deleted_at": {
-                        "description": "Date and time of soft delete",
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2022-12-17 08:44:09",
-                        "nullable": true
+                        "example": "1970-01-01 00:00:00"
                     },
                     "permissions": {
                         "description": "Permission array",
@@ -3400,7 +3783,7 @@
             "RoleResource": {
                 "properties": {
                     "data": {
-                        "$ref": "#/components/schemas/Worker"
+                        "$ref": "#/components/schemas/Role"
                     }
                 },
                 "type": "object"

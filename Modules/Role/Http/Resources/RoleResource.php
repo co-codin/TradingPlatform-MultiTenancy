@@ -25,7 +25,6 @@ use Modules\Role\Models\Role;
  *     @OA\Property(property="key", type="string", description="key"),
  *     @OA\Property(property="created_at", type="string", format="date-time", description="Date and time of creation", example="1970-01-01 00:00:00"),
  *     @OA\Property(property="updated_at", type="string", format="date-time", description="Date and time of last update", example="1970-01-01 00:00:00"),
- *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true, description="Date and time of soft delete", example="1970-01-01 00:00:00"),
  *     @OA\Property(property="permissions", type="array", @OA\Items(ref="#/components/schemas/Permission"), description="Permission array"),
  * ),
  *

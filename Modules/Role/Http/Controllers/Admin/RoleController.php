@@ -64,6 +64,37 @@ final class RoleController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *     path="/admin/roles/{id}",
+     *     tags={"Role"},
+     *     security={ {"sanctum": {} }},
+     *     summary="Get role data",
+     *     @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          description="Role ID",
+     *          required=true,
+     *          @OA\Schema (type="integer")
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\JsonContent(ref="#/components/schemas/RoleResource")
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized Error"
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Forbidden Error"
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Not Found"
+     *     )
+     * )
+     *
      * Show role.
      *
      * @param int $role
@@ -80,6 +111,49 @@ final class RoleController extends Controller
     }
 
     /**
+     * @OA\Post(
+     *     path="/admin/roles",
+     *     tags={"Role"},
+     *     security={ {"sanctum": {} }},
+     *     summary="Add a new role",
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 required={
+     *                     "name",
+     *                     "guard_name",
+     *                     "key",
+     *                     "permissions",
+     *                 },
+     *                 @OA\Property(property="name", description="Name of role"),
+     *                 @OA\Property(property="guard_name", type="string", description="Guard name"),
+     *                 @OA\Property(property="key", type="string", description="Key"),
+     *                 @OA\Property(property="roles", type="array", description="Array of permission`s ID",
+     *                     @OA\Items(@OA\Property(property="id", type="integer")),
+     *                 ),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *         @OA\JsonContent(ref="#/components/schemas/RoleResource")
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized Error"
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Forbidden Error"
+     *     ),
+     * )
+     *
      * Store role.
      *
      * @param RoleCreateRequest $request
@@ -97,6 +171,107 @@ final class RoleController extends Controller
     }
 
     /**
+     * @OA\Put(
+     *     path="/admin/roles/{id}",
+     *     tags={"Role"},
+     *     security={ {"sanctum": {} }},
+     *     summary="Update a role",
+     *     @OA\Parameter(
+     *         description="Role ID",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 required={
+     *                     "name",
+     *                     "guard_name",
+     *                     "key",
+     *                     "permissions",
+     *                 },
+     *                 @OA\Property(property="name", description="Name of role"),
+     *                 @OA\Property(property="guard_name", type="string", description="Guard name"),
+     *                 @OA\Property(property="key", type="string", description="Key"),
+     *                 @OA\Property(property="roles", type="array", description="Array of permission`s ID",
+     *                     @OA\Items(@OA\Property(property="id", type="integer")),
+     *                 ),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Ok",
+     *         @OA\JsonContent(ref="#/components/schemas/RoleResource")
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized Error"
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Forbidden Error"
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Not Found"
+     *     )
+     * ),
+     * @OA\Patch(
+     *     path="/admin/roles/{id}",
+     *     tags={"Role"},
+     *     security={ {"sanctum": {} }},
+     *     summary="Update a role",
+     *     @OA\Parameter(
+     *         description="Role ID",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(property="name", description="Name of role"),
+     *                 @OA\Property(property="guard_name", type="string", description="Guard name"),
+     *                 @OA\Property(property="key", type="string", description="Key"),
+     *                 @OA\Property(property="roles", type="array", description="Array of permission`s ID",
+     *                     @OA\Items(@OA\Property(property="id", type="integer")),
+     *                 ),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Ok",
+     *         @OA\JsonContent(ref="#/components/schemas/RoleResource")
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized Error"
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Forbidden Error"
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Not Found"
+     *     )
+     * )
+     *
      * Update role
      *
      * @param int $role
@@ -117,6 +292,36 @@ final class RoleController extends Controller
     }
 
     /**
+     * @OA\Delete(
+     *     path="/admin/roles/{id}",
+     *     tags={"Role"},
+     *     security={ {"sanctum": {} }},
+     *     summary="Delete a role",
+     *     @OA\Parameter(
+     *         description="Role ID",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="No content"
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized Error"
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Forbidden Error"
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Not Found"
+     *     )
+     * )
+     *
      * Destroy role.
      *
      * @param int $role
