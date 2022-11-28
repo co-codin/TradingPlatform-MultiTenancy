@@ -16,10 +16,7 @@ class UserServiceProvider extends BaseModuleServiceProvider
      * @inheritdoc
      */
     protected array $policies = [
-        User::class => [
-            UserPolicy::class,
-//            UserBanPolicy::class,
-        ],
+        User::class => UserPolicy::class,
         DisplayOption::class => UserDisplayOptionPolicy::class,
     ];
 

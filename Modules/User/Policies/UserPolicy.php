@@ -23,10 +23,10 @@ class UserPolicy extends BasePolicy
      * View policy.
      *
      * @param User $user
-     * @param $model
+     * @param User $model
      * @return bool
      */
-    public function view(User $user, $model): bool
+    public function view(User $user, User $model): bool
     {
         return $user->can(UserPermission::VIEW_USERS);
     }
@@ -68,5 +68,27 @@ class UserPolicy extends BasePolicy
     public function delete(User $user, User $selectedUser): bool
     {
         return $user->can(UserPermission::DELETE_USERS);
+    }
+
+    /**
+     * Ban user policy.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function ban(User $user): bool
+    {
+        return $user->can(UserPermission::BAN_USERS);
+    }
+
+    /**
+     * Unban user policy.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function unban(User $user): bool
+    {
+        return $user->can(UserPermission::BAN_USERS);
     }
 }

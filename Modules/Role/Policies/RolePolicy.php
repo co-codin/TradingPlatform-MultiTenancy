@@ -13,14 +13,6 @@ use Psr\Container\NotFoundExceptionInterface;
 class RolePolicy extends BasePolicy
 {
     /**
-     * {@inheritdoc}
-     */
-    protected array $permissions = [
-        'viewAny' => RolePermission::VIEW_ROLES,
-        'view' => RolePermission::VIEW_ROLES,
-    ];
-
-    /**
      * View any policy.
      *
      * @param User $user
@@ -30,11 +22,7 @@ class RolePolicy extends BasePolicy
      */
     public function viewAny(User $user): bool
     {
-        $permission = $this->getPermissionName(__FUNCTION__);
-
-        return $permission &&
-            $user->isAdmin() &&
-            $this->checkPermissionColumns($user, $permission);
+        return $user->isAdmin();
     }
 
     /**
@@ -43,16 +31,10 @@ class RolePolicy extends BasePolicy
      * @param User $user
      * @param Model $model
      * @return bool
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function view(User $user, Model $model): bool
     {
-        $permission = $this->getPermissionName(__FUNCTION__);
-
-        return $permission &&
-            $user->isAdmin() &&
-            $this->checkPermissionColumns($user, $permission);
+        return $user->isAdmin();
     }
 
     public function create(User $user): bool
@@ -68,13 +50,5 @@ class RolePolicy extends BasePolicy
     public function delete(User $user, Role $role): bool
     {
         return $user->isAdmin();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function getRequestFieldName(): string
-    {
-        return 'roles';
     }
 }
