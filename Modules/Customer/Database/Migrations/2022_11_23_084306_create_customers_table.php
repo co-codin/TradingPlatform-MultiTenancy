@@ -19,21 +19,25 @@ return new class extends Migration
             $table->string('last_name');
             $table->tinyInteger('gender');
             $table->string('email')->unique();
-            $table->string('phone');
-            $table->string('phone2');
+            $table->string('password');
+            $table->string('phone')->nullable();
+            $table->string('phone2')->nullable();
+            $table->timestamp('birthday')->nullable();
 
             $table->foreignId('country_id')->constrained();
 
             $table->foreignId('language_id')->nullable()->constrained();
             $table->foreignId('supposed_language_id')->nullable()->constrained();
-            $table->foreignId('supposed_language_id')->nullable()->constrained();
+            $table->foreignId('platform_language_id')->nullable()->constrained();
 
+            $table->string('state')->nullable();
             $table->string('city')->nullable();
             $table->string('address')->nullable();
             $table->string('postal_code')->nullable();
 
             $table->tinyInteger('verification_status_id')->nullable();
 
+            $table->boolean('is_demo')->default(false);
             $table->boolean('is_active')->default(true);
             $table->boolean('is_active_trading')->default(true);
             $table->boolean('is_test')->default(false);
@@ -61,13 +65,24 @@ return new class extends Migration
             $table->timestamp('last_communication_date')->nullable();
 
             // affiliation
-//            $table->foreignId('campaign_id')->nullable()->constrained();
-//            $table->string('offer_name')->nullable();
-//            $table->string('offer_url')->nullable();
-//            $table->string('comment_about_customer')->nullable();
+            $table->foreignId('campaign_id')->nullable()->constrained();
+            $table->string('offer_name')->nullable();
+            $table->string('offer_url')->nullable();
+            $table->string('comment_about_customer')->nullable();
+            $table->string('source')->nullable();
+            $table->string('click_id')->nullable();
+            $table->string('free_param_1')->nullable();
+            $table->string('free_param_2')->nullable();
+            $table->string('free_param_3')->nullable();
 
             $table->unsignedFloat('balance')->nullable();
             $table->unsignedFloat('balance_usd')->nullable();
+            $table->boolean('is_ftd')->default(false);
+
+//            $table->foreignId('conversion_sale_status_id')->nullable()->constrained()->on('sale_statuses');
+//            $table->foreignId('retention_sale_status_id')->nullable()->constrained()->on('sale_statuses');
+
+            $table->string('timezone')->nullable();
 
             $table->softDeletes();
             $table->timestamps();
