@@ -20,10 +20,11 @@ final class SetTenant
     /**
      * Handle an incoming request.
      *
-     * @param Request $request
-     * @param Closure $next
-     * @param bool $required
+     * @param  Request  $request
+     * @param  Closure  $next
+     * @param  bool  $required
      * @return RedirectResponse|Response|mixed
+     *
      * @throws Exception
      */
     public function handle(Request $request, Closure $next, bool $required = false)
@@ -44,7 +45,7 @@ final class SetTenant
     /**
      * Resolve tenant.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return HasTenantDBConnection
      */
     private function resolveTenant(Request $request): HasTenantDBConnection

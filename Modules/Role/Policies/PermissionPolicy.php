@@ -17,58 +17,58 @@ final class PermissionPolicy extends BasePolicy
     /**
      * View any permission`s policy.
      *
-     * @param User $user
+     * @param  User  $user
      * @return bool
      */
     final public function viewAny(User $user): bool
     {
-        return $user->can(PermissionPermission::VIEW_PERMISSIONS);
+        return $this->isAdmin($user) || $user->can(PermissionPermission::VIEW_PERMISSIONS);
     }
 
     /**
      * View permission policy.
      *
-     * @param User $user
-     * @param Permission $permission
+     * @param  User  $user
+     * @param  Permission  $permission
      * @return bool
      */
     final public function view(User $user, Permission $permission): bool
     {
-        return $user->can(PermissionPermission::VIEW_PERMISSIONS);
+        return $this->isAdmin($user) || $user->can(PermissionPermission::VIEW_PERMISSIONS);
     }
 
     /**
      * Create permission policy.
      *
-     * @param User $user
+     * @param  User  $user
      * @return bool
      */
     final public function create(User $user): bool
     {
-        return $user->can(PermissionPermission::CREATE_PERMISSIONS);
+        return $this->isAdmin($user) || $user->can(PermissionPermission::CREATE_PERMISSIONS);
     }
 
     /**
      * Update permission policy.
      *
-     * @param User $user
-     * @param Permission $permission
+     * @param  User  $user
+     * @param  Permission  $permission
      * @return bool
      */
     final public function update(User $user, Permission $permission): bool
     {
-        return $user->can(PermissionPermission::EDIT_PERMISSIONS);
+        return $this->isAdmin($user) || $user->can(PermissionPermission::EDIT_PERMISSIONS);
     }
 
     /**
      * Delete permission policy.
      *
-     * @param User $user
-     * @param Permission $permission
+     * @param  User  $user
+     * @param  Permission  $permission
      * @return bool
      */
     final public function delete(User $user, Permission $permission): bool
     {
-        return $user->can(PermissionPermission::DELETE_PERMISSIONS);
+        return $this->isAdmin($user) || $user->can(PermissionPermission::DELETE_PERMISSIONS);
     }
 }
