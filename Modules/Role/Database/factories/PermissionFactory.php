@@ -41,8 +41,8 @@ class PermissionFactory extends Factory
         if (isset($state['name'])) {
             [$actionName, $modelName] = explode(' ', $state['name']);
 
-            $state['action_id'] ??= $this->actionByName($actionName);
-            $state['model_id'] ??= $this->modelByName($modelName);
+            $state['action_id'] ??= $this->actionByName($actionName)?->id;
+            $state['model_id'] ??= $this->modelByName($modelName)?->id;
         }
 
         if (isset($state['action_id']) && isset($state['model_id'])) {
@@ -59,21 +59,21 @@ class PermissionFactory extends Factory
      * Get or factory action by name.
      *
      * @param string $name
-     * @return int|null
+     * @return Action|null
      */
-    private function actionByName(string $name): ?int
+    private function actionByName(string $name): ?Action
     {
-        return (Action::where('name', $name)->first() ?? Action::factory()->create(['name' => $name]))?->id;
+        return Action::where('name', $name)->first() ?? Action::factory()->create(['name' => $name]);
     }
 
     /**
      * Get or factory model by name.
      *
      * @param string $name
-     * @return int|null
+     * @return Model|null
      */
-    private function modelByName(string $name): ?int
+    private function modelByName(string $name): ?Model
     {
-        return (Model::where('name', $name)->first() ?? Model::factory()->create(['name' => $name]))?->id;
+        return Model::where('name', $name)->first() ?? Model::factory()->create(['name' => $name]);
     }
 }

@@ -21,6 +21,26 @@ final class PermissionController extends Controller
     ){}
 
     /**
+     * @OA\Get(
+     *     path="/admin/permissions",
+     *     tags={"Permission"},
+     *     security={ {"sanctum": {} }},
+     *     summary="Get permissions",
+     *     @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\JsonContent(ref="#/components/schemas/PermissionCollection")
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized Error"
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Forbidden Error"
+     *     )
+     * )
+     *
      * Index permissions.
      *
      * @return JsonResource
@@ -36,6 +56,26 @@ final class PermissionController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *     path="/admin/permissions/all",
+     *     tags={"Permission"},
+     *     security={ {"sanctum": {} }},
+     *     summary="Get all permissions",
+     *     @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\JsonContent(ref="#/components/schemas/PermissionCollection")
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized Error"
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Forbidden Error"
+     *     )
+     * )
+     *
      * Index permissions list.
      *
      * @return JsonResource
@@ -51,6 +91,37 @@ final class PermissionController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *     path="/admin/permissions/{id}",
+     *     tags={"Permission"},
+     *     security={ {"sanctum": {} }},
+     *     summary="Get permission data",
+     *     @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          description="Permission ID",
+     *          required=true,
+     *          @OA\Schema (type="integer")
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\JsonContent(ref="#/components/schemas/PermissionResource")
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized Error"
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Forbidden Error"
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Not Found"
+     *     )
+     * )
+     *
      * View permission.
      *
      * @param int $permission

@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Role\Services;
 
-use Illuminate\Support\Arr;
-use Modules\Role\Dto\PermissionDto;
 use Modules\Role\Dto\PermissionDto;
 use Modules\Role\Models\Permission;
-use Modules\Role\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 
 final class PermissionStorage
@@ -24,7 +21,7 @@ final class PermissionStorage
         $permission = Permission::query()->create($dto->toArray());
 
         if (! $permission->save()) {
-            throw new \LogicException('Не удалось сохранить Роль');
+            throw new \LogicException(__('Can not create permission'));
         }
 
         $this->clearCache();
@@ -35,33 +32,31 @@ final class PermissionStorage
     /**
      * Update permission.
      *
-     * @param Role $role
+     * @param Permission $permission
      * @param PermissionDto $dto
-     * @return Role
+     * @return Permission
      */
-    final public function update(Role $role, PermissionDto $dto): Role
+    final public function update(Permission $permission, PermissionDto $dto): Permission
     {
-        if (!$role->update(Arr::only($dto->toArray(),
-            ['name', 'key']
-        ))) {
-            throw new \LogicException('Не удалось изменить данные Роли');
+        if (! $permission->update($dto->toArray())) {
+            throw new \LogicException(__('Can not create permission'));
         }
 
         $this->clearCache();
 
-        return $role;
+        return $permission;
     }
 
     /**
-     * Delete role.
+     * Delete permission.
      *
-     * @param Role $role
+     * @param Permission $permission
      * @return void
      */
-    final public function delete(Role $role): void
+    final public function delete(Permission $permission): void
     {
-        if (!$role->delete()) {
-            throw new \LogicException('can not delete role');
+        if (! $permission->delete()) {
+            throw new \LogicException('Can not delete permission');
         }
 
         $this->clearCache();
