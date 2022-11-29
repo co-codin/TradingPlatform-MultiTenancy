@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Customer\Http\Controllers\Admin;
 
-use Modules\Config\Http\Controllers\Admin\ConfigController;
+use App\Http\Controllers\Controller;
 
-class CustomerController extends ConfigController
+final class CustomerController extends Controller
 {
 
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Modules\Config\Repositories;
 
 use App\Repositories\BaseRepository;
-use Modules\Config\Models\Config;
+use Modules\Config\Models\ConfigType;
 use Modules\Config\Repositories\Criteria\ConfigTypeRequestCriteria;
 
 final class ConfigTypeRepository extends BaseRepository
@@ -15,7 +15,7 @@ final class ConfigTypeRepository extends BaseRepository
      */
     final public function model(): string
     {
-        return Config::class;
+        return ConfigType::class;
     }
 
     /**

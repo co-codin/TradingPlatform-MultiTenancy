@@ -423,6 +423,634 @@
                 ]
             }
         },
+        "/admin/configs": {
+            "get": {
+                "tags": [
+                    "Config"
+                ],
+                "summary": "Get configs",
+                "operationId": "2333f94a4855e881041af633d76def2d",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConfigCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Config"
+                ],
+                "summary": "Add a new config",
+                "operationId": "86626df02b9185f66dff9d0971ca44f6",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "config_type_id",
+                                    "data_type",
+                                    "name",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "config_type_id": {
+                                        "description": "Config type ID",
+                                        "type": "integer"
+                                    },
+                                    "data_type": {
+                                        "description": "Data type",
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "description": "Config`s name",
+                                        "type": "string"
+                                    },
+                                    "value": {
+                                        "description": "Config`s value",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConfigResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/configs/{id}": {
+            "get": {
+                "tags": [
+                    "Config"
+                ],
+                "summary": "Get config data",
+                "operationId": "1158766cbc221ebdfd591651299902f5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Config ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConfigResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Config"
+                ],
+                "summary": "Update a config",
+                "operationId": "3a1b02052d6ca0a4ada89f03f05893a4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Config ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "config_type_id",
+                                    "data_type",
+                                    "name",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "config_type_id": {
+                                        "description": "Config type ID",
+                                        "type": "integer"
+                                    },
+                                    "data_type": {
+                                        "description": "Data type",
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "description": "Config`s name",
+                                        "type": "string"
+                                    },
+                                    "value": {
+                                        "description": "Config`s value",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConfigResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Config"
+                ],
+                "summary": "Delete a config",
+                "operationId": "d0708a91c71ef4e9b40f588a14338af0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Config ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Config"
+                ],
+                "summary": "Update a config",
+                "operationId": "90f09248057230cf7b6e1a7049928c03",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Config ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "config_type_id": {
+                                        "description": "Config type ID",
+                                        "type": "integer"
+                                    },
+                                    "data_type": {
+                                        "description": "Data type",
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "description": "Config`s name",
+                                        "type": "string"
+                                    },
+                                    "value": {
+                                        "description": "Config`s value",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConfigResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/configs/types": {
+            "get": {
+                "tags": [
+                    "ConfigType"
+                ],
+                "summary": "Get config types",
+                "operationId": "67f87329dd5c2305c25982cce4233b48",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConfigTypeCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "ConfigType"
+                ],
+                "summary": "Add a new config type",
+                "operationId": "f0b5373e99be1030f6ba91690dc30cbf",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Config types`s name",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConfigTypeResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/configs/types/{id}": {
+            "get": {
+                "tags": [
+                    "ConfigType"
+                ],
+                "summary": "Get config type data",
+                "operationId": "60cbfad03321cb287cedb39490d17e7f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Config type ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConfigTypeResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "ConfigType"
+                ],
+                "summary": "Update a config type",
+                "operationId": "232134e689e991251ec452fce456e383",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Config type ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Config type`s name",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConfigTypeResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "ConfigType"
+                ],
+                "summary": "Delete a config type",
+                "operationId": "89979e6080bcc7d6598a3b15aba64bdf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Config type ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "ConfigType"
+                ],
+                "summary": "Update a config type",
+                "operationId": "6698188f48905dcc54874de79d3006de",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Config type ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Config type`s name",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConfigTypeResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/departments": {
             "get": {
                 "tags": [
@@ -3073,6 +3701,143 @@
                 },
                 "type": "object"
             },
+            "Config": {
+                "title": "Config",
+                "description": "Config model",
+                "required": [
+                    "id",
+                    "config_type_id",
+                    "data_type",
+                    "name",
+                    "value",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Config.",
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Setting"
+                    },
+                    "config_type_id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "data_type": {
+                        "type": "string",
+                        "example": "json"
+                    },
+                    "value": {
+                        "type": "string",
+                        "example": "{}"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "configType": {
+                        "$ref": "#/components/schemas/ConfigType"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Config"
+                }
+            },
+            "ConfigCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Config"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "ConfigResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Config"
+                    }
+                },
+                "type": "object"
+            },
+            "ConfigType": {
+                "title": "ConfigType",
+                "description": "Config type model",
+                "required": [
+                    "id",
+                    "name",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ConfigType.",
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Name"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "configs": {
+                        "description": "Array of configs",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ConfigCollection"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ConfigType"
+                }
+            },
+            "ConfigTypeCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ConfigType"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "ConfigTypeResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ConfigType"
+                    }
+                },
+                "type": "object"
+            },
             "Department": {
                 "title": "Department",
                 "description": "Department model",
@@ -3584,7 +4349,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }
