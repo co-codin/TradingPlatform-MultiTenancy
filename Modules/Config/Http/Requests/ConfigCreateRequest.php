@@ -1,12 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Config\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
 
-class ConfigCreateRequest extends BaseFormRequest
+final class ConfigCreateRequest extends BaseFormRequest
 {
-    public function rules()
+    /**
+     * {@inheritDoc}
+     */
+    final public function rules(): array
     {
         return [
             'config_type_id' => 'required|integer|exists:config_types,id',

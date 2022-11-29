@@ -20,10 +20,11 @@ final class SetTenant
     /**
      * Handle an incoming request.
      *
-     * @param Request $request
-     * @param Closure $next
-     * @param bool $required
+     * @param  Request  $request
+     * @param  Closure  $next
+     * @param  bool  $required
      * @return RedirectResponse|Response|mixed
+     *
      * @throws Exception
      */
     public function handle(Request $request, Closure $next, bool $required = false)
@@ -34,10 +35,9 @@ final class SetTenant
             throw new Exception(__('Tenant header is required.'));
         }
 
-        BrandTenantIdentified::dispatchIf(
-            $request->hasHeader('Tenant'),
-            $this->resolveTenant($request),
-        );
+        if ($hasHeader) {
+            BrandTenantIdentified::dispatch($this->resolveTenant($request));
+        }
 
         return $next($request);
     }
@@ -45,7 +45,7 @@ final class SetTenant
     /**
      * Resolve tenant.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return HasTenantDBConnection
      */
     private function resolveTenant(Request $request): HasTenantDBConnection
