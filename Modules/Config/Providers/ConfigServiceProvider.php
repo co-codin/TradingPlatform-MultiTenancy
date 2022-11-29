@@ -6,7 +6,9 @@ namespace Modules\Config\Providers;
 
 use App\Providers\BaseModuleServiceProvider;
 use Modules\Config\Models\Config;
+use Modules\Config\Models\ConfigType;
 use Modules\Config\Policies\ConfigPolicy;
+use Modules\Config\Policies\ConfigTypePolicy;
 
 final class ConfigServiceProvider extends BaseModuleServiceProvider
 {
@@ -15,6 +17,7 @@ final class ConfigServiceProvider extends BaseModuleServiceProvider
      */
     protected array $policies = [
         Config::class => ConfigPolicy::class,
+        ConfigType::class => ConfigTypePolicy::class,
     ];
 
     /**

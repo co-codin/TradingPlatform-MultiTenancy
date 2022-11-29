@@ -5,6 +5,6 @@ use Modules\Config\Http\Controllers\Admin\ConfigTypeController;
 use Modules\Config\Http\Controllers\Admin\ConfigController;
 
 Route::group(['middleware' => 'tenant.set:1'], function () {
-    Route::apiResource('/config-types', ConfigTypeController::class);
+    Route::apiResource('/configs/types', ConfigTypeController::class, ['as' => 'configs']);
     Route::apiResource('/configs', ConfigController::class);
 });

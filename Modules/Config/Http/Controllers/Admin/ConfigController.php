@@ -326,7 +326,7 @@ final class ConfigController extends Controller
     {
         $config = $this->configRepository->find($config);
 
-        $this->authorize('destroy', $config);
+        $this->authorize('delete', $config);
 
         $this->configStorage->delete($config);
 

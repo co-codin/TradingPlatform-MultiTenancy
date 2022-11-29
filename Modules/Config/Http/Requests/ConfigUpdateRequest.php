@@ -24,7 +24,7 @@ final class ConfigUpdateRequest extends BaseFormRequest
                 Rule::in(DataType::getValues())
             ],
             'name' => 'sometimes|required|string',
-            'value' => 'sometimes|required',
+            'value' => 'sometimes|required|string',
         ];
     }
 }

@@ -6,42 +6,36 @@ namespace Modules\Config\Http\Resources;
 
 use App\Http\Resources\BaseJsonResource;
 use Illuminate\Http\Request;
-use Modules\Config\Models\Config;
+use Modules\Config\Models\ConfigType;
 
 /**
- * Config.
+ * ConfigType.
  *
  * @OA\Schema(
- *     schema="Config",
- *     title="Config",
- *     description="Config model",
+ *     schema="ConfigType",
+ *     title="ConfigType",
+ *     description="Config type model",
  *     required={
  *         "id",
- *         "config_type_id",
- *         "data_type",
  *         "name",
- *         "value",
  *         "created_at",
  *         "updated_at",
  *     },
- *     @OA\Xml(name="Config"),
+ *     @OA\Xml(name="ConfigType"),
  *     @OA\Property(property="id", type="integer", readOnly="true", example="1"),
- *     @OA\Property(property="name", type="string", example="Setting"),
- *     @OA\Property(property="config_type_id", type="integer", example="1"),
- *     @OA\Property(property="data_type", type="string", example="json"),
- *     @OA\Property(property="value", type="string", example="{}"),
+ *     @OA\Property(property="name", type="string", example="Name"),
  *     @OA\Property(property="created_at", type="string", format="date-time"),
  *     @OA\Property(property="updated_at", type="string", format="date-time"),
- *     @OA\Property(property="configType", ref="#/components/schemas/ConfigType", description="Config type"),
+ *     @OA\Property(property="configs", type="array", @OA\Items(ref="#/components/schemas/ConfigCollection"), description="Array of configs")
  * ),
  *
  * @OA\Schema (
- *     schema="ConfigCollection",
+ *     schema="ConfigTypeCollection",
  *     type="object",
  *     @OA\Property(
  *         property="data",
  *         type="array",
- *         @OA\Items(ref="#/components/schemas/Config")
+ *         @OA\Items(ref="#/components/schemas/ConfigType")
  *     ),
  *     @OA\Property(
  *         property="meta",
@@ -51,21 +45,21 @@ use Modules\Config\Models\Config;
  * ),
  *
  * @OA\Schema (
- *     schema="ConfigResource",
+ *     schema="ConfigTypeResource",
  *     type="object",
  *     @OA\Property(
  *         property="data",
  *         type="object",
- *         ref="#/components/schemas/Config"
+ *         ref="#/components/schemas/ConfigType"
  *     )
  * )
  *
  * Class ConfigResource
  *
  * @package Modules\Config\Http\Resources
- * @mixin Config
+ * @mixin ConfigType
  */
-class ConfigResource extends BaseJsonResource
+class ConfigTypeResource extends BaseJsonResource
 {
     /**
      * Transform the resource into an array.
@@ -76,7 +70,7 @@ class ConfigResource extends BaseJsonResource
     public function toArray($request): array
     {
         return array_merge(parent::toArray($request), [
-            'configType' => new ConfigTypeResource($this->whenLoaded('configType')),
+            'configs' => ConfigResource::collection($this->whenLoaded('configs')),
         ]);
     }
 }

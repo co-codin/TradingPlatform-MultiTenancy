@@ -23,7 +23,7 @@ final class ConfigCreateRequest extends BaseFormRequest
                 Rule::in(DataType::getValues())
             ],
             'name' => 'required|string',
-            'value' => 'required',
+            'value' => 'required|string',
         ];
     }
 }
