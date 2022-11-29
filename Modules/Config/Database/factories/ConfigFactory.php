@@ -1,27 +1,35 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Config\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Config\Enums\DataType;
+use Modules\Config\Models\Config;
+use Modules\Config\Models\ConfigType;
 
-class ConfigFactory extends Factory
+final class ConfigFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = \Modules\Config\Models\Config::class;
+    protected $model = Config::class;
 
     /**
      * Define the model's default state.
      *
      * @return array
      */
-    public function definition()
+    final public function definition(): array
     {
         return [
-            //
+            'config_type_id' => ConfigType::factory(),
+            'data_type' => $type = $this->faker->randomElement(DataType::getValues()),
+            'name' => $this->faker->name(),
+            'value' => $type == DataType::JSON ? json_encode([]) : $this->faker->name(),
         ];
     }
 }

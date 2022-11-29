@@ -10,7 +10,7 @@ use Illuminate\Validation\Rule;
 use Modules\Config\Enums\ConfigType;
 use Modules\Config\Enums\DataType;
 
-final class ConfigCreateRequest extends BaseFormRequest
+final class ConfigUpdateRequest extends BaseFormRequest
 {
     /**
      * {@inheritDoc}
@@ -18,14 +18,15 @@ final class ConfigCreateRequest extends BaseFormRequest
     final public function rules(): array
     {
         return [
-            'config_type_id' => 'required|integer|exists:config_types,id',
+            'config_type_id' => 'sometimes|required|integer|exists:config_types,id',
             'data_type' => [
+                'sometimes',
                 'required',
                 'string',
                 new EnumValue(ConfigType::class, false)
             ],
-            'name' => 'required|string',
-            'value' => 'required|string',
+            'name' => 'sometimes|required|string',
+            'value' => 'sometimes|required|string',
         ];
     }
 }

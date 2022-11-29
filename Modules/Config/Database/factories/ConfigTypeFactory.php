@@ -1,27 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Config\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Config\Models\ConfigType;
+use Modules\Config\Enums\ConfigType as ConfigTypeEnum;
 
-class ConfigTypeFactory extends Factory
+final class ConfigTypeFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = \Modules\Config\Models\ConfigType::class;
+    protected $model = ConfigType::class;
 
     /**
      * Define the model's default state.
      *
      * @return array
      */
-    public function definition()
+    final public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->randomElement(ConfigTypeEnum::getValues()),
         ];
     }
 }
