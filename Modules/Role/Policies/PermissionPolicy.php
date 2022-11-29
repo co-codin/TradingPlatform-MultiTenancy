@@ -17,7 +17,7 @@ final class PermissionPolicy extends BasePolicy
     /**
      * View any permission`s policy.
      *
-     * @param User $user
+     * @param  User  $user
      * @return bool
      */
     final public function viewAny(User $user): bool
@@ -28,8 +28,8 @@ final class PermissionPolicy extends BasePolicy
     /**
      * View permission policy.
      *
-     * @param User $user
-     * @param Permission $permission
+     * @param  User  $user
+     * @param  Permission  $permission
      * @return bool
      */
     final public function view(User $user, Permission $permission): bool
@@ -40,7 +40,7 @@ final class PermissionPolicy extends BasePolicy
     /**
      * Create permission policy.
      *
-     * @param User $user
+     * @param  User  $user
      * @return bool
      */
     final public function create(User $user): bool
@@ -51,8 +51,8 @@ final class PermissionPolicy extends BasePolicy
     /**
      * Update permission policy.
      *
-     * @param User $user
-     * @param Permission $permission
+     * @param  User  $user
+     * @param  Permission  $permission
      * @return bool
      */
     final public function update(User $user, Permission $permission): bool
@@ -63,8 +63,8 @@ final class PermissionPolicy extends BasePolicy
     /**
      * Delete permission policy.
      *
-     * @param User $user
-     * @param Permission $permission
+     * @param  User  $user
+     * @param  Permission  $permission
      * @return bool
      */
     final public function delete(User $user, Permission $permission): bool

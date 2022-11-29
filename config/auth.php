@@ -49,7 +49,7 @@ return [
         'basic' => [
             'driver' => 'session',
             'provider' => 'users',
-        ]
+        ],
     ],
 
     /*
