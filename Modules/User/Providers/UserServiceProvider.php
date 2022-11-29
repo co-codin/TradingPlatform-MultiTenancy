@@ -33,21 +33,4 @@ class UserServiceProvider extends BaseModuleServiceProvider
         parent::boot();
         $this->loadMigrationsFrom(module_path($this->getModuleName(), 'Database/Migrations'));
     }
-
-    public function registerPolicies(?string $modelKey = null, array $policies = []): void
-    {
-        $policies = $policies ?: $this->policies;
-
-        foreach ($policies as $key => $value) {
-            $key = $modelKey ?? $key;
-
-            switch (true) {
-                case is_array($value):
-                    $this->registerPolicies($key, $value);
-                    break;
-                default:
-                    Gate::policy($key, $value);
-            }
-        }
-    }
 }
