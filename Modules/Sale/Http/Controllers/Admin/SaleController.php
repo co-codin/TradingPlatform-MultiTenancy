@@ -4,17 +4,26 @@ namespace Modules\Sale\Http\Controllers\Admin;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Routing\Controller;
+use Modules\Sale\Http\Resources\SaleResource;
+use Modules\Sale\Models\SaleStatus;
+use Modules\Sale\Repositories\SaleRepository;
 
 class SaleController extends Controller
 {
+    public function __construct(
+        protected SaleRepository $repository,
+    ) {}
     /**
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index()
+    public function index(): JsonResource
     {
-        return [];
+        // $this->authorize('viewAny', SaleStatus::class);
+
+        return SaleResource::collection($this->repository->jsonPaginate());
     }
 
     /**
