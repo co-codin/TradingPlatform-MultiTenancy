@@ -12,7 +12,7 @@ class SaleStoreRequest extends FormRequest
      *
      * @return array
      */
-    public function authorize(): array
+    public function rules(): array
     {
         return [
             'name' => 'required|string',
