@@ -7,8 +7,6 @@ namespace Tests;
 use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Modules\User\Models\DisplayOption;
-use Modules\User\Models\User;
 use Tests\Traits\HasAuth;
 
 abstract class TestCase extends BaseTestCase
