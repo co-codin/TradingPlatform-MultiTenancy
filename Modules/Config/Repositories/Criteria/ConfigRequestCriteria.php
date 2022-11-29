@@ -13,13 +13,22 @@ use Spatie\QueryBuilder\QueryBuilder;
 final class ConfigRequestCriteria extends BaseCriteria
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
+     */
+    protected array $allowedModelFields = [
+        'data_type',
+        'name',
+        'value',
+    ];
+
+    /**
+     * {@inheritDoc}
      */
     final public function apply($model, RepositoryInterface $repository)
     {
         return QueryBuilder::for($model)
             ->defaultSort('-id')
-            ->allowedFields(self::allowedConfigFields(),)
+            ->allowedFields(self::allowedModelFields(),)
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::custom('live', new LiveFilter([
@@ -33,24 +42,5 @@ final class ConfigRequestCriteria extends BaseCriteria
             ->allowedSorts([
                 'id',
             ]);
-    }
-
-    /**
-     * @param $prefix
-     * @return array
-     */
-    final public static function allowedConfigFields($prefix = null): array
-    {
-        $fields = [
-            'data_type',
-            'name',
-            'value',
-        ];
-
-        if(! $prefix) {
-            return $fields;
-        }
-
-        return array_map(fn ($field) => "{$prefix}.{$field}", $fields);
     }
 }

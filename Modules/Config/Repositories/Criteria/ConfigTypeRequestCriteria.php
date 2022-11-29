@@ -35,7 +35,7 @@ final class ConfigTypeRequestCriteria extends BaseCriteria
                 AllowedFilter::trashed(),
             ])
             ->allowedIncludes([
-                'configType',
+                'configs',
             ])
             ->allowedSorts([
                 'id',

@@ -8,7 +8,7 @@ use App\Http\Requests\BaseFormRequest;
 use Illuminate\Validation\Rule;
 use Modules\Config\Enums\DataType;
 
-final class ConfigCreateRequest extends BaseFormRequest
+final class ConfigUpdateRequest extends BaseFormRequest
 {
     /**
      * {@inheritDoc}
@@ -16,14 +16,15 @@ final class ConfigCreateRequest extends BaseFormRequest
     final public function rules(): array
     {
         return [
-            'config_type_id' => 'required|integer|exists:config_types,id',
+            'config_type_id' => 'sometimes|required|integer|exists:config_types,id',
             'data_type' => [
+                'sometimes',
                 'required',
                 'string',
                 Rule::in(DataType::getValues())
             ],
-            'name' => 'required|string',
-            'value' => 'required',
+            'name' => 'sometimes|required|string',
+            'value' => 'sometimes|required',
         ];
     }
 }
