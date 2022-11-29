@@ -15,6 +15,6 @@ use Modules\Sale\Http\Controllers\Admin\SaleController;
 */
 
 Route::group(['middleware' => 'tenant.set'], function () {
-    Route::resource('sale', SaleController::class);
+    Route::apiResource('sale', SaleController::class);
 });
 
