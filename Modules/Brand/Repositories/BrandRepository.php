@@ -21,6 +21,7 @@ class BrandRepository extends BaseRepository
      */
     public function boot()
     {
+        $this->pushColumnPermissionValidator(BrandColumnPermissionValidator::class);
         $this->pushCriteria(BrandRequestCriteria::class);
     }
 }

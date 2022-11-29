@@ -26,6 +26,6 @@ final class PermissionPermission extends Enum implements PermissionEnum
 
     public static function module(): string
     {
-        return 'Roles';
+        return 'Permissions';
     }
 }

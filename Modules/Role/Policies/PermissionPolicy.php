@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Role\Policies;
 
 use App\Policies\BasePolicy;
@@ -8,31 +10,64 @@ use Modules\Role\Enums\PermissionPermission;
 use Modules\Role\Models\Permission;
 use Modules\User\Models\User;
 
-class PermissionPolicy extends BasePolicy
+final class PermissionPolicy extends BasePolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(User $user): bool
+    /**
+     * View any permission`s policy.
+     *
+     * @param User $user
+     * @return bool
+     */
+    final public function viewAny(User $user): bool
     {
         return $this->isAdmin($user) || $user->can(PermissionPermission::VIEW_PERMISSIONS);
     }
 
-    public function view(User $user, Permission $permission): bool
+    /**
+     * View permission policy.
+     *
+     * @param User $user
+     * @param Permission $permission
+     * @return bool
+     */
+    final public function view(User $user, Permission $permission): bool
     {
         return $this->isAdmin($user) || $user->can(PermissionPermission::VIEW_PERMISSIONS);
     }
 
-    public function create(User $user): bool
+    /**
+     * Create permission policy.
+     *
+     * @param User $user
+     * @return bool
+     */
+    final public function create(User $user): bool
     {
         return $this->isAdmin($user) || $user->can(PermissionPermission::CREATE_PERMISSIONS);
     }
 
-    public function update(User $user, Permission $permission): bool
+    /**
+     * Update permission policy.
+     *
+     * @param User $user
+     * @param Permission $permission
+     * @return bool
+     */
+    final public function update(User $user, Permission $permission): bool
     {
         return $this->isAdmin($user) || $user->can(PermissionPermission::EDIT_PERMISSIONS);
     }
 
-    public function delete(User $user, Permission $permission): bool
+    /**
+     * Delete permission policy.
+     *
+     * @param User $user
+     * @param Permission $permission
+     * @return bool
+     */
+    final public function delete(User $user, Permission $permission): bool
     {
         return $this->isAdmin($user) || $user->can(PermissionPermission::DELETE_PERMISSIONS);
     }
