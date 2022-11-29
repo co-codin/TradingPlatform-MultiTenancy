@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\Feature\Modules\Role\Permission\Associations;
 
 use Modules\Role\Database\Seeders\ColumnsTableSeeder;
+use Modules\Role\Enums\PermissionPermission;
 use Modules\Role\Models\Column;
-use Modules\User\Enums\UserPermission;
-use Modules\User\Models\User;
+use Modules\Role\Models\Permission;
 use Tests\TestCase;
 
 final class AssociateColumnTest extends TestCase
@@ -17,11 +17,11 @@ final class AssociateColumnTest extends TestCase
      */
     public function user_can_update(): void
     {
-        $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
+        $this->authenticateWithPermission(PermissionPermission::fromValue(PermissionPermission::EDIT_PERMISSIONS));
 
-        $user = User::factory()->create();
+        $permission = Permission::factory()->create();
         $this->seed(ColumnsTableSeeder::class);
-        $response = $this->put(route('permissions.columns.update', ['id' => $user->id]), [
+        $response = $this->put(route('admin.permissions.columns.update', ['id' => $permission->id]), [
             'columns' => [
                 Column::all()->random(),
                 Column::all()->random(),
@@ -36,10 +36,10 @@ final class AssociateColumnTest extends TestCase
      */
     public function user_can_update_not_found(): void
     {
-        $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
+        $this->authenticateWithPermission(PermissionPermission::fromValue(PermissionPermission::EDIT_PERMISSIONS));
 
         $this->seed(ColumnsTableSeeder::class);
-        $response = $this->put(route('permissions.columns.update', ['id' => 10]), [
+        $response = $this->put(route('admin.permissions.columns.update', ['id' => 10]), [
             'columns' => [
                 Column::all()->random(),
             ],
@@ -55,9 +55,9 @@ final class AssociateColumnTest extends TestCase
     {
         $this->authenticateUser();
 
-        $user = User::factory()->create();
+        $permission = Permission::factory()->create();
         $this->seed(ColumnsTableSeeder::class);
-        $response = $this->put(route('permissions.columns.update', ['id' => $user->id]), [
+        $response = $this->put(route('admin.permissions.columns.update', ['id' => $permission->id]), [
             'columns' => [
                 Column::all()->random(),
             ],
@@ -71,7 +71,7 @@ final class AssociateColumnTest extends TestCase
      */
     public function not_unauthorized(): void
     {
-        $response = $this->put(route('permissions.columns.update', ['id' => 1]));
+        $response = $this->put(route('admin.permissions.columns.update', ['id' => 1]));
 
         $response->assertUnauthorized();
     }

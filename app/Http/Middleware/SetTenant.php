@@ -34,10 +34,9 @@ final class SetTenant
             throw new Exception(__('Tenant header is required.'));
         }
 
-        BrandTenantIdentified::dispatchIf(
-            $request->hasHeader('Tenant'),
-            $this->resolveTenant($request),
-        );
+        if ($hasHeader) {
+            BrandTenantIdentified::dispatch($this->resolveTenant($request));
+        }
 
         return $next($request);
     }

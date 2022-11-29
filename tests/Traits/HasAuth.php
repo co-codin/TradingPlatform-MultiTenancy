@@ -88,9 +88,10 @@ trait HasAuth
         $permission = Permission::whereName($permissionEnum->value)->first() ??
             Permission::factory()->create([
                 'name' => $permissionEnum->value,
+                'guard_name' => $guard,
             ]);
 
-        $user->givePermissionTo($permission);
+        $user->givePermissionTo($permission->name);
 
         $this->setUser($user);
 

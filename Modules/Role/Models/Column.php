@@ -12,7 +12,8 @@ use Modules\Role\Database\factories\ColumnFactory;
 
 final class Column extends Model
 {
-    use ForTenant, HasFactory;
+    use ForTenant;
+    use HasFactory;
 
     public $timestamps = false;
     protected $guarded = ['id'];
@@ -27,6 +28,6 @@ final class Column extends Model
 
     public function permissions(): BelongsToMany
     {
-        return $this->belongsToMany(Permission::class);
+        return $this->belongsToMany(Permission::class, 'permission_column');
     }
 }

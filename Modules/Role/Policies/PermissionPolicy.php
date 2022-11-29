@@ -4,6 +4,7 @@ namespace Modules\Role\Policies;
 
 use App\Policies\BasePolicy;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Modules\Role\Enums\PermissionPermission;
 use Modules\Role\Models\Permission;
 use Modules\User\Models\User;
 
@@ -13,26 +14,26 @@ class PermissionPolicy extends BasePolicy
 
     public function viewAny(User $user): bool
     {
-        return $this->isAdmin($user);
+        return $this->isAdmin($user) || $user->can(PermissionPermission::VIEW_PERMISSIONS);
     }
 
     public function view(User $user, Permission $permission): bool
     {
-        return $this->isAdmin($user);
+        return $this->isAdmin($user) || $user->can(PermissionPermission::VIEW_PERMISSIONS);
     }
 
     public function create(User $user): bool
     {
-        return $this->isAdmin($user);
+        return $this->isAdmin($user) || $user->can(PermissionPermission::CREATE_PERMISSIONS);
     }
 
     public function update(User $user, Permission $permission): bool
     {
-        return $this->isAdmin($user);
+        return $this->isAdmin($user) || $user->can(PermissionPermission::EDIT_PERMISSIONS);
     }
 
     public function delete(User $user, Permission $permission): bool
     {
-        return $this->isAdmin($user);
+        return $this->isAdmin($user) || $user->can(PermissionPermission::DELETE_PERMISSIONS);
     }
 }

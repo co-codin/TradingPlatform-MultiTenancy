@@ -40,6 +40,6 @@ final class Permission extends SpatiePermission
 
     public function columns(): BelongsToMany
     {
-        return $this->belongsToMany(Column::class);
+        return $this->belongsToMany(Column::class, 'permission_column');
     }
 }
