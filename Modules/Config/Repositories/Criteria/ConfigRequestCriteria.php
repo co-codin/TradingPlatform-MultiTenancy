@@ -28,7 +28,10 @@ final class ConfigRequestCriteria extends BaseCriteria
     {
         return QueryBuilder::for($model)
             ->defaultSort('-id')
-            ->allowedFields(self::allowedModelFields(),)
+            ->allowedFields(
+                self::allowedModelFields(),
+                ConfigTypeRequestCriteria::allowedModelFields(),
+            )
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::custom('live', new LiveFilter([

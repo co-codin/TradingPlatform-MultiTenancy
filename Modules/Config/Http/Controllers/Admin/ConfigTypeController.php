@@ -26,9 +26,7 @@ final class ConfigTypeController extends Controller
     final public function __construct(
         protected ConfigTypeStorage $configTypeStorage,
         protected ConfigTypeRepository $configTypeRepository,
-    ) {
-//        $this->authorizeResource(ConfigType::class);
-    }
+    ) {}
 
     /**
      * @OA\Get(

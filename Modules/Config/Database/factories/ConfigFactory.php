@@ -26,10 +26,10 @@ final class ConfigFactory extends Factory
     final public function definition(): array
     {
         return [
-            'config_type_id' => ConfigType::factory()->create(),
+            'config_type_id' => ConfigType::factory(),
             'data_type' => $type = $this->faker->randomElement(DataType::getValues()),
             'name' => $this->faker->name(),
-            'value' => $type == 'json' ? json_encode([]) : $this->faker->name(),
+            'value' => $type == DataType::JSON ? json_encode([]) : $this->faker->name(),
         ];
     }
 }
