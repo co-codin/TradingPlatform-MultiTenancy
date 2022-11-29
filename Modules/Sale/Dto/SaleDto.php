@@ -19,6 +19,11 @@ final class SaleDto extends BaseDto
     public ?string $title;
 
     /**
+     * @var string|null $color
+     */
+    public ?string $color;
+
+    /**
      * @var bool|null $is_active
      */
     public ?bool $is_active;
