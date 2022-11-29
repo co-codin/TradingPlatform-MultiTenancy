@@ -15,8 +15,10 @@ final class RoleDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(PermissionsTableSeeder::class);
-        $this->call(RolesTableSeeder::class);
-        $this->call(ColumnsTableSeeder::class);
+        $this->call([
+            PermissionsTableSeeder::class,
+            RolesTableSeeder::class,
+            ColumnsTableSeeder::class,
+        ]);
     }
 }

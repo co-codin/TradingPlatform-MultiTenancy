@@ -6,6 +6,7 @@ namespace Modules\Role\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Modules\Role\Models\Column;
+use OverflowException;
 
 final class ColumnsTableSeeder extends Seeder
 {
@@ -16,6 +17,12 @@ final class ColumnsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        Column::factory()->count(count(Column::NAMES))->create();
+        try {
+            while (true) {
+                Column::factory()->create();
+            }
+        } catch (OverflowException $e) {
+            //
+        }
     }
 }

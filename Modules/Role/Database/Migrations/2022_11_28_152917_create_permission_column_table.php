@@ -19,6 +19,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('permission_id')->constrained();
             $table->foreignId('column_id')->constrained();
+            $table->unique(['permission_id', 'column_id']);
             $table->timestamps();
         });
     }
