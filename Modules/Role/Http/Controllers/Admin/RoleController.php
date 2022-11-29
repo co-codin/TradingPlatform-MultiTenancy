@@ -129,7 +129,7 @@ final class RoleController extends Controller
      *                 @OA\Property(property="name", description="Name of role"),
      *                 @OA\Property(property="guard_name", type="string", description="Guard name"),
      *                 @OA\Property(property="key", type="string", description="Key"),
-     *                 @OA\Property(property="roles", type="array", description="Array of permission`s ID",
+     *                 @OA\Property(property="permissions", type="array", description="Array of permission`s ID",
      *                     @OA\Items(@OA\Property(property="id", type="integer")),
      *                 ),
      *             )
@@ -196,7 +196,7 @@ final class RoleController extends Controller
      *                 @OA\Property(property="name", description="Name of role"),
      *                 @OA\Property(property="guard_name", type="string", description="Guard name"),
      *                 @OA\Property(property="key", type="string", description="Key"),
-     *                 @OA\Property(property="roles", type="array", description="Array of permission`s ID",
+     *                 @OA\Property(property="permissions", type="array", description="Array of permission`s ID",
      *                     @OA\Items(@OA\Property(property="id", type="integer")),
      *                 ),
      *             )
@@ -243,7 +243,7 @@ final class RoleController extends Controller
      *                 @OA\Property(property="name", description="Name of role"),
      *                 @OA\Property(property="guard_name", type="string", description="Guard name"),
      *                 @OA\Property(property="key", type="string", description="Key"),
-     *                 @OA\Property(property="roles", type="array", description="Array of permission`s ID",
+     *                 @OA\Property(property="permissions", type="array", description="Array of permission`s ID",
      *                     @OA\Items(@OA\Property(property="id", type="integer")),
      *                 ),
      *             )
