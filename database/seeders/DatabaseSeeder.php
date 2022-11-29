@@ -21,6 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UserDatabaseSeeder::class);
         $this->call(BrandDatabaseSeeder::class);
 //        $this->call(GeoDatabaseSeeder::class);
-//        $this->call(RoleDatabaseSeeder::class);
+        $this->call(RoleDatabaseSeeder::class);
     }
 }
