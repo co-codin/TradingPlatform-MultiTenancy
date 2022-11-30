@@ -25,6 +25,7 @@ final class CountryRepository extends BaseRepository
      */
     public function boot()
     {
+        $this->pushColumnPermissionValidator(CountryColumnPermissionValidator::class);
         $this->pushCriteria(CountryRequestCriteria::class);
     }
 }

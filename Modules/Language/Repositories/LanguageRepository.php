@@ -25,6 +25,7 @@ final class LanguageRepository extends BaseRepository
      */
     public function boot()
     {
+        $this->pushColumnPermissionValidator(LanguageColumnPermissionValidator::class);
         $this->pushCriteria(LanguageRequestCriteria::class);
     }
 }

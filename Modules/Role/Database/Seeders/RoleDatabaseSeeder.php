@@ -1,19 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Role\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class RoleDatabaseSeeder extends Seeder
+final class RoleDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        $this->call(PermissionsTableSeeder::class);
-        $this->call(RolesTableSeeder::class);
+        $this->call([
+            PermissionsTableSeeder::class,
+            RolesTableSeeder::class,
+            ColumnsTableSeeder::class,
+        ]);
     }
 }
