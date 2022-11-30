@@ -7,7 +7,6 @@ namespace Tests\Feature\Modules\Role\Column;
 use Modules\Role\Enums\ColumnPermission;
 use Modules\Role\Models\Column;
 use Spatie\Permission\PermissionRegistrar;
-use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 final class CreateTest extends TestCase
@@ -27,6 +26,7 @@ final class CreateTest extends TestCase
         $response->assertJson([
             'data' => $data->toArray(),
         ]);
+        $this->assertDatabaseHas('columns', $data->toArray());
     }
 
     /**
@@ -40,7 +40,7 @@ final class CreateTest extends TestCase
 
         $response = $this->post(route('admin.permissions-columns.store'), $data->toArray());
 
-        $response->assertStatus(Response::HTTP_FORBIDDEN);
+        $response->assertForbidden();
     }
 
     /**
@@ -50,7 +50,23 @@ final class CreateTest extends TestCase
     {
         $response = $this->post(route('admin.permissions-columns.store'));
 
-        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+        $response->assertUnauthorized();
+    }
+
+    /**
+     * @test
+     */
+    public function not_unique_name(): void
+    {
+        $this->authenticateWithPermission(ColumnPermission::fromValue(ColumnPermission::CREATE_COLUMNS));
+
+        $column = Column::factory()->create();
+        $response = $this->post(route('admin.permissions-columns.store'), [
+            'name' => $column->name,
+        ]);
+
+        $response->assertUnprocessable();
+        $response->assertJsonValidationErrors(['name']);
     }
 
     protected function setUp(): void

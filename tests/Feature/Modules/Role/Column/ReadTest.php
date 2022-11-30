@@ -6,7 +6,6 @@ namespace Tests\Feature\Modules\Role\Column;
 
 use Modules\Role\Enums\ColumnPermission;
 use Modules\Role\Models\Column;
-use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 final class ReadTest extends TestCase
@@ -16,7 +15,7 @@ final class ReadTest extends TestCase
      */
     public function user_can_view_any(): void
     {
-        Column::factory($count = 5)->create();
+        $columns = Column::factory($count = 5)->create();
 
         $this->authenticateWithPermission(ColumnPermission::fromValue(ColumnPermission::VIEW_COLUMNS));
         $response = $this->get(route('admin.permissions-columns.index'));
@@ -31,6 +30,9 @@ final class ReadTest extends TestCase
                     'name',
                 ],
             ],
+        ]);
+        $response->assertJson([
+            'data' => $columns->toArray(),
         ]);
     }
 
@@ -50,6 +52,9 @@ final class ReadTest extends TestCase
                 'id',
                 'name',
             ],
+        ]);
+        $response->assertJson([
+            'data' => $column->toArray(),
         ]);
     }
 
@@ -74,7 +79,7 @@ final class ReadTest extends TestCase
         $this->authenticateUser();
         $response = $this->get(route('admin.permissions-columns.index'));
 
-        $response->assertStatus(Response::HTTP_FORBIDDEN);
+        $response->assertForbidden();
     }
 
     /**
@@ -88,7 +93,7 @@ final class ReadTest extends TestCase
 
         $response = $this->get(route('admin.permissions-columns.show', ['permissions_column' => $column->id]));
 
-        $response->assertStatus(Response::HTTP_FORBIDDEN);
+        $response->assertForbidden();
     }
 
     /**
@@ -98,7 +103,7 @@ final class ReadTest extends TestCase
     {
         $response = $this->get(route('admin.permissions-columns.index'));
 
-        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+        $response->assertUnauthorized();
     }
 
     /**
@@ -109,6 +114,6 @@ final class ReadTest extends TestCase
         $column = Column::factory()->create();
         $response = $this->get(route('admin.permissions-columns.show', ['permissions_column' => $column->id]));
 
-        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+        $response->assertUnauthorized();
     }
 }
