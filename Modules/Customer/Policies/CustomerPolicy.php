@@ -81,6 +81,17 @@ final class CustomerPolicy extends BasePolicy
      */
     public function ban(User $user): bool
     {
-        return $user->can(CustomerPermission::DELETE_CUSTOMERS);
+        return $user->can(CustomerPermission::BAN_CUSTOMERS);
+    }
+
+    /**
+     * Unban policy.
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function unban(User $user): bool
+    {
+        return $user->can(CustomerPermission::BAN_CUSTOMERS);
     }
 }
