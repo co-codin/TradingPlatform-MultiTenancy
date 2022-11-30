@@ -7,39 +7,39 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Modules\Sale\Dto\SaleDto;
-use Modules\Sale\Http\Resources\SaleResource;
+use Modules\Sale\Dto\SaleStatusDto;
+use Modules\Sale\Http\Resources\SaleStatusResource;
 use Modules\Sale\Models\SaleStatus;
-use Modules\Sale\Repositories\SaleRepository;
-use Modules\Sale\Http\Requests\SaleStoreRequest;
-use Modules\Sale\Services\SaleStorage;
+use Modules\Sale\Repositories\SaleStatusRepository;
+use Modules\Sale\Http\Requests\SaleStatusStoreRequest;
+use Modules\Sale\Services\SaleStatusStorage;
 use Illuminate\Http\Response;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
-class SaleController extends Controller
+class SaleStatusController extends Controller
 {
     /**
-     * @param SaleRepository $repository
-     * @param SaleStorage $storage
+     * @param SaleStatusRepository $repository
+     * @param SaleStatusStorage $storage
      */
     public function __construct(
-        protected SaleRepository $repository,
-        protected SaleStorage $storage,
+        protected SaleStatusRepository $repository,
+        protected SaleStatusStorage $storage,
     ) {
     }
 
     /**
      * @OA\Get(
-     *      path="/admin/sale",
-     *      operationId="sale.index",
+     *      path="/admin/salestatus",
+     *      operationId="salestatus.index",
      *      security={ {"sanctum": {} }},
-     *      tags={"Sale"},
-     *      summary="Get sale list",
-     *      description="Returns sale list data.",
+     *      tags={"SaleStatus"},
+     *      summary="Get salestatus list",
+     *      description="Returns salestatus list data.",
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/SaleCollection")
+     *          @OA\JsonContent(ref="#/components/schemas/SaleStatusCollection")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -51,7 +51,7 @@ class SaleController extends Controller
      *      )
      * )
      *
-     * Display sale list.
+     * Display salestatus list.
      *
      * @return JsonResource
      * @throws AuthorizationException
@@ -60,17 +60,17 @@ class SaleController extends Controller
     {
         $this->authorize('viewAny', SaleStatus::class);
 
-        return SaleResource::collection($this->repository->jsonPaginate());
+        return SaleStatusResource::collection($this->repository->jsonPaginate());
     }
 
     /**
      * @OA\Post(
-     *      path="/admin/sale",
-     *      operationId="sale.store",
+     *      path="/admin/salestatus",
+     *      operationId="salestatus.store",
      *      security={ {"sanctum": {} }},
-     *      tags={"Sale"},
-     *      summary="Store sale",
-     *      description="Returns sale data.",
+     *      tags={"SaleStatus"},
+     *      summary="Store salestatus",
+     *      description="Returns salestatus data.",
      *      @OA\Parameter(
      *          description="Name",
      *          in="query",
@@ -95,7 +95,7 @@ class SaleController extends Controller
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/SaleResource")
+     *          @OA\JsonContent(ref="#/components/schemas/SaleStatusResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -107,32 +107,32 @@ class SaleController extends Controller
      *      )
      * )
      *
-     * Store sale.
+     * Store salestatus.
      *
-     * @param SaleStoreRequest $request
+     * @param SaleStatusStoreRequest $request
      * @return JsonResource
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
-    public function store(SaleStoreRequest $request): JsonResource
+    public function store(SaleStatusStoreRequest $request): JsonResource
     {
         $this->authorize('create', SaleStatus::class);
 
-        return new SaleResource(
-            $this->storage->store(SaleDto::fromFormRequest($request)),
+        return new SaleStatusResource(
+            $this->storage->store(SaleStatusDto::fromFormRequest($request)),
         );
     }
 
     /**
      * @OA\Get(
-     *      path="/admin/sale/{id}",
-     *      operationId="sale.show",
+     *      path="/admin/salestatus/{id}",
+     *      operationId="salestatus.show",
      *      security={ {"sanctum": {} }},
-     *      tags={"Sale"},
-     *      summary="Get sale",
-     *      description="Returns sale data.",
+     *      tags={"SaleStatus"},
+     *      summary="Get salestatus",
+     *      description="Returns salestatus data.",
      *      @OA\Parameter(
-     *          description="Sale id",
+     *          description="SaleStatus id",
      *          in="path",
      *          name="id",
      *          required=true,
@@ -141,7 +141,7 @@ class SaleController extends Controller
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/SaleResource")
+     *          @OA\JsonContent(ref="#/components/schemas/SaleStatusResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -153,7 +153,7 @@ class SaleController extends Controller
      *      )
      * )
      *
-     * Show the sale.
+     * Show the salestatus.
      *
      * @param int $id
      * @return JsonResource
@@ -161,23 +161,23 @@ class SaleController extends Controller
      */
     public function show(int $id): JsonResource
     {
-        $sale = $this->repository->find($id);
+        $salestatus = $this->repository->find($id);
 
-        $this->authorize('view', $sale);
+        $this->authorize('view', $salestatus);
 
-        return new SaleResource($sale);
+        return new SaleStatusResource($salestatus);
     }
 
     /**
      * @OA\Patch(
-     *      path="/admin/sale/{id}",
-     *      operationId="sale.update",
+     *      path="/admin/salestatus/{id}",
+     *      operationId="salestatus.update",
      *      security={ {"sanctum": {} }},
-     *      tags={"Sale"},
-     *      summary="Update sale",
-     *      description="Returns sale data.",
+     *      tags={"SaleStatus"},
+     *      summary="Update salestatus",
+     *      description="Returns salestatus data.",
      *      @OA\Parameter(
-     *          description="Sale id",
+     *          description="SaleStatus id",
      *          in="path",
      *          name="id",
      *          required=true,
@@ -188,7 +188,7 @@ class SaleController extends Controller
      *          in="query",
      *          name="name",
      *          required=false,
-     *          example="Russia"
+     *          example="Any name"
      *      ),
      *      @OA\Parameter(
      *          description="Title",
@@ -207,7 +207,7 @@ class SaleController extends Controller
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/SaleResource")
+     *          @OA\JsonContent(ref="#/components/schemas/SaleStatusResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -219,38 +219,38 @@ class SaleController extends Controller
      *      )
      * )
      *
-     * Update the sale.
+     * Update the salestatus.
      *
-     * @param SaleStoreRequest $request
+     * @param SaleStatusStoreRequest $request
      * @param int $id
      * @return JsonResource
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
-    public function update(SaleStoreRequest $request, int $id): JsonResource
+    public function update(SaleStatusStoreRequest $request, int $id): JsonResource
     {
-        $sale = $this->repository->find($id);
+        $salestatus = $this->repository->find($id);
 
-        $this->authorize('update', $sale);
+        $this->authorize('update', $salestatus);
 
-        return new SaleResource(
+        return new SaleStatusResource(
             $this->storage->update(
-                $sale,
-                SaleDto::fromFormRequest($request)
+                $salestatus,
+                SaleStatusDto::fromFormRequest($request)
             ),
         );
     }
 
     /**
      * @OA\Delete(
-     *      path="/admin/sale/{id}",
-     *      operationId="sale.delete",
+     *      path="/admin/salestatus/{id}",
+     *      operationId="salestatus.delete",
      *      security={ {"sanctum": {} }},
-     *      tags={"Sale"},
-     *      summary="Delete sale",
+     *      tags={"SaleStatus"},
+     *      summary="Delete salestatus",
      *      description="Returns status.",
      *      @OA\Parameter(
-     *          description="Sale id",
+     *          description="SaleStatus id",
      *          in="path",
      *          name="id",
      *          required=true,
@@ -259,7 +259,7 @@ class SaleController extends Controller
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/SaleResource")
+     *          @OA\JsonContent(ref="#/components/schemas/SaleStatusResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -271,7 +271,7 @@ class SaleController extends Controller
      *      )
      * )
      *
-     * Remove the sale.
+     * Remove the salestatus.
      *
      * @param int $id
      * @return Response
@@ -279,11 +279,11 @@ class SaleController extends Controller
      */
     public function destroy(int $id): Response
     {
-        $sale = $this->repository->find($id);
+        $salestatus = $this->repository->find($id);
 
-        $this->authorize('delete', $sale);
+        $this->authorize('delete', $salestatus);
 
-        $this->storage->delete($sale);
+        $this->storage->delete($salestatus);
 
         return response()->noContent();
     }

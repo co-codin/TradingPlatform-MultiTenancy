@@ -7,18 +7,18 @@ use Modules\Sale\Models\SaleStatus;
 use Illuminate\Http\Request;
 
 /**
- * Sale.
+ * SaleStatus.
  *
  * @OA\Schema(
- *     schema="Sale",
- *     title="Sale",
+ *     schema="SaleStatus",
+ *     title="SaleStatus",
  *     description="SaleStatus model",
  *     required={
  *         "name",
  *         "title",
  *         "color",
  *     },
- *     @OA\Xml(name="Sale"),
+ *     @OA\Xml(name="SaleStatus"),
  *     @OA\Property(property="id", type="integer", readOnly="true", example="1"),
  *     @OA\Property(property="name", type="string", example="Any name"),
  *     @OA\Property(property="title", type="string", example="Any title"),
@@ -30,12 +30,12 @@ use Illuminate\Http\Request;
  * ),
  *
  * @OA\Schema (
- *     schema="SaleCollection",
+ *     schema="SaleStatusCollection",
  *     type="object",
  *     @OA\Property(
  *         property="data",
  *         type="array",
- *         @OA\Items(ref="#/components/schemas/Sale")
+ *         @OA\Items(ref="#/components/schemas/SaleStatus")
  *     ),
  *     @OA\Property(
  *         property="meta",
@@ -45,21 +45,21 @@ use Illuminate\Http\Request;
  * ),
  *
  * @OA\Schema (
- *     schema="SaleResource",
+ *     schema="SaleStatusResource",
  *     type="object",
  *     @OA\Property(
  *         property="data",
  *         type="object",
- *         ref="#/components/schemas/Sale"
+ *         ref="#/components/schemas/SaleStatus"
  *     )
  * )
  *
- * Class SaleResource
+ * Class SaleStatusResource
  *
  * @package Modules\Sale\Http\Resources
  * @mixin SaleStatus
  */
-class SaleResource extends BaseJsonResource
+class SaleStatusResource extends BaseJsonResource
 {
     /**
      * Transform the resource into an array.

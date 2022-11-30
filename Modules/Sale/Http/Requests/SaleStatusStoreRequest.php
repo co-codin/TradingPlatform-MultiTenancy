@@ -4,7 +4,7 @@ namespace Modules\Sale\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
 
-final class SaleStoreRequest extends BaseFormRequest
+final class SaleStatusStoreRequest extends BaseFormRequest
 {
 
     /**

@@ -9,7 +9,7 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-final class SaleRequestCriteria extends BaseCriteria
+final class SaleStatusRequestCriteria extends BaseCriteria
 {
     /**
      * @inheritDoc
@@ -19,7 +19,7 @@ final class SaleRequestCriteria extends BaseCriteria
         return QueryBuilder::for($model)
         ->defaultSort('-id')
         ->allowedFields(
-            static::allowedSaleFields()
+            static::allowedSaleStatusFields()
         )
         ->allowedFilters([
             AllowedFilter::exact('id'),
@@ -39,7 +39,7 @@ final class SaleRequestCriteria extends BaseCriteria
         ]);
     }
 
-    public static function allowedSaleFields($prefix = null): array
+    public static function allowedSaleStatusFields($prefix = null): array
     {
         $fields = [
             'id',

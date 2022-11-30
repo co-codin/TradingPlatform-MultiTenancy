@@ -5,27 +5,27 @@ namespace Modules\Sale\Enums;
 use App\Enums\BaseEnum;
 use Modules\Role\Contracts\PermissionEnum;
 
-final class SalePermission extends BaseEnum implements PermissionEnum
+final class SaleStatusPermission extends BaseEnum implements PermissionEnum
 {
     /**
      * @var string
      */
-    const CREATE_SALE = 'create sale';
+    const CREATE_SALESTATUS = 'create salestatus';
 
     /**
      * @var string
      */
-    const VIEW_SALE = 'view sale';
+    const VIEW_SALESTATUS = 'view salestatus';
 
     /**
      * @var string
      */
-    const EDIT_SALE = 'edit sale';
+    const EDIT_SALESTATUS = 'edit salestatus';
 
     /**
      * @var string
      */
-    const DELETE_SALE = 'delete sale';
+    const DELETE_SALESTATUS = 'delete salestatus';
 
     /**
      * @inheritDoc
@@ -41,10 +41,10 @@ final class SalePermission extends BaseEnum implements PermissionEnum
     public static function descriptions(): array
     {
         return [
-            static::CREATE_SALE => 'Create sale',
-            static::VIEW_SALE => 'View sale',
-            static::EDIT_SALE => 'Edit sale',
-            static::DELETE_SALE => 'Delete sale',
+            static::CREATE_SALESTATUS => 'Create salestatus',
+            static::VIEW_SALESTATUS => 'View salestatus',
+            static::EDIT_SALESTATUS => 'Edit salestatus',
+            static::DELETE_SALESTATUS => 'Delete salestatus',
         ];
     }
 }

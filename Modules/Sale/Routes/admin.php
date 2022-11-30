@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Sale\Http\Controllers\Admin\SaleController;
+use Modules\Sale\Http\Controllers\Admin\SaleStatusController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +15,6 @@ use Modules\Sale\Http\Controllers\Admin\SaleController;
 */
 
 Route::group(['middleware' => 'tenant.set'], function () {
-    Route::apiResource('sale', SaleController::class);
+    Route::apiResource('salestatus', SaleStatusController::class);
 });
 
