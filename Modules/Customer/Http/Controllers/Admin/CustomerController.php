@@ -6,22 +6,22 @@ namespace Modules\Customer\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Customer\Http\Requests\CustomerBanRequest;
 use Modules\Customer\Http\Resources\CustomerResource;
 use Modules\Customer\Models\Customer;
-use Modules\Customer\Services\CustomerBanService;
-use Symfony\Component\HttpFoundation\Response as ResponseAlias;
-use Illuminate\Auth\Access\AuthorizationException;
 use Modules\Customer\Repositories\CustomerRepository;
+use Modules\Customer\Services\CustomerBanService;
 use Modules\Customer\Services\CustomerStorage;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 final class CustomerController extends Controller
 {
     /**
      * @param  CustomerBanService  $customerBanService
-     * @param CustomerRepository $repository
-     * @param CustomerStorage $storage
+     * @param  CustomerRepository  $repository
+     * @param  CustomerStorage  $storage
      */
     public function __construct(
         protected CustomerBanService $customerBanService,
@@ -168,6 +168,7 @@ final class CustomerController extends Controller
      * Display customer list.
      *
      * @return JsonResource
+     *
      * @throws AuthorizationException
      */
     public function index(): JsonResource

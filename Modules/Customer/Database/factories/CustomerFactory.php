@@ -30,8 +30,7 @@ class CustomerFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'password' => Hash::make('password'),
             'phone' => $this->faker->phoneNumber(),
-            'country_id'  => $this->faker->randomElement(Country::pluck('id'))
-
+            'country_id' => $this->faker->randomElement(Country::pluck('id')),
 
         ];
     }

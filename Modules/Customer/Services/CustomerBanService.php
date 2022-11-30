@@ -17,8 +17,8 @@ final class CustomerBanService
     use HasAuthUser;
 
     /**
-     * @param CustomerStorage $customerStorage
-     * @param CustomerRepository $customerRepository
+     * @param  CustomerStorage  $customerStorage
+     * @param  CustomerRepository  $customerRepository
      */
     final public function __construct(
         protected CustomerStorage $customerStorage,
@@ -29,8 +29,9 @@ final class CustomerBanService
     /**
      * Ban customer.
      *
-     * @param Customer $customer
+     * @param  Customer  $customer
      * @return Customer|null
+     *
      * @throws Exception
      */
     final public function banCustomer(Customer $customer): ?Customer
@@ -45,8 +46,9 @@ final class CustomerBanService
     /**
      * Ban customers.
      *
-     * @param array $customersData
+     * @param  array  $customersData
      * @return Collection
+     *
      * @throws Exception
      */
     final public function banCustomers(array $customersData): Collection
@@ -65,8 +67,9 @@ final class CustomerBanService
     /**
      * Unban customer.
      *
-     * @param Customer $customer
+     * @param  Customer  $customer
      * @return Customer|null
+     *
      * @throws Exception
      */
     final public function unbanCustomer(Customer $customer): ?Customer
@@ -81,8 +84,9 @@ final class CustomerBanService
     /**
      * Unban customers.
      *
-     * @param array $customersData
+     * @param  array  $customersData
      * @return Collection
+     *
      * @throws Exception
      */
     final public function unbanCustomers(array $customersData): Collection

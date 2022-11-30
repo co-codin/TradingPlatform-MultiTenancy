@@ -3,7 +3,6 @@
 namespace Modules\Customer\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
 use Modules\Customer\Models\Customer;
 
 class CustomerDatabaseSeeder extends Seeder
