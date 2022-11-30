@@ -30,40 +30,28 @@ class CreateTest extends BrandTestCase
      */
     public function test_authorized_user_can_create_department(): void
     {
-        try {
-            $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::CREATE_DEPARTMENTS));
+        $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::CREATE_DEPARTMENTS));
 
-            $data = Department::factory()->make();
+        $data = Department::factory()->make();
 
-            $this->expectsJobs(CreateTenantDatabase::class);
+        $this->expectsJobs(CreateTenantDatabase::class);
 
-            $this->migrateModules([BrandDBService::ALLOWED_MODULES['Department']]);
+        $this->migrateModules([BrandDBService::ALLOWED_MODULES['Department']]);
 
 //            $response->assertStatus(ResponseAlias::HTTP_ACCEPTED);
 
-            dump($this->brand->slug);
 
-            $e = Event::assertDispatched(CreateTenantDatabase::class);
-            $dd = Bus::assertDispatched(MigrateStructureJob::class);
-dd($e, $dd);
-            $response = $this->post(route('admin.departments.store'), $data->toArray());
-dd($response->json(['message']));
-            $response->assertCreated();
+        $response = $this->post(route('admin.departments.store'), $data->toArray());
+        $response->assertCreated();
 
-            $response->assertJson([
-                'data' => [
-                    'name' => $data['name'],
-                    'title' => $data['title'],
-                    'is_active' => $data['is_active'],
-                    'is_default' => $data['is_default'],
-                ],
-            ]);
-
-            dd('as');
-        } catch (\Throwable $e) {
-            dd($e->getMessage());
-        }
-
+        $response->assertJson([
+            'data' => [
+                'name' => $data['name'],
+                'title' => $data['title'],
+                'is_active' => $data['is_active'],
+                'is_default' => $data['is_default'],
+            ],
+        ]);
     }
 
     /**
