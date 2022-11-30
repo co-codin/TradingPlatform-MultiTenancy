@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Sale\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -16,7 +18,7 @@ use Modules\Sale\Services\SaleStatusStorage;
 use Illuminate\Http\Response;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
-class SaleStatusController extends Controller
+final class SaleStatusController extends Controller
 {
     /**
      * @param SaleStatusRepository $repository

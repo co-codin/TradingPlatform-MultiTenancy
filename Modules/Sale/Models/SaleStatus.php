@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Sale\Models;
 
 use App\Models\Traits\ForTenant;
