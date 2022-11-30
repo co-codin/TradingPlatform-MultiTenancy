@@ -3,6 +3,7 @@
 namespace Modules\User\Policies;
 
 use App\Policies\BasePolicy;
+use App\Services\Tenant\Manager;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
 
@@ -11,37 +12,36 @@ class UserPolicy extends BasePolicy
     /**
      * View any policy.
      *
-     * @param User $user
+     * @param  User  $user
      * @return bool
      */
     public function viewAny(User $user): bool
     {
-        // logics
-        
-//        $permissions = $user->roles()->permissions()->where('name', UserPermission::VIEW_USERS)->with('column')->get()->pluck('column.name');
-
-//        $fields = request()->get('field[users]');
-
-
         return $user->can(UserPermission::VIEW_USERS);
     }
 
     /**
      * View policy.
      *
-     * @param User $user
-     * @param User $selectedUser
+     * @param  User  $user
+     * @param  User  $selectedUser
      * @return bool
      */
     public function view(User $user, User $selectedUser): bool
     {
-        return $user->can(UserPermission::VIEW_USERS);
+        return $user->can(UserPermission::VIEW_USERS) &&
+            (! app(Manager::class)->hasTenant() || $user->departments()->whereHas(
+                'users',
+                function ($query) use ($selectedUser) {
+                    $query->where('id', $selectedUser->id);
+                }
+            )->exists());
     }
 
     /**
      * Create policy.
      *
-     * @param User $user
+     * @param  User  $user
      * @return bool
      */
     public function create(User $user): bool
@@ -52,8 +52,8 @@ class UserPolicy extends BasePolicy
     /**
      * Update policy.
      *
-     * @param User $user
-     * @param User $selectedUser
+     * @param  User  $user
+     * @param  User  $selectedUser
      * @return bool
      */
     public function update(User $user, User $selectedUser): bool
@@ -68,8 +68,8 @@ class UserPolicy extends BasePolicy
     /**
      * Delete policy.
      *
-     * @param User $user
-     * @param User $selectedUser
+     * @param  User  $user
+     * @param  User  $selectedUser
      * @return bool
      */
     public function delete(User $user, User $selectedUser): bool
