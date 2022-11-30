@@ -20,7 +20,7 @@ return new class extends Migration
             $table->tinyInteger('gender');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('phone')->nullable();
+            $table->string('phone');
             $table->string('phone2')->nullable();
             $table->timestamp('birthday')->nullable();
 
