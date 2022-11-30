@@ -21,6 +21,7 @@ class DeskRepository extends BaseRepository
      */
     public function boot()
     {
+        $this->pushColumnPermissionValidator(DeskColumnPermissionValidator::class);
         $this->pushCriteria(DeskRequestCriteria::class);
     }
 }
