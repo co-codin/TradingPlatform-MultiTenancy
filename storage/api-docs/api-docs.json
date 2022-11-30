@@ -1179,6 +1179,39 @@
                 ]
             }
         },
+        "/admin/customers": {
+            "get": {
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Get customers list",
+                "description": "Returns customers list data.",
+                "operationId": "customers.index",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/departments": {
             "get": {
                 "tags": [

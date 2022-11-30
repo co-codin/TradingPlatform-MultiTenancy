@@ -9,16 +9,24 @@ use Exception;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Customer\Http\Requests\CustomerBanRequest;
 use Modules\Customer\Http\Resources\CustomerResource;
+use Modules\Customer\Models\Customer;
 use Modules\Customer\Services\CustomerBanService;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
+use Illuminate\Auth\Access\AuthorizationException;
+use Modules\Customer\Repositories\CustomerRepository;
+use Modules\Customer\Services\CustomerStorage;
 
 final class CustomerController extends Controller
 {
     /**
      * @param  CustomerBanService  $customerBanService
+     * @param CustomerRepository $repository
+     * @param CustomerStorage $storage
      */
     public function __construct(
-        protected CustomerBanService $customerBanService
+        protected CustomerBanService $customerBanService,
+        protected CustomerRepository $repository,
+        protected CustomerStorage $storage,
     ) {
     }
 
@@ -132,5 +140,40 @@ final class CustomerController extends Controller
         abort_if($customers->isEmpty(), ResponseAlias::HTTP_UNAUTHORIZED);
 
         return CustomerResource::collection($customers);
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/admin/customers",
+     *      operationId="customers.index",
+     *      security={ {"sanctum": {} }},
+     *      tags={"Customers"},
+     *      summary="Get customers list",
+     *      description="Returns customers list data.",
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/CustomerCollection")
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     *
+     * Display customer list.
+     *
+     * @return JsonResource
+     * @throws AuthorizationException
+     */
+    public function index(): JsonResource
+    {
+        $this->authorize('viewAny', Customer::class);
+
+        return CustomerResource::collection($this->repository->jsonPaginate());
     }
 }

@@ -7,6 +7,7 @@ namespace Modules\Customer\Services;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Collection;
+use Modules\Customer\Dto\CustomerDto;
 use Modules\Customer\Models\Customer;
 use Modules\Customer\Repositories\CustomerRepository;
 use Modules\User\Services\Traits\HasAuthUser;
@@ -35,7 +36,7 @@ final class CustomerBanService
     final public function banCustomer(Customer $customer): ?Customer
     {
         if ($this->authUser?->can('ban', $customer)) {
-            return $this->customerStorage->update($customer, ['banned_at' => Carbon::now()->toDateTimeString()]);
+            return $this->customerStorage->update($customer, new CustomerDto(['banned_at' => Carbon::now()->toDateTimeString()]));
         }
 
         return null;
@@ -71,7 +72,7 @@ final class CustomerBanService
     final public function unbanCustomer(Customer $customer): ?Customer
     {
         if ($this->authUser?->can('unban', $customer)) {
-            return $this->customerStorage->update($customer, ['banned_at' => null]);
+            return $this->customerStorage->update($customer, new CustomerDto(['banned_at' => null]));
         }
 
         return null;
