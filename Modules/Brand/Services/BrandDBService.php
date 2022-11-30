@@ -15,6 +15,7 @@ final class BrandDBService
      * @var array
      */
     public const ALLOWED_MODULES = [
+        'Config' => 'Config',
         'Department' => 'Department',
         'Desk' => 'Desk',
         'Geo' => 'Geo',

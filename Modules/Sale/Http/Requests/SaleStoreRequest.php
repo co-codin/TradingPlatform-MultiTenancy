@@ -2,9 +2,9 @@
 
 namespace Modules\Sale\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseFormRequest;
 
-class SaleStoreRequest extends FormRequest
+final class SaleStoreRequest extends BaseFormRequest
 {
 
     /**
@@ -12,7 +12,7 @@ class SaleStoreRequest extends FormRequest
      *
      * @return array
      */
-    public function authorize(): array
+    public function rules(): array
     {
         return [
             'name' => 'required|string',
