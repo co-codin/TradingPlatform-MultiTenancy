@@ -14,7 +14,7 @@ final class ColumnRequestCriteria extends BaseCriteria
     /**
      * {@inheritdoc}
      */
-    protected array $allowedModelFields = [
+    protected static array $allowedModelFields = [
         'id',
         'name',
     ];
@@ -23,7 +23,7 @@ final class ColumnRequestCriteria extends BaseCriteria
     {
         return QueryBuilder::for($model)
             ->defaultSort('id')
-            ->allowedFields($this->allowedModelFields())
+            ->allowedFields(self::allowedModelFields())
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::partial('name'),

@@ -11,15 +11,21 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 final class SaleRequestCriteria extends BaseCriteria
 {
+    protected static array $allowedModelFields = [
+        'id',
+        'name',
+        'title',
+    ];
+
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function apply($model, RepositoryInterface $repository)
     {
         return QueryBuilder::for($model)
         ->defaultSort('-id')
         ->allowedFields(
-            static::allowedSaleFields()
+            self::$allowedModelFields
         )
         ->allowedFilters([
             AllowedFilter::exact('id'),
@@ -38,20 +44,4 @@ final class SaleRequestCriteria extends BaseCriteria
             'deleted_at',
         ]);
     }
-
-    public static function allowedSaleFields($prefix = null): array
-    {
-        $fields = [
-            'id',
-            'name',
-            'title',
-        ];
-
-        if(!$prefix) {
-            return $fields;
-        }
-
-        return array_map(fn($field) => $prefix . "." . $field, $fields);
-    }
-
 }
