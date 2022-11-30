@@ -1856,21 +1856,21 @@
                 ]
             }
         },
-        "/admin/sale": {
+        "/admin/salestatus": {
             "get": {
                 "tags": [
-                    "Sale"
+                    "SaleStatus"
                 ],
-                "summary": "Get sale list",
-                "description": "Returns sale list data.",
-                "operationId": "sale.index",
+                "summary": "Get salestatus list",
+                "description": "Returns salestatus list data.",
+                "operationId": "salestatus.index",
                 "responses": {
                     "201": {
                         "description": "Successful operation",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/SaleCollection"
+                                    "$ref": "#/components/schemas/SaleStatusCollection"
                                 }
                             }
                         }
@@ -1890,11 +1890,11 @@
             },
             "post": {
                 "tags": [
-                    "Sale"
+                    "SaleStatus"
                 ],
-                "summary": "Store sale",
-                "description": "Returns sale data.",
-                "operationId": "sale.store",
+                "summary": "Store salestatus",
+                "description": "Returns salestatus data.",
+                "operationId": "salestatus.store",
                 "parameters": [
                     {
                         "name": "name",
@@ -1924,7 +1924,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/SaleResource"
+                                    "$ref": "#/components/schemas/SaleStatusResource"
                                 }
                             }
                         }
@@ -1943,19 +1943,19 @@
                 ]
             }
         },
-        "/admin/sale/{id}": {
+        "/admin/salestatus/{id}": {
             "get": {
                 "tags": [
-                    "Sale"
+                    "SaleStatus"
                 ],
-                "summary": "Get sale",
-                "description": "Returns sale data.",
-                "operationId": "sale.show",
+                "summary": "Get salestatus",
+                "description": "Returns salestatus data.",
+                "operationId": "salestatus.show",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Sale id",
+                        "description": "SaleStatus id",
                         "required": true,
                         "example": 1
                     }
@@ -1966,7 +1966,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/SaleResource"
+                                    "$ref": "#/components/schemas/SaleStatusResource"
                                 }
                             }
                         }
@@ -1986,16 +1986,16 @@
             },
             "delete": {
                 "tags": [
-                    "Sale"
+                    "SaleStatus"
                 ],
-                "summary": "Delete sale",
+                "summary": "Delete salestatus",
                 "description": "Returns status.",
-                "operationId": "sale.delete",
+                "operationId": "salestatus.delete",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Sale id",
+                        "description": "SaleStatus id",
                         "required": true,
                         "example": 1
                     }
@@ -2006,7 +2006,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/SaleResource"
+                                    "$ref": "#/components/schemas/SaleStatusResource"
                                 }
                             }
                         }
@@ -2026,16 +2026,16 @@
             },
             "patch": {
                 "tags": [
-                    "Sale"
+                    "SaleStatus"
                 ],
-                "summary": "Update sale",
-                "description": "Returns sale data.",
-                "operationId": "sale.update",
+                "summary": "Update salestatus",
+                "description": "Returns salestatus data.",
+                "operationId": "salestatus.update",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Sale id",
+                        "description": "SaleStatus id",
                         "required": true,
                         "example": 1
                     },
@@ -2067,7 +2067,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/SaleResource"
+                                    "$ref": "#/components/schemas/SaleStatusResource"
                                 }
                             }
                         }
@@ -4472,8 +4472,8 @@
                 },
                 "type": "object"
             },
-            "Sale": {
-                "title": "Sale",
+            "SaleStatus": {
+                "title": "SaleStatus",
                 "description": "SaleStatus model",
                 "required": [
                     "name",
@@ -4482,7 +4482,7 @@
                 ],
                 "properties": {
                     "id": {
-                        "description": "Sale.",
+                        "description": "SaleStatus.",
                         "type": "integer",
                         "readOnly": "true",
                         "example": "1"
@@ -4519,15 +4519,15 @@
                 },
                 "type": "object",
                 "xml": {
-                    "name": "Sale"
+                    "name": "SaleStatus"
                 }
             },
-            "SaleCollection": {
+            "SaleStatusCollection": {
                 "properties": {
                     "data": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/Sale"
+                            "$ref": "#/components/schemas/SaleStatus"
                         }
                     },
                     "meta": {
@@ -4536,10 +4536,10 @@
                 },
                 "type": "object"
             },
-            "SaleResource": {
+            "SaleStatusResource": {
                 "properties": {
                     "data": {
-                        "$ref": "#/components/schemas/Sale"
+                        "$ref": "#/components/schemas/SaleStatus"
                     }
                 },
                 "type": "object"
