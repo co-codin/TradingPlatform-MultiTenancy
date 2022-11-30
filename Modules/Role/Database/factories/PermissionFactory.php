@@ -32,4 +32,48 @@ class PermissionFactory extends Factory
             'guard_name' => User::DEFAULT_AUTH_GUARD,
         ];
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function state($state): Factory
+    {
+        if (isset($state['name'])) {
+            [$actionName, $modelName] = explode(' ', $state['name']);
+
+            $state['action_id'] ??= $this->actionByName($actionName)?->id;
+            $state['model_id'] ??= $this->modelByName($modelName)?->id;
+        }
+
+        if (isset($state['action_id']) && isset($state['model_id'])) {
+            $action = Action::find($state['action_id']);
+            $model = Model::find($state['model_id']);
+
+            $state['name'] ??= "{$action->name} {$model->name}";
+        }
+
+        return parent::state($state);
+    }
+
+    /**
+     * Get or factory action by name.
+     *
+     * @param string $name
+     * @return Action|null
+     */
+    private function actionByName(string $name): ?Action
+    {
+        return Action::where('name', $name)->first() ?? Action::factory()->create(['name' => $name]);
+    }
+
+    /**
+     * Get or factory model by name.
+     *
+     * @param string $name
+     * @return Model|null
+     */
+    private function modelByName(string $name): ?Model
+    {
+        return Model::where('name', $name)->first() ?? Model::factory()->create(['name' => $name]);
+    }
 }

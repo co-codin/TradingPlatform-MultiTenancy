@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Role\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -7,9 +9,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Modules\Role\Database\factories\PermissionFactory;
 use Spatie\Permission\Models\Permission as SpatiePermission;
 
-class Permission extends SpatiePermission
+final class Permission extends SpatiePermission
 {
     use HasFactory;
+
+    protected static function newFactory(): PermissionFactory
+    {
+        return PermissionFactory::new();
+    }
 
     public function roles(): BelongsToMany
     {
@@ -31,13 +38,8 @@ class Permission extends SpatiePermission
         return $this->belongsTo(Action::class);
     }
 
-    public function column()
+    public function columns(): BelongsToMany
     {
-        return $this->belongsTo(Column::class);
-    }
-
-    protected static function newFactory()
-    {
-        return PermissionFactory::new();
+        return $this->belongsToMany(Column::class, 'permission_column');
     }
 }

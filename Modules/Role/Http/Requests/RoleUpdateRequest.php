@@ -1,12 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Role\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
 
-class RoleUpdateRequest extends BaseFormRequest
+final class RoleUpdateRequest extends BaseFormRequest
 {
-    public function rules()
+    /**
+     * {@inheritDoc}
+     */
+    final public function rules(): array
     {
         return [
             'name' => 'sometimes|required|string|max:255',
@@ -17,11 +22,16 @@ class RoleUpdateRequest extends BaseFormRequest
         ];
     }
 
-    public function attributes()
+    /**
+     * {@inheritDoc}
+     */
+    final public function attributes(): array
     {
         return [
             'name' => 'Role name',
             'guard_name' => 'guard_name',
+            'permissions' => 'Permissions',
+            'permissions.*.id' => 'Permission id',
         ];
     }
 }
