@@ -29,6 +29,10 @@ class RoleRequestCriteria extends BaseCriteria
                 AllowedFilter::partial('name'),
             ])
             ->allowedSorts(['name', 'id'])
-            ->allowedIncludes(['permissions']);
+            ->allowedIncludes([
+                'permissions',
+                'usersCount',
+                'permissionsCount',
+            ]);
     }
 }

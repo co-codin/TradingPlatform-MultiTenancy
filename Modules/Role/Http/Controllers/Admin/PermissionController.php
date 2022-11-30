@@ -6,6 +6,7 @@ namespace Modules\Role\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Role\Http\Resources\PermissionResource;
 use Modules\Role\Models\Permission;
@@ -14,11 +15,12 @@ use Modules\Role\Repositories\PermissionRepository;
 final class PermissionController extends Controller
 {
     /**
-     * @param PermissionRepository $permissionRepository
+     * @param  PermissionRepository  $permissionRepository
      */
     final public function __construct(
         protected PermissionRepository $permissionRepository
-    ){}
+    ) {
+    }
 
     /**
      * @OA\Get(
@@ -44,6 +46,7 @@ final class PermissionController extends Controller
      * Index permissions.
      *
      * @return JsonResource
+     *
      * @throws AuthorizationException
      */
     final public function index(): JsonResource
@@ -79,6 +82,7 @@ final class PermissionController extends Controller
      * Index permissions list.
      *
      * @return JsonResource
+     *
      * @throws AuthorizationException
      */
     final public function all(): JsonResource
@@ -124,8 +128,9 @@ final class PermissionController extends Controller
      *
      * View permission.
      *
-     * @param int $permission
+     * @param  int  $permission
      * @return JsonResource
+     *
      * @throws AuthorizationException
      */
     final public function show(int $permission): JsonResource
@@ -135,5 +140,40 @@ final class PermissionController extends Controller
         $permission = $this->permissionRepository->find($permission);
 
         return new PermissionResource($permission);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/admin/permissions/count",
+     *     tags={"Permission"},
+     *     security={ {"sanctum": {} }},
+     *     summary="Get permissions count",
+     *     @OA\Response(
+     *          response=200,
+     *          description="success",
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized Error"
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Forbidden Error"
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Not Found"
+     *     )
+     * )
+     *
+     * Permission count.
+     *
+     * @return JsonResponse
+     */
+    public function count(): JsonResponse
+    {
+        return response()->json([
+            'count' => $this->permissionRepository->count(),
+        ]);
     }
 }

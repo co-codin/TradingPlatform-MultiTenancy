@@ -13,10 +13,10 @@ use Illuminate\Http\Response;
 use Modules\Role\Dto\RoleDto;
 use Modules\Role\Http\Requests\RoleCreateRequest;
 use Modules\Role\Http\Requests\RoleUpdateRequest;
+use Modules\Role\Http\Resources\RoleResource;
 use Modules\Role\Models\Role;
 use Modules\Role\Repositories\RoleRepository;
 use Modules\Role\Services\RoleStorage;
-use Modules\Role\Http\Resources\RoleResource;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 final class RoleController extends Controller
@@ -26,7 +26,8 @@ final class RoleController extends Controller
     final public function __construct(
         protected RoleStorage $roleStorage,
         protected RoleRepository $roleRepository
-    ) {}
+    ) {
+    }
 
     /**
      * @OA\Get(
@@ -52,13 +53,14 @@ final class RoleController extends Controller
      * Index roles.
      *
      * @return AnonymousResourceCollection
+     *
      * @throws AuthorizationException
      */
     final public function index(): JsonResource
     {
         $this->authorize('viewAny', Role::class);
 
-        return RoleResource::collection(
+        return new RoleResource(
             $this->roleRepository->jsonPaginate()
         );
     }
@@ -97,8 +99,9 @@ final class RoleController extends Controller
      *
      * Show role.
      *
-     * @param int $role
+     * @param  int  $role
      * @return JsonResource
+     *
      * @throws AuthorizationException
      */
     final public function show(int $role): JsonResource
@@ -156,8 +159,9 @@ final class RoleController extends Controller
      *
      * Store role.
      *
-     * @param RoleCreateRequest $request
+     * @param  RoleCreateRequest  $request
      * @return JsonResource
+     *
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
@@ -274,9 +278,10 @@ final class RoleController extends Controller
      *
      * Update role
      *
-     * @param int $role
-     * @param RoleUpdateRequest $request
+     * @param  int  $role
+     * @param  RoleUpdateRequest  $request
      * @return JsonResource
+     *
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
@@ -324,8 +329,9 @@ final class RoleController extends Controller
      *
      * Destroy role.
      *
-     * @param int $role
+     * @param  int  $role
      * @return Response
+     *
      * @throws AuthorizationException
      */
     final public function destroy(int $role): Response

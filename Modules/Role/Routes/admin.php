@@ -13,6 +13,7 @@ Route::group(['middleware' => 'tenant.set'], function () {
     Route::apiResource('roles', RoleController::class);
 
     Route::get('permissions/all', [PermissionController::class, 'all']);
+    Route::get('permissions/count', [PermissionController::class, 'count']);
 
     Route::apiResource('permissions', PermissionController::class)->only('index', 'show')->names([
         'index' => 'permissions.index',
