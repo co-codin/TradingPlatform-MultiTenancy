@@ -16,26 +16,26 @@ final class ColumnPolicy extends BasePolicy
 
     public function viewAny(User $user): bool
     {
-        return $this->isAdmin($user) || $user->can(ColumnPermission::VIEW_COLUMNS);
+        return $user->isAdmin() || $user->can(ColumnPermission::VIEW_COLUMNS);
     }
 
     public function view(User $user, Permission $permission): bool
     {
-        return $this->isAdmin($user) || $user->can(ColumnPermission::VIEW_COLUMNS);
+        return $user->isAdmin() || $user->can(ColumnPermission::VIEW_COLUMNS);
     }
 
     public function create(User $user): bool
     {
-        return $this->isAdmin($user) || $user->can(ColumnPermission::CREATE_COLUMNS);
+        return $user->isAdmin() || $user->can(ColumnPermission::CREATE_COLUMNS);
     }
 
     public function update(User $user, Permission $permission): bool
     {
-        return $this->isAdmin($user) || $user->can(ColumnPermission::EDIT_COLUMNS);
+        return $user->isAdmin() || $user->can(ColumnPermission::EDIT_COLUMNS);
     }
 
     public function delete(User $user, Permission $permission): bool
     {
-        return $this->isAdmin($user) || $user->can(ColumnPermission::DELETE_COLUMNS);
+        return $user->isAdmin() || $user->can(ColumnPermission::DELETE_COLUMNS);
     }
 }

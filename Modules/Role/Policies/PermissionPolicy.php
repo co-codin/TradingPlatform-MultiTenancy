@@ -20,9 +20,9 @@ final class PermissionPolicy extends BasePolicy
      * @param  User  $user
      * @return bool
      */
-    final public function viewAny(User $user): bool
+    public function viewAny(User $user): bool
     {
-        return $this->isAdmin($user) || $user->can(PermissionPermission::VIEW_PERMISSIONS);
+        return $user->isAdmin() || $user->can(PermissionPermission::VIEW_PERMISSIONS);
     }
 
     /**
@@ -32,9 +32,9 @@ final class PermissionPolicy extends BasePolicy
      * @param  Permission  $permission
      * @return bool
      */
-    final public function view(User $user, Permission $permission): bool
+    public function view(User $user, Permission $permission): bool
     {
-        return $this->isAdmin($user) || $user->can(PermissionPermission::VIEW_PERMISSIONS);
+        return $user->isAdmin() || $user->can(PermissionPermission::VIEW_PERMISSIONS);
     }
 
     /**
@@ -43,9 +43,9 @@ final class PermissionPolicy extends BasePolicy
      * @param  User  $user
      * @return bool
      */
-    final public function create(User $user): bool
+    public function create(User $user): bool
     {
-        return $this->isAdmin($user) || $user->can(PermissionPermission::CREATE_PERMISSIONS);
+        return $user->isAdmin() || $user->can(PermissionPermission::CREATE_PERMISSIONS);
     }
 
     /**
@@ -55,9 +55,9 @@ final class PermissionPolicy extends BasePolicy
      * @param  Permission  $permission
      * @return bool
      */
-    final public function update(User $user, Permission $permission): bool
+    public function update(User $user, Permission $permission): bool
     {
-        return $this->isAdmin($user) || $user->can(PermissionPermission::EDIT_PERMISSIONS);
+        return $user->isAdmin() || $user->can(PermissionPermission::EDIT_PERMISSIONS);
     }
 
     /**
@@ -67,8 +67,8 @@ final class PermissionPolicy extends BasePolicy
      * @param  Permission  $permission
      * @return bool
      */
-    final public function delete(User $user, Permission $permission): bool
+    public function delete(User $user, Permission $permission): bool
     {
-        return $this->isAdmin($user) || $user->can(PermissionPermission::DELETE_PERMISSIONS);
+        return $user->isAdmin() || $user->can(PermissionPermission::DELETE_PERMISSIONS);
     }
 }
