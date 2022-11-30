@@ -13,6 +13,7 @@ use Illuminate\Http\Response;
 use Modules\Role\Dto\RoleDto;
 use Modules\Role\Http\Requests\RoleCreateRequest;
 use Modules\Role\Http\Requests\RoleUpdateRequest;
+use Modules\Role\Http\Resources\RoleCollection;
 use Modules\Role\Models\Role;
 use Modules\Role\Repositories\RoleRepository;
 use Modules\Role\Services\RoleStorage;
@@ -58,7 +59,7 @@ final class RoleController extends Controller
     {
         $this->authorize('viewAny', Role::class);
 
-        return RoleResource::collection(
+        return new RoleCollection(
             $this->roleRepository->jsonPaginate()
         );
     }
