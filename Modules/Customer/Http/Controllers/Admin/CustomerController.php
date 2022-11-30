@@ -20,13 +20,13 @@ final class CustomerController extends Controller
 {
     /**
      * @param  CustomerBanService  $customerBanService
-     * @param  CustomerRepository  $repository
-     * @param  CustomerStorage  $storage
+     * @param  CustomerRepository  $customerRepository
+     * @param  CustomerStorage  $customerStorage
      */
     public function __construct(
         protected CustomerBanService $customerBanService,
-        protected CustomerRepository $repository,
-        protected CustomerStorage $storage,
+        protected CustomerRepository $customerRepository,
+        protected CustomerStorage $customerStorage,
     ) {
     }
 
@@ -77,9 +77,17 @@ final class CustomerController extends Controller
      */
     public function ban(CustomerBanRequest $request): JsonResource
     {
-        $customers = $this->customerBanService
-            ->setAuthUser($request->user())
-            ->banCustomers($request->validated('customers', []));
+        $customers = collect();
+
+        foreach ($request->validated('customers', []) as $customerData) {
+            $customer = $this->customerRepository->find($customerData['id']);
+
+            if ($request->user()?->can('ban', $customer)) {
+                $customers->push(
+                    $this->customerBanService->banCustomer($customer),
+                );
+            }
+        }
 
         abort_if($customers->isEmpty(), ResponseAlias::HTTP_UNAUTHORIZED);
 
@@ -133,9 +141,17 @@ final class CustomerController extends Controller
      */
     public function unban(CustomerBanRequest $request): JsonResource
     {
-        $customers = $this->customerBanService
-            ->setAuthUser($request->user())
-            ->unbanCustomers($request->validated('customers', []));
+        $customers = collect();
+
+        foreach ($request->validated('customers', []) as $customerData) {
+            $customer = $this->customerRepository->find($customerData['id']);
+
+            if ($request->user()?->can('unban', $customer)) {
+                $customers->push(
+                    $this->customerBanService->unbanCustomer($customer),
+                );
+            }
+        }
 
         abort_if($customers->isEmpty(), ResponseAlias::HTTP_UNAUTHORIZED);
 

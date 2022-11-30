@@ -68,17 +68,13 @@ final class CustomerBanService
      * Unban customer.
      *
      * @param  Customer  $customer
-     * @return Customer|null
+     * @return Customer
      *
      * @throws Exception
      */
-    final public function unbanCustomer(Customer $customer): ?Customer
+    final public function unbanCustomer(Customer $customer): Customer
     {
-        if ($this->authUser?->can('unban', $customer)) {
-            return $this->customerStorage->update($customer, new CustomerDto(['banned_at' => null]));
-        }
-
-        return null;
+        return $this->customerStorage->update($customer, new CustomerDto(['banned_at' => null]));
     }
 
     /**
