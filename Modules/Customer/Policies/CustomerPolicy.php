@@ -14,7 +14,7 @@ final class CustomerPolicy extends BasePolicy
     /**
      * View any policy.
      *
-     * @param User $user
+     * @param  User  $user
      * @return bool
      */
     public function viewAny(User $user): bool
@@ -25,8 +25,8 @@ final class CustomerPolicy extends BasePolicy
     /**
      * View policy.
      *
-     * @param User $user
-     * @param Customer $customer
+     * @param  User  $user
+     * @param  Customer  $customer
      * @return bool
      */
     public function view(User $user, Customer $customer): bool
@@ -37,7 +37,7 @@ final class CustomerPolicy extends BasePolicy
     /**
      * Create policy.
      *
-     * @param User $user
+     * @param  User  $user
      * @return bool
      */
     public function create(User $user): bool
@@ -48,8 +48,8 @@ final class CustomerPolicy extends BasePolicy
     /**
      * Update policy.
      *
-     * @param User $user
-     * @param Customer $customer
+     * @param  User  $user
+     * @param  Customer  $customer
      * @return bool
      */
     public function update(User $user, Customer $customer): bool
@@ -64,34 +64,12 @@ final class CustomerPolicy extends BasePolicy
     /**
      * Delete policy.
      *
-     * @param User $user
-     * @param Customer $customer
+     * @param  User  $user
+     * @param  Customer  $customer
      * @return bool
      */
     public function delete(User $user, Customer $customer): bool
     {
         return $user->can(CustomerPermission::DELETE_CUSTOMERS);
-    }
-
-    /**
-     * Ban policy.
-     *
-     * @param User $user
-     * @return bool
-     */
-    public function ban(User $user): bool
-    {
-        return $user->can(CustomerPermission::BAN_CUSTOMERS);
-    }
-
-    /**
-     * Unban policy.
-     *
-     * @param User $user
-     * @return bool
-     */
-    public function unban(User $user): bool
-    {
-        return $user->can(CustomerPermission::BAN_CUSTOMERS);
     }
 }

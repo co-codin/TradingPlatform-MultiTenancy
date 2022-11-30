@@ -3,6 +3,7 @@
 namespace Modules\User\Policies;
 
 use App\Policies\BasePolicy;
+use Modules\Customer\Models\Customer;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
 
@@ -73,7 +74,7 @@ class UserPolicy extends BasePolicy
     /**
      * Ban user policy.
      *
-     * @param User $user
+     * @param  User  $user
      * @return bool
      */
     public function ban(User $user): bool
@@ -84,10 +85,34 @@ class UserPolicy extends BasePolicy
     /**
      * Unban user policy.
      *
-     * @param User $user
+     * @param  User  $user
      * @return bool
      */
     public function unban(User $user): bool
+    {
+        return $user->can(UserPermission::BAN_USERS);
+    }
+
+    /**
+     * Ban customer policy.
+     *
+     * @param  User  $user
+     * @param  Customer  $customer
+     * @return bool
+     */
+    public function banCustomer(User $user, Customer $customer): bool
+    {
+        return $user->can(UserPermission::BAN_USERS);
+    }
+
+    /**
+     * Unban customer policy.
+     *
+     * @param  User  $user
+     * @param  Customer  $customer
+     * @return bool
+     */
+    public function unbanCustomer(User $user, Customer $customer): bool
     {
         return $user->can(UserPermission::BAN_USERS);
     }

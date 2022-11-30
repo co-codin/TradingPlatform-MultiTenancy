@@ -30,11 +30,6 @@ final class CustomerPermission extends Enum implements PermissionEnum
     public const DELETE_CUSTOMERS = 'delete customers';
 
     /**
-     * @var string
-     */
-    public const BAN_CUSTOMERS = 'ban customers';
-
-    /**
      * {@inheritDoc}
      */
     public static function descriptions(): array
@@ -44,7 +39,6 @@ final class CustomerPermission extends Enum implements PermissionEnum
             self::VIEW_CUSTOMERS => 'View customers',
             self::EDIT_CUSTOMERS => 'Edit customers',
             self::DELETE_CUSTOMERS => 'Delete customers',
-            self::BAN_CUSTOMERS => 'Ban customers',
         ];
     }
 

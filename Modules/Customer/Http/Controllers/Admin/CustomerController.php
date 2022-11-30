@@ -14,6 +14,7 @@ use Modules\Customer\Models\Customer;
 use Modules\Customer\Repositories\CustomerRepository;
 use Modules\Customer\Services\CustomerBanService;
 use Modules\Customer\Services\CustomerStorage;
+use Modules\User\Models\User;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 final class CustomerController extends Controller
@@ -82,7 +83,7 @@ final class CustomerController extends Controller
         foreach ($request->validated('customers', []) as $customerData) {
             $customer = $this->customerRepository->find($customerData['id']);
 
-            if ($request->user()?->can('ban', $customer)) {
+            if ($request->user()?->can('banCustomer', [User::class, $customer])) {
                 $customers->push(
                     $this->customerBanService->banCustomer($customer),
                 );
@@ -146,7 +147,7 @@ final class CustomerController extends Controller
         foreach ($request->validated('customers', []) as $customerData) {
             $customer = $this->customerRepository->find($customerData['id']);
 
-            if ($request->user()?->can('unban', $customer)) {
+            if ($request->user()?->can('unbanCustomer', [User::class, $customer])) {
                 $customers->push(
                     $this->customerBanService->unbanCustomer($customer),
                 );
