@@ -1912,6 +1912,34 @@
                 ]
             }
         },
+        "/admin/permissions/count": {
+            "get": {
+                "tags": [
+                    "Permission"
+                ],
+                "summary": "Get permissions count",
+                "operationId": "d522da5d9c285285b9c0f5c226b40713",
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/roles": {
             "get": {
                 "tags": [
