@@ -11,6 +11,12 @@ use Modules\Sale\Policies\SaleStatusPolicy;
 final class SaleServiceProvider extends BaseModuleServiceProvider
 {
     /**
+     * @var array
+     */
+    protected array $policies = [
+        SaleStatus::class => SaleStatusPolicy::class,
+    ];
+    /**
      * {@inheritDoc}
      */
     public function getModuleName(): string
