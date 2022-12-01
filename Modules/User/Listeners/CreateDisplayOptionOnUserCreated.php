@@ -10,7 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Modules\Role\Models\Model;
 use Modules\User\Events\UserCreated;
 
-final class CreateDisplayOptionOnUserCreated // implements ShouldQueue
+final class CreateDisplayOptionOnUserCreated implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue;
 
