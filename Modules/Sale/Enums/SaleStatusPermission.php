@@ -12,22 +12,22 @@ final class SaleStatusPermission extends BaseEnum implements PermissionEnum
     /**
      * @var string
      */
-    const CREATE_SALESTATUS = 'create salestatus';
+    const CREATE_SALE_STATUSES = 'create salestatus';
 
     /**
      * @var string
      */
-    const VIEW_SALESTATUS = 'view salestatus';
+    const VIEW_SALE_STATUSES = 'view salestatus';
 
     /**
      * @var string
      */
-    const EDIT_SALESTATUS = 'edit salestatus';
+    const EDIT_SALE_STATUSES = 'edit salestatus';
 
     /**
      * @var string
      */
-    const DELETE_SALESTATUS = 'delete salestatus';
+    const DELETE_SALE_STATUSES = 'delete salestatus';
 
     /**
      * @inheritDoc
@@ -43,10 +43,10 @@ final class SaleStatusPermission extends BaseEnum implements PermissionEnum
     public static function descriptions(): array
     {
         return [
-            static::CREATE_SALESTATUS => 'Create salestatus',
-            static::VIEW_SALESTATUS => 'View salestatus',
-            static::EDIT_SALESTATUS => 'Edit salestatus',
-            static::DELETE_SALESTATUS => 'Delete salestatus',
+            static::CREATE_SALE_STATUSES => 'Create salestatus',
+            static::VIEW_SALE_STATUSES => 'View salestatus',
+            static::EDIT_SALE_STATUSES => 'Edit salestatus',
+            static::DELETE_SALE_STATUSES => 'Delete salestatus',
         ];
     }
 }

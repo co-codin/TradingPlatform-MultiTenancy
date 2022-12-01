@@ -20,7 +20,7 @@ final class SaleStatusPolicy extends BasePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can(SaleStatusPermission::VIEW_SALESTATUS);
+        return $user->can(SaleStatusPermission::VIEW_SALE_STATUSES);
     }
 
     /**
@@ -32,7 +32,7 @@ final class SaleStatusPolicy extends BasePolicy
      */
     public function view(User $user, SaleStatus $salestatus): bool
     {
-        return $user->can(SaleStatusPermission::VIEW_SALESTATUS);
+        return $user->can(SaleStatusPermission::VIEW_SALE_STATUSES);
     }
 
     /**
@@ -43,7 +43,7 @@ final class SaleStatusPolicy extends BasePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can(SaleStatusPermission::CREATE_SALESTATUS);
+        return $user->can(SaleStatusPermission::CREATE_SALE_STATUSES);
     }
 
     /**
@@ -55,7 +55,7 @@ final class SaleStatusPolicy extends BasePolicy
      */
     public function update(User $user, SaleStatus $salestatus): bool
     {
-        return $user->can(SaleStatusPermission::EDIT_SALESTATUS);
+        return $user->can(SaleStatusPermission::EDIT_SALE_STATUSES);
     }
 
     /**
@@ -67,6 +67,6 @@ final class SaleStatusPolicy extends BasePolicy
      */
     public function delete(User $user, SaleStatus $salestatus): bool
     {
-        return $user->can(SaleStatusPermission::DELETE_SALESTATUS);
+        return $user->can(SaleStatusPermission::DELETE_SALE_STATUSES);
     }
 }
