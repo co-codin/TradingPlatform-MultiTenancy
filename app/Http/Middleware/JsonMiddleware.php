@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 final class JsonMiddleware
 {
@@ -17,9 +18,9 @@ final class JsonMiddleware
      *
      * @param Request $request
      * @param Closure $next
-     * @return Response|RedirectResponse|JsonResponse
+     * @return Response|RedirectResponse|JsonResponse|BinaryFileResponse
      */
-    final public function handle(Request $request, Closure $next): Response|RedirectResponse|JsonResponse
+    final public function handle(Request $request, Closure $next): Response|RedirectResponse|JsonResponse|BinaryFileResponse
     {
         $request->headers->set('Accept', 'application/json');
 

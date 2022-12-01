@@ -1212,6 +1212,62 @@
                 ]
             }
         },
+        "/admin/customers/export/excel": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Export customers excel data",
+                "operationId": "bdce7eab4343326fdb37287840639d5e",
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/customers/export/csv": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Export customers csv data",
+                "operationId": "0b986c549a736d91b9a00ac9152a073b",
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/departments": {
             "get": {
                 "tags": [
