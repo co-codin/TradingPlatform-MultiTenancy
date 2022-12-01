@@ -9,7 +9,7 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-final class PermissionRequestCriteria extends BaseCriteria
+final class ColumnRequestCriteria extends BaseCriteria
 {
     /**
      * {@inheritdoc}
@@ -17,28 +17,17 @@ final class PermissionRequestCriteria extends BaseCriteria
     protected static array $allowedModelFields = [
         'id',
         'name',
-        'description',
-        'guard_name',
-        'module',
     ];
 
-    /**
-     * {@inheritDoc}
-     */
-    public function apply($model, RepositoryInterface $repository)
+    public function apply($model, RepositoryInterface $repository): QueryBuilder
     {
         return QueryBuilder::for($model)
             ->defaultSort('id')
-            ->allowedFields(array_merge(
-                self::$allowedModelFields,
-                ColumnRequestCriteria::allowedModelFields('columns'),
-            ))
+            ->allowedFields(self::$allowedModelFields)
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::partial('name'),
-                AllowedFilter::partial('description'),
             ])
-            ->allowedSorts(['name', 'id', 'description'])
-            ->allowedIncludes(['roles', 'columns']);
+            ->allowedSorts(['name', 'id']);
     }
 }

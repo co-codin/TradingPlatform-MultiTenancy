@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Desk\Repositories\Criteria;
 
 use App\Http\Filters\LiveFilter;
@@ -9,18 +11,29 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class DeskRequestCriteria extends BaseCriteria
+final class DeskRequestCriteria extends BaseCriteria
 {
+    protected static array $allowedModelFields = [
+        'id',
+        'name',
+        'title',
+        'is_active',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'parent_id',
+    ];
+
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function apply($model, RepositoryInterface $repository)
     {
         return QueryBuilder::for($model)
             ->defaultSort('-id')
             ->allowedFields(array_merge(
-                static::allowedDeskFields(),
-                CustomerRequestCriteria::allowedCustomerFields('customers')
+                self::$allowedModelFields,
+                CustomerRequestCriteria::allowedModelFields('customers')
             ))
             ->allowedFilters([
                 AllowedFilter::exact('id'),
@@ -45,25 +58,5 @@ class DeskRequestCriteria extends BaseCriteria
             ->allowedSorts([
                 'id', 'name', 'title', 'created_at', 'updated_at', 'deleted_at',
             ]);
-    }
-
-    public static function allowedDeskFields($prefix = null): array
-    {
-        $fields = [
-            'id',
-            'name',
-            'title',
-            'is_active',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-            'parent_id',
-        ];
-
-        if(!$prefix) {
-            return $fields;
-        }
-
-        return array_map(fn($field) => $prefix . "." . $field, $fields);
     }
 }

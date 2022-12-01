@@ -10,9 +10,9 @@ use Spatie\QueryBuilder\QueryBuilder;
 class RoleRequestCriteria extends BaseCriteria
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    protected array $allowedModelFields = [
+    protected static array $allowedModelFields = [
         'id',
         'name',
         'key',
@@ -23,7 +23,7 @@ class RoleRequestCriteria extends BaseCriteria
     {
         return QueryBuilder::for($model)
             ->defaultSort('id')
-            ->allowedFields($this->allowedModelFields())
+            ->allowedFields(self::$allowedModelFields)
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::partial('name'),

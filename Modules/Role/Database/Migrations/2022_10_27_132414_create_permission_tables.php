@@ -48,12 +48,6 @@ return new class extends Migration
             $table->unique(['model_id', 'action_id']);
         });
 
-        Schema::create('permission_column', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->foreignId('permission_id')->constrained();
-            $table->foreignId('column_id')->constrained();
-        });
-
         Schema::create($tableNames['roles'], function (Blueprint $table) use ($teams, $columnNames) {
             $table->bigIncrements('id'); // role id
             if ($teams || config('permission.testing')) { // permission.testing is a fix for sqlite testing
@@ -150,7 +144,6 @@ return new class extends Migration
         Schema::drop($tableNames['model_has_roles']);
         Schema::drop($tableNames['model_has_permissions']);
         Schema::drop($tableNames['roles']);
-        Schema::drop('permission_column');
         Schema::drop($tableNames['permissions']);
         Schema::drop('columns');
         Schema::drop('actions');

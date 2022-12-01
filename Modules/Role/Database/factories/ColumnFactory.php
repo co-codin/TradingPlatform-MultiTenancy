@@ -33,7 +33,7 @@ final class ColumnFactory extends Factory
     {
         $result = [];
         foreach (Schema::getAllTables() as $table) {
-            $result = array_merge($result, Schema::getColumnListing($table->tablename));
+            $result = array_merge($result, Schema::getColumnListing($table->tablename ?? $table->name));
         }
 
         return array_unique($result);

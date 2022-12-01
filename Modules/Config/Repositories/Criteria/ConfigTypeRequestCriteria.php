@@ -15,20 +15,20 @@ final class ConfigTypeRequestCriteria extends BaseCriteria
     /**
      * {@inheritdoc}
      */
-    protected array $allowedModelFields = [
+    protected static array $allowedModelFields = [
         'name',
     ];
 
     /**
      * {@inheritDoc}
      */
-    final public function apply($model, RepositoryInterface $repository)
+    public function apply($model, RepositoryInterface $repository)
     {
         return QueryBuilder::for($model)
             ->defaultSort('-id')
             ->allowedFields(
                 self::allowedModelFields(),
-                ConfigRequestCriteria::allowedModelFields()
+                ConfigRequestCriteria::allowedModelFields('configs')
             )
             ->allowedFilters([
                 AllowedFilter::exact('id'),
