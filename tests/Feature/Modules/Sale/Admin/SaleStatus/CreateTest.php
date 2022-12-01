@@ -57,7 +57,7 @@ class CreateTest extends TestCase
      *
      * @test
      */
-    public function unauthorized_user_can_create_salestatus(): void
+    public function unauthorized(): void
     {
         $data = SaleStatus::factory()->make()->toArray();
 

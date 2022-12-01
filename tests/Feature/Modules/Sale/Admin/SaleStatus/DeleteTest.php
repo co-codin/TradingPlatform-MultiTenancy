@@ -73,7 +73,7 @@ class DeleteTest extends TestCase
      *
      * @test
      */
-    final public function unauthorized_user_can_delete_salestatus(): void
+    final public function unauthorized(): void
     {
         $saleStatus = SaleStatus::factory()->create();
 

@@ -80,9 +80,9 @@ final class SaleStatusController extends Controller
      *                     "title",
      *                     "color",
      *                 },
-     *                 @OA\Property(property="name", type="string", description="Any name"),
-     *                 @OA\Property(property="title", type="string", description="Any title"),
-     *                 @OA\Property(property="color", type="string", description="Any color"),
+     *                 @OA\Property(property="name", type="string", description="Name of sale status"),
+     *                 @OA\Property(property="title", type="string", description="Title of sale status"),
+     *                 @OA\Property(property="color", type="string", description="RGB HEX", example="#e1e1e1"),
      *             )
      *         )
      *      ),
@@ -124,16 +124,12 @@ final class SaleStatusController extends Controller
      *      tags={"SaleStatus"},
      *      summary="Get salestatus",
      *      description="Returns salestatus data.",
-     *      @OA\RequestBody(
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *             @OA\Schema(
-     *                 required={
-     *                     "id",
-     *                 },
-     *                 @OA\Property(property="id", type="integer", description="Sale statuses ID"),
-     *             )
-     *         )
+     *      @OA\Parameter(
+     *         description="Sale statuses ID",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
      *      ),
      *      @OA\Response(
      *          response=201,
@@ -188,9 +184,9 @@ final class SaleStatusController extends Controller
      *                     "title",
      *                     "color",
      *                 },
-     *                 @OA\Property(property="name", type="string", description="Any name"),
-     *                 @OA\Property(property="title", type="string", description="Any title"),
-     *                 @OA\Property(property="color", type="string", description="Any color"),
+     *                 @OA\Property(property="name", type="string", description="Name of sale status"),
+     *                 @OA\Property(property="title", type="string", description="Title of sale status"),
+     *                 @OA\Property(property="color", type="string", description="RGB HEX", example="#e1e1e1"),
      *             )
      *         )
      *      ),
@@ -225,14 +221,9 @@ final class SaleStatusController extends Controller
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
-     *                 required={
-     *                     "name",
-     *                     "title",
-     *                     "color",
-     *                 },
-     *                 @OA\Property(property="name", type="string", description="Any name"),
-     *                 @OA\Property(property="title", type="string", description="Any title"),
-     *                 @OA\Property(property="color", type="string", description="Any color"),
+     *                 @OA\Property(property="name", type="string", description="Name of sale status"),
+     *                 @OA\Property(property="title", type="string", description="Title of sale status"),
+     *                 @OA\Property(property="color", type="string", description="RGB HEX", example="#e1e1e1"),
      *             )
      *         )
      *      ),

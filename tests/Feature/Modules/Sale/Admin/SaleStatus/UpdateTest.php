@@ -78,7 +78,7 @@ class UpdateTest extends TestCase
      *
      * @test
      */
-    final public function unauthorized_user_can_update_salestatus(): void
+    final public function unauthorized(): void
     {
         $saleStatus = SaleStatus::factory()->create();
         $data = SaleStatus::factory()->make();
