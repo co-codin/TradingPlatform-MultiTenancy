@@ -42,7 +42,13 @@ use Modules\User\Events\UserCreated;
  */
 final class User extends Authenticatable
 {
-    use ForTenant, Notifiable, HasRoles, HasApiTokens, HasFactory, SoftDeletes, NodeTrait;
+    use ForTenant;
+    use HasApiTokens;
+    use HasFactory;
+    use HasRoles;
+    use NodeTrait;
+    use Notifiable;
+    use SoftDeletes;
 
     /**
      * @var string
@@ -71,6 +77,21 @@ final class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * {@inheritdoc}
+     */
+    protected $dispatchesEvents = [
+        'created' => UserCreated::class,
+    ];
+
+    /**
+     * {@inheritDoc}
+     */
+    protected static function newFactory(): UserFactory
+    {
+        return UserFactory::new();
+    }
+
     public function toArray()
     {
         if (auth()->check()) {
@@ -79,13 +100,6 @@ final class User extends Authenticatable
 
         return parent::toArray();
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected $dispatchesEvents = [
-        'created' => UserCreated::class,
-    ];
 
     /**
      * Brands relation.
@@ -137,11 +151,8 @@ final class User extends Authenticatable
         return $this->hasMany(DisplayOption::class);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected static function newFactory(): UserFactory
+    public function setEmailAttribute(string $value): void
     {
-        return UserFactory::new();
+        $this->attributes['email'] = strtolower($value);
     }
 }
