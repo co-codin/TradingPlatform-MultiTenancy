@@ -19,7 +19,7 @@ final class ModelsTableSeeder extends Seeder
      * @return void
      */
     public function run(ModelService $modelService): void
-    {dd(User::factory()->create());
+    {
         foreach ($modelService->getModelPaths() as $class) {
             if (is_subclass_of($class, EloquentModel::class)) {
                 Model::query()->updateOrCreate(
