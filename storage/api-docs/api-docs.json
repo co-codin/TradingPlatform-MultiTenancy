@@ -1182,11 +1182,11 @@
         "/admin/customers": {
             "get": {
                 "tags": [
-                    "Customers"
+                    "Customer"
                 ],
                 "summary": "Get customers list",
                 "description": "Returns customers list data.",
-                "operationId": "customers.index",
+                "operationId": "470ff1ac92d4011d996b0bc5dbb5d948",
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -1213,34 +1213,251 @@
             },
             "post": {
                 "tags": [
-                    "Customers"
+                    "Customer"
                 ],
                 "summary": "Store customer",
-                "description": "Returns customers data.",
-                "operationId": "customers.store",
-                "parameters": [
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "description": "Name",
-                        "required": true,
-                        "example": "Any name"
-                    },
-                    {
-                        "name": "title",
-                        "in": "query",
-                        "description": "Title",
-                        "required": true,
-                        "example": "Any title"
-                    },
-                    {
-                        "name": "color",
-                        "in": "query",
-                        "description": "Color",
-                        "required": true,
-                        "example": "#e1e1e1"
+                "description": "Returns customer data.",
+                "operationId": "bad3127c45e2947eef44ae707d7ea0a2",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "first_name",
+                                    "last_name",
+                                    "gender",
+                                    "email",
+                                    "password",
+                                    "phone",
+                                    "country_id"
+                                ],
+                                "properties": {
+                                    "first_name": {
+                                        "description": "First name",
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "description": "Last name",
+                                        "type": "string"
+                                    },
+                                    "gender": {
+                                        "description": "1-Male, 2-Female, 3-Other",
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "email": {
+                                        "description": "Email",
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "description": "Password of customer",
+                                        "type": "string"
+                                    },
+                                    "phone": {
+                                        "description": "Phone",
+                                        "type": "string",
+                                        "format": "phone"
+                                    },
+                                    "phone2": {
+                                        "description": "Second phone",
+                                        "type": "string",
+                                        "format": "phone",
+                                        "nullable": "true"
+                                    },
+                                    "birthday": {
+                                        "description": "Birthday",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "country_id": {
+                                        "description": "Country id",
+                                        "type": "integer"
+                                    },
+                                    "language_id": {
+                                        "description": "Language id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "supposed_language_id": {
+                                        "description": "Supposed language id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "platform_language_id": {
+                                        "description": "Platform language id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "state": {
+                                        "description": "State",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "city": {
+                                        "description": "City",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "address": {
+                                        "description": "Address",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "postal_code": {
+                                        "description": "Postal code",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "verification_status_id": {
+                                        "description": "Verification status id",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "is_demo": {
+                                        "description": "Is demo",
+                                        "type": "boolean"
+                                    },
+                                    "is_active": {
+                                        "description": "Is active",
+                                        "type": "boolean"
+                                    },
+                                    "is_active_trading": {
+                                        "description": "Is active trading",
+                                        "type": "boolean"
+                                    },
+                                    "is_test": {
+                                        "description": "Is test",
+                                        "type": "boolean"
+                                    },
+                                    "affiliate_user_id": {
+                                        "description": "Affiliate user id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "conversion_user_id": {
+                                        "description": "Conversion user id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "retention_user_id": {
+                                        "description": "Retention user id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "compliance_user_id": {
+                                        "description": "Compliance user id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "support_user_id": {
+                                        "description": "Support user id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "conversion_manager_user_id": {
+                                        "description": "Conversion manager user id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "retention_manager_user_id": {
+                                        "description": "Retention manager user id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "first_conversion_user_id": {
+                                        "description": "First conversion user id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "first_retention_user_id": {
+                                        "description": "First retention user id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "desk_id": {
+                                        "description": "Desk id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "department_id": {
+                                        "description": "Department id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "campaign_id": {
+                                        "description": "Campaign id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "offer_name": {
+                                        "description": "Offer name",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "offer_url": {
+                                        "description": "Offer url",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "comment_about_customer": {
+                                        "description": "Comment about customer",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "source": {
+                                        "description": "Source",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "click_id": {
+                                        "description": "Click id",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "free_param_1": {
+                                        "description": "Free param 1",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "free_param_2": {
+                                        "description": "Free param 2",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "free_param_3": {
+                                        "description": "Free param 3",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "balance": {
+                                        "description": "Balance",
+                                        "type": "number",
+                                        "format": "float",
+                                        "nullable": "true"
+                                    },
+                                    "balance_usd": {
+                                        "description": "Balance USD",
+                                        "type": "number",
+                                        "format": "float",
+                                        "nullable": "true"
+                                    },
+                                    "is_ftd": {
+                                        "description": "Is FTD",
+                                        "type": "boolean",
+                                        "nullable": "true"
+                                    },
+                                    "timezone": {
+                                        "description": "Timezone",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
                     }
-                ],
+                },
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -6270,7 +6487,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }
