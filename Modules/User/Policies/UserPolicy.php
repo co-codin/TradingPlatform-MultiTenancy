@@ -3,7 +3,6 @@
 namespace Modules\User\Policies;
 
 use App\Policies\BasePolicy;
-use App\Services\Tenant\Manager;
 use Modules\Customer\Models\Customer;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
@@ -30,13 +29,7 @@ class UserPolicy extends BasePolicy
      */
     public function view(User $user, User $selectedUser): bool
     {
-        return $user->can(UserPermission::VIEW_USERS) &&
-            (! app(Manager::class)->hasTenant() || $user->departments()->whereHas(
-                'users',
-                function ($query) use ($selectedUser) {
-                    $query->where('id', $selectedUser->id);
-                }
-            )->exists());
+        return $user->can(UserPermission::VIEW_USERS);
     }
 
     /**
@@ -124,7 +117,14 @@ class UserPolicy extends BasePolicy
         return $user->can(UserPermission::BAN_USERS);
     }
 
-    public function viewAnyByDepartments(User $user)
+    /**
+     * View any departments workers policy.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function viewAnyByDepartments(User $user): bool
     {
+        return $user->can(UserPermission::VIEW_DEPARTMENT_USERS);
     }
 }
