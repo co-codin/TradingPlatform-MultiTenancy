@@ -22,13 +22,48 @@ class DeleteTest extends TestCase
      */
     final public function authorized_user_can_delete_salestatus(): void
     {
-        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::DELETE_SALESTATUS));
+        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::DELETE_SALE_STATUSES));
 
-        $salestatus = SaleStatus::factory()->create();
+        $saleStatus = SaleStatus::factory()->create();
 
-        $response = $this->deleteJson(route('admin.salestatus.destroy', ['salestatus' => $salestatus->id]));
+        $response = $this->deleteJson(route('admin.sale-statuses.destroy', ['sale_status' => $saleStatus->id]));
 
         $response->assertNoContent();
+    }
+
+    /**
+     * Test authorized user can`t delete salestatus.
+     *
+     * @return void
+     *
+     * @test
+     */
+    final public function authorized_user_cant_delete_salestatus(): void
+    {
+        $this->authenticateUser();
+
+        $saleStatus = SaleStatus::factory()->create();
+
+        $response = $this->deleteJson(route('admin.sale-statuses.destroy', ['sale_status' => $saleStatus->id]));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * Test authorized user can delete not found salestatus.
+     *
+     * @return void
+     *
+     * @test
+     */
+    public function authorized_user_can_delete_not_found_salestatus(): void
+    {
+        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::DELETE_SALE_STATUSES));
+
+        $saleStatusId = SaleStatus::orderByDesc('id')->first()?->id + 1 ?? 1;
+        $response = $this->delete(route('admin.sale-statuses.destroy', ['sale_status' => $saleStatusId]));
+
+        $response->assertNotFound();
     }
 
     /**
@@ -38,11 +73,11 @@ class DeleteTest extends TestCase
      *
      * @test
      */
-    final public function unauthorized_user_cant_delete_salestatus(): void
+    final public function unauthorized_user_can_delete_salestatus(): void
     {
-        $salestatus = SaleStatus::factory()->create();
+        $saleStatus = SaleStatus::factory()->create();
 
-        $response = $this->patchJson(route('admin.salestatus.destroy', ['salestatus' => $salestatus->id]));
+        $response = $this->patchJson(route('admin.sale-statuses.destroy', ['sale_status' => $saleStatus->id]));
 
         $response->assertUnauthorized();
     }

@@ -22,12 +22,12 @@ class UpdateTest extends TestCase
      */
     final public function authorized_user_can_update_salestatus(): void
     {
-        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::EDIT_SALESTATUS));
+        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::EDIT_SALE_STATUSES));
 
-        $salestatus = SaleStatus::factory()->create();
+        $saleStatus = SaleStatus::factory()->create();
         $data = SaleStatus::factory()->make();
 
-        $response = $this->patchJson(route('admin.salestatus.update', ['salestatus' => $salestatus->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.sale-statuses.update', ['sale_status' => $saleStatus->id]), $data->toArray());
 
         $response->assertOk();
 
@@ -35,20 +35,55 @@ class UpdateTest extends TestCase
             'data' => $data->toArray(),
         ]);
     }
-
     /**
-     * Test unauthorized user can`t update salestatus.
+     * Test authorized user can`t update salestatus.
      *
      * @return void
      *
      * @test
      */
-    final public function unauthorized_user_cant_update_salestatus(): void
+    final public function authorized_user_cant_update_salestatus(): void
     {
-        $salestatus = SaleStatus::factory()->create();
+        $this->authenticateUser();
+
+        $saleStatus = SaleStatus::factory()->create();
         $data = SaleStatus::factory()->make();
 
-        $response = $this->patchJson(route('admin.salestatus.update', ['salestatus' => $salestatus->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.sale-statuses.update', ['sale_status' => $saleStatus->id]), $data->toArray());
+
+        $response->assertForbidden();
+    }
+    /**
+     * Test authorized user can update not found salestatus.
+     *
+     * @return void
+     *
+     * @test
+     */
+    final public function authorized_user_can_update_not_found_salestatus(): void
+    {
+        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::EDIT_SALE_STATUSES));
+
+        $saleStatusId = SaleStatus::orderByDesc('id')->first()?->id + 1 ?? 1;
+        $data = SaleStatus::factory()->make();
+
+        $response = $this->patchJson(route('admin.sale-statuses.update', ['sale_status' => $saleStatusId]), $data->toArray());
+
+        $response->assertNotFound();
+    }
+    /**
+     * Test unauthorized user can update salestatus.
+     *
+     * @return void
+     *
+     * @test
+     */
+    final public function unauthorized_user_can_update_salestatus(): void
+    {
+        $saleStatus = SaleStatus::factory()->create();
+        $data = SaleStatus::factory()->make();
+
+        $response = $this->patchJson(route('admin.sale-statuses.update', ['sale_status' => $saleStatus->id]), $data->toArray());
 
         $response->assertUnauthorized();
     }
@@ -62,12 +97,12 @@ class UpdateTest extends TestCase
      */
     final public function salestatus_name_exist(): void
     {
-        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::EDIT_SALESTATUS));
+        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::EDIT_SALE_STATUSES));
 
-        $salestatus = SaleStatus::factory()->create();
+        $saleStatus = SaleStatus::factory()->create();
         $data = SaleStatus::factory()->make(['name' => null])->toArray();
 
-        $response = $this->patchJson(route('admin.salestatus.update', ['salestatus' => $salestatus->id]), $data);
+        $response = $this->patchJson(route('admin.sale-statuses.update', ['sale_status' => $saleStatus->id]), $data);
 
         $response->assertUnprocessable();
     }
@@ -81,12 +116,12 @@ class UpdateTest extends TestCase
      */
     final public function salestatus_title_exist(): void
     {
-        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::EDIT_SALESTATUS));
+        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::EDIT_SALE_STATUSES));
 
-        $salestatus = SaleStatus::factory()->create();
+        $saleStatus = SaleStatus::factory()->create();
         $data = SaleStatus::factory()->make(['title' => null])->toArray();
 
-        $response = $this->patchJson(route('admin.salestatus.update', ['salestatus' => $salestatus->id]), $data);
+        $response = $this->patchJson(route('admin.sale-statuses.update', ['sale_status' => $saleStatus->id]), $data);
 
         $response->assertUnprocessable();
     }
@@ -100,12 +135,12 @@ class UpdateTest extends TestCase
      */
     final public function salestatus_color_exist(): void
     {
-        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::EDIT_SALESTATUS));
+        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::EDIT_SALE_STATUSES));
 
-        $salestatus = SaleStatus::factory()->create();
+        $saleStatus = SaleStatus::factory()->create();
         $data = SaleStatus::factory()->make(['color' => null])->toArray();
 
-        $response = $this->patchJson(route('admin.salestatus.update', ['salestatus' => $salestatus->id]), $data);
+        $response = $this->patchJson(route('admin.sale-statuses.update', ['sale_status' => $saleStatus->id]), $data);
 
         $response->assertUnprocessable();
     }

@@ -22,21 +22,18 @@ class ReadTest extends TestCase
      */
     public function authorized_user_can_get_salestatus_list(): void
     {
-        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::VIEW_SALESTATUS));
+        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::VIEW_SALE_STATUSES));
 
-        $salestatus = SaleStatus::factory()->create();
+        $saleStatus = SaleStatus::factory()->create();
 
-        $response = $this->getJson(route('admin.salestatus.index'));
+        $response = $this->getJson(route('admin.sale-statuses.index'));
 
         $response->assertOk();
 
         $response->assertJson([
-            'data' => [
-                $salestatus->toArray(),
-            ],
+            'data' => [$saleStatus->toArray()],
         ]);
     }
-
     /**
      * Test unauthorized user cant get salestatus list.
      *
@@ -44,18 +41,36 @@ class ReadTest extends TestCase
      *
      * @test
      */
-    public function unauthorized_user_cant_get_salestatus_list(): void
+    public function authorized_user_cant_get_salestatus_list(): void
+    {
+        $this->authenticateUser();
+
+        SaleStatus::factory()->create();
+
+        $response = $this->getJson(route('admin.sale-statuses.index'));
+
+        $response->assertForbidden();
+    }
+    /**
+     * Test unauthorized user get salestatus list.
+     *
+     * @return void
+     *
+     * @test
+     */
+    public function unauthorized_user_get_salestatus_list(): void
     {
         SaleStatus::factory()->create();
 
-        $response = $this->getJson(route('admin.salestatus.index'));
+        $response = $this->getJson(route('admin.sale-statuses.index'));
 
-        // dd($response);
         $response->assertUnauthorized();
     }
 
+
+
     /**
-     * Test authorized user can get salestatus list.
+     * Test authorized user can get salestatus by ID.
      *
      * @return void
      *
@@ -63,36 +78,63 @@ class ReadTest extends TestCase
      */
     public function authorized_user_can_get_salestatus(): void
     {
-        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::VIEW_SALESTATUS));
+        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::VIEW_SALE_STATUSES));
 
-        $salestatus = SaleStatus::factory()->create();
+        $saleStatus = SaleStatus::factory()->create();
 
-        $response = $this->getJson(route('admin.salestatus.show', ['salestatus' => $salestatus->id]));
+        $response = $this->getJson(route('admin.sale-statuses.show', ['sale_status' => $saleStatus->id]));
 
         $response->assertOk();
 
-        $response->assertJson([
-            'data' => [
-                'id' => $salestatus->id,
-                'name' => $salestatus->name,
-                'title' => $salestatus->title,
-                'color' => $salestatus->color,
-            ],
-        ]);
+        $response->assertJson(['data' => $saleStatus->toArray()]);
     }
 
     /**
-     * Test unauthorized user cant get salestatus list.
+     * Test authorized user can get salestatus by ID.
      *
      * @return void
      *
      * @test
      */
-    public function unauthorized_user_cant_get_salestatus(): void
+    public function authorized_user_cant_get_salestatus(): void
     {
-        $salestatus = SaleStatus::factory()->create();
+        $this->authenticateUser();
 
-        $response = $this->getJson(route('admin.salestatus.show', ['salestatus' => $salestatus->id]));
+        $saleStatus = SaleStatus::factory()->create();
+
+        $response = $this->getJson(route('admin.sale-statuses.show', ['sale_status' => $saleStatus->id]));
+
+        $response->assertForbidden();
+    }
+    /**
+     * Test authorized user can get not found salestatus by ID.
+     *
+     * @return void
+     *
+     * @test
+     */
+    public function authorized_user_can_get_not_found_salestatus(): void
+    {
+        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::VIEW_SALE_STATUSES));
+
+        $saleStatusId = SaleStatus::orderByDesc('id')->first()?->id + 1 ?? 1;
+
+        $response = $this->getJson(route('admin.sale-statuses.show', ['sale_status' => $saleStatusId]));
+
+        $response->assertNotFound();
+    }
+    /**
+     * Test unauthorized user can get salestatus by ID.
+     *
+     * @return void
+     *
+     * @test
+     */
+    public function unauthorized_user_can_get_salestatus(): void
+    {
+        $saleStatus = SaleStatus::factory()->create();
+
+        $response = $this->getJson(route('admin.sale-statuses.show', ['sale_status' => $saleStatus->id]));
 
         $response->assertUnauthorized();
     }

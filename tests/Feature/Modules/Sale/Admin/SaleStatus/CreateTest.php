@@ -21,21 +21,33 @@ class CreateTest extends TestCase
      */
     public function authorized_user_can_create_salestatus(): void
     {
-        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::CREATE_SALESTATUS));
+        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::CREATE_SALE_STATUSES));
 
         $data = SaleStatus::factory()->make()->toArray();
 
-        $response = $this->postJson(route('admin.salestatus.store'), $data);
+        $response = $this->postJson(route('admin.sale-statuses.store'), $data);
 
         $response->assertCreated();
 
-        $response->assertJson([
-            'data' => [
-                'name' => $data['name'],
-                'title' => $data['title'],
-                'color' => $data['color'],
-            ],
-        ]);
+        $response->assertJson(['data' => $data]);
+    }
+
+    /**
+     * Test authorized user can`t create salestatus.
+     *
+     * @return void
+     *
+     * @test
+     */
+    public function authorized_user_cant_create_salestatus(): void
+    {
+        $this->authenticateUser();
+
+        $data = SaleStatus::factory()->make()->toArray();
+
+        $response = $this->postJson(route('admin.sale-statuses.store'), $data);
+
+        $response->assertForbidden();
     }
 
     /**
@@ -45,11 +57,11 @@ class CreateTest extends TestCase
      *
      * @test
      */
-    public function unauthorized_user_cant_create_salestatus(): void
+    public function unauthorized_user_can_create_salestatus(): void
     {
         $data = SaleStatus::factory()->make()->toArray();
 
-        $response = $this->postJson(route('admin.salestatus.store'), $data);
+        $response = $this->postJson(route('admin.sale-statuses.store'), $data);
 
         $response->assertUnauthorized();
     }
@@ -63,12 +75,12 @@ class CreateTest extends TestCase
      */
     public function salestatus_name_exist(): void
     {
-        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::CREATE_SALESTATUS));
+        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::CREATE_SALE_STATUSES));
 
         $data = SaleStatus::factory()->make()->toArray();
         unset($data['name']);
 
-        $response = $this->postJson(route('admin.salestatus.store'), $data);
+        $response = $this->postJson(route('admin.sale-statuses.store'), $data);
 
         $response->assertUnprocessable();
     }
@@ -82,12 +94,12 @@ class CreateTest extends TestCase
      */
     public function salestatus_title_exist(): void
     {
-        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::CREATE_SALESTATUS));
+        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::CREATE_SALE_STATUSES));
 
         $data = SaleStatus::factory()->make()->toArray();
         unset($data['title']);
 
-        $response = $this->postJson(route('admin.salestatus.store'), $data);
+        $response = $this->postJson(route('admin.sale-statuses.store'), $data);
 
         $response->assertUnprocessable();
     }
@@ -101,12 +113,12 @@ class CreateTest extends TestCase
      */
     public function salestatus_color_exist(): void
     {
-        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::CREATE_SALESTATUS));
+        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::CREATE_SALE_STATUSES));
 
         $data = SaleStatus::factory()->make()->toArray();
         unset($data['color']);
 
-        $response = $this->postJson(route('admin.salestatus.store'), $data);
+        $response = $this->postJson(route('admin.sale-statuses.store'), $data);
 
         $response->assertUnprocessable();
     }
