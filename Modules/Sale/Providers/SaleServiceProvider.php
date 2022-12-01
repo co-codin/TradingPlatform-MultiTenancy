@@ -18,7 +18,7 @@ final class SaleServiceProvider extends BaseModuleServiceProvider
     // ];
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getModuleName(): string
     {

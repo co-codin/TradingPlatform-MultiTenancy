@@ -32,8 +32,7 @@ class SyncPermissions extends Command
 
         $availablePermissions = [];
 
-        collect($permissionFiles)
-            ->map(function(SplFileInfo $file) {
+        collect($permissionFiles)->map(function(SplFileInfo $file) {
                 return "\\" . ucfirst(str_replace("/", "\\", str_replace(base_path() . "/", "", $file->getPath()))) . "\\" . $file->getBasename('.' . $file->getExtension());
             })
             ->filter(fn(string $class) => is_subclass_of($class, PermissionEnum::class))
@@ -41,24 +40,22 @@ class SyncPermissions extends Command
                 foreach($enumClass::descriptions() as $value => $text) {
                     $availablePermissions[] = $value;
 
-                    $actionName = explode(" ", $value)[0];
-
                     $action = Action::query()->firstOrCreate([
-                        'name' => $actionName,
+                        'name' => explode(" ", $value)[0],
                     ]);
+
                     $model = Model::query()->firstOrCreate([
                         'name' => $enumClass::module(),
                     ]);
 
-                    $availablePermissions[] = $value;
                     Permission::query()
                         ->updateOrCreate(
                             [
-                                'name' => $value,
                                 'action_id' => $action->id,
                                 'model_id' => $model->id,
                             ],
                             [
+                                'name' => $value,
                                 'guard_name' => 'api',
                             ]
                         );

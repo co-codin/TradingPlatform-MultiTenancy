@@ -1,12 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\User\Http\Requests\DisplayOption;
 
 use App\Http\Requests\BaseFormRequest;
 
-class UserDisplayOptionUpdateRequest extends BaseFormRequest
+final class UserDisplayOptionUpdateRequest extends BaseFormRequest
 {
-    public function rules()
+    /**
+     * {@inheritDoc}
+     */
+    final public function rules(): array
     {
         return [
             'name' => 'sometimes|required|string',

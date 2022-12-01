@@ -1,12 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Desk\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
 
-class DeskUpdateRequest extends BaseFormRequest
+final class DeskUpdateRequest extends BaseFormRequest
 {
-    public function rules()
+    /**
+     * {@inheritDoc}
+     */
+    final public function rules(): array
     {
         return [
             'name' => 'sometimes|required|string|max:255',

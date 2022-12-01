@@ -1,12 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Desk\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
 
-class DeskCreateRequest extends BaseFormRequest
+final class DeskCreateRequest extends BaseFormRequest
 {
-    public function rules()
+    /**
+     * {@inheritDoc}
+     */
+    final public function rules(): array
     {
         return [
             'name' => 'required|string|max:255',

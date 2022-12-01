@@ -1051,6 +1051,134 @@
                 ]
             }
         },
+        "/customers/ban": {
+            "patch": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Ban customers",
+                "operationId": "6effcf150a36ae9c712a41d26a555b3c",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "customers"
+                                ],
+                                "properties": {
+                                    "customers": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Customer ID",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/customers/unban": {
+            "patch": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Unban customers",
+                "operationId": "d7c85045ee2fb9e28548fc656e13d013",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "customers"
+                                ],
+                                "properties": {
+                                    "customers": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Customer ID",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/customers": {
             "get": {
                 "tags": [
@@ -1847,6 +1975,500 @@
                     },
                     "403": {
                         "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/permissions": {
+            "get": {
+                "tags": [
+                    "Permission"
+                ],
+                "summary": "Get permissions",
+                "operationId": "a8738d83e0262ce8916d4361d9ca1b5d",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PermissionCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/permissions/all": {
+            "get": {
+                "tags": [
+                    "Permission"
+                ],
+                "summary": "Get all permissions",
+                "operationId": "f6da82ef435f070a7fd81137268322ef",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PermissionCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/permissions/{id}": {
+            "get": {
+                "tags": [
+                    "Permission"
+                ],
+                "summary": "Get permission data",
+                "operationId": "7f440d2efa45f5f5b2ff77a3cdee3d26",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Permission ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PermissionResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/permissions/count": {
+            "get": {
+                "tags": [
+                    "Permission"
+                ],
+                "summary": "Get permissions count",
+                "operationId": "d522da5d9c285285b9c0f5c226b40713",
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/roles": {
+            "get": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Get roles",
+                "operationId": "d134eb6a4ba203fb7448af7ab321c376",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RoleCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Add a new role",
+                "operationId": "b5335ad634fc1f4475b8e43e43dba0e3",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "guard_name",
+                                    "key",
+                                    "permissions"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of role"
+                                    },
+                                    "guard_name": {
+                                        "description": "Guard name",
+                                        "type": "string"
+                                    },
+                                    "key": {
+                                        "description": "Key",
+                                        "type": "string"
+                                    },
+                                    "permissions": {
+                                        "description": "Array of permission`s ID",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RoleResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/roles/{id}": {
+            "get": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Get role data",
+                "operationId": "5476a17a1a8e92e4ae380afa959f0d20",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Role ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RoleResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Update a role",
+                "operationId": "2c5c949404129653d34fb02ee487248f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Role ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "guard_name",
+                                    "key",
+                                    "permissions"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of role"
+                                    },
+                                    "guard_name": {
+                                        "description": "Guard name",
+                                        "type": "string"
+                                    },
+                                    "key": {
+                                        "description": "Key",
+                                        "type": "string"
+                                    },
+                                    "permissions": {
+                                        "description": "Array of permission`s ID",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RoleResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Delete a role",
+                "operationId": "a83de148463c08c56e7c3ba05f86a5c2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Role ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Update a role",
+                "operationId": "8b8fc1ffafc15a4acbdf89044b13b1d7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Role ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of role"
+                                    },
+                                    "guard_name": {
+                                        "description": "Guard name",
+                                        "type": "string"
+                                    },
+                                    "key": {
+                                        "description": "Key",
+                                        "type": "string"
+                                    },
+                                    "permissions": {
+                                        "description": "Array of permission`s ID",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RoleResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
                     }
                 },
                 "security": [
@@ -4156,58 +4778,322 @@
                 "type": "object"
             },
             "Customer": {
-                "title": "Customer",
-                "description": "Customer model",
                 "required": [
-                    "name",
-                    "title",
-                    "color"
+                    "id",
+                    "first_name",
+                    "last_name",
+                    "gender",
+                    "email",
+                    "phone",
+                    "country_id",
+                    "is_demo",
+                    "is_active",
+                    "is_active_trading",
+                    "is_test",
+                    "is_ftd",
+                    "created_at",
+                    "updated_at"
                 ],
                 "properties": {
                     "id": {
-                        "description": "Customer.",
-                        "type": "integer",
-                        "readOnly": "true",
-                        "example": "1"
+                        "description": "Worker ID",
+                        "type": "integer"
                     },
                     "first_name": {
-                        "type": "string",
-                        "example": "Any first name"
+                        "description": "First name",
+                        "type": "string"
                     },
                     "last_name": {
-                        "type": "string",
-                        "example": "Any last name"
-                    },
-                    "gender": {
-                        "type": "integer",
-                        "example": "1"
+                        "description": "Last name",
+                        "type": "string"
                     },
                     "email": {
+                        "description": "Email",
                         "type": "string",
-                        "example": "customer@mail.com"
+                        "format": "email"
                     },
                     "phone": {
+                        "description": "Phone",
                         "type": "string",
-                        "example": "+1 (000) 000-0000"
+                        "format": "phone"
                     },
-                    "created_at": {
+                    "phone2": {
+                        "description": "Second phone",
                         "type": "string",
-                        "format": "date-time"
+                        "format": "phone",
+                        "nullable": "true"
                     },
-                    "updated_at": {
+                    "birthday": {
+                        "description": "Birthday",
                         "type": "string",
-                        "format": "date-time"
+                        "nullable": "true"
                     },
-                    "deleted_at": {
+                    "country_id": {
+                        "description": "Country id",
+                        "type": "integer"
+                    },
+                    "language_id": {
+                        "description": "Language id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "supposed_language_id": {
+                        "description": "Supposed language id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "platform_language_id": {
+                        "description": "Platform language id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "state": {
+                        "description": "State",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "city": {
+                        "description": "City",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "address": {
+                        "description": "Address",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "postal_code": {
+                        "description": "Postal code",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "verification_status_id": {
+                        "description": "Verification status id",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "is_demo": {
+                        "description": "Is demo",
+                        "type": "boolean"
+                    },
+                    "is_active": {
+                        "description": "Is active",
+                        "type": "boolean"
+                    },
+                    "is_active_trading": {
+                        "description": "Is active trading",
+                        "type": "boolean"
+                    },
+                    "is_test": {
+                        "description": "Is test",
+                        "type": "boolean"
+                    },
+                    "affiliate_user_id": {
+                        "description": "Affiliate user id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "conversion_user_id": {
+                        "description": "Conversion user id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "retention_user_id": {
+                        "description": "Retention user id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "compliance_user_id": {
+                        "description": "Compliance user id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "support_user_id": {
+                        "description": "Support user id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "conversion_manager_user_id": {
+                        "description": "Conversion manager user id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "retention_manager_user_id": {
+                        "description": "Retention manager user id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "first_conversion_user_id": {
+                        "description": "First conversion user id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "first_retention_user_id": {
+                        "description": "First retention user id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "desk_id": {
+                        "description": "Desk id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "department_id": {
+                        "description": "Department id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "last_online": {
+                        "description": "Last online",
                         "type": "string",
                         "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": "true"
+                    },
+                    "first_autologin_time": {
+                        "description": "First auto login time",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": "true"
+                    },
+                    "first_login_time": {
+                        "description": "First login time",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": "true"
+                    },
+                    "first_deposit_date": {
+                        "description": "First deposit date",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": "true"
+                    },
+                    "last_approved_deposit_date": {
+                        "description": "last approved deposit date",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": "true"
+                    },
+                    "last_pending_deposit_date": {
+                        "description": "last pending deposit date",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": "true"
+                    },
+                    "last_pending_withdrawal_date": {
+                        "description": "last pending withdrawal date",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": "true"
+                    },
+                    "last_communication_date": {
+                        "description": "last communication date",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": "true"
+                    },
+                    "banned_at": {
+                        "description": "Banned at",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": "true"
+                    },
+                    "campaign_id": {
+                        "description": "Campaign id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "offer_name": {
+                        "description": "Offer name",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "offer_url": {
+                        "description": "Offer url",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "comment_about_customer": {
+                        "description": "Comment about customer",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "source": {
+                        "description": "Source",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "click_id": {
+                        "description": "Click id",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "free_param_1": {
+                        "description": "Free param 1",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "free_param_2": {
+                        "description": "Free param 2",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "free_param_3": {
+                        "description": "Free param 3",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "balance": {
+                        "description": "Balance",
+                        "type": "number",
+                        "format": "float",
+                        "nullable": "true"
+                    },
+                    "balance_usd": {
+                        "description": "Balance USD",
+                        "type": "number",
+                        "format": "float",
+                        "nullable": "true"
+                    },
+                    "is_ftd": {
+                        "description": "Is FTD",
+                        "type": "boolean",
+                        "nullable": "true"
+                    },
+                    "timezone": {
+                        "description": "Timezone",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "created_at": {
+                        "description": "Date and time of creation",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "updated_at": {
+                        "description": "Date and time of last update",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "deleted_at": {
+                        "description": "Date and time of soft delete",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
                         "nullable": true
                     }
                 },
-                "type": "object",
-                "xml": {
-                    "name": "Customer"
-                }
+                "type": "object"
             },
             "CustomerCollection": {
                 "properties": {
@@ -4453,9 +5339,119 @@
                 "type": "object"
             },
             "Permission": {
+                "required": [
+                    "id",
+                    "name",
+                    "guard_name",
+                    "model_id",
+                    "action_id",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Role ID",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "User",
+                        "type": "string"
+                    },
+                    "guard_name": {
+                        "description": "api",
+                        "type": "string"
+                    },
+                    "action_id": {
+                        "description": "Action ID",
+                        "type": "integer"
+                    },
+                    "model_id": {
+                        "description": "Model ID",
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "description": "Date and time of creation",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "1970-01-01 00:00:00"
+                    },
+                    "updated_at": {
+                        "description": "Date and time of last update",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "1970-01-01 00:00:00"
+                    }
+                },
+                "type": "object"
+            },
+            "PermissionCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Permission"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "PermissionResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Permission"
+                    }
+                },
                 "type": "object"
             },
             "Role": {
+                "required": [
+                    "id",
+                    "name",
+                    "guard_name",
+                    "key",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Role ID",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "User",
+                        "type": "string"
+                    },
+                    "guard_name": {
+                        "description": "api",
+                        "type": "string"
+                    },
+                    "key": {
+                        "description": "key",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "description": "Date and time of creation",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "1970-01-01 00:00:00"
+                    },
+                    "updated_at": {
+                        "description": "Date and time of last update",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "1970-01-01 00:00:00"
+                    },
+                    "permissions": {
+                        "description": "Permission array",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Permission"
+                        }
+                    }
+                },
                 "type": "object"
             },
             "RoleCollection": {
@@ -4472,8 +5468,21 @@
                 },
                 "type": "object"
             },
+<<<<<<< HEAD
             "SaleStatus": {
                 "title": "SaleStatus",
+=======
+            "RoleResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Role"
+                    }
+                },
+                "type": "object"
+            },
+            "Sale": {
+                "title": "Sale",
+>>>>>>> 0882cec1d68826f021252bb5b18df0e8ab7a57ca
                 "description": "SaleStatus model",
                 "required": [
                     "name",
@@ -4814,7 +5823,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }
