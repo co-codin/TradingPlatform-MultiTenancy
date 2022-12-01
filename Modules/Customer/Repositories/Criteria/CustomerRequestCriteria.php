@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Customer\Repositories\Criteria;
 
 use App\Http\Filters\LiveFilter;
@@ -11,20 +13,25 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class CustomerRequestCriteria extends BaseCriteria
+final class CustomerRequestCriteria extends BaseCriteria
 {
+    protected static array $allowedModelFields = [
+        'id',
+        'user_id',
+    ];
+
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function apply($model, RepositoryInterface $repository)
     {
         return QueryBuilder::for($model)
             ->defaultSort('-id')
             ->allowedFields(array_merge(
-                static::allowedCustomerFields(),
-                UserRequestCriteria::allowedUserFields('affiliateUser'),
-                DeskRequestCriteria::allowedDeskFields('desk'),
-                DepartmentRequestCriteria::allowedDepartmentFields('department')
+                self::$allowedModelFields,
+                UserRequestCriteria::allowedModelFields('affiliateUser'),
+                DeskRequestCriteria::allowedModelFields('desk'),
+                DepartmentRequestCriteria::allowedModelFields('department')
             ))
             ->allowedFilters([
                 AllowedFilter::exact('id'),
@@ -39,25 +46,10 @@ class CustomerRequestCriteria extends BaseCriteria
                 AllowedFilter::trashed(),
             ])
             ->allowedIncludes([
-                'desk', 'department', 'affiliateUser'
+                'desk', 'department', 'affiliateUser',
             ])
             ->allowedSorts([
 
             ]);
-    }
-
-    public static function allowedCustomerFields($prefix = null): array
-    {
-        $fields = [
-            'id',
-            'user_id',
-
-        ];
-
-        if(!$prefix) {
-            return $fields;
-        }
-
-        return array_map(fn($field) => $prefix . "." . $field, $fields);
     }
 }
