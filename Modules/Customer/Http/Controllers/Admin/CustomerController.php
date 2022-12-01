@@ -8,12 +8,14 @@ use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Modules\Customer\Http\Requests\CustomerCreateRequest;
+use Modules\Customer\Http\Requests\CustomerBanRequest;
 use Modules\Customer\Http\Resources\CustomerResource;
 use Modules\Customer\Models\Customer;
 use Modules\Customer\Repositories\CustomerRepository;
 use Modules\Customer\Services\CustomerBanService;
 use Modules\Customer\Services\CustomerStorage;
+use Modules\User\Models\User;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 final class CustomerController extends Controller
 {
@@ -191,65 +193,5 @@ final class CustomerController extends Controller
         $this->authorize('viewAny', Customer::class);
 
         return CustomerResource::collection($this->repository->jsonPaginate());
-    }
-
-    /**
-     * @OA\Post(
-     *      path="/admin/customers",
-     *      operationId="customers.store",
-     *      security={ {"sanctum": {} }},
-     *      tags={"Customers"},
-     *      summary="Store customer",
-     *      description="Returns customers data.",
-     *      @OA\Parameter(
-     *          description="Name",
-     *          in="query",
-     *          name="name",
-     *          required=true,
-     *          example="Any name"
-     *      ),
-     *      @OA\Parameter(
-     *          description="Title",
-     *          in="query",
-     *          name="title",
-     *          required=true,
-     *          example="Any title"
-     *      ),
-     *       @OA\Parameter(
-     *          description="Color",
-     *          in="query",
-     *          name="color",
-     *          required=true,
-     *          example="#e1e1e1"
-     *      ),
-     *      @OA\Response(
-     *          response=201,
-     *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/CustomerResource")
-     *       ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      )
-     * )
-     *
-     * Store customer.
-     *
-     * @param CustomerCreateRequest $request
-     * @return JsonResource
-     * @throws AuthorizationException
-     * @throws UnknownProperties
-     */
-    public function store(CustomerCreateRequest $request): JsonResource
-    {
-        // $this->authorize('create', SaleStatus::class);
-
-        return new CustomerResource(
-            $this->storage->store(CustomerDto::fromFormRequest($request)),
-        );
     }
 }

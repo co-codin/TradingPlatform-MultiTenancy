@@ -5469,9 +5469,12 @@
                 "type": "object"
             },
 <<<<<<< HEAD
+<<<<<<< HEAD
             "SaleStatus": {
                 "title": "SaleStatus",
 =======
+=======
+>>>>>>> 0882cec1d68826f021252bb5b18df0e8ab7a57ca
             "RoleResource": {
                 "properties": {
                     "data": {
