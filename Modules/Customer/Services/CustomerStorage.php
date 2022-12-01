@@ -5,6 +5,7 @@ namespace Modules\Customer\Services;
 use LogicException;
 use Modules\Customer\Dto\CustomerDto;
 use Modules\Customer\Models\Customer;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerStorage
 {
@@ -16,9 +17,12 @@ class CustomerStorage
      */
     public function store(CustomerDto $dto): Customer
     {
-        $customer = Customer::create($dto->toArray());
+        $attributes = $dto->toArray();
+        $attributes['password'] = Hash::make($attributes['password']);
 
-        if (! $customer) {
+        $customer = Customer::create($attributes);
+
+        if (!$customer) {
             throw new LogicException(__('Can not create customer'));
         }
 
@@ -36,7 +40,7 @@ class CustomerStorage
      */
     public function update(Customer $customer, CustomerDto $dto): Customer
     {
-        if (! $customer->update($dto->toArray())) {
+        if (!$customer->update($dto->toArray())) {
             throw new LogicException(__('Can not update customer'));
         }
 
@@ -51,7 +55,7 @@ class CustomerStorage
      */
     public function delete(Customer $customer): bool
     {
-        if (! $customer->delete()) {
+        if (!$customer->delete()) {
             throw new LogicException(__('Can not delete customer'));
         }
 
