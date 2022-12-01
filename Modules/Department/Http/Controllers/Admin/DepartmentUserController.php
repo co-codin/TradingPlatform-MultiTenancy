@@ -4,6 +4,7 @@ namespace Modules\Department\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Department\Repositories\DepartmentRepository;
 use Modules\User\Http\Resources\UserResource;
@@ -49,16 +50,20 @@ class DepartmentUserController extends Controller
      *
      * @throws AuthorizationException
      */
-    public function allByDepartments(): JsonResource
+    public function allByDepartments(Request $request): JsonResource
     {
         $this->authorize('viewAnyByDepartments', User::class);
 
         return UserResource::collection(
             $this->userRepository
-                ->whereHas('departments', function ($query) {
+                ->whereHas('departments', function ($query) use ($request) {
                     $query->whereIn(
                         'departments.id',
-                        $this->departmentRepository->get()->pluck('id')->toArray(),
+                        $this->departmentRepository
+                            ->whereHas('users', fn ($q) => $q->where('users.id', $request->user()->id))
+                            ->get()
+                            ->pluck('id')
+                            ->toArray(),
                     );
                 })
                 ->get()
