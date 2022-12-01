@@ -19,7 +19,11 @@ final class SaleStatusStoreRequest extends BaseFormRequest
         return [
             'name' => 'required|string',
             'title' => 'required|string',
-            'color' => 'required|string',
+            'color' => [
+                'required',
+                'string',
+                'regex:/^(#[a-zA-Z0-9]{6})$/i',
+            ],
         ];
     }
 }
