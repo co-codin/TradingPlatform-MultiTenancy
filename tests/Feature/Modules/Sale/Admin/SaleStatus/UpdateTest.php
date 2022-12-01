@@ -144,4 +144,23 @@ class UpdateTest extends TestCase
 
         $response->assertUnprocessable();
     }
+
+    /**
+     * Test salestatus incorrect color format.
+     *
+     * @return void
+     *
+     * @test
+     */
+    final public function salestatus_incorrect_color_format(): void
+    {
+        $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::EDIT_SALE_STATUSES));
+
+        $saleStatus = SaleStatus::factory()->create();
+        $data = SaleStatus::factory()->make(['color' => '#e1e1'])->toArray();
+
+        $response = $this->patchJson(route('admin.sale-statuses.update', ['sale_status' => $saleStatus->id]), $data);
+
+        $response->assertUnprocessable();
+    }
 }
