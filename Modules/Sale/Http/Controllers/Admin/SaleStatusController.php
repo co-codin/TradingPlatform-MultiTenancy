@@ -32,8 +32,7 @@ final class SaleStatusController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/admin/salestatus",
-     *      operationId="salestatus.index",
+     *      path="/admin/sale-statuses",
      *      security={ {"sanctum": {} }},
      *      tags={"SaleStatus"},
      *      summary="Get salestatus list",
@@ -67,32 +66,25 @@ final class SaleStatusController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/admin/salestatus",
-     *      operationId="salestatus.store",
+     *      path="/admin/sale-statuses",
      *      security={ {"sanctum": {} }},
      *      tags={"SaleStatus"},
      *      summary="Store salestatus",
      *      description="Returns salestatus data.",
-     *      @OA\Parameter(
-     *          description="Name",
-     *          in="query",
-     *          name="name",
-     *          required=true,
-     *          example="Any name"
-     *      ),
-     *      @OA\Parameter(
-     *          description="Title",
-     *          in="query",
-     *          name="title",
-     *          required=true,
-     *          example="Any title"
-     *      ),
-     *       @OA\Parameter(
-     *          description="Color",
-     *          in="query",
-     *          name="color",
-     *          required=true,
-     *          example="#e1e1e1"
+     *      @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 required={
+     *                     "name",
+     *                     "title",
+     *                     "color",
+     *                 },
+     *                 @OA\Property(property="name", type="string", description="Any name"),
+     *                 @OA\Property(property="title", type="string", description="Any title"),
+     *                 @OA\Property(property="color", type="string", description="Any color"),
+     *             )
+     *         )
      *      ),
      *      @OA\Response(
      *          response=201,
@@ -127,18 +119,21 @@ final class SaleStatusController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/admin/salestatus/{id}",
-     *      operationId="salestatus.show",
+     *      path="/admin/sale-statuses/{id}",
      *      security={ {"sanctum": {} }},
      *      tags={"SaleStatus"},
      *      summary="Get salestatus",
      *      description="Returns salestatus data.",
-     *      @OA\Parameter(
-     *          description="SaleStatus id",
-     *          in="path",
-     *          name="id",
-     *          required=true,
-     *          example=1
+     *      @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 required={
+     *                     "id",
+     *                 },
+     *                 @OA\Property(property="id", type="integer", description="Sale statuses ID"),
+     *             )
+     *         )
      *      ),
      *      @OA\Response(
      *          response=201,
@@ -163,48 +158,83 @@ final class SaleStatusController extends Controller
      */
     public function show(int $id): JsonResource
     {
-        $salestatus = $this->repository->find($id);
+        $saleStatus = $this->repository->find($id);
 
-        $this->authorize('view', $salestatus);
+        $this->authorize('view', $saleStatus);
 
-        return new SaleStatusResource($salestatus);
+        return new SaleStatusResource($saleStatus);
     }
 
     /**
-     * @OA\Patch(
-     *      path="/admin/salestatus/{id}",
-     *      operationId="salestatus.update",
+     * @OA\Put(
+     *      path="/admin/sale-statuses/{id}",
      *      security={ {"sanctum": {} }},
      *      tags={"SaleStatus"},
      *      summary="Update salestatus",
      *      description="Returns salestatus data.",
      *      @OA\Parameter(
-     *          description="SaleStatus id",
-     *          in="path",
-     *          name="id",
-     *          required=true,
-     *          example=1
+     *         description="Sale statuses ID",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
      *      ),
-     *      @OA\Parameter(
-     *          description="Name",
-     *          in="query",
-     *          name="name",
-     *          required=false,
-     *          example="Any name"
+     *      @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 required={
+     *                     "name",
+     *                     "title",
+     *                     "color",
+     *                 },
+     *                 @OA\Property(property="name", type="string", description="Any name"),
+     *                 @OA\Property(property="title", type="string", description="Any title"),
+     *                 @OA\Property(property="color", type="string", description="Any color"),
+     *             )
+     *         )
      *      ),
-     *      @OA\Parameter(
-     *          description="Title",
-     *          in="query",
-     *          name="title",
-     *          required=true,
-     *          example="Any title"
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/SaleStatusResource")
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
      *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * ),
+     * @OA\Patch(
+     *      path="/admin/sale-statuses/{id}",
+     *      security={ {"sanctum": {} }},
+     *      tags={"SaleStatus"},
+     *      summary="Update salestatus",
+     *      description="Returns salestatus data.",
      *      @OA\Parameter(
-     *          description="Color",
-     *          in="query",
-     *          name="color",
-     *          required=true,
-     *          example="#e1e1e1"
+     *         description="Sale statuses ID",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *      ),
+     *      @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 required={
+     *                     "name",
+     *                     "title",
+     *                     "color",
+     *                 },
+     *                 @OA\Property(property="name", type="string", description="Any name"),
+     *                 @OA\Property(property="title", type="string", description="Any title"),
+     *                 @OA\Property(property="color", type="string", description="Any color"),
+     *             )
+     *         )
      *      ),
      *      @OA\Response(
      *          response=201,
@@ -231,13 +261,13 @@ final class SaleStatusController extends Controller
      */
     public function update(SaleStatusStoreRequest $request, int $id): JsonResource
     {
-        $salestatus = $this->repository->find($id);
+        $saleStatus = $this->repository->find($id);
 
-        $this->authorize('update', $salestatus);
+        $this->authorize('update', $saleStatus);
 
         return new SaleStatusResource(
             $this->storage->update(
-                $salestatus,
+                $saleStatus,
                 SaleStatusDto::fromFormRequest($request)
             ),
         );
@@ -245,18 +275,17 @@ final class SaleStatusController extends Controller
 
     /**
      * @OA\Delete(
-     *      path="/admin/salestatus/{id}",
-     *      operationId="salestatus.delete",
+     *      path="/admin/sale-statuses/{id}",
      *      security={ {"sanctum": {} }},
      *      tags={"SaleStatus"},
      *      summary="Delete salestatus",
      *      description="Returns status.",
      *      @OA\Parameter(
-     *          description="SaleStatus id",
-     *          in="path",
-     *          name="id",
-     *          required=true,
-     *          example=1
+     *         description="Sale statuses ID",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
      *      ),
      *      @OA\Response(
      *          response=201,
@@ -281,11 +310,11 @@ final class SaleStatusController extends Controller
      */
     public function destroy(int $id): Response
     {
-        $salestatus = $this->repository->find($id);
+        $saleStatus = $this->repository->find($id);
 
-        $this->authorize('delete', $salestatus);
+        $this->authorize('delete', $saleStatus);
 
-        $this->storage->delete($salestatus);
+        $this->storage->delete($saleStatus);
 
         return response()->noContent();
     }
