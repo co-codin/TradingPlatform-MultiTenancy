@@ -21,4 +21,11 @@ final class LoginRequest extends FormRequest
             'remember_me' => 'boolean',
         ];
     }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'email' => strtolower($this->email),
+        ]);
+    }
 }

@@ -9,18 +9,20 @@ use Modules\Geo\Database\Seeders\GeoDatabaseSeeder;
 use Modules\Role\Database\Seeders\RoleDatabaseSeeder;
 use Modules\User\Database\Seeders\UserDatabaseSeeder;
 
-class DatabaseSeeder extends Seeder
+final class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        $this->call(UserDatabaseSeeder::class);
-        $this->call(BrandDatabaseSeeder::class);
-//        $this->call(GeoDatabaseSeeder::class);
-//        $this->call(RoleDatabaseSeeder::class);
+        $this->call([
+            UserDatabaseSeeder::class,
+            BrandDatabaseSeeder::class,
+            RoleDatabaseSeeder::class,
+            //            GeoDatabaseSeeder::class,
+        ]);
     }
 }

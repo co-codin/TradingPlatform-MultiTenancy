@@ -1,17 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\User\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use Modules\Role\Enums\DefaultRole;
 use Modules\Role\Models\Role;
 use Modules\User\Models\User;
 
-class UserDatabaseSeeder extends Seeder
+final class UserDatabaseSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $user = User::factory()->create([
             'username' => 'admin',
@@ -21,11 +22,11 @@ class UserDatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
-//        $role = Role::factory()->create([
-//            'name' => DefaultRole::ADMIN,
-//            'key' => DefaultRole::ADMIN
-//        ]);
-//
-//        $user->assignRole($role);
+        $role = Role::factory()->create([
+            'name' => DefaultRole::ADMIN,
+            'key' => DefaultRole::ADMIN,
+        ]);
+
+        $user->assignRole($role);
     }
 }

@@ -42,4 +42,9 @@ final class CustomerDto extends BaseDto
      * @var int
      */
     public int $country_id = 0;
+
+    /**
+     * @var ?string
+     */
+    public ?string $banned_at = null;
 }

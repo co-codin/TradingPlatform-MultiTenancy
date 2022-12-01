@@ -2,9 +2,10 @@
 
 namespace Modules\Role\Enums;
 
+use BenSampo\Enum\Enum;
 use Modules\Role\Contracts\PermissionEnum;
 
-class RolePermission implements PermissionEnum
+class RolePermission extends Enum implements PermissionEnum
 {
     const CREATE_ROLES = 'create roles';
     const VIEW_ROLES = 'view roles';

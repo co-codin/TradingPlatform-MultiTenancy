@@ -1,82 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Customer\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use App\Providers\BaseModuleServiceProvider;
+use Modules\Customer\Models\Customer;
+use Modules\Customer\Policies\CustomerPolicy;
+use Modules\User\Models\User;
+use Modules\User\Policies\UserPolicy;
 
-class CustomerServiceProvider extends ServiceProvider
+final class CustomerServiceProvider extends BaseModuleServiceProvider
 {
     /**
-     * @var string $moduleName
+     * {@inheritdoc}
      */
-    protected $moduleName = 'Customer';
+    protected array $policies = [
+        Customer::class => CustomerPolicy::class,
+        User::class => UserPolicy::class,
+    ];
 
     /**
-     * @var string $moduleNameLower
+     * {@inheritDoc}
      */
-    protected $moduleNameLower = 'customer';
-
-    /**
-     * Boot the application events.
-     *
-     * @return void
-     */
-    public function boot()
+    public function getModuleName(): string
     {
-        $this->registerTranslations();
-        $this->registerConfig();
-    }
-
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        $this->app->register(RouteServiceProvider::class);
-    }
-
-    /**
-     * Register config.
-     *
-     * @return void
-     */
-    protected function registerConfig()
-    {
-        $this->publishes([
-            module_path($this->moduleName, 'Config/config.php') => config_path($this->moduleNameLower . '.php'),
-        ], 'config');
-        $this->mergeConfigFrom(
-            module_path($this->moduleName, 'Config/config.php'), $this->moduleNameLower
-        );
-    }
-
-    /**
-     * Register translations.
-     *
-     * @return void
-     */
-    public function registerTranslations()
-    {
-        $langPath = resource_path('lang/modules/' . $this->moduleNameLower);
-
-        if (is_dir($langPath)) {
-            $this->loadTranslationsFrom($langPath, $this->moduleNameLower);
-            $this->loadJsonTranslationsFrom($langPath, $this->moduleNameLower);
-        } else {
-            $this->loadTranslationsFrom(module_path($this->moduleName, 'Resources/lang'), $this->moduleNameLower);
-            $this->loadJsonTranslationsFrom(module_path($this->moduleName, 'Resources/lang'), $this->moduleNameLower);
-        }
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [];
+        return 'Customer';
     }
 }

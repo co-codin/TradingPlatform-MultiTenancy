@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Department\Repositories\Criteria;
 
 use App\Repositories\Criteria\BaseCriteria;
@@ -7,18 +9,24 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class DepartmentRequestCriteria extends BaseCriteria
+final class DepartmentRequestCriteria extends BaseCriteria
 {
+    protected static array $allowedModelFields = [
+        'id',
+        'name',
+        'title',
+        'is_active',
+        'is_default',
+    ];
+
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function apply($model, RepositoryInterface $repository)
     {
         return QueryBuilder::for($model)
             ->defaultSort('-id')
-            ->allowedFields(array_merge(
-                static::allowedDepartmentFields(),
-            ))
+            ->allowedFields(self::$allowedModelFields)
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::partial('name'),
@@ -37,22 +45,5 @@ class DepartmentRequestCriteria extends BaseCriteria
                 'updated_at',
                 'deleted_at',
             ]);
-    }
-
-    public static function allowedDepartmentFields($prefix = null): array
-    {
-        $fields = [
-            'id',
-            'name',
-            'title',
-            'is_active',
-            'is_default',
-        ];
-
-        if(!$prefix) {
-            return $fields;
-        }
-
-        return array_map(fn($field) => $prefix . "." . $field, $fields);
     }
 }

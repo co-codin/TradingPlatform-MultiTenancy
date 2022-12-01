@@ -3,6 +3,7 @@
 namespace Modules\User\Policies;
 
 use App\Policies\BasePolicy;
+use Modules\Customer\Models\Customer;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
 
@@ -11,26 +12,19 @@ class UserPolicy extends BasePolicy
     /**
      * View any policy.
      *
-     * @param User $user
+     * @param  User  $user
      * @return bool
      */
     public function viewAny(User $user): bool
     {
-        // logics
-        
-//        $permissions = $user->roles()->permissions()->where('name', UserPermission::VIEW_USERS)->with('column')->get()->pluck('column.name');
-
-//        $fields = request()->get('field[users]');
-
-
         return $user->can(UserPermission::VIEW_USERS);
     }
 
     /**
      * View policy.
      *
-     * @param User $user
-     * @param User $selectedUser
+     * @param  User  $user
+     * @param  User  $selectedUser
      * @return bool
      */
     public function view(User $user, User $selectedUser): bool
@@ -41,7 +35,7 @@ class UserPolicy extends BasePolicy
     /**
      * Create policy.
      *
-     * @param User $user
+     * @param  User  $user
      * @return bool
      */
     public function create(User $user): bool
@@ -52,8 +46,8 @@ class UserPolicy extends BasePolicy
     /**
      * Update policy.
      *
-     * @param User $user
-     * @param User $selectedUser
+     * @param  User  $user
+     * @param  User  $selectedUser
      * @return bool
      */
     public function update(User $user, User $selectedUser): bool
@@ -68,12 +62,69 @@ class UserPolicy extends BasePolicy
     /**
      * Delete policy.
      *
-     * @param User $user
-     * @param User $selectedUser
+     * @param  User  $user
+     * @param  User  $selectedUser
      * @return bool
      */
     public function delete(User $user, User $selectedUser): bool
     {
         return $user->can(UserPermission::DELETE_USERS);
+    }
+
+    /**
+     * Ban user policy.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function ban(User $user): bool
+    {
+        return $user->can(UserPermission::BAN_USERS);
+    }
+
+    /**
+     * Unban user policy.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function unban(User $user): bool
+    {
+        return $user->can(UserPermission::BAN_USERS);
+    }
+
+    /**
+     * Ban customer policy.
+     *
+     * @param  User  $user
+     * @param  Customer  $customer
+     * @return bool
+     */
+    public function banCustomer(User $user, Customer $customer): bool
+    {
+        return $user->can(UserPermission::BAN_USERS);
+    }
+
+    /**
+     * Unban customer policy.
+     *
+     * @param  User  $user
+     * @param  Customer  $customer
+     * @return bool
+     */
+    public function unbanCustomer(User $user, Customer $customer): bool
+    {
+        return $user->can(UserPermission::BAN_USERS);
+    }
+
+    /**
+     * View any departments workers policy.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function viewAnyByDepartments(User $user): bool
+    {
+        return $user->can(UserPermission::VIEW_DEPARTMENT_USERS);
     }
 }
