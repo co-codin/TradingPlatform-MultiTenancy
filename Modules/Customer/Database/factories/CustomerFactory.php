@@ -31,7 +31,6 @@ class CustomerFactory extends Factory
             'password' => Hash::make('password'),
             'phone' => $this->faker->phoneNumber(),
             'country_id' => $this->faker->randomElement(Country::pluck('id')),
-
         ];
     }
 }
