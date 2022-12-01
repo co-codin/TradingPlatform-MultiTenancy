@@ -123,4 +123,8 @@ class UserPolicy extends BasePolicy
     {
         return $user->can(UserPermission::BAN_USERS);
     }
+
+    public function viewAnyByDepartments(User $user)
+    {
+    }
 }

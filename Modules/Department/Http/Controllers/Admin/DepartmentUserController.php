@@ -2,32 +2,66 @@
 
 namespace Modules\Department\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Department\Repositories\DepartmentRepository;
 use Modules\User\Http\Resources\UserResource;
+use Modules\User\Models\User;
 use Modules\User\Repositories\UserRepository;
 
-class DepartmentUserController
+class DepartmentUserController extends Controller
 {
     /**
-     * @param DepartmentRepository $departmentRepository
-     * @param UserRepository $userRepository
+     * @param  DepartmentRepository  $departmentRepository
+     * @param  UserRepository  $userRepository
      */
     public function __construct(
         protected DepartmentRepository $departmentRepository,
         protected UserRepository $userRepository,
-    )
-    {
+    ) {
     }
 
     /**
+     * @OA\Get(
+     *     path="/admin/departments/workers",
+     *     tags={"Department"},
+     *     security={ {"sanctum": {} }},
+     *     summary="Get departments workers",
+     *     @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\JsonContent(ref="#/components/schemas/WorkerCollection")
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized Error"
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Forbidden Error"
+     *     )
+     * )
+     *
+     * View all users by departments.
+     *
      * @return JsonResource
+     *
+     * @throws AuthorizationException
      */
-    public function allByDepartments(Request $request): JsonResource
+    public function allByDepartments(): JsonResource
     {
-        $authUser = $request->user();
+        $this->authorize('viewAnyByDepartments', User::class);
 
-        return UserResource::collection();
+        return UserResource::collection(
+            $this->userRepository
+                ->whereHas('departments', function ($query) {
+                    $query->whereIn(
+                        'departments.id',
+                        $this->departmentRepository->get()->pluck('id')->toArray(),
+                    );
+                })
+                ->get()
+        );
     }
 }
