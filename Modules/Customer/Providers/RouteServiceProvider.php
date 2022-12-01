@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Customer\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
-class RouteServiceProvider extends ServiceProvider
+final class RouteServiceProvider extends ServiceProvider
 {
     /**
      * The module namespace to assume when generating URLs to actions.
@@ -36,8 +38,10 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapAdminRoutes();
     }
 
-
-    protected function mapAdminRoutes()
+    /**
+     * @return void
+     */
+    protected function mapAdminRoutes(): void
     {
         Route::middleware(['api', 'auth:api'])
             ->as('admin.')
