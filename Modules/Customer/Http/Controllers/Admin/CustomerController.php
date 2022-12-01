@@ -8,11 +8,15 @@ use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Customer\Dto\CustomerDto;
+use Modules\Customer\Http\Requests\CustomerBanRequest;
+use Modules\Customer\Http\Requests\CustomerCreateRequest;
 use Modules\Customer\Http\Resources\CustomerResource;
 use Modules\Customer\Models\Customer;
 use Modules\Customer\Repositories\CustomerRepository;
 use Modules\Customer\Services\CustomerBanService;
 use Modules\Customer\Services\CustomerStorage;
+use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 final class CustomerController extends Controller
 {
@@ -159,9 +163,8 @@ final class CustomerController extends Controller
     /**
      * @OA\Get(
      *      path="/admin/customers",
-     *      operationId="customers.index",
      *      security={ {"sanctum": {} }},
-     *      tags={"Customers"},
+     *      tags={"Customer"},
      *      summary="Get customers list",
      *      description="Returns customers list data.",
      *      @OA\Response(
@@ -187,39 +190,69 @@ final class CustomerController extends Controller
      */
     public function index(): JsonResource
     {
-        $this->authorize('viewAny', Customer::class);
+        // $this->authorize('viewAny', Customer::class);
 
-        return CustomerResource::collection($this->repository->jsonPaginate());
+        return CustomerResource::collection($this->customerRepository->jsonPaginate());
     }
+
 
     /**
      * @OA\Post(
      *      path="/admin/customers",
-     *      operationId="customers.store",
      *      security={ {"sanctum": {} }},
-     *      tags={"Customers"},
+     *      tags={"Customer"},
      *      summary="Store customer",
-     *      description="Returns customers data.",
-     *      @OA\Parameter(
-     *          description="Name",
-     *          in="query",
-     *          name="name",
-     *          required=true,
-     *          example="Any name"
-     *      ),
-     *      @OA\Parameter(
-     *          description="Title",
-     *          in="query",
-     *          name="title",
-     *          required=true,
-     *          example="Any title"
-     *      ),
-     *       @OA\Parameter(
-     *          description="Color",
-     *          in="query",
-     *          name="color",
-     *          required=true,
-     *          example="#e1e1e1"
+     *      description="Returns customer data.",
+     *      @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 required={
+     *                     "first_name",
+     *                     "last_name",
+     *                     "gender",
+     *                     "email",
+     *                     "password",
+     *                     "phone",
+     *                     "country_id",
+     *                 },
+     *                 @OA\Property(property="first_name", type="string", description="First name"),
+     *                 @OA\Property(property="last_name", type="string", description="Last name"),
+     *                 @OA\Property(property="gender", type="integer", description="1-Male, 2-Female, 3-Other", example="1"),
+     *                 @OA\Property(property="email", type="string", format="email", description="Email"),
+     *                 @OA\Property(property="password", type="string", description="Password of customer"),
+     *                 @OA\Property(property="phone", type="string", format="phone", description="Phone"),
+     *                 @OA\Property(property="phone2", type="string", format="phone", description="Second phone", nullable="true"),
+     *                 @OA\Property(property="birthday", type="string", description="Birthday", nullable="true"),
+     *                 @OA\Property(property="country_id", type="integer", description="Country id"),
+     *                 @OA\Property(property="language_id", type="integer", description="Language id", nullable="true"),
+     *                 @OA\Property(property="supposed_language_id", type="integer", description="Supposed language id", nullable="true"),
+     *                 @OA\Property(property="platform_language_id", type="integer", description="Platform language id", nullable="true"),
+     *                 @OA\Property(property="state", type="string", description="State", nullable="true"),
+     *                 @OA\Property(property="city", type="string", description="City", nullable="true"),
+     *                 @OA\Property(property="address", type="string", description="Address", nullable="true"),
+     *                 @OA\Property(property="postal_code", type="string", description="Postal code", nullable="true"),
+     *                 @OA\Property(property="is_demo", type="boolean", description="Is demo"),
+     *                 @OA\Property(property="is_active", type="boolean", description="Is active"),
+     *                 @OA\Property(property="is_active_trading", type="boolean", description="Is active trading"),
+     *                 @OA\Property(property="is_test", type="boolean", description="Is test"),
+     *                 @OA\Property(property="desk_id", type="integer", description="Desk id", nullable="true"),
+     *                 @OA\Property(property="department_id", type="integer", description="Department id", nullable="true"),
+     *                 @OA\Property(property="offer_name", type="string", description="Offer name", nullable="true"),
+     *                 @OA\Property(property="offer_url", type="string", description="Offer url", nullable="true"),
+     *                 @OA\Property(property="comment_about_customer", type="string", description="Comment about customer", nullable="true"),
+     *                 @OA\Property(property="source", type="string", description="Source", nullable="true"),
+     *                 @OA\Property(property="click_id", type="string", description="Click id", nullable="true"),
+     *                 @OA\Property(property="free_param_1", type="string", description="Free param 1", nullable="true"),
+     *                 @OA\Property(property="free_param_2", type="string", description="Free param 2", nullable="true"),
+     *                 @OA\Property(property="free_param_3", type="string", description="Free param 3", nullable="true"),
+     *                 @OA\Property(property="balance", type="float", description="Balance", nullable="true"),
+     *                 @OA\Property(property="balance_usd", type="float", description="Balance USD", nullable="true"),
+     *                 @OA\Property(property="is_ftd", type="boolean", description="Is FTD", nullable="true"),
+     *                 @OA\Property(property="timezone", type="string", description="Timezone", nullable="true"),
+     *
+     *             )
+     *         )
      *      ),
      *      @OA\Response(
      *          response=201,
@@ -236,7 +269,7 @@ final class CustomerController extends Controller
      *      )
      * )
      *
-     * Store customer.
+     * Store salestatus.
      *
      * @param CustomerCreateRequest $request
      * @return JsonResource
@@ -245,10 +278,10 @@ final class CustomerController extends Controller
      */
     public function store(CustomerCreateRequest $request): JsonResource
     {
-        // $this->authorize('create', SaleStatus::class);
+        // $this->authorize('create', Customer::class);
 
         return new CustomerResource(
-            $this->storage->store(CustomerDto::fromFormRequest($request)),
+            $this->customerStorage->store(CustomerDto::fromFormRequest($request)),
         );
     }
 }
