@@ -1456,6 +1456,38 @@
                 ]
             }
         },
+        "/admin/departments/workers": {
+            "get": {
+                "tags": [
+                    "Department"
+                ],
+                "summary": "Get departments workers",
+                "operationId": "78929ce15246da20fa37a8c184f04bef",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/WorkerCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/countries": {
             "get": {
                 "tags": [
@@ -6279,7 +6311,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }

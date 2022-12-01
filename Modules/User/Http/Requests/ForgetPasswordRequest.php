@@ -21,4 +21,11 @@ final class ForgetPasswordRequest extends BaseFormRequest
             'email' => 'Email',
         ];
     }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'email' => strtolower($this->email),
+        ]);
+    }
 }
