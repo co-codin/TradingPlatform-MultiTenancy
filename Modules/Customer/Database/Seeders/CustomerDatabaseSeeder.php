@@ -3,7 +3,7 @@
 namespace Modules\Customer\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
+use Modules\Customer\Models\Customer;
 
 class CustomerDatabaseSeeder extends Seeder
 {
@@ -14,8 +14,6 @@ class CustomerDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Model::unguard();
-
-        // $this->call("OthersTableSeeder");
+        Customer::factory(10)->create();
     }
 }

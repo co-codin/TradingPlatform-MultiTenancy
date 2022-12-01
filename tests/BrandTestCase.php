@@ -31,22 +31,8 @@ abstract class BrandTestCase extends BaseTestCase
     {
         parent::setUp();
 
-//        Event::fake();
-        Queue::fake();
-
-//        $this->expectsJobs(CreateTenantDatabase::class);
         $this->brand = Brand::factory()->create();
 
-        try {
-            Event::assertDispatched(BrandCreated::class);
-            Queue::assertPushed(CreateTenantDatabase::class, function ($listener) {
-                return $listener->class == CreateTenantDatabase::class;
-            });
-            dd('sa');
-        } catch (\Throwable $e) {
-            dd($e->getMessage());
-        }
-dd('s');
         $this->withHeader('Tenant', $this->brand->slug);
     }
 

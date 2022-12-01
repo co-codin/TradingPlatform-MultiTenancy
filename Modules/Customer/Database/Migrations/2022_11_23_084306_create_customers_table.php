@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -20,7 +20,7 @@ return new class extends Migration
             $table->tinyInteger('gender');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('phone')->nullable();
+            $table->string('phone');
             $table->string('phone2')->nullable();
             $table->timestamp('birthday')->nullable();
 
@@ -63,6 +63,7 @@ return new class extends Migration
             $table->timestamp('last_pending_deposit_date')->nullable();
             $table->timestamp('last_pending_withdrawal_date')->nullable();
             $table->timestamp('last_communication_date')->nullable();
+            $table->timestamp('banned_at')->nullable();
 
             // affiliation
             $table->foreignId('campaign_id')->nullable()->constrained();

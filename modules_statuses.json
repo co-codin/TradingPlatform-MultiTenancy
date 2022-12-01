@@ -9,5 +9,6 @@
     "Geo": true,
     "Config": true,
     "Customer": true,
-    "Campaign": true
+    "Campaign": true,
+    "Sale": true
 }

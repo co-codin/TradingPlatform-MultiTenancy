@@ -1,12 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Token\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
 
-class TokenCreateRequest extends BaseFormRequest
+final class TokenCreateRequest extends BaseFormRequest
 {
-    public function rules()
+    /**
+     * {@inheritDoc}
+     */
+    final public function rules(): array
     {
         return [
             'user_id' => 'required|int|exists:users,id',

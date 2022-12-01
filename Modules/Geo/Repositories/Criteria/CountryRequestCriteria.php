@@ -12,9 +12,9 @@ use Spatie\QueryBuilder\QueryBuilder;
 final class CountryRequestCriteria extends BaseCriteria
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    protected array $allowedModelFields = [
+    protected static array $allowedModelFields = [
         'id',
         'name',
         'iso2',
@@ -22,15 +22,13 @@ final class CountryRequestCriteria extends BaseCriteria
     ];
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function apply($model, RepositoryInterface $repository)
     {
         return QueryBuilder::for($model)
             ->defaultSort('-id')
-            ->allowedFields(array_merge(
-                $this->allowedModelFields(),
-            ))
+            ->allowedFields(self::$allowedModelFields)
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::partial('name'),

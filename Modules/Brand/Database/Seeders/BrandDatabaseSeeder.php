@@ -1,22 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Brand\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
 use Modules\Brand\Models\Brand;
 use Modules\User\Models\User;
 
-class BrandDatabaseSeeder extends Seeder
+final class BrandDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        Brand::factory()->count(50)->create()->each(function ($brand) {
+        Brand::factory()->count(3)->create()->each(function ($brand) {
             $brand->users()->sync(User::factory()->count(10)->create()->pluck('id'));
         });
     }

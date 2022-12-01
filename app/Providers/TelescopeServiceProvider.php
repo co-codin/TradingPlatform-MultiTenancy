@@ -22,7 +22,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 
         $this->hideSensitiveRequestDetails();
 
-//        $this->filterEntries();
+        $this->filterEntries();
 
         $this->filterBatches();
 
@@ -43,7 +43,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     protected function hideSensitiveRequestDetails()
     {
-        if ($this->app->environment('local')) {
+        if (config('app.env') === 'local') {
             return;
         }
 
@@ -64,7 +64,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
     protected function filterEntries()
     {
         Telescope::filter(function (IncomingEntry $entry) {
-            if ($this->app->environment('local')) {
+            if (config('app.env') === 'local') {
                 return true;
             }
 
@@ -92,7 +92,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
     protected function  filterBatches()
     {
         Telescope::filterBatch(function (Collection $entries) {
-            if ($this->app->environment('local')) {
+            if (config('app.env') === 'local') {
                 return true;
             }
 
