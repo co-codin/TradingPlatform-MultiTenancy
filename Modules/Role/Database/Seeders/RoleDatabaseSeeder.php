@@ -19,6 +19,7 @@ final class RoleDatabaseSeeder extends Seeder
             PermissionsTableSeeder::class,
             RolesTableSeeder::class,
             ColumnsTableSeeder::class,
+            ModelsTableSeeder::class,
         ]);
     }
 }

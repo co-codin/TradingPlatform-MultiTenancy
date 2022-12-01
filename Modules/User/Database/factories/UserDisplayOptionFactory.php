@@ -3,6 +3,7 @@
 namespace Modules\User\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Role\Models\Model;
 use Modules\User\Models\DisplayOption;
 use Modules\User\Models\User;
 
@@ -24,10 +25,10 @@ class UserDisplayOptionFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
+            'model_id' => Model::factory(),
             'name' => $this->faker->unique()->name(),
             'columns' => [],
             'settings' => [],
         ];
     }
 }
-
