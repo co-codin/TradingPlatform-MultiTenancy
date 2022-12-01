@@ -21,6 +21,7 @@ class TokenRepository extends BaseRepository
      */
     public function boot()
     {
+        $this->pushColumnPermissionValidator(TokenColumnPermissionValidator::class);
         $this->pushCriteria(TokenRequestCriteria::class);
     }
 }

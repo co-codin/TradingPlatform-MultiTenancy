@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Brand\Repositories\Criteria;
 
 use App\Http\Filters\LiveFilter;
@@ -9,18 +11,29 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class BrandRequestCriteria extends BaseCriteria
+final class BrandRequestCriteria extends BaseCriteria
 {
+    protected static array $allowedModelFields = [
+        'id',
+        'user_id',
+        'name',
+        'slug',
+        'description',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
+
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function apply($model, RepositoryInterface $repository)
     {
         return QueryBuilder::for($model)
             ->defaultSort('-id')
             ->allowedFields(array_merge(
-                static::allowedBrandFields(),
-                UserRequestCriteria::allowedUserFields('users'),
+                self::$allowedModelFields,
+                UserRequestCriteria::allowedModelFields('users'),
             ))
             ->allowedFilters([
                 AllowedFilter::exact('id'),
@@ -40,25 +53,5 @@ class BrandRequestCriteria extends BaseCriteria
             ->allowedSorts([
                 'id', 'name', 'slug', 'created_at', 'updated_at', 'deleted_at',
             ]);
-    }
-
-    public static function allowedBrandFields($prefix = null): array
-    {
-        $fields = [
-            'id',
-            'user_id',
-            'name',
-            'slug',
-            'description',
-            'created_at',
-            'updated_at',
-            'deleted_at',
-        ];
-
-        if(!$prefix) {
-            return $fields;
-        }
-
-        return array_map(fn($field) => $prefix . "." . $field, $fields);
     }
 }

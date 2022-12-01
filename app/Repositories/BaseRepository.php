@@ -11,6 +11,14 @@ use Spatie\QueryBuilder\QueryBuilder;
  */
 abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepository
 {
+    /**
+     * @var BaseColumnPermissionValidator $columnPermissionValidator
+     */
+    private BaseColumnPermissionValidator $columnPermissionValidator;
+
+    /**
+     * {@inheritDoc}
+     */
     public function all($columns = ['*'])
     {
         $this->applyCriteria();
@@ -32,6 +40,9 @@ abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepositor
         return $this->parserResult($results);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function paginate($limit = null, $page = null, $columns = ['*'], $method = "paginate")
     {
         $this->applyCriteria();
@@ -42,5 +53,18 @@ abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepositor
         $this->resetModel();
 
         return $this->parserResult($results);
+    }
+
+    /**
+     * Push column permission validator
+     *
+     * @param string $permissionColumnValidator
+     * @return BaseRepository
+     */
+    public function pushColumnPermissionValidator(string $permissionColumnValidator): BaseRepository
+    {
+        $this->columnPermissionValidator = new $permissionColumnValidator;
+
+        return $this;
     }
 }

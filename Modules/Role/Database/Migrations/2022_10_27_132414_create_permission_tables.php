@@ -40,14 +40,12 @@ return new class extends Migration
 
             $table->foreignId('model_id')->constrained();
             $table->foreignId('action_id')->constrained();
-            $table->foreignId('column_id')->nullable()->constrained();
 
             $table->string('name');
-
             $table->string('guard_name');
             $table->timestamps();
 
-            $table->unique(['model_id', 'action_id', 'column_id']);
+            $table->unique(['model_id', 'action_id']);
         });
 
         Schema::create($tableNames['roles'], function (Blueprint $table) use ($teams, $columnNames) {
