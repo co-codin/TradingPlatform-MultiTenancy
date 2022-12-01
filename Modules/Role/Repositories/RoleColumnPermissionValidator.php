@@ -12,7 +12,7 @@ final class RoleColumnPermissionValidator extends BaseColumnPermissionValidator
     /**
      * {@inheritDoc}
      */
-    final protected function getRequestFieldName(): string
+    protected function getRequestFieldName(): string
     {
         return 'roles';
     }
@@ -20,7 +20,7 @@ final class RoleColumnPermissionValidator extends BaseColumnPermissionValidator
     /**
      * {@inheritDoc}
      */
-    final protected function getBasePermissionName(): string
+    protected function getBasePermissionName(): string
     {
         return RolePermission::VIEW_ROLES;
     }

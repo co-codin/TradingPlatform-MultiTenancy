@@ -11,15 +11,21 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 final class SaleStatusRequestCriteria extends BaseCriteria
 {
+    protected static array $allowedModelFields = [
+        'id',
+        'name',
+        'title',
+    ];
+
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function apply($model, RepositoryInterface $repository)
     {
         return QueryBuilder::for($model)
         ->defaultSort('-id')
         ->allowedFields(
-            static::allowedSaleStatusFields()
+            static::allowedSaleFields()
         )
         ->allowedFilters([
             AllowedFilter::exact('id'),
@@ -39,7 +45,7 @@ final class SaleStatusRequestCriteria extends BaseCriteria
         ]);
     }
 
-    public static function allowedSaleStatusFields($prefix = null): array
+    public static function allowedSaleFields($prefix = null): array
     {
         $fields = [
             'id',
