@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Seeder;
 use Modules\Role\Models\Model;
 use Modules\Role\Services\ModelService;
-use Modules\User\Models\User;
 
 final class ModelsTableSeeder extends Seeder
 {
@@ -20,7 +19,6 @@ final class ModelsTableSeeder extends Seeder
      */
     public function run(ModelService $modelService): void
     {
-        dd(User::factory()->create());
         foreach ($modelService->getModelPaths() as $class) {
             if (is_subclass_of($class, EloquentModel::class)) {
                 Model::query()->updateOrCreate(
