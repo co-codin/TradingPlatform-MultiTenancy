@@ -18,41 +18,41 @@ final class SaleStatusStorage
      */
     public function store(SaleStatusDto $dto): SaleStatus
     {
-        $salestatus = SaleStatus::create($dto->toArray());
+        $saleStatus = SaleStatus::create($dto->toArray());
 
-        if (!$salestatus) {
+        if (!$saleStatus) {
             throw new LogicException(__('Can not create salestatus'));
         }
 
-        return $salestatus;
+        return $saleStatus;
     }
 
     /**
      * Update salestatus.
      *
-     * @param SaleStatus $salestatus
+     * @param SaleStatus $saleStatus
      * @param SaleStatusDto $dto
      * @return SaleStatus
      * @throws LogicException
      */
-    public function update(SaleStatus $salestatus, SaleStatusDto $dto): SaleStatus
+    public function update(SaleStatus $saleStatus, SaleStatusDto $dto): SaleStatus
     {
-        if (!$salestatus->update($dto->toArray())) {
+        if (!$saleStatus->update($dto->toArray())) {
             throw new LogicException(__('Can not update salestatus'));
         }
 
-        return $salestatus;
+        return $saleStatus;
     }
 
     /**
      * Delete salestatus.
      *
-     * @param SaleStatus $salestatus
+     * @param SaleStatus $saleStatus
      * @return bool
      */
-    public function delete(SaleStatus $salestatus): bool
+    public function delete(SaleStatus $saleStatus): bool
     {
-        if (!$salestatus->delete()) {
+        if (!$saleStatus->delete()) {
             throw new LogicException(__('Can not delete salestatus'));
         }
 

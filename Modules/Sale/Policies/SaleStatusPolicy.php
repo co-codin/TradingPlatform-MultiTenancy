@@ -27,10 +27,10 @@ final class SaleStatusPolicy extends BasePolicy
      * View salestatus policy.
      *
      * @param User $user
-     * @param SaleStatus $salestatus
+     * @param SaleStatus $saleStatus
      * @return bool
      */
-    public function view(User $user, SaleStatus $salestatus): bool
+    public function view(User $user, SaleStatus $saleStatus): bool
     {
         return $user->can(SaleStatusPermission::VIEW_SALE_STATUSES);
     }
@@ -50,10 +50,10 @@ final class SaleStatusPolicy extends BasePolicy
      * Update salestatus policy.
      *
      * @param User $user
-     * @param SaleStatus $salestatus
+     * @param SaleStatus $saleStatus
      * @return bool
      */
-    public function update(User $user, SaleStatus $salestatus): bool
+    public function update(User $user, SaleStatus $saleStatus): bool
     {
         return $user->can(SaleStatusPermission::EDIT_SALE_STATUSES);
     }
@@ -62,10 +62,10 @@ final class SaleStatusPolicy extends BasePolicy
      * Delete salestatus policy.
      *
      * @param User $user
-     * @param SaleStatus $salestatus
+     * @param SaleStatus $saleStatus
      * @return bool
      */
-    public function delete(User $user, SaleStatus $salestatus): bool
+    public function delete(User $user, SaleStatus $saleStatus): bool
     {
         return $user->can(SaleStatusPermission::DELETE_SALE_STATUSES);
     }
