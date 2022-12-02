@@ -27,7 +27,6 @@ final class UserCreateRequest extends BaseFormRequest
                 'max:255',
             ],
             'email' => [
-                'required',
                 'email',
                 'max:255',
                 'unique:users,email',

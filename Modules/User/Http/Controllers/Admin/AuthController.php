@@ -37,7 +37,7 @@ final class AuthController extends Controller
      *                      "password"
      *                  },
      *                  type="object",
-     *                  @OA\Property(property="email", type="string", format="email"),
+     *                  @OA\Property(property="email", type="string", description="Username or Email"),
      *                  @OA\Property(property="password", type="string", format="password"),
      *                  @OA\Property(property="remember_me", type="boolean")
      *              )
@@ -85,9 +85,11 @@ final class AuthController extends Controller
      */
     public function login(LoginRequest $request): Response
     {
+        $login = $request->validated('login');
+        $loginType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         if (
-            ! Auth::attempt([
-                'email' => $request->validated('email'), 'password' => $request->validated('password'),
+            ! Auth::guard('web')->attempt([
+                $loginType => $login, 'password' => $request->validated('password'),
             ], $request->validated('remember_me', false))
         ) {
             throw ValidationException::withMessages([

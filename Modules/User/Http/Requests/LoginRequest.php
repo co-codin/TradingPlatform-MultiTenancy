@@ -16,7 +16,7 @@ final class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
+            'login' => 'required|string',
             'password' => 'required|string',
             'remember_me' => 'boolean',
         ];
@@ -25,7 +25,7 @@ final class LoginRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'email' => strtolower($this->email),
+            'login' => strtolower($this->login),
         ]);
     }
 }
