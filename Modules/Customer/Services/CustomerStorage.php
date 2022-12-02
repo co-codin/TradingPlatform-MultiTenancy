@@ -57,4 +57,19 @@ class CustomerStorage
 
         return true;
     }
+
+    /**
+     * Update or store customer.
+     *
+     * @param  CustomerDto  $dto
+     * @return Customer
+     */
+    public function updateOrStore(CustomerDto $dto): Customer
+    {
+        if (! $customer = Customer::query()->updateOrCreate($dto->toArray())) {
+            throw new LogicException(__('Can not update or create customer'));
+        }
+
+        return $customer;
+    }
 }
