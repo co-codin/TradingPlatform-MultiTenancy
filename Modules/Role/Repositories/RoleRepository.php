@@ -21,7 +21,7 @@ class RoleRepository extends BaseRepository
      */
     public function boot()
     {
-        $this->pushColumnPermissionValidator(RoleColumnPermissionValidator::class);
+        $this->pushPermissionColumnValidator(RoleColumnPermissionValidator::class);
         $this->pushCriteria(RoleRequestCriteria::class);
     }
 }
