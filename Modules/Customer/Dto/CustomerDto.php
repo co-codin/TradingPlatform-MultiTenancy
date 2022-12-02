@@ -12,7 +12,6 @@ final class CustomerDto extends BaseDto
      * @var string
      */
     public string $first_name = '';
-
     /**
      * @var string
      */
@@ -36,33 +35,17 @@ final class CustomerDto extends BaseDto
      */
     public string $phone = '';
     /**
-     * @var string
-     */
-    public string $phone2 = '';
-    /**
      * @var int
      */
     public int $country_id = 0;
     /**
      * @var string
      */
-    public string $birthday = '';
+    public string $phone2 = '';
     /**
      * @var int
      */
     public int $language_id = 0;
-    /**
-     * @var int
-     */
-    public int $supposed_language_id = 0;
-    /**
-     * @var int
-     */
-    public int $platform_language_id = 0;
-    /**
-     * @var string
-     */
-    public string $state = '';
     /**
      * @var string
      */
@@ -76,22 +59,6 @@ final class CustomerDto extends BaseDto
      */
     public string $postal_code = '';
     /**
-     * @var string
-     */
-    public bool $is_demo = false;
-    /**
-     * @var bool
-     */
-    public bool $is_active = true;
-    /**
-     * @var bool
-     */
-    public bool $is_active_trading = true;
-    /**
-     * @var bool
-     */
-    public bool $is_test = false;
-    /**
      * @var int
      */
     public int $desk_id = 0;
@@ -99,7 +66,6 @@ final class CustomerDto extends BaseDto
      * @var int
      */
     public int $department_id = 0;
-
     /**
      * @var string
      */
@@ -132,22 +98,6 @@ final class CustomerDto extends BaseDto
      * @var string
      */
     public string $free_param_3 = '';
-    /**
-     * @var float
-     */
-    public float $balance = 0;
-    /**
-     * @var float
-     */
-    public float $balance_usd = 0;
-    /**
-     * @var bool
-     */
-    public bool $is_ftd = false;
-    /**
-     * @var string
-     */
-    public string $timezone = '';
     /**
      * @var ?string
      */
