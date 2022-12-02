@@ -6,7 +6,7 @@ namespace Modules\Sale\Dto;
 
 use App\Dto\BaseDto;
 
-final class SaleDto extends BaseDto
+final class SaleStatusDto extends BaseDto
 {
     /**
      * @var string|null $name

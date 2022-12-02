@@ -2837,21 +2837,21 @@
                 ]
             }
         },
-        "/admin/sale": {
+        "/admin/sale-statuses": {
             "get": {
                 "tags": [
-                    "Sale"
+                    "SaleStatus"
                 ],
-                "summary": "Get sale list",
-                "description": "Returns sale list data.",
-                "operationId": "sale.index",
+                "summary": "Get salestatus list",
+                "description": "Returns salestatus list data.",
+                "operationId": "ffa6789ab6fe18c80e47fe5092533559",
                 "responses": {
                     "201": {
                         "description": "Successful operation",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/SaleCollection"
+                                    "$ref": "#/components/schemas/SaleStatusCollection"
                                 }
                             }
                         }
@@ -2871,41 +2871,47 @@
             },
             "post": {
                 "tags": [
-                    "Sale"
+                    "SaleStatus"
                 ],
-                "summary": "Store sale",
-                "description": "Returns sale data.",
-                "operationId": "sale.store",
-                "parameters": [
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "description": "Name",
-                        "required": true,
-                        "example": "Any name"
-                    },
-                    {
-                        "name": "title",
-                        "in": "query",
-                        "description": "Title",
-                        "required": true,
-                        "example": "Any title"
-                    },
-                    {
-                        "name": "color",
-                        "in": "query",
-                        "description": "Color",
-                        "required": true,
-                        "example": "#e1e1e1"
+                "summary": "Store salestatus",
+                "description": "Returns salestatus data.",
+                "operationId": "84a86fd9a91b69f0a1e79ab80b91fb49",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "title",
+                                    "color"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of sale status",
+                                        "type": "string"
+                                    },
+                                    "title": {
+                                        "description": "Title of sale status",
+                                        "type": "string"
+                                    },
+                                    "color": {
+                                        "description": "RGB HEX",
+                                        "type": "string",
+                                        "example": "#e1e1e1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
                     }
-                ],
+                },
                 "responses": {
                     "201": {
                         "description": "Successful operation",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/SaleResource"
+                                    "$ref": "#/components/schemas/SaleStatusResource"
                                 }
                             }
                         }
@@ -2924,21 +2930,23 @@
                 ]
             }
         },
-        "/admin/sale/{id}": {
+        "/admin/sale-statuses/{id}": {
             "get": {
                 "tags": [
-                    "Sale"
+                    "SaleStatus"
                 ],
-                "summary": "Get sale",
-                "description": "Returns sale data.",
-                "operationId": "sale.show",
+                "summary": "Get salestatus",
+                "description": "Returns salestatus data.",
+                "operationId": "512b5fa2cae02ebfb639715f3319fc72",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Sale id",
+                        "description": "Sale statuses ID",
                         "required": true,
-                        "example": 1
+                        "schema": {
+                            "type": "integer"
+                        }
                     }
                 ],
                 "responses": {
@@ -2947,7 +2955,78 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/SaleResource"
+                                    "$ref": "#/components/schemas/SaleStatusResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "SaleStatus"
+                ],
+                "summary": "Update salestatus",
+                "description": "Returns salestatus data.",
+                "operationId": "83b3eb51afba342ce220ad299f7eaa6b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Sale statuses ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "title",
+                                    "color"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of sale status",
+                                        "type": "string"
+                                    },
+                                    "title": {
+                                        "description": "Title of sale status",
+                                        "type": "string"
+                                    },
+                                    "color": {
+                                        "description": "RGB HEX",
+                                        "type": "string",
+                                        "example": "#e1e1e1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SaleStatusResource"
                                 }
                             }
                         }
@@ -2967,18 +3046,20 @@
             },
             "delete": {
                 "tags": [
-                    "Sale"
+                    "SaleStatus"
                 ],
-                "summary": "Delete sale",
+                "summary": "Delete salestatus",
                 "description": "Returns status.",
-                "operationId": "sale.delete",
+                "operationId": "9485c480b3bf562d78b5b9c9c4db898a",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Sale id",
+                        "description": "Sale statuses ID",
                         "required": true,
-                        "example": 1
+                        "schema": {
+                            "type": "integer"
+                        }
                     }
                 ],
                 "responses": {
@@ -2987,7 +3068,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/SaleResource"
+                                    "$ref": "#/components/schemas/SaleStatusResource"
                                 }
                             }
                         }
@@ -3007,48 +3088,53 @@
             },
             "patch": {
                 "tags": [
-                    "Sale"
+                    "SaleStatus"
                 ],
-                "summary": "Update sale",
-                "description": "Returns sale data.",
-                "operationId": "sale.update",
+                "summary": "Update salestatus",
+                "description": "Returns salestatus data.",
+                "operationId": "44e9fcaa7348acd0a8ab081721d4a704",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Sale id",
+                        "description": "Sale statuses ID",
                         "required": true,
-                        "example": 1
-                    },
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "description": "Name",
-                        "required": false,
-                        "example": "Russia"
-                    },
-                    {
-                        "name": "title",
-                        "in": "query",
-                        "description": "Title",
-                        "required": true,
-                        "example": "Any title"
-                    },
-                    {
-                        "name": "color",
-                        "in": "query",
-                        "description": "Color",
-                        "required": true,
-                        "example": "#e1e1e1"
+                        "schema": {
+                            "type": "integer"
+                        }
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of sale status",
+                                        "type": "string"
+                                    },
+                                    "title": {
+                                        "description": "Title of sale status",
+                                        "type": "string"
+                                    },
+                                    "color": {
+                                        "description": "RGB HEX",
+                                        "type": "string",
+                                        "example": "#e1e1e1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "201": {
                         "description": "Successful operation",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/SaleResource"
+                                    "$ref": "#/components/schemas/SaleStatusResource"
                                 }
                             }
                         }
@@ -5874,8 +5960,8 @@
                 },
                 "type": "object"
             },
-            "Sale": {
-                "title": "Sale",
+            "SaleStatus": {
+                "title": "SaleStatus",
                 "description": "SaleStatus model",
                 "required": [
                     "name",
@@ -5884,7 +5970,7 @@
                 ],
                 "properties": {
                     "id": {
-                        "description": "Sale.",
+                        "description": "SaleStatus.",
                         "type": "integer",
                         "readOnly": "true",
                         "example": "1"
@@ -5921,15 +6007,15 @@
                 },
                 "type": "object",
                 "xml": {
-                    "name": "Sale"
+                    "name": "SaleStatus"
                 }
             },
-            "SaleCollection": {
+            "SaleStatusCollection": {
                 "properties": {
                     "data": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/Sale"
+                            "$ref": "#/components/schemas/SaleStatus"
                         }
                     },
                     "meta": {
@@ -5938,10 +6024,10 @@
                 },
                 "type": "object"
             },
-            "SaleResource": {
+            "SaleStatusResource": {
                 "properties": {
                     "data": {
-                        "$ref": "#/components/schemas/Sale"
+                        "$ref": "#/components/schemas/SaleStatus"
                     }
                 },
                 "type": "object"
