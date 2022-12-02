@@ -278,7 +278,7 @@ final class CustomerController extends Controller
      */
     public function store(CustomerCreateRequest $request): JsonResource
     {
-        // $this->authorize('create', Customer::class);
+        $this->authorize('create', Customer::class);
 
         return new CustomerResource(
             $this->customerStorage->store(CustomerDto::fromFormRequest($request)),
