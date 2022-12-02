@@ -6,28 +6,17 @@ namespace Modules\User\Dto;
 
 use App\Dto\BaseDto;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
-use Modules\User\Models\DisplayOption;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 final class DisplayOptionColumnsDto extends BaseDto implements CastsAttributes
 {
-    public DisplayOptionColumnItemDto|array $login = [];
-    public DisplayOptionColumnItemDto|array $first_name = [];
-    public DisplayOptionColumnItemDto|array $last_name = [];
-    public DisplayOptionColumnItemDto|array $email = [];
-    public DisplayOptionColumnItemDto|array $is_active = [];
-    public DisplayOptionColumnItemDto|array $target = [];
-    public DisplayOptionColumnItemDto|array $last_login = [];
-    public DisplayOptionColumnItemDto|array $banned_at = [];
-    public DisplayOptionColumnItemDto|array $created_at = [];
-    public DisplayOptionColumnItemDto|array $updated_at = [];
-    public DisplayOptionColumnItemDto|array $deleted_at = [];
-
     /**
      * @param $model
-     * @param string $key
+     * @param  string  $key
      * @param $value
-     * @param array $attributes
+     * @param  array  $attributes
      * @return array
      */
     final public function get($model, string $key, $value, array $attributes): array
@@ -37,22 +26,28 @@ final class DisplayOptionColumnsDto extends BaseDto implements CastsAttributes
 
     /**
      * @param $model
-     * @param string $key
+     * @param  string  $key
      * @param $value
-     * @param array $attributes
+     * @param  array  $attributes
      * @return string
+     *
      * @throws UnknownProperties
      */
     final public function set($model, string $key, $value, array $attributes): string
     {
-        foreach ($this->getPublicProperties() as $property) {
-            $name = $property->getName();
+        $modelOfModel = (new ("\\{$model->model->name}"));
 
-            $value[$name]['value'] ??= DisplayOption::DEFAULT_COLUMN_VALUES[$name] ?? '';
+        $columns = array_diff(
+            Schema::getColumnListing($modelOfModel->getTable()),
+            $modelOfModel->getHidden()
+        );
 
-            $this->{$property->getName()} = new DisplayOptionColumnItemDto($value[$name]);
+        foreach ($columns as $property) {
+            $value[$property]['value'] ??= ucfirst(Str::replace('_', ' ', $property)) ?? '';
+
+            $value[$property] = new DisplayOptionColumnItemDto($value[$property]);
         }
 
-        return json_encode($this->toArray());
+        return json_encode($value);
     }
 }

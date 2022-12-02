@@ -3584,10 +3584,14 @@
                         "application/json": {
                             "schema": {
                                 "required": [
+                                    "model_id",
                                     "name",
                                     "columns"
                                 ],
                                 "properties": {
+                                    "model_id": {
+                                        "type": "integer"
+                                    },
                                     "name": {
                                         "type": "string"
                                     },
@@ -3663,9 +3667,13 @@
                         "application/json": {
                             "schema": {
                                 "required": [
+                                    "model_id",
                                     "name"
                                 ],
                                 "properties": {
+                                    "model_id": {
+                                        "type": "integer"
+                                    },
                                     "name": {
                                         "type": "string"
                                     },
@@ -3788,6 +3796,9 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
+                                    "model_id": {
+                                        "type": "integer"
+                                    },
                                     "name": {
                                         "type": "string"
                                     },
@@ -6088,6 +6099,9 @@
                     "id": {
                         "type": "integer"
                     },
+                    "model_id": {
+                        "type": "integer"
+                    },
                     "user_id": {
                         "type": "integer"
                     },
@@ -6105,6 +6119,9 @@
                         "items": {
                             "$ref": "#/components/schemas/Worker"
                         }
+                    },
+                    "model": {
+                        "type": "object"
                     }
                 },
                 "type": "object"

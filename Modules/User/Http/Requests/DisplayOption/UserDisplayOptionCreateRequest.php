@@ -14,9 +14,10 @@ final class UserDisplayOptionCreateRequest extends BaseFormRequest
     final public function rules(): array
     {
         return [
+            'model_id' => 'required|integer|exists:models,id',
             'name' => 'required|string',
             'columns' => 'nullable|array',
-            'columns.*' => 'required|string'
+            'columns.*' => 'required|string',
         ];
     }
 }

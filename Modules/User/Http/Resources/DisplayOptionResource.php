@@ -18,10 +18,12 @@ use Modules\User\Models\User;
  *         "columns",
  *     },
  *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="model_id", type="integer"),
  *     @OA\Property(property="user_id", type="integer"),
  *     @OA\Property(property="name", type="string"),
  *     @OA\Property(property="columns", type="array", @OA\Items(type="string")),
  *     @OA\Property(property="user", type="array", @OA\Items(ref="#/components/schemas/Worker")),
+ *     @OA\Property(property="model", type="object"),
  * ),
  *
  * @OA\Schema (
@@ -50,7 +52,6 @@ use Modules\User\Models\User;
  * )
  *
  * Class DisplayOptionResource
- * @package Modules\User\Http\Resources
  * @mixin User
  */
 final class DisplayOptionResource extends JsonResource
@@ -62,6 +63,7 @@ final class DisplayOptionResource extends JsonResource
     {
         return array_merge(parent::toArray($request), [
             'user' => new UserResource($this->whenLoaded('user')),
+            'model' => $this->whenLoaded('model'),
         ]);
     }
 }
