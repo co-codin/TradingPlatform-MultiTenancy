@@ -27,8 +27,8 @@ return new class extends Migration
             $table->foreignId('country_id')->constrained();
 
             $table->foreignId('language_id')->nullable()->constrained();
-            $table->foreignId('supposed_language_id')->nullable()->constrained();
-            $table->foreignId('platform_language_id')->nullable()->constrained();
+            $table->foreignId('supposed_language_id')->nullable()->constrained()->on('languages');
+            $table->foreignId('platform_language_id')->nullable()->constrained()->on('languages');
 
             $table->string('state')->nullable();
             $table->string('city')->nullable();
@@ -80,8 +80,8 @@ return new class extends Migration
             $table->unsignedFloat('balance_usd')->nullable();
             $table->boolean('is_ftd')->default(false);
 
-//            $table->foreignId('conversion_sale_status_id')->nullable()->constrained()->on('sale_statuses');
-//            $table->foreignId('retention_sale_status_id')->nullable()->constrained()->on('sale_statuses');
+           $table->foreignId('conversion_sale_status_id')->nullable()->constrained()->on('sale_statuses');
+           $table->foreignId('retention_sale_status_id')->nullable()->constrained()->on('sale_statuses');
 
             $table->string('timezone')->nullable();
 
