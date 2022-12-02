@@ -4,21 +4,23 @@ declare(strict_types=1);
 
 namespace Modules\Customer\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use Illuminate\Auth\Access\AuthorizationException;
 use Maatwebsite\Excel\Excel;
 use Maatwebsite\Excel\Facades\Excel as ExcelFacade;
 use Modules\Customer\Exports\CustomerExport;
 use Modules\Customer\Repositories\CustomerRepository;
+use Modules\User\Models\User;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
-final class CustomerExportController
+final class CustomerExportController extends Controller
 {
     /**
-     * @param CustomerRepository $customerRepository
+     * @param  CustomerRepository  $customerRepository
      */
     public function __construct(
         protected CustomerRepository $customerRepository,
-    )
-    {
+    ) {
     }
 
     /**
@@ -48,9 +50,13 @@ final class CustomerExportController
      * Export excel.
      *
      * @return BinaryFileResponse
+     *
+     * @throws AuthorizationException
      */
     public function excel(): BinaryFileResponse
     {
+        $this->authorize('exportCustomers', User::class);
+
         $export = new CustomerExport();
         $export->setCollection($this->customerRepository->get());
 
@@ -88,9 +94,13 @@ final class CustomerExportController
      * Export csv.
      *
      * @return BinaryFileResponse
+     *
+     * @throws AuthorizationException
      */
     public function csv(): BinaryFileResponse
     {
+        $this->authorize('exportCustomers', User::class);
+
         $export = new CustomerExport();
         $export->setCollection($this->customerRepository->get());
 

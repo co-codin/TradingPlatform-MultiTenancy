@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Department\Http\Controllers\Admin\DepartmentController;
+use Modules\Department\Http\Controllers\Admin\DepartmentUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +16,6 @@ use Modules\Department\Http\Controllers\Admin\DepartmentController;
 */
 
 Route::group(['middleware' => 'tenant.set:1'], function () {
+    Route::get('departments/workers', [DepartmentUserController::class, 'allByDepartments'])->name('departments.users.allByDepartments');
     Route::apiResource('departments', DepartmentController::class);
 });

@@ -116,4 +116,37 @@ class UserPolicy extends BasePolicy
     {
         return $user->can(UserPermission::BAN_USERS);
     }
+
+    /**
+     * View any departments workers policy.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function viewAnyByDepartments(User $user): bool
+    {
+        return $user->can(UserPermission::VIEW_DEPARTMENT_USERS);
+    }
+
+    /**
+     * Export customers policy.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function exportCustomers(User $user): bool
+    {
+        return $user->can(UserPermission::EXPORT_CUSTOMERS);
+    }
+
+    /**
+     * Import customers policy.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function importCustomers(User $user): bool
+    {
+        return $user->can(UserPermission::IMPORT_CUSTOMERS);
+    }
 }

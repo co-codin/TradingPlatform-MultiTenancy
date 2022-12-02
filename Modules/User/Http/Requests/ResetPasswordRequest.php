@@ -25,4 +25,11 @@ final class ResetPasswordRequest extends BaseFormRequest
             'token' => 'Token',
         ];
     }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'email' => strtolower($this->email),
+        ]);
+    }
 }
