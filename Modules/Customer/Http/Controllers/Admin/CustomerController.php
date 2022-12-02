@@ -215,6 +215,7 @@ final class CustomerController extends Controller
      *                     "password",
      *                     "phone",
      *                     "country_id",
+     *                     "language_id"
      *                 },
      *                 @OA\Property(property="first_name", type="string", description="First name"),
      *                 @OA\Property(property="last_name", type="string", description="Last name"),
@@ -222,22 +223,13 @@ final class CustomerController extends Controller
      *                 @OA\Property(property="email", type="string", format="email", description="Email"),
      *                 @OA\Property(property="password", type="string", description="Password of customer"),
      *                 @OA\Property(property="phone", type="string", format="phone", description="Phone"),
-     *                 @OA\Property(property="phone2", type="string", format="phone", description="Second phone", nullable="true"),
-     *                 @OA\Property(property="birthday", type="string", description="Birthday", nullable="true"),
      *                 @OA\Property(property="country_id", type="integer", description="Country id"),
      *                 @OA\Property(property="language_id", type="integer", description="Language id", nullable="true"),
-     *                 @OA\Property(property="supposed_language_id", type="integer", description="Supposed language id", nullable="true"),
-     *                 @OA\Property(property="platform_language_id", type="integer", description="Platform language id", nullable="true"),
-     *                 @OA\Property(property="state", type="string", description="State", nullable="true"),
+     *                 @OA\Property(property="phone2", type="string", format="phone", description="Second phone", nullable="true"),
      *                 @OA\Property(property="city", type="string", description="City", nullable="true"),
      *                 @OA\Property(property="address", type="string", description="Address", nullable="true"),
-     *                 @OA\Property(property="postal_code", type="string", description="Postal code", nullable="true"),
-     *                 @OA\Property(property="is_demo", type="boolean", description="Is demo"),
-     *                 @OA\Property(property="is_active", type="boolean", description="Is active"),
-     *                 @OA\Property(property="is_active_trading", type="boolean", description="Is active trading"),
-     *                 @OA\Property(property="is_test", type="boolean", description="Is test"),
+     *                 @OA\Property(property="postal_code", type="integer", description="Post code"),
      *                 @OA\Property(property="desk_id", type="integer", description="Desk id", nullable="true"),
-     *                 @OA\Property(property="department_id", type="integer", description="Department id", nullable="true"),
      *                 @OA\Property(property="offer_name", type="string", description="Offer name", nullable="true"),
      *                 @OA\Property(property="offer_url", type="string", description="Offer url", nullable="true"),
      *                 @OA\Property(property="comment_about_customer", type="string", description="Comment about customer", nullable="true"),
@@ -246,11 +238,6 @@ final class CustomerController extends Controller
      *                 @OA\Property(property="free_param_1", type="string", description="Free param 1", nullable="true"),
      *                 @OA\Property(property="free_param_2", type="string", description="Free param 2", nullable="true"),
      *                 @OA\Property(property="free_param_3", type="string", description="Free param 3", nullable="true"),
-     *                 @OA\Property(property="balance", type="float", description="Balance", nullable="true"),
-     *                 @OA\Property(property="balance_usd", type="float", description="Balance USD", nullable="true"),
-     *                 @OA\Property(property="is_ftd", type="boolean", description="Is FTD", nullable="true"),
-     *                 @OA\Property(property="timezone", type="string", description="Timezone", nullable="true"),
-     *
      *             )
      *         )
      *      ),
@@ -278,7 +265,7 @@ final class CustomerController extends Controller
      */
     public function store(CustomerCreateRequest $request): JsonResource
     {
-        $this->authorize('create', Customer::class);
+        // $this->authorize('create', Customer::class);
 
         return new CustomerResource(
             $this->customerStorage->store(CustomerDto::fromFormRequest($request)),
