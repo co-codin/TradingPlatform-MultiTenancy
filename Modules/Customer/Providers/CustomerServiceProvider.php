@@ -27,4 +27,16 @@ final class CustomerServiceProvider extends BaseModuleServiceProvider
     {
         return 'Customer';
     }
+
+    /**
+     * boot
+     *
+     * @return void
+     */
+    public function boot(): void
+    {
+        parent::boot();
+
+        $this->loadMigrationsFrom(module_path($this->getModuleName(), 'Database/Migrations'));
+    }
 }
