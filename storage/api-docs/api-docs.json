@@ -3466,10 +3466,14 @@
                         "application/json": {
                             "schema": {
                                 "required": [
+                                    "model_id",
                                     "name",
                                     "columns"
                                 ],
                                 "properties": {
+                                    "model_id": {
+                                        "type": "integer"
+                                    },
                                     "name": {
                                         "type": "string"
                                     },
@@ -3545,9 +3549,13 @@
                         "application/json": {
                             "schema": {
                                 "required": [
+                                    "model_id",
                                     "name"
                                 ],
                                 "properties": {
+                                    "model_id": {
+                                        "type": "integer"
+                                    },
                                     "name": {
                                         "type": "string"
                                     },
@@ -3670,6 +3678,9 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
+                                    "model_id": {
+                                        "type": "integer"
+                                    },
                                     "name": {
                                         "type": "string"
                                     },
@@ -5970,6 +5981,9 @@
                     "id": {
                         "type": "integer"
                     },
+                    "model_id": {
+                        "type": "integer"
+                    },
                     "user_id": {
                         "type": "integer"
                     },
@@ -5987,6 +6001,9 @@
                         "items": {
                             "$ref": "#/components/schemas/Worker"
                         }
+                    },
+                    "model": {
+                        "type": "object"
                     }
                 },
                 "type": "object"
@@ -6184,7 +6201,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }

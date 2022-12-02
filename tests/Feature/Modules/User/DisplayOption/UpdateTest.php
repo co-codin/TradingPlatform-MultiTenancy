@@ -3,8 +3,6 @@
 namespace Tests\Feature\Modules\User\DisplayOption;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Modules\Geo\Enums\CountryPermission;
-use Modules\Geo\Models\Country;
 use Modules\User\Enums\UserDisplayOptionPermission;
 use Modules\User\Models\DisplayOption;
 use Modules\User\Models\User;
@@ -41,6 +39,7 @@ class UpdateTest extends TestCase
 
         $response->assertJson([
             'data' => [
+                'model_id' => $data['model_id'],
                 'user_id' => $data['user_id'],
                 'name' => $data['name'],
                 'columns' => $data['columns'],
@@ -96,6 +95,32 @@ class UpdateTest extends TestCase
     }
 
     /**
+     * Test model id filled.
+     *
+     * @return void
+     *
+     * @test
+     */
+    public function model_id_is_filled(): void
+    {
+        $this->authenticateWithPermission(
+            UserDisplayOptionPermission::fromValue(
+                UserDisplayOptionPermission::EDIT_USER_DISPLAY_OPTIONS
+            )
+        );
+
+        $displayOption = DisplayOption::factory()->create(['user_id' => $this->getUser()->id]);
+        $data = DisplayOption::factory()->make(['user_id' => $this->getUser()->id, 'model_id' => null]);
+
+        $response = $this->patch(
+            route('admin.users.display-options.update', ['worker' => $this->getUser()->id, 'display_option' => $displayOption->id]),
+            $data->toArray()
+        );
+
+        $response->assertUnprocessable();
+    }
+
+    /**
      * Test name is string.
      *
      * @return void
@@ -113,6 +138,33 @@ class UpdateTest extends TestCase
         $displayOption = DisplayOption::factory()->create(['user_id' => $this->getUser()->id]);
         $data = DisplayOption::factory()->make(['user_id' => $this->getUser()->id, 'name' => null]);
         $data->name = 1;
+
+        $response = $this->patch(
+            route('admin.users.display-options.update', ['worker' => $this->getUser()->id, 'display_option' => $displayOption->id]),
+            $data->toArray()
+        );
+
+        $response->assertUnprocessable();
+    }
+
+    /**
+     * Test model id is integer.
+     *
+     * @return void
+     *
+     * @test
+     */
+    public function model_id_is_integer(): void
+    {
+        $this->authenticateWithPermission(
+            UserDisplayOptionPermission::fromValue(
+                UserDisplayOptionPermission::EDIT_USER_DISPLAY_OPTIONS
+            )
+        );
+
+        $displayOption = DisplayOption::factory()->create(['user_id' => $this->getUser()->id]);
+        $data = DisplayOption::factory()->make(['user_id' => $this->getUser()->id, 'model_id' => null]);
+        $data->model_id = 'string';
 
         $response = $this->patch(
             route('admin.users.display-options.update', ['worker' => $this->getUser()->id, 'display_option' => $displayOption->id]),

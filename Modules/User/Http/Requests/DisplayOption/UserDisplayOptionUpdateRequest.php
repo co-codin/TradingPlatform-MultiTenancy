@@ -14,9 +14,10 @@ final class UserDisplayOptionUpdateRequest extends BaseFormRequest
     final public function rules(): array
     {
         return [
+            'model_id' => 'sometimes|required|integer|exists:models,id',
             'name' => 'sometimes|required|string',
             'columns' => 'nullable|array',
-            'columns.*' => 'sometimes|required|string'
+            'columns.*' => 'sometimes|required|string',
         ];
     }
 }
