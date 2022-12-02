@@ -17,7 +17,7 @@ final class ApiLoginTest extends TestCase
     {
         $user = $this->getUser();
         $response = $this->post(route('admin.token-auth.login'), [
-            'email' => $user->email,
+            'login' => $user->email,
             'password' => 'admin1',
         ]);
 
@@ -40,7 +40,7 @@ final class ApiLoginTest extends TestCase
     {
         $user = $this->getUser();
         $response = $this->post(route('admin.token-auth.login'), [
-            'email' => $user->email,
+            'login' => $user->email,
             'password' => 'admin1',
             'remember_me' => true,
         ]);
@@ -62,7 +62,7 @@ final class ApiLoginTest extends TestCase
     {
         $user = $this->getUser();
         $response = $this->post(route('admin.token-auth.login'), [
-            'email' => $user->email,
+            'login' => $user->email,
             'password' => 'random',
         ]);
 
