@@ -4,6 +4,7 @@ namespace Modules\Department\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Department\Models\Department;
 
 class DepartmentDatabaseSeeder extends Seeder
 {
@@ -14,8 +15,6 @@ class DepartmentDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Model::unguard();
-
-        // $this->call("OthersTableSeeder");
+        Department::factory(10)->create();
     }
 }
