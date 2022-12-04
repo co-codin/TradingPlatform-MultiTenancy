@@ -190,7 +190,7 @@ final class CustomerController extends Controller
      */
     public function index(): JsonResource
     {
-        // $this->authorize('viewAny', Customer::class);
+        $this->authorize('viewAny', Customer::class);
 
         return CustomerResource::collection($this->customerRepository->jsonPaginate());
     }
@@ -256,7 +256,7 @@ final class CustomerController extends Controller
      *      )
      * )
      *
-     * Store salestatus.
+     * Store customer.
      *
      * @param CustomerCreateRequest $request
      * @return JsonResource
@@ -265,10 +265,54 @@ final class CustomerController extends Controller
      */
     public function store(CustomerCreateRequest $request): JsonResource
     {
-        // $this->authorize('create', Customer::class);
+        $this->authorize('create', Customer::class);
 
         return new CustomerResource(
             $this->customerStorage->store(CustomerDto::fromFormRequest($request)),
         );
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/admin/customers/{id}",
+     *      security={ {"sanctum": {} }},
+     *      tags={"Customer"},
+     *      summary="Get customer",
+     *      description="Returns customer data.",
+     *      @OA\Parameter(
+     *         description="Customer ID",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/CustomerResource")
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     *
+     * Show the customer.
+     *
+     * @param int $id
+     * @return JsonResource
+     * @throws AuthorizationException
+     */
+    public function show(int $id): JsonResource
+    {
+        $customer = $this->customerRepository->find($id);
+
+        $this->authorize('view', $customer);
+
+        return new CustomerResource($customer);
     }
 }
