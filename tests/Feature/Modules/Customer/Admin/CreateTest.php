@@ -23,11 +23,9 @@ class CreateTest extends TestCase
 
         $data = Customer::factory()->make()->toArray();
 
-        $response = $this->postJson(route('admin.customers.store'), $data);
+        $response = $this->postJson(route('admin.customers.store'), array_merge($data, ['password' => 'password']));
 
         $response->assertCreated();
-
-        $data['password'] = $response['data']['password'];
 
         $response->assertJson(['data' => $data]);
     }
@@ -45,7 +43,7 @@ class CreateTest extends TestCase
 
         $data = Customer::factory()->make()->toArray();
 
-        $response = $this->postJson(route('admin.customers.store'), $data);
+        $response = $this->postJson(route('admin.customers.store'), array_merge($data, ['password' => 'password']));
 
         $response->assertForbidden();
     }
