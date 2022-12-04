@@ -45,7 +45,7 @@ class CustomerFactory extends Factory
             'offer_url' => $this->faker->url(),
             'comment_about_customer' => $this->faker->sentence(20),
             'source' => $this->faker->sentence(5),
-            'click_id' => $this->faker->randomDigit(),
+            'click_id' => $this->faker->lexify(),
             'free_param_1' => $this->faker->sentence(1),
             'free_param_2' => $this->faker->sentence(1),
             'free_param_3' => $this->faker->sentence(1),
