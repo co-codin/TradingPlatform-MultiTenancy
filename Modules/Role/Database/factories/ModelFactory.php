@@ -6,6 +6,7 @@ namespace Modules\Role\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Role\Models\Model;
+use Modules\Role\Services\ModelService;
 
 final class ModelFactory extends Factory
 {
@@ -24,7 +25,7 @@ final class ModelFactory extends Factory
     final public function definition(): array
     {
         return [
-            'name' => $this->faker->randomElement(Model::NAMES),
+            'name' => $this->faker->randomElement(app(ModelService::class)->getModelPaths()),
         ];
     }
 }

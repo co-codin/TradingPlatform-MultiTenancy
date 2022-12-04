@@ -18,7 +18,7 @@ final class LoginTest extends TestCase
     {
         $user = $this->getUser();
         $response = $this->post(route('admin.auth.login'), [
-            'email' => $user->email,
+            'login' => $user->email,
             'password' => 'admin1',
         ]);
 
@@ -33,7 +33,7 @@ final class LoginTest extends TestCase
     {
         $user = $this->getUser();
         $response = $this->post(route('admin.auth.login'), [
-            'email' => 'test@admin.com',
+            'login' => 'test@admin.com',
             'password' => 'admin1',
             'remember_me' => true,
         ]);
@@ -41,7 +41,7 @@ final class LoginTest extends TestCase
         $response->assertNoContent();
         $this->assertAuthenticatedAs($user);
 
-        $response->assertCookie(Auth::guard()->getRecallerName(), vsprintf('%s|%s|%s', [
+        $response->assertCookie(Auth::guard('web')->getRecallerName(), vsprintf('%s|%s|%s', [
             $user->id,
             $user->getRememberToken(),
             $user->password,
@@ -55,7 +55,7 @@ final class LoginTest extends TestCase
     {
         $user = $this->getUser();
         $response = $this->post(route('admin.auth.login'), [
-            'email' => $user->email,
+            'login' => $user->email,
             'password' => 'random',
         ]);
 
