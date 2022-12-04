@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Client\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Modules\User\Http\Requests\DisplayOption\UserDisplayOptionCreateRequest;
@@ -16,7 +15,6 @@ use Modules\User\Models\DisplayOption;
 use Modules\User\Repositories\DisplayOptionRepository;
 use Modules\User\Repositories\UserRepository;
 use Modules\User\Services\UserDisplayOptionStorage;
-use Modules\User\Services\UserStorage;
 
 class UserDisplayOptionController extends Controller
 {
@@ -24,7 +22,8 @@ class UserDisplayOptionController extends Controller
         protected UserRepository $userRepository,
         protected DisplayOptionRepository $displayOptionRepository,
         protected UserDisplayOptionStorage $userDisplayOptionStorage
-    ) {}
+    ) {
+    }
 
     /**
      * @OA\Post(
@@ -44,9 +43,11 @@ class UserDisplayOptionController extends Controller
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 required={
+     *                     "model_id",
      *                     "name",
      *                     "columns"
      *                 },
+     *                 @OA\Property(property="model_id", type="integer"),
      *                 @OA\Property(property="name", type="string"),
      *                 @OA\Property(property="columns", type="array", @OA\Items(type="string")),
      *             )
@@ -73,9 +74,10 @@ class UserDisplayOptionController extends Controller
      *
      * Store new user`s display option.
      *
-     * @param UserDisplayOptionCreateRequest $request
-     * @param int $user
+     * @param  UserDisplayOptionCreateRequest  $request
+     * @param  int  $user
      * @return JsonResource
+     *
      * @throws AuthorizationException
      */
     public function store(UserDisplayOptionCreateRequest $request, int $user): JsonResource
@@ -114,8 +116,10 @@ class UserDisplayOptionController extends Controller
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 required={
+     *                     "model_id",
      *                     "name",
      *                 },
+     *                 @OA\Property(property="model_id", type="integer"),
      *                 @OA\Property(property="name", type="string"),
      *                 @OA\Property(property="columns", type="array", @OA\Items(type="string")),
      *             )
@@ -166,6 +170,7 @@ class UserDisplayOptionController extends Controller
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
+     *                 @OA\Property(property="model_id", type="integer"),
      *                 @OA\Property(property="name", type="string"),
      *                 @OA\Property(property="columns", type="array", @OA\Items(type="string")),
      *             )
@@ -196,10 +201,11 @@ class UserDisplayOptionController extends Controller
      *
      * Update user`s display option.
      *
-     * @param UserDisplayOptionUpdateRequest $request
-     * @param int $user
-     * @param int $displayOption
+     * @param  UserDisplayOptionUpdateRequest  $request
+     * @param  int  $user
+     * @param  int  $displayOption
      * @return JsonResource
+     *
      * @throws AuthorizationException
      * @throws Exception
      */
@@ -255,9 +261,10 @@ class UserDisplayOptionController extends Controller
      *
      * Delete user`s display option.
      *
-     * @param int $user
-     * @param int $displayOption
+     * @param  int  $user
+     * @param  int  $displayOption
      * @return Response
+     *
      * @throws AuthorizationException
      * @throws Exception
      */

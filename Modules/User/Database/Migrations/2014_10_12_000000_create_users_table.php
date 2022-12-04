@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('username');
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
             $table->string('password');
             $table->boolean('is_active')->default(true);
             $table->bigInteger('target')->nullable();

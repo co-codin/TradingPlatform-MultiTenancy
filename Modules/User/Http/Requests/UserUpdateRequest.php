@@ -30,8 +30,6 @@ final class UserUpdateRequest extends BaseFormRequest
                 'max:255',
             ],
             'email' => [
-                'sometimes',
-                'required',
                 'email',
                 'max:255',
                 'unique:users,email,' . $this->route('worker'),
