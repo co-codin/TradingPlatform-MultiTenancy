@@ -80,8 +80,8 @@ return new class extends Migration
             $table->unsignedFloat('balance_usd')->nullable();
             $table->boolean('is_ftd')->default(false);
 
-           $table->foreignId('conversion_sale_status_id')->nullable()->constrained()->on('sale_statuses');
-           $table->foreignId('retention_sale_status_id')->nullable()->constrained()->on('sale_statuses');
+            $table->foreignId('conversion_sale_status_id')->nullable()->constrained()->on('sale_statuses');
+            $table->foreignId('retention_sale_status_id')->nullable()->constrained()->on('sale_statuses');
 
             $table->string('timezone')->nullable();
 
