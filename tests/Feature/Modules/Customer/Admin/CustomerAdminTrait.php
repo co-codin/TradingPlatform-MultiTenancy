@@ -24,8 +24,7 @@ trait CustomerAdminTrait
                 'Sale',
                 'Customer'
             ] as $migration) {
-                Artisan::call('module:migrate ' . $migration);
-                Artisan::call('module:seed ' . $migration);
+                Artisan::call('module:migrate ' . $migration . ' --seed');
             }
         }
     }
