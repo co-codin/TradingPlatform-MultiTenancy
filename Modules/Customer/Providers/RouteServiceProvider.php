@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Customer\Providers;
 
+use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -43,9 +44,6 @@ final class RouteServiceProvider extends ServiceProvider
      */
     protected function mapAdminRoutes(): void
     {
-        Route::middleware(['api', 'auth:api'])
-            ->as('admin.')
-            ->prefix('admin')
-            ->group(module_path('Customer', '/Routes/admin.php'));
+        Route::group([], module_path('Customer', '/Routes/admin.php'));
     }
 }

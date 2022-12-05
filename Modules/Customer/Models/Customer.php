@@ -52,6 +52,11 @@ class Customer extends Authenticatable
         'balance_usd' => 'decimal:2',
     ];
 
+    /**
+     * {@inheritdoc}
+     */
+    protected $rememberTokenName = false;
+
     protected static function newFactory()
     {
         return CustomerFactory::new();
