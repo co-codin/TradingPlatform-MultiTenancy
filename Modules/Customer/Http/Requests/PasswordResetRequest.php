@@ -14,9 +14,7 @@ final class PasswordResetRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
             'password' => 'required|min:8|confirmed',
-            'token' => 'required',
             'send_email' => 'sometimes|required|boolean',
         ];
     }
@@ -27,19 +25,8 @@ final class PasswordResetRequest extends BaseFormRequest
     public function attributes(): array
     {
         return [
-            'email' => 'Email',
             'password' => 'Password',
-            'token' => 'Token',
+            'send_email' => 'Send email',
         ];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function prepareForValidation(): void
-    {
-        $this->merge([
-            'email' => strtolower($this->email),
-        ]);
     }
 }

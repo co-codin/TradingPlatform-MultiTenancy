@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Customer\Http\Controllers\Admin\Auth\PasswordController;
 use Modules\Customer\Http\Controllers\Admin\CustomerController;
 use Modules\Customer\Http\Controllers\Admin\CustomerExportController;
 use Modules\Customer\Http\Controllers\Admin\CustomerImpersonateController;
 use Modules\Customer\Http\Controllers\Admin\CustomerImportController;
-use Modules\Customer\Http\Controllers\Auth\PasswordController;
 
 Route::group([
     'middleware' => ['tenant.set:1'],
@@ -24,11 +24,11 @@ Route::group([
 
     // Customers CRUD
     Route::get('customers/all', [CustomerController::class, 'all'])->name('customers.all');
-    Route::resource('customers', CustomerController::class);
+    Route::apiResource('customers', CustomerController::class);
 
     // Impersonation
     Route::post('customers/{customer}/impersonate', [CustomerImpersonateController::class, 'impersonate'])->name('customers.impersonate');
 
     // Reset password
-    Route::post('customers/reset-password', [PasswordController::class, 'reset'])->name('customers.password.reset');
+    Route::post('customers/{customer}/reset-password', [PasswordController::class, 'reset'])->name('customers.password.reset');
 });

@@ -1,19 +1,17 @@
 <?php
 
-namespace Modules\Customer\Http\Controllers\Auth;
+namespace Modules\Customer\Http\Controllers\Admin\Auth;
 
 use App\Dto\Auth\PasswordResetDto;
 use App\Http\Controllers\Controller;
 use App\Services\Auth\PasswordService;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\Auth\PasswordBroker;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Password;
 use Modules\Customer\Http\Requests\PasswordResetRequest;
 use Modules\Customer\Models\Customer;
+use Modules\Customer\Repositories\CustomerRepository;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -21,18 +19,12 @@ class PasswordController extends Controller
 {
     /**
      * @param  PasswordService  $passwordService
+     * @param  CustomerRepository  $customerRepository
      */
     public function __construct(
         protected PasswordService $passwordService,
+        protected CustomerRepository $customerRepository,
     ) {
-    }
-
-    /**
-     * @return PasswordBroker
-     */
-    public function broker(): PasswordBroker
-    {
-        return Password::broker(config('auth.guards.web-customers.provider'));
     }
 
     /**
@@ -79,27 +71,28 @@ class PasswordController extends Controller
      * )
      *
      * @param  PasswordResetRequest  $request
+     * @param  int  $customer
      * @return Response|JsonResponse
      *
-     * @throws UnknownProperties
      * @throws AuthorizationException
+     * @throws UnknownProperties
      */
-    public function reset(PasswordResetRequest $request): Response|JsonResponse
+    public function reset(PasswordResetRequest $request, int $customer): Response|JsonResponse
     {
-        $this->authorize('resetPassword', Customer::class);
+        $customer = $this->customerRepository->find($customer);
+
+        $this->authorize('resetPassword', $customer);
 
         $status = $this->passwordService
-            ->setBroker(config('auth.guards.web-customers.provider'))
+            ->setBroker(config('auth.guards.customers.provider'))
             ->dispatchEvent($request->boolean('send_email'))
             ->reset(
-                new PasswordResetDto(
-                    $request->only([
-                        'email',
-                        'password',
-                        'password_confirmation',
-                        'token',
-                    ]),
-                ),
+                new PasswordResetDto([
+                    'email' => $customer->email,
+                    'password' => $request->get('password'),
+                    'password_confirmation' => $request->get('password_confirmation'),
+                    'token' => Password::createToken($customer),
+                ]),
             );
 
         return $request->boolean('send_email') ?

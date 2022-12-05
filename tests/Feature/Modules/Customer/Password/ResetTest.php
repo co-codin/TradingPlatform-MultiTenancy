@@ -6,7 +6,6 @@ namespace Tests\Feature\Modules\Customer\Password;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
 use Modules\Customer\Enums\CustomerPermission;
 use Modules\Customer\Models\Customer;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,11 +29,9 @@ final class ResetTest extends TestCase
             'password' => Hash::make('admin1'),
         ]);
 
-        $response = $this->post(route('customers.password.reset'), [
-            'email' => $customer->email,
+        $response = $this->post(route('admin.customers.password.reset', ['customer' => $customer]), [
             'password' => 'password123',
             'password_confirmation' => 'password123',
-            'token' => Password::createToken($customer),
             'send_email' => true,
         ]);
 
@@ -56,11 +53,9 @@ final class ResetTest extends TestCase
             'password' => Hash::make('admin1'),
         ]);
 
-        $response = $this->post(route('customers.password.reset'), [
-            'email' => $customer->email,
+        $response = $this->post(route('admin.customers.password.reset', ['customer' => $customer]), [
             'password' => $password = 'password123',
             'password_confirmation' => 'password123',
-            'token' => Password::createToken($customer),
             'send_email' => false,
         ]);
 
@@ -75,64 +70,15 @@ final class ResetTest extends TestCase
     /**
      * @test
      */
-    public function invalid_token(): void
+    public function notFound(): void
     {
         $this->authenticateWithPermission(
             CustomerPermission::fromValue(CustomerPermission::EDIT_CUSTOMERS)
         );
 
-        $customer = Customer::factory()->create([
-            'email' => $this->testEmail,
-            'password' => Hash::make('admin1'),
-        ]);
+        $customerId = Customer::orderByDesc('id')->first()?->id ?? 1;
 
-        $response = $this->post(route('customers.password.reset'), [
-            'email' => $customer->email,
-            'password' => 'password123',
-            'password_confirmation' => 'password123',
-            'token' => Str::random(),
-        ]);
-
-        $response->assertStatus(Response::HTTP_BAD_REQUEST);
-        $response->assertJsonPath('message', Password::INVALID_TOKEN);
-    }
-
-    /**
-     * @test
-     */
-    public function invalid_user(): void
-    {
-        $this->authenticateWithPermission(
-            CustomerPermission::fromValue(CustomerPermission::EDIT_CUSTOMERS)
-        );
-
-        $customer = Customer::factory()->create([
-            'email' => $this->testEmail,
-            'password' => Hash::make('admin1'),
-        ]);
-
-        $response = $this->post(route('customers.password.reset'), [
-            'email' => 'test@non-existent.test',
-            'password' => 'password123',
-            'password_confirmation' => 'password123',
-            'token' => Password::createToken($customer),
-        ]);
-
-        $response->assertStatus(Response::HTTP_BAD_REQUEST);
-        $response->assertJsonPath('message', Password::INVALID_USER);
-    }
-
-    /**
-     * @test
-     */
-    public function unprocessable(): void
-    {
-        $this->authenticateWithPermission(
-            CustomerPermission::fromValue(CustomerPermission::EDIT_CUSTOMERS)
-        );
-
-        $response = $this->post(route('customers.password.reset'), [
-            'email' => 'test',
+        $response = $this->post(route('admin.customers.password.reset', ['customer' => $customerId]), [
             'password' => 'password123',
             'password_confirmation' => 'password1234',
         ]);

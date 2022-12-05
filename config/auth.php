@@ -46,7 +46,7 @@ return [
             'provider' => 'users',
         ],
 
-        'web-customers' => [
+        'customers' => [
             'driver' => 'session',
             'provider' => 'customers',
         ],
