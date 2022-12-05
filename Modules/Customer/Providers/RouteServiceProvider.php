@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Customer\Providers;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Route;
 
 final class RouteServiceProvider extends ServiceProvider
 {
