@@ -8,13 +8,16 @@ use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Customer\Dto\CustomerDto;
 use Modules\Customer\Http\Requests\CustomerBanRequest;
+use Modules\Customer\Http\Requests\CustomerUpdateRequest;
 use Modules\Customer\Http\Resources\CustomerResource;
 use Modules\Customer\Models\Customer;
 use Modules\Customer\Repositories\CustomerRepository;
 use Modules\Customer\Services\CustomerBanService;
 use Modules\Customer\Services\CustomerStorage;
 use Modules\User\Models\User;
+use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 final class CustomerController extends Controller
@@ -193,5 +196,23 @@ final class CustomerController extends Controller
         $this->authorize('viewAny', Customer::class);
 
         return CustomerResource::collection($this->repository->jsonPaginate());
+    }
+
+    /**
+     * @param CustomerUpdateRequest $request
+     * @param int $customer
+     * @return JsonResource
+     * @throws AuthorizationException
+     * @throws UnknownProperties
+     */
+    public function update(CustomerUpdateRequest $request, int $customer): JsonResource
+    {
+        $customer = $this->customerRepository->find($customer);
+
+        $this->authorize('update', $customer);
+
+        $this->customerStorage->update($customer, new CustomerDto($request->validated()));
+
+        return new CustomerResource($customer);
     }
 }

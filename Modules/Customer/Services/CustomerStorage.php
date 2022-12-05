@@ -36,8 +36,18 @@ class CustomerStorage
      */
     public function update(Customer $customer, CustomerDto $dto): Customer
     {
+        $updateException = new LogicException(__('Can not update customer'));
+
+//        if ($customer->first_retention_user_id) {
+//            $dto->first_retention_user_id = null;
+//        } elseif ($dto->retention_user_id && ! $dto->first_retention_user_id) {
+//            $dto->first_retention_user_id = $dto->affiliate_user_id;
+//        } elseif ($dto->retention_user_id !== $dto->first_retention_user_id) {
+//            throw $updateException;
+//        }
+
         if (! $customer->update($dto->toArray())) {
-            throw new LogicException(__('Can not update customer'));
+            throw $updateException;
         }
 
         return $customer;

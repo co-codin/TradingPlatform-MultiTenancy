@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Customer\Database\factories\CustomerFactory;
+use Modules\Customer\Events\CustomerSaving;
 use Modules\Customer\Models\Traits\CustomerRelations;
 use Modules\Geo\Models\Country;
 
@@ -19,6 +20,15 @@ use Modules\Geo\Models\Country;
  * @property int $gender
  * @property string $email
  * @property string $phone
+ * @property int|null $affiliate_user_id
+ * @property int|null $conversion_user_id
+ * @property int|null $retention_user_id
+ * @property int|null $compliance_user_id
+ * @property int|null $support_user_id
+ * @property int|null $conversion_manager_user_id
+ * @property int|null $retention_manager_user_id
+ * @property int|null $first_conversion_user_id
+ * @property int|null $first_retention_user_id
  * @property string $created_at
  * @property string $updated_at
  * @property string $deleted_at
@@ -40,6 +50,13 @@ class Customer extends Model
         'last_communication_date' => 'datetime',
         'balance' => 'decimal:2',
         'balance_usd' => 'decimal:2',
+    ];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $dispatchesEvents = [
+        'saving' => CustomerSaving::class,
     ];
 
     public function country(): BelongsTo

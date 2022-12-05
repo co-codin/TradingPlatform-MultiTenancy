@@ -4,19 +4,11 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use App\Listeners\Tenant\CreateTenantDatabase;
-use App\Services\Tenant\Manager;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Queue;
 use Illuminate\Testing\TestResponse;
-use Modules\Brand\Events\BrandCreated;
-use Modules\Brand\Events\Tenant\BrandTenantIdentified;
 use Modules\Brand\Jobs\MigrateStructureJob;
 use Modules\Brand\Models\Brand;
 use Nwidart\Modules\Facades\Module;
-use Tests\Traits\HasAuth;
 
 abstract class BrandTestCase extends BaseTestCase
 {

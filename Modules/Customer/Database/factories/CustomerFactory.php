@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Modules\Customer\Models\Customer;
 use Modules\Geo\Models\Country;
+use Modules\User\Models\User;
 
 class CustomerFactory extends Factory
 {
@@ -30,8 +31,8 @@ class CustomerFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'password' => Hash::make('password'),
             'phone' => $this->faker->phoneNumber(),
-            'country_id' => $this->faker->randomElement(Country::pluck('id')),
-
+//            'country_id' => $this->faker->randomElement(Country::pluck('id')),
+            'first_conversion_user_id' => User::factory(),
         ];
     }
 }
