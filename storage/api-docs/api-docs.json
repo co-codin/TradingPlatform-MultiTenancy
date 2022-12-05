@@ -1324,13 +1324,13 @@
                 ]
             }
         },
-        "/customers/reset-password": {
+        "/admin/customers/reset-password": {
             "post": {
                 "tags": [
                     "Customer"
                 ],
                 "summary": "Reset password",
-                "operationId": "c4ad918ed67c2664ee798617499cd4d4",
+                "operationId": "ef463c8c5078d55936cb57b14344acd9",
                 "requestBody": {
                     "required": true,
                     "content": {

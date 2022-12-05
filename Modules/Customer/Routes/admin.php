@@ -4,14 +4,11 @@ use Illuminate\Support\Facades\Route;
 use Modules\Customer\Http\Controllers\Admin\CustomerController;
 use Modules\Customer\Http\Controllers\Admin\CustomerExportController;
 use Modules\Customer\Http\Controllers\Admin\CustomerImpersonateController;
-use Modules\Customer\Http\Controllers\Auth\PasswordController;
 use Modules\Customer\Http\Controllers\Admin\CustomerImportController;
-use Modules\Customer\Http\Controllers\Admin\CustomerImpersonateController;
+use Modules\Customer\Http\Controllers\Auth\PasswordController;
 
 Route::group([
-    'as' => 'admin.',
-    'prefix' => 'admin',
-    'middleware' => ['api', 'auth:api', 'tenant.set:1']
+    'middleware' => ['tenant.set:1'],
 ], function () {
     // Customers export
     Route::group(['prefix' => 'customers/export'], function () {
@@ -31,8 +28,7 @@ Route::group([
 
     // Impersonation
     Route::post('customers/{customer}/impersonate', [CustomerImpersonateController::class, 'impersonate'])->name('customers.impersonate');
-});
 
-Route::group(['middleware' => ['web', 'tenant.set:1']], function () {
+    // Reset password
     Route::post('customers/reset-password', [PasswordController::class, 'reset'])->name('customers.password.reset');
 });

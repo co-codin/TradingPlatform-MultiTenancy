@@ -5,31 +5,26 @@ namespace Modules\Customer\Http\Controllers\Auth;
 use App\Dto\Auth\PasswordResetDto;
 use App\Http\Controllers\Controller;
 use App\Services\Auth\PasswordService;
-use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 use Modules\Customer\Http\Requests\PasswordResetRequest;
-use Modules\User\Models\User;
+use Modules\Customer\Models\Customer;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class PasswordController extends Controller
 {
     /**
-     * @param PasswordService $passwordService
+     * @param  PasswordService  $passwordService
      */
     public function __construct(
         protected PasswordService $passwordService,
-    )
-    {
+    ) {
     }
 
     /**
@@ -42,7 +37,7 @@ class PasswordController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/customers/reset-password",
+     *     path="/admin/customers/reset-password",
      *     tags={"Customer"},
      *     summary="Reset password",
      *     @OA\RequestBody(
@@ -83,12 +78,16 @@ class PasswordController extends Controller
      *     )
      * )
      *
-     * @param PasswordResetRequest $request
+     * @param  PasswordResetRequest  $request
      * @return Response|JsonResponse
+     *
      * @throws UnknownProperties
+     * @throws AuthorizationException
      */
     public function reset(PasswordResetRequest $request): Response|JsonResponse
     {
+        $this->authorize('resetPassword', Customer::class);
+
         $status = $this->passwordService
             ->setBroker(config('auth.guards.web-customers.provider'))
             ->dispatchEvent($request->boolean('send_email'))

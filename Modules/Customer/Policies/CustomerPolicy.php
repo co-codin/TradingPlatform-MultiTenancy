@@ -73,9 +73,20 @@ final class CustomerPolicy extends BasePolicy
         return $user->can(CustomerPermission::DELETE_CUSTOMERS);
     }
 
-
     public function impersonate(User $user, Customer $customer): bool
     {
         return $user->can(CustomerPermission::IMPERSONATE_CUSTOMERS);
+    }
+
+    /**
+     * Reset password customers policy.
+     *
+     * @param  User  $user
+     * @param  Customer  $customer
+     * @return bool
+     */
+    public function resetPassword(User $user, Customer $customer): bool
+    {
+        return $user->can(CustomerPermission::EDIT_CUSTOMERS);
     }
 }

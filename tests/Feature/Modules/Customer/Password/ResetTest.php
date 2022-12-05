@@ -7,8 +7,8 @@ namespace Tests\Feature\Modules\Customer\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
+use Modules\Customer\Enums\CustomerPermission;
 use Modules\Customer\Models\Customer;
-use Modules\User\Models\User;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
@@ -21,8 +21,12 @@ final class ResetTest extends TestCase
      */
     public function accepted(): void
     {
+        $this->authenticateWithPermission(
+            CustomerPermission::fromValue(CustomerPermission::EDIT_CUSTOMERS)
+        );
+
         $customer = Customer::factory()->create([
-            'email' => 'test@admin.com',
+            'email' => $this->testEmail,
             'password' => Hash::make('admin1'),
         ]);
 
@@ -43,8 +47,12 @@ final class ResetTest extends TestCase
      */
     public function accepted_without_send_email(): void
     {
+        $this->authenticateWithPermission(
+            CustomerPermission::fromValue(CustomerPermission::EDIT_CUSTOMERS)
+        );
+
         $customer = Customer::factory()->create([
-            'email' => 'test@admin.com',
+            'email' => $this->testEmail,
             'password' => Hash::make('admin1'),
         ]);
 
@@ -60,7 +68,7 @@ final class ResetTest extends TestCase
         $response->assertJson([
             'data' => [
                 'password' => $password,
-            ]
+            ],
         ]);
     }
 
@@ -69,8 +77,12 @@ final class ResetTest extends TestCase
      */
     public function invalid_token(): void
     {
+        $this->authenticateWithPermission(
+            CustomerPermission::fromValue(CustomerPermission::EDIT_CUSTOMERS)
+        );
+
         $customer = Customer::factory()->create([
-            'email' => 'test@admin.com',
+            'email' => $this->testEmail,
             'password' => Hash::make('admin1'),
         ]);
 
@@ -90,8 +102,12 @@ final class ResetTest extends TestCase
      */
     public function invalid_user(): void
     {
+        $this->authenticateWithPermission(
+            CustomerPermission::fromValue(CustomerPermission::EDIT_CUSTOMERS)
+        );
+
         $customer = Customer::factory()->create([
-            'email' => 'test@admin.com',
+            'email' => $this->testEmail,
             'password' => Hash::make('admin1'),
         ]);
 
@@ -111,6 +127,10 @@ final class ResetTest extends TestCase
      */
     public function unprocessable(): void
     {
+        $this->authenticateWithPermission(
+            CustomerPermission::fromValue(CustomerPermission::EDIT_CUSTOMERS)
+        );
+
         $response = $this->post(route('customers.password.reset'), [
             'email' => 'test',
             'password' => 'password123',
