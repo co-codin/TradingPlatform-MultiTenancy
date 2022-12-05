@@ -5,8 +5,7 @@ use Modules\Customer\Http\Controllers\Admin\CustomerController;
 use Modules\Customer\Http\Controllers\Admin\CustomerExportController;
 use Modules\Customer\Http\Controllers\Admin\CustomerImportController;
 
-Route::group(['middleware' => 'tenant.set:1'], function () {
-    Route::group(['prefix' => 'customers'], function () {
+Route::group(['middleware' => 'tenant.set:1', 'prefix' => 'customers'], function () {
         // Customers export
         Route::group(['prefix' => 'export'], function () {
             Route::post('excel', [CustomerExportController::class, 'excel'])->name('customers.export.excel');
@@ -22,5 +21,7 @@ Route::group(['middleware' => 'tenant.set:1'], function () {
         // Customers CRUD
         Route::get('all', [CustomerController::class, 'all'])->name('customers.all');
         Route::resource('/', CustomerController::class);
-    });
+
+        // Impersonation
+        Route::post('customers/{customer}/impersonate', [CustomerImportController::class, 'impersonate'])->name('customers.impersonate');
 });

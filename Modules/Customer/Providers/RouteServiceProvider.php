@@ -36,6 +36,16 @@ final class RouteServiceProvider extends ServiceProvider
     public function map()
     {
         $this->mapAdminRoutes();
+        $this->mapApiRoutes();
+    }
+
+    /**
+     * @return void
+     */
+    protected function mapApiRoutes(): void
+    {
+        Route::middleware(['api'])
+            ->group(module_path('Customer', '/Routes/api.php'));
     }
 
     /**
