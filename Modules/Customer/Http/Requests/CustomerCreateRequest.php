@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Modules\Customer\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
+use BenSampo\Enum\Rules\EnumValue;
+use Modules\Customer\Enums\Gender;
 
 final class CustomerCreateRequest extends BaseFormRequest
 {
@@ -18,7 +20,8 @@ final class CustomerCreateRequest extends BaseFormRequest
         return [
             'first_name' => 'required|string',
             'last_name' => 'required|string',
-            'gender' => 'required|int',
+            // 'gender' => 'required|int',
+            'gender' => ['required', new EnumValue(Gender::class)],
             'email' => 'required|email|max:100|unique:customers,email',
             'password' => 'required|string',
             'phone' => 'required|string',

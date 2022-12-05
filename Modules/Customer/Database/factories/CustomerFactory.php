@@ -4,6 +4,7 @@ namespace Modules\Customer\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
+use Modules\Customer\Enums\Gender;
 use Modules\Customer\Models\Customer;
 use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
@@ -29,7 +30,7 @@ class CustomerFactory extends Factory
         return [
             'first_name' => $this->faker->name(),
             'last_name' => $this->faker->name(),
-            'gender' => $this->faker->numberBetween(1, 2),
+            'gender' => $this->faker->randomElement(Gender::getValues()),
             'email' => $this->faker->unique()->safeEmail(),
             'password' => Hash::make('password'),
             'phone' => $this->faker->phoneNumber(),
