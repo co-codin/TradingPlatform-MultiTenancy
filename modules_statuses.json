@@ -11,5 +11,6 @@
     "Customer": true,
     "Campaign": true,
     "Sale": true,
-    "Media": true
+    "Media": true,
+    "Communication": true
 }
