@@ -37,6 +37,15 @@ final class RouteServiceProvider extends ServiceProvider
     {
         $this->mapAdminRoutes();
         $this->mapApiRoutes();
+        $this->mapAffiliateApiRoutes();
+    }
+
+    protected function mapAffiliateApiRoutes(): void
+    {
+        Route::middleware(['api'])
+            ->as('affiliate.')
+            ->prefix('affiliate')
+            ->group(module_path('Customer', '/Routes/affiliate-api.php'));
     }
 
     /**
