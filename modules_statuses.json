@@ -10,5 +10,6 @@
     "Config": true,
     "Customer": true,
     "Campaign": true,
-    "Sale": true
+    "Sale": true,
+    "Media": true
 }
