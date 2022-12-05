@@ -20,8 +20,10 @@ final class CustomerCreateRequest extends BaseFormRequest
         return [
             'first_name' => 'required|string',
             'last_name' => 'required|string',
-            // 'gender' => 'required|int',
-            'gender' => ['required', new EnumValue(Gender::class)],
+            'gender' => [
+                'required',
+                new EnumValue(Gender::class, false)
+            ],
             'email' => 'required|email|max:100|unique:customers,email',
             'password' => 'required|string',
             'phone' => 'required|string',
