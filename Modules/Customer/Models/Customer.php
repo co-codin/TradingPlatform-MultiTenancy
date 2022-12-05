@@ -2,13 +2,14 @@
 
 namespace Modules\Customer\Models;
 
+use App\Models\Traits\ForTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
 use Modules\Customer\Database\factories\CustomerFactory;
 use Modules\Customer\Models\Traits\CustomerRelations;
-use Modules\Geo\Models\Country;
+use Modules\Role\Models\Traits\HasRoles;
 
 /**
  * Class Customer
@@ -23,11 +24,20 @@ use Modules\Geo\Models\Country;
  * @property string $updated_at
  * @property string $deleted_at
  */
-class Customer extends Model
+class Customer extends Authenticatable
 {
-    use HasFactory, SoftDeletes, CustomerRelations;
+    use HasFactory;
+    use SoftDeletes;
+    use CustomerRelations;
+    use HasRoles;
+    use HasApiTokens;
+    use ForTenant;
 
     protected $guarded = ['id'];
+
+    protected $hidden = [
+        'password',
+    ];
 
     protected $casts = [
         'last_online' => 'datetime',
@@ -42,10 +52,10 @@ class Customer extends Model
         'balance_usd' => 'decimal:2',
     ];
 
-    public function country(): BelongsTo
-    {
-        return $this->belongsTo(Country::class);
-    }
+    /**
+     * {@inheritdoc}
+     */
+    protected $rememberTokenName = false;
 
     protected static function newFactory()
     {

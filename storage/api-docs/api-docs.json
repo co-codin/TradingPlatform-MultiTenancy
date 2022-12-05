@@ -1051,6 +1051,96 @@
                 ]
             }
         },
+        "/admin/customers/{id}/reset-password": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Reset password",
+                "operationId": "e034fa77747e6febb295eeae32959388",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Customer ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password",
+                                    "password_confirmation",
+                                    "token"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "token": {
+                                        "type": "string"
+                                    },
+                                    "send_email": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "password": {
+                                            "type": "string",
+                                            "format": "password"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "202": {
+                        "description": "Accepted"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
         "/customers/ban": {
             "patch": {
                 "tags": [
@@ -1182,11 +1272,11 @@
         "/admin/customers": {
             "get": {
                 "tags": [
-                    "Customers"
+                    "Customer"
                 ],
                 "summary": "Get customers list",
                 "description": "Returns customers list data.",
-                "operationId": "customers.index",
+                "operationId": "470ff1ac92d4011d996b0bc5dbb5d948",
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -1203,6 +1293,315 @@
                     },
                     "403": {
                         "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Store customer",
+                "description": "Returns customer data.",
+                "operationId": "bad3127c45e2947eef44ae707d7ea0a2",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "first_name",
+                                    "last_name",
+                                    "gender",
+                                    "email",
+                                    "password",
+                                    "phone",
+                                    "country_id",
+                                    "language_id"
+                                ],
+                                "properties": {
+                                    "first_name": {
+                                        "description": "First name",
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "description": "Last name",
+                                        "type": "string"
+                                    },
+                                    "gender": {
+                                        "description": "1-Male, 2-Female, 3-Other",
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "email": {
+                                        "description": "Email",
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "description": "Password of customer",
+                                        "type": "string"
+                                    },
+                                    "phone": {
+                                        "description": "Phone",
+                                        "type": "string",
+                                        "format": "phone"
+                                    },
+                                    "country_id": {
+                                        "description": "Country id",
+                                        "type": "integer"
+                                    },
+                                    "language_id": {
+                                        "description": "Language id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "phone2": {
+                                        "description": "Second phone",
+                                        "type": "string",
+                                        "format": "phone",
+                                        "nullable": "true"
+                                    },
+                                    "city": {
+                                        "description": "City",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "address": {
+                                        "description": "Address",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "postal_code": {
+                                        "description": "Post code",
+                                        "type": "integer"
+                                    },
+                                    "desk_id": {
+                                        "description": "Desk id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "offer_name": {
+                                        "description": "Offer name",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "offer_url": {
+                                        "description": "Offer url",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "comment_about_customer": {
+                                        "description": "Comment about customer",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "source": {
+                                        "description": "Source",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "click_id": {
+                                        "description": "Click id",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "free_param_1": {
+                                        "description": "Free param 1",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "free_param_2": {
+                                        "description": "Free param 2",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "free_param_3": {
+                                        "description": "Free param 3",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/customers/{id}": {
+            "get": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Get customer",
+                "description": "Returns customer data.",
+                "operationId": "bc9c1d2ce85d47cc898bf5fb8ec03776",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Customer ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/customers/export/excel": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Export customers excel data",
+                "operationId": "bdce7eab4343326fdb37287840639d5e",
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/customers/export/csv": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Export customers csv data",
+                "operationId": "0b986c549a736d91b9a00ac9152a073b",
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/customers/import/excel": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Import customers excel data",
+                "operationId": "77226928c68906cfcad9d5248e1d5627",
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/customers/import/csv": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Import customers csv data",
+                "operationId": "a0c7f9d1ffeffefe2fbd980e8951e23f",
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
                     }
                 },
                 "security": [
@@ -6319,7 +6718,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }

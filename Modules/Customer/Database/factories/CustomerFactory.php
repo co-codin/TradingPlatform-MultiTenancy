@@ -4,8 +4,12 @@ namespace Modules\Customer\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
+use Modules\Customer\Enums\Gender;
 use Modules\Customer\Models\Customer;
+use Modules\Department\Models\Department;
+use Modules\Desk\Models\Desk;
 use Modules\Geo\Models\Country;
+use Modules\Language\Models\Language;
 
 class CustomerFactory extends Factory
 {
@@ -26,11 +30,26 @@ class CustomerFactory extends Factory
         return [
             'first_name' => $this->faker->name(),
             'last_name' => $this->faker->name(),
-            'gender' => $this->faker->numberBetween(1, 2),
+            'gender' => $this->faker->randomElement(Gender::getValues()),
             'email' => $this->faker->unique()->safeEmail(),
             'password' => Hash::make('password'),
             'phone' => $this->faker->phoneNumber(),
-            'country_id' => $this->faker->randomElement(Country::pluck('id')),
+            'country_id' => Country::factory(),
+            'phone2' => $this->faker->phoneNumber(),
+            'language_id' => Language::factory(),
+            'city' => $this->faker->city(),
+            'address' => $this->faker->address(),
+            'postal_code' => $this->faker->postcode(),
+            'desk_id' => Desk::factory(),
+            'department_id' => Department::factory(),
+            'offer_name' => $this->faker->sentence(3),
+            'offer_url' => $this->faker->url(),
+            'comment_about_customer' => $this->faker->sentence(20),
+            'source' => $this->faker->sentence(5),
+            'click_id' => $this->faker->lexify(),
+            'free_param_1' => $this->faker->sentence(1),
+            'free_param_2' => $this->faker->sentence(1),
+            'free_param_3' => $this->faker->sentence(1),
 
         ];
     }

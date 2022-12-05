@@ -15,7 +15,7 @@ class SaleDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        SaleStatus::factory(10)->create();
+        SaleStatus::factory()->count(10)->create();
 
     }
 }
