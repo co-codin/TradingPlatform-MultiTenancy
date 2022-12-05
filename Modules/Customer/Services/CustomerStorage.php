@@ -7,7 +7,7 @@ use Modules\Customer\Dto\CustomerDto;
 use Modules\Customer\Models\Customer;
 use Illuminate\Support\Facades\Hash;
 
-class CustomerStorage
+final class CustomerStorage
 {
     /**
      * Store customer.
