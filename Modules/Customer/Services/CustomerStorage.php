@@ -40,7 +40,13 @@ final class CustomerStorage
      */
     public function update(Customer $customer, CustomerDto $dto): Customer
     {
-        if (!$customer->update($dto->toArray())) {
+        $attributes = $dto->toArray();
+
+        if (isset($attributes['password'])) {
+            $attributes['password'] = Hash::make($attributes['password']);
+        }
+
+        if (!$customer->update($attributes)) {
             throw new LogicException(__('Can not update customer'));
         }
 
@@ -70,7 +76,7 @@ final class CustomerStorage
      */
     public function updateOrStore(CustomerDto $dto): Customer
     {
-        if (! $customer = Customer::query()->updateOrCreate($dto->toArray())) {
+        if (!$customer = Customer::query()->updateOrCreate($dto->toArray())) {
             throw new LogicException(__('Can not update or create customer'));
         }
 
