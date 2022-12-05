@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Modules\Customer\Admin;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Support\Facades\Artisan;
 
