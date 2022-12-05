@@ -29,6 +29,8 @@ final class CustomerPermission extends Enum implements PermissionEnum
      */
     public const DELETE_CUSTOMERS = 'delete customers';
 
+    public const IMPERSONATE_CUSTOMERS = 'impersonate customers';
+
     /**
      * {@inheritDoc}
      */
@@ -39,6 +41,7 @@ final class CustomerPermission extends Enum implements PermissionEnum
             self::VIEW_CUSTOMERS => 'View customers',
             self::EDIT_CUSTOMERS => 'Edit customers',
             self::DELETE_CUSTOMERS => 'Delete customers',
+            self::IMPERSONATE_CUSTOMERS => 'Impersonate customers',
         ];
     }
 
