@@ -11,7 +11,7 @@ use Tests\TestCase;
 
 class ReadTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseTransactions, SaleStatusAdminTrait;
 
     /**
      * Test authorized user can get salestatus list.
