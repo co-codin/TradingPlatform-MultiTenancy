@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('title');
             $table->boolean('is_active')->default(true);
             $table->string('color');
-            $table->timestamp('deleted_at')->nullable();
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

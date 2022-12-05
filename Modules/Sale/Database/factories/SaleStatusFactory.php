@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Sale\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Sale\Models\SaleStatus;
 
-class SaleStatusFactory extends Factory
+final class SaleStatusFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
@@ -28,4 +30,3 @@ class SaleStatusFactory extends Factory
         ];
     }
 }
-

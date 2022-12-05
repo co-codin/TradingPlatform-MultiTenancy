@@ -20,7 +20,7 @@ final class ApiLogoutTest extends TestCase
             'password' => Hash::make('admin1'),
         ]);
         $response = $this->post(route('admin.token-auth.login'), [
-            'email' => $user->email,
+            'login' => $user->email,
             'password' => 'admin1',
         ]);
 

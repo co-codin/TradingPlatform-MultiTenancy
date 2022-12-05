@@ -6,10 +6,10 @@ namespace Modules\Sale\Repositories;
 
 use App\Repositories\BaseRepository;
 use Modules\Sale\Models\SaleStatus;
-use Modules\Sale\Repositories\Criteria\SaleRequestCriteria;
+use Modules\Sale\Repositories\Criteria\SaleStatusRequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
 
-final class SaleRepository extends BaseRepository
+final class SaleStatusRepository extends BaseRepository
 {
     /**
      * @inheritDoc
@@ -25,6 +25,6 @@ final class SaleRepository extends BaseRepository
      */
     public function boot()
     {
-        $this->pushCriteria(SaleRequestCriteria::class);
+        $this->pushCriteria(SaleStatusRequestCriteria::class);
     }
 }
