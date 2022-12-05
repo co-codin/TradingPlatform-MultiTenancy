@@ -6,7 +6,7 @@ namespace Modules\Customer\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
 
-class CustomerCreateRequest extends BaseFormRequest
+final class CustomerCreateRequest extends BaseFormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -24,12 +24,12 @@ class CustomerCreateRequest extends BaseFormRequest
             'phone' => 'required|string',
             'country_id' => 'sometimes|int|exists:countries,id',
             'phone2' => 'sometimes|',
-            'language_id' => 'sometimes|int',
+            'language_id' => 'sometimes|int|exists:languages,id',
             'city' => 'sometimes|string',
             'address' => 'sometimes|string',
             'postal_code' => 'sometimes|string',
-            'desk_id' => 'sometimes|integer',
-            'department_id' => 'sometimes|integer',
+            'desk_id' => 'sometimes|integer|exists:desks,id',
+            'department_id' => 'sometimes|integer|exists:departments,id',
             'offer_name' => 'sometimes|string',
             'offer_url' => 'sometimes|string',
             'comment_about_customer' => 'sometimes|string',
