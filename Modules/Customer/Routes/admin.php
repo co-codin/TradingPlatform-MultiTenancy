@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Customer\Http\Controllers\Admin\CustomerController;
 use Modules\Customer\Http\Controllers\Admin\CustomerExportController;
 use Modules\Customer\Http\Controllers\Admin\CustomerImportController;
+use Modules\Customer\Http\Controllers\Admin\CustomerImpersonateController;
 
 Route::group(['middleware' => 'tenant.set:1', 'prefix' => 'customers'], function () {
         // Customers export
@@ -23,5 +24,5 @@ Route::group(['middleware' => 'tenant.set:1', 'prefix' => 'customers'], function
         Route::resource('/', CustomerController::class);
 
         // Impersonation
-        Route::post('customers/{customer}/impersonate', [CustomerImportController::class, 'impersonate'])->name('customers.impersonate');
+        Route::post('customers/{customer}/impersonate', [CustomerImpersonateController::class, 'impersonate'])->name('customers.impersonate');
 });
