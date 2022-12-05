@@ -1051,6 +1051,96 @@
                 ]
             }
         },
+        "/admin/customers/{id}/reset-password": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Reset password",
+                "operationId": "e034fa77747e6febb295eeae32959388",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Customer ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password",
+                                    "password_confirmation",
+                                    "token"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "token": {
+                                        "type": "string"
+                                    },
+                                    "send_email": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "password": {
+                                            "type": "string",
+                                            "format": "password"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "202": {
+                        "description": "Accepted"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
         "/customers/ban": {
             "patch": {
                 "tags": [
@@ -1519,85 +1609,6 @@
                         "sanctum": []
                     }
                 ]
-            }
-        },
-        "/admin/customers/reset-password": {
-            "post": {
-                "tags": [
-                    "Customer"
-                ],
-                "summary": "Reset password",
-                "operationId": "ef463c8c5078d55936cb57b14344acd9",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "email",
-                                    "password",
-                                    "password_confirmation",
-                                    "token"
-                                ],
-                                "properties": {
-                                    "email": {
-                                        "type": "string",
-                                        "format": "email"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "format": "password"
-                                    },
-                                    "password_confirmation": {
-                                        "type": "string",
-                                        "format": "password"
-                                    },
-                                    "token": {
-                                        "type": "string"
-                                    },
-                                    "send_email": {
-                                        "type": "boolean"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "password": {
-                                            "type": "string",
-                                            "format": "password"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "202": {
-                        "description": "Accepted"
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationError"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    }
-                }
             }
         },
         "/admin/departments": {

@@ -29,9 +29,16 @@ class PasswordController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/admin/customers/reset-password",
+     *     path="/admin/customers/{id}/reset-password",
      *     tags={"Customer"},
      *     summary="Reset password",
+     *     @OA\Parameter(
+     *         description="Customer ID",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
      *     @OA\RequestBody(
      *          required=true,
      *          @OA\MediaType(
