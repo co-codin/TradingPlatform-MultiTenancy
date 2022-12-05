@@ -2,14 +2,44 @@
 
 namespace Modules\Communication\Repositories\Criteria;
 
+use App\Http\Filters\LiveFilter;
 use App\Repositories\Criteria\BaseCriteria;
+use Modules\User\Repositories\Criteria\UserRequestCriteria;
 use Prettus\Repository\Contracts\RepositoryInterface;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class CommentRequestCriteria extends BaseCriteria
 {
+    protected static array $allowedModelFields = [
+        'id',
+        'user_id',
+        'body',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
 
     public function apply($model, RepositoryInterface $repository)
     {
-        // TODO: Implement apply() method.
+        return QueryBuilder::for($model)
+            ->defaultSort('-id')
+            ->allowedFields(array_merge(
+                self::$allowedModelFields,
+                UserRequestCriteria::allowedModelFields('users'),
+            ))
+            ->allowedFilters([
+                AllowedFilter::exact('id'),
+                AllowedFilter::exact('user_id'),
+                AllowedFilter::partial('body'),
+                AllowedFilter::trashed(),
+            ])
+            ->allowedIncludes([
+                'user',
+                'images'
+            ])
+            ->allowedSorts([
+                'id', 'body', 'user_id', 'created_at', 'updated_at', 'deleted_at',
+            ]);
     }
 }
