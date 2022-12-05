@@ -11,6 +11,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Customer\Dto\CustomerDto;
 use Modules\Customer\Http\Requests\CustomerCreateRequest;
 use Modules\Customer\Http\Requests\CustomerBanRequest;
+use Modules\Customer\Http\Requests\CustomerUpdateRequest;
 use Modules\Customer\Http\Resources\CustomerResource;
 use Modules\Customer\Models\Customer;
 use Modules\Customer\Repositories\CustomerRepository;
@@ -19,6 +20,7 @@ use Modules\Customer\Services\CustomerStorage;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 use Modules\User\Models\User;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
+use Illuminate\Http\Response;
 
 final class CustomerController extends Controller
 {
@@ -316,5 +318,193 @@ final class CustomerController extends Controller
         $this->authorize('view', $customer);
 
         return new CustomerResource($customer);
+    }
+    /**
+     * @OA\Put(
+     *      path="/admin/customers/{id}",
+     *      security={ {"sanctum": {} }},
+     *      tags={"Customer"},
+     *      summary="Update customer",
+     *      description="Returns customer data.",
+     *      @OA\Parameter(
+     *         description="Customer ID",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *      ),
+     *      @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 required={
+     *                     "first_name",
+     *                     "last_name",
+     *                     "gender",
+     *                     "email",
+     *                     "password",
+     *                     "phone",
+     *                     "country_id",
+     *                     "language_id"
+     *                 },
+     *                 @OA\Property(property="first_name", type="string", description="First name"),
+     *                 @OA\Property(property="last_name", type="string", description="Last name"),
+     *                 @OA\Property(property="gender", type="integer", description="1-Male, 2-Female, 3-Other", example="1"),
+     *                 @OA\Property(property="email", type="string", format="email", description="Email"),
+     *                 @OA\Property(property="password", type="string", description="Password of customer"),
+     *                 @OA\Property(property="phone", type="string", format="phone", description="Phone"),
+     *                 @OA\Property(property="country_id", type="integer", description="Country id"),
+     *                 @OA\Property(property="language_id", type="integer", description="Language id", nullable="true"),
+     *                 @OA\Property(property="phone2", type="string", format="phone", description="Second phone", nullable="true"),
+     *                 @OA\Property(property="city", type="string", description="City", nullable="true"),
+     *                 @OA\Property(property="address", type="string", description="Address", nullable="true"),
+     *                 @OA\Property(property="postal_code", type="integer", description="Post code"),
+     *                 @OA\Property(property="desk_id", type="integer", description="Desk id", nullable="true"),
+     *                 @OA\Property(property="offer_name", type="string", description="Offer name", nullable="true"),
+     *                 @OA\Property(property="offer_url", type="string", description="Offer url", nullable="true"),
+     *                 @OA\Property(property="comment_about_customer", type="string", description="Comment about customer", nullable="true"),
+     *                 @OA\Property(property="source", type="string", description="Source", nullable="true"),
+     *                 @OA\Property(property="click_id", type="string", description="Click id", nullable="true"),
+     *                 @OA\Property(property="free_param_1", type="string", description="Free param 1", nullable="true"),
+     *                 @OA\Property(property="free_param_2", type="string", description="Free param 2", nullable="true"),
+     *                 @OA\Property(property="free_param_3", type="string", description="Free param 3", nullable="true"),
+     *             )
+     *         )
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/CustomerResource")
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * ),
+     * @OA\Patch(
+     *      path="/admin/customers/{id}",
+     *      security={ {"sanctum": {} }},
+     *      tags={"Customer"},
+     *      summary="Update customer",
+     *      description="Returns customer data.",
+     *      @OA\Parameter(
+     *         description="Customer ID",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *      ),
+     *      @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(property="first_name", type="string", description="First name"),
+     *                 @OA\Property(property="last_name", type="string", description="Last name"),
+     *                 @OA\Property(property="gender", type="integer", description="1-Male, 2-Female, 3-Other", example="1"),
+     *                 @OA\Property(property="email", type="string", format="email", description="Email"),
+     *                 @OA\Property(property="password", type="string", description="Password of customer"),
+     *                 @OA\Property(property="phone", type="string", format="phone", description="Phone"),
+     *                 @OA\Property(property="country_id", type="integer", description="Country id"),
+     *                 @OA\Property(property="language_id", type="integer", description="Language id", nullable="true"),
+     *                 @OA\Property(property="phone2", type="string", format="phone", description="Second phone", nullable="true"),
+     *                 @OA\Property(property="city", type="string", description="City", nullable="true"),
+     *                 @OA\Property(property="address", type="string", description="Address", nullable="true"),
+     *                 @OA\Property(property="postal_code", type="integer", description="Post code"),
+     *                 @OA\Property(property="desk_id", type="integer", description="Desk id", nullable="true"),
+     *                 @OA\Property(property="offer_name", type="string", description="Offer name", nullable="true"),
+     *                 @OA\Property(property="offer_url", type="string", description="Offer url", nullable="true"),
+     *                 @OA\Property(property="comment_about_customer", type="string", description="Comment about customer", nullable="true"),
+     *                 @OA\Property(property="source", type="string", description="Source", nullable="true"),
+     *                 @OA\Property(property="click_id", type="string", description="Click id", nullable="true"),
+     *                 @OA\Property(property="free_param_1", type="string", description="Free param 1", nullable="true"),
+     *                 @OA\Property(property="free_param_2", type="string", description="Free param 2", nullable="true"),
+     *                 @OA\Property(property="free_param_3", type="string", description="Free param 3", nullable="true"),
+     *             )
+     *         )
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/CustomerResource")
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     *
+     * Update the customer.
+     *
+     * @param CustomerUpdateRequest $request
+     * @param int $id
+     * @return JsonResource
+     * @throws AuthorizationException
+     * @throws UnknownProperties
+     */
+    public function update(CustomerUpdateRequest $request, int $id): JsonResource
+    {
+        $customer = $this->customerRepository->find($id);
+
+        $this->authorize('update', $customer);
+
+        return new CustomerResource(
+            $this->customerStorage->update(
+                $customer,
+                CustomerDto::fromFormRequest($request)
+            ),
+        );
+    }
+    /**
+     * @OA\Delete(
+     *      path="/admin/customers/{id}",
+     *      security={ {"sanctum": {} }},
+     *      tags={"Customer"},
+     *      summary="Delete customer",
+     *      description="Returns status.",
+     *      @OA\Parameter(
+     *         description="Customer ID",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/CustomerResource")
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     *
+     * Remove the customer.
+     *
+     * @param int $id
+     * @return Response
+     * @throws AuthorizationException
+     */
+    public function destroy(int $id): Response
+    {
+        $customer = $this->customerRepository->find($id);
+
+        $this->authorize('delete', $customer);
+
+        $this->customerStorage->delete($customer);
+
+        return response()->noContent();
     }
 }
