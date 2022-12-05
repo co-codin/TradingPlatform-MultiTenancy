@@ -3,15 +3,13 @@
 namespace Tests\Feature\Modules\Sale\Admin\SaleStatus;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Modules\Sale\Enums\SaleStatusPermission;
 use Modules\Sale\Models\SaleStatus;
 use Tests\TestCase;
 
 class DeleteTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseTransactions, SaleStatusAdminTrait;
 
     /**
      * Test authorized user can delete salestatus.
