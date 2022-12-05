@@ -23,11 +23,4 @@ final class SaleServiceProvider extends BaseModuleServiceProvider
     {
         return 'Sale';
     }
-
-    public function boot(): void
-    {
-        parent::boot();
-
-        $this->loadMigrationsFrom(module_path($this->getModuleName(), 'Database/Migrations'));
-    }
 }
