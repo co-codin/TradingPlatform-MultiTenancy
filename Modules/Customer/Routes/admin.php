@@ -6,6 +6,7 @@ use Modules\Customer\Http\Controllers\Admin\CustomerExportController;
 use Modules\Customer\Http\Controllers\Admin\CustomerImpersonateController;
 use Modules\Customer\Http\Controllers\Auth\PasswordController;
 use Modules\Customer\Http\Controllers\Admin\CustomerImportController;
+use Modules\Customer\Http\Controllers\Admin\CustomerImpersonateController;
 
 Route::group([
     'as' => 'admin.',
