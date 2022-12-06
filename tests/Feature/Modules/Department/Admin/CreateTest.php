@@ -2,13 +2,6 @@
 
 namespace Tests\Feature\Modules\Department\Admin;
 
-use App\Listeners\Tenant\CreateTenantDatabase;
-use Illuminate\Contracts\Auth\Authenticatable as UserContract;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Event;
-use Modules\Brand\Jobs\CreateSchemaJob;
-use Modules\Brand\Jobs\MigrateStructureJob;
 use Modules\Brand\Services\BrandDBService;
 use Modules\Department\Enums\DepartmentPermission;
 use Modules\Department\Models\Department;

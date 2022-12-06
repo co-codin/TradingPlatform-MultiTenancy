@@ -23,10 +23,10 @@ final class MigrateStructureJob implements ShouldQueue
     use InteractsWithQueue;
 
     /**
-     * @param  HasTenantDBConnection  $tenant
-     * @param  array  $modules
-     * @param  array  $availableModules
-     * @param  string  $connectionName
+     * @param HasTenantDBConnection $tenant
+     * @param array $modules
+     * @param array $availableModules
+     * @param string $connectionName
      */
     public function __construct(
         private readonly HasTenantDBConnection $tenant,
@@ -45,7 +45,10 @@ final class MigrateStructureJob implements ShouldQueue
         BrandTenantIdentified::dispatch($this->tenant);
 
         if (! Schema::connection($this->connectionName)->hasTable('migrations')) {
-            Artisan::call('migrate:install', ['--database' => $this->connectionName]);
+            Artisan::call(sprintf(
+                'migrate:install --database=%s',
+                $this->connectionName
+            ));
         }
 
         $forMigrate = array_values(array_diff($this->modules, $this->brand->tables ?? []));
@@ -86,20 +89,22 @@ final class MigrateStructureJob implements ShouldQueue
         return implode(' ', Arr::map($migrations, function ($migration) use ($module) {
             foreach (BrandDBService::ALLOWED_RELATIONS as $relation => $modules) {
                 if (
-                    stripos($migration, $relation) !== false
-                    && ! in_array($modules, $this->modules, true)
+                    stripos($migration, $relation) !== false &&
+                    ! in_array($modules, $this->modules)
                 ) {
-                    return false;
+                    if (! in_array($modules, $this->modules)) {
+                        return false;
+                    }
                 }
             }
 
             foreach (BrandDBService::EXCEPT_MIGRATION_KEY_WORDS as $exceptKeyWord) {
-                if (stripos($migration, $exceptKeyWord) !== false) {
+                if ( stripos($migration, $exceptKeyWord) !== false) {
                     return false;
                 }
             }
 
-            return '--path=' . base_path("Modules/{$module}/Database/Migrations/{$migration}");
+            return '--path='.base_path("Modules/{$module}/Database/Migrations/{$migration}");
         }));
     }
 }

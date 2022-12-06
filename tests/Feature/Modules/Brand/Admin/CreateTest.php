@@ -2,8 +2,11 @@
 
 namespace Tests\Feature\Modules\Brand\Admin;
 
+use App\Jobs\CreateTenantDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Queue;
 use Modules\Brand\Enums\BrandPermission;
+use Modules\Brand\Jobs\MigrateSchemaJob;
 use Modules\Brand\Models\Brand;
 use Tests\TestCase;
 
@@ -20,17 +23,26 @@ class CreateTest extends TestCase
      */
     public function authorized_user_can_create_brand(): void
     {
+        Queue::fake();
+
         $this->authenticateWithPermission(BrandPermission::fromValue(BrandPermission::CREATE_BRANDS));
 
         $data = Brand::factory()->make();
 
-        $response = $this->post(route('admin.brands.store'), $data->toArray());
+        $response = $this->json('POST', route('admin.brands.store'), $data->toArray());
 
         $response->assertCreated();
+
+        $this->assertDatabaseHas('brands', [
+            'name' => $data['name']
+        ]);
 
         $response->assertJson([
             'data' => $data->toArray(),
         ]);
+
+        Queue::assertPushed(CreateTenantDatabase::class);
+        Queue::assertPushed(MigrateSchemaJob::class);
     }
 
     /**

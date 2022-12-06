@@ -2,8 +2,9 @@
 
 namespace App\Jobs;
 
+use App\Services\Tenant\DatabaseManipulator;
+use App\Services\Tenant\Manager;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -19,10 +20,9 @@ class CreateTenantDatabase implements ShouldQueue
      * @return void
      */
     public function __construct(
-        protected string $brandSlug
-    )
-    {
-        //
+        protected string $brandSlug,
+    ) {
+        $this->onQueue(Manager::TENANT_CONNECTION_NAME);
     }
 
     /**
@@ -30,8 +30,11 @@ class CreateTenantDatabase implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(DatabaseManipulator $databaseManipulator)
     {
-        //
+        if (! $databaseManipulator->createSchema($this->brandSlug)) {
+            throw new \RuntimeException('Database failed to be created.');
+        }
     }
+
 }
