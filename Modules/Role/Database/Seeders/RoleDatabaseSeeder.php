@@ -16,7 +16,7 @@ final class RoleDatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            PermissionsTableSeeder::class,
+//            PermissionsTableSeeder::class,
             RolesTableSeeder::class,
             ColumnsTableSeeder::class,
             ModelsTableSeeder::class,

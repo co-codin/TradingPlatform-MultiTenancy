@@ -15,7 +15,7 @@ final class UserDatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $user = User::factory()->create([
+        $user = User::where('email', 'admin@stoxtech.com')->first() ?? User::factory()->create([
             'username' => 'admin',
             'first_name' => 'admin',
             'last_name' => 'admin',

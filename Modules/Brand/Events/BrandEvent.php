@@ -37,4 +37,12 @@ class BrandEvent implements TenantEventCreated
     {
         return $this->tenant->getTenantSchemaName();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTenant(): HasTenantDBConnection
+    {
+        return $this->tenant;
+    }
 }
