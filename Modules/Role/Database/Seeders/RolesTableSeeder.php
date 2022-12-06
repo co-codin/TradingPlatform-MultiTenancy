@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Role\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use Modules\Brand\Enums\BrandPermission;
 use Modules\Role\Enums\DefaultRole;
 use Modules\Role\Models\Permission;
 use Modules\Role\Models\Role;
 
-class RolesTableSeeder extends Seeder
+final class RolesTableSeeder extends Seeder
 {
     protected array $roles = [
         DefaultRole::ADMIN,
@@ -34,10 +37,7 @@ class RolesTableSeeder extends Seeder
     {
         foreach ($this->roles as $role)
         {
-             Role::query()->firstOrCreate([
-                'name' => $role,
-                'guard_name' => 'api',
-            ]);
+            Role::query()->firstOrCreate(Role::factory()->raw(['name' => $role, 'key' => Str::kebab($role)]));
         }
     }
 }

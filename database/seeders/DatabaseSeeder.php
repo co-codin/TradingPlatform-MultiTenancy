@@ -19,9 +19,9 @@ final class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            RoleDatabaseSeeder::class,
             UserDatabaseSeeder::class,
             BrandDatabaseSeeder::class,
-            RoleDatabaseSeeder::class,
             //            GeoDatabaseSeeder::class,
         ]);
     }
