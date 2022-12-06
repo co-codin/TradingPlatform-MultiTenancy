@@ -14,7 +14,7 @@ class BrandPermission extends Enum implements PermissionEnum
 
     public static function module(): string
     {
-        return 'Brands';
+        return 'Brand';
     }
 
     public static function descriptions() : array

@@ -6,6 +6,7 @@ namespace Modules\User\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Brand\Http\Resources\BrandResource;
+use Modules\Communication\Http\Resources\CommentResource;
 use Modules\Department\Http\Resources\DepartmentResource;
 use Modules\Desk\Http\Resources\DeskResource;
 use Modules\Language\Http\Resources\LanguageResource;
@@ -23,7 +24,6 @@ use OpenApi\Annotations as OA;
  *         "username",
  *         "first_name",
  *         "last_name",
- *         "email",
  *         "is_active",
  *         "created_at",
  *         "updated_at",
@@ -83,6 +83,7 @@ final class UserResource extends JsonResource
             'desks' => DeskResource::collection($this->whenLoaded('desks')),
             'languages' => LanguageResource::collection($this->whenLoaded('languages')),
             'display_options' => DisplayOptionResource::collection($this->whenLoaded('displayOptions')),
+            'comments' => CommentResource::collection($this->whenLoaded('comments')),
         ]);
     }
 }

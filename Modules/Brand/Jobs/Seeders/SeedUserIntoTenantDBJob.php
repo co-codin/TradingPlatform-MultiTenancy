@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\Brand\Jobs;
+namespace Modules\Brand\Jobs\Seeders;
 
 use App\Contracts\HasTenantDBConnection;
 use App\Services\Tenant\Manager;
@@ -11,6 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Modules\Brand\Events\Tenant\BrandTenantIdentified;
+use Modules\Brand\Models\Brand;
 use Modules\User\Models\User;
 
 class SeedUserIntoTenantDBJob implements ShouldQueue

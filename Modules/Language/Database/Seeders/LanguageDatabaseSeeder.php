@@ -4,6 +4,7 @@ namespace Modules\Language\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Language\Models\Language;
 
 class LanguageDatabaseSeeder extends Seeder
 {
@@ -14,8 +15,6 @@ class LanguageDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Model::unguard();
-
-        // $this->call("OthersTableSeeder");
+        Language::factory()->count(10)->create();
     }
 }
