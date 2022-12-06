@@ -11,6 +11,7 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Testing\TestResponse;
 use Modules\Brand\Models\Brand;
@@ -42,17 +43,16 @@ abstract class BrandTestCase extends BaseTestCase
 
         $this->brand = Brand::factory()->create();
 
-        (new DatabaseManipulator)->createSchema($this->brand->slug);
-
         app(Manager::class)->setTenant($this->brand);
+
+        (new DatabaseManipulator)->createSchema($this->brand->slug);
 
         $this->db = $this->app->make(DatabaseManager::class);
 
         $this->db->createConnection($this->brand);
 
-        $this->db->connectToTenant();
+        $this->db->purge();
 
-        
 
         if (! Schema::connection($this->connectionName)->hasTable('migrations')) {
             Artisan::call(sprintf(
