@@ -81,7 +81,7 @@ final class MigrateStructureJob implements ShouldQueue
     {
         $migrations = array_values(
             array_diff(
-                scandir(base_path("/Modules/{$module}/Database/Migrations")),
+                scandir(base_path("Modules/{$module}/Database/Migrations")),
                 ['..', '.']
             ),
         );

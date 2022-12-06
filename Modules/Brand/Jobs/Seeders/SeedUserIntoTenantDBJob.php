@@ -11,6 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Modules\Brand\Events\Tenant\BrandTenantIdentified;
+use Modules\Brand\Models\Brand;
 use Modules\User\Models\User;
 
 class SeedUserIntoTenantDBJob implements ShouldQueue
@@ -36,7 +37,7 @@ class SeedUserIntoTenantDBJob implements ShouldQueue
         BrandTenantIdentified::dispatch($this->tenant);
 
         $userData = collect();
-dd($this->tenant->users);
+
         app(Manager::class)->escapeTenant(function () use (&$userData) {
             foreach ($this->tenant->users()->get() as $user) {
                 $this->mergeNode('ancestors', $userData, $user);

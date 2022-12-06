@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\Tenant\DatabaseManager;
 use App\Services\Tenant\Manager;
 use Illuminate\Support\ServiceProvider;
 

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\Brand\Listeners;
 
 use App\Contracts\TenantEventCreated;
-use App\Services\Tenant\DatabaseCreator;
 use App\Services\Tenant\Manager;
 use Exception;
 use Illuminate\Bus\Queueable;
@@ -21,11 +20,9 @@ final class MigrateRequiredModulesIntoBrandDatabase implements ShouldQueue
     use InteractsWithQueue;
 
     /**
-     * @param DatabaseCreator $databaseCreator
      * @param BrandDBService $brandDBService
      */
     public function __construct(
-        public DatabaseCreator $databaseCreator,
         public BrandDBService $brandDBService,
     ) {
     }
@@ -44,7 +41,6 @@ final class MigrateRequiredModulesIntoBrandDatabase implements ShouldQueue
             ->setModules(BrandDBService::REQUIRED_MODULES)
             ->migrateDB()
             ->seedData();
-
     }
 
     /**

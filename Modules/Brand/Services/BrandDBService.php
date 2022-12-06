@@ -6,6 +6,7 @@ namespace Modules\Brand\Services;
 
 use App\Services\Tenant\Manager;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Modules\Brand\Jobs\MigrateStructureJob;
 use Modules\Brand\Jobs\Seeders\SeedUserIntoTenantDBJob;
 use Modules\Brand\Models\Brand;
@@ -25,6 +26,9 @@ final class BrandDBService
         'Role' => 'Role',
         'Token' => 'Token',
         'User' => 'User',
+        'Campaign' => 'Campaign',
+        'Customer' => 'Customer',
+        'Sale' => 'Sale',
     ];
 
     /**
@@ -33,7 +37,6 @@ final class BrandDBService
     public const REQUIRED_MODULES = [
         'Campaign' => 'Campaign',
         'Config' => 'Config',
-        'Customers' => 'Config',
         'Department' => 'Department',
         'Desk' => 'Desk',
         'Geo' => 'Geo',
@@ -41,6 +44,7 @@ final class BrandDBService
         'Sale' => 'Sale',
         'Role' => 'Role',
         'User' => 'User',
+        'Customer' => 'Customer',
     ];
 
     /**
@@ -120,11 +124,14 @@ final class BrandDBService
     {
         foreach ($this->modules as $module) {
             if ($this->isAvailableModule($module)) {
+                dump(config('database.default'));
+                dump($module);
                 Artisan::call(sprintf(
                     'module:seed %s --database=%s',
                     $module,
                     Manager::TENANT_CONNECTION_NAME,
                 ));
+                dump(config('database.default'));
             }
         }
 

@@ -12,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 
 class BrandEvent implements TenantEventCreated
 {
-    use Dispatchable, SerializesModels, InteractsWithQueue;
+    use Dispatchable, InteractsWithQueue;
 
     /**
      * Create a new event instance.
