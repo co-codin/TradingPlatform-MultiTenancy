@@ -27,8 +27,8 @@ return new class extends Migration
             $table->foreignId('country_id')->constrained();
 
             $table->foreignId('language_id')->nullable()->constrained();
-            $table->foreignId('supposed_language_id')->nullable()->constrained();
-            $table->foreignId('platform_language_id')->nullable()->constrained();
+            $table->foreignId('supposed_language_id')->nullable()->constrained()->on('languages');
+            $table->foreignId('platform_language_id')->nullable()->constrained()->on('languages');
 
             $table->string('state')->nullable();
             $table->string('city')->nullable();

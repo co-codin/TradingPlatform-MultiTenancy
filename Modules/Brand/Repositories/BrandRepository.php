@@ -9,7 +9,7 @@ use Modules\Brand\Repositories\Criteria\BrandRequestCriteria;
 class BrandRepository extends BaseRepository
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function model(): string
     {
@@ -17,11 +17,11 @@ class BrandRepository extends BaseRepository
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function boot()
     {
-        $this->pushColumnPermissionValidator(BrandColumnPermissionValidator::class);
+        $this->pushPermissionColumnValidator(BrandColumnPermissionValidator::class);
         $this->pushCriteria(BrandRequestCriteria::class);
     }
 }

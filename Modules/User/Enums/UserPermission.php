@@ -16,6 +16,8 @@ final class UserPermission extends Enum implements PermissionEnum
     public const BAN_USERS = 'ban users';
     public const BAN_CUSTOMERS = 'ban customers';
     public const VIEW_DEPARTMENT_USERS = 'view department users';
+    public const EXPORT_CUSTOMERS = 'export customers';
+    public const IMPORT_CUSTOMERS = 'import customers';
 
     public static function descriptions(): array
     {
@@ -27,6 +29,8 @@ final class UserPermission extends Enum implements PermissionEnum
             self::BAN_USERS => 'Ban users',
             self::BAN_CUSTOMERS => 'Ban customers',
             self::VIEW_DEPARTMENT_USERS => 'View department users',
+            self::EXPORT_CUSTOMERS => 'Export customers',
+            self::IMPORT_CUSTOMERS => 'Import customers',
         ];
     }
 

@@ -21,8 +21,8 @@ class DeskFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->sentence(2),
+            'title' => $this->faker->sentence(10),
         ];
     }
 }
-
