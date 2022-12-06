@@ -96,8 +96,7 @@ class PasswordController extends Controller
             ->reset(
                 new PasswordResetDto([
                     'email' => $customer->email,
-                    'password' => $request->get('password'),
-                    'password_confirmation' => $request->get('password_confirmation'),
+                    'password' => $request->validated('password'),
                     'token' => Password::createToken($customer),
                 ]),
             );
@@ -106,7 +105,7 @@ class PasswordController extends Controller
             response($status, ResponseAlias::HTTP_ACCEPTED) :
             response()->json([
                 'data' => [
-                    'password' => $request->get('password'),
+                    'password' => $request->validated('password'),
                 ],
             ]);
     }

@@ -46,7 +46,7 @@ final class PasswordService
     /**
      * Without event dispatching.
      *
-     * @param bool $value
+     * @param  bool  $value
      * @return $this
      */
     public function dispatchEvent(bool $value): PasswordService
@@ -68,7 +68,6 @@ final class PasswordService
             [
                 'email' => $dto->email,
                 'password' => $dto->password,
-                'password_confirmation' => $dto->password_confirmation,
                 'token' => $dto->token,
             ],
             function (Authenticatable $user, $password) {

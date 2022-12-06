@@ -7,17 +7,13 @@ namespace Modules\User\Http\Controllers\Admin;
 use App\Dto\Auth\PasswordResetDto;
 use App\Http\Controllers\Controller;
 use App\Services\Auth\PasswordService;
-use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Modules\User\Http\Requests\ForgetPasswordRequest;
 use Modules\User\Http\Requests\ResetPasswordRequest;
-use Modules\User\Models\User;
 use Modules\User\Repositories\UserRepository;
 use OpenApi\Annotations as OA;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
@@ -26,12 +22,11 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 final class PasswordController extends Controller
 {
     /**
-     * @param PasswordService $passwordService
+     * @param  PasswordService  $passwordService
      */
     public function __construct(
         protected PasswordService $passwordService,
-    )
-    {
+    ) {
     }
 
     /**
@@ -125,18 +120,14 @@ final class PasswordController extends Controller
      *     )
      * )
      *
-     * @param ResetPasswordRequest $request
+     * @param  ResetPasswordRequest  $request
      * @return Application|Response|ResponseFactory
+     *
      * @throws UnknownProperties
      */
     public function reset(ResetPasswordRequest $request)
     {
-        $status = $this->passwordService->reset(new PasswordResetDto([
-            'email',
-            'password',
-            'password_confirmation',
-            'token',
-        ]));
+        $status = $this->passwordService->reset(PasswordResetDto::fromFormRequest($request));
 
         return response($status, ResponseAlias::HTTP_ACCEPTED);
     }
