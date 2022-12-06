@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Brand\Events\Tenant;
 
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 use Modules\Brand\Models\Brand;
 
-class BrandTenantIdentified
+final class BrandTenantIdentified
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable;
+    use SerializesModels;
 
     /**
      * Create a new event instance.
@@ -17,6 +20,6 @@ class BrandTenantIdentified
      */
     public function __construct(
         public Brand $tenant
-    )
-    {}
+    ) {
+    }
 }

@@ -34,7 +34,5 @@ final class ConfigServiceProvider extends BaseModuleServiceProvider
     public function boot(): void
     {
         parent::boot();
-
-        $this->loadMigrationsFrom(module_path($this->getModuleName(), 'Database/Migrations'));
     }
 }

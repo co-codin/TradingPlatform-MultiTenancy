@@ -11,7 +11,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Modules\Brand\Events\Tenant\BrandTenantIdentified;
-use Modules\Brand\Models\Brand;
 use Modules\User\Models\User;
 
 class SeedUserIntoTenantDBJob implements ShouldQueue

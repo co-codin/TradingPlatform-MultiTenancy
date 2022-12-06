@@ -12,7 +12,9 @@ use Illuminate\Queue\SerializesModels;
 
 class BrandEvent implements TenantEventCreated
 {
-    use Dispatchable, SerializesModels, InteractsWithQueue;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use SerializesModels;
 
     /**
      * Create a new event instance.
@@ -20,12 +22,13 @@ class BrandEvent implements TenantEventCreated
      * @return void
      */
     final public function __construct(public HasTenantDBConnection $tenant)
-    {}
+    {
+    }
 
     /**
      * {@inheritDoc}
      */
-    public function getTenantDBName(): string
+    final public function getTenantDBName(): string
     {
         return $this->tenant->slug;
     }
@@ -33,7 +36,7 @@ class BrandEvent implements TenantEventCreated
     /**
      * {@inheritDoc}
      */
-    public function getTenantSchemaName(): string
+    final public function getTenantSchemaName(): string
     {
         return $this->tenant->getTenantSchemaName();
     }

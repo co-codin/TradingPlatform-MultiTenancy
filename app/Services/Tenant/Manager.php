@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Tenant;
 
 use App\Contracts\HasTenantDBConnection;
 
-class Manager
+final class Manager
 {
     /**
      * @var string
@@ -17,7 +19,7 @@ class Manager
     protected ?HasTenantDBConnection $tenant;
 
     /**
-     * @param ?HasTenantDBConnection $tenant
+     * @param  ?HasTenantDBConnection  $tenant
      * @return void
      */
     public function setTenant(?HasTenantDBConnection $tenant = null): void
@@ -41,12 +43,12 @@ class Manager
         return isset($this->tenant);
     }
 
-    public function escapeTenant(callable $function)
+    public function escapeTenant(callable $function): void
     {
         $tenant = $this->getTenant();
 
         $this->setTenant();
-        call_user_func($function);
+        $function();
         $this->setTenant($tenant);
     }
 }

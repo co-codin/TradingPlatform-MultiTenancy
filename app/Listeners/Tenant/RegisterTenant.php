@@ -1,27 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Listeners\Tenant;
 
 use App\Services\Tenant\DatabaseManager;
 use App\Services\Tenant\Manager;
 use Modules\Brand\Events\Tenant\BrandTenantIdentified;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
-class RegisterTenant
+final class RegisterTenant
 {
     /**
-     * @param DatabaseManager $db
+     * @param  DatabaseManager  $db
      */
     public function __construct(
-        protected DatabaseManager $db
-    ) {}
+        private readonly DatabaseManager $db
+    ) {
+    }
 
     /**
-     * @param BrandTenantIdentified $event
+     * @param  BrandTenantIdentified  $event
      * @return void
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function handle(BrandTenantIdentified $event)
     {

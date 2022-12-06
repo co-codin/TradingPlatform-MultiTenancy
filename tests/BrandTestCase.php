@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use App\Services\Tenant\DatabaseManipulator;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Testing\TestResponse;
-use Modules\Brand\Jobs\MigrateStructureJob;
+use Modules\Brand\Jobs\MigrateSchemaJob;
 use Modules\Brand\Models\Brand;
 use Nwidart\Modules\Facades\Module;
 
@@ -24,6 +25,8 @@ abstract class BrandTestCase extends BaseTestCase
         parent::setUp();
 
         $this->brand = Brand::factory()->create();
+
+        (new DatabaseManipulator)->createSchema($this->brand->slug);
 
         $this->withHeader('Tenant', $this->brand->slug);
     }
@@ -56,6 +59,6 @@ abstract class BrandTestCase extends BaseTestCase
 
     public function migrateModules(array $modules, array $availableModules = [])
     {
-        MigrateStructureJob::dispatchSync($this->brand, $modules, $availableModules ?: array_keys(Module::all()));
+        MigrateSchemaJob::dispatchSync($this->brand, $modules, $availableModules ?: array_keys(Module::all()));
     }
 }

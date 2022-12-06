@@ -1,27 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Tenant;
 
 use App\Contracts\HasTenantDBConnection;
 use Illuminate\Database\DatabaseManager as BaseDatabaseManager;
 use Illuminate\Support\Facades\Config;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
-class DatabaseManager
+final class DatabaseManager
 {
     /**
-     * @param BaseDatabaseManager $db
+     * @param  BaseDatabaseManager  $db
      */
     public function __construct(
-        protected BaseDatabaseManager $db
-    ) {}
+        private readonly BaseDatabaseManager $db
+    ) {
+    }
 
     /**
-     * @param HasTenantDBConnection $tenant
+     * @param  HasTenantDBConnection  $tenant
      * @return void
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function createConnection(HasTenantDBConnection $tenant): void
     {
@@ -53,15 +52,13 @@ class DatabaseManager
     }
 
     /**
-     * @param HasTenantDBConnection $tenant
+     * @param  HasTenantDBConnection  $tenant
      * @return array
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
-    protected function getTenantConnection(HasTenantDBConnection $tenant): array
+    private function getTenantConnection(HasTenantDBConnection $tenant): array
     {
         return array_merge(
-            Config::get($this->getConfigConnectionPath()),
+            Config::get($this->getConfigDefaultConnectionPath()),
             $tenant->getTenantConnectionData()
         );
     }
@@ -69,7 +66,7 @@ class DatabaseManager
     /**
      * @return string
      */
-    protected function getConfigConnectionPath(): string
+    private function getConfigDefaultConnectionPath(): string
     {
         return sprintf('database.connections.%s', $this->getDefaultConnectionName());
     }
@@ -77,7 +74,7 @@ class DatabaseManager
     /**
      * @return string
      */
-    protected function getDefaultConnectionName(): string
+    private function getDefaultConnectionName(): string
     {
         return Config::get('database.default');
     }

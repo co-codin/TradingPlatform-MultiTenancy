@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Brand\Services;
 
+use App\Jobs\CreateTenantDatabase;
 use Modules\Brand\Dto\BrandDto;
+use Modules\Brand\Jobs\MigrateSchemaJob;
 use Modules\Brand\Models\Brand;
 
 final class BrandStorage
@@ -17,7 +19,12 @@ final class BrandStorage
      */
     final public function store(BrandDto $brandDto): Brand
     {
-        return Brand::query()->create($brandDto->toArray());
+        $brand = Brand::query()->create($brandDto->toArray());
+
+        CreateTenantDatabase::dispatch($brand->slug);
+        MigrateSchemaJob::dispatch($brand);
+
+        return $brand;
     }
 
     /**
