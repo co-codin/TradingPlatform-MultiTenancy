@@ -22,10 +22,24 @@ final class ForgetPasswordRequest extends BaseFormRequest
         ];
     }
 
-    protected function prepareForValidation()
+    public function validated($key = null, $default = null)
     {
+        if ($key === 'email') {
+            return $this->input('email', $default);
+        }
+
+        if ($key) {
+            return parent::validated($key, $default);
+        }
+
+        return array_merge(parent::validated(), ['login' => $this->input('login')]);
+    }
+
+    final protected function passedValidation(): void
+    {
+        parent::passedValidation();
         $this->merge([
-            'email' => strtolower($this->email),
+            'email' => strtolower($this->input('email')),
         ]);
     }
 }

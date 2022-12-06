@@ -33,11 +33,11 @@ final class AuthController extends Controller
      *              mediaType="application/json",
      *              @OA\Schema(
      *                  required={
-     *                      "email",
+     *                      "login",
      *                      "password"
      *                  },
      *                  type="object",
-     *                  @OA\Property(property="email", type="string", description="Username or Email"),
+     *                  @OA\Property(property="login", type="string", description="Username or Email"),
      *                  @OA\Property(property="password", type="string", format="password"),
      *                  @OA\Property(property="remember_me", type="boolean")
      *              )

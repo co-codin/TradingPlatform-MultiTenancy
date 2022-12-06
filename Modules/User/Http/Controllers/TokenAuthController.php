@@ -34,7 +34,7 @@ final class TokenAuthController extends Controller
      *              mediaType="application/json",
      *              @OA\Schema (
      *                  required={
-     *                      "email",
+     *                      "login",
      *                      "password"
      *                  },
      *                  type="object",
