@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Brand\Database\Seeders;
 
+use App\Services\Tenant\Manager;
 use Illuminate\Database\Seeder;
 use Modules\Brand\Models\Brand;
 use Modules\User\Models\User;

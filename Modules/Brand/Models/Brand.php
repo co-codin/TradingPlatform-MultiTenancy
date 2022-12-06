@@ -45,13 +45,6 @@ class Brand extends Model implements HasTenantDBConnection
     ];
 
     /**
-     * {@inheritdoc}
-     */
-    protected $dispatchesEvents = [
-        'created' => BrandCreated::class,
-    ];
-
-    /**
      * Get activity log options.
      *
      * @return LogOptions
