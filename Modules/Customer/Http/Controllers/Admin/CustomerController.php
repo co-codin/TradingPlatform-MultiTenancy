@@ -199,9 +199,111 @@ final class CustomerController extends Controller
     }
 
     /**
+     * @OA\Put(
+     *     path="/admin/customers/{id}",
+     *     tags={"Customer"},
+     *     security={ {"sanctum": {} }},
+     *     summary="Update a customer",
+     *     @OA\Parameter(
+     *         description="Customer ID",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(property="affiliate_user_id", type="integer", description="Affiliate worker ID"),
+     *                 @OA\Property(property="conversion_user_id", type="integer", description="Conversion worker ID"),
+     *                 @OA\Property(property="retention_user_id", type="integer", description="Retention user ID"),
+     *                 @OA\Property(property="compliance_user_id", type="integer", description="Compliance worker ID"),
+     *                 @OA\Property(property="support_user_id", type="integer", description="Support worker ID"),
+     *                 @OA\Property(property="conversion_manager_user_id", type="integer", description="Conversion manager worker ID"),
+     *                 @OA\Property(property="retention_manager_user_id", type="integer", description="Retention manager worker ID"),
+     *                 @OA\Property(property="first_conversion_user_id", type="integer", description="First conversion worker ID"),
+     *                 @OA\Property(property="first_retention_user_id", type="integer", description="First retention worker ID"),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Ok",
+     *         @OA\JsonContent(ref="#/components/schemas/CustomerResource")
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized Error"
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Forbidden Error"
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Not Found"
+     *     )
+     * ),
+     * @OA\Patch(
+     *     path="/admin/customers/{id}",
+     *     tags={"Customer"},
+     *     security={ {"sanctum": {} }},
+     *     summary="Update a customer",
+     *     @OA\Parameter(
+     *         description="Customer ID",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(property="affiliate_user_id", type="integer", description="Affiliate worker ID"),
+     *                 @OA\Property(property="conversion_user_id", type="integer", description="Conversion worker ID"),
+     *                 @OA\Property(property="retention_user_id", type="integer", description="Retention user ID"),
+     *                 @OA\Property(property="compliance_user_id", type="integer", description="Compliance worker ID"),
+     *                 @OA\Property(property="support_user_id", type="integer", description="Support worker ID"),
+     *                 @OA\Property(property="conversion_manager_user_id", type="integer", description="Conversion manager worker ID"),
+     *                 @OA\Property(property="retention_manager_user_id", type="integer", description="Retention manager worker ID"),
+     *                 @OA\Property(property="first_conversion_user_id", type="integer", description="First conversion worker ID"),
+     *                 @OA\Property(property="first_retention_user_id", type="integer", description="First retention worker ID"),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Ok",
+     *         @OA\JsonContent(ref="#/components/schemas/CustomerResource")
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized Error"
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Forbidden Error"
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Not Found"
+     *     )
+     * )
+     *
      * @param CustomerUpdateRequest $request
      * @param int $customer
      * @return JsonResource
+     *
      * @throws AuthorizationException
      * @throws UnknownProperties
      */

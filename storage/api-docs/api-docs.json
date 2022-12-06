@@ -1212,6 +1212,205 @@
                 ]
             }
         },
+        "/admin/customers/{id}": {
+            "put": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Update a customer",
+                "operationId": "37826335160a27c47aac2543710caefd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Customer ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "affiliate_user_id": {
+                                        "description": "Affiliate worker ID",
+                                        "type": "integer"
+                                    },
+                                    "conversion_user_id": {
+                                        "description": "Conversion worker ID",
+                                        "type": "integer"
+                                    },
+                                    "retention_user_id": {
+                                        "description": "Retention user ID",
+                                        "type": "integer"
+                                    },
+                                    "compliance_user_id": {
+                                        "description": "Compliance worker ID",
+                                        "type": "integer"
+                                    },
+                                    "support_user_id": {
+                                        "description": "Support worker ID",
+                                        "type": "integer"
+                                    },
+                                    "conversion_manager_user_id": {
+                                        "description": "Conversion manager worker ID",
+                                        "type": "integer"
+                                    },
+                                    "retention_manager_user_id": {
+                                        "description": "Retention manager worker ID",
+                                        "type": "integer"
+                                    },
+                                    "first_conversion_user_id": {
+                                        "description": "First conversion worker ID",
+                                        "type": "integer"
+                                    },
+                                    "first_retention_user_id": {
+                                        "description": "First retention worker ID",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Update a customer",
+                "operationId": "2bf40a061e82cc15e45b99b88ef8f291",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Customer ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "affiliate_user_id": {
+                                        "description": "Affiliate worker ID",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "conversion_user_id": {
+                                        "description": "Conversion worker ID",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "retention_user_id": {
+                                        "description": "Retention user ID",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "compliance_user_id": {
+                                        "description": "Compliance worker ID",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "support_user_id": {
+                                        "description": "Support worker ID",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "conversion_manager_user_id": {
+                                        "description": "Conversion manager worker ID",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "retention_manager_user_id": {
+                                        "description": "Retention manager worker ID",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "first_conversion_user_id": {
+                                        "description": "First conversion worker ID",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "first_retention_user_id": {
+                                        "description": "First retention worker ID",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/departments": {
             "get": {
                 "tags": [

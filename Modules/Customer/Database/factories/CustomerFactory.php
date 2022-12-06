@@ -31,8 +31,16 @@ class CustomerFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'password' => Hash::make('password'),
             'phone' => $this->faker->phoneNumber(),
-//            'country_id' => $this->faker->randomElement(Country::pluck('id')),
-            'first_conversion_user_id' => User::factory(),
+            'country_id' => $this->faker->randomElement(Country::pluck('id')),
+            'affiliate_user_id' => User::factory(),
+            'conversion_user_id' => $conversion = User::factory()->create(),
+            'retention_user_id' => $retention = User::factory()->create(),
+            'compliance_user_id' => User::factory(),
+            'support_user_id' => User::factory(),
+            'conversion_manager_user_id' => User::factory(),
+            'retention_manager_user_id' => User::factory(),
+            'first_conversion_user_id' => $conversion,
+            'first_retention_user_id' => $retention,
         ];
     }
 }

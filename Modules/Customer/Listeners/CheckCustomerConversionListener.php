@@ -18,13 +18,13 @@ final class CheckCustomerConversionListener
     {
         if ($event->customer->getOriginal('first_conversion_user_id')) { // has first_conversion_user_id value
             $event->customer->first_conversion_user_id = $event->customer->getOriginal('first_conversion_user_id');
-        } elseif ($event->customer->affiliate_user_id && ! $event->customer->first_conversion_user_id) { // given affiliate_user_id, but has not first_conversion_user_id
-            $event->customer->first_conversion_user_id = $event->customer->affiliate_user_id;
+        } elseif ($event->customer->conversion_user_id && ! $event->customer->first_conversion_user_id) { // given conversion_user_id, but has not first_conversion_user_id
+            $event->customer->first_conversion_user_id = $event->customer->conversion_user_id;
         } elseif (
             $event->customer->first_conversion_user_id
-            && $event->customer->affiliate_user_id
-            && $event->customer->affiliate_user_id !== $event->customer->first_conversion_user_id
-        ) { // given first_conversion_user_id and affiliate_user_id, but they not equal
+            && $event->customer->conversion_user_id
+            && $event->customer->conversion_user_id !== $event->customer->first_conversion_user_id
+        ) { // given first_conversion_user_id and conversion_user_id, but they not equal
             throw new Exception('Cant update conversion.');
         }
     }

@@ -12,8 +12,8 @@ use Tests\Traits\HasAuth;
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
-//    use RefreshDatabase;
-//    use HasAuth;
+    use RefreshDatabase;
+    use HasAuth;
 
     /**
      * {@inheritDoc}
