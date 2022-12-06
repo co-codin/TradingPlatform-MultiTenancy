@@ -40,14 +40,14 @@ class SeedUserIntoTenantDBJob implements ShouldQueue
 
         app(Manager::class)->escapeTenant(function () use (&$userData) {
             foreach ($this->tenant->users()->get() as $user) {
-                $this->mergeNode('ancestors', $userData, $user);
-                $this->mergeNode('descendants', $userData, $user);
+//                $this->mergeNode('ancestors', $userData, $user);
+//                $this->mergeNode('descendants', $userData, $user);
             }
         });
 
-        foreach ($userData->unique('id') as $user) {
-            User::insert($user->makeVisible(['password'])->toArray());
-        }
+//        foreach ($userData->unique('id') as $user) {
+//            User::insert($user->makeVisible(['password'])->toArray());
+//        }
 
         return true;
     }
