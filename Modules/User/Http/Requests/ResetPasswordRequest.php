@@ -32,7 +32,11 @@ final class ResetPasswordRequest extends BaseFormRequest
             return $this->input('email', $default);
         }
 
-        return parent::validated($key, $default);
+        if ($key) {
+            return parent::validated($key, $default);
+        }
+
+        return array_merge(parent::validated(), ['email' => $this->input('email')]);
     }
 
     final protected function passedValidation(): void

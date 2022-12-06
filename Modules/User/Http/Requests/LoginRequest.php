@@ -28,7 +28,11 @@ final class LoginRequest extends BaseFormRequest
             return $this->input('login', $default);
         }
 
-        return parent::validated($key, $default);
+        if ($key) {
+            return parent::validated($key, $default);
+        }
+
+        return array_merge(parent::validated(), ['login' => $this->input('login')]);
     }
 
     final protected function passedValidation(): void
