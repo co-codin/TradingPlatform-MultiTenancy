@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use Modules\Brand\Database\factories\BrandFactory;
 use Modules\Brand\Events\BrandCreated;
-use Modules\Brand\Events\BrandDeleted;
 use Modules\User\Models\User;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -50,7 +49,6 @@ class Brand extends Model implements HasTenantDBConnection
      */
     protected $dispatchesEvents = [
         'created' => BrandCreated::class,
-        'deleted' => BrandDeleted::class,
     ];
 
     /**
