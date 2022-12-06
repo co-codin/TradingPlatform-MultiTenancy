@@ -4,11 +4,14 @@ namespace Modules\Customer\Models;
 
 use App\Models\Traits\ForTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Customer\Database\factories\CustomerFactory;
+use Modules\Customer\Events\CustomerSaving;
 use Modules\Customer\Models\Traits\CustomerRelations;
+use Modules\Geo\Models\Country;
 use Modules\Role\Models\Traits\HasRoles;
 
 /**
@@ -20,6 +23,15 @@ use Modules\Role\Models\Traits\HasRoles;
  * @property int $gender
  * @property string $email
  * @property string $phone
+ * @property int|null $affiliate_user_id
+ * @property int|null $conversion_user_id
+ * @property int|null $retention_user_id
+ * @property int|null $compliance_user_id
+ * @property int|null $support_user_id
+ * @property int|null $conversion_manager_user_id
+ * @property int|null $retention_manager_user_id
+ * @property int|null $first_conversion_user_id
+ * @property int|null $first_retention_user_id
  * @property string $created_at
  * @property string $updated_at
  * @property string $deleted_at
@@ -55,7 +67,24 @@ class Customer extends Authenticatable
     /**
      * {@inheritdoc}
      */
+    protected $dispatchesEvents = [
+        'saving' => CustomerSaving::class,
+    ];
+
+    /**
+     * {@inheritdoc}
+     */
     protected $rememberTokenName = false;
+
+    /**
+     * Country relation.
+     *
+     * @return BelongsTo
+     */
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
+    }
 
     protected static function newFactory()
     {
