@@ -4,15 +4,16 @@ namespace Modules\Communication\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Communication\Database\factories\EmailFactory;
 
 class Email extends Model
 {
     use HasFactory;
 
-    protected $fillable = [];
-    
+    protected $guarded = ['id'];
+
     protected static function newFactory()
     {
-        return \Modules\Communication\Database\factories\EmailFactory::new();
+        return EmailFactory::new();
     }
 }
