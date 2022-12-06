@@ -78,6 +78,24 @@ return [
             'sslmode' => 'prefer',
         ],
 
+        'tenant' => [
+            'driver' => 'pgsql',
+            'database' => null,
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
+            // And other options if needed ...
+        ],
+
+        'landlord' => [
+            'driver' => 'pgsql',
+            'database' => env('DB_DATABASE', 'forge'),
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
+            // And other options if needed ...
+        ],
+
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'url' => env('DATABASE_URL'),

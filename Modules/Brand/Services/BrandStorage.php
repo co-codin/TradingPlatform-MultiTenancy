@@ -19,12 +19,10 @@ final class BrandStorage
      */
     final public function store(BrandDto $brandDto): Brand
     {
-        $brand = Brand::query()->create($brandDto->toArray());
+        return Brand::query()->create($brandDto->toArray());
 
-        CreateTenantDatabase::dispatch($brand->slug);
-        MigrateStructureJob::dispatch($brand);
-
-        return $brand;
+//        CreateTenantDatabase::dispatch($brand->slug);
+//        MigrateStructureJob::dispatch($brand);
     }
 
     /**

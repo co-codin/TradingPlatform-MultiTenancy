@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Modules\Brand\Database\factories\BrandFactory;
 use Modules\User\Models\User;
@@ -49,7 +50,7 @@ class Brand extends Tenant
 
     public function createDatabase()
     {
-        // add logic to create database
+        DB::unprepared("CREATE SCHEMA {$this->slug}");
     }
 
     /**

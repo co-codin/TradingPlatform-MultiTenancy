@@ -13,7 +13,6 @@ use Tests\TestCase;
 class CreateTest extends TestCase
 {
     use DatabaseTransactions;
-
     /**
      * Test authorized user can create brand.
      *
@@ -23,8 +22,6 @@ class CreateTest extends TestCase
      */
     public function authorized_user_can_create_brand(): void
     {
-        Queue::fake();
-
         $this->authenticateWithPermission(BrandPermission::fromValue(BrandPermission::CREATE_BRANDS));
 
         $data = Brand::factory()->make();
@@ -40,9 +37,6 @@ class CreateTest extends TestCase
         $response->assertJson([
             'data' => $data->toArray(),
         ]);
-
-        Queue::assertPushed(CreateTenantDatabase::class);
-        Queue::assertPushed(MigrateStructureJob::class);
     }
 
     /**
