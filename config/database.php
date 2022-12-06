@@ -93,6 +93,7 @@ return [
             'host' => env('DB_HOST', '127.0.0.1'),
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
+            'search_path' => 'public',
             // And other options if needed ...
         ],
 

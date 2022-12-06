@@ -82,18 +82,8 @@ final class BrandResource extends BaseJsonResource
      */
     final public function toArray($request): array
     {
-        return [
-            'id' => $this->resource->id,
-            'name' => $this->resource->name,
-            'title' => $this->resource->title,
-            'slug' => $this->resource->slug,
-            'logo_url' => $this->resource->logo_url,
-            'is_active' => $this->resource->is_active,
-            'tables' => $this->resource->tables,
-            'created_at' => $this->resource->created_at,
-            'updated_at' => $this->resource->updated_at,
-            'deleted_at' => $this->resource->deleted_at,
+        return array_merge(parent::toArray($request), [
             'workers' => UserResource::collection($this->whenLoaded('users')),
-        ];
+        ]);
     }
 }
