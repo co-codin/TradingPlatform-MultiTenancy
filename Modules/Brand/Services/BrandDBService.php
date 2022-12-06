@@ -124,14 +124,11 @@ final class BrandDBService
     {
         foreach ($this->modules as $module) {
             if ($this->isAvailableModule($module)) {
-                dump(config('database.default'));
-                dump($module);
                 Artisan::call(sprintf(
                     'module:seed %s --database=%s',
                     $module,
                     Manager::TENANT_CONNECTION_NAME,
                 ));
-                dump(config('database.default'));
             }
         }
 
