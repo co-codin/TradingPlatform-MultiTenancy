@@ -9,22 +9,17 @@ use App\Dto\BaseDto;
 final class PasswordResetDto extends BaseDto
 {
     /**
-     * @var string $email
+     * @var string
      */
     public string $email;
 
     /**
-     * @var string $password
+     * @var string
      */
     public string $password;
 
     /**
-     * @var string $password_confirmation
-     */
-    public string $password_confirmation;
-
-    /**
-     * @var string $token
+     * @var string
      */
     public string $token;
 }
