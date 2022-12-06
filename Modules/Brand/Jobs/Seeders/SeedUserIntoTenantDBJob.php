@@ -11,7 +11,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Modules\Brand\Events\Tenant\BrandTenantIdentified;
-use Modules\Brand\Models\Brand;
 use Modules\User\Models\User;
 
 class SeedUserIntoTenantDBJob implements ShouldQueue
@@ -40,14 +39,14 @@ class SeedUserIntoTenantDBJob implements ShouldQueue
 
         app(Manager::class)->escapeTenant(function () use (&$userData) {
             foreach ($this->tenant->users()->get() as $user) {
-//                $this->mergeNode('ancestors', $userData, $user);
-//                $this->mergeNode('descendants', $userData, $user);
+                $this->mergeNode('ancestors', $userData, $user);
+                $this->mergeNode('descendants', $userData, $user);
             }
         });
 
-//        foreach ($userData->unique('id') as $user) {
-//            User::insert($user->makeVisible(['password'])->toArray());
-//        }
+        foreach ($userData->unique('id') as $user) {
+            User::insert($user->makeVisible(['password'])->toArray());
+        }
 
         return true;
     }

@@ -6,7 +6,6 @@ namespace Modules\Brand\Services;
 
 use App\Services\Tenant\Manager;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\DB;
 use Modules\Brand\Jobs\MigrateStructureJob;
 use Modules\Brand\Jobs\Seeders\SeedUserIntoTenantDBJob;
 use Modules\Brand\Models\Brand;
@@ -132,7 +131,7 @@ final class BrandDBService
             }
         }
 
-        SeedUserIntoTenantDBJob::dispatchIf($this->isAvailableModule('User'), $this->brand);
+//        SeedUserIntoTenantDBJob::dispatchIf($this->isAvailableModule('User'), $this->brand);
 
         return $this;
     }

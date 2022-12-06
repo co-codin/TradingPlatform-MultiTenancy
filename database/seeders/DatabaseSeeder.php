@@ -21,7 +21,7 @@ final class DatabaseSeeder extends Seeder
         $this->call([
             RoleDatabaseSeeder::class,
             UserDatabaseSeeder::class,
-//            BrandDatabaseSeeder::class,
+            BrandDatabaseSeeder::class,
             //            GeoDatabaseSeeder::class,
         ]);
     }
