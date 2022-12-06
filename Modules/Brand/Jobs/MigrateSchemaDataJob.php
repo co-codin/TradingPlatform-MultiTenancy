@@ -13,7 +13,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Arr;
 use Modules\Brand\Services\BrandDBService;
 
-final class MigrateSchemaJob implements ShouldQueue
+final class MigrateSchemaDataJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 

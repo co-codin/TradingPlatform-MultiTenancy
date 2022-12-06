@@ -4,10 +4,9 @@ namespace Tests\Feature\Modules\Brand\Admin;
 
 use App\Jobs\CreateTenantDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Queue;
 use Modules\Brand\Enums\BrandPermission;
-use Modules\Brand\Jobs\MigrateSchemaJob;
+use Modules\Brand\Jobs\MigrateStructureJob;
 use Modules\Brand\Models\Brand;
 use Tests\TestCase;
 
@@ -43,7 +42,7 @@ class CreateTest extends TestCase
         ]);
 
         Queue::assertPushed(CreateTenantDatabase::class);
-        Queue::assertPushed(MigrateSchemaJob::class);
+        Queue::assertPushed(MigrateStructureJob::class);
     }
 
     /**

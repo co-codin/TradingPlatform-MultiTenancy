@@ -6,7 +6,7 @@ namespace Modules\Brand\Services;
 
 use App\Services\Tenant\Manager;
 use Illuminate\Support\Facades\Artisan;
-use Modules\Brand\Jobs\MigrateSchemaJob;
+use Modules\Brand\Jobs\MigrateSchemaDataJob;
 use Modules\Brand\Jobs\Seeders\SeedUserIntoTenantDBJob;
 use Modules\Brand\Models\Brand;
 use Nwidart\Modules\Facades\Module;
@@ -109,7 +109,7 @@ final class BrandDBService
      */
     public function migrateDB(): BrandDBService
     {
-        MigrateSchemaJob::dispatch($this->brand, $this->modules, $this->availableModules);
+        MigrateSchemaDataJob::dispatch($this->brand, $this->modules, $this->availableModules);
 
         return $this;
     }

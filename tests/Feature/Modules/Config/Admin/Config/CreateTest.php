@@ -8,9 +8,9 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
 use Modules\Config\Enums\ConfigPermission;
 use Modules\Config\Models\Config;
-use Tests\TestCase;
+use Tests\BrandTestCase;
 
-final class CreateTest extends TestCase
+final class CreateTest extends BrandTestCase
 {
     use DatabaseTransactions;
 
@@ -26,7 +26,7 @@ final class CreateTest extends TestCase
         $this->authenticateWithPermission(ConfigPermission::fromValue(ConfigPermission::CREATE_CONFIGS));
 
         dd(
-            DB::connection()->getDoctrineSchemaManager()->listTableNames()
+            DB::connection()->getDatabaseName()
         );
 
         $data = Config::factory()->make();
