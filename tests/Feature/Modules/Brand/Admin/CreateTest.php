@@ -39,7 +39,7 @@ class CreateTest extends TestCase
             'data' => $data->toArray(),
         ]);
 
-        $query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME =  ?";
+        $query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?";
         $db = DB::select($query, [$data['slug']]);
 
 
