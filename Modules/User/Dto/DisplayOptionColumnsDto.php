@@ -35,7 +35,7 @@ final class DisplayOptionColumnsDto extends BaseDto implements CastsAttributes
      */
     final public function set($model, string $key, $value, array $attributes): string
     {
-        $modelOfModel = (new ("\\{$model->model->name}"));
+        $modelOfModel = (new ("{$model->model->name}"));
 
         $columns = array_diff(
             Schema::getColumnListing($modelOfModel->getTable()),
