@@ -5,38 +5,34 @@ declare(strict_types=1);
 namespace App\Listeners\Tenant;
 
 use App\Contracts\TenantEventCreated;
-use App\Services\Tenant\DatabaseCreator;
+use App\Services\Tenant\DatabaseManipulator;
 use App\Services\Tenant\Manager;
 use Exception;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
+use Modules\Brand\Events\BrandCreated;
+use RuntimeException;
 
-final class CreateTenantDatabase implements ShouldQueue
+final class CreateTenantDatabase
 {
-    use Dispatchable;
-    use Queueable;
-    use InteractsWithQueue;
-
     /**
-     * @param DatabaseCreator $databaseCreator
+     * @param  DatabaseManipulator  $databaseManipulator
      */
     public function __construct(
-        public DatabaseCreator $databaseCreator,
-    ) {}
+        private readonly DatabaseManipulator $databaseManipulator,
+    ) {
+    }
 
     /**
      * Handle the event.
      *
-     * @param TenantEventCreated $event
+     * @param  BrandCreated  $event
      * @return void
+     *
      * @throws Exception
      */
     public function handle(TenantEventCreated $event): void
     {
-        if (! $this->databaseCreator->createSchema($event->getTenantSchemaName())) {
-            throw new Exception('Database failed to be created.');
+        if (! $this->databaseManipulator->createSchema($event->getTenantSchemaName())) {
+            throw new RuntimeException('Database failed to be created.');
         }
     }
 
