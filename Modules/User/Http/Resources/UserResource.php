@@ -23,7 +23,6 @@ use OpenApi\Annotations as OA;
  *         "username",
  *         "first_name",
  *         "last_name",
- *         "email",
  *         "is_active",
  *         "created_at",
  *         "updated_at",

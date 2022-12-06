@@ -26,10 +26,20 @@ final class ResetPasswordRequest extends BaseFormRequest
         ];
     }
 
-    protected function prepareForValidation()
+    public function validated($key = null, $default = null)
     {
+        if ($key === 'email') {
+            return $this->input('email', $default);
+        }
+
+        return parent::validated($key, $default);
+    }
+
+    final protected function passedValidation(): void
+    {
+        parent::passedValidation();
         $this->merge([
-            'email' => strtolower($this->email),
+            'email' => strtolower($this->input('email')),
         ]);
     }
 }

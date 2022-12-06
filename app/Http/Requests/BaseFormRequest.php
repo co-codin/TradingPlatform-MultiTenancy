@@ -11,18 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 class BaseFormRequest extends FormRequest
 {
     /**
-     * Prefix for rules.
-     *
-     * @param array $rules
-     * @param string $prefix
-     * @return SupportCollection
-     */
-    final protected function prefix(array $rules, string $prefix = ''): SupportCollection
-    {
-        return collect($rules)->map(fn(string $rule) => "{$prefix}.{$rule}");
-    }
-
-    /**
      * Rules.
      *
      * @return array
@@ -33,9 +21,21 @@ class BaseFormRequest extends FormRequest
     }
 
     /**
+     * Prefix for rules.
+     *
+     * @param  array  $rules
+     * @param  string  $prefix
+     * @return SupportCollection
+     */
+    final protected function prefix(array $rules, string $prefix = ''): SupportCollection
+    {
+        return collect($rules)->map(fn (string $rule) => "{$prefix}.{$rule}");
+    }
+
+    /**
      * {@inheritDoc}
      */
-    final protected function passedValidation(): void
+    protected function passedValidation(): void
     {
         abort_if(! empty($this->rules()) && ! $this->validated(), Response::HTTP_BAD_REQUEST);
     }
