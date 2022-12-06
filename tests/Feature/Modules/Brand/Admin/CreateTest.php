@@ -4,7 +4,7 @@ namespace Tests\Feature\Modules\Brand\Admin;
 
 use App\Jobs\CreateTenantDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\DB;
 use Modules\Brand\Enums\BrandPermission;
 use Modules\Brand\Jobs\MigrateSchemaJob;
 use Modules\Brand\Models\Brand;
@@ -38,6 +38,12 @@ class CreateTest extends TestCase
         $response->assertJson([
             'data' => $data->toArray(),
         ]);
+
+        $query = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME =  ?";
+        $db = DB::select($query, [$data['slug']]);
+
+
+        $this->assertTrue(!empty($db));
     }
 
     /**
