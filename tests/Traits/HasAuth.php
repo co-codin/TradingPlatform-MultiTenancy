@@ -13,8 +13,6 @@ use Tests\CreatesApplication;
 
 trait HasAuth
 {
-    use CreatesApplication;
-
     /**
      * @var User|null
      */

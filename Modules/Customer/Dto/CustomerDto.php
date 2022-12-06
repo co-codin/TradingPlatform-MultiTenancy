@@ -104,4 +104,49 @@ final class CustomerDto extends BaseDto
      * @var ?string
      */
     public ?string $banned_at = null;
+
+    /**
+     * @var int|null $affiliate_user_id
+     */
+    public ?int $affiliate_user_id = null;
+
+    /**
+     * @var int|null $affiliate_user_id
+     */
+    public ?int $conversion_user_id = null;
+
+    /**
+     * @var int|null $affiliate_user_id
+     */
+    public ?int $retention_user_id = null;
+
+    /**
+     * @var int|null $affiliate_user_id
+     */
+    public ?int $compliance_user_id = null;
+
+    /**
+     * @var int|null $affiliate_user_id
+     */
+    public ?int $support_user_id = null;
+
+    /**
+     * @var int|null $affiliate_user_id
+     */
+    public ?int $conversion_manager_user_id = null;
+
+    /**
+     * @var int|null $affiliate_user_id
+     */
+    public ?int $retention_manager_user_id = null;
+
+    /**
+     * @var int|null $affiliate_user_id
+     */
+    public ?int $first_conversion_user_id = null;
+
+    /**
+     * @var int|null $affiliate_user_id
+     */
+    public ?int $first_retention_user_id = null;
 }

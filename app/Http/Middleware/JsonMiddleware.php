@@ -24,13 +24,6 @@ final class JsonMiddleware
     {
         $request->headers->set('Accept', 'application/json');
 
-        $response = $next($request);
-
-        return match (true) {
-            boolval(config('app.debug')) => $response,
-            $response->isSuccessful() => $response,
-            $response->isNotFound() => new Response(__('Not found.'), 404),
-            default => new Response(__('Internal server error'), 500),
-        };
+        return $next($request);
     }
 }
