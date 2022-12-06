@@ -1141,134 +1141,6 @@
                 }
             }
         },
-        "/customers/ban": {
-            "patch": {
-                "tags": [
-                    "Customer"
-                ],
-                "summary": "Ban customers",
-                "operationId": "6effcf150a36ae9c712a41d26a555b3c",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "customers"
-                                ],
-                                "properties": {
-                                    "customers": {
-                                        "type": "array",
-                                        "items": {
-                                            "required": [
-                                                "id"
-                                            ],
-                                            "properties": {
-                                                "id": {
-                                                    "description": "Customer ID",
-                                                    "type": "integer"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/CustomerCollection"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized Error"
-                    },
-                    "403": {
-                        "description": "Forbidden Error"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
-        "/customers/unban": {
-            "patch": {
-                "tags": [
-                    "Customer"
-                ],
-                "summary": "Unban customers",
-                "operationId": "d7c85045ee2fb9e28548fc656e13d013",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "customers"
-                                ],
-                                "properties": {
-                                    "customers": {
-                                        "type": "array",
-                                        "items": {
-                                            "required": [
-                                                "id"
-                                            ],
-                                            "properties": {
-                                                "id": {
-                                                    "description": "Customer ID",
-                                                    "type": "integer"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/CustomerCollection"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized Error"
-                    },
-                    "403": {
-                        "description": "Forbidden Error"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
         "/admin/customers": {
             "get": {
                 "tags": [
@@ -1497,121 +1369,7 @@
                         "sanctum": []
                     }
                 ]
-            }
-        },
-        "/admin/customers/export/excel": {
-            "post": {
-                "tags": [
-                    "Customer"
-                ],
-                "summary": "Export customers excel data",
-                "operationId": "bdce7eab4343326fdb37287840639d5e",
-                "responses": {
-                    "200": {
-                        "description": "success"
-                    },
-                    "401": {
-                        "description": "Unauthorized Error"
-                    },
-                    "403": {
-                        "description": "Forbidden Error"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
-        "/admin/customers/export/csv": {
-            "post": {
-                "tags": [
-                    "Customer"
-                ],
-                "summary": "Export customers csv data",
-                "operationId": "0b986c549a736d91b9a00ac9152a073b",
-                "responses": {
-                    "200": {
-                        "description": "success"
-                    },
-                    "401": {
-                        "description": "Unauthorized Error"
-                    },
-                    "403": {
-                        "description": "Forbidden Error"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
-        "/admin/customers/import/excel": {
-            "post": {
-                "tags": [
-                    "Customer"
-                ],
-                "summary": "Import customers excel data",
-                "operationId": "77226928c68906cfcad9d5248e1d5627",
-                "responses": {
-                    "200": {
-                        "description": "success"
-                    },
-                    "401": {
-                        "description": "Unauthorized Error"
-                    },
-                    "403": {
-                        "description": "Forbidden Error"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
-        "/admin/customers/import/csv": {
-            "post": {
-                "tags": [
-                    "Customer"
-                ],
-                "summary": "Import customers csv data",
-                "operationId": "a0c7f9d1ffeffefe2fbd980e8951e23f",
-                "responses": {
-                    "200": {
-                        "description": "success"
-                    },
-                    "401": {
-                        "description": "Unauthorized Error"
-                    },
-                    "403": {
-                        "description": "Forbidden Error"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
-        "/admin/customers/{id}": {
+            },
             "put": {
                 "tags": [
                     "Customer"
@@ -1730,48 +1488,39 @@
                                 "properties": {
                                     "affiliate_user_id": {
                                         "description": "Affiliate worker ID",
-                                        "type": "integer",
-                                        "nullable": "true"
+                                        "type": "integer"
                                     },
                                     "conversion_user_id": {
                                         "description": "Conversion worker ID",
-                                        "type": "integer",
-                                        "nullable": "true"
+                                        "type": "integer"
                                     },
                                     "retention_user_id": {
                                         "description": "Retention user ID",
-                                        "type": "integer",
-                                        "nullable": "true"
+                                        "type": "integer"
                                     },
                                     "compliance_user_id": {
                                         "description": "Compliance worker ID",
-                                        "type": "integer",
-                                        "nullable": "true"
+                                        "type": "integer"
                                     },
                                     "support_user_id": {
                                         "description": "Support worker ID",
-                                        "type": "integer",
-                                        "nullable": "true"
+                                        "type": "integer"
                                     },
                                     "conversion_manager_user_id": {
                                         "description": "Conversion manager worker ID",
-                                        "type": "integer",
-                                        "nullable": "true"
+                                        "type": "integer"
                                     },
                                     "retention_manager_user_id": {
                                         "description": "Retention manager worker ID",
-                                        "type": "integer",
-                                        "nullable": "true"
+                                        "type": "integer"
                                     },
                                     "first_conversion_user_id": {
                                         "description": "First conversion worker ID",
-                                        "type": "integer",
-                                        "nullable": "true"
+                                        "type": "integer"
                                     },
                                     "first_retention_user_id": {
                                         "description": "First retention worker ID",
-                                        "type": "integer",
-                                        "nullable": "true"
+                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"
@@ -1792,6 +1541,246 @@
                     },
                     "400": {
                         "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/customers/ban": {
+            "patch": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Ban customers",
+                "operationId": "6effcf150a36ae9c712a41d26a555b3c",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "customers"
+                                ],
+                                "properties": {
+                                    "customers": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Customer ID",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/customers/unban": {
+            "patch": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Unban customers",
+                "operationId": "d7c85045ee2fb9e28548fc656e13d013",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "customers"
+                                ],
+                                "properties": {
+                                    "customers": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Customer ID",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/customers/export/excel": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Export customers excel data",
+                "operationId": "bdce7eab4343326fdb37287840639d5e",
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/customers/export/csv": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Export customers csv data",
+                "operationId": "0b986c549a736d91b9a00ac9152a073b",
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/customers/import/excel": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Import customers excel data",
+                "operationId": "77226928c68906cfcad9d5248e1d5627",
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/customers/import/csv": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Import customers csv data",
+                "operationId": "a0c7f9d1ffeffefe2fbd980e8951e23f",
+                "responses": {
+                    "200": {
+                        "description": "success"
                     },
                     "401": {
                         "description": "Unauthorized Error"
