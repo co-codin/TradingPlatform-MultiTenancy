@@ -25,7 +25,6 @@ class Comment extends Model
         return $this->morphMany(Image::class, 'imageable')
             ->orderBy('position');
     }
-
     protected static function newFactory()
     {
         return CommentFactory::new();

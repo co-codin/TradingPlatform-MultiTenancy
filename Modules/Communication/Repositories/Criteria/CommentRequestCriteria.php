@@ -2,7 +2,6 @@
 
 namespace Modules\Communication\Repositories\Criteria;
 
-use App\Http\Filters\LiveFilter;
 use App\Repositories\Criteria\BaseCriteria;
 use Modules\User\Repositories\Criteria\UserRequestCriteria;
 use Prettus\Repository\Contracts\RepositoryInterface;
@@ -15,6 +14,7 @@ class CommentRequestCriteria extends BaseCriteria
         'id',
         'user_id',
         'body',
+        'position',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -36,10 +36,10 @@ class CommentRequestCriteria extends BaseCriteria
             ])
             ->allowedIncludes([
                 'user',
-                'images'
+                'images',
             ])
             ->allowedSorts([
-                'id', 'body', 'user_id', 'created_at', 'updated_at', 'deleted_at',
+                'id', 'body', 'user_id', 'position', 'created_at', 'updated_at', 'deleted_at',
             ]);
     }
 }

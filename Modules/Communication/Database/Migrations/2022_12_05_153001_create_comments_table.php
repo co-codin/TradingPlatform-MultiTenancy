@@ -18,6 +18,7 @@ return new class extends Migration
 
             $table->foreignId('user_id')->references('id')->on('users');
             $table->text('body');
+            $table->unsignedInteger('position')->nullable();
 
             $table->softDeletes();
             $table->timestamps();
