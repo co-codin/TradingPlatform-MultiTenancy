@@ -37,6 +37,6 @@ class BaseFormRequest extends FormRequest
      */
     final protected function passedValidation(): void
     {
-        abort_if(! $this->validated(), Response::HTTP_BAD_REQUEST);
+        abort_if(! empty($this->rules()) && ! $this->validated(), Response::HTTP_BAD_REQUEST);
     }
 }
