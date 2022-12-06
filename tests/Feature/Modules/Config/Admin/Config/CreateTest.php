@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Modules\Config\Admin\Config;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\DB;
 use Modules\Config\Enums\ConfigPermission;
 use Modules\Config\Models\Config;
 use Tests\TestCase;
@@ -20,19 +21,23 @@ final class CreateTest extends TestCase
      *
      * @test
      */
-    final public function authorized_user_can_create_config(): void
+    final public function authorized_a_user_can_create_config(): void
     {
         $this->authenticateWithPermission(ConfigPermission::fromValue(ConfigPermission::CREATE_CONFIGS));
 
+        dd(
+            DB::connection()->getDoctrineSchemaManager()->listTableNames()
+        );
+
         $data = Config::factory()->make();
-
-        $response = $this->postJson(route('admin.configs.store'), $data->toArray());
-
-        $response->assertCreated();
-
-        $response->assertJson([
-            'data' => $data->toArray(),
-        ]);
+//
+//        $response = $this->postJson(route('admin.configs.store'), $data->toArray());
+//
+//        $response->assertCreated();
+//
+//        $response->assertJson([
+//            'data' => $data->toArray(),
+//        ]);
     }
 
     /**

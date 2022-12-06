@@ -4,18 +4,21 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use App\Services\Tenant\DatabaseManager;
 use App\Services\Tenant\DatabaseManipulator;
+use App\Services\Tenant\Manager;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Testing\TestResponse;
-use Modules\Brand\Jobs\MigrateSchemaJob;
 use Modules\Brand\Models\Brand;
-use Nwidart\Modules\Facades\Module;
+use Modules\Brand\Services\BrandDBService;
 
 abstract class BrandTestCase extends BaseTestCase
 {
     use CreatesApplication;
 
     public Brand $brand;
+
+    public $db;
 
     /**
      * {@inheritDoc}
@@ -28,7 +31,15 @@ abstract class BrandTestCase extends BaseTestCase
 
         (new DatabaseManipulator)->createSchema($this->brand->slug);
 
-        $this->withHeader('Tenant', $this->brand->slug);
+        app(Manager::class)->setTenant($this->brand);
+
+        $this->db = $this->app->make(DatabaseManager::class);
+
+        $this->db->createConnection($this->brand)->connectToTenant();
+
+//        $this->migrateModules();
+
+//        $this->withHeader('Tenant', $this->brand->slug);
     }
 
     /**
@@ -57,8 +68,13 @@ abstract class BrandTestCase extends BaseTestCase
         );
     }
 
-    public function migrateModules(array $modules, array $availableModules = [])
+    public function migrateModules()
     {
-        MigrateSchemaJob::dispatchSync($this->brand, $modules, $availableModules ?: array_keys(Module::all()));
+        (new BrandDBService($this->brand))
+            >setBrand($this->brand)
+            ->setModules(BrandDBService::REQUIRED_MODULES)
+            ->migrateDB()
+            ->seedData();
+//        MigrateSchemaJob::dispatchSync($this->brand, $modules, $availableModules ?: array_keys(Module::all()));
     }
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Brand\Jobs;
 
-use App\Contracts\HasTenantDBConnection;
 use App\Services\Tenant\Manager;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,10 +11,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Schema;
-use Modules\Brand\Events\Tenant\BrandTenantIdentified;
-use Modules\Brand\Models\Brand;
 use Modules\Brand\Services\BrandDBService;
 
 final class MigrateSchemaJob implements ShouldQueue
