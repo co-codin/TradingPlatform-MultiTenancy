@@ -82,6 +82,10 @@ trait HasAuth
                 'email' => $email,
             ]);
 
+        dd(
+            $user
+        );
+
         $permission = Permission::whereName($permissionEnum->value)->first() ??
             Permission::factory()->create([
                 'name' => $permissionEnum->value,

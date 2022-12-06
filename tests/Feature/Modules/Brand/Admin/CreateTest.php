@@ -23,20 +23,24 @@ class CreateTest extends TestCase
     public function authorized_user_can_create_brand(): void
     {
         $this->authenticateWithPermission(BrandPermission::fromValue(BrandPermission::CREATE_BRANDS));
-
+//
         $data = Brand::factory()->make();
 
         $response = $this->json('POST', route('admin.brands.store'), $data->toArray());
 
-        $response->assertCreated();
+        dd(
+            $response->json()
+        );
 
-        $this->assertDatabaseHas('brands', [
-            'name' => $data['name']
-        ]);
-
-        $response->assertJson([
-            'data' => $data->toArray(),
-        ]);
+//        $response->assertCreated();
+//
+//        $this->assertDatabaseHas('brands', [
+//            'name' => $data['name']
+//        ]);
+//
+//        $response->assertJson([
+//            'data' => $data->toArray(),
+//        ]);
     }
 
     /**

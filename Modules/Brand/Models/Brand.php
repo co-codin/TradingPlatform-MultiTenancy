@@ -45,12 +45,12 @@ class Brand extends Tenant
 
     protected static function booted()
     {
-        static::creating(fn(Brand $brand) => $brand->createDatabase());
+        static::creating(fn(Brand $brand) => $brand->createDatabase($brand));
     }
 
-    public function createDatabase()
+    public function createDatabase($brand)
     {
-        DB::unprepared("CREATE SCHEMA {$this->slug}");
+        DB::unprepared("CREATE SCHEMA " . $brand->database);
     }
 
     /**

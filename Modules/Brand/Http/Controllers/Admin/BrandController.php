@@ -197,7 +197,7 @@ final class BrandController extends Controller
      */
     final public function store(BrandCreateRequest $request): JsonResource
     {
-        $this->authorize('create',  Brand::class);
+//        $this->authorize('create',  Brand::class);
 
         return new BrandResource(
             $this->brandStorage->store(BrandDto::fromFormRequest($request))

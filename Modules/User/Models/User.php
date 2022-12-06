@@ -43,7 +43,6 @@ use Modules\User\Events\UserCreated;
  */
 final class User extends Authenticatable
 {
-    use ForTenant;
     use HasApiTokens;
     use HasFactory;
     use HasRoles;
