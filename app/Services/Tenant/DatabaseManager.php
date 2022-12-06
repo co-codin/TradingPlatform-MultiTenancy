@@ -39,6 +39,14 @@ class DatabaseManager
     /**
      * @return void
      */
+    public function connectToDefault(): void
+    {
+        $this->db->reconnect($this->getDefaultConnectionName());
+    }
+
+    /**
+     * @return void
+     */
     public function purge(): void
     {
         $this->db->purge(Manager::TENANT_CONNECTION_NAME);

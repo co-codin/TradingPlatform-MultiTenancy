@@ -14,15 +14,12 @@ final class UserDatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $user = User::factory()->create([
-            'username' => 'admin',
-            'first_name' => 'admin',
-            'last_name' => 'admin',
+        $user = User::where('email', 'admin@stoxtech.com')->first() ?? User::factory()->create([
             'email' => 'admin@stoxtech.com',
             'password' => Hash::make('password'),
         ]);
 
-        $role = Role::factory()->create([
+        $role = Role::where('name', DefaultRole::ADMIN)->first() ?? Role::factory()->create([
             'name' => DefaultRole::ADMIN,
             'key' => DefaultRole::ADMIN,
         ]);
