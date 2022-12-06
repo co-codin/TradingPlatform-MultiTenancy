@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Brand\Services;
 
+use App\Services\Tenant\Manager;
+use Illuminate\Support\Facades\Artisan;
 use Modules\Brand\Jobs\MigrateStructureJob;
-use Modules\Brand\Jobs\SeedUserIntoTenantDBJob;
+use Modules\Brand\Jobs\Seeders\SeedUserIntoTenantDBJob;
 use Modules\Brand\Models\Brand;
 use Nwidart\Modules\Facades\Module;
 
@@ -22,6 +24,22 @@ final class BrandDBService
         'Language' => 'Language',
         'Role' => 'Role',
         'Token' => 'Token',
+        'User' => 'User',
+    ];
+
+    /**
+     * @var array
+     */
+    public const REQUIRED_MODULES = [
+        'Campaign' => 'Campaign',
+        'Config' => 'Config',
+        'Customers' => 'Config',
+        'Department' => 'Department',
+        'Desk' => 'Desk',
+        'Geo' => 'Geo',
+        'Language' => 'Language',
+        'Sale' => 'Sale',
+        'Role' => 'Role',
         'User' => 'User',
     ];
 
@@ -100,6 +118,16 @@ final class BrandDBService
      */
     public function seedData(): BrandDBService
     {
+        foreach ($this->modules as $module) {
+            if ($this->isAvailableModule($module)) {
+                Artisan::call(sprintf(
+                    'module:seed %s --database=%s',
+                    $module,
+                    Manager::TENANT_CONNECTION_NAME,
+                ));
+            }
+        }
+
         SeedUserIntoTenantDBJob::dispatchIf($this->isAvailableModule('User'), $this->brand);
 
         return $this;

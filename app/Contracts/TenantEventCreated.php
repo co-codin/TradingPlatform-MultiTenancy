@@ -10,6 +10,11 @@ interface TenantEventCreated
     public function __construct(HasTenantDBConnection $tenant);
 
     /**
+     * @return HasTenantDBConnection
+     */
+    public function getTenant(): HasTenantDBConnection;
+
+    /**
      * Get tenant db name.
      *
      * @return string

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\Brand\Jobs;
+namespace Modules\Brand\Jobs\Seeders;
 
 use App\Contracts\HasTenantDBConnection;
 use App\Services\Tenant\Manager;
@@ -36,7 +36,7 @@ class SeedUserIntoTenantDBJob implements ShouldQueue
         BrandTenantIdentified::dispatch($this->tenant);
 
         $userData = collect();
-
+dd($this->tenant->users);
         app(Manager::class)->escapeTenant(function () use (&$userData) {
             foreach ($this->tenant->users()->get() as $user) {
                 $this->mergeNode('ancestors', $userData, $user);
