@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Customer\Models;
 
 use App\Models\Traits\ForTenant;
@@ -36,7 +38,7 @@ use Modules\Role\Models\Traits\HasRoles;
  * @property string $updated_at
  * @property string $deleted_at
  */
-class Customer extends Authenticatable
+final class Customer extends Authenticatable
 {
     use HasFactory;
     use SoftDeletes;
@@ -49,6 +51,7 @@ class Customer extends Authenticatable
 
     protected $hidden = [
         'password',
+        'remember_token',
     ];
 
     protected $casts = [

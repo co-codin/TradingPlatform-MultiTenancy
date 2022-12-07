@@ -1799,6 +1799,131 @@
                 ]
             }
         },
+        "/customer/auth/login": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Steteful login customer",
+                "operationId": "7fe1f71bfa0f6e6fd00be4659f27d583",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "description": "Email",
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "remember_me": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "No content. The session ID is returned in a cookie named `laravel_session`. You need to include this cookie in subsequent requests.",
+                        "headers": {
+                            "Set-Cookie(example-1)": {
+                                "description": "Encrypted session ID cookie",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "laravel_session=eyJpdiI6IjZKZm...%3D; Path=/; Domain=localhost; HttpOnly; Expires=Fri, 18 Nov 2022 13:25:26 GMT;"
+                                }
+                            },
+                            "Set-Cookie(example-2)": {
+                                "description": "Encrypted recaller cookie. Set if `remember_me=true` was received",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "remember_web_59ba...=eyJpdiI6IjZKZm...%3D; Path=/; Domain=localhost; HttpOnly; Expires=Fri, 18 Nov 2022 13:25:26 GMT;"
+                                }
+                            }
+                        }
+                    },
+                    "419": {
+                        "description": "CSRF token mismatch"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/customer/auth/logout": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Steteful logout customer",
+                "operationId": "c1c28154fb717e88886388e65cbd8ff8",
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "419": {
+                        "description": "CSRF token mismatch"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum_frontend": []
+                    }
+                ]
+            }
+        },
+        "/customer/auth/me": {
+            "get": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Authorized customer data",
+                "operationId": "f4818ebdacafae80cffcd44fced9c237",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthCustomerResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum_frontend": []
+                    }
+                ]
+            }
+        },
         "/customer/auth/register": {
             "post": {
                 "tags": [
@@ -5924,6 +6049,51 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/ConfigType"
+                    }
+                },
+                "type": "object"
+            },
+            "AuthCustomer": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "first_name": {
+                        "type": "string"
+                    },
+                    "last_name": {
+                        "type": "string"
+                    },
+                    "permissions": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "role": {
+                        "$ref": "#/components/schemas/Role"
+                    }
+                },
+                "type": "object"
+            },
+            "AuthCustomerCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AuthCustomer"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "AuthCustomerResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/AuthCustomer"
                     }
                 },
                 "type": "object"
