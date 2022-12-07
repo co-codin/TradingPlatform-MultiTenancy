@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Modules\User\Models;
 
 use App\Models\Traits\ForTenant;
+use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -91,6 +93,31 @@ final class User extends Authenticatable
     protected static function newFactory(): UserFactory
     {
         return UserFactory::new();
+    }
+
+    /**
+     * Scope for querying users by permissions access.
+     *
+     * @param $query
+     * @return mixed
+     *
+     * @throws Exception
+     */
+    public function scopeByPermissionsAccess($query): Builder
+    {
+        return match (true) {
+            request()->user()?->isAdmin() => $query,
+            request()->user()?->brands()->exists() => $query->whereHas('brands', function ($query) {
+                $query->whereIn(
+                    'brands.id',
+                    request()->user()
+                        ->brands()
+                        ->pluck('id')
+                        ->toArray(),
+                );
+            }),
+            default => abort(403, __('Cant access get users.')),
+        };
     }
 
     public function toArray()

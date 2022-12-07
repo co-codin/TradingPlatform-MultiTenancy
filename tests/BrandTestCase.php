@@ -17,6 +17,11 @@ abstract class BrandTestCase extends BaseTestCase
 
     public Brand $brand;
 
+    public function migrateModules(array $modules, array $availableModules = [])
+    {
+        MigrateSchemaJob::dispatchSync($this->brand, $modules, $availableModules ?: array_keys(Module::all()));
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -44,7 +49,7 @@ abstract class BrandTestCase extends BaseTestCase
     /**
      * Import.
      *
-     * @param array $modules
+     * @param  array  $modules
      * @return TestResponse
      */
     protected function import(array $modules): TestResponse
@@ -55,10 +60,5 @@ abstract class BrandTestCase extends BaseTestCase
                 'modules' => $modules,
             ]
         );
-    }
-
-    public function migrateModules(array $modules, array $availableModules = [])
-    {
-        MigrateSchemaJob::dispatchSync($this->brand, $modules, $availableModules ?: array_keys(Module::all()));
     }
 }
