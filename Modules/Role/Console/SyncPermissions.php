@@ -12,7 +12,6 @@ use Symfony\Component\Finder\Finder;
 
 /**
  * Class SyncPermission
- * @package Modules\User\Console\Permissions
  */
 class SyncPermissions extends Command
 {
@@ -25,27 +24,27 @@ class SyncPermissions extends Command
         $permissionFiles = Finder::create()
             ->in([
                 base_path('Modules/*/Enums'),
-                app_path('Enums')
+                app_path('Enums'),
             ])
             ->name('/Permission.php$/')
             ->files();
 
         $availablePermissions = [];
 
-        collect($permissionFiles)->map(function(SplFileInfo $file) {
-                return "\\" . ucfirst(str_replace("/", "\\", str_replace(base_path() . "/", "", $file->getPath()))) . "\\" . $file->getBasename('.' . $file->getExtension());
-            })
-            ->filter(fn(string $class) => is_subclass_of($class, PermissionEnum::class))
-            ->each(function($enumClass) use(&$availablePermissions) {
-                foreach($enumClass::descriptions() as $value => $text) {
+        collect($permissionFiles)->map(function (SplFileInfo $file) {
+            return '\\' . ucfirst(str_replace('/', '\\', str_replace(base_path() . '/', '', $file->getPath()))) . '\\' . $file->getBasename('.' . $file->getExtension());
+        })
+            ->filter(fn (string $class) => is_subclass_of($class, PermissionEnum::class))
+            ->each(function ($enumClass) use (&$availablePermissions) {
+                foreach ($enumClass::actions() as $value => $action) {
                     $availablePermissions[] = $value;
 
                     $action = Action::query()->firstOrCreate([
-                        'name' => explode(" ", $value)[0],
+                        'name' => $action,
                     ]);
 
                     $model = Model::query()->firstOrCreate([
-                        'name' => $enumClass::module(),
+                        'name' => $enumClass::model(),
                     ]);
 
                     Permission::query()

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Feature\Modules\Cutomer\Admin;
 
 use Maatwebsite\Excel\Facades\Excel;
-use Modules\User\Enums\UserPermission;
+use Modules\Customer\Enums\CustomerPermission;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
 
@@ -20,7 +20,7 @@ final class ImportTest extends BrandTestCase
     {
         Excel::fake();
 
-        $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::IMPORT_CUSTOMERS));
+        $this->authenticateWithPermission(CustomerPermission::fromValue(CustomerPermission::IMPORT_CUSTOMERS));
 
         $response = $this->post(route('admin.customers.import.excel'));
 
@@ -34,7 +34,7 @@ final class ImportTest extends BrandTestCase
     {
         Excel::fake();
 
-        $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::IMPORT_CUSTOMERS));
+        $this->authenticateWithPermission(CustomerPermission::fromValue(CustomerPermission::IMPORT_CUSTOMERS));
 
         $response = $this->post(route('admin.customers.import.csv'));
 

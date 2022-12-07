@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Modules\Config\Enums;
 
 use App\Enums\BaseEnum;
+use Modules\Config\Models\Config;
 use Modules\Role\Contracts\PermissionEnum;
+use Modules\Role\Models\Action;
 
 final class ConfigPermission extends BaseEnum implements PermissionEnum
 {
@@ -30,7 +32,28 @@ final class ConfigPermission extends BaseEnum implements PermissionEnum
     const DELETE_CONFIGS = 'delete configs';
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     */
+    public static function actions(): array
+    {
+        return [
+            self::CREATE_CONFIGS => Action::NAMES['create'],
+            self::VIEW_CONFIGS => Action::NAMES['view'],
+            self::EDIT_CONFIGS => Action::NAMES['edit'],
+            self::DELETE_CONFIGS => Action::NAMES['delete'],
+        ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function model(): string
+    {
+        return Config::class;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public static function module(): string
     {
@@ -38,7 +61,7 @@ final class ConfigPermission extends BaseEnum implements PermissionEnum
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public static function descriptions(): array
     {

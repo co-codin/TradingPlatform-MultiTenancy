@@ -3,7 +3,6 @@
 namespace Modules\User\Policies;
 
 use App\Policies\BasePolicy;
-use Modules\Customer\Models\Customer;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
 
@@ -17,7 +16,11 @@ class UserPolicy extends BasePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can(UserPermission::VIEW_USERS);
+        return match (true) {
+            $user->isAdmin() => true,
+            $user->can(UserPermission::VIEW_USERS) => true,
+            default => false,
+        };
     }
 
     /**
@@ -29,7 +32,13 @@ class UserPolicy extends BasePolicy
      */
     public function view(User $user, User $selectedUser): bool
     {
-        return $user->can(UserPermission::VIEW_USERS);
+        return match (true) {
+            $user->isAdmin() => true,
+            $user->can(UserPermission::VIEW_USERS)
+            && $user->brands()->whereHas('users', fn ($q) => $q->where('id', $selectedUser->id))->exists() => true,
+            $user->id === $selectedUser->id => true,
+            default => false,
+        };
     }
 
     /**
@@ -40,7 +49,11 @@ class UserPolicy extends BasePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can(UserPermission::CREATE_USERS);
+        return match (true) {
+            $user->isAdmin() => true,
+            $user->can(UserPermission::CREATE_USERS) => true,
+            default => false,
+        };
     }
 
     /**
@@ -53,8 +66,10 @@ class UserPolicy extends BasePolicy
     public function update(User $user, User $selectedUser): bool
     {
         return match (true) {
-            $user->id === $selectedUser?->id => true,
-            $user->can(UserPermission::EDIT_USERS) => true,
+            $user->isAdmin() => true,
+            $user->can(UserPermission::EDIT_USERS)
+            && $user->brands()->whereHas('users', fn ($q) => $q->where('id', $selectedUser->id))->exists() => true,
+            $user->id === $selectedUser->id => true,
             default => false,
         };
     }
@@ -68,7 +83,13 @@ class UserPolicy extends BasePolicy
      */
     public function delete(User $user, User $selectedUser): bool
     {
-        return $user->can(UserPermission::DELETE_USERS);
+        return match (true) {
+            $user->isAdmin() => true,
+            $user->can(UserPermission::DELETE_USERS)
+            && $user->brands()->whereHas('users', fn ($q) => $q->where('id', $selectedUser->id))->exists() => true,
+            $user->id === $selectedUser->id => true,
+            default => false,
+        };
     }
 
     /**
@@ -94,30 +115,6 @@ class UserPolicy extends BasePolicy
     }
 
     /**
-     * Ban customer policy.
-     *
-     * @param  User  $user
-     * @param  Customer  $customer
-     * @return bool
-     */
-    public function banCustomer(User $user, Customer $customer): bool
-    {
-        return $user->can(UserPermission::BAN_USERS);
-    }
-
-    /**
-     * Unban customer policy.
-     *
-     * @param  User  $user
-     * @param  Customer  $customer
-     * @return bool
-     */
-    public function unbanCustomer(User $user, Customer $customer): bool
-    {
-        return $user->can(UserPermission::BAN_USERS);
-    }
-
-    /**
      * View any departments workers policy.
      *
      * @param  User  $user
@@ -126,27 +123,5 @@ class UserPolicy extends BasePolicy
     public function viewAnyByDepartments(User $user): bool
     {
         return $user->can(UserPermission::VIEW_DEPARTMENT_USERS);
-    }
-
-    /**
-     * Export customers policy.
-     *
-     * @param  User  $user
-     * @return bool
-     */
-    public function exportCustomers(User $user): bool
-    {
-        return $user->can(UserPermission::EXPORT_CUSTOMERS);
-    }
-
-    /**
-     * Import customers policy.
-     *
-     * @param  User  $user
-     * @return bool
-     */
-    public function importCustomers(User $user): bool
-    {
-        return $user->can(UserPermission::IMPORT_CUSTOMERS);
     }
 }

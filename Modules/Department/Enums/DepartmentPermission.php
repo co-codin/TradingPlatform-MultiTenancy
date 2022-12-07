@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Department\Enums;
 
 use App\Enums\BaseEnum;
+use Modules\Department\Models\Department;
 use Modules\Role\Contracts\PermissionEnum;
+use Modules\Role\Models\Action;
 
-class DepartmentPermission extends BaseEnum implements PermissionEnum
+final class DepartmentPermission extends BaseEnum implements PermissionEnum
 {
     /**
      * @var string
@@ -28,7 +32,28 @@ class DepartmentPermission extends BaseEnum implements PermissionEnum
     const DELETE_DEPARTMENTS = 'delete departments';
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     */
+    public static function actions(): array
+    {
+        return [
+            self::CREATE_DEPARTMENTS => Action::NAMES['create'],
+            self::VIEW_DEPARTMENTS => Action::NAMES['view'],
+            self::EDIT_DEPARTMENTS => Action::NAMES['edit'],
+            self::DELETE_DEPARTMENTS => Action::NAMES['delete'],
+        ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function model(): string
+    {
+        return Department::class;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public static function module(): string
     {
@@ -36,15 +61,15 @@ class DepartmentPermission extends BaseEnum implements PermissionEnum
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public static function descriptions(): array
     {
         return [
-            static::CREATE_DEPARTMENTS => 'Create departments',
-            static::VIEW_DEPARTMENTS => 'View departments',
-            static::EDIT_DEPARTMENTS => 'Edit departments',
-            static::DELETE_DEPARTMENTS => 'Delete departments',
+            self::CREATE_DEPARTMENTS => 'Create departments',
+            self::VIEW_DEPARTMENTS => 'View departments',
+            self::EDIT_DEPARTMENTS => 'Edit departments',
+            self::DELETE_DEPARTMENTS => 'Delete departments',
         ];
     }
 }

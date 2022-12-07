@@ -89,4 +89,50 @@ final class CustomerPolicy extends BasePolicy
     {
         return $user->can(CustomerPermission::EDIT_CUSTOMERS);
     }
+
+    /**
+     * Ban customer policy.
+     *
+     * @param  User  $user
+     * @param  Customer  $customer
+     * @return bool
+     */
+    public function ban(User $user, Customer $customer): bool
+    {
+        return $user->can(CustomerPermission::BAN_CUSTOMERS);
+    }
+
+    /**
+     * Unban customer policy.
+     *
+     * @param  User  $user
+     * @param  Customer  $customer
+     * @return bool
+     */
+    public function unban(User $user, Customer $customer): bool
+    {
+        return $user->can(CustomerPermission::BAN_CUSTOMERS);
+    }
+
+    /**
+     * Export customers policy.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function export(User $user): bool
+    {
+        return $user->can(CustomerPermission::EXPORT_CUSTOMERS);
+    }
+
+    /**
+     * Import customers policy.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function import(User $user): bool
+    {
+        return $user->can(CustomerPermission::IMPORT_CUSTOMERS);
+    }
 }

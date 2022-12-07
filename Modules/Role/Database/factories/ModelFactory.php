@@ -25,7 +25,7 @@ final class ModelFactory extends Factory
     final public function definition(): array
     {
         return [
-            'name' => $this->faker->randomElement(app(ModelService::class)->getModelPaths()),
+            'name' => $this->faker->unique()->randomElement(app(ModelService::class)->getModelPaths()),
         ];
     }
 }
