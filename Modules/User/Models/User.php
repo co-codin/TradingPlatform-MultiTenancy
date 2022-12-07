@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\User\Models;
 
-use App\Models\Traits\ForTenant;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,6 +24,7 @@ use Modules\Role\Models\Role;
 use Modules\Role\Models\Traits\HasRoles;
 use Modules\User\Database\factories\UserFactory;
 use Modules\User\Events\UserCreated;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
 /**
  * Class User
@@ -45,7 +45,6 @@ use Modules\User\Events\UserCreated;
  */
 final class User extends Authenticatable
 {
-    use ForTenant;
     use HasApiTokens;
     use HasFactory;
     use HasRoles;

@@ -2,19 +2,15 @@
 
 namespace Tests\Feature\Modules\Brand\Admin;
 
-use App\Jobs\CreateTenantDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Queue;
 use Modules\Brand\Enums\BrandPermission;
-use Modules\Brand\Jobs\MigrateSchemaJob;
 use Modules\Brand\Models\Brand;
 use Tests\TestCase;
 
 class CreateTest extends TestCase
 {
     use DatabaseTransactions;
-
     /**
      * Test authorized user can create brand.
      *
@@ -24,8 +20,6 @@ class CreateTest extends TestCase
      */
     public function authorized_user_can_create_brand(): void
     {
-        Queue::fake();
-
         $this->authenticateWithPermission(BrandPermission::fromValue(BrandPermission::CREATE_BRANDS));
 
         $data = Brand::factory()->make();
@@ -42,8 +36,7 @@ class CreateTest extends TestCase
             'data' => $data->toArray(),
         ]);
 
-        Queue::assertPushed(CreateTenantDatabase::class);
-        Queue::assertPushed(MigrateSchemaJob::class);
+        $this->assertTrue(DB::select("SELECT EXISTS(SELECT schema_name FROM information_schema.schemata WHERE schema_name='{$data['database']}')")[0]->exists);
     }
 
     /**
