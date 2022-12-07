@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Sale\Database\factories\SaleStatusFactory;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
+use Spatie\Multitenancy\Models\Tenant;
 
 /**
  * Class SaleStatus
@@ -22,9 +24,11 @@ use Modules\Sale\Database\factories\SaleStatusFactory;
  * @property string $updated_at
  * @property string $deleted_at
  */
-class SaleStatus extends Model
+class SaleStatus extends Tenant
 {
-    use ForTenant, HasFactory, SoftDeletes;
+    // use ForTenant;
+    use HasFactory, SoftDeletes;
+    use UsesTenantConnection;
     /**
      * {@inheritdoc}
      */
