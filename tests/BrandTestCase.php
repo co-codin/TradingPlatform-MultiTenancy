@@ -17,6 +17,11 @@ abstract class BrandTestCase extends BaseTestCase
 
     public Brand $brand;
 
+    public function migrateModules(array $modules, array $availableModules = [])
+    {
+        MigrateSchemaJob::dispatchSync($this->brand, $modules, $availableModules ?: array_keys(Module::all()));
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -24,11 +29,11 @@ abstract class BrandTestCase extends BaseTestCase
     {
         parent::setUp();
 
-//        $this->brand = Brand::factory()->create();
-//
-//        (new DatabaseManipulator)->createSchema($this->brand->slug);
-//
-//        $this->withHeader('Tenant', $this->brand->slug);
+        $this->brand = Brand::factory()->create();
+
+        (new DatabaseManipulator)->createSchema($this->brand->slug);
+
+        $this->withHeader('Tenant', $this->brand->slug);
     }
 
     /**
@@ -36,7 +41,7 @@ abstract class BrandTestCase extends BaseTestCase
      */
     protected function tearDown(): void
     {
-//        $this->brand->delete();
+        $this->brand->delete();
 
         parent::tearDown();
     }
@@ -55,10 +60,5 @@ abstract class BrandTestCase extends BaseTestCase
                 'modules' => $modules,
             ]
         );
-    }
-
-    public function migrateModules(array $modules, array $availableModules = [])
-    {
-        MigrateSchemaJob::dispatchSync($this->brand, $modules, $availableModules ?: array_keys(Module::all()));
     }
 }
