@@ -25,7 +25,7 @@ final class CustomerRegisterRequest extends BaseFormRequest
             ],
             'email' => 'required|email|max:100|unique:customers,email',
             'password' => 'required|string|min:6|confirmed',
-            'phone' => 'required|string',
+            'phone' => 'required|string|regex:/^\+(?:\d\s?){6,14}\d$/',
             'country_id' => 'required|int|exists:countries,id',
         ];
     }
