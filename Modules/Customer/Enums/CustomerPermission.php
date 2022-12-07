@@ -89,6 +89,7 @@ final class CustomerPermission extends Enum implements PermissionEnum
             self::IMPERSONATE_CUSTOMERS => 'Impersonate customers',
             self::EXPORT_CUSTOMERS => 'Export customers',
             self::IMPORT_CUSTOMERS => 'Import customers',
+            self::BAN_CUSTOMERS => 'Ban customers',
         ];
     }
 
