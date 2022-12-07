@@ -76,6 +76,11 @@ class Customer extends Authenticatable
      */
     protected $rememberTokenName = false;
 
+    protected static function newFactory()
+    {
+        return CustomerFactory::new();
+    }
+
     /**
      * Country relation.
      *
@@ -86,8 +91,8 @@ class Customer extends Authenticatable
         return $this->belongsTo(Country::class);
     }
 
-    protected static function newFactory()
+    public function setEmailAttribute(string $value): void
     {
-        return CustomerFactory::new();
+        $this->attributes['email'] = strtolower($value);
     }
 }
