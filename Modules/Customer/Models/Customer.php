@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Brand\Models\Brand;
 use Modules\Customer\Database\factories\CustomerFactory;
 use Modules\Customer\Events\CustomerSaving;
 use Modules\Customer\Models\Traits\CustomerRelations;
@@ -84,6 +85,16 @@ class Customer extends Authenticatable
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);
+    }
+
+    /**
+     * Get brand.
+     *
+     * @return Brand|null
+     */
+    public function getBrand(): ?Brand
+    {
+        return Brand::where('slug', $this->getConnection()->getConfig('search_path'))->first();
     }
 
     protected static function newFactory()
