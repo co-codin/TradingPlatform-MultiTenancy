@@ -24,7 +24,6 @@ use Modules\Language\Models\Language;
 use Modules\Role\Models\Role;
 use Modules\Role\Models\Traits\HasRoles;
 use Modules\User\Database\factories\UserFactory;
-use Modules\User\Enums\UserPermission;
 use Modules\User\Events\UserCreated;
 
 /**
@@ -108,7 +107,6 @@ final class User extends Authenticatable
     {
         return match (true) {
             request()->user()?->isAdmin() => $query,
-            request()->user()?->can(UserPermission::VIEW_USERS) => $query,
             request()->user()?->brands()->exists() => $query->whereHas('brands', function ($query) {
                 $query->whereIn(
                     'brands.id',
@@ -118,7 +116,7 @@ final class User extends Authenticatable
                         ->toArray(),
                 );
             }),
-            default => throw new Exception('Cant access get users.'),
+            default => abort(403, __('Cant access get users.')),
         };
     }
 

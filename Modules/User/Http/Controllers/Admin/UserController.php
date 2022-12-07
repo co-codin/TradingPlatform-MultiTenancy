@@ -55,9 +55,13 @@ final class UserController extends Controller
      * )
      *
      * @return AnonymousResourceCollection
+     *
+     * @throws AuthorizationException
      */
     public function index(): AnonymousResourceCollection
     {
+        $this->authorize('viewAny', User::class);
+
         $users = $this->userRepository->jsonPaginate();
 
         return UserResource::collection($users);
@@ -97,10 +101,14 @@ final class UserController extends Controller
      *
      * @param  int  $id
      * @return UserResource
+     *
+     * @throws AuthorizationException
      */
     public function show(int $id): UserResource
     {
         $user = $this->userRepository->find($id);
+
+        $this->authorize('view', $user);
 
         return new UserResource($user);
     }
@@ -295,7 +303,7 @@ final class UserController extends Controller
     {
         $user = $this->userRepository->find($id);
 
-        $this->authorize('update', $user);
+        $dd = $this->authorize('update', $user);
 
         $user = $this->userStorage->update($user, $request->validated());
 

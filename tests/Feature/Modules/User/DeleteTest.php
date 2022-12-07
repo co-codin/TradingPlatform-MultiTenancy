@@ -7,7 +7,6 @@ namespace Tests\Feature\Modules\User;
 use Modules\Brand\Models\Brand;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
-use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 final class DeleteTest extends TestCase
@@ -29,26 +28,9 @@ final class DeleteTest extends TestCase
     /**
      * @test
      */
-    public function user_with_permission_can_delete(): void
+    public function user_with_brand_and_permission_can_delete(): void
     {
-        $this->authenticateWithPermissions([
-            UserPermission::fromValue(UserPermission::DELETE_USERS),
-            UserPermission::fromValue(UserPermission::VIEW_USERS),
-        ]);
-
-        $user = User::factory()->create();
-        $response = $this->delete(route('admin.users.destroy', ['worker' => $user]));
-
-        $response->assertNoContent();
-        $this->assertSoftDeleted($user);
-    }
-
-    /**
-     * @test
-     */
-    public function user_with_brand_can_delete(): void
-    {
-        $this->authenticateUser();
+        $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::DELETE_USERS));
 
         Brand::factory()
             ->create()
@@ -59,6 +41,23 @@ final class DeleteTest extends TestCase
 
         $response->assertNoContent();
         $this->assertSoftDeleted($users->first());
+    }
+
+    /**
+     * @test
+     */
+    public function user_from_other_brand_cant_delete(): void
+    {
+        $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::DELETE_USERS));
+
+        Brand::factory()
+            ->create()
+            ->users()
+            ->sync($user = User::factory()->create());
+
+        $response = $this->delete(route('admin.users.destroy', ['worker' => $user]));
+
+        $response->assertForbidden();
     }
 
     /**
@@ -85,7 +84,7 @@ final class DeleteTest extends TestCase
         $user = User::factory()->create();
         $response = $this->delete(route('admin.users.destroy', ['worker' => $user]));
 
-        $response->assertServerError();
+        $response->assertForbidden();
     }
 
     /**
@@ -96,6 +95,6 @@ final class DeleteTest extends TestCase
         $user = User::factory()->create();
         $response = $this->delete(route('admin.users.destroy', ['worker' => $user]));
 
-        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+        $response->assertUnauthorized();
     }
 }

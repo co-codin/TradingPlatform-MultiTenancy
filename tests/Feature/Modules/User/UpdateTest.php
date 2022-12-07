@@ -61,57 +61,9 @@ final class UpdateTest extends TestCase
     /**
      * @test
      */
-    public function user_with_permission_can_update(): void
+    public function user_with_brand_and_permission_can_update(): void
     {
-        $this->authenticateWithPermissions([
-            UserPermission::fromValue(UserPermission::VIEW_USERS),
-            UserPermission::fromValue(UserPermission::EDIT_USERS),
-        ]);
-
-        $user = User::factory()->create();
-
-        $response = $this->patch(route('admin.users.update', ['worker' => $user]), array_merge(
-            User::factory()->withParent()->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
-            [
-                'change_password' => true,
-                'password_confirmation' => 'admin',
-                'roles' => [
-                    [
-                        'id' => (Role::first() ?? Role::factory()->create([
-                            'name' => DefaultRole::ADMIN,
-                        ]))->id,
-                    ],
-                ],
-            ]
-        ));
-
-        $response->assertOk();
-        $response->assertJsonStructure([
-            'data' => [
-                'id',
-                'username',
-                'first_name',
-                'last_name',
-                'email',
-                'is_active',
-                'target',
-                '_lft',
-                '_rgt',
-                'parent_id',
-                'deleted_at',
-                'last_login',
-                'created_at',
-                'roles',
-            ],
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function user_with_brand_can_update(): void
-    {
-        $this->authenticateUser();
+        $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
         Brand::factory()
             ->create()
@@ -152,6 +104,36 @@ final class UpdateTest extends TestCase
                 'roles',
             ],
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function user_from_other_brand_cant_update(): void
+    {
+        $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
+
+        Brand::factory()
+            ->create()
+            ->users()
+            ->sync($user = User::factory()->create());
+
+        $response = $this->patch(route('admin.users.update', ['worker' => $user]), array_merge(
+            User::factory()->withParent()->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
+            [
+                'change_password' => true,
+                'password_confirmation' => 'admin',
+                'roles' => [
+                    [
+                        'id' => (Role::first() ?? Role::factory()->create([
+                            'name' => DefaultRole::ADMIN,
+                        ]))->id,
+                    ],
+                ],
+            ]
+        ));
+
+        $response->assertForbidden();
     }
 
     /**
@@ -204,7 +186,7 @@ final class UpdateTest extends TestCase
             ]
         ));
 
-        $response->assertServerError();
+        $response->assertForbidden();
     }
 
     /**
