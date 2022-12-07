@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Cutomer\Admin;
 
-use Modules\User\Enums\UserPermission;
+use Modules\Customer\Enums\CustomerPermission;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
 
@@ -17,7 +17,7 @@ final class ExportTest extends BrandTestCase
      */
     public function test_export_excel_customers(): void
     {
-        $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EXPORT_CUSTOMERS));
+        $this->authenticateWithPermission(CustomerPermission::fromValue(CustomerPermission::EXPORT_CUSTOMERS));
 
         $response = $this->post(route('admin.customers.export.excel'));
 
@@ -29,7 +29,7 @@ final class ExportTest extends BrandTestCase
      */
     public function test_export_csv_customers(): void
     {
-        $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EXPORT_CUSTOMERS));
+        $this->authenticateWithPermission(CustomerPermission::fromValue(CustomerPermission::EXPORT_CUSTOMERS));
 
         $response = $this->post(route('admin.customers.export.csv'));
 

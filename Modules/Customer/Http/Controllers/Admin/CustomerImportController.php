@@ -6,7 +6,6 @@ namespace Modules\Customer\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
@@ -15,19 +14,18 @@ use Maatwebsite\Excel\Facades\Excel as ExcelFacade;
 use Modules\Customer\Dto\CustomerDto;
 use Modules\Customer\Http\Requests\CustomerCreateRequest;
 use Modules\Customer\Imports\CustomerImport;
+use Modules\Customer\Models\Customer;
 use Modules\Customer\Services\CustomerStorage;
-use Modules\User\Models\User;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 final class CustomerImportController extends Controller
 {
     /**
-     * @param CustomerStorage $customerStorage
+     * @param  CustomerStorage  $customerStorage
      */
     public function __construct(
         protected CustomerStorage $customerStorage,
-    )
-    {
+    ) {
     }
 
     /**
@@ -57,15 +55,16 @@ final class CustomerImportController extends Controller
      *
      * Import excel.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return Response
+     *
      * @throws AuthorizationException
      * @throws UnknownProperties
      * @throws ValidationException
      */
     public function excel(Request $request): Response
     {
-        $this->authorize('importCustomers', User::class);
+        $this->authorize('import', Customer::class);
 
         $data = ExcelFacade::toArray(
             new CustomerImport,
@@ -113,15 +112,16 @@ final class CustomerImportController extends Controller
      *
      * Import csv.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return Response
+     *
      * @throws AuthorizationException
      * @throws UnknownProperties
      * @throws ValidationException
      */
     public function csv(Request $request): Response
     {
-        $this->authorize('importCustomers', User::class);
+        $this->authorize('import', Customer::class);
 
         $data = ExcelFacade::toArray(
             new CustomerImport,
