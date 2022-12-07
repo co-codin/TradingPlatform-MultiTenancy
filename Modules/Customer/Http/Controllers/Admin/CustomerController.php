@@ -364,7 +364,7 @@ final class CustomerController extends Controller
         foreach ($request->validated('customers', []) as $customerData) {
             $customer = $this->customerRepository->find($customerData['id']);
 
-            if ($request->user()?->can('banCustomer', [User::class, $customer])) {
+            if ($request->user()?->can('ban', $customer)) {
                 $customers->push(
                     $this->customerBanService->banCustomer($customer),
                 );
@@ -428,7 +428,7 @@ final class CustomerController extends Controller
         foreach ($request->validated('customers', []) as $customerData) {
             $customer = $this->customerRepository->find($customerData['id']);
 
-            if ($request->user()?->can('unbanCustomer', [User::class, $customer])) {
+            if ($request->user()?->can('unban', $customer)) {
                 $customers->push(
                     $this->customerBanService->unbanCustomer($customer),
                 );

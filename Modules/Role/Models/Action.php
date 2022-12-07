@@ -16,11 +16,15 @@ class Action extends Model
      * @var array
      */
     public const NAMES = [
-        'viewAny',
-        'view',
-        'create',
-        'edit',
-        'delete',
+        'viewAny' => 'viewAny',
+        'view' => 'view',
+        'create' => 'create',
+        'edit' => 'edit',
+        'delete' => 'delete',
+        'impersonate' => 'impersonate',
+        'export' => 'export',
+        'import' => 'import',
+        'ban' => 'ban',
     ];
 
     protected $guarded = ['id'];
