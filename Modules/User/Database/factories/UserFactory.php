@@ -5,6 +5,8 @@ namespace Modules\User\Database\factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Modules\Role\Enums\DefaultRole;
+use Modules\Role\Models\Role;
 use Modules\User\Models\User;
 
 final class UserFactory extends Factory
@@ -29,8 +31,13 @@ final class UserFactory extends Factory
     public function withParent(): self
     {
         return $this->state(function (array $attributes) {
+            if (! $admin = User::getAdmin()) {
+                $admin = User::factory()->create();
+                $admin->roles()->sync(Role::factory()->create(['name' => DefaultRole::ADMIN]));
+            }
+
             return [
-                'parent_id' => User::inRandomOrder()->first()?->id,
+                'parent_id' => $admin->id,
             ];
         });
     }

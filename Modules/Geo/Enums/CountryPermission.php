@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Modules\Geo\Enums;
 
 use App\Enums\BaseEnum;
+use Modules\Geo\Models\Country;
 use Modules\Role\Contracts\PermissionEnum;
+use Modules\Role\Models\Action;
 
 final class CountryPermission extends BaseEnum implements PermissionEnum
 {
@@ -30,7 +32,28 @@ final class CountryPermission extends BaseEnum implements PermissionEnum
     const DELETE_COUNTRIES = 'delete countries';
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     */
+    public static function actions(): array
+    {
+        return [
+            self::CREATE_COUNTRIES => Action::NAMES['create'],
+            self::VIEW_COUNTRIES => Action::NAMES['view'],
+            self::EDIT_COUNTRIES => Action::NAMES['edit'],
+            self::DELETE_COUNTRIES => Action::NAMES['delete'],
+        ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function model(): string
+    {
+        return Country::class;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public static function module(): string
     {
@@ -38,15 +61,15 @@ final class CountryPermission extends BaseEnum implements PermissionEnum
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public static function descriptions(): array
     {
         return [
-            static::CREATE_COUNTRIES => 'Create countries',
-            static::VIEW_COUNTRIES => 'View countries',
-            static::EDIT_COUNTRIES => 'Edit countries',
-            static::DELETE_COUNTRIES => 'Delete countries',
+            self::CREATE_COUNTRIES => 'Create countries',
+            self::VIEW_COUNTRIES => 'View countries',
+            self::EDIT_COUNTRIES => 'Edit countries',
+            self::DELETE_COUNTRIES => 'Delete countries',
         ];
     }
 }
