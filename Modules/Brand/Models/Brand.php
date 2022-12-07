@@ -2,17 +2,17 @@
 
 namespace Modules\Brand\Models;
 
-use App\Contracts\HasTenantDBConnection;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Modules\Brand\Database\factories\BrandFactory;
 use Modules\User\Models\User;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Multitenancy\Models\Tenant;
 
 /**
  * @property int $id
@@ -27,7 +27,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property string $deleted_at
  * @property Collection|User[] $users
  */
-class Brand extends Model implements HasTenantDBConnection
+class Brand extends Tenant
 {
     use HasFactory, SoftDeletes, LogsActivity;
 
@@ -42,6 +42,16 @@ class Brand extends Model implements HasTenantDBConnection
     protected $casts = [
         'tables' => 'array',
     ];
+
+    protected static function booted()
+    {
+        static::creating(fn(Brand $brand) => $brand->createDatabase($brand));
+    }
+
+    public function createDatabase($brand)
+    {
+        DB::unprepared("CREATE SCHEMA " . $brand->database);
+    }
 
     /**
      * Get activity log options.

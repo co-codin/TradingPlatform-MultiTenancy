@@ -12,7 +12,9 @@ class BrandDto extends BaseDto
 
     public ?string $logo_url;
 
-    public ?string $slug;
+    public ?string $domain;
+
+    public ?string $database;
 
     public $is_active = 1;
 }
