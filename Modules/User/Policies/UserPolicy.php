@@ -16,7 +16,11 @@ class UserPolicy extends BasePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can(UserPermission::VIEW_USERS);
+        return match (true) {
+            $user->isAdmin() => true,
+            $user->can(UserPermission::VIEW_USERS) => true,
+            default => false,
+        };
     }
 
     /**
@@ -28,7 +32,13 @@ class UserPolicy extends BasePolicy
      */
     public function view(User $user, User $selectedUser): bool
     {
-        return $user->can(UserPermission::VIEW_USERS);
+        return match (true) {
+            $user->isAdmin() => true,
+            $user->can(UserPermission::VIEW_USERS) => true,
+            $user->id === $selectedUser->id => true,
+            $user->brands()->whereHas('users', fn ($q) => $q->where('id', $selectedUser->id))->exists() => true,
+            default => false,
+        };
     }
 
     /**
@@ -39,7 +49,11 @@ class UserPolicy extends BasePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can(UserPermission::CREATE_USERS);
+        return match (true) {
+            $user->isAdmin() => true,
+            $user->can(UserPermission::CREATE_USERS) => true,
+            default => false,
+        };
     }
 
     /**
@@ -52,8 +66,10 @@ class UserPolicy extends BasePolicy
     public function update(User $user, User $selectedUser): bool
     {
         return match (true) {
-            $user->id === $selectedUser?->id => true,
+            $user->isAdmin() => true,
             $user->can(UserPermission::EDIT_USERS) => true,
+            $user->id === $selectedUser->id => true,
+            $user->brands()->whereHas('users', fn ($q) => $q->where('id', $selectedUser->id))->exists() => true,
             default => false,
         };
     }
@@ -67,7 +83,13 @@ class UserPolicy extends BasePolicy
      */
     public function delete(User $user, User $selectedUser): bool
     {
-        return $user->can(UserPermission::DELETE_USERS);
+        return match (true) {
+            $user->isAdmin() => true,
+            $user->can(UserPermission::DELETE_USERS) => true,
+            $user->id === $selectedUser->id => true,
+            $user->brands()->whereHas('users', fn ($q) => $q->where('id', $selectedUser->id))->exists() => true,
+            default => false,
+        };
     }
 
     /**

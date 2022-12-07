@@ -24,11 +24,11 @@ abstract class BrandTestCase extends BaseTestCase
     {
         parent::setUp();
 
-        $this->brand = Brand::factory()->create();
-
-        (new DatabaseManipulator)->createSchema($this->brand->slug);
-
-        $this->withHeader('Tenant', $this->brand->slug);
+//        $this->brand = Brand::factory()->create();
+//
+//        (new DatabaseManipulator)->createSchema($this->brand->slug);
+//
+//        $this->withHeader('Tenant', $this->brand->slug);
     }
 
     /**
@@ -36,7 +36,7 @@ abstract class BrandTestCase extends BaseTestCase
      */
     protected function tearDown(): void
     {
-        $this->brand->delete();
+//        $this->brand->delete();
 
         parent::tearDown();
     }
@@ -44,7 +44,7 @@ abstract class BrandTestCase extends BaseTestCase
     /**
      * Import.
      *
-     * @param array $modules
+     * @param  array  $modules
      * @return TestResponse
      */
     protected function import(array $modules): TestResponse

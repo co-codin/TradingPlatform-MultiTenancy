@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Modules\User\Models;
 
 use App\Models\Traits\ForTenant;
+use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -22,6 +24,7 @@ use Modules\Language\Models\Language;
 use Modules\Role\Models\Role;
 use Modules\Role\Models\Traits\HasRoles;
 use Modules\User\Database\factories\UserFactory;
+use Modules\User\Enums\UserPermission;
 use Modules\User\Events\UserCreated;
 
 /**
@@ -91,6 +94,32 @@ final class User extends Authenticatable
     protected static function newFactory(): UserFactory
     {
         return UserFactory::new();
+    }
+
+    /**
+     * Scope for querying users by permissions access.
+     *
+     * @param $query
+     * @return mixed
+     *
+     * @throws Exception
+     */
+    public function scopeByPermissionsAccess($query): Builder
+    {
+        return match (true) {
+            request()->user()?->isAdmin() => $query,
+            request()->user()?->can(UserPermission::VIEW_USERS) => $query,
+            request()->user()?->brands()->exists() => $query->whereHas('brands', function ($query) {
+                $query->whereIn(
+                    'brands.id',
+                    request()->user()
+                        ->brands()
+                        ->pluck('id')
+                        ->toArray(),
+                );
+            }),
+            default => throw new Exception('Cant access get users.'),
+        };
     }
 
     public function toArray()

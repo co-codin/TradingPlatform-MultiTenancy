@@ -9,7 +9,6 @@ use Modules\Role\Enums\DefaultRole;
 use Modules\Role\Models\Permission;
 use Modules\Role\Models\Role;
 use Modules\User\Models\User;
-use Tests\CreatesApplication;
 
 trait HasAuth
 {
@@ -61,7 +60,7 @@ trait HasAuth
 
         $this->setUser($user);
 
-        $this->actingAs($user, User::DEFAULT_AUTH_GUARD);
+        $this->actingAs($user, $guard);
     }
 
     /**
@@ -89,6 +88,39 @@ trait HasAuth
             ]);
 
         $user->givePermissionTo($permission->name);
+
+        $this->setUser($user);
+
+        $this->actingAs($user, $guard);
+    }
+
+    /**
+     * Authenticate user with permission.
+     *
+     * @param  PermissionEnum  $permissionEnum
+     * @param  string  $guard
+     * @return void
+     */
+    final protected function authenticateWithPermissions(
+        array $permissions,
+        string $guard = User::DEFAULT_AUTH_GUARD
+    ): void {
+        $email = 'test@service.com';
+
+        $user = User::whereEmail($email)->first() ??
+            User::factory()->create([
+                'email' => $email,
+            ]);
+
+        foreach ($permissions as $permission) {
+            $permission = Permission::whereName($permission->value)->first() ??
+                Permission::factory()->create([
+                    'name' => $permission->value,
+                    'guard_name' => $guard,
+                ]);
+
+            $user->givePermissionTo($permission->name);
+        }
 
         $this->setUser($user);
 
