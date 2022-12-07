@@ -6,12 +6,16 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Modules\Brand\Database\factories\BrandFactory;
 use Modules\User\Models\User;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Multitenancy\Landlord;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 use Spatie\Multitenancy\Models\Tenant;
 
 /**
@@ -30,6 +34,7 @@ use Spatie\Multitenancy\Models\Tenant;
 class Brand extends Tenant
 {
     use HasFactory, SoftDeletes, LogsActivity;
+    use UsesLandlordConnection;
 
     /**
      * {@inheritdoc}
@@ -45,7 +50,7 @@ class Brand extends Tenant
 
     protected static function booted()
     {
-        static::creating(fn(Brand $brand) => $brand->createDatabase($brand));
+        static::creating(fn (Brand $brand) => $brand->createDatabase($brand));
     }
 
     public function createDatabase($brand)
