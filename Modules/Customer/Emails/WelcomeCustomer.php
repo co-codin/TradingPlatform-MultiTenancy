@@ -43,7 +43,7 @@ class WelcomeCustomer extends Mailable implements ShouldQueue
                 'userFirstName' => $this->customer->first_name,
                 'userLastName' => $this->customer->last_name,
                 'userEmail' => $this->customer->email,
-                'userPassword' => ! Hash::needsRehash($this->password) ? $this->password : null,
+                'userPassword' => $this->password,
             ],
         );
     }
