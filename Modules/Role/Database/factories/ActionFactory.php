@@ -24,7 +24,7 @@ final class ActionFactory extends Factory
     final public function definition(): array
     {
         return [
-            'name' => $this->faker->randomElement(Action::NAMES),
+            'name' => $this->faker->unique()->randomElement(Action::NAMES),
         ];
     }
 }

@@ -12,7 +12,7 @@ trait ForTenant
      */
     public function isIncrementing(): bool
     {
-        return $this->getConnectionName() === Manager::TENANT_CONNECTION_NAME ? false : $this->incrementing;
+        return $this->getConnectionName() === Manager::TENANT_CONNECTION_NAME ? false : parent::isIncrementing();
     }
 
     /**

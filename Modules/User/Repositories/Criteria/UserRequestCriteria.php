@@ -52,6 +52,9 @@ final class UserRequestCriteria extends BaseCriteria
                 ])),
                 AllowedFilter::trashed(),
             ])
+            ->scopes([
+                'byPermissionsAccess',
+            ])
             ->allowedIncludes([
                 'roles',
                 'roles.permissions',

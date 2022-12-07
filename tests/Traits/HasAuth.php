@@ -9,7 +9,6 @@ use Modules\Role\Enums\DefaultRole;
 use Modules\Role\Models\Permission;
 use Modules\Role\Models\Role;
 use Modules\User\Models\User;
-use Tests\CreatesApplication;
 
 trait HasAuth
 {
@@ -61,7 +60,7 @@ trait HasAuth
 
         $this->setUser($user);
 
-        $this->actingAs($user, User::DEFAULT_AUTH_GUARD);
+        $this->actingAs($user, $guard);
     }
 
     /**
