@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\User\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -108,7 +107,7 @@ final class AuthController extends Controller
         }
 
         $request->session()->regenerate();
-        $this->userStorage->update($user, ['last_login' => CarbonImmutable::now()]);
+        $this->userStorage->update($user, ['last_login' => $user->freshTimestamp()]);
 
         return response()->noContent();
     }
