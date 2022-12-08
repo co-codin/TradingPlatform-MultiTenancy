@@ -2,6 +2,7 @@
 
 namespace Modules\Customer\Services;
 
+use Illuminate\Support\Arr;
 use LogicException;
 use Modules\Customer\Dto\CustomerDto;
 use Modules\Customer\Models\Customer;
@@ -48,6 +49,14 @@ final class CustomerStorage
 
         if (!$customer->update($attributes)) {
             throw new LogicException(__('Can not update customer'));
+        }
+
+        if ($dto->permissions) {
+            foreach ($dto->permissions as $permission) {
+                $customer->permissions()->sync([
+                    $permission['id'] => Arr::except($permission, ['id']),
+                ], false);
+            }
         }
 
         return $customer;

@@ -149,4 +149,9 @@ final class CustomerDto extends BaseDto
      * @var int|null $affiliate_user_id
      */
     public ?int $first_retention_user_id = null;
+
+    /**
+     * @var array $permissions
+     */
+    public array $permissions = [];
 }

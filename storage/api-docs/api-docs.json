@@ -1427,6 +1427,37 @@
                                     "first_retention_user_id": {
                                         "description": "First retention worker ID",
                                         "type": "integer"
+                                    },
+                                    "permissions": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Permission ID",
+                                                    "type": "integer"
+                                                },
+                                                "status": {
+                                                    "description": "Status of customer permission",
+                                                    "type": "string"
+                                                },
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "reason": {
+                                                                "description": "Reason of change status",
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -1519,6 +1550,10 @@
                                         "type": "integer"
                                     },
                                     "first_retention_user_id": {
+                                        "description": "First retention worker ID",
+                                        "type": "integer"
+                                    },
+                                    "permissions": {
                                         "description": "First retention worker ID",
                                         "type": "integer"
                                     }
@@ -3753,11 +3788,11 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "email",
+                                    "login",
                                     "password"
                                 ],
                                 "properties": {
-                                    "email": {
+                                    "login": {
                                         "description": "Username or Email",
                                         "type": "string"
                                     },
@@ -4754,7 +4789,6 @@
                                     "username",
                                     "first_name",
                                     "last_name",
-                                    "email",
                                     "password",
                                     "password_confirmation",
                                     "roles"
@@ -4914,7 +4948,6 @@
                                     "username",
                                     "first_name",
                                     "last_name",
-                                    "email",
                                     "password",
                                     "password_confirmation",
                                     "roles"
@@ -5408,7 +5441,7 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "email",
+                                    "login",
                                     "password"
                                 ],
                                 "properties": {
@@ -6741,7 +6774,6 @@
                     "username",
                     "first_name",
                     "last_name",
-                    "email",
                     "is_active",
                     "created_at",
                     "updated_at"
