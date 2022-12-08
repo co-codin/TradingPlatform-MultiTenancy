@@ -8,6 +8,7 @@ use Modules\Brand\Database\Seeders\BrandDatabaseSeeder;
 use Modules\Geo\Database\Seeders\GeoDatabaseSeeder;
 use Modules\Role\Database\Seeders\RoleDatabaseSeeder;
 use Modules\User\Database\Seeders\UserDatabaseSeeder;
+use Spatie\Multitenancy\Models\Tenant;
 
 final class DatabaseSeeder extends Seeder
 {
@@ -24,5 +25,19 @@ final class DatabaseSeeder extends Seeder
             BrandDatabaseSeeder::class,
             //            GeoDatabaseSeeder::class,
         ]);
+
+        Tenant::checkCurrent()
+            ? $this->runTenantSpecificSeeders()
+            : $this->runLandlordSpecificSeeders();
+    }
+
+    public function runTenantSpecificSeeders()
+    {
+        // run tenant specific seeders / Если нужно будет
+    }
+
+    public function runLandlordSpecificSeeders()
+    {
+        // run landlord specific seeders / Если нужно будет
     }
 }

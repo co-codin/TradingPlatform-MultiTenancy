@@ -80,11 +80,15 @@ return [
 
         'tenant' => [
             'driver' => 'pgsql',
-            'database' => null,
+            'database' => env('DB_DATABASE', 'forge'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
-            // And other options if needed ...
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'search_path' => 'public',
+            'sslmode' => 'prefer',
         ],
 
         'landlord' => [
@@ -93,8 +97,11 @@ return [
             'host' => env('DB_HOST', '127.0.0.1'),
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
             'search_path' => 'public',
-            // And other options if needed ...
+            'sslmode' => 'prefer',
         ],
 
         'sqlsrv' => [
