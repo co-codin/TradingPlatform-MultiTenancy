@@ -36,6 +36,9 @@ trait HasRoles
         return self::whereHas('roles', fn ($q) => $q->where('name', DefaultRole::ADMIN))->first();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function permissions(): BelongsToMany
     {
         return $this->spatiePermissions()
