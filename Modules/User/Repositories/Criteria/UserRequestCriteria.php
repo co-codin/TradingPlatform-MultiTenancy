@@ -63,6 +63,10 @@ final class UserRequestCriteria extends BaseCriteria
                 'descendants',
                 'children',
                 'brands',
+                'desks',
+                'departments',
+                'languages',
+                'displayOptions',
             ])
             ->allowedSorts([
                 'id',
