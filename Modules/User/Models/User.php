@@ -25,6 +25,7 @@ use Modules\Role\Models\Role;
 use Modules\Role\Models\Traits\HasRoles;
 use Modules\User\Database\factories\UserFactory;
 use Modules\User\Events\UserCreated;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
 /**
  * Class User
@@ -51,6 +52,7 @@ final class User extends Authenticatable
     use NodeTrait;
     use Notifiable;
     use SoftDeletes;
+    use UsesLandlordConnection;
 
     /**
      * @var string
