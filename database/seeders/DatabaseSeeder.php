@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -22,12 +24,9 @@ final class DatabaseSeeder extends Seeder
         $this->call([
             RoleDatabaseSeeder::class,
             UserDatabaseSeeder::class,
-            //            GeoDatabaseSeeder::class,
+            BrandDatabaseSeeder::class,
+            //GeoDatabaseSeeder::class,
         ]);
-
-        if (config('app.APP_ENV') != 'production') {
-            $this->call(BrandDatabaseSeeder::class);
-        }
 
         Tenant::checkCurrent()
             ? $this->runTenantSpecificSeeders()

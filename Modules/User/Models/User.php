@@ -107,7 +107,6 @@ final class User extends Authenticatable
     public function scopeByPermissionsAccess($query): Builder
     {
         return match (true) {
-            request()->user()?->isAdmin() => $query,
             request()->user()?->brands()->exists() => $query->whereHas('brands', function ($query) {
                 $query->whereIn(
                     'brands.id',
@@ -117,7 +116,7 @@ final class User extends Authenticatable
                         ->toArray(),
                 );
             }),
-            default => abort(403, __('Cant access get users.')),
+            default => $query,
         };
     }
 
