@@ -16,6 +16,8 @@ use OpenApi\Annotations as OA;
 
 final class AuthController extends Controller
 {
+    public const GUARD = 'web';
+
     public function __construct(
         protected UserStorage $userStorage,
     ) {
@@ -87,7 +89,7 @@ final class AuthController extends Controller
         $login = $request->validated('login');
         $loginType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         if (
-            ! Auth::guard('web')->attempt([
+            ! Auth::guard(self::GUARD)->attempt([
                 $loginType => $login, 'password' => $request->validated('password'),
             ], $request->validated('remember_me', false))
         ) {
@@ -98,7 +100,7 @@ final class AuthController extends Controller
 
         $user = Auth::user();
         if ($user->banned_at) {
-            Auth::guard('web')->logout();
+            Auth::guard(self::GUARD)->logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
             throw ValidationException::withMessages([
@@ -137,7 +139,7 @@ final class AuthController extends Controller
      */
     public function logout(Request $request): Response
     {
-        Auth::guard('web')->logout();
+        Auth::guard(self::GUARD)->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

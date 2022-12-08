@@ -33,39 +33,40 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.', 'middleware' => 'web'], funct
 
 Route::group(['prefix' => 'token-auth', 'as' => 'token-auth.', 'middleware' => 'api'], function () {
     Route::post('/login', [TokenAuthController::class, 'login'])->name('login');
-    Route::post('/logout', [TokenAuthController::class, 'logout'])->middleware('auth:api')->name('logout');
-});
-
-Route::group(['prefix' => 'token', 'as' => 'token.', 'middleware' => 'api'], function () {
     Route::group(['middleware' => 'auth:api'], function () {
-        Route::post('/create', [TokenController::class, 'create'])->name('create');
-        Route::delete('/delete', [TokenController::class, 'delete'])->name('delete');
+        Route::post('/logout', [TokenAuthController::class, 'logout'])->name('logout');
     });
 });
 
+Route::group(['prefix' => 'token', 'as' => 'token.', 'middleware' => ['api', 'auth:api']], function () {
+    Route::post('/create', [TokenController::class, 'create'])->name('create');
+    Route::delete('/delete', [TokenController::class, 'delete'])->name('delete');
+});
+
 Route::group(['middleware' => ['api', 'auth:api']], function () {
-    // Desk
-    Route::put('/workers/{id}/desk', [UserDeskController::class, 'update'])->name('workers.desk.update');
+    Route::group(['prefix' => 'workers', 'as' => 'users.'], function () {
+        // Desk
+        Route::put('/{id}/desk', [UserDeskController::class, 'update'])->name('desk.update');
 
-    // Brand
-    Route::put('/workers/{id}/brand', [UserBrandController::class, 'update'])->name('users.brand.update');
+        // Brand
+        Route::put('/{id}/brand', [UserBrandController::class, 'update'])->name('brand.update');
 
-    // Ban
-    Route::patch('/workers/ban', [UserController::class, 'ban'])->name('users.ban');
-    Route::patch('/workers/unban', [UserController::class, 'unban'])->name('users.unban');
+        // Ban
+        Route::patch('/ban', [UserController::class, 'ban'])->name('ban');
+        Route::patch('/unban', [UserController::class, 'unban'])->name('unban');
 
-    // Batch
-    Route::patch('/workers/update/batch', [UserController::class, 'updateBatch'])->name('users.batch.update');
+        // Batch
+        Route::patch('/update/batch', [UserController::class, 'updateBatch'])->name('batch.update');
 
-    // Country
-    Route::put('/workers/{id}/country', [UserCountryController::class, 'update'])->name('users.country.update');
+        // Country
+        Route::put('/{id}/country', [UserCountryController::class, 'update'])->name('country.update');
 
-    // Department
-    Route::put('/workers/{id}/department',
-        [UserDepartmentController::class, 'update'])->name('users.department.update');
+        // Department
+        Route::put('/{id}/department', [UserDepartmentController::class, 'update'])->name('department.update');
 
-    // Language
-    Route::put('/workers/{id}/language', [UserLanguageController::class, 'update'])->name('users.language.update');
+        // Language
+        Route::put('/{id}/language', [UserLanguageController::class, 'update'])->name('language.update');
+    });
 
     Route::apiResource('workers', UserController::class)
         ->names([
