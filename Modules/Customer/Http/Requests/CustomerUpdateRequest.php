@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Modules\Customer\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
+use BenSampo\Enum\Rules\EnumValue;
+use Modules\Role\Enums\ModelHasPermissionStatus;
 
 final class CustomerUpdateRequest extends BaseFormRequest
 {
@@ -23,6 +25,14 @@ final class CustomerUpdateRequest extends BaseFormRequest
             'retention_manager_user_id' => 'sometimes|required|exists:users,id',
             'first_conversion_user_id' => 'sometimes|required|exists:users,id',
             'first_retention_user_id' => 'sometimes|required|exists:users,id',
+            'permissions' => 'sometimes|required|array',
+            'permissions.*.id' => 'required',
+            'permissions.*.status' => [
+                'sometimes',
+                'required',
+                new EnumValue(ModelHasPermissionStatus::class, false),
+            ],
+            'permissions.*.body.reason' => 'sometimes|required|string',
         ];
     }
 }

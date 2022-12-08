@@ -218,6 +218,17 @@ final class CustomerController extends Controller
      *                 @OA\Property(property="retention_manager_user_id", type="integer", description="Retention manager worker ID"),
      *                 @OA\Property(property="first_conversion_user_id", type="integer", description="First conversion worker ID"),
      *                 @OA\Property(property="first_retention_user_id", type="integer", description="First retention worker ID"),
+     *                 @OA\Property(property="permissions", type="array",
+     *                    @OA\Items(required={"id"},
+     *                        @OA\Property(property="id", type="integer", description="Permission ID"),
+     *                        @OA\Property(property="status", type="string", description="Status of customer permission"),
+     *                        @OA\Property(property="data", type="array",
+     *                          @OA\Items(
+     *                              @OA\Property(property="reason", type="string", description="Reason of change status"),
+     *                          ),
+     *                        ),
+     *                    ),
+     *                 )
      *             )
      *         )
      *     ),
@@ -268,6 +279,17 @@ final class CustomerController extends Controller
      *                 @OA\Property(property="retention_manager_user_id", type="integer", description="Retention manager worker ID"),
      *                 @OA\Property(property="first_conversion_user_id", type="integer", description="First conversion worker ID"),
      *                 @OA\Property(property="first_retention_user_id", type="integer", description="First retention worker ID"),
+     *                 @OA\Property(property="permissions", type="array",
+     *                    @OA\Items(required={"id"},
+     *                        @OA\Property(property="id", type="integer", description="Permission ID"),
+     *                        @OA\Property(property="status", type="string", description="Status of customer permission"),
+     *                        @OA\Property(property="data", type="array",
+     *                          @OA\Items(
+     *                              @OA\Property(property="reason", type="string", description="Reason of change status"),
+     *                          ),
+     *                        ),
+     *                    ),
+     *                 )
      *             )
      *         )
      *     ),
@@ -307,7 +329,7 @@ final class CustomerController extends Controller
 
         $this->authorize('update', $customer);
 
-        $this->customerStorage->update($customer, new CustomerDto($request->validated()));
+        $this->customerStorage->update($customer, CustomerDto::fromFormRequest($request));
 
         return new CustomerResource($customer);
     }
