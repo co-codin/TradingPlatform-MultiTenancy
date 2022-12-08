@@ -44,7 +44,6 @@ Route::group(['prefix' => 'token', 'as' => 'token.', 'middleware' => 'api'], fun
 });
 
 Route::group(['middleware' => ['api', 'auth:api']], function () {
-    Route::group(['middleware' => 'tenant'], function () {
         // Desk
         Route::put('/workers/{id}/desk', [UserDeskController::class, 'update'])->name('workers.desk.update');
 
@@ -88,5 +87,4 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
                 'update' => 'users.display-options.update',
                 'destroy' => 'users.display-options.destroy',
             ]);
-    });
 });
