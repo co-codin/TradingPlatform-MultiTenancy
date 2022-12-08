@@ -25,7 +25,7 @@ final class ApiLogoutTest extends TestCase
         $response = $this->withToken($token->plainTextToken)->post(route('admin.token-auth.logout'));
         $response->assertNoContent();
 
-        $this->assertModelMissing($token);
+        $this->assertModelMissing($token->accessToken);
     }
 
     /**

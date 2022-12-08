@@ -15,14 +15,13 @@ final class DeleteTest extends TestCase
     {
         $this->authenticateUser();
         $user = $this->getUser();
-        $name = 'token';
-        $user->createToken($name);
+        $token = $user->createToken('token')->accessToken;
         $response = $this->delete(route('admin.token.delete'), [
-            'token_name' => $name,
+            'token_name' => $token->name,
         ]);
 
         $response->assertNoContent();
-        $this->assertNull($user->tokens()->where('name', $name)->first());
+        $this->assertModelMissing($token);
     }
 
     /**

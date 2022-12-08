@@ -19,8 +19,7 @@ final class ForgetTest extends TestCase
     public function accepted(): void
     {
         $user = User::factory()->create([
-            'email' => 'test@admin.com',
-            'password' => Hash::make('admin1'),
+            'password' => Hash::make('password'),
         ]);
         $response = $this->post(route('admin.auth.password.forget'), ['email' => $user->email]);
 
@@ -34,8 +33,7 @@ final class ForgetTest extends TestCase
     public function throttled(): void
     {
         $user = User::factory()->create([
-            'email' => 'test@admin.com',
-            'password' => Hash::make('admin1'),
+            'password' => Hash::make('password'),
         ]);
         $data = ['email' => $user->email];
         $this->post(route('admin.auth.password.forget'), $data);
@@ -51,8 +49,7 @@ final class ForgetTest extends TestCase
     public function banned(): void
     {
         $user = User::factory()->create([
-            'email' => 'test@admin.com',
-            'password' => Hash::make('admin1'),
+            'password' => Hash::make('password'),
             'banned_at' => CarbonImmutable::now(),
         ]);
         $response = $this->post(route('admin.auth.password.forget'), ['email' => $user->email]);
