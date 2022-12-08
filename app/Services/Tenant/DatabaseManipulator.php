@@ -15,7 +15,7 @@ final class DatabaseManipulator
      * @param  string  $dbName
      * @return bool
      */
-    public function create(string $dbName): bool
+    public function create(string $dbName)
     {
         return Schema::createDatabase($dbName);
     }

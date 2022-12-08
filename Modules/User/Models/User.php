@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\User\Models;
 
-use App\Models\Traits\ForTenant;
+use App\Models\Casts\DateCast;
+use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -43,7 +45,6 @@ use Modules\User\Events\UserCreated;
  */
 final class User extends Authenticatable
 {
-    use ForTenant;
     use HasApiTokens;
     use HasFactory;
     use HasRoles;
@@ -74,8 +75,12 @@ final class User extends Authenticatable
      * {@inheritdoc}
      */
     protected $casts = [
-        'banned_at' => 'datetime',
-        'email_verified_at' => 'datetime',
+        'banned_at' => DateCast::class,
+        'email_verified_at' => DateCast::class,
+        'last_login' => DateCast::class,
+        'created_at' => DateCast::class,
+        'updated_at' => DateCast::class,
+        'deleted_at' => DateCast::class,
     ];
 
     /**
@@ -91,6 +96,31 @@ final class User extends Authenticatable
     protected static function newFactory(): UserFactory
     {
         return UserFactory::new();
+    }
+
+    /**
+     * Scope for querying users by permissions access.
+     *
+     * @param $query
+     * @return mixed
+     *
+     * @throws Exception
+     */
+    public function scopeByPermissionsAccess($query): Builder
+    {
+        return match (true) {
+            request()->user()?->isAdmin() => $query,
+            request()->user()?->brands()->exists() => $query->whereHas('brands', function ($query) {
+                $query->whereIn(
+                    'brands.id',
+                    request()->user()
+                        ->brands()
+                        ->pluck('id')
+                        ->toArray(),
+                );
+            }),
+            default => abort(403, __('Cant access get users.')),
+        };
     }
 
     public function toArray()

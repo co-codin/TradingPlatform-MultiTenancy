@@ -299,11 +299,11 @@ final class UserController extends Controller
      * @throws AuthorizationException
      * @throws Exception
      */
-    public function update(int $id, UserUpdateRequest $request): UserResource
+    public function update(UserUpdateRequest $request, int $id): UserResource
     {
         $user = $this->userRepository->find($id);
 
-        $this->authorize('update', $user);
+        $dd = $this->authorize('update', $user);
 
         $user = $this->userStorage->update($user, $request->validated());
 

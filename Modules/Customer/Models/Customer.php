@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Customer\Models;
 
 use App\Models\Traits\ForTenant;
@@ -37,7 +39,7 @@ use Modules\Role\Models\Traits\HasRoles;
  * @property string $updated_at
  * @property string $deleted_at
  */
-class Customer extends Authenticatable
+final class Customer extends Authenticatable
 {
     use HasFactory;
     use SoftDeletes;
@@ -46,12 +48,21 @@ class Customer extends Authenticatable
     use HasApiTokens;
     use ForTenant;
 
+    /**
+     * {@inheritdoc}
+     */
     protected $guarded = ['id'];
 
+    /**
+     * {@inheritdoc}
+     */
     protected $hidden = [
         'password',
     ];
 
+    /**
+     * {@inheritdoc}
+     */
     protected $casts = [
         'last_online' => 'datetime',
         'first_autologin_time' => 'datetime',
@@ -97,7 +108,10 @@ class Customer extends Authenticatable
         return Brand::where('slug', $this->getConnection()->getConfig('search_path'))->first();
     }
 
-    protected static function newFactory()
+    /**
+     * {@inheritDoc}
+     */
+    protected static function newFactory(): CustomerFactory
     {
         return CustomerFactory::new();
     }

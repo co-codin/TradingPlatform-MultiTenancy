@@ -44,7 +44,7 @@ Route::group(['prefix' => 'token', 'as' => 'token.', 'middleware' => 'api'], fun
 });
 
 Route::group(['middleware' => ['api', 'auth:api']], function () {
-    Route::group(['middleware' => 'tenant.set:1'], function () {
+    Route::group(['middleware' => 'tenant'], function () {
         // Desk
         Route::put('/workers/{id}/desk', [UserDeskController::class, 'update'])->name('workers.desk.update');
 
@@ -68,7 +68,7 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
         Route::put('/workers/{id}/language', [UserLanguageController::class, 'update'])->name('users.language.update');
     });
 
-    Route::group(['middleware' => 'tenant.set'], function () {
+    Route::group(['middleware' => 'tenant'], function () {
         Route::apiResource('workers', UserController::class)
             ->names([
                 'index' => 'users.index',

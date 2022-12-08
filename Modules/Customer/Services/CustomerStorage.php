@@ -2,10 +2,9 @@
 
 namespace Modules\Customer\Services;
 
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Arr;
 use LogicException;
 use Modules\Customer\Dto\CustomerDto;
-use Modules\Customer\Emails\WelcomeCustomer;
 use Modules\Customer\Events\CustomerStored;
 use Modules\Customer\Models\Customer;
 use Illuminate\Support\Facades\Hash;
@@ -53,6 +52,14 @@ final class CustomerStorage
 
         if (!$customer->update($attributes)) {
             throw new LogicException(__('Can not update customer'));
+        }
+
+        if ($dto->permissions) {
+            foreach ($dto->permissions as $permission) {
+                $customer->permissions()->sync([
+                    $permission['id'] => Arr::except($permission, ['id']),
+                ], false);
+            }
         }
 
         return $customer;

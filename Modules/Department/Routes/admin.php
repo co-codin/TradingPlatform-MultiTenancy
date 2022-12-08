@@ -15,7 +15,7 @@ use Modules\Department\Http\Controllers\Admin\DepartmentUserController;
 |
 */
 
-Route::group(['middleware' => 'tenant.set:1'], function () {
+Route::group(['middleware' => 'tenant'], function () {
     Route::get('departments/workers', [DepartmentUserController::class, 'allByDepartments'])->name('departments.users.allByDepartments');
     Route::apiResource('departments', DepartmentController::class);
 });

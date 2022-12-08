@@ -9,7 +9,6 @@ use Modules\Role\Enums\DefaultRole;
 use Modules\Role\Models\Permission;
 use Modules\Role\Models\Role;
 use Modules\User\Models\User;
-use Tests\CreatesApplication;
 
 trait HasAuth
 {
@@ -24,7 +23,7 @@ trait HasAuth
      * @param  string  $guard
      * @return void
      */
-    final protected function authenticateUser(string $guard = User::DEFAULT_AUTH_GUARD): void
+    protected function authenticateUser(string $guard = User::DEFAULT_AUTH_GUARD): void
     {
         $email = 'user@service.com';
 
@@ -44,7 +43,7 @@ trait HasAuth
      * @param  string  $guard
      * @return void
      */
-    final protected function authenticateAdmin(string $guard = User::DEFAULT_AUTH_GUARD): void
+    protected function authenticateAdmin(string $guard = User::DEFAULT_AUTH_GUARD): void
     {
         $email = 'admin@service.com';
 
@@ -61,7 +60,7 @@ trait HasAuth
 
         $this->setUser($user);
 
-        $this->actingAs($user, User::DEFAULT_AUTH_GUARD);
+        $this->actingAs($user, $guard);
     }
 
     /**
@@ -71,7 +70,7 @@ trait HasAuth
      * @param  string  $guard
      * @return void
      */
-    final protected function authenticateWithPermission(
+    protected function authenticateWithPermission(
         PermissionEnum $permissionEnum,
         string $guard = User::DEFAULT_AUTH_GUARD
     ): void {
@@ -101,7 +100,7 @@ trait HasAuth
      * @param  User  $user
      * @return $this
      */
-    final protected function setUser(User $user): static
+    protected function setUser(User $user): static
     {
         $this->user = $user;
 
@@ -113,7 +112,7 @@ trait HasAuth
      *
      * @return User|null
      */
-    final protected function getUser(): ?User
+    protected function getUser(): ?User
     {
         return $this->user;
     }

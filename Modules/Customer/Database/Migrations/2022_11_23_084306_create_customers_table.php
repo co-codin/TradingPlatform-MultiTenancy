@@ -42,15 +42,15 @@ return new class extends Migration
             $table->boolean('is_active_trading')->default(true);
             $table->boolean('is_test')->default(false);
 
-            $table->foreignId('affiliate_user_id')->nullable()->constrained()->on('users');
-            $table->foreignId('conversion_user_id')->nullable()->constrained()->on('users');
-            $table->foreignId('retention_user_id')->nullable()->constrained()->on('users');
-            $table->foreignId('compliance_user_id')->nullable()->constrained()->on('users');
-            $table->foreignId('support_user_id')->nullable()->constrained()->on('users');
-            $table->foreignId('conversion_manager_user_id')->nullable()->constrained()->on('users');
-            $table->foreignId('retention_manager_user_id')->nullable()->constrained()->on('users');
-            $table->foreignId('first_conversion_user_id')->nullable()->constrained()->on('users');
-            $table->foreignId('first_retention_user_id')->nullable()->constrained()->on('users');
+            $table->foreignId('affiliate_user_id')->nullable()->constrained()->on('public.users');
+            $table->foreignId('conversion_user_id')->nullable()->constrained()->on('public.users');
+            $table->foreignId('retention_user_id')->nullable()->constrained()->on('public.users');
+            $table->foreignId('compliance_user_id')->nullable()->constrained()->on('public.users');
+            $table->foreignId('support_user_id')->nullable()->constrained()->on('public.users');
+            $table->foreignId('conversion_manager_user_id')->nullable()->constrained()->on('public.users');
+            $table->foreignId('retention_manager_user_id')->nullable()->constrained()->on('public.users');
+            $table->foreignId('first_conversion_user_id')->nullable()->constrained()->on('public.users');
+            $table->foreignId('first_retention_user_id')->nullable()->constrained()->on('public.users');
 
             $table->foreignId('desk_id')->nullable()->constrained();
             $table->foreignId('department_id')->nullable()->constrained();
