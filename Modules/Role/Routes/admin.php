@@ -8,7 +8,7 @@ use Modules\Role\Http\Controllers\Admin\PermissionColumnController;
 use Modules\Role\Http\Controllers\Admin\PermissionController;
 use Modules\Role\Http\Controllers\Admin\RoleController;
 
-Route::group(['middleware' => 'tenant.set'], function () {
+Route::group(['middleware' => 'tenant'], function () {
     Route::put('roles/{role}/permissions', [RoleController::class, 'updatePermissions']);
     Route::apiResource('roles', RoleController::class);
 
