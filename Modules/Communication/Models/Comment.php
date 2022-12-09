@@ -8,13 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Communication\Database\factories\CommentFactory;
 use Modules\Media\Models\Image;
 use Modules\User\Models\User;
-use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
 class Comment extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    use UsesLandlordConnection;
 
     protected $guarded = ['id'];
 
