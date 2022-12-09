@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace Modules\Customer\Models;
 
-use App\Models\Traits\ForTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Brand\Models\Brand;
 use Modules\Customer\Database\factories\CustomerFactory;
 use Modules\Customer\Events\CustomerSaving;
 use Modules\Customer\Models\Traits\CustomerRelations;
 use Modules\Geo\Models\Country;
 use Modules\Role\Models\Traits\HasRoles;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 /**
  * Class Customer
@@ -47,7 +48,7 @@ final class Customer extends Authenticatable
     use CustomerRelations;
     use HasRoles;
     use HasApiTokens;
-    use ForTenant;
+    use UsesTenantConnection;
 
     /**
      * {@inheritdoc}
@@ -90,6 +91,14 @@ final class Customer extends Authenticatable
     protected $rememberTokenName = false;
 
     /**
+     * {@inheritDoc}
+     */
+    protected static function newFactory(): CustomerFactory
+    {
+        return CustomerFactory::new();
+    }
+
+    /**
      * Country relation.
      *
      * @return BelongsTo
@@ -100,10 +109,12 @@ final class Customer extends Authenticatable
     }
 
     /**
-     * {@inheritDoc}
+     * Get brand.
+     *
+     * @return Brand|null
      */
-    protected static function newFactory(): CustomerFactory
+    public function getBrand(): ?Brand
     {
-        return CustomerFactory::new();
+        return app(Tenant::class)->current();
     }
 }

@@ -30,9 +30,7 @@ use Spatie\Multitenancy\Models\Tenant;
  */
 class Brand extends Tenant
 {
-    use HasFactory;
-    use SoftDeletes;
-    use LogsActivity;
+    use HasFactory, SoftDeletes, LogsActivity;
     use UsesLandlordConnection;
 
     /**
@@ -49,12 +47,35 @@ class Brand extends Tenant
 
     protected static function booted()
     {
-        static::creating(fn (Brand $brand) => $brand->createDatabase($brand));
+        static::creating(fn (Brand $brand) => $brand->createDatabase());
     }
 
-    public function createDatabase($brand)
+    /**
+     * {@inheritdoc}
+     */
+    protected static function newFactory()
     {
-        DB::unprepared('CREATE SCHEMA ' . $brand->database);
+        return BrandFactory::new();
+    }
+
+    /**
+     * Create and run tenant database migration through tenant db connection instead
+     *
+     * @return void
+     */
+    public function createDatabase(): void
+    {
+        DB::connection($this->tenantDatabaseConnectionName())->statement("CREATE SCHEMA {$this->database}");
+    }
+
+    /**
+     * Drop tenant database
+     *
+     * @return void
+     */
+    public function dropSchema(): void
+    {
+        DB::connection($this->tenantDatabaseConnectionName())->statement("DROP SCHEMA {$this->database} CASCADE");
     }
 
     /**
@@ -71,14 +92,6 @@ class Brand extends Tenant
                 'updated_at',
             ])
             ->logOnlyDirty();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected static function newFactory()
-    {
-        return BrandFactory::new();
     }
 
     /**

@@ -8,10 +8,10 @@ use Modules\Brand\Models\Brand;
 use Modules\Role\Models\Role;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
-use Tests\BrandTestCaseV2;
+use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
 
-final class UpdateTest extends BrandTestCaseV2
+final class UpdateTest extends BrandTestCase
 {
     use HasAuth;
 

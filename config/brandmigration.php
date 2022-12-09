@@ -3,6 +3,7 @@
 return [
 
     'REQUIRED_MODULES' => [
+        'Media' => 'Media',
         'Campaign' => 'Campaign',
         'Config' => 'Config',
         'Department' => 'Department',

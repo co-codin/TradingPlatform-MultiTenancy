@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Geo\Models;
 
-use App\Models\Traits\ForTenant;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Geo\Database\factories\CountryFactory;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 /**
  * Class Country
@@ -21,17 +23,19 @@ use Modules\Geo\Database\factories\CountryFactory;
  */
 class Country extends Model
 {
-    use ForTenant, HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
+    use UsesTenantConnection;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected $guarded = [
         'id',
     ];
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected static function newFactory(): CountryFactory
     {

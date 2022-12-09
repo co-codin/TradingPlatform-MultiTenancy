@@ -11,7 +11,7 @@ class DomainTenantFinder extends TenantFinder
 {
     use UsesTenantModel;
 
-    public function findForRequest(Request $request):?Tenant
+    public function findForRequest(Request $request): ?Tenant
     {
         $domain = $request->header('tenant');
 
