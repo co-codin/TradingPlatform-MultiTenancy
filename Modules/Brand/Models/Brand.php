@@ -2,22 +2,17 @@
 
 namespace Modules\Brand\Models;
 
-use App\Jobs\CreateTenantDatabase;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Modules\Brand\Database\factories\BrandFactory;
 use Modules\User\Models\User;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Multitenancy\Concerns\UsesMultitenancyConfig;
-use Spatie\Multitenancy\Landlord;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 use Spatie\Multitenancy\Models\Tenant;
 
 /**
@@ -56,14 +51,20 @@ class Brand extends Tenant
     }
 
     /**
+     * {@inheritdoc}
+     */
+    protected static function newFactory()
+    {
+        return BrandFactory::new();
+    }
+
+    /**
      * Create and run tenant database migration through tenant db connection instead
      *
      * @return void
      */
     public function createDatabase(): void
     {
-        // DB::unprepared("CREATE SCHEMA " . $brand->database);
-        // Create database
         DB::connection($this->tenantDatabaseConnectionName())->statement("CREATE SCHEMA {$this->database}");
     }
 
@@ -76,18 +77,6 @@ class Brand extends Tenant
     {
         DB::connection($this->tenantDatabaseConnectionName())->statement("DROP SCHEMA {$this->database} CASCADE");
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      * Get activity log options.
@@ -103,14 +92,6 @@ class Brand extends Tenant
                 'updated_at',
             ])
             ->logOnlyDirty();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected static function newFactory()
-    {
-        return BrandFactory::new();
     }
 
     /**

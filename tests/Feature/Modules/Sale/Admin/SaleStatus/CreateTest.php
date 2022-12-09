@@ -6,13 +6,15 @@ namespace Tests\Feature\Modules\Sale\Admin\SaleStatus;
 
 use Modules\Sale\Enums\SaleStatusPermission;
 use Modules\Sale\Models\SaleStatus;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
-use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 
 class CreateTest extends BrandTestCase
 {
-    use TenantAware, HasAuth;
+    use TenantAware;
+    use HasAuth;
+
     /**
      * Test authorized user can create salestatus.
      *
@@ -148,7 +150,7 @@ class CreateTest extends BrandTestCase
         $this->brand->makeCurrent();
 
         $data = SaleStatus::factory()->make()->toArray();
-        $data['color'] = "#e1e1";
+        $data['color'] = '#e1e1';
 
         $response = $this->postJson(route('admin.sale-statuses.store'), $data);
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Geo\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Geo\Database\factories\CountryFactory;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
@@ -23,18 +23,19 @@ use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
  */
 class Country extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
     use UsesTenantConnection;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected $guarded = [
         'id',
     ];
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected static function newFactory(): CountryFactory
     {

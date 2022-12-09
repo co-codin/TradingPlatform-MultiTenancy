@@ -22,7 +22,8 @@ use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
  */
 class Language extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
     use UsesTenantConnection;
 
     /**

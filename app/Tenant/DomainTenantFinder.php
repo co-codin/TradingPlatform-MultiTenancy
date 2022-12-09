@@ -2,8 +2,8 @@
 
 namespace App\Tenant;
 
-use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Http\Request;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantModel;
 use Spatie\Multitenancy\Models\Tenant;
 use Spatie\Multitenancy\TenantFinder\TenantFinder;
@@ -16,7 +16,7 @@ class DomainTenantFinder extends TenantFinder
     {
         $domain = $request->header('tenant');
 
-        if (!$domain) {
+        if (! $domain) {
             throw new Exception(__('Tenant header is required.'));
         }
 

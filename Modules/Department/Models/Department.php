@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Department\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Customer\Models\Customer;
@@ -27,18 +27,19 @@ use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
  */
 class Department extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
     use UsesTenantConnection;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected $guarded = [
         'id',
     ];
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected static function newFactory(): DepartmentFactory
     {

@@ -6,13 +6,14 @@ namespace Tests\Feature\Modules\Sale\Admin\SaleStatus;
 
 use Modules\Sale\Enums\SaleStatusPermission;
 use Modules\Sale\Models\SaleStatus;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
-use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 
 class ReadTest extends BrandTestCase
 {
-    use TenantAware, HasAuth;
+    use TenantAware;
+    use HasAuth;
 
     /**
      * Test authorized user can get salestatus list.
@@ -37,6 +38,7 @@ class ReadTest extends BrandTestCase
             'data' => [$saleStatus->toArray()],
         ]);
     }
+
     /**
      * Test unauthorized user cant get salestatus list.
      *
@@ -56,6 +58,7 @@ class ReadTest extends BrandTestCase
 
         $response->assertForbidden();
     }
+
     /**
      * Test unauthorized user get salestatus list.
      *
@@ -73,8 +76,6 @@ class ReadTest extends BrandTestCase
 
         $response->assertUnauthorized();
     }
-
-
 
     /**
      * Test authorized user can get salestatus by ID.
@@ -117,6 +118,7 @@ class ReadTest extends BrandTestCase
 
         $response->assertForbidden();
     }
+
     /**
      * Test authorized user can get not found salestatus by ID.
      *
@@ -136,6 +138,7 @@ class ReadTest extends BrandTestCase
 
         $response->assertNotFound();
     }
+
     /**
      * Test unauthorized user can get salestatus by ID.
      *

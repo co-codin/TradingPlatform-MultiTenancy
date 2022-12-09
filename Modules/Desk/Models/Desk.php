@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Desk\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kalnoy\Nestedset\NodeTrait;
@@ -19,10 +19,18 @@ use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 class Desk extends Model
 {
-    use HasFactory, SoftDeletes, NodeTrait, LogsActivity;
+    use HasFactory;
+    use SoftDeletes;
+    use NodeTrait;
+    use LogsActivity;
     use UsesTenantConnection;
 
     protected $guarded = ['id'];
+
+    protected static function newFactory()
+    {
+        return DeskFactory::new();
+    }
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -33,11 +41,6 @@ class Desk extends Model
                 'updated_at',
             ])
             ->logOnlyDirty();
-    }
-
-    protected static function newFactory()
-    {
-        return DeskFactory::new();
     }
 
     /**
