@@ -34,6 +34,8 @@ use Modules\Role\Models\Traits\HasRoles;
  * @property int|null $retention_manager_user_id
  * @property int|null $first_conversion_user_id
  * @property int|null $first_retention_user_id
+ * @property int|null $conversion_sale_status_id
+ * @property int|null $retention_sale_status_id
  * @property string $created_at
  * @property string $updated_at
  * @property string $deleted_at
