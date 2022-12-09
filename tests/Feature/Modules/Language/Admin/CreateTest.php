@@ -182,17 +182,4 @@ final class CreateTest extends BrandTestCase
 
         $response->assertUnprocessable();
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    // protected function setUp(): void
-    // {
-    //     parent::setUp();
-
-    //     Artisan::call(sprintf(
-    //         'brand-migrate --path=%s',
-    //         "Modules/Brand/DB/Migrations/create_languages_table.php",
-    //     ));
-    // }
 }
