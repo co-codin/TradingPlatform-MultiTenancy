@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Language\Models;
 
-use App\Models\Traits\ForTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Language\Database\factories\LanguageFactory;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 /**
  * Class Language
@@ -22,7 +22,8 @@ use Modules\Language\Database\factories\LanguageFactory;
  */
 class Language extends Model
 {
-    use ForTenant, HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes;
+    use UsesTenantConnection;
 
     /**
      * {@inheritdoc}

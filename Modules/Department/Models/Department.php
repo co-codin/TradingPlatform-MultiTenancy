@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Department\Models;
 
-use App\Models\Traits\ForTenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Customer\Models\Customer;
 use Modules\Department\Database\factories\DepartmentFactory;
 use Modules\User\Models\User;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 /**
  * Class Department
@@ -25,7 +27,8 @@ use Modules\User\Models\User;
  */
 class Department extends Model
 {
-    use ForTenant, HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes;
+    use UsesTenantConnection;
 
     /**
      * @inheritdoc

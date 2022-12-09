@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Customer\Models;
 
-use App\Models\Traits\ForTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,6 +14,7 @@ use Modules\Customer\Events\CustomerSaving;
 use Modules\Customer\Models\Traits\CustomerRelations;
 use Modules\Geo\Models\Country;
 use Modules\Role\Models\Traits\HasRoles;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 /**
  * Class Customer
@@ -43,7 +45,7 @@ class Customer extends Authenticatable
     use CustomerRelations;
     use HasRoles;
     use HasApiTokens;
-    use ForTenant;
+    use UsesTenantConnection;
 
     protected $guarded = ['id'];
 

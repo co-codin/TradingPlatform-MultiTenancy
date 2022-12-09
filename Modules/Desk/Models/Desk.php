@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Desk\Models;
 
-use App\Models\Traits\ForTenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -14,10 +15,12 @@ use Modules\Geo\Models\Country;
 use Modules\Language\Models\Language;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 class Desk extends Model
 {
-    use ForTenant, HasFactory, SoftDeletes, NodeTrait, LogsActivity;
+    use HasFactory, SoftDeletes, NodeTrait, LogsActivity;
+    use UsesTenantConnection;
 
     protected $guarded = ['id'];
 
