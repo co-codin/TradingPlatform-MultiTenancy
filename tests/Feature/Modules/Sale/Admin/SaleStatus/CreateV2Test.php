@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Modules\Sale\Admin\SaleStatus;
 
-use Modules\Brand\Models\Brand;
 use Modules\Sale\Enums\SaleStatusPermission;
 use Modules\Sale\Models\SaleStatus;
 use Tests\BrandTestCaseV2;
@@ -11,8 +10,7 @@ use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 
 class CreateV2Test extends BrandTestCaseV2
 {
-    use TenantAware;
-    use HasAuth;
+    use TenantAware, HasAuth;
 
     /**
      * Test authorized user can create salestatus.
