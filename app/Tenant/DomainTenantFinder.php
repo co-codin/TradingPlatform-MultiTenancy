@@ -2,7 +2,6 @@
 
 namespace App\Tenant;
 
-use Exception;
 use Illuminate\Http\Request;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantModel;
 use Spatie\Multitenancy\Models\Tenant;
@@ -15,10 +14,6 @@ class DomainTenantFinder extends TenantFinder
     public function findForRequest(Request $request): ?Tenant
     {
         $domain = $request->header('tenant');
-
-        if (! $domain) {
-            throw new Exception(__('Tenant header is required.'));
-        }
 
         return $this->getTenantModel()::whereDomain($domain)->first();
     }
