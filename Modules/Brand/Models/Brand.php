@@ -2,6 +2,7 @@
 
 namespace Modules\Brand\Models;
 
+use App\Jobs\CreateTenantDatabase;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -13,6 +14,7 @@ use Modules\Brand\Database\factories\BrandFactory;
 use Modules\User\Models\User;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Multitenancy\Concerns\UsesMultitenancyConfig;
 use Spatie\Multitenancy\Landlord;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
@@ -50,13 +52,42 @@ class Brand extends Tenant
 
     protected static function booted()
     {
-        static::creating(fn (Brand $brand) => $brand->createDatabase($brand));
+        static::creating(fn (Brand $brand) => $brand->createDatabase());
     }
 
-    public function createDatabase($brand)
+    /**
+     * Create and run tenant database migration through tenant db connection instead
+     *
+     * @return void
+     */
+    public function createDatabase(): void
     {
-        DB::unprepared("CREATE SCHEMA " . $brand->database);
+        // DB::unprepared("CREATE SCHEMA " . $brand->database);
+        // Create database
+        DB::connection($this->tenantDatabaseConnectionName())->statement("CREATE SCHEMA {$this->database}");
     }
+
+    /**
+     * Drop tenant database
+     *
+     * @return void
+     */
+    public function dropSchema(): void
+    {
+        DB::connection($this->tenantDatabaseConnectionName())->statement("DROP SCHEMA {$this->database} CASCADE");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Get activity log options.
