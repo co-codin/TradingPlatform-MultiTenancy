@@ -12,5 +12,6 @@
     "Campaign": true,
     "Sale": true,
     "Media": true,
-    "Communication": true
+    "Communication": true,
+    "TelephonyProvider": true
 }

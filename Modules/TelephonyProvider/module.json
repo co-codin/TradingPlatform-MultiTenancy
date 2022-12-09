@@ -1,0 +1,11 @@
+{
+    "name": "TelephonyProvider",
+    "alias": "telephonyprovider",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\TelephonyProvider\\Providers\\TelephonyProviderServiceProvider"
+    ],
+    "files": []
+}
