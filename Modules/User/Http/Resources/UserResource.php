@@ -40,7 +40,9 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true, description="Date and time of soft delete", example="2022-12-17 08:44:09"),
  *     @OA\Property(property="last_login", type="string", format="date-time", nullable=true, description="Date and time of last login", example="2022-12-17 08:44:09"),
  *     @OA\Property(property="permissions", type="array", @OA\Items(ref="#/components/schemas/Permission"), description="Permission array"),
- *     @OA\Property(property="roles", type="array", @OA\Items(ref="#/components/schemas/Role"), description="Array of roles")
+ *     @OA\Property(property="roles", type="array", @OA\Items(ref="#/components/schemas/Role"), description="Array of roles"),
+ *     @OA\Property(property="affiliate_id", type="integer", description="Affiliate worker ID"),
+ *     @OA\Property(property="show_on_scoreboards", type="boolean", description="Show on scoreboards"),
  * ),
  *
  * @OA\Schema (

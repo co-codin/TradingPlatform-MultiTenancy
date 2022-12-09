@@ -23,19 +23,20 @@ final class UpdateTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->patch(route('admin.users.update', ['worker' => $user]), array_merge(
-            User::factory()->withParent()->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
-            [
-                'change_password' => true,
-                'password_confirmation' => 'admin',
-                'roles' => [
+            User::factory()
+                ->withParent()
+                ->withAffiliate()
+                ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
                     [
-                        'id' => (Role::first() ?? Role::factory()->create([
-                            'name' => DefaultRole::ADMIN,
-                        ]))->id,
-                    ],
-                ],
-            ]
-        ));
+                        'change_password' => true,
+                        'password_confirmation' => 'admin',
+                        'roles' => [
+                            [
+                                'id' => Role::factory()->create()->id,
+                            ],
+                        ],
+                    ]
+                ));
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -71,19 +72,20 @@ final class UpdateTest extends TestCase
             ->sync($users = User::factory(1)->create()->push($this->user));
 
         $response = $this->patch(route('admin.users.update', ['worker' => $users->first()]), array_merge(
-            User::factory()->withParent()->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
-            [
-                'change_password' => true,
-                'password_confirmation' => 'admin',
-                'roles' => [
+            User::factory()
+                ->withParent()
+                ->withAffiliate()
+                ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
                     [
-                        'id' => (Role::first() ?? Role::factory()->create([
-                            'name' => DefaultRole::ADMIN,
-                        ]))->id,
-                    ],
-                ],
-            ]
-        ));
+                        'change_password' => true,
+                        'password_confirmation' => 'admin',
+                        'roles' => [
+                            [
+                                'id' => Role::factory()->create()->id,
+                            ],
+                        ],
+                    ]
+                ));
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -119,19 +121,20 @@ final class UpdateTest extends TestCase
             ->sync($user = User::factory()->create());
 
         $response = $this->patch(route('admin.users.update', ['worker' => $user]), array_merge(
-            User::factory()->withParent()->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
-            [
-                'change_password' => true,
-                'password_confirmation' => 'admin',
-                'roles' => [
+            User::factory()
+                ->withParent()
+                ->withAffiliate()
+                ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
                     [
-                        'id' => (Role::first() ?? Role::factory()->create([
-                            'name' => DefaultRole::ADMIN,
-                        ]))->id,
-                    ],
-                ],
-            ]
-        ));
+                        'change_password' => true,
+                        'password_confirmation' => 'admin',
+                        'roles' => [
+                            [
+                                'id' => Role::factory()->create()->id,
+                            ],
+                        ],
+                    ]
+                ));
 
         $response->assertForbidden();
     }
@@ -146,19 +149,20 @@ final class UpdateTest extends TestCase
         $userId = User::orderByDesc('id')->first()?->id + 1 ?? 1;
 
         $response = $this->patch(route('admin.users.update', ['worker' => $userId]), array_merge(
-            User::factory()->withParent()->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
-            [
-                'change_password' => true,
-                'password_confirmation' => 'admin',
-                'roles' => [
+            User::factory()
+                ->withParent()
+                ->withAffiliate()
+                ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
                     [
-                        'id' => (Role::first() ?? Role::factory()->create([
-                            'name' => DefaultRole::ADMIN,
-                        ]))->id,
-                    ],
-                ],
-            ]
-        ));
+                        'change_password' => true,
+                        'password_confirmation' => 'admin',
+                        'roles' => [
+                            [
+                                'id' => Role::factory()->create()->id,
+                            ],
+                        ],
+                    ]
+                ));
 
         $response->assertNotFound();
     }
@@ -173,18 +177,19 @@ final class UpdateTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->patch(route('admin.users.update', ['worker' => $user]), array_merge(
-            User::factory()->withParent()->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
-            [
-                'password_confirmation' => 'admin',
-                'roles' => [
+            User::factory()
+                ->withParent()
+                ->withAffiliate()
+                ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
                     [
-                        'id' => (Role::first() ?? Role::factory()->create([
-                            'name' => DefaultRole::ADMIN,
-                        ]))->id,
-                    ],
-                ],
-            ]
-        ));
+                        'password_confirmation' => 'admin',
+                        'roles' => [
+                            [
+                                'id' => Role::factory()->create()->id,
+                            ],
+                        ],
+                    ]
+                ));
 
         $response->assertForbidden();
     }

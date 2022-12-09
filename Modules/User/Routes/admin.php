@@ -68,25 +68,25 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
         Route::put('/workers/{id}/language', [UserLanguageController::class, 'update'])->name('users.language.update');
     });
 
-    Route::group(['middleware' => 'tenant'], function () {
-        Route::apiResource('workers', UserController::class)
-            ->names([
-                'index' => 'users.index',
-                'show' => 'users.show',
-                'store' => 'users.store',
-                'update' => 'users.update',
-                'destroy' => 'users.destroy',
-            ]);
+//    Route::group(['middleware' => 'tenant'], function () {
+    Route::apiResource('workers', UserController::class)
+        ->names([
+            'index' => 'users.index',
+            'show' => 'users.show',
+            'store' => 'users.store',
+            'update' => 'users.update',
+            'destroy' => 'users.destroy',
+        ]);
 
-        Route::apiResource('workers.display-options', UserDisplayOptionController::class)
-            ->except([
-                'index',
-                'show',
-            ])
-            ->names([
-                'store' => 'users.display-options.store',
-                'update' => 'users.display-options.update',
-                'destroy' => 'users.display-options.destroy',
-            ]);
-    });
+    Route::apiResource('workers.display-options', UserDisplayOptionController::class)
+        ->except([
+            'index',
+            'show',
+        ])
+        ->names([
+            'store' => 'users.display-options.store',
+            'update' => 'users.display-options.update',
+            'destroy' => 'users.display-options.destroy',
+        ]);
+//    });
 });
