@@ -1,15 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Modules\Sale\Admin\SaleStatus;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Sale\Enums\SaleStatusPermission;
 use Modules\Sale\Models\SaleStatus;
-use Tests\TestCase;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-class CreateTest extends TestCase
+class CreateTest extends BrandTestCase
 {
-    use DatabaseTransactions, SaleStatusAdminTrait;
+    use TenantAware;
+    use HasAuth;
+
     /**
      * Test authorized user can create salestatus.
      *
@@ -20,6 +25,8 @@ class CreateTest extends TestCase
     public function authorized_user_can_create_salestatus(): void
     {
         $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::CREATE_SALE_STATUSES));
+
+        $this->brand->makeCurrent();
 
         $data = SaleStatus::factory()->make()->toArray();
 
@@ -40,6 +47,8 @@ class CreateTest extends TestCase
     public function authorized_user_cant_create_salestatus(): void
     {
         $this->authenticateUser();
+
+        $this->brand->makeCurrent();
 
         $data = SaleStatus::factory()->make()->toArray();
 
@@ -75,6 +84,8 @@ class CreateTest extends TestCase
     {
         $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::CREATE_SALE_STATUSES));
 
+        $this->brand->makeCurrent();
+
         $data = SaleStatus::factory()->make()->toArray();
         unset($data['name']);
 
@@ -93,6 +104,8 @@ class CreateTest extends TestCase
     public function salestatus_title_exist(): void
     {
         $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::CREATE_SALE_STATUSES));
+
+        $this->brand->makeCurrent();
 
         $data = SaleStatus::factory()->make()->toArray();
         unset($data['title']);
@@ -113,6 +126,8 @@ class CreateTest extends TestCase
     {
         $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::CREATE_SALE_STATUSES));
 
+        $this->brand->makeCurrent();
+
         $data = SaleStatus::factory()->make()->toArray();
         unset($data['color']);
 
@@ -132,8 +147,10 @@ class CreateTest extends TestCase
     {
         $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::CREATE_SALE_STATUSES));
 
+        $this->brand->makeCurrent();
+
         $data = SaleStatus::factory()->make()->toArray();
-        $data['color'] = "#e1e1";
+        $data['color'] = '#e1e1';
 
         $response = $this->postJson(route('admin.sale-statuses.store'), $data);
 

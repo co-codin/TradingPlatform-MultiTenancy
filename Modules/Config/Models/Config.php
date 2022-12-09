@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Config\Database\factories\ConfigFactory;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 /**
  * Config model.
@@ -25,6 +26,7 @@ use Modules\Config\Database\factories\ConfigFactory;
 final class Config extends Model
 {
     use HasFactory;
+    use UsesTenantConnection;
 
     protected $guarded = ['id'];
 

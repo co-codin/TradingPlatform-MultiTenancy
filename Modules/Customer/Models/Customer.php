@@ -16,7 +16,6 @@ use Modules\Customer\Models\Traits\CustomerRelations;
 use Modules\Geo\Models\Country;
 use Modules\Role\Models\Traits\HasRoles;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
-use Spatie\Multitenancy\Models\Tenant;
 
 /**
  * Class Customer

@@ -4,61 +4,44 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use App\Services\Tenant\DatabaseManipulator;
+use DB;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Testing\TestResponse;
-use Modules\Brand\Jobs\MigrateSchemaJob;
+use Illuminate\Support\Facades\Artisan;
 use Modules\Brand\Models\Brand;
-use Nwidart\Modules\Facades\Module;
+use Spatie\Multitenancy\Concerns\UsesMultitenancyConfig;
 
 abstract class BrandTestCase extends BaseTestCase
 {
     use CreatesApplication;
+    use UsesMultitenancyConfig;
+    protected static $setUpRun = false;
 
     public Brand $brand;
 
-    public function migrateModules(array $modules, array $availableModules = [])
+    public static function tearDownAfterClass(): void
     {
-        MigrateSchemaJob::dispatchSync($this->brand, $modules, $availableModules ?: array_keys(Module::all()));
+        $instance = new static();
+        $instance->refreshApplication();
+
+        $schemas = Brand::get();
+        foreach ($schemas as $schema) {
+            DB::unprepared("DROP SCHEMA IF EXISTS {$schema->database} CASCADE;");
+        }
+
+        Artisan::call('migrate:reset');
+
+        $instance->tearDown();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->brand = Brand::factory()->create();
+        if (! static::$setUpRun) {
+            Artisan::call('migrate:fresh --seed');
+            static::$setUpRun = true;
+        }
 
-        (new DatabaseManipulator)->createSchema($this->brand->slug);
-
-        $this->withHeader('Tenant', $this->brand->slug);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function tearDown(): void
-    {
-        $this->brand->delete();
-
-        parent::tearDown();
-    }
-
-    /**
-     * Import.
-     *
-     * @param  array  $modules
-     * @return TestResponse
-     */
-    protected function import(array $modules): TestResponse
-    {
-        return $this->post(
-            route('admin.brands.db.import', ['brand' => $this->brand]),
-            [
-                'modules' => $modules,
-            ]
-        );
+        $this->brand = Brand::first();
     }
 }
