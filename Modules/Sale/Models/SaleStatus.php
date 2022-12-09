@@ -24,7 +24,7 @@ use Spatie\Multitenancy\Models\Tenant;
  * @property string $updated_at
  * @property string $deleted_at
  */
-class SaleStatus extends Tenant
+class SaleStatus extends Model
 {
     // use ForTenant;
     use HasFactory, SoftDeletes;
