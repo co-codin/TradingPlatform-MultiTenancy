@@ -12,7 +12,7 @@ use Modules\Brand\Models\Brand;
 use Spatie\Multitenancy\Concerns\UsesMultitenancyConfig;
 use Spatie\Multitenancy\Events\MadeTenantCurrentEvent;
 
-abstract class BrandTestCaseV2 extends BaseTestCase
+abstract class BrandTestCaseV3 extends BaseTestCase
 {
     use CreatesApplication, DatabaseTransactions, UsesMultitenancyConfig;
 
