@@ -46,6 +46,7 @@ class DepartmentUserController extends Controller
      *
      * View all users by departments.
      *
+     * @param Request $request
      * @return JsonResource
      *
      * @throws AuthorizationException

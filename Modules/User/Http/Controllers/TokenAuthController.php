@@ -91,7 +91,7 @@ final class TokenAuthController extends Controller
         $expiredAt = CarbonImmutable::now()->add($request->validated('remember_me',
             false) ? config('auth.api_token_prolonged_expires_in') : config('auth.api_token_expires_in'));
 
-        $this->userStorage->update($user, ['last_login' => CarbonImmutable::now()]);
+        $this->userStorage->update($user, ['last_login' => $user->freshTimestamp()]);
 
         return [
             'token' => $user->createToken('api', expiresAt: $expiredAt)->plainTextToken,

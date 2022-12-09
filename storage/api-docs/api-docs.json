@@ -4861,6 +4861,16 @@
                                     },
                                     "roles": {
                                         "description": "Array of roles ID",
+                                        "properties": {
+                                            "affiliate_id": {
+                                                "description": "Affiliate worker ID",
+                                                "type": "integer"
+                                            },
+                                            "show_on_scoreboards": {
+                                                "description": "Show on scoreboards",
+                                                "type": "boolean"
+                                            }
+                                        },
                                         "type": "array",
                                         "items": {
                                             "properties": {
@@ -5034,6 +5044,14 @@
                                     "change_password": {
                                         "description": "Must be set to true if the password is changed.",
                                         "type": "boolean"
+                                    },
+                                    "affiliate_id": {
+                                        "description": "Affiliate worker ID",
+                                        "type": "integer"
+                                    },
+                                    "show_on_scoreboards": {
+                                        "description": "Show on scoreboards",
+                                        "type": "boolean"
                                     }
                                 },
                                 "type": "object"
@@ -5183,6 +5201,14 @@
                                     },
                                     "change_password": {
                                         "description": "Must be set to true if the password is changed.",
+                                        "type": "boolean"
+                                    },
+                                    "affiliate_id": {
+                                        "description": "Affiliate worker ID",
+                                        "type": "integer"
+                                    },
+                                    "show_on_scoreboards": {
+                                        "description": "Show on scoreboards",
                                         "type": "boolean"
                                     }
                                 },
@@ -6875,6 +6901,14 @@
                         "items": {
                             "$ref": "#/components/schemas/Role"
                         }
+                    },
+                    "affiliate_id": {
+                        "description": "Affiliate worker ID",
+                        "type": "integer"
+                    },
+                    "show_on_scoreboards": {
+                        "description": "Show on scoreboards",
+                        "type": "boolean"
                     }
                 },
                 "type": "object"
@@ -6965,7 +6999,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }

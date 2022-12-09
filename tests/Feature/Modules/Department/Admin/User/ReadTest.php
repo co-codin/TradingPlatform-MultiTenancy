@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Modules\Department\User;
+namespace Tests\Feature\Modules\Department\User\Admin;
 
 use Modules\Department\Models\Department;
 use Modules\User\Enums\UserPermission;
@@ -59,7 +59,7 @@ final class ReadTest extends BrandTestCase
         $response->assertJsonMissing([
             'data' => [
                 [
-                    'id' => $anotherUser->id
+                    'id' => $anotherUser->id,
                 ],
             ],
         ]);

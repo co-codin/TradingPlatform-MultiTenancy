@@ -34,9 +34,10 @@ abstract class BrandTestCaseV2 extends BaseTestCase
             $this->beginDatabaseTransaction();
         });
 
-        $firstBrand = Brand::first();
+        $firstBrand = Brand::query()->first();
         $firstBrand->makeCurrent();
 
-        $this->withHeader('Tenant', $firstBrand->database);
+
+        $this->withHeader('tenant', $firstBrand->database);
     }
 }

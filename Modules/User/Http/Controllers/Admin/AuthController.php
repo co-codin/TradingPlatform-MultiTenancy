@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\User\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +16,8 @@ use OpenApi\Annotations as OA;
 
 final class AuthController extends Controller
 {
+    public const GUARD = 'web';
+
     public function __construct(
         protected UserStorage $userStorage,
     ) {
@@ -88,7 +89,7 @@ final class AuthController extends Controller
         $login = $request->validated('login');
         $loginType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         if (
-            ! Auth::guard('web')->attempt([
+            ! Auth::guard(self::GUARD)->attempt([
                 $loginType => $login, 'password' => $request->validated('password'),
             ], $request->validated('remember_me', false))
         ) {
@@ -99,7 +100,7 @@ final class AuthController extends Controller
 
         $user = Auth::user();
         if ($user->banned_at) {
-            Auth::logout();
+            Auth::guard(self::GUARD)->logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
             throw ValidationException::withMessages([
@@ -108,7 +109,7 @@ final class AuthController extends Controller
         }
 
         $request->session()->regenerate();
-        $this->userStorage->update($user, ['last_login' => CarbonImmutable::now()]);
+        $this->userStorage->update($user, ['last_login' => $user->freshTimestamp()]);
 
         return response()->noContent();
     }
@@ -138,7 +139,7 @@ final class AuthController extends Controller
      */
     public function logout(Request $request): Response
     {
-        Auth::logout();
+        Auth::guard(self::GUARD)->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
