@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Modules\Sale\Admin\SaleStatus;
 
+use Modules\Brand\Models\Brand;
 use Modules\Sale\Enums\SaleStatusPermission;
 use Modules\Sale\Models\SaleStatus;
 use Tests\BrandTestCaseV2;
@@ -24,6 +25,8 @@ class CreateV2Test extends BrandTestCaseV2
     {
         $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::CREATE_SALE_STATUSES));
 
+        $this->brand->makeCurrent();
+
         $data = SaleStatus::factory()->make()->toArray();
 
         $response = $this->postJson(route('admin.sale-statuses.store'), $data);
@@ -43,6 +46,8 @@ class CreateV2Test extends BrandTestCaseV2
     {
         $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::CREATE_SALE_STATUSES));
 
+        $this->brand->makeCurrent();
+
         $data = SaleStatus::factory()->make()->toArray();
 
         $response = $this->postJson(route('admin.sale-statuses.store'), $data);
@@ -61,6 +66,8 @@ class CreateV2Test extends BrandTestCaseV2
     public function authorized_user_can_create_salestatus_v4(): void
     {
         $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::CREATE_SALE_STATUSES));
+
+        $this->brand->makeCurrent();
 
         $data = SaleStatus::factory()->make()->toArray();
 
