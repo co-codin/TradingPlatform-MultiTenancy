@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace Tests\Feature\Modules\User;
 
 use Modules\Brand\Models\Brand;
-use Modules\Role\Enums\DefaultRole;
 use Modules\Role\Models\Role;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
-use Tests\TestCase;
+use Tests\BrandTestCaseV2;
+use Tests\Traits\HasAuth;
 
-final class UpdateTest extends TestCase
+final class UpdateTest extends BrandTestCaseV2
 {
+    use HasAuth;
+
     /**
      * @test
      */
@@ -27,16 +29,16 @@ final class UpdateTest extends TestCase
                 ->withParent()
                 ->withAffiliate()
                 ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
+            [
+                'change_password' => true,
+                'password_confirmation' => 'admin',
+                'roles' => [
                     [
-                        'change_password' => true,
-                        'password_confirmation' => 'admin',
-                        'roles' => [
-                            [
-                                'id' => Role::factory()->create()->id,
-                            ],
-                        ],
-                    ]
-                ));
+                        'id' => Role::factory()->create()->id,
+                    ],
+                ],
+            ]
+        ));
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -66,8 +68,9 @@ final class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
-        Brand::factory()
+        ($brand = Brand::factory()
             ->create()
+            ->makeCurrent())
             ->users()
             ->sync($users = User::factory(1)->create()->push($this->user));
 
@@ -76,16 +79,16 @@ final class UpdateTest extends TestCase
                 ->withParent()
                 ->withAffiliate()
                 ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
+            [
+                'change_password' => true,
+                'password_confirmation' => 'admin',
+                'roles' => [
                     [
-                        'change_password' => true,
-                        'password_confirmation' => 'admin',
-                        'roles' => [
-                            [
-                                'id' => Role::factory()->create()->id,
-                            ],
-                        ],
-                    ]
-                ));
+                        'id' => Role::factory()->create()->id,
+                    ],
+                ],
+            ]
+        ));
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -125,18 +128,18 @@ final class UpdateTest extends TestCase
                 ->withParent()
                 ->withAffiliate()
                 ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
+            [
+                'change_password' => true,
+                'password_confirmation' => 'admin',
+                'roles' => [
                     [
-                        'change_password' => true,
-                        'password_confirmation' => 'admin',
-                        'roles' => [
-                            [
-                                'id' => Role::factory()->create()->id,
-                            ],
-                        ],
-                    ]
-                ));
+                        'id' => Role::factory()->create()->id,
+                    ],
+                ],
+            ]
+        ));
 
-        $response->assertForbidden();
+        $response->assertNotFound();
     }
 
     /**
@@ -153,16 +156,16 @@ final class UpdateTest extends TestCase
                 ->withParent()
                 ->withAffiliate()
                 ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
+            [
+                'change_password' => true,
+                'password_confirmation' => 'admin',
+                'roles' => [
                     [
-                        'change_password' => true,
-                        'password_confirmation' => 'admin',
-                        'roles' => [
-                            [
-                                'id' => Role::factory()->create()->id,
-                            ],
-                        ],
-                    ]
-                ));
+                        'id' => Role::factory()->create()->id,
+                    ],
+                ],
+            ]
+        ));
 
         $response->assertNotFound();
     }
@@ -181,15 +184,15 @@ final class UpdateTest extends TestCase
                 ->withParent()
                 ->withAffiliate()
                 ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
+            [
+                'password_confirmation' => 'admin',
+                'roles' => [
                     [
-                        'password_confirmation' => 'admin',
-                        'roles' => [
-                            [
-                                'id' => Role::factory()->create()->id,
-                            ],
-                        ],
-                    ]
-                ));
+                        'id' => Role::factory()->create()->id,
+                    ],
+                ],
+            ]
+        ));
 
         $response->assertForbidden();
     }

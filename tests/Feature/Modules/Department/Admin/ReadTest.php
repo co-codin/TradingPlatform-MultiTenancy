@@ -1,12 +1,10 @@
 <?php
 
-namespace Tests\Feature\Modules\Department;
+namespace Tests\Feature\Modules\Department\Admin;
 
-use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Department\Enums\DepartmentPermission;
 use Modules\Department\Models\Department;
-use Modules\Role\Models\Permission;
 use Modules\User\Models\User;
 use Tests\TestCase;
 
@@ -18,8 +16,10 @@ class ReadTest extends TestCase
      * Test authorized user can get departments list.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_authorized_user_can_get_departments_list(): void
+    public function authorized_user_can_get_departments_list(): void
     {
         $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::VIEW_DEPARTMENTS));
 
@@ -37,16 +37,19 @@ class ReadTest extends TestCase
                     'title' => $department->title,
                     'is_active' => $department->is_active,
                     'is_default' => $department->is_default,
-                ]
-            ]
+                ],
+            ],
         ]);
     }
+
     /**
      * Test unauthorized user cant get departments list.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_unauthorized_user_cant_get_departments_list(): void
+    public function unauthorized_user_cant_get_departments_list(): void
     {
         Department::factory()->create();
 
@@ -54,12 +57,15 @@ class ReadTest extends TestCase
 
         $response->assertUnauthorized();
     }
+
     /**
      * Test authorized user can get department.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_authorized_user_can_get_country(): void
+    public function authorized_user_can_get_country(): void
     {
         $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::VIEW_DEPARTMENTS));
 
@@ -76,15 +82,18 @@ class ReadTest extends TestCase
                 'title' => $department->title,
                 'is_active' => $department->is_active,
                 'is_default' => $department->is_default,
-            ]
+            ],
         ]);
     }
+
     /**
      * Test unauthorized user cant get department.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_unauthorized_user_cant_get_country(): void
+    public function unauthorized_user_cant_get_country(): void
     {
         $department = Department::factory()->create();
 
