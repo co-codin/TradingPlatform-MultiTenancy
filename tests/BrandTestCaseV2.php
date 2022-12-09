@@ -4,39 +4,31 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use DB;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Event;
 use Modules\Brand\Models\Brand;
 use Spatie\Multitenancy\Concerns\UsesMultitenancyConfig;
-use Spatie\Multitenancy\Events\MadeTenantCurrentEvent;
 
 abstract class BrandTestCaseV2 extends BaseTestCase
 {
-    use CreatesApplication, DatabaseTransactions, UsesMultitenancyConfig;
+    use CreatesApplication;
+    use UsesMultitenancyConfig;
 
-    protected function connectionsToTransact()
-    {
-        return [
-            $this->landlordDatabaseConnectionName(),
-            $this->tenantDatabaseConnectionName(),
-        ];
-    }
+    protected static $setUpRun = false;
 
     protected function setUp(): void
     {
         parent::setUp();
+        if (!static::$setUpRun) {
+            // $schemas = Brand::get();
+            // foreach ($schemas as $schema) {
+            //     DB::unprepared("DROP SCHEMA IF EXISTS {$schema->database} CASCADE;");
+            // }
+            // Artisan::call('migrate:fresh --seed');
+            static::$setUpRun = true;
+        }
 
-        Artisan::call('migrate --seed --database=landlord');
-
-        Event::listen(MadeTenantCurrentEvent::class, function () {
-            $this->beginDatabaseTransaction();
-        });
-
-        $firstBrand = Brand::first();
-        $firstBrand->makeCurrent();
-
-        $this->withHeader('Tenant', $firstBrand->database);
+        Brand::first()->makeCurrent();
     }
 }
