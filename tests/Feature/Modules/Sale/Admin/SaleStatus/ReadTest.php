@@ -6,11 +6,11 @@ namespace Tests\Feature\Modules\Sale\Admin\SaleStatus;
 
 use Modules\Sale\Enums\SaleStatusPermission;
 use Modules\Sale\Models\SaleStatus;
-use Tests\BrandTestCaseV2;
+use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 
-class ReadTest extends BrandTestCaseV2
+class ReadTest extends BrandTestCase
 {
     use TenantAware, HasAuth;
 

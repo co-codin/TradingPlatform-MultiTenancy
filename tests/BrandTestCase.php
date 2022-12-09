@@ -4,61 +4,48 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use App\Services\Tenant\DatabaseManipulator;
+use DB;
+use Doctrine\DBAL\Schema\Schema;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Testing\TestResponse;
-use Modules\Brand\Jobs\MigrateSchemaJob;
+use Illuminate\Support\Facades\Artisan;
 use Modules\Brand\Models\Brand;
-use Nwidart\Modules\Facades\Module;
+use Spatie\Multitenancy\Concerns\UsesMultitenancyConfig;
+use Spatie\Multitenancy\Models\Tenant;
 
 abstract class BrandTestCase extends BaseTestCase
 {
     use CreatesApplication;
+    use UsesMultitenancyConfig;
 
     public Brand $brand;
+    protected static $setUpRun = false;
 
-    public function migrateModules(array $modules, array $availableModules = [])
-    {
-        MigrateSchemaJob::dispatchSync($this->brand, $modules, $availableModules ?: array_keys(Module::all()));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->brand = Brand::factory()->create();
+        if (!static::$setUpRun) {
+            Artisan::call('migrate:fresh --seed');
+            static::$setUpRun = true;
+        }
 
-        (new DatabaseManipulator)->createSchema($this->brand->slug);
-
-        $this->withHeader('Tenant', $this->brand->slug);
+        $this->brand = Brand::first();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function tearDown(): void
-    {
-        $this->brand->delete();
 
-        parent::tearDown();
-    }
-
-    /**
-     * Import.
-     *
-     * @param  array  $modules
-     * @return TestResponse
-     */
-    protected function import(array $modules): TestResponse
+    public static function tearDownAfterClass(): void
     {
-        return $this->post(
-            route('admin.brands.db.import', ['brand' => $this->brand]),
-            [
-                'modules' => $modules,
-            ]
-        );
+        $instance = new static();
+        $instance->refreshApplication();
+
+
+        $schemas = Brand::get();
+        foreach ($schemas as $schema) {
+            DB::unprepared("DROP SCHEMA IF EXISTS {$schema->database} CASCADE;");
+        }
+
+        Artisan::call('migrate:reset');
+
+        $instance->tearDown();
     }
 }
