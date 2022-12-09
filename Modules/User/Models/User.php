@@ -7,6 +7,7 @@ namespace Modules\User\Models;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -33,6 +34,8 @@ use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
  * @property string $first_name
  * @property string $last_name
  * @property string $email
+ * @property int|null $affiliate_id
+ * @property boolean $show_on_scoreboards
  * @property-read Role $role
  * @property-read Role[]|Collection $roles
  * @property-read Brand[]|Collection $brands
@@ -40,6 +43,7 @@ use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
  * @property-read Desk[]|Collection $desks
  * @property-read Language[]|Collection $languages
  * @property-read DisplayOption[]|Collection $displayOptions
+ * @property-read User $affiliate
  *
  * @method static self create(array $attributes)
  */
@@ -76,9 +80,13 @@ final class User extends Authenticatable
      * {@inheritdoc}
      */
     protected $casts = [
+        'show_on_scoreboards' => 'boolean',
         'banned_at' => 'datetime',
         'email_verified_at' => 'datetime',
         'last_login' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     /**
@@ -182,6 +190,16 @@ final class User extends Authenticatable
     public function displayOptions(): HasMany
     {
         return $this->hasMany(DisplayOption::class);
+    }
+
+    /**
+     * Affiliate relation.
+     *
+     * @return BelongsTo
+     */
+    public function affiliate(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'affiliate_id', 'id');
     }
 
     public function setEmailAttribute(string $value): void
