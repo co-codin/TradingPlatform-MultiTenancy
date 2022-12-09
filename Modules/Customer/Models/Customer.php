@@ -52,6 +52,21 @@ final class Customer extends Authenticatable
     use UsesTenantConnection;
 
     /**
+     * @var array
+     */
+    public const WORKER_COLUMNS_FOR_EMAILING = [
+        'affiliate_user_id',
+        'conversion_user_id',
+        'retention_user_id',
+        'compliance_user_id',
+        'support_user_id',
+        'conversion_manager_user_id',
+        'retention_manager_user_id',
+        'first_conversion_user_id',
+        'first_retention_user_id',
+    ];
+
+    /**
      * {@inheritdoc}
      */
     protected $guarded = ['id'];
