@@ -52,9 +52,10 @@ trait HasAuth
                 'email' => $email,
             ]);
 
-        $role = Role::factory()->create([
-            'name' => DefaultRole::ADMIN,
-        ]);
+        $role = Role::where('name', DefaultRole::ADMIN)->first() ??
+            Role::factory()->create([
+                'name' => DefaultRole::ADMIN,
+            ]);
 
         $user->roles()->sync($role);
 
@@ -76,6 +77,7 @@ trait HasAuth
     ): void {
         $email = 'test@service.com';
 
+        /** @var User $user */
         $user = User::whereEmail($email)->first() ??
             User::factory()->create([
                 'email' => $email,
@@ -87,7 +89,7 @@ trait HasAuth
                 'guard_name' => $guard,
             ]);
 
-        $user->givePermissionTo($permission->name);
+        $user->permissions()->syncWithoutDetaching($permission);
 
         $this->setUser($user);
 

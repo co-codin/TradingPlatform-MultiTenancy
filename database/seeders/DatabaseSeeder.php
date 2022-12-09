@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -23,7 +25,7 @@ final class DatabaseSeeder extends Seeder
             RoleDatabaseSeeder::class,
             UserDatabaseSeeder::class,
             BrandDatabaseSeeder::class,
-            //            GeoDatabaseSeeder::class,
+            //GeoDatabaseSeeder::class,
         ]);
 
         Tenant::checkCurrent()

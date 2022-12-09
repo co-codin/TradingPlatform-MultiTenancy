@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('password');
             $table->boolean('is_active')->default(true);
             $table->bigInteger('target')->nullable();
+            $table->foreignId('affiliate_id')->nullable()->constrained()->on('users');
+            $table->boolean('show_on_scoreboards')->default(false);
             $table->nestedSet();
             $table->rememberToken();
             $table->softDeletes();

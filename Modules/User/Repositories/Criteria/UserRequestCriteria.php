@@ -24,6 +24,8 @@ final class UserRequestCriteria extends BaseCriteria
         'created_at',
         'parent_id',
         'email',
+        'affiliate_id',
+        'show_on_scoreboards',
         'updated_at',
         'deleted_at',
     ];
@@ -44,6 +46,8 @@ final class UserRequestCriteria extends BaseCriteria
                 AllowedFilter::partial('username'),
                 AllowedFilter::partial('email'),
                 AllowedFilter::partial('last_name'),
+                AllowedFilter::partial('affiliate_id'),
+                AllowedFilter::partial('show_on_scoreboards'),
                 AllowedFilter::custom('live', new LiveFilter([
                     'id' => '=',
                     'username' => 'like',
@@ -63,6 +67,11 @@ final class UserRequestCriteria extends BaseCriteria
                 'descendants',
                 'children',
                 'brands',
+                'desks',
+                'departments',
+                'languages',
+                'displayOptions',
+                'affiliate',
             ])
             ->allowedSorts([
                 'id',

@@ -6,6 +6,8 @@ namespace Tests\Feature\Modules\Customer\Admin;
 
 use Modules\Customer\Enums\CustomerPermission;
 use Modules\Customer\Models\Customer;
+use Modules\Role\Enums\ModelHasPermissionStatus;
+use Modules\Role\Models\Permission;
 use Tests\TestCase;
 
 final class UpdateTest extends TestCase
@@ -25,6 +27,48 @@ final class UpdateTest extends TestCase
         $data = Customer::factory()->make();
 
         $response = $this->patchJson(route('admin.customers.update', ['customer' => $customer->id]), $data->toArray());
+        $response->assertOk();
+
+        $response->assertJsonStructure([
+            'data' => array_keys($data->toArray()),
+        ]);
+    }
+
+    /**
+     * Test authorized user can update customer.
+     *
+     * @return void
+     *
+     * @test
+     */
+    public function authorized_user_can_update_customer_permissions_with_pivot(): void
+    {
+        $this->authenticateWithPermission(CustomerPermission::fromValue(CustomerPermission::EDIT_CUSTOMERS));
+
+        $customer = Customer::factory()->create();
+        $data['permissions'] = [
+            [
+                'id' => Permission::factory()->create()->id,
+                'status' => ModelHasPermissionStatus::ACTIVE,
+            ],
+            [
+                'id' => Permission::factory()->create()->id,
+                'status' => ModelHasPermissionStatus::ACTIVE,
+                'data' => [
+                    'reason' => 'reason',
+                ],
+            ],
+            [
+                'id' => Permission::factory()->create()->id,
+                'status' => ModelHasPermissionStatus::SUSPENDED,
+                'data' => [
+                    'reason' => 'reason',
+                ],
+            ],
+        ];
+
+        $response = $this->patchJson(route('admin.customers.update', ['customer' => $customer->id]), $data);
+
         $response->assertOk();
 
         $response->assertJsonStructure([

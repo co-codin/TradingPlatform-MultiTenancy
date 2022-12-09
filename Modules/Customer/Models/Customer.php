@@ -38,7 +38,7 @@ use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
  * @property string $updated_at
  * @property string $deleted_at
  */
-class Customer extends Authenticatable
+final class Customer extends Authenticatable
 {
     use HasFactory;
     use SoftDeletes;
@@ -47,12 +47,21 @@ class Customer extends Authenticatable
     use HasApiTokens;
     use UsesTenantConnection;
 
+    /**
+     * {@inheritdoc}
+     */
     protected $guarded = ['id'];
 
+    /**
+     * {@inheritdoc}
+     */
     protected $hidden = [
         'password',
     ];
 
+    /**
+     * {@inheritdoc}
+     */
     protected $casts = [
         'last_online' => 'datetime',
         'first_autologin_time' => 'datetime',
@@ -88,7 +97,10 @@ class Customer extends Authenticatable
         return $this->belongsTo(Country::class);
     }
 
-    protected static function newFactory()
+    /**
+     * {@inheritDoc}
+     */
+    protected static function newFactory(): CustomerFactory
     {
         return CustomerFactory::new();
     }

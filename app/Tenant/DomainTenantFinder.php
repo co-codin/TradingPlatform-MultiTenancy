@@ -14,7 +14,7 @@ class DomainTenantFinder extends TenantFinder
 
     public function findForRequest(Request $request): ?Tenant
     {
-        $domain = $request->header('Tenant');
+        $domain = $request->header('tenant');
 
         if (!$domain) {
             throw new Exception(__('Tenant header is required.'));
