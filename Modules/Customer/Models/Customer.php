@@ -116,8 +116,6 @@ final class Customer extends Authenticatable
      */
     public function getBrand(): ?Brand
     {
-        return app(Tenant::class)->current() instanceof Brand ?
-            app(Tenant::class)->current() :
-            null;
+        return app(Tenant::class)->current();
     }
 }
