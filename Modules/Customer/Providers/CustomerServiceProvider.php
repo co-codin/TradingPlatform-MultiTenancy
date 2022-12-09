@@ -27,4 +27,14 @@ final class CustomerServiceProvider extends BaseModuleServiceProvider
     {
         return 'Customer';
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function boot(): void
+    {
+        parent::boot();
+
+        $this->registerViews();
+    }
 }

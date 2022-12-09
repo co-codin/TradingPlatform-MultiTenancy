@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Brand\Models\Brand;
 use Modules\Customer\Database\factories\CustomerFactory;
 use Modules\Customer\Events\CustomerSaving;
 use Modules\Customer\Models\Traits\CustomerRelations;
@@ -34,6 +35,8 @@ use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
  * @property int|null $retention_manager_user_id
  * @property int|null $first_conversion_user_id
  * @property int|null $first_retention_user_id
+ * @property int|null $conversion_sale_status_id
+ * @property int|null $retention_sale_status_id
  * @property string $created_at
  * @property string $updated_at
  * @property string $deleted_at
@@ -88,6 +91,14 @@ final class Customer extends Authenticatable
     protected $rememberTokenName = false;
 
     /**
+     * {@inheritDoc}
+     */
+    protected static function newFactory(): CustomerFactory
+    {
+        return CustomerFactory::new();
+    }
+
+    /**
      * Country relation.
      *
      * @return BelongsTo
@@ -98,10 +109,12 @@ final class Customer extends Authenticatable
     }
 
     /**
-     * {@inheritDoc}
+     * Get brand.
+     *
+     * @return Brand|null
      */
-    protected static function newFactory(): CustomerFactory
+    public function getBrand(): ?Brand
     {
-        return CustomerFactory::new();
+        return app(Tenant::class)->current();
     }
 }

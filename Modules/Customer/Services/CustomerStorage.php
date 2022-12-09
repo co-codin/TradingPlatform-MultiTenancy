@@ -5,6 +5,7 @@ namespace Modules\Customer\Services;
 use Illuminate\Support\Arr;
 use LogicException;
 use Modules\Customer\Dto\CustomerDto;
+use Modules\Customer\Events\CustomerStored;
 use Modules\Customer\Models\Customer;
 use Illuminate\Support\Facades\Hash;
 
@@ -26,6 +27,8 @@ final class CustomerStorage
         if (!$customer) {
             throw new LogicException(__('Can not create customer'));
         }
+
+        event(new CustomerStored($customer, dto: $dto));
 
         return $customer;
     }
@@ -85,8 +88,10 @@ final class CustomerStorage
      */
     public function updateOrStore(CustomerDto $dto): Customer
     {
-        if (!$customer = Customer::query()->updateOrCreate($dto->toArray())) {
-            throw new LogicException(__('Can not update or create customer'));
+        if ($customer = Customer::query()->where('email', $dto->email)->first()) {
+            $customer = $this->update($customer, $dto);
+        } else {
+            $customer = $this->store($dto);
         }
 
         return $customer;

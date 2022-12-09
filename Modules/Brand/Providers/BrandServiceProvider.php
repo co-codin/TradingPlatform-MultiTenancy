@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Brand\Providers;
 
 use App\Providers\BaseModuleServiceProvider;
@@ -9,7 +11,7 @@ use Modules\Brand\Commands\BrandMigrationRollbackCommand;
 use Modules\Brand\Models\Brand;
 use Modules\Brand\Policies\BrandPolicy;
 
-class BrandServiceProvider extends BaseModuleServiceProvider
+final class BrandServiceProvider extends BaseModuleServiceProvider
 {
     /**
      * {@inheritdoc}
@@ -41,7 +43,7 @@ class BrandServiceProvider extends BaseModuleServiceProvider
     {
         parent::boot();
 
-        $this->loadMigrationsFrom(module_path($this->getModuleName(), 'Database/Migrations'));
+        $this->loadMigrations();
 
         $this->app->singleton(Migrator::class, function ($app) {
             return $app['migrator'];
