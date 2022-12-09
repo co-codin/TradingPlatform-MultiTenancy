@@ -42,8 +42,6 @@ final class Kernel extends HttpKernel
         ],
 
         'api' => [
-            \App\Http\Middleware\EncryptCookies::class,
-            \Illuminate\Session\Middleware\StartSession::class,
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
@@ -51,8 +49,8 @@ final class Kernel extends HttpKernel
 
         'tenant' => [
             \Spatie\Multitenancy\Http\Middleware\NeedsTenant::class,
-            \Spatie\Multitenancy\Http\Middleware\EnsureValidTenantSession::class
-        ]
+            \Spatie\Multitenancy\Http\Middleware\EnsureValidTenantSession::class,
+        ],
     ];
 
     /**

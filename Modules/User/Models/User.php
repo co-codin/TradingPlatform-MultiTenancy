@@ -25,6 +25,7 @@ use Modules\Role\Models\Role;
 use Modules\Role\Models\Traits\HasRoles;
 use Modules\User\Database\factories\UserFactory;
 use Modules\User\Events\UserCreated;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
 /**
  * Class User
@@ -54,6 +55,7 @@ final class User extends Authenticatable
     use NodeTrait;
     use Notifiable;
     use SoftDeletes;
+    use UsesLandlordConnection;
 
     /**
      * @var string
@@ -113,7 +115,6 @@ final class User extends Authenticatable
     public function scopeByPermissionsAccess($query): Builder
     {
         return match (true) {
-            request()->user()?->isAdmin() => $query,
             request()->user()?->brands()->exists() => $query->whereHas('brands', function ($query) {
                 $query->whereIn(
                     'brands.id',
@@ -123,7 +124,7 @@ final class User extends Authenticatable
                         ->toArray(),
                 );
             }),
-            default => abort(403, __('Cant access get users.')),
+            default => $query,
         };
     }
 
