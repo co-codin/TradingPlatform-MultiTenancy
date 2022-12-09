@@ -8,7 +8,6 @@ use App\Dto\BaseDto;
 
 final class CustomerDto extends BaseDto
 {
-
     /**
      * @var string|null
      */
@@ -106,52 +105,62 @@ final class CustomerDto extends BaseDto
     public ?string $banned_at = null;
 
     /**
-     * @var int|null $affiliate_user_id
+     * @var int|null
      */
     public ?int $affiliate_user_id = null;
 
     /**
-     * @var int|null $affiliate_user_id
+     * @var int|null
      */
     public ?int $conversion_user_id = null;
 
     /**
-     * @var int|null $affiliate_user_id
+     * @var int|null
      */
     public ?int $retention_user_id = null;
 
     /**
-     * @var int|null $affiliate_user_id
+     * @var int|null
      */
     public ?int $compliance_user_id = null;
 
     /**
-     * @var int|null $affiliate_user_id
+     * @var int|null
      */
     public ?int $support_user_id = null;
 
     /**
-     * @var int|null $affiliate_user_id
+     * @var int|null
      */
     public ?int $conversion_manager_user_id = null;
 
     /**
-     * @var int|null $affiliate_user_id
+     * @var int|null
      */
     public ?int $retention_manager_user_id = null;
 
     /**
-     * @var int|null $affiliate_user_id
+     * @var int|null
      */
     public ?int $first_conversion_user_id = null;
 
     /**
-     * @var int|null $affiliate_user_id
+     * @var int|null
      */
     public ?int $first_retention_user_id = null;
 
     /**
-     * @var array $permissions
+     * @var int|null
+     */
+    public ?int $conversion_sale_status_id = null;
+
+    /**
+     * @var int|null
+     */
+    public ?int $retention_sale_status_id = null;
+
+    /**
+     * @var array
      */
     public array $permissions = [];
 }
