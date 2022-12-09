@@ -25,6 +25,8 @@ final class CustomerUpdateRequest extends BaseFormRequest
             'retention_manager_user_id' => 'sometimes|required|exists:users,id',
             'first_conversion_user_id' => 'sometimes|required|exists:users,id',
             'first_retention_user_id' => 'sometimes|required|exists:users,id',
+            'conversion_sale_status_id' => 'sometimes|required|exists:sale_statuses,id',
+            'retention_sale_status_id' => 'sometimes|required|exists:sale_statuses,id',
             'permissions' => 'sometimes|required|array',
             'permissions.*.id' => 'required',
             'permissions.*.status' => [
