@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Modules\Geo\Country\Admin;
 
-use Illuminate\Contracts\Auth\Authenticatable as UserContract;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Str;
 use Modules\Geo\Enums\CountryPermission;
 use Modules\Geo\Models\Country;
-use Modules\Role\Models\Permission;
-use Modules\User\Models\User;
-use Tests\TestCase;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-class DeleteTest extends TestCase
+class DeleteTest extends BrandTestCase
 {
-    use DatabaseTransactions;
+    use TenantAware;
+    use HasAuth;
 
     /**
      * Test authorized user can delete country.
@@ -25,7 +27,9 @@ class DeleteTest extends TestCase
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::DELETE_COUNTRIES));
 
-        $country = Country::factory()->create();
+        $this->brand->makeCurrent();
+
+        $country = Country::factory()->create(static::demoData());
 
         $response = $this->deleteJson(route('admin.countries.destroy', ['country' => $country->id]));
 
@@ -41,10 +45,27 @@ class DeleteTest extends TestCase
      */
     public function unauthorized_user_cant_delete_country(): void
     {
-        $country = Country::factory()->create();
+        $this->brand->makeCurrent();
+
+        $country = Country::factory()->create(static::demoData());
 
         $response = $this->patchJson(route('admin.countries.destroy', ['country' => $country->id]));
 
         $response->assertUnauthorized();
+    }
+
+    /**
+     * Demo Data
+     *
+     * @return array
+     */
+    private function demoData(): array
+    {
+        return [
+            'name' => Str::random(5),
+            'iso2' => Str::random(5),
+            'iso3' => Str::random(5),
+            'currency' => 'CUR',
+        ];
     }
 }
