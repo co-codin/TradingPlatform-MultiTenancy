@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Language\Admin;
 
-use Illuminate\Contracts\Auth\Authenticatable as UserContract;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\Artisan;
 use Modules\Language\Enums\LanguagePermission;
 use Modules\Language\Models\Language;
-use Modules\Role\Models\Permission;
-use Modules\User\Models\User;
-use Tests\TestCase;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-final class ReadTest extends TestCase
+final class ReadTest extends BrandTestCase
 {
-    use DatabaseTransactions;
+    use TenantAware;
+    use HasAuth;
 
     /**
      * Test authorized user can get languages list.
@@ -28,6 +26,8 @@ final class ReadTest extends TestCase
     {
         $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::VIEW_LANGUAGES));
 
+        $this->brand->makeCurrent();
+
         $language = Language::factory()->create();
 
         $response = $this->getJson(route('admin.languages.index'));
@@ -36,11 +36,7 @@ final class ReadTest extends TestCase
 
         $response->assertJson([
             'data' => [
-                [
-                    'id' => $language->id,
-                    'name' => $language->name,
-                    'code' => $language->code,
-                ],
+                $language->toArray(),
             ],
         ]);
     }
@@ -54,6 +50,8 @@ final class ReadTest extends TestCase
      */
     public function unauthorized_user_cant_get_languages_list(): void
     {
+        $this->brand->makeCurrent();
+
         Language::factory()->create();
 
         $response = $this->getJson(route('admin.languages.index'));
@@ -72,6 +70,8 @@ final class ReadTest extends TestCase
     {
         $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::VIEW_LANGUAGES));
 
+        $this->brand->makeCurrent();
+
         $language = Language::factory()->create();
 
         $response = $this->getJson(route('admin.languages.show', ['language' => $language->id]));
@@ -79,11 +79,7 @@ final class ReadTest extends TestCase
         $response->assertOk();
 
         $response->assertJson([
-            'data' => [
-                'id' => $language->id,
-                'name' => $language->name,
-                'code' => $language->code,
-            ],
+            'data' => $language->toArray(),
         ]);
     }
 
@@ -96,23 +92,12 @@ final class ReadTest extends TestCase
      */
     public function unauthorized_user_cant_get_language(): void
     {
+        $this->brand->makeCurrent();
+
         $language = Language::factory()->create();
 
         $response = $this->getJson(route('admin.languages.show', ['language' => $language->id]));
 
         $response->assertUnauthorized();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Artisan::call(sprintf(
-            'brand-migrate --path=%s',
-            "Modules/Brand/DB/Migrations/create_languages_table.php",
-        ));
     }
 }

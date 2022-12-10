@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Language\Admin;
 
-use Illuminate\Contracts\Auth\Authenticatable as UserContract;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\Artisan;
 use Modules\Language\Enums\LanguagePermission;
 use Modules\Language\Models\Language;
-use Modules\Role\Models\Permission;
-use Modules\User\Models\User;
-use Tests\TestCase;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-final class UpdateTest extends TestCase
+final class UpdateTest extends BrandTestCase
 {
-    use DatabaseTransactions;
+    use TenantAware;
+    use HasAuth;
 
     /**
      * Test authorized user can update language.
@@ -27,6 +25,8 @@ final class UpdateTest extends TestCase
     public function authorized_user_can_update_language(): void
     {
         $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::EDIT_LANGUAGES));
+
+        $this->brand->makeCurrent();
 
         $language = Language::factory()->create();
         $data = Language::factory()->make();
@@ -52,6 +52,8 @@ final class UpdateTest extends TestCase
      */
     public function unauthorized_user_cant_update_language(): void
     {
+        $this->brand->makeCurrent();
+
         $language = Language::factory()->create();
         $data = Language::factory()->make();
 
@@ -70,6 +72,8 @@ final class UpdateTest extends TestCase
     public function language_name_exist(): void
     {
         $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::EDIT_LANGUAGES));
+
+        $this->brand->makeCurrent();
 
         $language = Language::factory()->create();
         $targetLanguage = Language::factory()->create();
@@ -91,6 +95,8 @@ final class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::EDIT_LANGUAGES));
 
+        $this->brand->makeCurrent();
+
         $language = Language::factory()->create();
         $targetLanguage = Language::factory()->create();
         $data = Language::factory()->make(['code' => $language->code]);
@@ -111,6 +117,8 @@ final class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::EDIT_LANGUAGES));
 
+        $this->brand->makeCurrent();
+
         $language = Language::factory()->create();
         $data = Language::factory()->make(['name' => null])->toArray();
 
@@ -130,6 +138,8 @@ final class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::EDIT_LANGUAGES));
 
+        $this->brand->makeCurrent();
+
         $language = Language::factory()->create();
         $data = Language::factory()->make(['code' => null])->toArray();
 
@@ -148,6 +158,8 @@ final class UpdateTest extends TestCase
     public function language_name_is_string(): void
     {
         $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::EDIT_LANGUAGES));
+
+        $this->brand->makeCurrent();
 
         $language = Language::factory()->create();
         $data = Language::factory()->make();
@@ -169,6 +181,8 @@ final class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::EDIT_LANGUAGES));
 
+        $this->brand->makeCurrent();
+
         $language = Language::factory()->create();
         $data = Language::factory()->make();
         $data->code = 1;
@@ -176,18 +190,5 @@ final class UpdateTest extends TestCase
         $response = $this->patchJson(route('admin.languages.update', ['language' => $language->id]), $data->toArray());
 
         $response->assertUnprocessable();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Artisan::call(sprintf(
-            'brand-migrate --path=%s',
-            "Modules/Brand/DB/Migrations/create_languages_table.php",
-        ));
     }
 }

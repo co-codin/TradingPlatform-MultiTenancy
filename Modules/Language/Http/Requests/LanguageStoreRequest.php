@@ -16,8 +16,8 @@ final class LanguageStoreRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|unique:languages,name',
-            'code' => 'required|string|unique:languages,code',
+            'name' => 'required|string|unique:tenant.languages,name',
+            'code' => 'required|string|unique:tenant.languages,code',
         ];
     }
 }
