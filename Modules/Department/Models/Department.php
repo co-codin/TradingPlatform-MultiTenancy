@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Department\Models;
 
+use App\Relationships\Traits\WhereHasForTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -12,7 +13,6 @@ use Modules\Customer\Models\Customer;
 use Modules\Department\Database\factories\DepartmentFactory;
 use Modules\User\Models\User;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
-use Spatie\Multitenancy\Models\Tenant;
 
 /**
  * Class Department
@@ -31,6 +31,7 @@ class Department extends Model
     use HasFactory;
     use SoftDeletes;
     use UsesTenantConnection;
+    use WhereHasForTenant;
 
     /**
      * {@inheritdoc}
@@ -38,15 +39,6 @@ class Department extends Model
     protected $guarded = [
         'id',
     ];
-
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        if ($tenant = Tenant::current()) {
-            $this->table = $tenant->getDatabaseName() . '.' . $this->getTable();
-        }
-    }
 
     /**
      * {@inheritDoc}
@@ -68,8 +60,6 @@ class Department extends Model
      */
     public function users(): BelongsToMany
     {
-        $tenant = Tenant::current() ? Tenant::current()->getDatabaseName() . '.' : '';
-
-        return $this->belongsToMany(User::class, $tenant . 'user_department');
+        return $this->belongsToManyTenant(User::class, 'user_department');
     }
 }
