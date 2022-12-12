@@ -7,7 +7,6 @@ namespace Modules\TelephonyProvider\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Modules\User\Models\User;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
@@ -38,12 +37,12 @@ final class TelephonyExtension extends Model
     }
 
     /**
-     * Language relation.
+     * Provider relation.
      *
      * @return BelongsTo
      */
-    public function user(): BelongsTo
+    public function provider(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(TelephonyProvider::class);
     }
 }

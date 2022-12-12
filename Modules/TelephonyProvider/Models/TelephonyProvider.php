@@ -38,7 +38,7 @@ final class TelephonyProvider extends Model
     }
 
     /**
-     * Language relation.
+     * User relation.
      *
      * @return BelongsTo
      */

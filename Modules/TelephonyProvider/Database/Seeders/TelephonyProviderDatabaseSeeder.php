@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\TelephonyProvider\Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
+use Modules\TelephonyProvider\Models\TelephonyExtension;
+use Modules\TelephonyProvider\Models\TelephonyProvider;
 
-class TelephonyProviderDatabaseSeeder extends Seeder
+final class TelephonyProviderDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,6 +20,7 @@ class TelephonyProviderDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+        TelephonyProvider::factory()->count(10)->create();
+        TelephonyExtension::factory()->count(10)->create();
     }
 }
