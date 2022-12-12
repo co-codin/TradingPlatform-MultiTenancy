@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Config\Admin\Config;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Config\Enums\ConfigPermission;
 use Modules\Config\Models\Config;
-use Tests\TestCase;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-final class ReadTest extends TestCase
+final class ReadTest extends BrandTestCase
 {
-    use DatabaseTransactions;
+    use TenantAware;
+    use HasAuth;
 
     /**
      * Test authorized user can get configs list.
@@ -23,6 +25,8 @@ final class ReadTest extends TestCase
     final public function authorized_user_can_get_configs_list(): void
     {
         $this->authenticateWithPermission(ConfigPermission::fromValue(ConfigPermission::VIEW_CONFIGS));
+
+        $this->brand->makeCurrent();
 
         $config = Config::factory()->create();
 
@@ -46,6 +50,8 @@ final class ReadTest extends TestCase
      */
     final public function unauthorized_user_cant_get_configs_list(): void
     {
+        $this->brand->makeCurrent();
+
         Config::factory()->create();
 
         $response = $this->getJson(route('admin.configs.index'));
@@ -63,6 +69,8 @@ final class ReadTest extends TestCase
     final public function authorized_user_can_get_config(): void
     {
         $this->authenticateWithPermission(ConfigPermission::fromValue(ConfigPermission::VIEW_CONFIGS));
+
+        $this->brand->makeCurrent();
 
         $config = Config::factory()->create();
 
@@ -84,6 +92,8 @@ final class ReadTest extends TestCase
      */
     final public function unauthorized_user_cant_get_config(): void
     {
+        $this->brand->makeCurrent();
+
         $config = Config::factory()->create();
 
         $response = $this->getJson(route('admin.configs.show', ['config' => $config->id]));
