@@ -18,4 +18,14 @@ final class CommunicationProviderServiceProvider extends BaseModuleServiceProvid
     {
         return 'CommunicationProvider';
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function boot(): void
+    {
+        parent::boot();
+
+        $this->loadMigrations();
+    }
 }

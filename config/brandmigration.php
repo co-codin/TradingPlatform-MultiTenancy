@@ -12,7 +12,6 @@ return [
         'Desk' => 'Desk',
         'Sale' => 'Sale',
         'Customer' => 'Customer',
-        'CommunicationProvider' => 'CommunicationProvider',
     ],
 
 ];

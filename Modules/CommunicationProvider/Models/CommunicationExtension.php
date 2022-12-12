@@ -11,13 +11,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\User\Models\User;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
 final class CommunicationExtension extends Model
 {
     use HasFactory;
     use LogsActivity;
-    use UsesTenantConnection;
+    use UsesLandlordConnection;
 
     protected $guarded = ['id'];
 

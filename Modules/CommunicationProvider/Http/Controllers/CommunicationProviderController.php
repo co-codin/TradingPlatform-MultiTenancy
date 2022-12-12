@@ -145,11 +145,11 @@ final class CommunicationProviderController extends Controller
      */
     public function show(int $id): JsonResource
     {
-        $CommunicationProvider = $this->repository->find($id);
+        $communicationProvider = $this->repository->find($id);
 
-        $this->authorize('view', $CommunicationProvider);
+        $this->authorize('view', $communicationProvider);
 
-        return new CommunicationProviderResource($CommunicationProvider);
+        return new CommunicationProviderResource($communicationProvider);
     }
 
     /**

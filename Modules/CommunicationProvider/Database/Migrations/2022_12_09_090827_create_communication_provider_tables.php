@@ -28,10 +28,6 @@ return new class extends Migration
             $table->foreignId('provider_id')->constrained('communication_providers');
             $table->timestamps();
         });
-
-        Schema::table('public.users', function (Blueprint $table) {
-            $table->foreignId('com_provider_id')->constrained('communication_providers');
-        });
     }
 
     /**
@@ -41,7 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_com_provider');
         Schema::dropIfExists('communication_extensions');
         Schema::dropIfExists('communication_providers');
     }
