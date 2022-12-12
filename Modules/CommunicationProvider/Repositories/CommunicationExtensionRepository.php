@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Modules\Sale\Repositories;
+namespace Modules\CommunicationProvider\Repositories;
 
 use App\Repositories\BaseRepository;
 use Modules\CommunicationProvider\Models\CommunicationExtension;
-use Modules\Sale\Repositories\Criteria\CommunicationExtensionRequestCriteria;
+use Modules\CommunicationProvider\Repositories\Criteria\CommunicationExtensionRequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
 
 final class CommunicationExtensionRepository extends BaseRepository

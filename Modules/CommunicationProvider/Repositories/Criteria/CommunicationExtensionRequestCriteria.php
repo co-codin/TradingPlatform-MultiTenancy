@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\Sale\Repositories\Criteria;
+namespace Modules\CommunicationProvider\Repositories\Criteria;
 
 use App\Repositories\Criteria\BaseCriteria;
 use Prettus\Repository\Contracts\RepositoryInterface;

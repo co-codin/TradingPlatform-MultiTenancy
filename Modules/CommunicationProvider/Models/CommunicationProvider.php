@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\CommunicationProvider\Models;
 
-use CommunicationProviderFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Modules\CommunicationProvider\Database\factories\CommunicationProviderFactory;
 use Modules\User\Models\User;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;

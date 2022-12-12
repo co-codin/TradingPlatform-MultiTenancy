@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Modules\CommunicationProvider\Database\factories;
+
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\CommunicationProvider\Models\CommunicationExtension;
 use Modules\CommunicationProvider\Models\CommunicationProvider;

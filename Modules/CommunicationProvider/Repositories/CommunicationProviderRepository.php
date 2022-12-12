@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Modules\CommunicationProvider\Repositories;
 
 use App\Repositories\BaseRepository;
-use Modules\Sale\Repositories\Criteria\CommunicationProviderRequestCriteria;
+use Modules\CommunicationProvider\Repositories\Criteria\CommunicationProviderRequestCriteria;
 use Modules\CommunicationProvider\Models\CommunicationProvider;
 use Prettus\Repository\Exceptions\RepositoryException;
 
