@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class DeleteTest extends TestCase
 {
-    use DatabaseTransactions, CustomerAdminTrait;
+    use DatabaseTransactions;
 
     /**
      * Test authorized user can delete customer.
