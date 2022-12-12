@@ -21,15 +21,24 @@ use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 class DepartmentController extends Controller
 {
     /**
-     * @param DepartmentRepository $repository
+     * @param DepartmentRepository $departmentRepository
      * @param DepartmentStorage $storage
      */
     public function __construct(
-        protected DepartmentRepository $repository,
-        protected DepartmentStorage $storage,
+        protected DepartmentRepository $departmentRepository,
+        protected DepartmentStorage    $storage,
     )
     {
         //
+    }
+
+    public function all(): JsonResource
+    {
+        $this->authorize('viewAny');
+
+        $departments = $this->departmentRepository->all();
+
+        return DepartmentResource::collection($departments);
     }
 
     /**
@@ -64,7 +73,7 @@ class DepartmentController extends Controller
     {
         $this->authorize('viewAny', Department::class);
 
-        return DepartmentResource::collection($this->repository->jsonPaginate());
+        return DepartmentResource::collection($this->departmentRepository->jsonPaginate());
     }
 
     /**
@@ -172,7 +181,7 @@ class DepartmentController extends Controller
      */
     public function show(int $id): JsonResource
     {
-        $department = $this->repository->find($id);
+        $department = $this->departmentRepository->find($id);
 
         $this->authorize('view', $department);
 
@@ -247,7 +256,7 @@ class DepartmentController extends Controller
      */
     public function update(DepartmentUpdateRequest $request, int $id): JsonResource
     {
-        $department = $this->repository->find($id);
+        $department = $this->departmentRepository->find($id);
 
         $this->authorize('update', $department);
 
@@ -297,7 +306,7 @@ class DepartmentController extends Controller
      */
     public function destroy(int $id): Response
     {
-        $department = $this->repository->find($id);
+        $department = $this->departmentRepository->find($id);
 
         $this->authorize('delete', $department);
 
