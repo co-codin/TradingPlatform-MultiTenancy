@@ -7,6 +7,7 @@ namespace Modules\Customer\Models\Traits;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
+use Modules\Geo\Models\Country;
 use Modules\Sale\Models\SaleStatus;
 use Modules\User\Models\User;
 
@@ -33,6 +34,16 @@ trait CustomerRelations
     }
 
     /**
+     * Country relation.
+     *
+     * @return BelongsTo
+     */
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    /**
      * Affiliate user.
      *
      * @return BelongsTo
@@ -40,6 +51,86 @@ trait CustomerRelations
     final public function affiliateUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'affiliate_user_id', 'id');
+    }
+
+    /**
+     * Conversion user.
+     *
+     * @return BelongsTo
+     */
+    final public function conversionUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'conversion_user_id', 'id');
+    }
+
+    /**
+     * Retention user.
+     *
+     * @return BelongsTo
+     */
+    final public function retentionUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'retention_user_id', 'id');
+    }
+
+    /**
+     * Compliance user.
+     *
+     * @return BelongsTo
+     */
+    final public function complianceUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'compliance_user_id', 'id');
+    }
+
+    /**
+     * Support user.
+     *
+     * @return BelongsTo
+     */
+    final public function supportUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'support_user_id', 'id');
+    }
+
+    /**
+     * Conversion manager user.
+     *
+     * @return BelongsTo
+     */
+    final public function conversionManageUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'conversion_manager_user_id', 'id');
+    }
+
+    /**
+     * Retention manager user.
+     *
+     * @return BelongsTo
+     */
+    final public function retentionManageUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'retention_manager_user_id', 'id');
+    }
+
+    /**
+     * First conversion user.
+     *
+     * @return BelongsTo
+     */
+    final public function firstConversionUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'first_conversion_user_id', 'id');
+    }
+
+    /**
+     * First retention user.
+     *
+     * @return BelongsTo
+     */
+    final public function firstRetentionUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'first_retention_user_id', 'id');
     }
 
     /**

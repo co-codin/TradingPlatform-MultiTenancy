@@ -35,7 +35,7 @@ use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
  * @property string $last_name
  * @property string $email
  * @property int|null $affiliate_id
- * @property boolean $show_on_scoreboards
+ * @property bool $show_on_scoreboards
  * @property-read Role $role
  * @property-read Role[]|Collection $roles
  * @property-read Brand[]|Collection $brands
@@ -126,6 +126,17 @@ final class User extends Authenticatable
             }),
             default => $query,
         };
+    }
+
+    public function belongsToMany(
+        $related,
+        $table = null,
+        $foreignPivotKey = null,
+        $relatedPivotKey = null,
+        $parentKey = null,
+        $relatedKey = null,
+        $relation = null
+    ) {
     }
 
     public function toArray()
