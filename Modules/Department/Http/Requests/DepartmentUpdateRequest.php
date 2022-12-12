@@ -14,8 +14,8 @@ class DepartmentUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => "sometimes|required|string|unique:departments,name,{$this->route('department')}",
-            'title' => "sometimes|required|string|unique:departments,title,{$this->route('department')}",
+            'name' => "sometimes|required|string|unique:tenant.departments,name,{$this->route('department')}",
+            'title' => "sometimes|required|string|unique:tenant.departments,title,{$this->route('department')}",
             'is_active' => "sometimes|required|boolean",
             'is_default' => "sometimes|required|boolean",
         ];

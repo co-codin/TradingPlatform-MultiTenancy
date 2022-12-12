@@ -26,6 +26,7 @@ use Modules\Role\Models\Traits\HasRoles;
 use Modules\User\Database\factories\UserFactory;
 use Modules\User\Events\UserCreated;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
+use Spatie\Multitenancy\Models\Tenant;
 
 /**
  * Class User
@@ -95,6 +96,13 @@ final class User extends Authenticatable
     protected $dispatchesEvents = [
         'created' => UserCreated::class,
     ];
+
+    /**
+     * table
+     *
+     * @var string
+     */
+    protected $table = 'public.users';
 
     /**
      * {@inheritDoc}
@@ -170,7 +178,9 @@ final class User extends Authenticatable
      */
     public function departments(): BelongsToMany
     {
-        return $this->belongsToMany(Department::class, 'user_department');
+        $tenant = Tenant::current() ? Tenant::current()->getDatabaseName() . '.' : '';
+
+        return $this->belongsToMany(Department::class, $tenant . 'user_department');
     }
 
     /**
