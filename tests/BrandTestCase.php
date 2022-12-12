@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use DB;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Modules\Brand\Models\Brand;
 use Spatie\Multitenancy\Concerns\UsesMultitenancyConfig;
 
