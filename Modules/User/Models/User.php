@@ -19,6 +19,7 @@ use Kalnoy\Nestedset\NodeTrait;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Brand\Models\Brand;
 use Modules\Communication\Models\Comment;
+use Modules\CommunicationProvider\Models\CommunicationProvider;
 use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
 use Modules\Language\Models\Language;
@@ -219,5 +220,10 @@ final class User extends Authenticatable
     public function setUsernameAttribute(string $value): void
     {
         $this->attributes['username'] = strtolower($value);
+    }
+
+    public function comProvider(): BelongsTo
+    {
+        return $this->belongsTo(CommunicationProvider::class, 'com_provider_id');
     }
 }

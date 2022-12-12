@@ -13,5 +13,5 @@
     "Sale": true,
     "Media": true,
     "Communication": true,
-    "TelephonyProvider": true
+    "CommunicationProvider": true
 }

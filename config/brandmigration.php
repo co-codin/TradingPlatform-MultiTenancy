@@ -12,7 +12,7 @@ return [
         'Desk' => 'Desk',
         'Sale' => 'Sale',
         'Customer' => 'Customer',
-        'TelephonyProvider' => 'TelephonyProvider',
+        'CommunicationProvider' => 'CommunicationProvider',
     ],
 
 ];
