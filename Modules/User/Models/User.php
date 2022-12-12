@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\User\Models;
 
+use App\Relationships\Traits\WhereHasForTenant;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,7 +27,6 @@ use Modules\Role\Models\Traits\HasRoles;
 use Modules\User\Database\factories\UserFactory;
 use Modules\User\Events\UserCreated;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
-use Spatie\Multitenancy\Models\Tenant;
 
 /**
  * Class User
@@ -57,6 +57,7 @@ final class User extends Authenticatable
     use Notifiable;
     use SoftDeletes;
     use UsesLandlordConnection;
+    use WhereHasForTenant;
 
     /**
      * @var string
@@ -167,9 +168,7 @@ final class User extends Authenticatable
      */
     public function departments(): BelongsToMany
     {
-        $tenant = Tenant::current() ? Tenant::current()->getDatabaseName() . '.' : '';
-
-        return $this->belongsToMany(Department::class, $tenant . 'user_department');
+        return $this->belongsToManyTenant(Department::class, 'user_department');
     }
 
     /**
