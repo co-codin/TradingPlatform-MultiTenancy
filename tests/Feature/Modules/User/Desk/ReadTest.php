@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Tests\Feature\Modules\User\Department;
+namespace Tests\Feature\Modules\User\Desk;
 
 use Illuminate\Foundation\Testing\WithFaker;
-use Modules\Department\Models\Department;
+use Modules\Desk\Models\Desk;
 use Modules\User\Enums\UserPermission;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
@@ -17,15 +15,15 @@ class ReadTest extends BrandTestCase
     use HasAuth;
     use WithFaker;
 
-    public function test_authorized_user_can_read_users_with_departments()
+    public function test_authorized_user_can_read_users_with_desks()
     {
-        $route = '/admin/users?include=departments';
+        $route = '/admin/users?include=desks';
 
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::VIEW_USERS));
 
         $this->brand->makeCurrent();
 
-        $department = Department::factory()->create();
+        $desk = Desk::factory()->create();
 
 
         $response = $this->getJson($route);
