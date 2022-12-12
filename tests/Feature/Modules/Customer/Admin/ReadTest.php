@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class ReadTest extends TestCase
 {
-    use DatabaseTransactions, CustomerAdminTrait;
+    use DatabaseTransactions;
     /**
      * Test authorized user can get customer list.
      *
