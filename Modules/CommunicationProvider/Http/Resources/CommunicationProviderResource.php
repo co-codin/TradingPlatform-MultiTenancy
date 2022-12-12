@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\CommunicationProvider\Http\Resources;
 
 use App\Http\Resources\BaseJsonResource;
-use Illuminate\Http\Request;
 use Modules\CommunicationProvider\Models\CommunicationProvider;
 use OpenApi\Annotations as OA;
 
@@ -55,19 +54,4 @@ use OpenApi\Annotations as OA;
  */
 class CommunicationProviderResource extends BaseJsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @param  Request  $request
-     * @return array
-     */
-    public function toArray($request): array
-    {
-        return [
-            'id' => $this->resource->id,
-            'name' => $this->resource->name,
-            'created_at' => $this->resource->created_at,
-            'updated_at' => $this->resource->updated_at,
-        ];
-    }
 }

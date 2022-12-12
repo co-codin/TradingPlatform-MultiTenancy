@@ -6,7 +6,7 @@ namespace Modules\CommunicationProvider\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
 
-final class CommunicationProviderStoreRequest extends BaseFormRequest
+final class CommunicationExtensionStoreRequest extends BaseFormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -17,6 +17,8 @@ final class CommunicationProviderStoreRequest extends BaseFormRequest
     {
         return [
             'name' => 'required|string',
+            'user_id' => 'required|int|exists:users,id',
+            'provider_id' => 'required|int|exists:communication_providers,id',
         ];
     }
 }

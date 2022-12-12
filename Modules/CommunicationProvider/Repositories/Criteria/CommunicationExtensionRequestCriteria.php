@@ -17,6 +17,8 @@ final class CommunicationExtensionRequestCriteria extends BaseCriteria
     protected static array $allowedModelFields = [
         'id',
         'name',
+        'user_id',
+        'provider_id',
     ];
 
     /**
@@ -32,6 +34,8 @@ final class CommunicationExtensionRequestCriteria extends BaseCriteria
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::partial('name'),
+                AllowedFilter::partial('user_id'),
+                AllowedFilter::partial('provider_id'),
                 AllowedFilter::partial('created_at'),
                 AllowedFilter::partial('updated_at'),
                 AllowedFilter::trashed(),

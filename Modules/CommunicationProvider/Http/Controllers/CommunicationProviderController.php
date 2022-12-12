@@ -21,8 +21,8 @@ use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 final class CommunicationProviderController extends Controller
 {
     public function __construct(
-        protected CommunicationProviderRepository $repository,
-        protected CommunicationProviderStorage $storage,
+        private readonly CommunicationProviderRepository $repository,
+        private readonly CommunicationProviderStorage $storage,
     ) {
     }
 

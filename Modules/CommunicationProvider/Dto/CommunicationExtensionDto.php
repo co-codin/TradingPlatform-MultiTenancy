@@ -8,13 +8,7 @@ use App\Dto\BaseDto;
 
 final class CommunicationExtensionDto extends BaseDto
 {
-    /**
-     * @var string|null
-     */
     public ?string $name;
-
-    /**
-     * @var int|null
-     */
     public ?int $provider_id;
+    public ?int $user_id;
 }

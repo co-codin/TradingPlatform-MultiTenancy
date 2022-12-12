@@ -16,7 +16,7 @@ use Modules\CommunicationProvider\Http\Controllers\CommunicationProviderControll
 |
 */
 
-Route::group(['middleware' => 'tenant', 'as' => 'communication.'], function () {
-    Route::resource('providers', CommunicationProviderController::class);
-    Route::resource('extensions', CommunicationExtensionController::class);
+Route::group(['prefix' => 'communication', 'as' => 'communication.'], function () {
+    Route::apiResource('providers', CommunicationProviderController::class);
+    Route::apiResource('extensions', CommunicationExtensionController::class);
 });

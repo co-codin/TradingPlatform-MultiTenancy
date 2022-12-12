@@ -17,8 +17,6 @@ final class CommunicationProviderUpdateRequest extends BaseFormRequest
     {
         return [
             'name' => 'sometimes|string',
-            'is_default' => 'sometimes|bool',
-            'user_id' => 'sometimes|int|exists:users,id',
         ];
     }
 }
