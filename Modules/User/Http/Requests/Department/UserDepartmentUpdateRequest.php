@@ -15,7 +15,7 @@ final class UserDepartmentUpdateRequest extends BaseFormRequest
                 'required',
                 'array',
             ],
-            'departments.*.id' => 'distinct|integer|exists:departments,id',
+            'departments.*.id' => 'distinct|integer|exists:tenant.departments,id',
         ];
     }
 }
