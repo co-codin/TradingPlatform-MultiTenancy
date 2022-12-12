@@ -52,19 +52,19 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * Test brand slug exist.
+     * Test brand domain exist.
      *
      * @return void
      *
      * @test
      */
-    public function brand_slug_exist(): void
+    public function brand_domain_exist(): void
     {
         $this->authenticateWithPermission(BrandPermission::fromValue(BrandPermission::EDIT_BRANDS));
 
         $brand = Brand::factory()->create();
         $targetBrand = Brand::factory()->create();
-        $data = Brand::factory()->make(['slug' => $brand->slug]);
+        $data = Brand::factory()->make(['domain' => $brand->domain]);
 
         $response = $this->patchJson(route('admin.brands.update', ['brand' => $targetBrand->id]), $data->toArray());
 
@@ -110,18 +110,18 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * Test brand slug filled.
+     * Test brand domain filled.
      *
      * @return void
      *
      * @test
      */
-    public function brand_slug_is_filled(): void
+    public function brand_domain_is_filled(): void
     {
         $this->authenticateWithPermission(BrandPermission::fromValue(BrandPermission::EDIT_BRANDS));
 
         $brand = Brand::factory()->create();
-        $data = Brand::factory()->make(['slug' => null])->toArray();
+        $data = Brand::factory()->make(['domain' => null])->toArray();
 
         $response = $this->patchJson(route('admin.brands.update', ['brand' => $brand->id]), $data);
 
@@ -188,19 +188,19 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * Test brand slug is string.
+     * Test brand domain is string.
      *
      * @return void
      *
      * @test
      */
-    public function brand_slug_is_string(): void
+    public function brand_domain_is_string(): void
     {
         $this->authenticateWithPermission(BrandPermission::fromValue(BrandPermission::EDIT_BRANDS));
 
         $brand = Brand::factory()->create();
         $data = Brand::factory()->make();
-        $data->slug = 1;
+        $data->domain = 1;
 
         $response = $this->patchJson(route('admin.brands.update', ['brand' => $brand->id]), $data->toArray());
 
