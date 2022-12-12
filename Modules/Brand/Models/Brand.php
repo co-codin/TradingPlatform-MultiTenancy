@@ -22,7 +22,6 @@ use Spatie\Multitenancy\Models\Tenant;
  * @property string $slug
  * @property string $logo_url
  * @property bool $is_active
- * @property array $tables
  * @property string $created_at
  * @property string $updated_at
  * @property string $deleted_at
@@ -37,13 +36,6 @@ class Brand extends Tenant
      * {@inheritdoc}
      */
     protected $guarded = ['id'];
-
-    /**
-     * {@inheritdoc}
-     */
-    protected $casts = [
-        'tables' => 'array',
-    ];
 
     protected static function booted()
     {
