@@ -16,10 +16,10 @@ final class CountryUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => "sometimes|required|string|unique:countries,name,{$this->route('country')}",
-            'iso2' => "sometimes|required|string|unique:countries,iso2,{$this->route('country')}",
-            'iso3' => "sometimes|required|string|unique:countries,iso3,{$this->route('country')}",
-            'currency' => "sometimes|required|string",
+            'name' => "sometimes|required|string|unique:tenant.countries,name,{$this->route('country')}",
+            'iso2' => "sometimes|required|string|unique:tenant.countries,iso2,{$this->route('country')}",
+            'iso3' => "sometimes|required|string|unique:tenant.countries,iso3,{$this->route('country')}",
+            'currency' => 'sometimes|required|string',
         ];
     }
 }

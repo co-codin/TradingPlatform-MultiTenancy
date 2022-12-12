@@ -4,19 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Language\Admin;
 
-use Illuminate\Contracts\Auth\Authenticatable as UserContract;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\DB;
 use Modules\Language\Enums\LanguagePermission;
 use Modules\Language\Models\Language;
-use Modules\Role\Models\Permission;
-use Modules\User\Models\User;
-use Tests\TestCase;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-final class CreateTest extends TestCase
+final class CreateTest extends BrandTestCase
 {
-    use DatabaseTransactions;
+    use TenantAware;
+    use HasAuth;
 
     /**
      * Test authorized user can create language.
@@ -29,18 +26,15 @@ final class CreateTest extends TestCase
     {
         $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::CREATE_LANGUAGES));
 
-        $data = Language::factory()->make();
+        $this->brand->makeCurrent();
 
-        $response = $this->postJson(route('admin.languages.store'), $data->toArray());
+        $data = Language::factory()->make()->toArray();
+
+        $response = $this->postJson(route('admin.languages.store'), $data);
 
         $response->assertCreated();
 
-        $response->assertJson([
-            'data' => [
-                'name' => $data['name'],
-                'code' => $data['code'],
-            ],
-        ]);
+        $response->assertJson(['data' => $data]);
     }
 
     /**
@@ -52,6 +46,8 @@ final class CreateTest extends TestCase
      */
     public function unauthorized_user_cant_create_language(): void
     {
+        $this->brand->makeCurrent();
+
         $data = Language::factory()->make();
 
         $response = $this->postJson(route('admin.languages.store'), $data->toArray());
@@ -69,6 +65,8 @@ final class CreateTest extends TestCase
     public function language_name_exist(): void
     {
         $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::CREATE_LANGUAGES));
+
+        $this->brand->makeCurrent();
 
         $language = Language::factory()->create();
 
@@ -90,6 +88,8 @@ final class CreateTest extends TestCase
     {
         $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::CREATE_LANGUAGES));
 
+        $this->brand->makeCurrent();
+
         $language = Language::factory()->create();
 
         $data = Language::factory()->make(['code' => $language->code]);
@@ -110,6 +110,8 @@ final class CreateTest extends TestCase
     {
         $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::CREATE_LANGUAGES));
 
+        $this->brand->makeCurrent();
+
         $data = Language::factory()->make()->toArray();
         unset($data['name']);
 
@@ -128,6 +130,8 @@ final class CreateTest extends TestCase
     public function language_code_is_required(): void
     {
         $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::CREATE_LANGUAGES));
+
+        $this->brand->makeCurrent();
 
         $data = Language::factory()->make()->toArray();
         unset($data['code']);
@@ -148,6 +152,8 @@ final class CreateTest extends TestCase
     {
         $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::CREATE_LANGUAGES));
 
+        $this->brand->makeCurrent();
+
         $data = Language::factory()->make();
         $data->name = 1;
 
@@ -167,24 +173,13 @@ final class CreateTest extends TestCase
     {
         $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::CREATE_LANGUAGES));
 
+        $this->brand->makeCurrent();
+
         $data = Language::factory()->make();
         $data->code = 1;
 
         $response = $this->postJson(route('admin.languages.store'), $data->toArray());
 
         $response->assertUnprocessable();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Artisan::call(sprintf(
-            'brand-migrate --path=%s',
-            "Modules/Brand/DB/Migrations/create_languages_table.php",
-        ));
     }
 }

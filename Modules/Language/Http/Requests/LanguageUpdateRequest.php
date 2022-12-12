@@ -16,8 +16,8 @@ final class LanguageUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => "sometimes|required|string|unique:languages,name,{$this->route('language')}",
-            'code' => "sometimes|required|string|unique:languages,code,{$this->route('language')}",
+            'name' => "sometimes|required|string|unique:tenant.languages,name,{$this->route('language')}",
+            'code' => "sometimes|required|string|unique:tenant.languages,code,{$this->route('language')}",
         ];
     }
 }

@@ -12,6 +12,7 @@ use Modules\Customer\Models\Customer;
 use Modules\Department\Database\factories\DepartmentFactory;
 use Modules\User\Models\User;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
+use Spatie\Multitenancy\Models\Tenant;
 
 /**
  * Class Department
@@ -38,6 +39,15 @@ class Department extends Model
         'id',
     ];
 
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        if ($tenant = Tenant::current()) {
+            $this->table = $tenant->getDatabaseName() . '.' . $this->getTable();
+        }
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -58,6 +68,8 @@ class Department extends Model
      */
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_department');
+        $tenant = Tenant::current() ? Tenant::current()->getDatabaseName() . '.' : '';
+
+        return $this->belongsToMany(User::class, $tenant . 'user_department');
     }
 }
