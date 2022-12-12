@@ -136,17 +136,6 @@ final class User extends Authenticatable
         };
     }
 
-    public function belongsToMany(
-        $related,
-        $table = null,
-        $foreignPivotKey = null,
-        $relatedPivotKey = null,
-        $parentKey = null,
-        $relatedKey = null,
-        $relation = null
-    ) {
-    }
-
     public function toArray()
     {
         if (auth()->check()) {
