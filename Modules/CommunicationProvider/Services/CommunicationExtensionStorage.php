@@ -6,7 +6,7 @@ namespace Modules\CommunicationProvider\Services;
 
 use LogicException;
 use Modules\CommunicationProvider\Dto\CommunicationExtensionDto;
-use Modules\CommunicationProvider\Models\CommunicationProvider;
+use Modules\CommunicationProvider\Models\CommunicationExtension;
 
 final class CommunicationExtensionStorage
 {
@@ -14,11 +14,11 @@ final class CommunicationExtensionStorage
      * Store communication provider.
      *
      * @param  CommunicationExtensionDto  $dto
-     * @return CommunicationProvider
+     * @return CommunicationExtension
      */
-    public function store(CommunicationExtensionDto $dto): CommunicationProvider
+    public function store(CommunicationExtensionDto $dto): CommunicationExtension
     {
-        $communicationExtension = CommunicationProvider::create($dto->toArray());
+        $communicationExtension = CommunicationExtension::create($dto->toArray());
 
         if (! $communicationExtension) {
             throw new LogicException(__('Can not create communication provider'));
@@ -30,12 +30,14 @@ final class CommunicationExtensionStorage
     /**
      * Update communication provider.
      *
-     * @param  CommunicationProvider  $communicationExtension
+     * @param  CommunicationExtension  $communicationExtension
      * @param  CommunicationExtensionDto  $dto
-     * @return CommunicationProvider
+     * @return CommunicationExtension
      */
-    public function update(CommunicationProvider $communicationExtension, CommunicationExtensionDto $dto): CommunicationProvider
-    {
+    public function update(
+        CommunicationExtension $communicationExtension,
+        CommunicationExtensionDto $dto
+    ): CommunicationExtension {
         if (! $communicationExtension->update($dto->toArray())) {
             throw new LogicException(__('Can not update communication provider'));
         }
@@ -46,10 +48,10 @@ final class CommunicationExtensionStorage
     /**
      * Delete communication provider.
      *
-     * @param  CommunicationProvider  $communicationExtension
+     * @param  CommunicationExtension  $communicationExtension
      * @return bool
      */
-    public function delete(CommunicationProvider $communicationExtension): bool
+    public function delete(CommunicationExtension $communicationExtension): bool
     {
         if (! $communicationExtension->delete()) {
             throw new LogicException(__('Can not delete communication provider'));
