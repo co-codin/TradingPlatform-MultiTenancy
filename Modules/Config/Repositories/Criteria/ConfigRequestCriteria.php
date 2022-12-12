@@ -29,7 +29,7 @@ final class ConfigRequestCriteria extends BaseCriteria
         return QueryBuilder::for($model)
             ->defaultSort('-id')
             ->allowedFields(
-                self::allowedModelFields(),
+                static::$allowedModelFields,
                 ConfigTypeRequestCriteria::allowedModelFields('config_type'),
             )
             ->allowedFilters([

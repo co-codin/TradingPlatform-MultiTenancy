@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Config\Admin\ConfigType;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Config\Enums\ConfigTypePermission;
 use Modules\Config\Models\ConfigType;
-use Tests\TestCase;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-final class CreateTest extends TestCase
+final class CreateTest extends BrandTestCase
 {
-    use DatabaseTransactions;
+    use TenantAware;
+    use HasAuth;
 
     /**
      * Test authorized user can create config type.
@@ -23,6 +25,8 @@ final class CreateTest extends TestCase
     final public function authorized_user_can_create_config_type(): void
     {
         $this->authenticateWithPermission(ConfigTypePermission::fromValue(ConfigTypePermission::CREATE_CONFIG_TYPES));
+
+        $this->brand->makeCurrent();
 
         $data = ConfigType::factory()->make();
 
@@ -44,6 +48,8 @@ final class CreateTest extends TestCase
      */
     final public function unauthorized_user_cant_create_config_type(): void
     {
+        $this->brand->makeCurrent();
+
         $data = ConfigType::factory()->make();
 
         $response = $this->postJson(route('admin.configs.types.store'), $data->toArray());
@@ -61,6 +67,8 @@ final class CreateTest extends TestCase
     final public function config_type_name_is_required(): void
     {
         $this->authenticateWithPermission(ConfigTypePermission::fromValue(ConfigTypePermission::CREATE_CONFIG_TYPES));
+
+        $this->brand->makeCurrent();
 
         $data = ConfigType::factory()->make()->toArray();
         unset($data['name']);
@@ -80,6 +88,8 @@ final class CreateTest extends TestCase
     final public function config_name_is_string(): void
     {
         $this->authenticateWithPermission(ConfigTypePermission::fromValue(ConfigTypePermission::CREATE_CONFIG_TYPES));
+
+        $this->brand->makeCurrent();
 
         $data = ConfigType::factory()->make();
         $data->name = 1;

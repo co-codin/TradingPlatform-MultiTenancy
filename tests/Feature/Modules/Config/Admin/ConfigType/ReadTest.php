@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Config\Admin\ConfigType;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Config\Enums\ConfigTypePermission;
 use Modules\Config\Models\ConfigType;
-use Tests\TestCase;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-final class ReadTest extends TestCase
+final class ReadTest extends BrandTestCase
 {
-    use DatabaseTransactions;
+    use TenantAware;
+    use HasAuth;
 
     /**
      * Test authorized user can get config types list.
@@ -23,6 +25,8 @@ final class ReadTest extends TestCase
     final public function authorized_user_can_get_config_types_list(): void
     {
         $this->authenticateWithPermission(ConfigTypePermission::fromValue(ConfigTypePermission::VIEW_CONFIG_TYPES));
+
+        $this->brand->makeCurrent();
 
         $configType = ConfigType::factory()->create();
 
@@ -46,6 +50,8 @@ final class ReadTest extends TestCase
      */
     final public function unauthorized_user_cant_get_config_types_list(): void
     {
+        $this->brand->makeCurrent();
+
         ConfigType::factory()->create();
 
         $response = $this->getJson(route('admin.configs.types.index'));
@@ -63,6 +69,8 @@ final class ReadTest extends TestCase
     final public function authorized_user_can_get_config_type(): void
     {
         $this->authenticateWithPermission(ConfigTypePermission::fromValue(ConfigTypePermission::VIEW_CONFIG_TYPES));
+
+        $this->brand->makeCurrent();
 
         $configType = ConfigType::factory()->create();
 
@@ -84,6 +92,8 @@ final class ReadTest extends TestCase
      */
     final public function unauthorized_user_cant_get_config_types(): void
     {
+        $this->brand->makeCurrent();
+
         $configType = ConfigType::factory()->create();
 
         $response = $this->getJson(route('admin.configs.types.show', ['type' => $configType->id]));
