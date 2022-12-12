@@ -16,7 +16,8 @@ final class BrandUpdateRequest extends BaseFormRequest
         return [
             'name' => 'sometimes|required|string|max:255',
             'title' => 'sometimes|required|string|max:255',
-            'slug' => "sometimes|required|string|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/|unique:brands,slug,{$this->route('brand')}",
+            'database' => 'required|string|regex:/^[a-z0-9]+(?:_[a-z0-9]+)*$/|unique:brands,database,' . $this->route('brand'),
+            'domain' => 'required|string|regex:/^[a-z0-9]+(?:_[a-z0-9]+)*$/|unique:brands,domain,' . $this->route('brand'),
             'logo_url' => 'sometimes|required|string|max:255',
             'is_active' => 'sometimes|boolean',
         ];

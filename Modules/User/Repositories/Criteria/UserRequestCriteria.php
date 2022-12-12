@@ -56,7 +56,13 @@ final class UserRequestCriteria extends BaseCriteria
                     'last_name' => 'like',
                     'email' => 'like',
                 ])),
+                AllowedFilter::exact('roles.id'),
                 AllowedFilter::trashed(),
+
+//                AllowedFilter::exact('desks.id'),
+//                AllowedFilter::exact('departments.id'),
+//                AllowedFilter::exact('countries.id'),
+//                AllowedFilter::exact('languages.id'),
             ])
             ->scopes([
                 'byPermissionsAccess',
