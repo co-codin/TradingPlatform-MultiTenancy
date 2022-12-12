@@ -29,6 +29,15 @@ final class RoleController extends Controller
     ) {
     }
 
+    public function all()
+    {
+        $this->authorize('viewAny');
+
+        $roles = $this->roleRepository->all();
+
+        return RoleResource::collection($roles);
+    }
+
     /**
      * @OA\Get(
      *     path="/admin/roles",
