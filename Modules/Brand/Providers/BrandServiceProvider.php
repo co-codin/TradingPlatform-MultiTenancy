@@ -44,9 +44,5 @@ final class BrandServiceProvider extends BaseModuleServiceProvider
         parent::boot();
 
         $this->loadMigrations();
-
-        $this->app->singleton(Migrator::class, function ($app) {
-            return $app['migrator'];
-        });
     }
 }
