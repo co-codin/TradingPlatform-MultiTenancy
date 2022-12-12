@@ -17,6 +17,7 @@ use Modules\CommunicationProvider\Http\Controllers\CommunicationProviderControll
 */
 
 Route::group(['prefix' => 'communication', 'as' => 'communication.'], function () {
+    Route::get('/providers/all', [CommunicationProviderController::class, 'all'])->name('providers.all');
     Route::apiResource('providers', CommunicationProviderController::class);
     Route::apiResource('extensions', CommunicationExtensionController::class);
 });

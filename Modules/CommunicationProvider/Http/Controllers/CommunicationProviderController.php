@@ -61,6 +61,40 @@ final class CommunicationProviderController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *      path="/admin/communication/providers/all",
+     *      security={ {"sanctum": {} }},
+     *      tags={"CommunicationProvider"},
+     *      summary="Get communication provider list all",
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/CommunicationProviderCollection")
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     *
+     * Display communication provider list all.
+     *
+     * @throws AuthorizationException
+     */
+    public function all(): JsonResource
+    {
+        $this->authorize('viewAny', CommunicationProvider::class);
+
+        $providers = $this->repository->all();
+
+        return CommunicationProviderResource::collection($providers);
+    }
+
+    /**
      * @OA\Post(
      *      path="/admin/communication/providers",
      *      security={ {"sanctum": {} }},
