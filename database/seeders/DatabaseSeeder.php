@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Modules\Brand\Database\Seeders\BrandDatabaseSeeder;
+use Modules\CommunicationProvider\Database\Seeders\CommunicationProviderDatabaseSeeder;
 use Modules\Geo\Database\Seeders\GeoDatabaseSeeder;
 use Modules\Role\Database\Seeders\RoleDatabaseSeeder;
 use Modules\User\Database\Seeders\UserDatabaseSeeder;
@@ -24,6 +24,7 @@ final class DatabaseSeeder extends Seeder
         $this->call([
             RoleDatabaseSeeder::class,
             UserDatabaseSeeder::class,
+            CommunicationProviderDatabaseSeeder::class,
             BrandDatabaseSeeder::class,
             //GeoDatabaseSeeder::class,
         ]);

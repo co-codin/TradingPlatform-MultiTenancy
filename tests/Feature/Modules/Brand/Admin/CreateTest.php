@@ -56,19 +56,19 @@ class CreateTest extends TestCase
     }
 
     /**
-     * Test brand slug exist.
+     * Test brand domain exist.
      *
      * @return void
      *
      * @test
      */
-    public function brand_slug_exist(): void
+    public function brand_domain_exist(): void
     {
         $this->authenticateWithPermission(BrandPermission::fromValue(BrandPermission::CREATE_BRANDS));
 
         $brand = Brand::factory()->create();
 
-        $data = Brand::factory()->make(['slug' => $brand->slug]);
+        $data = Brand::factory()->make(['domain' => $brand->domain]);
 
         $response = $this->postJson(route('admin.brands.store'), $data->toArray());
 
@@ -114,18 +114,18 @@ class CreateTest extends TestCase
     }
 
     /**
-     * Test brand slug required.
+     * Test brand database required.
      *
      * @return void
      *
      * @test
      */
-    public function brand_slug_is_required(): void
+    public function brand_dabase_is_required(): void
     {
         $this->authenticateWithPermission(BrandPermission::fromValue(BrandPermission::CREATE_BRANDS));
 
         $data = Brand::factory()->make()->toArray();
-        unset($data['slug']);
+        unset($data['database']);
 
         $response = $this->postJson(route('admin.brands.store'), $data);
 
@@ -190,18 +190,18 @@ class CreateTest extends TestCase
     }
 
     /**
-     * Test brand slug is string.
+     * Test brand domain is string.
      *
      * @return void
      *
      * @test
      */
-    public function brand_slug_is_string(): void
+    public function brand_domain_is_string(): void
     {
         $this->authenticateWithPermission(BrandPermission::fromValue(BrandPermission::CREATE_BRANDS));
 
         $data = Brand::factory()->make();
-        $data->slug = 1;
+        $data->domain = 1;
 
         $response = $this->postJson(route('admin.brands.store'), $data->toArray());
 
@@ -209,7 +209,7 @@ class CreateTest extends TestCase
     }
 
     /**
-     * Test brand slug is string.
+     * Test brand database is string.
      *
      * @return void
      *
@@ -220,7 +220,7 @@ class CreateTest extends TestCase
         $this->authenticateWithPermission(BrandPermission::fromValue(BrandPermission::CREATE_BRANDS));
 
         $data = Brand::factory()->make();
-        $data->logo_url = 1;
+        $data->database = 1;
 
         $response = $this->postJson(route('admin.brands.store'), $data->toArray());
 

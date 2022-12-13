@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\User\Models;
 
+use App\Relationships\Traits\WhereHasForTenant;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,6 +19,7 @@ use Kalnoy\Nestedset\NodeTrait;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Brand\Models\Brand;
 use Modules\Communication\Models\Comment;
+use Modules\CommunicationProvider\Models\CommunicationProvider;
 use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
 use Modules\Language\Models\Language;
@@ -26,7 +28,6 @@ use Modules\Role\Models\Traits\HasRoles;
 use Modules\User\Database\factories\UserFactory;
 use Modules\User\Events\UserCreated;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
-use Spatie\Multitenancy\Models\Tenant;
 
 /**
  * Class User
@@ -57,6 +58,7 @@ final class User extends Authenticatable
     use Notifiable;
     use SoftDeletes;
     use UsesLandlordConnection;
+    use WhereHasForTenant;
 
     /**
      * @var string
@@ -167,9 +169,7 @@ final class User extends Authenticatable
      */
     public function departments(): BelongsToMany
     {
-        $tenant = Tenant::current() ? Tenant::current()->getDatabaseName() . '.' : '';
-
-        return $this->belongsToMany(Department::class, $tenant . 'user_department');
+        return $this->belongsToManyTenant(Department::class, 'user_department');
     }
 
     /**
@@ -220,5 +220,10 @@ final class User extends Authenticatable
     public function setUsernameAttribute(string $value): void
     {
         $this->attributes['username'] = strtolower($value);
+    }
+
+    public function comProvider(): BelongsTo
+    {
+        return $this->belongsTo(CommunicationProvider::class, 'com_provider_id');
     }
 }

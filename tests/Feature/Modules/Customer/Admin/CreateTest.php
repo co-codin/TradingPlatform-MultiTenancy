@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class CreateTest extends TestCase
 {
-    use DatabaseTransactions, CustomerAdminTrait;
+    use DatabaseTransactions;
     /**
      * Test authorized user can create customer.
      *

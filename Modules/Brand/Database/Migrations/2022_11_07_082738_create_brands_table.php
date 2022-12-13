@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('database')->unique();
             $table->string('logo_url');
             $table->boolean('is_active')->default(true);
-            $table->jsonb('tables')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
