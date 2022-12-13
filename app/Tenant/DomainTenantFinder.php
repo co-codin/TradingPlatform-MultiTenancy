@@ -11,10 +11,10 @@ class DomainTenantFinder extends TenantFinder
 {
     use UsesTenantModel;
 
-    public function findForRequest(Request $request):?Tenant
+    public function findForRequest(Request $request): ?Tenant
     {
-        $slug = $request->header('slug');
+        $domain = $request->header('tenant');
 
-        return $this->getTenantModel()::whereDomain($slug)->first();
+        return $this->getTenantModel()::whereDomain($domain)->first();
     }
 }

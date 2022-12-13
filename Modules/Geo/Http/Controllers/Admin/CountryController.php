@@ -20,15 +20,24 @@ use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 final class CountryController extends Controller
 {
     /**
-     * @param CountryRepository $repository
+     * @param CountryRepository $countryRepository
      * @param CountryStorage $storage
      */
     public function __construct(
-        protected CountryRepository $repository,
-        protected CountryStorage $storage,
+        protected CountryRepository $countryRepository,
+        protected CountryStorage    $storage,
     )
     {
         //
+    }
+
+    public function all(): JsonResource
+    {
+        $this->authorize('viewAny');
+
+        $countries = $this->countryRepository->all();
+
+        return CountryResource::collection($countries);
     }
 
     /**
@@ -63,7 +72,7 @@ final class CountryController extends Controller
     {
         $this->authorize('viewAny', Country::class);
 
-        return CountryResource::collection($this->repository->jsonPaginate());
+        return CountryResource::collection($this->countryRepository->jsonPaginate());
     }
 
     /**
@@ -171,7 +180,7 @@ final class CountryController extends Controller
      */
     public function show(int $id): JsonResource
     {
-        $country = $this->repository->find($id);
+        $country = $this->countryRepository->find($id);
 
         $this->authorize('view', $country);
 
@@ -246,7 +255,7 @@ final class CountryController extends Controller
      */
     public function update(CountryUpdateRequest $request, int $id): JsonResource
     {
-        $country = $this->repository->find($id);
+        $country = $this->countryRepository->find($id);
 
         $this->authorize('update', $country);
 
@@ -296,7 +305,7 @@ final class CountryController extends Controller
      */
     public function destroy(int $id): Response
     {
-        $country = $this->repository->find($id);
+        $country = $this->countryRepository->find($id);
 
         $this->authorize('delete', $country);
 

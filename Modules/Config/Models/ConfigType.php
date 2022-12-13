@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Config\Database\factories\ConfigTypeFactory;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 /**
  * Config type model.
@@ -23,6 +24,7 @@ use Modules\Config\Database\factories\ConfigTypeFactory;
 final class ConfigType extends Model
 {
     use HasFactory;
+    use UsesTenantConnection;
 
     /**
      * {@inheritdoc}

@@ -4,61 +4,58 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use App\Services\Tenant\DatabaseManipulator;
+use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Testing\TestResponse;
-use Modules\Brand\Jobs\MigrateSchemaJob;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Modules\Brand\Models\Brand;
-use Nwidart\Modules\Facades\Module;
+use Spatie\Multitenancy\Concerns\UsesMultitenancyConfig;
 
 abstract class BrandTestCase extends BaseTestCase
 {
     use CreatesApplication;
+    use UsesMultitenancyConfig;
+    protected static $setUpRun = false;
 
     public Brand $brand;
 
-    public function migrateModules(array $modules, array $availableModules = [])
+    public static function tearDownAfterClass(): void
     {
-        MigrateSchemaJob::dispatchSync($this->brand, $modules, $availableModules ?: array_keys(Module::all()));
+        $instance = new static();
+        $instance->refreshApplication();
+
+        $schemas = Brand::get();
+        foreach ($schemas as $schema) {
+            DB::unprepared("DROP SCHEMA IF EXISTS {$schema->database} CASCADE;");
+        }
+
+        Artisan::call('migrate:reset');
+
+        $instance->tearDown();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function setUp(): void
     {
         parent::setUp();
+        $this->withoutMiddleware(VerifyCsrfToken::class);
 
-        $this->brand = Brand::factory()->create();
+        if (! static::$setUpRun) {
+            Artisan::call('migrate:fresh --seed');
+            static::$setUpRun = true;
+        }
 
-        (new DatabaseManipulator)->createSchema($this->brand->slug);
-
-        $this->withHeader('Tenant', $this->brand->slug);
+        $this->brand = Brand::first();
     }
 
     /**
-     * {@inheritDoc}
-     */
-    protected function tearDown(): void
-    {
-        $this->brand->delete();
-
-        parent::tearDown();
-    }
-
-    /**
-     * Import.
+     * Make current tenant and set header.
      *
-     * @param  array  $modules
-     * @return TestResponse
+     * @return void
      */
-    protected function import(array $modules): TestResponse
+    protected function makeCurrentTenantAndSetHeader(): void
     {
-        return $this->post(
-            route('admin.brands.db.import', ['brand' => $this->brand]),
-            [
-                'modules' => $modules,
-            ]
-        );
+        $this->brand->makeCurrent();
+
+        $this->withHeader('tenant', $this->brand->database);
     }
 }

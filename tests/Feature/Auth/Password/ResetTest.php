@@ -20,10 +20,7 @@ final class ResetTest extends TestCase
      */
     public function accepted(): void
     {
-        $user = User::factory()->create([
-            'email' => 'test@admin.com',
-            'password' => Hash::make('admin1'),
-        ]);
+        $user = $this->getUser();
         $response = $this->post(route('admin.auth.password.reset'), [
             'email' => $user->email,
             'password' => 'password123',
@@ -40,10 +37,7 @@ final class ResetTest extends TestCase
      */
     public function invalid_token(): void
     {
-        $user = User::factory()->create([
-            'email' => 'test@admin.com',
-            'password' => Hash::make('admin1'),
-        ]);
+        $user = $this->getUser();
         $response = $this->post(route('admin.auth.password.reset'), [
             'email' => $user->email,
             'password' => 'password123',
@@ -60,10 +54,7 @@ final class ResetTest extends TestCase
      */
     public function invalid_user(): void
     {
-        $user = User::factory()->create([
-            'email' => 'test@admin.com',
-            'password' => Hash::make('admin1'),
-        ]);
+        $user = $this->getUser();
         $response = $this->post(route('admin.auth.password.reset'), [
             'email' => 'test@non-existent.test',
             'password' => 'password123',
@@ -88,5 +79,14 @@ final class ResetTest extends TestCase
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['token', 'email', 'password']);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->setUser(User::factory()->create([
+            'password' => Hash::make('password'),
+        ]));
     }
 }

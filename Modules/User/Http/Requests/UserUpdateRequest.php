@@ -53,6 +53,8 @@ final class UserUpdateRequest extends BaseFormRequest
                 'min:1',
                 'exists:roles,id',
             ],
+            'affiliate_id' => 'nullable|integer|exists:users,id',
+            'show_on_scoreboards' => 'sometimes|required|boolean',
         ];
     }
 

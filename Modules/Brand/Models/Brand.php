@@ -12,6 +12,7 @@ use Modules\Brand\Database\factories\BrandFactory;
 use Modules\User\Models\User;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 use Spatie\Multitenancy\Models\Tenant;
 
 /**
@@ -21,7 +22,6 @@ use Spatie\Multitenancy\Models\Tenant;
  * @property string $slug
  * @property string $logo_url
  * @property bool $is_active
- * @property array $tables
  * @property string $created_at
  * @property string $updated_at
  * @property string $deleted_at
@@ -30,27 +30,44 @@ use Spatie\Multitenancy\Models\Tenant;
 class Brand extends Tenant
 {
     use HasFactory, SoftDeletes, LogsActivity;
+    use UsesLandlordConnection;
 
     /**
      * {@inheritdoc}
      */
     protected $guarded = ['id'];
 
+    protected static function booted()
+    {
+        static::creating(fn (Brand $brand) => $brand->createDatabase());
+    }
+
     /**
      * {@inheritdoc}
      */
-    protected $casts = [
-        'tables' => 'array',
-    ];
-
-    protected static function booted()
+    protected static function newFactory()
     {
-        static::creating(fn(Brand $brand) => $brand->createDatabase($brand));
+        return BrandFactory::new();
     }
 
-    public function createDatabase($brand)
+    /**
+     * Create and run tenant database migration through tenant db connection instead
+     *
+     * @return void
+     */
+    public function createDatabase(): void
     {
-        DB::unprepared("CREATE SCHEMA " . $brand->database);
+        DB::connection($this->tenantDatabaseConnectionName())->statement("CREATE SCHEMA {$this->database}");
+    }
+
+    /**
+     * Drop tenant database
+     *
+     * @return void
+     */
+    public function dropSchema(): void
+    {
+        DB::connection($this->tenantDatabaseConnectionName())->statement("DROP SCHEMA {$this->database} CASCADE");
     }
 
     /**
@@ -67,14 +84,6 @@ class Brand extends Tenant
                 'updated_at',
             ])
             ->logOnlyDirty();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected static function newFactory()
-    {
-        return BrandFactory::new();
     }
 
     /**

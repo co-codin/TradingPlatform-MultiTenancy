@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Modules\Cutomer\Admin;
+namespace Tests\Feature\Modules\Customer\Admin;
 
 use Maatwebsite\Excel\Facades\Excel;
 use Modules\Customer\Enums\CustomerPermission;

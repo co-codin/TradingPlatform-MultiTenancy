@@ -25,19 +25,51 @@ final class UserFactory extends Factory
             'is_active' => true,
             'target' => $this->faker->randomNumber(),
             'parent_id' => null,
+            'affiliate_id' => null,
+            'show_on_scoreboards' => $this->faker->boolean(),
         ];
     }
 
+    /**
+     * Add parent id.
+     *
+     * @return $this
+     */
     public function withParent(): self
     {
         return $this->state(function (array $attributes) {
             if (! $admin = User::getAdmin()) {
                 $admin = User::factory()->create();
-                $admin->roles()->sync(Role::factory()->create(['name' => DefaultRole::ADMIN]));
+                $admin->roles()->sync(
+                    Role::where('name', DefaultRole::ADMIN)->first() ??
+                    Role::factory()->create(['name' => DefaultRole::ADMIN])
+                );
             }
 
             return [
                 'parent_id' => $admin->id,
+            ];
+        });
+    }
+
+    /**
+     * Add affiliate id.
+     *
+     * @return $this
+     */
+    public function withAffiliate(): self
+    {
+        return $this->state(function (array $attributes) {
+            if (! $admin = User::getAdmin()) {
+                $admin = User::factory()->create();
+                $admin->roles()->sync(
+                    Role::where('name', DefaultRole::ADMIN)->first() ??
+                    Role::factory()->create(['name' => DefaultRole::ADMIN])
+                );
+            }
+
+            return [
+                'affiliate_id' => $admin->id,
             ];
         });
     }

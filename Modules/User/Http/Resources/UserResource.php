@@ -9,6 +9,7 @@ use Modules\Brand\Http\Resources\BrandResource;
 use Modules\Communication\Http\Resources\CommentResource;
 use Modules\Department\Http\Resources\DepartmentResource;
 use Modules\Desk\Http\Resources\DeskResource;
+use Modules\Geo\Http\Resources\CountryResource;
 use Modules\Language\Http\Resources\LanguageResource;
 use Modules\Role\Http\Resources\PermissionResource;
 use Modules\Role\Http\Resources\RoleResource;
@@ -40,7 +41,9 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true, description="Date and time of soft delete", example="2022-12-17 08:44:09"),
  *     @OA\Property(property="last_login", type="string", format="date-time", nullable=true, description="Date and time of last login", example="2022-12-17 08:44:09"),
  *     @OA\Property(property="permissions", type="array", @OA\Items(ref="#/components/schemas/Permission"), description="Permission array"),
- *     @OA\Property(property="roles", type="array", @OA\Items(ref="#/components/schemas/Role"), description="Array of roles")
+ *     @OA\Property(property="roles", type="array", @OA\Items(ref="#/components/schemas/Role"), description="Array of roles"),
+ *     @OA\Property(property="affiliate_id", type="integer", description="Affiliate worker ID"),
+ *     @OA\Property(property="show_on_scoreboards", type="boolean", description="Show on scoreboards"),
  * ),
  *
  * @OA\Schema (
@@ -84,6 +87,7 @@ final class UserResource extends JsonResource
             'languages' => LanguageResource::collection($this->whenLoaded('languages')),
             'display_options' => DisplayOptionResource::collection($this->whenLoaded('displayOptions')),
             'comments' => CommentResource::collection($this->whenLoaded('comments')),
+            'countries' => CountryResource::collection($this->whenLoaded('countries')),
         ]);
     }
 }

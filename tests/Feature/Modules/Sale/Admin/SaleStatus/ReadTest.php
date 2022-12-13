@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Sale\Admin\SaleStatus;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Sale\Enums\SaleStatusPermission;
 use Modules\Sale\Models\SaleStatus;
-use Tests\TestCase;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-class ReadTest extends TestCase
+class ReadTest extends BrandTestCase
 {
-    use DatabaseTransactions, SaleStatusAdminTrait;
+    use TenantAware;
+    use HasAuth;
 
     /**
      * Test authorized user can get salestatus list.
@@ -24,6 +26,8 @@ class ReadTest extends TestCase
     {
         $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::VIEW_SALE_STATUSES));
 
+        $this->brand->makeCurrent();
+
         $saleStatus = SaleStatus::factory()->create();
 
         $response = $this->getJson(route('admin.sale-statuses.index'));
@@ -34,6 +38,7 @@ class ReadTest extends TestCase
             'data' => [$saleStatus->toArray()],
         ]);
     }
+
     /**
      * Test unauthorized user cant get salestatus list.
      *
@@ -45,12 +50,15 @@ class ReadTest extends TestCase
     {
         $this->authenticateUser();
 
+        $this->brand->makeCurrent();
+
         SaleStatus::factory()->create();
 
         $response = $this->getJson(route('admin.sale-statuses.index'));
 
         $response->assertForbidden();
     }
+
     /**
      * Test unauthorized user get salestatus list.
      *
@@ -60,14 +68,14 @@ class ReadTest extends TestCase
      */
     public function unauthorized_user_get_salestatus_list(): void
     {
+        $this->brand->makeCurrent();
+
         SaleStatus::factory()->create();
 
         $response = $this->getJson(route('admin.sale-statuses.index'));
 
         $response->assertUnauthorized();
     }
-
-
 
     /**
      * Test authorized user can get salestatus by ID.
@@ -79,6 +87,8 @@ class ReadTest extends TestCase
     public function authorized_user_can_get_salestatus(): void
     {
         $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::VIEW_SALE_STATUSES));
+
+        $this->brand->makeCurrent();
 
         $saleStatus = SaleStatus::factory()->create();
 
@@ -100,12 +110,15 @@ class ReadTest extends TestCase
     {
         $this->authenticateUser();
 
+        $this->brand->makeCurrent();
+
         $saleStatus = SaleStatus::factory()->create();
 
         $response = $this->getJson(route('admin.sale-statuses.show', ['sale_status' => $saleStatus->id]));
 
         $response->assertForbidden();
     }
+
     /**
      * Test authorized user can get not found salestatus by ID.
      *
@@ -117,12 +130,15 @@ class ReadTest extends TestCase
     {
         $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::VIEW_SALE_STATUSES));
 
+        $this->brand->makeCurrent();
+
         $saleStatusId = SaleStatus::orderByDesc('id')->first()?->id + 1 ?? 1;
 
         $response = $this->getJson(route('admin.sale-statuses.show', ['sale_status' => $saleStatusId]));
 
         $response->assertNotFound();
     }
+
     /**
      * Test unauthorized user can get salestatus by ID.
      *
@@ -132,6 +148,8 @@ class ReadTest extends TestCase
      */
     public function unauthorized_user_can_get_salestatus(): void
     {
+        $this->brand->makeCurrent();
+
         $saleStatus = SaleStatus::factory()->create();
 
         $response = $this->getJson(route('admin.sale-statuses.show', ['sale_status' => $saleStatus->id]));

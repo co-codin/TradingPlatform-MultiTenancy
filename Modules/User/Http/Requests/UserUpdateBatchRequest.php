@@ -26,6 +26,8 @@ final class UserUpdateBatchRequest extends BaseFormRequest
             'users.*.change_password' => 'nullable|boolean',
             'users.*.password' => 'exclude_unless:change_password,true|required|string|confirmed',
             'users.*.roles.*.id' => 'sometimes|required|integer|min:1|exists:roles,id',
+            'users.*.affiliate_id' => 'nullable|integer|exists:users,id',
+            'users.*.show_on_scoreboards' => 'sometimes|required|boolean',
         ];
     }
 }

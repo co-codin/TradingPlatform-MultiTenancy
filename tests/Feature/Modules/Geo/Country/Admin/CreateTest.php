@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Modules\Geo\Country\Admin;
 
-use Illuminate\Contracts\Auth\Authenticatable as UserContract;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Str;
 use Modules\Geo\Enums\CountryPermission;
 use Modules\Geo\Models\Country;
-use Modules\Role\Models\Permission;
-use Modules\User\Models\User;
-use Tests\TestCase;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-class CreateTest extends TestCase
+class CreateTest extends BrandTestCase
 {
-    use DatabaseTransactions;
+    use TenantAware;
+    use HasAuth;
 
     /**
      * Test authorized user can create country.
@@ -25,20 +27,15 @@ class CreateTest extends TestCase
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::CREATE_COUNTRIES));
 
-        $data = Country::factory()->make();
+        $this->brand->makeCurrent();
 
-        $response = $this->postJson(route('admin.countries.store'), $data->toArray());
+        $data = Country::factory()->make(static::demoData())->toArray();
+
+        $response = $this->postJson(route('admin.countries.store'), $data);
 
         $response->assertCreated();
 
-        $response->assertJson([
-            'data' => [
-                'name' => $data['name'],
-                'iso2' => $data['iso2'],
-                'iso3' => $data['iso3'],
-                'currency' => $data['currency'],
-            ],
-        ]);
+        $response->assertJson(['data' => $data]);
     }
 
     /**
@@ -50,6 +47,8 @@ class CreateTest extends TestCase
      */
     public function unauthorized_user_cant_create_country(): void
     {
+        $this->brand->makeCurrent();
+
         $data = Country::factory()->make();
 
         $response = $this->postJson(route('admin.countries.store'), $data->toArray());
@@ -68,7 +67,9 @@ class CreateTest extends TestCase
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::CREATE_COUNTRIES));
 
-        $country = Country::factory()->create();
+        $this->brand->makeCurrent();
+
+        $country = Country::factory()->create(static::demoData());
 
         $data = Country::factory()->make(['name' => $country->name]);
 
@@ -88,7 +89,9 @@ class CreateTest extends TestCase
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::CREATE_COUNTRIES));
 
-        $country = Country::factory()->create();
+        $this->brand->makeCurrent();
+
+        $country = Country::factory()->create(static::demoData());
 
         $data = Country::factory()->make(['iso2' => $country->iso2]);
 
@@ -108,7 +111,9 @@ class CreateTest extends TestCase
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::CREATE_COUNTRIES));
 
-        $country = Country::factory()->create();
+        $this->brand->makeCurrent();
+
+        $country = Country::factory()->create(static::demoData());
 
         $data = Country::factory()->make(['iso3' => $country->iso3]);
 
@@ -127,6 +132,8 @@ class CreateTest extends TestCase
     public function country_name_is_required(): void
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::CREATE_COUNTRIES));
+
+        $this->brand->makeCurrent();
 
         $data = Country::factory()->make()->toArray();
         unset($data['name']);
@@ -147,6 +154,8 @@ class CreateTest extends TestCase
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::CREATE_COUNTRIES));
 
+        $this->brand->makeCurrent();
+
         $data = Country::factory()->make()->toArray();
         unset($data['iso2']);
 
@@ -165,6 +174,8 @@ class CreateTest extends TestCase
     public function country_iso3_is_required(): void
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::CREATE_COUNTRIES));
+
+        $this->brand->makeCurrent();
 
         $data = Country::factory()->make()->toArray();
         unset($data['iso3']);
@@ -185,6 +196,8 @@ class CreateTest extends TestCase
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::CREATE_COUNTRIES));
 
+        $this->brand->makeCurrent();
+
         $data = Country::factory()->make();
         $data->name = 1;
 
@@ -203,6 +216,8 @@ class CreateTest extends TestCase
     public function country_iso2_is_string(): void
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::CREATE_COUNTRIES));
+
+        $this->brand->makeCurrent();
 
         $data = Country::factory()->make();
         $data->iso2 = 1;
@@ -223,6 +238,8 @@ class CreateTest extends TestCase
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::CREATE_COUNTRIES));
 
+        $this->brand->makeCurrent();
+
         $data = Country::factory()->make();
         $data->iso3 = 1;
 
@@ -242,11 +259,28 @@ class CreateTest extends TestCase
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::CREATE_COUNTRIES));
 
+        $this->brand->makeCurrent();
+
         $data = Country::factory()->make();
         $data->currency = 1;
 
         $response = $this->postJson(route('admin.countries.store'), $data->toArray());
 
         $response->assertUnprocessable();
+    }
+
+    /**
+     * Demo Data
+     *
+     * @return array
+     */
+    private function demoData(): array
+    {
+        return [
+            'name' => Str::random(5),
+            'iso2' => Str::random(5),
+            'iso3' => Str::random(5),
+            'currency' => 'CUR',
+        ];
     }
 }

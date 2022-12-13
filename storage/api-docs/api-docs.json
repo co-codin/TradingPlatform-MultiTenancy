@@ -102,12 +102,6 @@
                                     },
                                     "is_active": {
                                         "type": "boolean"
-                                    },
-                                    "tables": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
-                                        }
                                     }
                                 },
                                 "type": "object"
@@ -217,12 +211,6 @@
                                     },
                                     "is_active": {
                                         "type": "boolean"
-                                    },
-                                    "tables": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
-                                        }
                                     }
                                 },
                                 "type": "object"
@@ -333,12 +321,6 @@
                                     },
                                     "is_active": {
                                         "type": "boolean"
-                                    },
-                                    "tables": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
-                                        }
                                     }
                                 },
                                 "type": "object"
@@ -377,27 +359,54 @@
                 ]
             }
         },
-        "/admin/brands/{id}/db/import": {
+        "/admin/communication/extensions": {
+            "get": {
+                "tags": [
+                    "CommunicationProvider"
+                ],
+                "summary": "Get communication extension list",
+                "operationId": "6bce1f19307c3cc87217644f8307e219",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CommunicationExtensionCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
             "post": {
                 "tags": [
-                    "Brand"
+                    "CommunicationProvider"
                 ],
-                "summary": "Import db brand",
-                "description": "Import tables into brand db.",
-                "operationId": "brands.db.import",
+                "summary": "Store communication extension",
+                "operationId": "5f443c295cfdca84e96032dff6f7af90",
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "modules"
+                                    "name"
                                 ],
                                 "properties": {
-                                    "modules": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
-                                        }
+                                    "name": {
+                                        "description": "Name of communication extension",
+                                        "type": "string"
                                     }
                                 },
                                 "type": "object"
@@ -407,7 +416,484 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Successful operation"
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CommunicationExtensionResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/communication/extensions/{id}": {
+            "get": {
+                "tags": [
+                    "CommunicationProvider"
+                ],
+                "summary": "Get communication extension",
+                "operationId": "f37bac7e954e01aefbc4aeb9ce82a195",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CommunicationExtensionResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "CommunicationProvider"
+                ],
+                "summary": "Update communication extension",
+                "operationId": "66ac2fb4b4382167de8bdd9eb9c9a547",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of communication extension",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CommunicationExtensionResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "CommunicationProvider"
+                ],
+                "summary": "Delete communication extension",
+                "operationId": "4fb57d490095742cdf523f8d5d3a5a25",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CommunicationExtensionResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "CommunicationProvider"
+                ],
+                "summary": "Update communication extension",
+                "operationId": "7f069a9305a21a9ec7a46f09557504c1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of communication extension",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CommunicationExtensionResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/communication/providers": {
+            "get": {
+                "tags": [
+                    "CommunicationProvider"
+                ],
+                "summary": "Get communication provider list",
+                "operationId": "b603c10e424d41ad7fc6755522f3e9a4",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CommunicationProviderCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "CommunicationProvider"
+                ],
+                "summary": "Store communication provider",
+                "operationId": "b97191f1615d112d2813b5687185c1fa",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of communication provider",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CommunicationProviderResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/communication/providers/{id}": {
+            "get": {
+                "tags": [
+                    "CommunicationProvider"
+                ],
+                "summary": "Get communication provider",
+                "operationId": "77645bbb080382810270094488afca8a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CommunicationProviderResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "CommunicationProvider"
+                ],
+                "summary": "Update communication provider",
+                "operationId": "dcfb57acc519a94b1d40e859e6f93dd5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of communication provider",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CommunicationProviderResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "CommunicationProvider"
+                ],
+                "summary": "Delete communication provider",
+                "operationId": "12995c10d56497fd14b68c1ca96e8ade",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CommunicationProviderResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "CommunicationProvider"
+                ],
+                "summary": "Update communication provider",
+                "operationId": "9543027ee0880924281fc99448e41305",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of communication provider",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CommunicationProviderResource"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "Unauthenticated"
@@ -1427,6 +1913,45 @@
                                     "first_retention_user_id": {
                                         "description": "First retention worker ID",
                                         "type": "integer"
+                                    },
+                                    "conversion_sale_status_id": {
+                                        "description": "Conversion sale status ID",
+                                        "type": "integer"
+                                    },
+                                    "retention_sale_status_id": {
+                                        "description": "Retention sale status ID",
+                                        "type": "integer"
+                                    },
+                                    "permissions": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Permission ID",
+                                                    "type": "integer"
+                                                },
+                                                "status": {
+                                                    "description": "Status of customer permission",
+                                                    "type": "string"
+                                                },
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "reason": {
+                                                                "description": "Reason of change status",
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -1521,6 +2046,45 @@
                                     "first_retention_user_id": {
                                         "description": "First retention worker ID",
                                         "type": "integer"
+                                    },
+                                    "conversion_sale_status_id": {
+                                        "description": "Conversion sale status ID",
+                                        "type": "integer"
+                                    },
+                                    "retention_sale_status_id": {
+                                        "description": "Retention sale status ID",
+                                        "type": "integer"
+                                    },
+                                    "permissions": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Permission ID",
+                                                    "type": "integer"
+                                                },
+                                                "status": {
+                                                    "description": "Status of customer permission",
+                                                    "type": "string"
+                                                },
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "reason": {
+                                                                "description": "Reason of change status",
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -5034,6 +5598,16 @@
                                     },
                                     "roles": {
                                         "description": "Array of roles ID",
+                                        "properties": {
+                                            "affiliate_id": {
+                                                "description": "Affiliate worker ID",
+                                                "type": "integer"
+                                            },
+                                            "show_on_scoreboards": {
+                                                "description": "Show on scoreboards",
+                                                "type": "boolean"
+                                            }
+                                        },
                                         "type": "array",
                                         "items": {
                                             "properties": {
@@ -5207,6 +5781,14 @@
                                     "change_password": {
                                         "description": "Must be set to true if the password is changed.",
                                         "type": "boolean"
+                                    },
+                                    "affiliate_id": {
+                                        "description": "Affiliate worker ID",
+                                        "type": "integer"
+                                    },
+                                    "show_on_scoreboards": {
+                                        "description": "Show on scoreboards",
+                                        "type": "boolean"
                                     }
                                 },
                                 "type": "object"
@@ -5356,6 +5938,14 @@
                                     },
                                     "change_password": {
                                         "description": "Must be set to true if the password is changed.",
+                                        "type": "boolean"
+                                    },
+                                    "affiliate_id": {
+                                        "description": "Affiliate worker ID",
+                                        "type": "integer"
+                                    },
+                                    "show_on_scoreboards": {
+                                        "description": "Show on scoreboards",
                                         "type": "boolean"
                                     }
                                 },
@@ -5831,7 +6421,6 @@
                     "slug",
                     "logo_url",
                     "is_active",
-                    "tables",
                     "created_at",
                     "updated_at",
                     "deleted_at"
@@ -5862,12 +6451,6 @@
                     "is_active": {
                         "type": "boolean",
                         "example": "true"
-                    },
-                    "tables": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
                     },
                     "created_at": {
                         "type": "string",
@@ -5912,6 +6495,140 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/Brand"
+                    }
+                },
+                "type": "object"
+            },
+            "CommunicationExtension": {
+                "title": "CommunicationExtension",
+                "description": "CommunicationExtension model",
+                "required": [
+                    "id",
+                    "name",
+                    "user_id",
+                    "provider_id",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Any name"
+                    },
+                    "user_id": {
+                        "type": "integer"
+                    },
+                    "provider_id": {
+                        "type": "integer"
+                    },
+                    "user": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Worker"
+                        }
+                    },
+                    "provider": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CommunicationProvider"
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "CommunicationExtension"
+                }
+            },
+            "CommunicationExtensionCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CommunicationExtension"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "CommunicationExtensionResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/CommunicationExtension"
+                    }
+                },
+                "type": "object"
+            },
+            "CommunicationProvider": {
+                "title": "CommunicationProvider",
+                "description": "CommunicationProvider model",
+                "required": [
+                    "id",
+                    "name",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Any name"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "CommunicationProvider"
+                }
+            },
+            "CommunicationProviderCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CommunicationProvider"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "CommunicationProviderResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/CommunicationProvider"
                     }
                 },
                 "type": "object"
@@ -7093,6 +7810,14 @@
                         "items": {
                             "$ref": "#/components/schemas/Role"
                         }
+                    },
+                    "affiliate_id": {
+                        "description": "Affiliate worker ID",
+                        "type": "integer"
+                    },
+                    "show_on_scoreboards": {
+                        "description": "Show on scoreboards",
+                        "type": "boolean"
                     }
                 },
                 "type": "object"

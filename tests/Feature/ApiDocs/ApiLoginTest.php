@@ -22,6 +22,6 @@ class ApiLoginTest extends TestCase
             'Authorization' => 'Basic '. base64_encode("{$user->email}:{$password}")
         ]);
 
-        $response->assertStatus(200);
+        $response->assertOk();
     }
 }
