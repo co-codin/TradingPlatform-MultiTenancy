@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Sale\Models;
 
-use App\Models\Traits\ForTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,7 +24,6 @@ use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
  */
 class SaleStatus extends Model
 {
-    // use ForTenant;
     use HasFactory;
     use SoftDeletes;
     use UsesTenantConnection;
