@@ -54,6 +54,6 @@ abstract class BrandTestCase extends BaseTestCase
     {
         $this->brand->makeCurrent();
 
-        $this->withHeader('Tenant', $this->brand->database);
+        $this->withHeader('tenant', $this->brand->database);
     }
 }
