@@ -20,6 +20,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Modules\Brand\Models\Brand;
 use Modules\Communication\Models\Comment;
 use Modules\CommunicationProvider\Models\CommunicationProvider;
+use Modules\Customer\Models\Customer;
 use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
 use Modules\Language\Models\Language;
@@ -147,6 +148,16 @@ final class User extends Authenticatable
         return parent::toArray();
     }
 
+    public function setEmailAttribute(string $value): void
+    {
+        $this->attributes['email'] = strtolower($value);
+    }
+
+    public function setUsernameAttribute(string $value): void
+    {
+        $this->attributes['username'] = strtolower($value);
+    }
+
     public function comments()
     {
         return $this->hasMany(Comment::class);
@@ -212,18 +223,98 @@ final class User extends Authenticatable
         return $this->belongsTo(User::class, 'affiliate_id', 'id');
     }
 
-    public function setEmailAttribute(string $value): void
-    {
-        $this->attributes['email'] = strtolower($value);
-    }
-
-    public function setUsernameAttribute(string $value): void
-    {
-        $this->attributes['username'] = strtolower($value);
-    }
-
     public function comProvider(): BelongsTo
     {
         return $this->belongsTo(CommunicationProvider::class, 'com_provider_id');
+    }
+
+    /**
+     * Affiliate customers.
+     *
+     * @return HasMany
+     */
+    final public function affiliateCustomers(): HasMany
+    {
+        return $this->hasMany(Customer::class, 'affiliate_user_id', 'id');
+    }
+
+    /**
+     * Conversion customers.
+     *
+     * @return HasMany
+     */
+    final public function conversionCustomers(): HasMany
+    {
+        return $this->hasMany(Customer::class, 'conversion_user_id', 'id');
+    }
+
+    /**
+     * Retention customers.
+     *
+     * @return HasMany
+     */
+    final public function retentionCustomers(): HasMany
+    {
+        return $this->hasMany(Customer::class, 'retention_user_id', 'id');
+    }
+
+    /**
+     * Compliance customers.
+     *
+     * @return HasMany
+     */
+    final public function complianceCustomers(): HasMany
+    {
+        return $this->hasMany(Customer::class, 'compliance_user_id', 'id');
+    }
+
+    /**
+     * Support customers.
+     *
+     * @return HasMany
+     */
+    final public function supportCustomers(): HasMany
+    {
+        return $this->hasMany(Customer::class, 'support_user_id', 'id');
+    }
+
+    /**
+     * Conversion manager customers.
+     *
+     * @return HasMany
+     */
+    final public function conversionManageCustomers(): HasMany
+    {
+        return $this->hasMany(Customer::class, 'conversion_manager_user_id', 'id');
+    }
+
+    /**
+     * Retention manager customers.
+     *
+     * @return HasMany
+     */
+    final public function retentionManageCustomers(): HasMany
+    {
+        return $this->hasMany(Customer::class, 'retention_manager_user_id', 'id');
+    }
+
+    /**
+     * First conversion customers.
+     *
+     * @return HasMany
+     */
+    final public function firstConversionCustomers(): HasMany
+    {
+        return $this->hasMany(Customer::class, 'first_conversion_user_id', 'id');
+    }
+
+    /**
+     * First retention customers.
+     *
+     * @return HasMany
+     */
+    final public function firstRetentionCustomers(): HasMany
+    {
+        return $this->hasMany(Customer::class, 'first_retention_user_id', 'id');
     }
 }
