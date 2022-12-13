@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Desk\Models;
 
+use App\Relationships\Traits\WhereHasForTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -26,6 +27,7 @@ class Desk extends Model
     use NodeTrait;
     use LogsActivity;
     use UsesTenantConnection;
+    use WhereHasForTenant;
 
     protected $guarded = ['id'];
 
@@ -82,6 +84,6 @@ class Desk extends Model
      */
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_desk');
+        return $this->belongsToManyTenant(User::class, 'user_desk');
     }
 }

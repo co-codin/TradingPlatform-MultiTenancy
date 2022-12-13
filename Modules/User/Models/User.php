@@ -179,7 +179,7 @@ final class User extends Authenticatable
      */
     public function desks(): BelongsToMany
     {
-        return $this->belongsToMany(Desk::class, 'user_desk');
+        return $this->belongsToManyTenant(Desk::class, 'user_desk');
     }
 
     /**

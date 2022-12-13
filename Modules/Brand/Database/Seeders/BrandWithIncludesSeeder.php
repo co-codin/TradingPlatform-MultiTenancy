@@ -11,7 +11,6 @@ use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
 use Modules\Geo\Database\Seeders\CountryTableSeeder;
 use Modules\Geo\Models\Country;
-use Spatie\Multitenancy\Models\Tenant;
 
 final class BrandWithIncludesSeeder extends Seeder
 {
@@ -43,16 +42,16 @@ final class BrandWithIncludesSeeder extends Seeder
             /** @var Customer $customer */
             foreach ($customers as $customer) {
                 $users = collect([
-                        $customer->affiliateUser,
-                        $customer->conversionUser,
-                        $customer->retentionUser,
-                        $customer->complianceUser,
-                        $customer->supportUser,
-                        $customer->conversionManageUser,
-                        $customer->retentionManageUser,
-                        $customer->firstConversionUser,
-                        $customer->firstRetentionUser,
-                    ])
+                    $customer->affiliateUser,
+                    $customer->conversionUser,
+                    $customer->retentionUser,
+                    $customer->complianceUser,
+                    $customer->supportUser,
+                    $customer->conversionManageUser,
+                    $customer->retentionManageUser,
+                    $customer->firstConversionUser,
+                    $customer->firstRetentionUser,
+                ])
                     ->unique('id')
                     ->pluck('id')
                     ->toArray();
