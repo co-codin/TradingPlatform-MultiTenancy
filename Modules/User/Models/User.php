@@ -189,7 +189,7 @@ final class User extends Authenticatable
      */
     public function languages(): BelongsToMany
     {
-        return $this->belongsToMany(Language::class, 'user_language');
+        return $this->belongsToManyTenant(Language::class, 'user_language');
     }
 
     /**

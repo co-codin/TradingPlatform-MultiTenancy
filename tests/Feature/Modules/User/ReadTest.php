@@ -5,24 +5,27 @@ declare(strict_types=1);
 namespace Tests\Feature\Modules\User;
 
 use Modules\User\Models\User;
-use Tests\TestCase;
+use Spatie\Multitenancy\Concerns\UsesMultitenancyConfig;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-final class ReadTest extends TestCase
+final class ReadTest extends BrandTestCase
 {
+    use HasAuth;
+    use UsesMultitenancyConfig;
+
     /**
      * @test
      */
     public function admin_can_view_any()
     {
-        User::factory($count = 5)->create();
+        User::factory(5)->create();
 
         $this->authenticateAdmin();
 
         $response = $this->get(route('admin.users.index'));
 
         $response->assertOk();
-
-        $this->assertCount(++$count, $response['data']);
 
         $response->assertJsonStructure([
             'data' => [
@@ -45,7 +48,59 @@ final class ReadTest extends TestCase
         ]);
     }
 
+    /**
+     * @test
+     */
+    public function admin_can_view_any_with_relations()
+    {
+        User::factory(5)->create();
 
+        $this->authenticateAdmin();
+
+        $relations = [
+            'roles',
+            'roles.permissions',
+            'parent',
+            'ancestors',
+            'descendants',
+            'children',
+            'brands',
+            'displayOptions',
+            'desks',
+            'departments',
+            'languages',
+            'affiliate',
+            'comProvider',
+        ];
+
+        $this->brand->makeCurrent();
+
+        $this->withHeader('Tenant', $this->brand->database);
+
+        $response = $this->get(route('admin.users.index', ['include' => implode(',', $relations)]));
+
+        $response->assertOk();
+
+        $response->assertJsonStructure([
+            'data' => [
+                [
+                    'id',
+                    'username',
+                    'first_name',
+                    'last_name',
+                    'email',
+                    'is_active',
+                    'target',
+                    '_lft',
+                    '_rgt',
+                    'parent_id',
+                    'deleted_at',
+                    'last_login',
+                    'created_at',
+                ],
+            ],
+        ]);
+    }
 
     /**
      * @test
