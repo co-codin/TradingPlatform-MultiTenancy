@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Modules\Role\Models\ModelHasPermission;
 use Spatie\Permission\PermissionRegistrar;
 
 return new class extends Migration
@@ -70,6 +71,9 @@ return new class extends Migration
             $table->string('model_type');
             $table->unsignedBigInteger($columnNames['model_morph_key']);
             $table->index([$columnNames['model_morph_key'], 'model_type'], 'model_has_permissions_model_id_model_type_index');
+
+            $table->string('status')->default(ModelHasPermission::DEFAULT_STATUS);
+            $table->json('data')->nullable();
 
             $table->foreign(PermissionRegistrar::$pivotPermission)
                 ->references('id') // permission id

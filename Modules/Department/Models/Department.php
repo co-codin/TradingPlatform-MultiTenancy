@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Department\Models;
 
-use App\Models\Traits\ForTenant;
-use Illuminate\Database\Eloquent\Model;
+use App\Relationships\Traits\WhereHasForTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Customer\Models\Customer;
 use Modules\Department\Database\factories\DepartmentFactory;
 use Modules\User\Models\User;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 /**
  * Class Department
@@ -25,17 +28,20 @@ use Modules\User\Models\User;
  */
 class Department extends Model
 {
-    use ForTenant, HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
+    use UsesTenantConnection;
+    use WhereHasForTenant;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected $guarded = [
         'id',
     ];
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected static function newFactory(): DepartmentFactory
     {
@@ -54,6 +60,6 @@ class Department extends Model
      */
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_department');
+        return $this->belongsToManyTenant(User::class, 'user_department');
     }
 }

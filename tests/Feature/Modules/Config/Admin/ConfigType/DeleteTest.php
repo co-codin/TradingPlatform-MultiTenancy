@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Config\Admin\ConfigType;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Config\Enums\ConfigTypePermission;
 use Modules\Config\Models\ConfigType;
-use Tests\TestCase;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-final class DeleteTest extends TestCase
+final class DeleteTest extends BrandTestCase
 {
-    use DatabaseTransactions;
+    use TenantAware;
+    use HasAuth;
 
     /**
      * Test authorized user can delete config type.
@@ -23,6 +25,8 @@ final class DeleteTest extends TestCase
     final public function authorized_user_can_delete_config_type(): void
     {
         $this->authenticateWithPermission(ConfigTypePermission::fromValue(ConfigTypePermission::DELETE_CONFIG_TYPES));
+
+        $this->brand->makeCurrent();
 
         $configType = ConfigType::factory()->create();
 
@@ -40,6 +44,8 @@ final class DeleteTest extends TestCase
      */
     final public function unauthorized_user_cant_delete_config_type(): void
     {
+        $this->brand->makeCurrent();
+
         $configType = ConfigType::factory()->create();
 
         $response = $this->patchJson(route('admin.configs.types.destroy', ['type' => $configType->id]));

@@ -36,20 +36,26 @@ final class CustomerRequestCriteria extends BaseCriteria
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('user_id'),
-                AllowedFilter::partial('name'),
-                AllowedFilter::partial('slug'),
-                AllowedFilter::custom('live', new LiveFilter([
-                    'id' => '=',
-                    'name' => 'like',
-                    'slug' => 'like',
-                ])),
+                AllowedFilter::partial('first_name'),
+                AllowedFilter::partial('last_name'),
+                AllowedFilter::partial('email'),
+                AllowedFilter::exact('desk_id'),
+                AllowedFilter::exact('department_id'),
+                AllowedFilter::exact('language_id'),
+                AllowedFilter::exact('country_id'),
+                AllowedFilter::exact('created_at'),
+                AllowedFilter::exact('last_online'),
+                AllowedFilter::exact('conversion_sale_status_id'),
+                AllowedFilter::exact('retention_sale_status_id'),
+
                 AllowedFilter::trashed(),
             ])
             ->allowedIncludes([
                 'desk', 'department', 'affiliateUser',
             ])
             ->allowedSorts([
-
+                'id', 'first_name', 'last_name', 'language_id',
+                'conversion_sale_status_id', 'retention_sale_status_id'
             ]);
     }
 }

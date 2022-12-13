@@ -7,8 +7,10 @@ namespace Modules\User\Repositories\Criteria;
 use App\Http\Filters\LiveFilter;
 use App\Repositories\Criteria\BaseCriteria;
 use Modules\Brand\Repositories\Criteria\BrandRequestCriteria;
+use Modules\User\Repositories\Relationships\DeskInclude;
 use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedInclude;
 use Spatie\QueryBuilder\QueryBuilder;
 
 final class UserRequestCriteria extends BaseCriteria
@@ -24,6 +26,8 @@ final class UserRequestCriteria extends BaseCriteria
         'created_at',
         'parent_id',
         'email',
+        'affiliate_id',
+        'show_on_scoreboards',
         'updated_at',
         'deleted_at',
     ];
@@ -44,13 +48,21 @@ final class UserRequestCriteria extends BaseCriteria
                 AllowedFilter::partial('username'),
                 AllowedFilter::partial('email'),
                 AllowedFilter::partial('last_name'),
+                AllowedFilter::partial('affiliate_id'),
+                AllowedFilter::partial('show_on_scoreboards'),
                 AllowedFilter::custom('live', new LiveFilter([
                     'id' => '=',
                     'username' => 'like',
                     'last_name' => 'like',
                     'email' => 'like',
                 ])),
+                AllowedFilter::exact('roles.id'),
                 AllowedFilter::trashed(),
+
+//                AllowedFilter::exact('desks.id'),
+//                AllowedFilter::exact('departments.id'),
+//                AllowedFilter::exact('countries.id'),
+//                AllowedFilter::exact('languages.id'),
             ])
             ->scopes([
                 'byPermissionsAccess',
@@ -63,6 +75,14 @@ final class UserRequestCriteria extends BaseCriteria
                 'descendants',
                 'children',
                 'brands',
+                'displayOptions',
+
+//                AllowedInclude::custom('desks', new DeskInclude),
+
+                'desks',
+                'departments',
+                'languages',
+                'affiliate',
             ])
             ->allowedSorts([
                 'id',

@@ -16,6 +16,6 @@ use Modules\Sale\Http\Controllers\Admin\SaleStatusController;
 |
 */
 
-Route::group(['middleware' => 'tenant.set:1'], function () {
+Route::group(['middleware' => 'tenant'], function () {
     Route::apiResource('sale-statuses', SaleStatusController::class);
 });

@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Modules\Sale\Admin\SaleStatus;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Sale\Enums\SaleStatusPermission;
 use Modules\Sale\Models\SaleStatus;
-use Tests\TestCase;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 
-class UpdateTest extends TestCase
+class UpdateTest extends BrandTestCase
 {
-    use DatabaseTransactions, SaleStatusAdminTrait;
+    use TenantAware, HasAuth;
 
     /**
      * Test authorized user can update salestatus.
@@ -22,7 +25,10 @@ class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::EDIT_SALE_STATUSES));
 
+        $this->brand->makeCurrent();
+
         $saleStatus = SaleStatus::factory()->create();
+
         $data = SaleStatus::factory()->make();
 
         $response = $this->patchJson(route('admin.sale-statuses.update', ['sale_status' => $saleStatus->id]), $data->toArray());
@@ -44,7 +50,10 @@ class UpdateTest extends TestCase
     {
         $this->authenticateUser();
 
+        $this->brand->makeCurrent();
+
         $saleStatus = SaleStatus::factory()->create();
+
         $data = SaleStatus::factory()->make();
 
         $response = $this->patchJson(route('admin.sale-statuses.update', ['sale_status' => $saleStatus->id]), $data->toArray());
@@ -62,7 +71,10 @@ class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::EDIT_SALE_STATUSES));
 
+        $this->brand->makeCurrent();
+
         $saleStatusId = SaleStatus::orderByDesc('id')->first()?->id + 1 ?? 1;
+
         $data = SaleStatus::factory()->make();
 
         $response = $this->patchJson(route('admin.sale-statuses.update', ['sale_status' => $saleStatusId]), $data->toArray());
@@ -78,7 +90,10 @@ class UpdateTest extends TestCase
      */
     final public function unauthorized(): void
     {
+        $this->brand->makeCurrent();
+
         $saleStatus = SaleStatus::factory()->create();
+
         $data = SaleStatus::factory()->make();
 
         $response = $this->patchJson(route('admin.sale-statuses.update', ['sale_status' => $saleStatus->id]), $data->toArray());
@@ -96,6 +111,8 @@ class UpdateTest extends TestCase
     final public function salestatus_name_exist(): void
     {
         $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::EDIT_SALE_STATUSES));
+
+        $this->brand->makeCurrent();
 
         $saleStatus = SaleStatus::factory()->create();
         $data = SaleStatus::factory()->make(['name' => null])->toArray();
@@ -116,6 +133,8 @@ class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::EDIT_SALE_STATUSES));
 
+        $this->brand->makeCurrent();
+
         $saleStatus = SaleStatus::factory()->create();
         $data = SaleStatus::factory()->make(['title' => null])->toArray();
 
@@ -135,7 +154,10 @@ class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::EDIT_SALE_STATUSES));
 
+        $this->brand->makeCurrent();
+
         $saleStatus = SaleStatus::factory()->create();
+
         $data = SaleStatus::factory()->make(['color' => null])->toArray();
 
         $response = $this->patchJson(route('admin.sale-statuses.update', ['sale_status' => $saleStatus->id]), $data);
@@ -154,7 +176,10 @@ class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(SaleStatusPermission::fromValue(SaleStatusPermission::EDIT_SALE_STATUSES));
 
+        $this->brand->makeCurrent();
+
         $saleStatus = SaleStatus::factory()->create();
+
         $data = SaleStatus::factory()->make(['color' => '#e1e1'])->toArray();
 
         $response = $this->patchJson(route('admin.sale-statuses.update', ['sale_status' => $saleStatus->id]), $data);

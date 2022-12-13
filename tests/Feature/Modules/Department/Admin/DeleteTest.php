@@ -1,29 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Modules\Department\Admin;
 
-use Illuminate\Contracts\Auth\Authenticatable as UserContract;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Str;
 use Modules\Department\Enums\DepartmentPermission;
 use Modules\Department\Models\Department;
-use Modules\Role\Models\Permission;
-use Modules\User\Models\User;
-use Tests\TestCase;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-class DeleteTest extends TestCase
+final class DeleteTest extends BrandTestCase
 {
-    use DatabaseTransactions;
+    use TenantAware;
+    use HasAuth;
+    use WithFaker;
 
     /**
      * Test authorized user can delete department.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_authorized_user_can_delete_department(): void
+    public function authorized_user_can_delete_department(): void
     {
         $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::DELETE_DEPARTMENTS));
 
-        $department = Department::factory()->create();
+        $this->brand->makeCurrent();
+
+        $department = Department::factory()->create(static::demoData());
 
         $response = $this->deleteJson(route('admin.departments.destroy', ['department' => $department->id]));
 
@@ -34,13 +42,32 @@ class DeleteTest extends TestCase
      * Test unauthorized user can`t delete department.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_unauthorized_user_cant_delete_department(): void
+    public function unauthorized_user_cant_delete_department(): void
     {
-        $department = Department::factory()->create();
+        $this->brand->makeCurrent();
+
+        $department = Department::factory()->create(static::demoData());
 
         $response = $this->patchJson(route('admin.departments.destroy', ['department' => $department->id]));
 
         $response->assertUnauthorized();
+    }
+
+    /**
+     * Demo Data
+     *
+     * @return array
+     */
+    private function demoData(): array
+    {
+        return [
+            'name' => $this->faker->name,
+            'title' => $this->faker->title . Str::random(5),
+            'is_active' => $this->faker->boolean(),
+            'is_default' => $this->faker->boolean(),
+        ];
     }
 }

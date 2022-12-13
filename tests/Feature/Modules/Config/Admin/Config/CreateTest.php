@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Config\Admin\Config;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\DB;
 use Modules\Config\Enums\ConfigPermission;
 use Modules\Config\Models\Config;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
 final class CreateTest extends BrandTestCase
 {
-    use DatabaseTransactions;
+    use TenantAware;
+    use HasAuth;
 
     /**
      * Test authorized user can create config.
@@ -25,19 +26,17 @@ final class CreateTest extends BrandTestCase
     {
         $this->authenticateWithPermission(ConfigPermission::fromValue(ConfigPermission::CREATE_CONFIGS));
 
-        dd(
-            DB::connection()->getDatabaseName()
-        );
+        $this->brand->makeCurrent();
 
         $data = Config::factory()->make();
-//
-//        $response = $this->postJson(route('admin.configs.store'), $data->toArray());
-//
-//        $response->assertCreated();
-//
-//        $response->assertJson([
-//            'data' => $data->toArray(),
-//        ]);
+
+        $response = $this->postJson(route('admin.configs.store'), $data->toArray());
+
+        $response->assertCreated();
+
+        $response->assertJson([
+            'data' => $data->toArray(),
+        ]);
     }
 
     /**
@@ -49,6 +48,8 @@ final class CreateTest extends BrandTestCase
      */
     final public function unauthorized_user_cant_create_config(): void
     {
+        $this->brand->makeCurrent();
+
         $data = Config::factory()->make();
 
         $response = $this->postJson(route('admin.configs.store'), $data->toArray());
@@ -66,6 +67,8 @@ final class CreateTest extends BrandTestCase
     final public function config_type_id_is_required(): void
     {
         $this->authenticateWithPermission(ConfigPermission::fromValue(ConfigPermission::CREATE_CONFIGS));
+
+        $this->brand->makeCurrent();
 
         $data = Config::factory()->make()->toArray();
         unset($data['config_type_id']);
@@ -86,6 +89,8 @@ final class CreateTest extends BrandTestCase
     {
         $this->authenticateWithPermission(ConfigPermission::fromValue(ConfigPermission::CREATE_CONFIGS));
 
+        $this->brand->makeCurrent();
+
         $data = Config::factory()->make()->toArray();
         unset($data['data_type']);
 
@@ -104,6 +109,8 @@ final class CreateTest extends BrandTestCase
     final public function config_name_is_required(): void
     {
         $this->authenticateWithPermission(ConfigPermission::fromValue(ConfigPermission::CREATE_CONFIGS));
+
+        $this->brand->makeCurrent();
 
         $data = Config::factory()->make()->toArray();
         unset($data['name']);
@@ -124,6 +131,8 @@ final class CreateTest extends BrandTestCase
     {
         $this->authenticateWithPermission(ConfigPermission::fromValue(ConfigPermission::CREATE_CONFIGS));
 
+        $this->brand->makeCurrent();
+
         $data = Config::factory()->make()->toArray();
         unset($data['value']);
 
@@ -142,6 +151,8 @@ final class CreateTest extends BrandTestCase
     final public function config_type_id_is_integer(): void
     {
         $this->authenticateWithPermission(ConfigPermission::fromValue(ConfigPermission::CREATE_CONFIGS));
+
+        $this->brand->makeCurrent();
 
         $data = Config::factory()->make();
         $data->config_type_id = 'Hello world!';
@@ -162,6 +173,8 @@ final class CreateTest extends BrandTestCase
     {
         $this->authenticateWithPermission(ConfigPermission::fromValue(ConfigPermission::CREATE_CONFIGS));
 
+        $this->brand->makeCurrent();
+
         $data = Config::factory()->make();
         $data->data_type = 1;
 
@@ -181,6 +194,8 @@ final class CreateTest extends BrandTestCase
     {
         $this->authenticateWithPermission(ConfigPermission::fromValue(ConfigPermission::CREATE_CONFIGS));
 
+        $this->brand->makeCurrent();
+
         $data = Config::factory()->make();
         $data->name = 1;
 
@@ -199,6 +214,8 @@ final class CreateTest extends BrandTestCase
     final public function config_value_is_string(): void
     {
         $this->authenticateWithPermission(ConfigPermission::fromValue(ConfigPermission::CREATE_CONFIGS));
+
+        $this->brand->makeCurrent();
 
         $data = Config::factory()->make();
         $data->value = 1;

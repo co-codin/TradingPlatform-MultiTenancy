@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -129,5 +130,51 @@ abstract class BaseModuleServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             module_path($this->getModuleName(), 'Config/config.php'), $this->getModuleNameLower()
         );
+    }
+
+    /**
+     * Register views.
+     *
+     * @return void
+     */
+    public function registerViews(): void
+    {
+        $viewPath = resource_path('views/modules/' . $this->getModuleNameLower());
+
+        $sourcePath = module_path($this->getModuleName(), 'Resources/views');
+
+        $this->publishes([
+            $sourcePath => $viewPath
+        ], ['views', $this->getModuleNameLower() . '-module-views']);
+
+        $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), $this->getModuleNameLower());
+    }
+
+    /**
+     * Get publishable view paths.
+     *
+     * @return array
+     */
+    private function getPublishableViewPaths(): array
+    {
+        $paths = [];
+
+        foreach (Config::get('view.paths') as $path) {
+            if (is_dir($path . '/modules/' . $this->getModuleNameLower())) {
+                $paths[] = $path . '/modules/' . $this->getModuleNameLower();
+            }
+        }
+
+        return $paths;
+    }
+
+    /**
+     * Load migrations.
+     *
+     * @return void
+     */
+    protected function loadMigrations(): void
+    {
+        $this->loadMigrationsFrom(module_path($this->getModuleName(), 'Database/Migrations'));
     }
 }

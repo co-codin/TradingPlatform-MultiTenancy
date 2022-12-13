@@ -20,13 +20,22 @@ use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 final class LanguageController extends Controller
 {
     /**
-     * @param LanguageRepository $repository
+     * @param LanguageRepository $languageRepository
      * @param LanguageStorage $storage
      */
     public function __construct(
-        protected LanguageRepository $repository,
-        protected LanguageStorage $storage,
+        protected LanguageRepository $languageRepository,
+        protected LanguageStorage    $storage,
     ) {}
+
+    public function all()
+    {
+        $this->authorize('viewAny');
+
+        $desks = $this->languageRepository->all();
+
+        return LanguageResource::collection($desks);
+    }
 
     /**
      * @OA\Get(
@@ -60,7 +69,7 @@ final class LanguageController extends Controller
     {
         $this->authorize('viewAny', Language::class);
 
-        return LanguageResource::collection($this->repository->jsonPaginate());
+        return LanguageResource::collection($this->languageRepository->jsonPaginate());
     }
 
     /**
@@ -161,7 +170,7 @@ final class LanguageController extends Controller
      */
     public function show(int $id): JsonResource
     {
-        $language = $this->repository->find($id);
+        $language = $this->languageRepository->find($id);
 
         $this->authorize('view', $language);
 
@@ -229,7 +238,7 @@ final class LanguageController extends Controller
      */
     public function update(LanguageUpdateRequest $request, int $id): JsonResource
     {
-        $language = $this->repository->find($id);
+        $language = $this->languageRepository->find($id);
 
         $this->authorize('update', $language);
 
@@ -279,7 +288,7 @@ final class LanguageController extends Controller
      */
     public function destroy(int $id): Response
     {
-        $language = $this->repository->find($id);
+        $language = $this->languageRepository->find($id);
 
         $this->authorize('delete', $language);
 

@@ -2,15 +2,16 @@
 
 namespace Modules\Role\Models;
 
-use App\Models\Traits\ForTenant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Role\Database\factories\ActionFactory;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
 class Action extends Model
 {
-    use ForTenant, HasFactory;
+    use HasFactory;
+    use UsesLandlordConnection;
 
     /**
      * @var array

@@ -1,95 +1,119 @@
 <?php
 
-namespace Tests\Feature\Modules\Department;
+declare(strict_types=1);
 
-use Illuminate\Contracts\Auth\Authenticatable as UserContract;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+namespace Tests\Feature\Modules\Department\Admin;
+
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Str;
 use Modules\Department\Enums\DepartmentPermission;
 use Modules\Department\Models\Department;
-use Modules\Role\Models\Permission;
-use Modules\User\Models\User;
-use Tests\TestCase;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-class ReadTest extends TestCase
+final class ReadTest extends BrandTestCase
 {
-    use DatabaseTransactions;
+    use TenantAware;
+    use HasAuth;
+    use WithFaker;
 
     /**
      * Test authorized user can get departments list.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_authorized_user_can_get_departments_list(): void
+    public function authorized_user_can_get_departments_list(): void
     {
         $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::VIEW_DEPARTMENTS));
 
-        $department = Department::factory()->create();
+        $this->brand->makeCurrent();
+
+        $data = Department::factory()->create(static::demoData())->toArray();
 
         $response = $this->getJson(route('admin.departments.index'));
 
         $response->assertOk();
 
         $response->assertJson([
-            'data' => [
-                [
-                    'id' => $department->id,
-                    'name' => $department->name,
-                    'title' => $department->title,
-                    'is_active' => $department->is_active,
-                    'is_default' => $department->is_default,
-                ]
-            ]
+            'data' => [$data],
         ]);
     }
+
     /**
      * Test unauthorized user cant get departments list.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_unauthorized_user_cant_get_departments_list(): void
+    public function unauthorized_user_cant_get_departments_list(): void
     {
-        Department::factory()->create();
+        $this->brand->makeCurrent();
+
+        Department::factory()->create(static::demoData());
 
         $response = $this->getJson(route('admin.departments.index'));
 
         $response->assertUnauthorized();
     }
+
     /**
      * Test authorized user can get department.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_authorized_user_can_get_country(): void
+    public function authorized_user_can_get_country(): void
     {
         $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::VIEW_DEPARTMENTS));
 
-        $department = Department::factory()->create();
+        $this->brand->makeCurrent();
 
-        $response = $this->getJson(route('admin.departments.show', ['department' => $department->id]));
+        $data = Department::factory()->create(static::demoData());
+
+        $response = $this->getJson(route('admin.departments.show', ['department' => $data->id]));
 
         $response->assertOk();
 
         $response->assertJson([
-            'data' => [
-                'id' => $department->id,
-                'name' => $department->name,
-                'title' => $department->title,
-                'is_active' => $department->is_active,
-                'is_default' => $department->is_default,
-            ]
+            'data' => $data->toArray(),
         ]);
     }
+
     /**
      * Test unauthorized user cant get department.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_unauthorized_user_cant_get_country(): void
+    public function unauthorized_user_cant_get_country(): void
     {
-        $department = Department::factory()->create();
+        $this->brand->makeCurrent();
+
+        $department = Department::factory()->create(static::demoData());
 
         $response = $this->getJson(route('admin.departments.show', ['department' => $department->id]));
 
         $response->assertUnauthorized();
+    }
+
+    /**
+     * Demo Data
+     *
+     * @return array
+     */
+    private function demoData(): array
+    {
+        return [
+            'name' => $this->faker->name,
+            'title' => $this->faker->title . Str::random(5),
+            'is_active' => $this->faker->boolean(),
+            'is_default' => $this->faker->boolean(),
+        ];
     }
 }

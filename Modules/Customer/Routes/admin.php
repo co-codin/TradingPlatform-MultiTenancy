@@ -8,7 +8,7 @@ use Modules\Customer\Http\Controllers\Admin\CustomerImpersonateController;
 use Modules\Customer\Http\Controllers\Admin\CustomerImportController;
 
 Route::group([
-    'middleware' => ['tenant.set:1'],
+    'middleware' => ['tenant'],
 ], function () {
     // Customers export
     Route::group(['prefix' => 'customers/export'], function () {

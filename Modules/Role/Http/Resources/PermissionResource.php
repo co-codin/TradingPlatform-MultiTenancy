@@ -4,7 +4,6 @@ namespace Modules\Role\Http\Resources;
 
 use App\Http\Resources\BaseJsonResource;
 use Modules\Role\Models\Permission;
-use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema (

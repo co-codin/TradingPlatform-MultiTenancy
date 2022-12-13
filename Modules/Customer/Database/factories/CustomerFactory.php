@@ -10,6 +10,7 @@ use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
 use Modules\Geo\Models\Country;
 use Modules\Language\Models\Language;
+use Modules\Sale\Models\SaleStatus;
 use Modules\User\Models\User;
 
 class CustomerFactory extends Factory
@@ -46,6 +47,9 @@ class CustomerFactory extends Factory
             'retention_manager_user_id' => User::factory(),
             'first_conversion_user_id' => $conversion,
             'first_retention_user_id' => $retention,
+
+            'conversion_sale_status_id' => SaleStatus::factory(),
+            'retention_sale_status_id' => SaleStatus::factory(),
 
             'country_id' => Country::factory(),
             'language_id' => Language::factory(),

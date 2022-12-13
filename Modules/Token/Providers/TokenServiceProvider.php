@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Token\Providers;
 
 use App\Providers\BaseModuleServiceProvider;
 use Modules\Token\Models\Token;
 use Modules\Token\Policies\TokenPolicy;
 
-class TokenServiceProvider extends BaseModuleServiceProvider
+final class TokenServiceProvider extends BaseModuleServiceProvider
 {
     /**
      * @inheritdoc
@@ -23,9 +25,13 @@ class TokenServiceProvider extends BaseModuleServiceProvider
         return 'Token';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function boot(): void
     {
         parent::boot();
-        $this->loadMigrationsFrom(module_path($this->getModuleName(), 'Database/Migrations'));
+
+        $this->loadMigrations();
     }
 }
