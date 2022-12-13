@@ -56,19 +56,9 @@ return [
             'provider' => 'customers',
         ],
 
-        'customers' => [
-            'driver' => 'session',
-            'provider' => 'customers',
-        ],
-
         'basic' => [
             'driver' => 'session',
             'provider' => 'users',
-        ],
-
-        'customer' => [
-            'driver' => 'sanctum',
-            'provider' => 'customers',
         ],
     ],
 
