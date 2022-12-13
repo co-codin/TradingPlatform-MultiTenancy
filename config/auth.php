@@ -41,9 +41,19 @@ return [
             'provider' => 'users',
         ],
 
+        'api-customer' => [
+            'driver' => 'sanctum',
+            'provider' => 'customers',
+        ],
+
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+        ],
+
+        'web-customer' => [
+            'driver' => 'session',
+            'provider' => 'customers',
         ],
 
         'customers' => [

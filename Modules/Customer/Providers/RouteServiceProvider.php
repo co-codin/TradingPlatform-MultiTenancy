@@ -53,9 +53,7 @@ final class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes(): void
     {
-        Route::middleware(['api'])
-//            ::middleware(['api', 'auth:customer']) TODO add these middlewares after customer authentication
-            ->group(module_path('Customer', '/Routes/api.php'));
+        Route::prefix('customer')->as('customer.')->group(module_path('Customer', '/Routes/api.php'));
     }
 
     /**
