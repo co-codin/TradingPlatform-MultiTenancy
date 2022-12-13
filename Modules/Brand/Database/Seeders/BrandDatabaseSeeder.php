@@ -15,10 +15,14 @@ final class BrandDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        if (app()->environment('local', 'dev', 'development')) {
-            $this->call(
-                BrandWithIncludesSeeder::class,
-            );
-        }
+        $this->call(
+            BrandWithIncludesSeeder::class,
+        );
+
+//        if (app()->environment('local', 'dev', 'development')) {
+//            $this->call(
+//                BrandWithIncludesSeeder::class,
+//            );
+//        }
     }
 }
