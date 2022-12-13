@@ -56,6 +56,7 @@ final class AuthCustomerResource extends JsonResource
             'id' => $this->id,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
+            'gender' => $this->gender,
             'email' => $this->email,
             'phone' => $this->phone,
             'country' => new CountryResource($this->country),

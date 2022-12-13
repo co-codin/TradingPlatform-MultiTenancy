@@ -11,13 +11,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Modules\Customer\Http\Requests\LoginRequest;
 use Modules\Customer\Http\Resources\AuthCustomerResource;
+use Modules\Customer\Models\Customer;
 use Modules\Customer\Services\CustomerStorage;
 use OpenApi\Annotations as OA;
 
 final class AuthController extends Controller
 {
-    public const GUARD = 'web-customer';
-
     public function __construct(
         protected CustomerStorage $customerStorage,
     ) {
@@ -86,7 +85,7 @@ final class AuthController extends Controller
     public function login(LoginRequest $request): Response
     {
         if (
-            !Auth::guard(self::GUARD)->attempt([
+            ! Auth::guard(Customer::DEFAULT_AUTH_GUARD)->attempt([
                 'email' => $request->validated('email'), 'password' => $request->validated('password'),
             ], $request->validated('remember_me', false))
         ) {
@@ -95,9 +94,9 @@ final class AuthController extends Controller
             ]);
         }
 
-        $customer = Auth::guard(self::GUARD)->user();
+        $customer = Auth::guard(Customer::DEFAULT_AUTH_GUARD)->user();
         if ($customer->banned_at) {
-            Auth::guard(self::GUARD)->logout();
+            Auth::guard(Customer::DEFAULT_AUTH_GUARD)->logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
             throw ValidationException::withMessages([
@@ -135,7 +134,7 @@ final class AuthController extends Controller
      */
     public function logout(Request $request): Response
     {
-        Auth::guard(self::GUARD)->logout();
+        Auth::guard(Customer::DEFAULT_AUTH_GUARD)->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
@@ -163,6 +162,6 @@ final class AuthController extends Controller
      */
     public function me(): AuthCustomerResource
     {
-        return new AuthCustomerResource(auth()->user());
+        return new AuthCustomerResource(auth(Customer::DEFAULT_AUTH_GUARD)->user());
     }
 }
