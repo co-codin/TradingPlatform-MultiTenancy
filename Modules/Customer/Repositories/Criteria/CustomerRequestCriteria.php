@@ -41,9 +41,12 @@ final class CustomerRequestCriteria extends BaseCriteria
                 AllowedFilter::partial('email'),
                 AllowedFilter::exact('desk_id'),
                 AllowedFilter::exact('department_id'),
+                AllowedFilter::exact('language_id'),
                 AllowedFilter::exact('country_id'),
                 AllowedFilter::exact('created_at'),
                 AllowedFilter::exact('last_online'),
+                AllowedFilter::exact('conversion_sale_status_id'),
+                AllowedFilter::exact('retention_sale_status_id'),
 
                 AllowedFilter::trashed(),
             ])
@@ -51,7 +54,8 @@ final class CustomerRequestCriteria extends BaseCriteria
                 'desk', 'department', 'affiliateUser',
             ])
             ->allowedSorts([
-
+                'id', 'first_name', 'last_name', 'language_id',
+                'conversion_sale_status_id', 'retention_sale_status_id'
             ]);
     }
 }
