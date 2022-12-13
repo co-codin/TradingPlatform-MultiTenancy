@@ -21,12 +21,13 @@ final class CustomerRegisterRequest extends BaseFormRequest
             'first_name' => 'required|string',
             'last_name' => 'required|string',
             'gender' => [
-                new EnumValue(Gender::class, false),
+                'required',
+                new EnumValue(Gender::class, true),
             ],
-            'email' => 'required|email|max:100|unique:customers,email',
+            'email' => 'required|email|max:100|unique:tenant.customers,email',
             'password' => 'required|string|min:6|confirmed',
             'phone' => 'required|string|regex:/^\+(?:\d\s?){6,14}\d$/',
-            'country_id' => 'required|int|exists:countries,id',
+            'country_id' => 'required|int|exists:tenant.countries,id',
         ];
     }
 
