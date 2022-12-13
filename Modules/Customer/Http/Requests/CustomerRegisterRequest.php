@@ -22,7 +22,7 @@ final class CustomerRegisterRequest extends BaseFormRequest
             'last_name' => 'required|string',
             'gender' => [
                 'required',
-                new EnumValue(Gender::class, true),
+                new EnumValue(Gender::class, false),
             ],
             'email' => 'required|email|max:100|unique:tenant.customers,email',
             'password' => 'required|string|min:6|confirmed',
