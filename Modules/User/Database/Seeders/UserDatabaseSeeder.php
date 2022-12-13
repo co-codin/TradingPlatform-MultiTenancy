@@ -10,10 +10,14 @@ final class UserDatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        if (app()->environment('local', 'dev', 'development')) {
-            $this->call(
-                UserTestAdminSeeder::class,
-            );
-        }
+
+        $this->call(
+            UserTestAdminSeeder::class,
+        );
+//        if (app()->environment('local', 'dev', 'development')) {
+//            $this->call(
+//                UserTestAdminSeeder::class,
+//            );
+//        }
     }
 }
