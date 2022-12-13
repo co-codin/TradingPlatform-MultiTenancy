@@ -9,6 +9,7 @@ use Modules\Brand\Http\Resources\BrandResource;
 use Modules\Communication\Http\Resources\CommentResource;
 use Modules\Department\Http\Resources\DepartmentResource;
 use Modules\Desk\Http\Resources\DeskResource;
+use Modules\Geo\Http\Resources\CountryResource;
 use Modules\Language\Http\Resources\LanguageResource;
 use Modules\Role\Http\Resources\PermissionResource;
 use Modules\Role\Http\Resources\RoleResource;
@@ -86,6 +87,7 @@ final class UserResource extends JsonResource
             'languages' => LanguageResource::collection($this->whenLoaded('languages')),
             'display_options' => DisplayOptionResource::collection($this->whenLoaded('displayOptions')),
             'comments' => CommentResource::collection($this->whenLoaded('comments')),
+            'countries' => CountryResource::collection($this->whenLoaded('countries')),
         ]);
     }
 }

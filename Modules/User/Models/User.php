@@ -23,6 +23,7 @@ use Modules\CommunicationProvider\Models\CommunicationProvider;
 use Modules\Customer\Models\Customer;
 use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
+use Modules\Geo\Models\Country;
 use Modules\Language\Models\Language;
 use Modules\Role\Models\Role;
 use Modules\Role\Models\Traits\HasRoles;
@@ -200,7 +201,17 @@ final class User extends Authenticatable
      */
     public function languages(): BelongsToMany
     {
-        return $this->belongsToMany(Language::class, 'user_language');
+        return $this->belongsToManyTenant(Language::class, 'user_language');
+    }
+
+    /**
+     * Countries relation.
+     *
+     * @return BelongsToMany
+     */
+    public function countries(): BelongsToMany
+    {
+        return $this->belongsToManyTenant(Country::class, 'user_country');
     }
 
     /**
@@ -223,6 +234,11 @@ final class User extends Authenticatable
         return $this->belongsTo(User::class, 'affiliate_id', 'id');
     }
 
+    /**
+     * Communication provider.
+     *
+     * @return BelongsTo
+     */
     public function comProvider(): BelongsTo
     {
         return $this->belongsTo(CommunicationProvider::class, 'com_provider_id');

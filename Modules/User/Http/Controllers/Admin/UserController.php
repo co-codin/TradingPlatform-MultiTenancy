@@ -20,7 +20,6 @@ use Modules\User\Repositories\UserRepository;
 use Modules\User\Services\UserBanService;
 use Modules\User\Services\UserBatchService;
 use Modules\User\Services\UserStorage;
-use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 final class UserController extends Controller
