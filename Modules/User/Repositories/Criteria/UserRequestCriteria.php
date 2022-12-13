@@ -79,6 +79,16 @@ final class UserRequestCriteria extends BaseCriteria
                 'languages',
                 'affiliate',
                 'comProvider',
+
+                'affiliateCustomers',
+                'conversionCustomers',
+                'retentionCustomers',
+                'complianceCustomers',
+                'supportCustomers',
+                'conversionManageCustomers',
+                'retentionManageCustomers',
+                'firstConversionCustomers',
+                'firstRetentionCustomers',
             ])
             ->allowedSorts([
                 'id',

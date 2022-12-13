@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Customer\Repositories\Criteria;
 
-use App\Http\Filters\LiveFilter;
 use App\Repositories\Criteria\BaseCriteria;
 use Modules\Department\Repositories\Criteria\DepartmentRequestCriteria;
 use Modules\Desk\Repositories\Criteria\DeskRequestCriteria;
@@ -51,11 +50,24 @@ final class CustomerRequestCriteria extends BaseCriteria
                 AllowedFilter::trashed(),
             ])
             ->allowedIncludes([
-                'desk', 'department', 'affiliateUser',
+                'desk',
+                'department',
+
+                'affiliateUser',
+                'conversionUser',
+                'retentionUser',
+                'complianceUser',
+                'supportUser',
+                'conversionManageUser',
+                'retentionManageUser',
+                'firstConversionUser',
+                'firstRetentionUser',
+                'conversionSaleStatus',
+                'retentionSaleStatus',
             ])
             ->allowedSorts([
                 'id', 'first_name', 'last_name', 'language_id',
-                'conversion_sale_status_id', 'retention_sale_status_id'
+                'conversion_sale_status_id', 'retention_sale_status_id',
             ]);
     }
 }
