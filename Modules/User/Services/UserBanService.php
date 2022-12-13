@@ -16,20 +16,21 @@ final class UserBanService
     use HasAuthUser;
 
     /**
-     * @param UserStorage $userStorage
-     * @param UserRepository $userRepository
+     * @param  UserStorage  $userStorage
+     * @param  UserRepository  $userRepository
      */
     final public function __construct(
         protected UserStorage $userStorage,
         protected UserRepository $userRepository
-    )
-    {}
+    ) {
+    }
 
     /**
      * Ban user.
      *
-     * @param User $user
+     * @param  User  $user
      * @return User|null
+     *
      * @throws Exception
      */
     final public function banUser(User $user): ?User
@@ -44,8 +45,9 @@ final class UserBanService
     /**
      * Ban users.
      *
-     * @param array $usersData
+     * @param  array  $usersData
      * @return Collection
+     *
      * @throws Exception
      */
     final public function banUsers(array $usersData): Collection
@@ -55,7 +57,9 @@ final class UserBanService
         foreach ($usersData as $userData) {
             $user = $this->userRepository->find($userData['id']);
 
-            $bannedUsers->push($this->banUser($user));
+            if ($banUser = $this->banUser($user)) {
+                $bannedUsers->push($banUser);
+            }
         }
 
         return $bannedUsers;
@@ -64,8 +68,9 @@ final class UserBanService
     /**
      * Unban user.
      *
-     * @param User $user
+     * @param  User  $user
      * @return User|null
+     *
      * @throws Exception
      */
     final public function unbanUser(User $user): ?User
@@ -80,8 +85,9 @@ final class UserBanService
     /**
      * Unban users.
      *
-     * @param array $usersData
+     * @param  array  $usersData
      * @return Collection
+     *
      * @throws Exception
      */
     final public function unbanUsers(array $usersData): Collection
@@ -90,8 +96,9 @@ final class UserBanService
 
         foreach ($usersData as $userData) {
             $user = $this->userRepository->find($userData['id']);
-
-            $unbannedUsers->push($this->unbanUser($user));
+            if ($unbanUser = $this->unbanUser($user)) {
+                $unbannedUsers->push($unbanUser);
+            }
         }
 
         return $unbannedUsers;
