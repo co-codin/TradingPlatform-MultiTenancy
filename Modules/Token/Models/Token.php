@@ -2,18 +2,21 @@
 
 namespace Modules\Token\Models;
 
-use App\Models\Traits\ForTenant;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Token\Database\factories\TokenFactory;
 use Modules\User\Models\User;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
 class Token extends Model
 {
-    use ForTenant, HasFactory, SoftDeletes, LogsActivity;
+    use UsesLandlordConnection;
+    use HasFactory;
+    use SoftDeletes;
+    use LogsActivity;
 
     protected $guarded = ['id'];
 

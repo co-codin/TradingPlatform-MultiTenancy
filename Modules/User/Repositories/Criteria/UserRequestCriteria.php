@@ -7,10 +7,8 @@ namespace Modules\User\Repositories\Criteria;
 use App\Http\Filters\LiveFilter;
 use App\Repositories\Criteria\BaseCriteria;
 use Modules\Brand\Repositories\Criteria\BrandRequestCriteria;
-use Modules\User\Repositories\Relationships\DeskInclude;
 use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\AllowedInclude;
 use Spatie\QueryBuilder\QueryBuilder;
 
 final class UserRequestCriteria extends BaseCriteria
@@ -58,11 +56,10 @@ final class UserRequestCriteria extends BaseCriteria
                 ])),
                 AllowedFilter::exact('roles.id'),
                 AllowedFilter::trashed(),
-
-//                AllowedFilter::exact('desks.id'),
-//                AllowedFilter::exact('departments.id'),
-//                AllowedFilter::exact('countries.id'),
-//                AllowedFilter::exact('languages.id'),
+                AllowedFilter::exact('desks.id'),
+                AllowedFilter::exact('departments.id'),
+                AllowedFilter::exact('countries.id'),
+                AllowedFilter::exact('languages.id'),
             ])
             ->scopes([
                 'byPermissionsAccess',
@@ -70,19 +67,18 @@ final class UserRequestCriteria extends BaseCriteria
             ->allowedIncludes([
                 'roles',
                 'roles.permissions',
+                'permissions',
                 'parent',
                 'ancestors',
                 'descendants',
                 'children',
                 'brands',
                 'displayOptions',
-
-//                AllowedInclude::custom('desks', new DeskInclude),
-
                 'desks',
                 'departments',
                 'languages',
                 'affiliate',
+                'comProvider',
             ])
             ->allowedSorts([
                 'id',

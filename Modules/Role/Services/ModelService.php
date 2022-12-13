@@ -32,7 +32,7 @@ final class ModelService
     {
         $out = [];
 
-        $results = scandir($path);
+        $results = is_dir($path) ? scandir($path) : [];
 
         foreach ($results as $result) {
             if ($result === '.' or $result === '..') {
