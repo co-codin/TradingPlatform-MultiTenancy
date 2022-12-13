@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Desk\Models;
 
+use App\Relationships\Traits\WhereHasForTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -24,6 +25,7 @@ class Desk extends Model
     use NodeTrait;
     use LogsActivity;
     use UsesTenantConnection;
+    use WhereHasForTenant;
 
     protected $guarded = ['id'];
 

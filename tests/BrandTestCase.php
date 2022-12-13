@@ -44,4 +44,16 @@ abstract class BrandTestCase extends BaseTestCase
 
         $this->brand = Brand::first();
     }
+
+    /**
+     * Make current tenant and set header.
+     *
+     * @return void
+     */
+    protected function makeCurrentTenantAndSetHeader(): void
+    {
+        $this->brand->makeCurrent();
+
+        $this->withHeader('Tenant', $this->brand->database);
+    }
 }

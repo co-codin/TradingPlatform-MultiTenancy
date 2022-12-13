@@ -56,11 +56,10 @@ final class UserRequestCriteria extends BaseCriteria
                 ])),
                 AllowedFilter::exact('roles.id'),
                 AllowedFilter::trashed(),
-
-                //                AllowedFilter::exact('desks.id'),
-                //                AllowedFilter::exact('departments.id'),
-                //                AllowedFilter::exact('countries.id'),
-                //                AllowedFilter::exact('languages.id'),
+                AllowedFilter::exact('desks.id'),
+                AllowedFilter::exact('departments.id'),
+                AllowedFilter::exact('countries.id'),
+                AllowedFilter::exact('languages.id'),
             ])
             ->scopes([
                 'byPermissionsAccess',
@@ -68,6 +67,7 @@ final class UserRequestCriteria extends BaseCriteria
             ->allowedIncludes([
                 'roles',
                 'roles.permissions',
+                'permissions',
                 'parent',
                 'ancestors',
                 'descendants',
