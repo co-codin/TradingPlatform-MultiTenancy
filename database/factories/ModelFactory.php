@@ -2,19 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Modules\Role\Database\factories;
+namespace database\factories;
 
+use App\Models\Model;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Modules\Role\Models\Action;
+use Modules\Role\Services\ModelService;
 
-final class ActionFactory extends Factory
+final class ModelFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Action::class;
+    protected $model = Model::class;
 
     /**
      * Define the model's default state.
@@ -24,7 +25,7 @@ final class ActionFactory extends Factory
     final public function definition(): array
     {
         return [
-            'name' => $this->faker->unique()->randomElement(Action::NAMES),
+            'name' => $this->faker->unique()->randomElement(app(ModelService::class)->getModelPaths()),
         ];
     }
 }

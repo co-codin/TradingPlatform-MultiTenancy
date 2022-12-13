@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Customer\Enums;
 
+use App\Models\Action;
 use BenSampo\Enum\Enum;
 use Modules\Customer\Models\Customer;
 use Modules\Role\Contracts\PermissionEnum;
-use Modules\Role\Models\Action;
 
 final class CustomerPermission extends Enum implements PermissionEnum
 {

@@ -4,17 +4,19 @@ declare(strict_types=1);
 
 namespace Modules\Role\Models;
 
+use App\Models\Action;
+use App\Models\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Modules\Role\Database\factories\PermissionFactory;
-use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 use Spatie\Permission\Models\Permission as SpatiePermission;
 
 final class Permission extends SpatiePermission
 {
     use HasFactory;
-    use UsesLandlordConnection;
+    use UsesTenantConnection;
 
     /**
      * {@inheritDoc}

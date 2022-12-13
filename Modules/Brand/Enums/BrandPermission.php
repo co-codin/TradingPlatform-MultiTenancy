@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Brand\Enums;
 
+use App\Models\Action;
 use BenSampo\Enum\Enum;
 use Modules\Brand\Models\Brand;
 use Modules\Role\Contracts\PermissionEnum;
-use Modules\Role\Models\Action;
 
 final class BrandPermission extends Enum implements PermissionEnum
 {

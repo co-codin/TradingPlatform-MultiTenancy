@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\User\Enums;
 
+use App\Models\Action;
 use BenSampo\Enum\Enum;
 use Modules\Role\Contracts\PermissionEnum;
-use Modules\Role\Models\Action;
 use Modules\User\Models\DisplayOption;
 
 final class UserDisplayOptionPermission extends Enum implements PermissionEnum

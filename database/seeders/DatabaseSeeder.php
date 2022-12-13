@@ -22,11 +22,10 @@ final class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            RoleDatabaseSeeder::class,
             UserDatabaseSeeder::class,
             CommunicationProviderDatabaseSeeder::class,
             BrandDatabaseSeeder::class,
-            //GeoDatabaseSeeder::class,
+            ModelsTableSeeder::class,
         ]);
 
         Tenant::checkCurrent()

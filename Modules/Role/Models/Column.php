@@ -9,11 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Modules\Role\Database\factories\ColumnFactory;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 final class Column extends Model
 {
     use HasFactory;
-    use UsesLandlordConnection;
+    use UsesTenantConnection;
 
     public $timestamps = false;
     protected $guarded = ['id'];

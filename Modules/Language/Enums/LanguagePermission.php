@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Modules\Language\Enums;
 
 use App\Enums\BaseEnum;
+use App\Models\Action;
 use Modules\Language\Models\Language;
 use Modules\Role\Contracts\PermissionEnum;
-use Modules\Role\Models\Action;
 
 final class LanguagePermission extends BaseEnum implements PermissionEnum
 {

@@ -6,7 +6,6 @@ namespace Modules\Role\Http\Resources;
 
 use App\Http\Resources\BaseJsonResource;
 use Modules\Role\Models\Column;
-use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema (

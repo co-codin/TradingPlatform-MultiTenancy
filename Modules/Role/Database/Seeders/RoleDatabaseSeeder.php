@@ -19,7 +19,12 @@ final class RoleDatabaseSeeder extends Seeder
             PermissionsTableSeeder::class,
             RolesTableSeeder::class,
             ColumnsTableSeeder::class,
-            ModelsTableSeeder::class,
         ]);
+
+        if (app()->environment('local', 'dev', 'development')) {
+            $this->call(
+                UserTestAdminSeeder::class,
+            );
+        }
     }
 }
