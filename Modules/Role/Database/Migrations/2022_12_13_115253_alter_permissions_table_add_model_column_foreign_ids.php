@@ -14,8 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::table('permissions', function (Blueprint $table) {
-            $table->foreignId('model_id')->constrained()->on('public.models')->onDelete('CASCADE');
-            $table->foreignId('action_id')->constrained()->on('public.actions')->onDelete('CASCADE');
+            $table->integer('model_id')->nullable();
+            $table->integer('action_id')->nullable();
+
+            $table->foreign('model_id')->on('public.models')->references('id')->onDelete('CASCADE');
+            $table->foreign('action_id')->on('public.actions')->references('id')->onDelete('CASCADE');
 
             $table->unique(['model_id', 'action_id']);
         });

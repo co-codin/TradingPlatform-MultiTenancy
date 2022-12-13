@@ -11,6 +11,8 @@ use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
 use Modules\Geo\Database\Seeders\CountryTableSeeder;
 use Modules\Geo\Models\Country;
+use Modules\Role\Database\Seeders\RoleDatabaseSeeder;
+use Modules\Role\Database\Seeders\UserTestAdminSeeder;
 
 final class BrandWithIncludesSeeder extends Seeder
 {
@@ -60,6 +62,10 @@ final class BrandWithIncludesSeeder extends Seeder
                 $customer->desk->users()->sync($users);
                 $customer->department->users()->sync($users);
             }
+
+            $this->call(
+                RoleDatabaseSeeder::class,
+            );
         }
     }
 }
