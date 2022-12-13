@@ -531,7 +531,7 @@ final class UserController extends Controller
      */
     public function updateBatch(UserUpdateBatchRequest $request): JsonResource
     {
-        $users = $this->userBatchService->updateBatch($request->validated('users', []));
+        $users = $this->userBatchService->setAuthUser($request->user())->updateBatch($request->validated('users', []));
 
         abort_if($users->isEmpty(), ResponseAlias::HTTP_UNAUTHORIZED);
 
