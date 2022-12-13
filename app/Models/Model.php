@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use database\factories\ModelFactory;
+use Database\Factories\ModelFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model as BaseModel;
