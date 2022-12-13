@@ -14,11 +14,12 @@ use Modules\Customer\Http\Resources\AuthCustomerResource;
 use Modules\Customer\Models\Customer;
 use Modules\Customer\Services\CustomerStorage;
 use OpenApi\Annotations as OA;
+use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 final class AuthController extends Controller
 {
     public function __construct(
-        protected CustomerStorage $customerStorage,
+        protected CustomerStorage $storage,
     ) {
     }
 
@@ -79,7 +80,7 @@ final class AuthController extends Controller
      * @param  LoginRequest  $request
      * @return Response
      *
-     * @throws ValidationException
+     * @throws ValidationException|UnknownProperties
      * @noinspection NullPointerExceptionInspection
      */
     public function login(LoginRequest $request): Response
@@ -94,6 +95,7 @@ final class AuthController extends Controller
             ]);
         }
 
+        /** @var Customer $customer */
         $customer = Auth::guard(Customer::DEFAULT_AUTH_GUARD)->user();
         if ($customer->banned_at) {
             Auth::guard(Customer::DEFAULT_AUTH_GUARD)->logout();
@@ -105,6 +107,7 @@ final class AuthController extends Controller
         }
 
         $request->session()->regenerate();
+        $customer->update(['last_online' => $customer->freshTimestamp()]);
 
         return response()->noContent();
     }
