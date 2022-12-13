@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Modules\Customer\Dto\CustomerDto;
 use Modules\Customer\Http\Requests\CustomerRegisterRequest;
+use Modules\Customer\Models\Customer;
 use Modules\Customer\Services\CustomerStorage;
 use OpenApi\Annotations as OA;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
@@ -94,7 +95,7 @@ final class RegisterController extends Controller
     {
         $customer = $this->customerStorage->store(CustomerDto::fromFormRequest($request));
 
-        auth('web-customer')->login($customer);
+        auth(Customer::DEFAULT_AUTH_GUARD)->login($customer);
 
         $request->session()->regenerate();
 

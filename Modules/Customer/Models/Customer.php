@@ -52,6 +52,11 @@ final class Customer extends Authenticatable
     use UsesTenantConnection;
 
     /**
+     * @var string
+     */
+    public const DEFAULT_AUTH_GUARD = 'web-customer';
+
+    /**
      * @var array
      */
     public const WORKER_COLUMNS_FOR_EMAILING = [
@@ -76,6 +81,7 @@ final class Customer extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'remember_token',
     ];
 
     /**
