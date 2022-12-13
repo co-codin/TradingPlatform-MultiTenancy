@@ -18,8 +18,7 @@ final class AssociateBrandTest extends TestCase
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
-        $user = User::factory()->create();
-        $response = $this->put("/admin/workers/$user->id/brand", [
+        $response = $this->put("/admin/workers/{$this->user->id}/brand", [
             'brands' => [
                 Brand::factory()->create(),
                 Brand::factory()->create(),
