@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Customer\Listeners;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
 use Modules\Customer\Emails\UserAssignedToCustomerEmail;
-use Modules\Customer\Emails\WelcomeCustomer;
 use Modules\Customer\Events\CustomerStored;
 use Modules\Customer\Models\Customer;
 use Modules\User\Models\User;
