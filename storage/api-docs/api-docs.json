@@ -719,7 +719,7 @@
                 "tags": [
                     "CommunicationProvider"
                 ],
-                "summary": "Get communication provider list all",
+                "summary": "Get communication providers list all",
                 "operationId": "e0b1b3253dcc630bf5f93854d5e1301f",
                 "responses": {
                     "201": {
@@ -2724,6 +2724,38 @@
                 ]
             }
         },
+        "/admin/departments/all": {
+            "get": {
+                "tags": [
+                    "Department"
+                ],
+                "summary": "Get departments list all",
+                "operationId": "d1dcac3a9950e9a1fda283c55e2ea654",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DepartmentCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/departments": {
             "get": {
                 "tags": [
@@ -3345,6 +3377,38 @@
                 ]
             }
         },
+        "/admin/countries/all": {
+            "get": {
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Get countries list all",
+                "operationId": "289f70da387a5c497281d2ec9d9fc4e3",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CountryCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/countries": {
             "get": {
                 "tags": [
@@ -3571,6 +3635,38 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/CountryResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/languages/all": {
+            "get": {
+                "tags": [
+                    "Language"
+                ],
+                "summary": "Get languages list all",
+                "operationId": "99a764f381cbac0bb6fe06297069d703",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LanguageCollection"
                                 }
                             }
                         }
@@ -4338,6 +4434,38 @@
                 ]
             }
         },
+        "/admin/roles/all": {
+            "get": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Get roles list all",
+                "operationId": "a1dbed4ce62607eaa650582f968a5026",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RoleCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/roles": {
             "get": {
                 "tags": [
@@ -4992,6 +5120,38 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/SaleStatusResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/tokens/all": {
+            "get": {
+                "tags": [
+                    "Token"
+                ],
+                "summary": "Get tokens list all",
+                "operationId": "8b5b897f82404469ddfc72c1e98899d9",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TokenCollection"
                                 }
                             }
                         }
@@ -8193,6 +8353,85 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/SaleStatus"
+                    }
+                },
+                "type": "object"
+            },
+            "Token": {
+                "title": "Token",
+                "description": "Token model",
+                "required": [
+                    "id",
+                    "token",
+                    "user_id",
+                    "ip",
+                    "created_at",
+                    "updated_at",
+                    "deleted_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/Worker"
+                    },
+                    "token": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "ip": {
+                        "type": "string",
+                        "format": "ipv4"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Token"
+                }
+            },
+            "TokenCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Token"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "TokenResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Token"
                     }
                 },
                 "type": "object"
