@@ -34,12 +34,7 @@ class CreateTest extends TestCase
         $response->assertCreated();
 
         $response->assertJson([
-            'data' => [
-                'model_id' => $data['model_id'],
-                'user_id' => $data['user_id'],
-                'name' => $data['name'],
-                'columns' => $data['columns'],
-            ],
+            'data' => $data,
         ]);
     }
 
