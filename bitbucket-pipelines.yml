@@ -4,8 +4,8 @@ pipelines:
   default:
     - step:
         script:
-          - apt-get update && apt-get install -qy git curl libmcrypt-dev libzip-dev libpng-dev
-          - docker-php-ext-install zip exif pcntl gd pgsql curl readline igbinary redis
+          - apt-get update && apt-get install -qy git curl libmcrypt-dev libzip-dev libpng-dev php8.1-curl php8.1-redis
+          - docker-php-ext-install zip exif pcntl gd pgsql pdo_pgsql 
           - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
           - composer install
           - ln -f -s .env.pipelines .env
