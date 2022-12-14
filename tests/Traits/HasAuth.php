@@ -12,10 +12,7 @@ use Modules\User\Models\User;
 
 trait HasAuth
 {
-    /**
-     * @var User|null
-     */
-    protected ?User $user = null;
+    protected readonly User $user;
 
     /**
      * Authenticate user.
@@ -23,7 +20,7 @@ trait HasAuth
      * @param  string  $guard
      * @return void
      */
-    protected function authenticateUser(string $guard = User::DEFAULT_AUTH_GUARD): void
+    final protected function authenticateUser(string $guard = User::DEFAULT_AUTH_GUARD): void
     {
         $email = 'user@service.com';
 
@@ -43,7 +40,7 @@ trait HasAuth
      * @param  string  $guard
      * @return void
      */
-    protected function authenticateAdmin(string $guard = User::DEFAULT_AUTH_GUARD): void
+    final protected function authenticateAdmin(string $guard = User::DEFAULT_AUTH_GUARD): void
     {
         $email = 'admin@service.com';
 
@@ -71,7 +68,7 @@ trait HasAuth
      * @param  string  $guard
      * @return void
      */
-    protected function authenticateWithPermission(
+    final protected function authenticateWithPermission(
         PermissionEnum $permissionEnum,
         string $guard = User::DEFAULT_AUTH_GUARD
     ): void {
@@ -102,7 +99,7 @@ trait HasAuth
      * @param  User  $user
      * @return $this
      */
-    protected function setUser(User $user): static
+    final protected function setUser(User $user): static
     {
         $this->user = $user;
 
@@ -111,10 +108,8 @@ trait HasAuth
 
     /**
      * Get user.
-     *
-     * @return User|null
      */
-    protected function getUser(): ?User
+    final protected function getUser(): User
     {
         return $this->user;
     }

@@ -4,25 +4,27 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\User\Associations;
 
-use Modules\Brand\Models\Brand;
 use Modules\Department\Models\Department;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
-use Tests\TestCase;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-final class AssociateDepartmentTest extends TestCase
+final class AssociateDepartmentTest extends BrandTestCase
 {
+    use TenantAware;
+    use HasAuth;
+
     /**
      * @test
      */
-    public function user_can_update(): void
+    public function can_update(): void
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
-        $brand = Brand::factory()->create();
-        $brand->makeCurrent();
-
-        $response = $this->put("/admin/workers/{$this->user->id}/department", [
+        $user = $this->getUser();
+        $response = $this->put(route('admin.users.department.update', ['id' => $user->id]), [
             'departments' => [
                 Department::factory()->create(),
                 Department::factory()->create(),
@@ -35,35 +37,12 @@ final class AssociateDepartmentTest extends TestCase
     /**
      * @test
      */
-    public function user_can_update_not_found(): void
-    {
-        $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
-
-        $brand = Brand::factory()->create();
-        $brand->makeCurrent();
-
-        $response = $this->put('/admin/workers/10/department', [
-            'departments' => [
-                Department::factory()->create(),
-            ],
-        ]);
-
-        $response->assertNotFound();
-    }
-
-    /**
-     * @test
-     */
     public function can_not_update(): void
     {
         $this->authenticateUser();
 
         $user = User::factory()->create();
-
-        $brand = Brand::factory()->create();
-        $brand->makeCurrent();
-
-        $response = $this->put("/admin/workers/$user->id/department", [
+        $response = $this->put(route('admin.users.department.update', ['id' => $user->id]), [
             'departments' => [
                 Department::factory()->create(),
             ],
@@ -75,10 +54,33 @@ final class AssociateDepartmentTest extends TestCase
     /**
      * @test
      */
-    public function not_unauthorized(): void
+    public function not_found(): void
     {
-        $response = $this->put('/admin/workers/1/department');
+        $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
+
+        $userId = User::orderByDesc('id')->first()?->id + 1 ?? 1;
+        $response = $this->put(route('admin.users.department.update', ['id' => $userId]), [
+            'departments' => [
+                Department::factory()->create(),
+            ],
+        ]);
+
+        $response->assertNotFound();
+    }
+
+    /**
+     * @test
+     */
+    public function unauthorized(): void
+    {
+        $response = $this->put(route('admin.users.department.update', ['id' => 1]));
 
         $response->assertUnauthorized();
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->makeCurrentTenantAndSetHeader();
     }
 }

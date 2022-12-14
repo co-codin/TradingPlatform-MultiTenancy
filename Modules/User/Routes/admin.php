@@ -45,9 +45,6 @@ Route::group(['prefix' => 'token', 'as' => 'token.', 'middleware' => ['api', 'au
 
 Route::group(['middleware' => ['api', 'auth:api']], function () {
     Route::group(['prefix' => 'workers', 'as' => 'users.'], function () {
-        // Desk
-        Route::put('/{id}/desk', [UserDeskController::class, 'update'])->name('desk.update');
-
         // Brand
         Route::put('/{id}/brand', [UserBrandController::class, 'update'])->name('brand.update');
 
@@ -58,14 +55,19 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
         // Batch
         Route::patch('/update/batch', [UserController::class, 'updateBatch'])->name('batch.update');
 
-        // Country
-        Route::put('/{id}/country', [UserCountryController::class, 'update'])->name('country.update');
+        Route::group(['middleware' => 'tenant'], function () {
+            // Country
+            Route::put('/{id}/country', [UserCountryController::class, 'update'])->name('country.update');
 
-        // Department
-        Route::put('/{id}/department', [UserDepartmentController::class, 'update'])->name('department.update');
+            // Department
+            Route::put('/{id}/department', [UserDepartmentController::class, 'update'])->name('department.update');
 
-        // Language
-        Route::put('/{id}/language', [UserLanguageController::class, 'update'])->name('language.update');
+            // Language
+            Route::put('/{id}/language', [UserLanguageController::class, 'update'])->name('language.update');
+
+            // Desk
+            Route::put('/{id}/desk', [UserDeskController::class, 'update'])->name('desk.update');
+        });
     });
 
     Route::apiResource('workers', UserController::class)
