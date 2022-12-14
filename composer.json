@@ -21,6 +21,7 @@
         "predis/predis": "^2.0",
         "prettus/l5-repository": "^2.8",
         "psr/simple-cache": "^2.0",
+        "pusher/pusher-php-server": "^7.2",
         "spatie/data-transfer-object": "^3.9",
         "spatie/image": "^2.2",
         "spatie/laravel-activitylog": "^4.7",

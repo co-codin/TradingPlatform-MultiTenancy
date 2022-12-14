@@ -10,6 +10,6 @@ class CustomerImpersonateController extends Controller
     public function impersonate(int $customer)
     {
         // only logics
-        Auth::guard('customer')->onceUsingId($customer);
+        Auth::guard('api-customer')->onceUsingId($customer);
     }
 }

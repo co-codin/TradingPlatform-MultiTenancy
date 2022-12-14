@@ -41,12 +41,17 @@ return [
             'provider' => 'users',
         ],
 
+        'api-customer' => [
+            'driver' => 'sanctum',
+            'provider' => 'customers',
+        ],
+
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
 
-        'customers' => [
+        'web-customer' => [
             'driver' => 'session',
             'provider' => 'customers',
         ],
@@ -54,11 +59,6 @@ return [
         'basic' => [
             'driver' => 'session',
             'provider' => 'users',
-        ],
-
-        'customer' => [
-            'driver' => 'sanctum',
-            'provider' => 'customers',
         ],
     ],
 
@@ -116,7 +116,7 @@ return [
 
         'customers' => [
             'provider' => 'customers',
-            'table' => 'password_resets',
+            'table' => 'public.password_resets',
             'expire' => 60,
             'throttle' => 60,
         ],
