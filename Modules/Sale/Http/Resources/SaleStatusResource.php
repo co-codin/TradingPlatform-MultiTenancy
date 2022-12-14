@@ -21,7 +21,6 @@ use OpenApi\Annotations as OA;
  *         "name",
  *         "title",
  *         "color",
- *         "department_id",
  *     },
  *     @OA\Xml(name="SaleStatus"),
  *     @OA\Property(property="id", type="integer", readOnly="true", example="1"),

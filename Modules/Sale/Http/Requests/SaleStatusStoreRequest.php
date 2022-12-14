@@ -18,7 +18,7 @@ final class SaleStatusStoreRequest extends BaseFormRequest
         return [
             'name' => 'required|string',
             'title' => 'required|string',
-            'department_id' => 'required|int|exists:tenant.departments,id',
+            'department_id' => 'nullable|int|exists:tenant.departments,id',
             'color' => [
                 'required',
                 'string',

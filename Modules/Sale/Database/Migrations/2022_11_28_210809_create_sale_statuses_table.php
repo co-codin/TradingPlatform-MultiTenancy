@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('title');
             $table->boolean('is_active')->default(true);
             $table->string('color');
-            $table->foreignId('department_id')->constrained();
+            $table->foreignId('department_id')->nullable()->constrained();
 
             $table->softDeletes();
             $table->timestamps();

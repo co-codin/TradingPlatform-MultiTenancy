@@ -28,7 +28,7 @@ final class SaleStatusFactory extends Factory
             'name' => $this->faker->name(),
             'title' => $this->faker->sentence(10),
             'color' => $this->faker->hexColor(),
-            'department_id' => Department::factory(),
+            'department_id' => $this->faker->boolean ? Department::factory() : null,
         ];
     }
 }
