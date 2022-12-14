@@ -15,7 +15,7 @@ final class UserBrandUpdateRequest extends BaseFormRequest
                 'required',
                 'array',
             ],
-            'brands.*.id' => 'distinct|integer|exists:brands,id',
+            'brands.*.id' => 'distinct|integer|exists:public.brands,id',
         ];
     }
 }

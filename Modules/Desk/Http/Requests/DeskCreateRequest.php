@@ -17,7 +17,7 @@ final class DeskCreateRequest extends BaseFormRequest
             'name' => 'required|string|max:255',
             'title' => 'required|string|max:255',
             'is_active' => 'sometimes|boolean',
-            'parent_id' => 'sometimes|int|exists:desks,id',
+            'parent_id' => 'sometimes|int|exists:tenant.desks,id',
         ];
     }
 }

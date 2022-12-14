@@ -14,7 +14,7 @@ final class TokenCreateRequest extends BaseFormRequest
     final public function rules(): array
     {
         return [
-            'user_id' => 'required|int|exists:users,id',
+            'user_id' => 'required|int|exists:public.users,id',
             'token' => 'required|string',
             'description' => 'sometimes|nullable',
             'ip' => 'required|string',
