@@ -26,50 +26,17 @@ abstract class BrandTestCase extends BaseTestCase
      */
     public Brand $brand;
 
-//    public static function tearDownAfterClass(): void
-//    {
-//        $instance = new static();
-//        $instance->refreshApplication();
-//
-//        $schemas = DB::select("SELECT schema_name FROM information_schema.schemata WHERE schema_name NOT IN ('pg_toast', 'pg_catalog', 'public', 'information_schema', {$instance->brand->database})");
-//        foreach ($schemas as $schema) {
-//            DB::unprepared("DROP SCHEMA IF EXISTS {$schema->schema_name} CASCADE;");
-//        }
-//
-//        Artisan::call('migrate:reset');
-//
-//        $instance->tearDown();
-//    }
-
     /**
      * {@inheritDoc}
      */
-    protected function setUp(): void
+    public static function tearDownAfterClass(): void
     {
-        parent::setUp();
-        try {
-            $this->withoutMiddleware(VerifyCsrfToken::class);
+        parent::tearDownAfterClass();
 
-            if (! static::$setUpRun) {
-                Artisan::call('migrate:fresh --seed');
-                static::$setUpRun = true;
-            }
-
-            $this->brand = Brand::factory()->create();
-        } catch (\Throwable $e) {
-            dd($e->getMessage());
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function tearDown(): void
-    {
         $schemas = DB::select("
                 SELECT schema_name
                 FROM information_schema.schemata
-                WHERE schema_name NOT IN ('pg_toast', 'pg_catalog', 'public', 'information_schema', {$this->brand->database})
+                WHERE schema_name NOT IN ('pg_toast', 'pg_catalog', 'public', 'information_schema')
             ");
 
         foreach ($schemas as $schema) {
@@ -77,8 +44,20 @@ abstract class BrandTestCase extends BaseTestCase
         }
 
         Artisan::call('migrate:reset');
+    }
 
-        parent::tearDown();
+    /**
+     * {@inheritDoc}
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->withoutMiddleware(VerifyCsrfToken::class);
+
+        Artisan::call('migrate:fresh');
+
+        $this->brand ??= Brand::factory()->create();
     }
 
     /**

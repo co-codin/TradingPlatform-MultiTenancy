@@ -11,8 +11,6 @@ use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
 use Modules\Geo\Database\Seeders\CountryTableSeeder;
 use Modules\Geo\Models\Country;
-use Modules\Role\Database\Seeders\RoleDatabaseSeeder;
-use Modules\Role\Database\Seeders\UserTestAdminSeeder;
 
 final class BrandWithIncludesSeeder extends Seeder
 {
@@ -32,13 +30,17 @@ final class BrandWithIncludesSeeder extends Seeder
             $customers = collect();
 
             for ($i = 0; $i < 3; $i++) {
-                $customers = $customers->push(
-                    Customer::factory()->create([
+                $customerData = $brand->execute(function () use (&$customerData, $countries, $desks, $departments) {
+                    return  Customer::factory()->make([
                         'country_id' => $countries->random()?->id,
                         'desk_id' => $desks->random()?->id,
                         'department_id' => $departments->random()?->id,
-                    ])
-                );
+                    ]);
+                });
+
+                $customerData->save();
+
+                $customers = $customers->push($customerData);
             }
 
             /** @var Customer $customer */
@@ -63,10 +65,7 @@ final class BrandWithIncludesSeeder extends Seeder
                 $customer->department->users()->sync($users);
             }
 
-            $this->call(
-                UserTestAdminSeeder::class,
-                RoleDatabaseSeeder::class,
-            );
+            $brand->forget();
         }
     }
 }
