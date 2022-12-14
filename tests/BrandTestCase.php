@@ -24,9 +24,9 @@ abstract class BrandTestCase extends BaseTestCase
         $instance = new static();
         $instance->refreshApplication();
 
-        $schemas = Brand::get();
+        $schemas = DB::select("SELECT schema_name FROM information_schema.schemata WHERE schema_name NOT IN ('pg_toast', 'pg_catalog', 'public', 'information_schema', 'eliane_hackett')");
         foreach ($schemas as $schema) {
-            DB::unprepared("DROP SCHEMA IF EXISTS {$schema->database} CASCADE;");
+            DB::unprepared("DROP SCHEMA IF EXISTS {$schema->schema_name} CASCADE;");
         }
 
         Artisan::call('migrate:reset');

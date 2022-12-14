@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\User\Associations;
 
-use Modules\Geo\Database\Seeders\CountryTableSeeder;
+use Modules\Brand\Models\Brand;
 use Modules\Geo\Models\Country;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
+use Spatie\Multitenancy\Concerns\UsesMultitenancyConfig;
 use Tests\TestCase;
 
 final class AssociateCountryTest extends TestCase
 {
+    use UsesMultitenancyConfig;
+
     /**
      * @test
      */
@@ -19,9 +22,10 @@ final class AssociateCountryTest extends TestCase
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
-        $user = User::factory()->create();
-        $this->seed(CountryTableSeeder::class);
-        $response = $this->put("/admin/workers/$user->id/country", [
+        $brand = Brand::factory()->create();
+        $brand->makeCurrent();
+
+        $response = $this->put("/admin/workers/{$this->user->id}/country", [
             'countries' => [
                 Country::all()->random(),
                 Country::all()->random(),
@@ -38,7 +42,9 @@ final class AssociateCountryTest extends TestCase
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
-        $this->seed(CountryTableSeeder::class);
+        $brand = Brand::factory()->create();
+        $brand->makeCurrent();
+
         $response = $this->put('/admin/workers/10/country', [
             'countries' => [
                 Country::all()->random(),
@@ -56,7 +62,10 @@ final class AssociateCountryTest extends TestCase
         $this->authenticateUser();
 
         $user = User::factory()->create();
-        $this->seed(CountryTableSeeder::class);
+
+        $brand = Brand::factory()->create();
+        $brand->makeCurrent();
+
         $response = $this->put("/admin/workers/$user->id/country", [
             'countries' => [
                 Country::all()->random(),

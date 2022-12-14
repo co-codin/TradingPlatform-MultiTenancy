@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\User\Associations;
 
+use Modules\Brand\Models\Brand;
 use Modules\Language\Models\Language;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
@@ -18,8 +19,10 @@ final class AssociateLanguageTest extends TestCase
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
-        $user = User::factory()->create();
-        $response = $this->put("/admin/workers/$user->id/language", [
+        $brand = Brand::factory()->create();
+        $brand->makeCurrent();
+
+        $response = $this->put("/admin/workers/{$this->user->id}/language", [
             'languages' => [
                 Language::factory()->create(),
                 Language::factory()->create(),
@@ -35,6 +38,9 @@ final class AssociateLanguageTest extends TestCase
     public function user_can_update_not_found(): void
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
+
+        $brand = Brand::factory()->create();
+        $brand->makeCurrent();
 
         $response = $this->put('/admin/workers/10/language', [
             'languages' => [
@@ -53,6 +59,10 @@ final class AssociateLanguageTest extends TestCase
         $this->authenticateUser();
 
         $user = User::factory()->create();
+
+        $brand = Brand::factory()->create();
+        $brand->makeCurrent();
+
         $response = $this->put("/admin/workers/$user->id/language", [
             'languages' => [
                 Language::factory()->create(),

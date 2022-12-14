@@ -39,6 +39,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        // Schema::dropIfExists('users');
+        DB::statement("DROP TABLE IF EXISTS users CASCADE;");
     }
 };

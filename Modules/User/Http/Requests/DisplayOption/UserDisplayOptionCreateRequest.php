@@ -17,7 +17,8 @@ final class UserDisplayOptionCreateRequest extends BaseFormRequest
             'model_id' => 'required|integer|exists:models,id',
             'name' => 'required|string',
             'columns' => 'nullable|array',
-            'columns.*' => 'required|string',
+            // 'columns.*' => 'required|string',
+            'settings' => 'nullable|array',
         ];
     }
 }
