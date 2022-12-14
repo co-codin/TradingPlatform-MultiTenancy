@@ -15,7 +15,7 @@ final class UserLanguageUpdateRequest extends BaseFormRequest
                 'required',
                 'array',
             ],
-            'languages.*.id' => 'distinct|integer|exists:languages,id',
+            'languages.*.id' => 'distinct|integer|exists:tenant.languages,id',
         ];
     }
 }
