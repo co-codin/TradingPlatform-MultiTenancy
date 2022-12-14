@@ -4,54 +4,35 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\User\Associations;
 
-use Modules\Brand\Models\Brand;
 use Modules\Geo\Models\Country;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
-use Spatie\Multitenancy\Concerns\UsesMultitenancyConfig;
-use Tests\TestCase;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-final class AssociateCountryTest extends TestCase
+final class AssociateCountryTest extends BrandTestCase
 {
-    use UsesMultitenancyConfig;
+    use TenantAware;
+    use HasAuth;
 
     /**
      * @test
      */
-    public function user_can_update(): void
+    public function can_update(): void
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
-        $brand = Brand::factory()->create();
-        $brand->makeCurrent();
-
-        $response = $this->put("/admin/workers/{$this->user->id}/country", [
+        $user = $this->getUser();
+        $countries = Country::all();
+        $response = $this->put(route('admin.users.country.update', ['id' => $user->id]), [
             'countries' => [
-                Country::all()->random(),
-                Country::all()->random(),
+                $countries->random(),
+                $countries->random(),
             ],
         ]);
 
         $response->assertOk();
-    }
-
-    /**
-     * @test
-     */
-    public function user_can_update_not_found(): void
-    {
-        $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
-
-        $brand = Brand::factory()->create();
-        $brand->makeCurrent();
-
-        $response = $this->put('/admin/workers/10/country', [
-            'countries' => [
-                Country::all()->random(),
-            ],
-        ]);
-
-        $response->assertNotFound();
     }
 
     /**
@@ -62,11 +43,7 @@ final class AssociateCountryTest extends TestCase
         $this->authenticateUser();
 
         $user = User::factory()->create();
-
-        $brand = Brand::factory()->create();
-        $brand->makeCurrent();
-
-        $response = $this->put("/admin/workers/$user->id/country", [
+        $response = $this->put(route('admin.users.country.update', ['id' => $user->id]), [
             'countries' => [
                 Country::all()->random(),
             ],
@@ -78,10 +55,33 @@ final class AssociateCountryTest extends TestCase
     /**
      * @test
      */
-    public function not_unauthorized(): void
+    public function not_found(): void
     {
-        $response = $this->put('/admin/workers/1/country');
+        $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
+
+        $userId = User::orderByDesc('id')->first()?->id + 1 ?? 1;
+        $response = $this->put(route('admin.users.country.update', ['id' => $userId]), [
+            'countries' => [
+                Country::all()->random(),
+            ],
+        ]);
+
+        $response->assertNotFound();
+    }
+
+    /**
+     * @test
+     */
+    public function unauthorized(): void
+    {
+        $response = $this->put(route('admin.users.country.update', ['id' => 1]));
 
         $response->assertUnauthorized();
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->makeCurrentTenantAndSetHeader();
     }
 }
