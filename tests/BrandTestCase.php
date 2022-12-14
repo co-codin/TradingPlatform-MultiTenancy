@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests;
 
 use App\Tenant\TestingTenantManager;
+use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\DB;
 use Modules\Brand\Models\Brand;
 use Spatie\Multitenancy\Concerns\UsesMultitenancyConfig;
 
@@ -35,6 +35,7 @@ abstract class BrandTestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->withoutMiddleware(VerifyCsrfToken::class);
 
         $this->brand = $this->testingTenantManager->getBrand();
 

@@ -35,8 +35,8 @@ class CustomerFactory extends Factory
             'gender' => $this->faker->randomElement(Gender::getValues()),
             'email' => $this->faker->unique()->safeEmail(),
             'password' => Hash::make('password'),
-            'phone' => $this->faker->phoneNumber(),
-            'phone2' => $this->faker->phoneNumber(),
+            'phone' => $this->faker->e164PhoneNumber(),
+            'phone2' => $this->faker->e164PhoneNumber(),
 
             'affiliate_user_id' => User::factory(),
             'conversion_user_id' => $conversion = User::factory()->create(),
@@ -51,7 +51,7 @@ class CustomerFactory extends Factory
             'conversion_sale_status_id' => SaleStatus::factory(),
             'retention_sale_status_id' => SaleStatus::factory(),
 
-            'country_id' => Country::factory(),
+            'country_id' => Country::all()->random(),
             'language_id' => Language::factory(),
             'department_id' => Department::factory(),
             'desk_id' => Desk::factory(),
