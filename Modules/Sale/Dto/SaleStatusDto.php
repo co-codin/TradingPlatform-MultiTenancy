@@ -8,23 +8,13 @@ use App\Dto\BaseDto;
 
 final class SaleStatusDto extends BaseDto
 {
-    /**
-     * @var string|null $name
-     */
     public ?string $name;
 
-    /**
-     * @var string|null $title
-     */
     public ?string $title;
 
-    /**
-     * @var string|null $color
-     */
     public ?string $color;
 
-    /**
-     * @var bool|null $is_active
-     */
     public ?bool $is_active;
+
+    public ?int $department_id;
 }
