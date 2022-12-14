@@ -10,7 +10,7 @@ pipelines:
           - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
           - composer install
           - ln -f -s .env.pipelines .env
-          - php artisan migrate
+          - php artisan migrate --seed
           - php artisan serve &
           - sleep 5
           - ./vendor/bin/phpunit
