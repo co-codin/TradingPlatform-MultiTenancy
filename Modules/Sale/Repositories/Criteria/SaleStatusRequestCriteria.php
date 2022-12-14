@@ -18,7 +18,9 @@ final class SaleStatusRequestCriteria extends BaseCriteria
         'id',
         'name',
         'title',
+        'department_id',
     ];
+
     /**
      * {@inheritDoc}
      */
@@ -33,12 +35,14 @@ final class SaleStatusRequestCriteria extends BaseCriteria
                 AllowedFilter::exact('id'),
                 AllowedFilter::partial('name'),
                 AllowedFilter::partial('title'),
+                AllowedFilter::exact('department_id'),
                 AllowedFilter::partial('created_at'),
                 AllowedFilter::partial('updated_at'),
                 AllowedFilter::trashed(),
             ])
             ->allowedSorts([
                 'id',
+                'department_id',
                 'name',
                 'title',
                 'created_at',

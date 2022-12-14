@@ -8291,7 +8291,8 @@
                 "required": [
                     "name",
                     "title",
-                    "color"
+                    "color",
+                    "department_id"
                 ],
                 "properties": {
                     "id": {
@@ -8315,6 +8316,13 @@
                     "color": {
                         "type": "string",
                         "example": "#e1e1e1"
+                    },
+                    "department_id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "department": {
+                        "$ref": "#/components/schemas/Department"
                     },
                     "created_at": {
                         "type": "string",

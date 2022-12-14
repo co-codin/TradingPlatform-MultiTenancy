@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Sale\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Department\Models\Department;
 use Modules\Sale\Models\SaleStatus;
 
 final class SaleStatusFactory extends Factory
@@ -27,6 +28,7 @@ final class SaleStatusFactory extends Factory
             'name' => $this->faker->name(),
             'title' => $this->faker->sentence(10),
             'color' => $this->faker->hexColor(),
+            'department_id' => Department::factory(),
         ];
     }
 }
