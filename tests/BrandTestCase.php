@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use App\Tenant\TestingTenantManager;
 use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Modules\Brand\Models\Brand;
 use Spatie\Multitenancy\Concerns\UsesMultitenancyConfig;
 
@@ -15,37 +15,70 @@ abstract class BrandTestCase extends BaseTestCase
 {
     use CreatesApplication;
     use UsesMultitenancyConfig;
-    protected static $setUpRun = false;
 
+    /**
+     * @var bool
+     */
+    protected static bool $setUpRun = false;
+
+    /**
+     * @var Brand
+     */
     public Brand $brand;
 
-    protected TestingTenantManager $testingTenantManager;
+//    public static function tearDownAfterClass(): void
+//    {
+//        $instance = new static();
+//        $instance->refreshApplication();
+//
+//        $schemas = DB::select("SELECT schema_name FROM information_schema.schemata WHERE schema_name NOT IN ('pg_toast', 'pg_catalog', 'public', 'information_schema', {$instance->brand->database})");
+//        foreach ($schemas as $schema) {
+//            DB::unprepared("DROP SCHEMA IF EXISTS {$schema->schema_name} CASCADE;");
+//        }
+//
+//        Artisan::call('migrate:reset');
+//
+//        $instance->tearDown();
+//    }
 
-    public static function tearDownAfterClass(): void
-    {
-        $instance = new static();
-
-        $instance->refreshApplication();
-
-        $instance->testingTenantManager->forget();
-
-        $instance->tearDown();
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     protected function setUp(): void
     {
         parent::setUp();
-        $this->withoutMiddleware(VerifyCsrfToken::class);
+        try {
+            $this->withoutMiddleware(VerifyCsrfToken::class);
 
-        $this->brand = $this->testingTenantManager->getBrand();
+            if (! static::$setUpRun) {
+                Artisan::call('migrate:fresh --seed');
+                static::$setUpRun = true;
+            }
 
-        Artisan::call('migrate:refresh --seed');
-//        if (! static::$setUpRun) {
-//            Artisan::call('migrate:fresh --seed');
-//            static::$setUpRun = true;
-//        }
-//
-//        $this->brand = Brand::first();
+            $this->brand = Brand::factory()->create();
+        } catch (\Throwable $e) {
+            dd($e->getMessage());
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function tearDown(): void
+    {
+        $schemas = DB::select("
+                SELECT schema_name
+                FROM information_schema.schemata
+                WHERE schema_name NOT IN ('pg_toast', 'pg_catalog', 'public', 'information_schema', {$this->brand->database})
+            ");
+
+        foreach ($schemas as $schema) {
+            DB::unprepared("DROP SCHEMA IF EXISTS {$schema->schema_name} CASCADE;");
+        }
+
+        Artisan::call('migrate:reset');
+
+        parent::tearDown();
     }
 
     /**

@@ -64,6 +64,7 @@ final class BrandWithIncludesSeeder extends Seeder
             }
 
             $this->call(
+                UserTestAdminSeeder::class,
                 RoleDatabaseSeeder::class,
             );
         }

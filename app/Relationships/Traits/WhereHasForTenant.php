@@ -13,7 +13,7 @@ trait WhereHasForTenant
      */
     public function initializeWhereHasForTenant()
     {
-        if (strpos($this->table, "public.") === false && $tenant = Tenant::current()) {
+        if ($this->table && ! str_contains($this->table, 'public.') && $tenant = Tenant::current()) {
             $this->table = $tenant->getDatabaseName() . '.' . $this->getTable();
         }
     }
