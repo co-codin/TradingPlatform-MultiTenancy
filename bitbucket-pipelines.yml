@@ -4,7 +4,7 @@ pipelines:
   default:
     - step:
         script:
-          - apt-get update && apt-get install -qy ca-certificates gnupg && add-apt-repository ppa:ondrej/php
+          - apt-get update && apt-get install -qy ca-certificates gnupg software-properties-common && add-apt-repository ppa:ondrej/php
           - apt-get update && apt-get install -qy git curl libmcrypt-dev libzip-dev libpng-dev php8.1-curl php8.1-redis php8.1-zip zlib1g-dev
           - docker-php-ext-install exif pcntl gd pgsql pdo_pgsql 
           - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
