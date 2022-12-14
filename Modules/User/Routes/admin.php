@@ -71,26 +71,25 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
 
             // Impersonate
             Route::post('/{id}/impersonate', [UserImpersonateController::class, 'update'])->name('impersonate.update');
-        });
-
-        Route::apiResource('workers', UserController::class)
-            ->names([
-                'index' => 'users.index',
-                'show' => 'users.show',
-                'store' => 'users.store',
-                'update' => 'users.update',
-                'destroy' => 'users.destroy',
-            ]);
-
-        Route::apiResource('workers.display-options', UserDisplayOptionController::class)
-            ->except([
-                'index',
-                'show',
-            ])
-            ->names([
-                'store' => 'users.display-options.store',
-                'update' => 'users.display-options.update',
-                'destroy' => 'users.display-options.destroy',
-            ]);
     });
+
+    Route::apiResource('workers', UserController::class)
+        ->names([
+            'index' => 'users.index',
+            'show' => 'users.show',
+            'store' => 'users.store',
+            'update' => 'users.update',
+            'destroy' => 'users.destroy',
+        ]);
+
+    Route::apiResource('workers.display-options', UserDisplayOptionController::class)
+        ->except([
+            'index',
+            'show',
+        ])
+        ->names([
+            'store' => 'users.display-options.store',
+            'update' => 'users.display-options.update',
+            'destroy' => 'users.display-options.destroy',
+        ]);
 });
