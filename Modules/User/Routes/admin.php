@@ -10,6 +10,7 @@ use Modules\User\Http\Controllers\Admin\Department\UserDepartmentController;
 use Modules\User\Http\Controllers\Admin\Desk\UserDeskController;
 use Modules\User\Http\Controllers\Admin\DisplayOption\UserDisplayOptionController;
 use Modules\User\Http\Controllers\Admin\Language\UserLanguageController;
+use Modules\User\Http\Controllers\Admin\Impersonate\UserImpersonateController;
 use Modules\User\Http\Controllers\Admin\PasswordController;
 use Modules\User\Http\Controllers\Admin\SocialAuthController;
 use Modules\User\Http\Controllers\Admin\UserController;
@@ -67,7 +68,9 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
 
             // Desk
             Route::put('/{id}/desk', [UserDeskController::class, 'update'])->name('desk.update');
-        });
+
+            // Impersonate
+            Route::post('/{id}/impersonate', [UserImpersonateController::class, 'update'])->name('impersonate.update');
     });
 
     Route::apiResource('workers', UserController::class)

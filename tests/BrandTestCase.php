@@ -24,7 +24,7 @@ abstract class BrandTestCase extends BaseTestCase
         $instance = new static();
         $instance->refreshApplication();
 
-        $schemas = DB::select("SELECT schema_name FROM information_schema.schemata WHERE schema_name NOT IN ('pg_toast', 'pg_catalog', 'public', 'information_schema', 'eliane_hackett')");
+        $schemas = DB::select("SELECT schema_name FROM information_schema.schemata WHERE schema_name NOT IN ('pg_toast', 'pg_catalog', 'public', 'information_schema')");
         foreach ($schemas as $schema) {
             DB::unprepared("DROP SCHEMA IF EXISTS {$schema->schema_name} CASCADE;");
         }
