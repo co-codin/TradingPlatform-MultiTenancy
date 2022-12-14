@@ -6,6 +6,7 @@ namespace Modules\User\Http\Controllers\Admin\Impersonate;
 
 use App\Http\Controllers\Controller;
 use Carbon\CarbonImmutable;
+use Illuminate\Http\Request;
 use Modules\User\Http\Resources\AuthUserResource;
 use Modules\User\Repositories\UserRepository;
 
@@ -16,7 +17,7 @@ class UserImpersonateController extends Controller
     ) {
     }
 
-    public function update(int $id)
+    public function update(Request $request, int $id)
     {
         $impersonator = auth()->user();
 
@@ -31,6 +32,7 @@ class UserImpersonateController extends Controller
         return response()->json([
             'data' => [
                 'requested_worker' => new AuthUserResource($impersonator),
+                'requested_worker_token' => $request->bearerToken(),
                 'new_worker' => new AuthUserResource($newWorker),
                 'new_token' => $newWorkerToken->plainTextToken,
             ],
