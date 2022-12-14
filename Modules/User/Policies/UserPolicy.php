@@ -35,7 +35,7 @@ class UserPolicy extends BasePolicy
         return match (true) {
             $user->isAdmin() => true,
             $user->can(UserPermission::VIEW_USERS)
-            && $user->brands()->whereHas('users', fn ($q) => $q->where('id', $selectedUser->id))->exists() => true,
+                && $user->brands()->whereHas('users', fn ($q) => $q->where('id', $selectedUser->id))->exists() => true,
             $user->id === $selectedUser->id => true,
             default => false,
         };
@@ -68,7 +68,7 @@ class UserPolicy extends BasePolicy
         return match (true) {
             $user->isAdmin() => true,
             $user->can(UserPermission::EDIT_USERS)
-            && $user->brands()->whereHas('users', fn ($q) => $q->where('id', $selectedUser->id))->exists() => true,
+                && $user->brands()->whereHas('users', fn ($q) => $q->where('id', $selectedUser->id))->exists() => true,
             $user->id === $selectedUser->id => true,
             default => false,
         };
@@ -86,7 +86,7 @@ class UserPolicy extends BasePolicy
         return match (true) {
             $user->isAdmin() => true,
             $user->can(UserPermission::DELETE_USERS)
-            && $user->brands()->whereHas('users', fn ($q) => $q->where('id', $selectedUser->id))->exists() => true,
+                && $user->brands()->whereHas('users', fn ($q) => $q->where('id', $selectedUser->id))->exists() => true,
             $user->id === $selectedUser->id => true,
             default => false,
         };
@@ -123,5 +123,16 @@ class UserPolicy extends BasePolicy
     public function viewAnyByDepartments(User $user): bool
     {
         return $user->can(UserPermission::VIEW_DEPARTMENT_USERS);
+    }
+
+    /**
+     * Impersonate user policy.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function impersonate(User $user): bool
+    {
+        return $user->can(UserPermission::IMPERSONATE_USER);
     }
 }
