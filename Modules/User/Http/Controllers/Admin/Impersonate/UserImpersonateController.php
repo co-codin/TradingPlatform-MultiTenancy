@@ -20,7 +20,7 @@ class UserImpersonateController extends Controller
     {
         $impersonator = auth()->user();
 
-        $this->authorize('update', $impersonator);
+        $this->authorize('impersonate', $impersonator);
 
         $newWorker = $this->userRepository->find($id);
 
