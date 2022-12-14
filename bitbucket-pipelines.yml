@@ -5,7 +5,7 @@ pipelines:
     - step:
         script:
           - apt-get update && apt-get install -qy git curl libmcrypt-dev libzip-dev
-          - docker-php-ext-install zip exif pcntl
+          - docker-php-ext-install zip exif pcntl gd
           - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
           - composer install
           - ln -f -s .env.pipelines .env
