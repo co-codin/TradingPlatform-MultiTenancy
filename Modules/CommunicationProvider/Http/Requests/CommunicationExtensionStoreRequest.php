@@ -17,8 +17,8 @@ final class CommunicationExtensionStoreRequest extends BaseFormRequest
     {
         return [
             'name' => 'required|string',
-            'user_id' => 'required|int|exists:users,id',
-            'provider_id' => 'required|int|exists:communication_providers,id',
+            'user_id' => 'required|int|exists:public.users,id',
+            'provider_id' => 'required|int|exists:public.communication_providers,id',
         ];
     }
 }

@@ -17,8 +17,8 @@ final class CommunicationExtensionUpdateRequest extends BaseFormRequest
     {
         return [
             'name' => 'sometimes|string',
-            'user_id' => 'sometimes|int|exists:users,id',
-            'provider_id' => 'sometimes|int|exists:communication_providers,id',
+            'user_id' => 'sometimes|int|exists:public.users,id',
+            'provider_id' => 'sometimes|int|exists:public.communication_providers,id',
         ];
     }
 }
