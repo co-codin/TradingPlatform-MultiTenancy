@@ -719,7 +719,7 @@
                 "tags": [
                     "CommunicationProvider"
                 ],
-                "summary": "Get communication provider list all",
+                "summary": "Get communication providers list all",
                 "operationId": "e0b1b3253dcc630bf5f93854d5e1301f",
                 "responses": {
                     "201": {
@@ -2724,6 +2724,38 @@
                 ]
             }
         },
+        "/admin/departments/all": {
+            "get": {
+                "tags": [
+                    "Department"
+                ],
+                "summary": "Get departments list all",
+                "operationId": "d1dcac3a9950e9a1fda283c55e2ea654",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DepartmentCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/departments": {
             "get": {
                 "tags": [
@@ -3000,6 +3032,383 @@
                 ]
             }
         },
+        "/admin/desks/all": {
+            "get": {
+                "tags": [
+                    "Desk"
+                ],
+                "summary": "Get desks list all",
+                "operationId": "024e547a48f0e57071ec9f1de2c29627",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeskCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/desks": {
+            "get": {
+                "tags": [
+                    "Desk"
+                ],
+                "summary": "Get desks list",
+                "operationId": "b3122ec26a1a7bd1bd808c4274a4af8c",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeskCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Desk"
+                ],
+                "summary": "Store desk",
+                "operationId": "9fa9453723d684e78d68b0feec16b324",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "title"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of desk",
+                                        "type": "string"
+                                    },
+                                    "title": {
+                                        "description": "Title of desk",
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "description": "Activity of desk",
+                                        "type": "boolean"
+                                    },
+                                    "parent_id": {
+                                        "description": "Parent desk id",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeskResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/desks/{id}": {
+            "get": {
+                "tags": [
+                    "Desk"
+                ],
+                "summary": "Get desk",
+                "operationId": "7d56353bfe18df54cdcc485b4b3f45af",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeskResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Desk"
+                ],
+                "summary": "Update desk",
+                "operationId": "66de62051bb46ac798c7243a00d668e0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "title"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of desk",
+                                        "type": "string"
+                                    },
+                                    "title": {
+                                        "description": "Title of desk",
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "description": "Activity of desk",
+                                        "type": "boolean"
+                                    },
+                                    "parent_id": {
+                                        "description": "Parent desk id",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeskResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Desk"
+                ],
+                "summary": "Delete desk",
+                "operationId": "4509e557b9b1c53faab3b8c0b2361f61",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeskResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Desk"
+                ],
+                "summary": "Update desk",
+                "operationId": "cc044d6b0245d80c385614a08bafc3ec",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of desk",
+                                        "type": "string"
+                                    },
+                                    "title": {
+                                        "description": "Title of desk",
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "description": "Activity of desk",
+                                        "type": "boolean"
+                                    },
+                                    "parent_id": {
+                                        "description": "Parent desk id",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeskResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/countries/all": {
+            "get": {
+                "tags": [
+                    "Country"
+                ],
+                "summary": "Get countries list all",
+                "operationId": "289f70da387a5c497281d2ec9d9fc4e3",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CountryCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/countries": {
             "get": {
                 "tags": [
@@ -3226,6 +3635,38 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/CountryResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/languages/all": {
+            "get": {
+                "tags": [
+                    "Language"
+                ],
+                "summary": "Get languages list all",
+                "operationId": "99a764f381cbac0bb6fe06297069d703",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LanguageCollection"
                                 }
                             }
                         }
@@ -3993,6 +4434,38 @@
                 ]
             }
         },
+        "/admin/roles/all": {
+            "get": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Get roles list all",
+                "operationId": "a1dbed4ce62607eaa650582f968a5026",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RoleCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/roles": {
             "get": {
                 "tags": [
@@ -4647,6 +5120,38 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/SaleStatusResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/tokens/all": {
+            "get": {
+                "tags": [
+                    "Token"
+                ],
+                "summary": "Get tokens list all",
+                "operationId": "8b5b897f82404469ddfc72c1e98899d9",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TokenCollection"
                                 }
                             }
                         }
@@ -7358,6 +7863,107 @@
                 },
                 "type": "object"
             },
+            "Desk": {
+                "title": "Desk",
+                "description": "Desk model",
+                "required": [
+                    "id",
+                    "name",
+                    "title",
+                    "is_active",
+                    "parent_id",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Any name"
+                    },
+                    "is_active": {
+                        "description": "Activity of desk",
+                        "type": "boolean"
+                    },
+                    "parent_id": {
+                        "description": "Parent desk id",
+                        "type": "integer"
+                    },
+                    "parent": {
+                        "$ref": "#/components/schemas/Desk"
+                    },
+                    "ancestors": {
+                        "description": "Array of Desk ancestors",
+                        "type": "array",
+                        "items": {},
+                        "example": "[]"
+                    },
+                    "descendants": {
+                        "description": "Array of Desk descendants",
+                        "type": "array",
+                        "items": {},
+                        "example": "[]"
+                    },
+                    "children": {
+                        "description": "Array of Desk children",
+                        "type": "array",
+                        "items": {},
+                        "example": "[]"
+                    },
+                    "languages": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Language"
+                        }
+                    },
+                    "countries": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Country"
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Desk"
+                }
+            },
+            "DeskCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Desk"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "DeskResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Desk"
+                    }
+                },
+                "type": "object"
+            },
             "Country": {
                 "title": "Country",
                 "description": "Country model",
@@ -7747,6 +8353,85 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/SaleStatus"
+                    }
+                },
+                "type": "object"
+            },
+            "Token": {
+                "title": "Token",
+                "description": "Token model",
+                "required": [
+                    "id",
+                    "token",
+                    "user_id",
+                    "ip",
+                    "created_at",
+                    "updated_at",
+                    "deleted_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/Worker"
+                    },
+                    "token": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "ip": {
+                        "type": "string",
+                        "format": "ipv4"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "deleted_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Token"
+                }
+            },
+            "TokenCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Token"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "TokenResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Token"
                     }
                 },
                 "type": "object"

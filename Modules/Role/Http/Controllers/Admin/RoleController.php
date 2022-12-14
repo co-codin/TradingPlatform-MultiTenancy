@@ -17,6 +17,7 @@ use Modules\Role\Http\Resources\RoleResource;
 use Modules\Role\Models\Role;
 use Modules\Role\Repositories\RoleRepository;
 use Modules\Role\Services\RoleStorage;
+use OpenApi\Annotations as OA;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 final class RoleController extends Controller
@@ -29,7 +30,32 @@ final class RoleController extends Controller
     ) {
     }
 
-    public function all()
+    /**
+     * @OA\Get(
+     *      path="/admin/roles/all",
+     *      security={ {"sanctum": {} }},
+     *      tags={"Role"},
+     *      summary="Get roles list all",
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/RoleCollection")
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     *
+     * Display roles list all.
+     *
+     * @throws AuthorizationException
+     */
+    public function all(): AnonymousResourceCollection
     {
         $this->authorize('viewAny');
 
