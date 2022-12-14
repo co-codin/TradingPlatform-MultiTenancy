@@ -16,14 +16,13 @@ pipelines:
           - ./vendor/bin/phpunit
           - curl -vk http://localhost:8000
         services:
-          - db
+          - pgsql
 
 definitions:
   services:
-    db:
-      image: mysql:5.7
+    pgsql:
+      image: postgres
       environment:
-        MYSQL_DATABASE: 'homestead'
-        MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
-        MYSQL_USER: 'homestead'
-        MYSQL_PASSWORD: 'secret'
+          POSTGRES_DB: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: root
