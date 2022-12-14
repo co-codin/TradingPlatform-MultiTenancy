@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use App\Tenant\TestingTenantManager;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
@@ -18,17 +19,15 @@ abstract class BrandTestCase extends BaseTestCase
 
     public Brand $brand;
 
+    protected TestingTenantManager $testingTenantManager;
+
     public static function tearDownAfterClass(): void
     {
         $instance = new static();
+
         $instance->refreshApplication();
 
-        $schemas = Brand::get();
-        foreach ($schemas as $schema) {
-            DB::unprepared("DROP SCHEMA IF EXISTS {$schema->database} CASCADE;");
-        }
-
-        Artisan::call('migrate:reset');
+        $instance->testingTenantManager->forget();
 
         $instance->tearDown();
     }
@@ -37,12 +36,15 @@ abstract class BrandTestCase extends BaseTestCase
     {
         parent::setUp();
 
-        if (! static::$setUpRun) {
-            Artisan::call('migrate:fresh --seed');
-            static::$setUpRun = true;
-        }
+        $this->brand = $this->testingTenantManager->getBrand();
 
-        $this->brand = Brand::first();
+        Artisan::call('migrate:refresh --seed');
+//        if (! static::$setUpRun) {
+//            Artisan::call('migrate:fresh --seed');
+//            static::$setUpRun = true;
+//        }
+//
+//        $this->brand = Brand::first();
     }
 
     /**

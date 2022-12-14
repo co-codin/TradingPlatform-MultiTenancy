@@ -25,7 +25,7 @@ class CreateTest extends TestCase
         $data = Brand::factory()->make();
 
         $response = $this->json('POST', route('admin.brands.store'), $data->toArray());
-
+dd($response->json());
         $response->assertCreated();
 
         $this->assertDatabaseHas('brands', [
