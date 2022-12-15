@@ -20,6 +20,8 @@ final class ApiLoginTest extends BrandTestCase
      */
     public function success(): void
     {
+        $this->brand->makeCurrent();
+
         $customer = $this->getCustomer();
         $response = $this->post(route('customer.token-auth.login'), [
             'email' => $customer->email,
@@ -66,6 +68,8 @@ final class ApiLoginTest extends BrandTestCase
      */
     public function failed(): void
     {
+        $this->brand->makeCurrent();
+
         $customer = $this->getCustomer();
         $response = $this->post(route('customer.token-auth.login'), [
             'email' => $customer->email,
