@@ -29,7 +29,7 @@ final class CustomerStorage
             throw new LogicException(__('Can not create customer'));
         }
 
-        event(new CustomerStored($customer, dto: $dto));
+        // event(new CustomerStored($customer, dto: $dto));
 
         return $customer;
     }
@@ -63,7 +63,7 @@ final class CustomerStorage
             }
         }
 
-        event(new CustomerEdited($customer, dto: $dto));
+        // event(new CustomerEdited($customer, dto: $dto));
 
         return $customer;
     }
