@@ -35,12 +35,20 @@ final class Action extends Model
     /**
      * {@inheritdoc}
      */
-    protected $guarded = ['id'];
+    public $timestamps = false;
 
     /**
      * {@inheritdoc}
      */
-    public $timestamps = false;
+    protected $guarded = ['id'];
+
+    /**
+     * {@inheritDoc}
+     */
+    protected static function newFactory(): Factory
+    {
+        return ActionFactory::new();
+    }
 
     /**
      * Permission relation.
@@ -50,13 +58,5 @@ final class Action extends Model
     public function permissions(): HasMany
     {
         return $this->hasMany(Permission::class);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected static function newFactory(): Factory
-    {
-        return ActionFactory::new();
     }
 }
