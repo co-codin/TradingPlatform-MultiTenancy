@@ -77,6 +77,7 @@ final class UserRequestCriteria extends BaseCriteria
                 'desks',
                 'departments',
                 'languages',
+                'countries',
                 'affiliate',
                 'comProvider',
 
