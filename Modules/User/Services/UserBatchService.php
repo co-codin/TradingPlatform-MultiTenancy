@@ -5,6 +5,7 @@ namespace Modules\User\Services;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Modules\User\Enums\UserPermission;
 use Modules\User\Repositories\UserRepository;
 use Modules\User\Services\Traits\HasAuthUser;
 
@@ -35,7 +36,7 @@ final class UserBatchService
         foreach ($usersData as $item) {
             $user = $this->userRepository->find($item['id']);
 
-            if ($this->authUser?->can('update', $user)) {
+            if ($this->authUser?->can(UserPermission::EDIT_USERS, $user)) {
                 $updatedUsers->push(
                     $this->userStorage->update($user, Arr::except($item, ['id']))
                 );
