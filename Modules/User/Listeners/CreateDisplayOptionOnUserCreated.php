@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\User\Listeners;
 
+use App\Models\Model;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -16,16 +17,19 @@ final class CreateDisplayOptionOnUserCreated implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param UserCreated $event
+     * @param  UserCreated  $event
      * @return void
      */
     final public function handle(UserCreated $event): void
     {
-        $event->user
-            ->displayOptions()
-            ->create([
-                'columns' => [],
-                'settings' => [],
-            ]);
+        foreach (Model::get() as $model) {
+            $event->user
+                ->displayOptions()
+                ->create([
+                    'model_id' => $model->id,
+                    'columns' => [],
+                    'settings' => [],
+                ]);
+        }
     }
 }

@@ -4,25 +4,44 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use App\Listeners\Tenant\CreateTenantDatabase;
-use App\Services\Tenant\Manager;
+use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Queue;
-use Illuminate\Testing\TestResponse;
-use Modules\Brand\Events\BrandCreated;
-use Modules\Brand\Events\Tenant\BrandTenantIdentified;
-use Modules\Brand\Jobs\MigrateStructureJob;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Modules\Brand\Models\Brand;
-use Nwidart\Modules\Facades\Module;
-use Tests\Traits\HasAuth;
+use Spatie\Multitenancy\Concerns\UsesMultitenancyConfig;
 
 abstract class BrandTestCase extends BaseTestCase
 {
     use CreatesApplication;
+    use UsesMultitenancyConfig;
 
+    /**
+     * @var Brand
+     */
     public Brand $brand;
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function tearDownAfterClass(): void
+    {
+        (new static())->refreshApplication();
+
+        $schemas = DB::select("
+                SELECT schema_name
+                FROM information_schema.schemata
+                WHERE schema_name NOT IN ('pg_toast', 'pg_catalog', 'public', 'information_schema');
+            ");
+
+        foreach ($schemas as $schema) {
+            DB::unprepared("DROP SCHEMA IF EXISTS {$schema->schema_name} CASCADE;");
+        }
+
+        Artisan::call('migrate:reset');
+
+        parent::tearDownAfterClass();
+    }
 
     /**
      * {@inheritDoc}
@@ -31,53 +50,22 @@ abstract class BrandTestCase extends BaseTestCase
     {
         parent::setUp();
 
-//        Event::fake();
-        Queue::fake();
+        $this->withoutMiddleware(VerifyCsrfToken::class);
 
-//        $this->expectsJobs(CreateTenantDatabase::class);
-        $this->brand = Brand::factory()->create();
+        Artisan::call('migrate:fresh');
 
-        try {
-            Event::assertDispatched(BrandCreated::class);
-            Queue::assertPushed(CreateTenantDatabase::class, function ($listener) {
-                return $listener->class == CreateTenantDatabase::class;
-            });
-            dd('sa');
-        } catch (\Throwable $e) {
-            dd($e->getMessage());
-        }
-dd('s');
-        $this->withHeader('Tenant', $this->brand->slug);
+        $this->brand ??= Brand::factory()->create();
     }
 
     /**
-     * {@inheritDoc}
-     */
-    protected function tearDown(): void
-    {
-        $this->brand->delete();
-
-        parent::tearDown();
-    }
-
-    /**
-     * Import.
+     * Make current tenant and set header.
      *
-     * @param array $modules
-     * @return TestResponse
+     * @return void
      */
-    protected function import(array $modules): TestResponse
+    protected function makeCurrentTenantAndSetHeader(): void
     {
-        return $this->post(
-            route('admin.brands.db.import', ['brand' => $this->brand]),
-            [
-                'modules' => $modules,
-            ]
-        );
-    }
+        $this->brand->makeCurrent();
 
-    public function migrateModules(array $modules, array $availableModules = [])
-    {
-        MigrateStructureJob::dispatchSync($this->brand, $modules, $availableModules ?: array_keys(Module::all()));
+        $this->withHeader('tenant', $this->brand->database);
     }
 }

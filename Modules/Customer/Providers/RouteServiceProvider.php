@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Customer\Providers;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Route;
 
-class RouteServiceProvider extends ServiceProvider
+final class RouteServiceProvider extends ServiceProvider
 {
     /**
      * The module namespace to assume when generating URLs to actions.
@@ -34,10 +36,30 @@ class RouteServiceProvider extends ServiceProvider
     public function map()
     {
         $this->mapAdminRoutes();
+        $this->mapApiRoutes();
+        $this->mapAffiliateApiRoutes();
     }
 
+    protected function mapAffiliateApiRoutes(): void
+    {
+        Route::middleware(['api'])
+            ->as('affiliate.')
+            ->prefix('affiliate')
+            ->group(module_path('Customer', '/Routes/affiliate-api.php'));
+    }
 
-    protected function mapAdminRoutes()
+    /**
+     * @return void
+     */
+    protected function mapApiRoutes(): void
+    {
+        Route::prefix('customer')->as('customer.')->group(module_path('Customer', '/Routes/api.php'));
+    }
+
+    /**
+     * @return void
+     */
+    protected function mapAdminRoutes(): void
     {
         Route::middleware(['api', 'auth:api'])
             ->as('admin.')

@@ -10,7 +10,7 @@ use Prettus\Repository\Exceptions\RepositoryException;
 class DepartmentRepository extends BaseRepository
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function model(): string
     {
@@ -18,11 +18,13 @@ class DepartmentRepository extends BaseRepository
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws RepositoryException
      */
     public function boot()
     {
+        $this->pushPermissionColumnValidator(DepartmentColumnPermissionValidator::class);
         $this->pushCriteria(DepartmentRequestCriteria::class);
     }
 }

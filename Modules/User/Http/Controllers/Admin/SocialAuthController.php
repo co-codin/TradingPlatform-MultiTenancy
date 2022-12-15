@@ -90,7 +90,7 @@ final class SocialAuthController extends Controller
                 ]);
             }
 
-            Auth::login($user, session('remember_me', false));
+            Auth::guard('web')->login($user, session('remember_me', false));
             $request->session()->regenerate();
             $this->userStorage->update($user, ['last_login' => CarbonImmutable::now()]);
         } catch (Throwable $e) {

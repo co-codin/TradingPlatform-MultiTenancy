@@ -21,10 +21,15 @@ class BrandFactory extends Factory
      */
     public function definition()
     {
+        $name = $this->faker->name;
+
+        $uniqueName = str_replace('-', '_', Str::slug($name));
+
         return [
-            'name' => $name = $this->faker->name,
+            'name' => $name,
             'title' => $this->faker->title,
-            'slug' => Str::slug($name),
+            'domain' => $uniqueName,
+            'database' => $uniqueName,
             'logo_url' => $this->faker->imageUrl,
             'is_active' => true,
          ];

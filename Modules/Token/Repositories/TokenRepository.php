@@ -9,7 +9,7 @@ use Modules\Token\Repositories\Criteria\TokenRequestCriteria;
 class TokenRepository extends BaseRepository
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function model(): string
     {
@@ -17,10 +17,11 @@ class TokenRepository extends BaseRepository
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function boot()
     {
+        $this->pushPermissionColumnValidator(TokenColumnPermissionValidator::class);
         $this->pushCriteria(TokenRequestCriteria::class);
     }
 }

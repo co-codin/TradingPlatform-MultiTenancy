@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string("title");
-            $table->string('slug')->unique();
+            $table->string('domain')->unique();
+            $table->string('database')->unique();
             $table->string('logo_url');
             $table->boolean('is_active')->default(true);
-            $table->jsonb('tables')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

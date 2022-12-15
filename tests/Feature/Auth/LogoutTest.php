@@ -11,7 +11,7 @@ final class LogoutTest extends TestCase
     /**
      * @test
      */
-    public function logout_success(): void
+    public function success(): void
     {
         $this->authenticateUser('web');
 
@@ -24,7 +24,7 @@ final class LogoutTest extends TestCase
     /**
      * @test
      */
-    public function logout_failed(): void
+    public function failed(): void
     {
         $response = $this->post(route('admin.auth.logout'));
 

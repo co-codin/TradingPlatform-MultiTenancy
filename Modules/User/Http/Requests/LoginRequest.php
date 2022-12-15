@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\User\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseFormRequest;
 
-final class LoginRequest extends FormRequest
+final class LoginRequest extends BaseFormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -16,9 +16,30 @@ final class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
+            'login' => 'required|string',
             'password' => 'required|string',
             'remember_me' => 'boolean',
         ];
+    }
+
+    public function validated($key = null, $default = null)
+    {
+        if ($key === 'login') {
+            return $this->input('login', $default);
+        }
+
+        if ($key) {
+            return parent::validated($key, $default);
+        }
+
+        return array_merge(parent::validated(), ['login' => $this->input('login')]);
+    }
+
+    final protected function passedValidation(): void
+    {
+        parent::passedValidation();
+        $this->merge([
+            'login' => strtolower($this->input('login')),
+        ]);
     }
 }

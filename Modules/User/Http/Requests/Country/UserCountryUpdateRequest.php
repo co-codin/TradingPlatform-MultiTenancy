@@ -15,7 +15,7 @@ final class UserCountryUpdateRequest extends BaseFormRequest
                 'required',
                 'array',
             ],
-            'countries.*.id' => 'distinct|integer|exists:countries,id',
+            'countries.*.id' => 'distinct|integer|exists:tenant.countries,id',
         ];
     }
 }

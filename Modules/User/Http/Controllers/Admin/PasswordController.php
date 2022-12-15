@@ -4,23 +4,31 @@ declare(strict_types=1);
 
 namespace Modules\User\Http\Controllers\Admin;
 
+use App\Dto\Auth\PasswordResetDto;
 use App\Http\Controllers\Controller;
-use Illuminate\Auth\Events\PasswordReset;
+use App\Services\Auth\PasswordService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Modules\User\Http\Requests\ForgetPasswordRequest;
 use Modules\User\Http\Requests\ResetPasswordRequest;
-use Modules\User\Models\User;
 use Modules\User\Repositories\UserRepository;
 use OpenApi\Annotations as OA;
+use Spatie\DataTransferObject\Exceptions\UnknownProperties;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 final class PasswordController extends Controller
 {
+    /**
+     * @param  PasswordService  $passwordService
+     */
+    public function __construct(
+        protected PasswordService $passwordService,
+    ) {
+    }
+
     /**
      * @OA\Post(
      *     path="/admin/auth/forget-password",
@@ -114,28 +122,13 @@ final class PasswordController extends Controller
      *
      * @param  ResetPasswordRequest  $request
      * @return Application|Response|ResponseFactory
+     *
+     * @throws UnknownProperties
      */
     public function reset(ResetPasswordRequest $request)
     {
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function (User $user, $password) {
-                if ($user->banned_at) {
-                    throw ValidationException::withMessages(['banned' => 'You have been banned']);
-                }
+        $status = $this->passwordService->reset(PasswordResetDto::fromFormRequest($request));
 
-                $user->forceFill(['password' => Hash::make($password)])->setRememberToken(Str::random(60));
-
-                $user->save();
-
-                event(new PasswordReset($user));
-            }
-        );
-
-        if ($status !== Password::PASSWORD_RESET) {
-            abort(Response::HTTP_BAD_REQUEST, $status);
-        }
-
-        return response($status, Response::HTTP_ACCEPTED);
+        return response($status, ResponseAlias::HTTP_ACCEPTED);
     }
 }

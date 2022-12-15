@@ -1,28 +1,39 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Role\Services;
 
 use Illuminate\Support\Arr;
 use Modules\Role\Dto\RoleDto;
 use Modules\Role\Models\Role;
+use Spatie\Multitenancy\Models\Tenant;
 use Spatie\Permission\PermissionRegistrar;
 
-class RoleStorage
+final class RoleStorage
 {
-    public function store(RoleDto $dto)
+    /**
+     * Store role.
+     *
+     * @param  RoleDto  $dto
+     * @return Role
+     */
+    final public function store(RoleDto $dto): Role
     {
         $role = new Role(Arr::only($dto->toArray(),
             ['name', 'key', 'guard_name']
         ));
 
-        if (!$role->save()) {
+        if (Tenant::checkCurrent()) {
+            $role->brand()->associate(Tenant::current());
+        }
+
+        if (! $role->save()) {
             throw new \LogicException('Не удалось сохранить Роль');
         }
 
         if ($dto->permissions) {
-            foreach ($dto->permissions as $permission) {
-                $role->permissions()->attach($permission['id']);
-            }
+            $this->updatePermissions($role, $dto->permissions);
         }
 
         $this->clearCache();
@@ -30,21 +41,23 @@ class RoleStorage
         return $role;
     }
 
-    public function update(Role $role, RoleDto $dto)
+    /**
+     * Update role.
+     *
+     * @param  Role  $role
+     * @param  RoleDto  $dto
+     * @return Role
+     */
+    final public function update(Role $role, RoleDto $dto): Role
     {
-        if (!$role->update(Arr::only($dto->toArray(),
+        if (! $role->update(Arr::only($dto->toArray(),
             ['name', 'key']
         ))) {
             throw new \LogicException('Не удалось изменить данные Роли');
         }
 
         if ($dto->permissions) {
-            $role->permissions()->detach();
-
-            foreach ($dto->permissions as $permission) {
-                $role->permissions()->attach($permission['id']);
-            }
-
+            $this->updatePermissions($role, $dto->permissions);
         }
 
         $this->clearCache();
@@ -52,27 +65,43 @@ class RoleStorage
         return $role;
     }
 
-    public function updatePermissions(Role $role, array $permissions)
+    /**
+     * Update role permissions.
+     *
+     * @param  Role  $role
+     * @param  array  $permissions
+     * @return void
+     */
+    final public function updatePermissions(Role $role, array $permissions): void
     {
         $role->permissions()->detach();
 
         foreach ($permissions as $permission) {
             $role->permissions()->attach($permission['id']);
         }
-
-        $this->clearCache();
     }
 
-    public function delete(Role $role)
+    /**
+     * Delete role.
+     *
+     * @param  Role  $role
+     * @return void
+     */
+    final public function delete(Role $role): void
     {
-        if (!$role->delete()) {
+        if (! $role->delete()) {
             throw new \LogicException('can not delete role');
         }
 
         $this->clearCache();
     }
 
-    protected function clearCache(): void
+    /**
+     * Clear cache.
+     *
+     * @return void
+     */
+    final protected function clearCache(): void
     {
         app(PermissionRegistrar::class)->forgetCachedPermissions();
     }

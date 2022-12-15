@@ -1,79 +1,57 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Modules\Department\Admin;
 
-use App\Listeners\Tenant\CreateTenantDatabase;
-use Illuminate\Contracts\Auth\Authenticatable as UserContract;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Event;
-use Modules\Brand\Jobs\CreateSchemaJob;
-use Modules\Brand\Jobs\MigrateStructureJob;
-use Modules\Brand\Services\BrandDBService;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Str;
 use Modules\Department\Enums\DepartmentPermission;
 use Modules\Department\Models\Department;
-use Modules\Role\Models\Permission;
-use Modules\User\Models\User;
-use Symfony\Component\HttpFoundation\Response as ResponseAlias;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
-use Tests\TestCase;
 use Tests\Traits\HasAuth;
 
-class CreateTest extends BrandTestCase
+final class CreateTest extends BrandTestCase
 {
+    use TenantAware;
     use HasAuth;
+    use WithFaker;
 
     /**
      * Test authorized user can create department.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_authorized_user_can_create_department(): void
+    public function authorized_user_can_create_department(): void
     {
-        try {
-            $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::CREATE_DEPARTMENTS));
+        $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::CREATE_DEPARTMENTS));
 
-            $data = Department::factory()->make();
+        $this->brand->makeCurrent();
 
-            $this->expectsJobs(CreateTenantDatabase::class);
+        $data = Department::factory()->make(static::demoData())->toArray();
 
-            $this->migrateModules([BrandDBService::ALLOWED_MODULES['Department']]);
+        $response = $this->post(route('admin.departments.store'), $data);
 
-//            $response->assertStatus(ResponseAlias::HTTP_ACCEPTED);
+        $response->assertCreated();
 
-            dump($this->brand->slug);
-
-            $e = Event::assertDispatched(CreateTenantDatabase::class);
-            $dd = Bus::assertDispatched(MigrateStructureJob::class);
-dd($e, $dd);
-            $response = $this->post(route('admin.departments.store'), $data->toArray());
-dd($response->json(['message']));
-            $response->assertCreated();
-
-            $response->assertJson([
-                'data' => [
-                    'name' => $data['name'],
-                    'title' => $data['title'],
-                    'is_active' => $data['is_active'],
-                    'is_default' => $data['is_default'],
-                ],
-            ]);
-
-            dd('as');
-        } catch (\Throwable $e) {
-            dd($e->getMessage());
-        }
-
+        $response->assertJson(['data' => $data]);
     }
 
     /**
      * Test unauthorized user can`t create department.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_unauthorized_user_cant_create_department(): void
+    public function unauthorized_user_cant_create_department(): void
     {
-        $data = Department::factory()->make();
+        $this->brand->makeCurrent();
+
+        $data = Department::factory()->make(static::demoData());
 
         $response = $this->postJson(route('admin.departments.store'), $data->toArray());
 
@@ -84,12 +62,16 @@ dd($response->json(['message']));
      * Test department name exist.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_department_name_exist(): void
+    public function department_name_exist(): void
     {
         $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::CREATE_DEPARTMENTS));
 
-        $department = Department::factory()->create();
+        $this->brand->makeCurrent();
+
+        $department = Department::factory()->create(static::demoData());
 
         $data = Department::factory()->make(['name' => $department->name]);
 
@@ -102,12 +84,16 @@ dd($response->json(['message']));
      * Test department title exist.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_department_title_exist(): void
+    public function department_title_exist(): void
     {
         $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::CREATE_DEPARTMENTS));
 
-        $department = Department::factory()->create();
+        $this->brand->makeCurrent();
+
+        $department = Department::factory()->create(static::demoData());
 
         $data = Department::factory()->make(['title' => $department->title]);
 
@@ -120,12 +106,16 @@ dd($response->json(['message']));
      * Test department name required.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_department_name_is_required(): void
+    public function department_name_is_required(): void
     {
         $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::CREATE_DEPARTMENTS));
 
-        $data = Department::factory()->make()->toArray();
+        $this->brand->makeCurrent();
+
+        $data = Department::factory()->make(static::demoData())->toArray();
         unset($data['name']);
 
         $response = $this->postJson(route('admin.departments.store'), $data);
@@ -137,12 +127,16 @@ dd($response->json(['message']));
      * Test department title required.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_department_title_is_required(): void
+    public function department_title_is_required(): void
     {
         $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::CREATE_DEPARTMENTS));
 
-        $data = Department::factory()->make()->toArray();
+        $this->brand->makeCurrent();
+
+        $data = Department::factory()->make(static::demoData())->toArray();
         unset($data['title']);
 
         $response = $this->postJson(route('admin.departments.store'), $data);
@@ -154,12 +148,16 @@ dd($response->json(['message']));
      * Test department name is string.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_department_name_is_string(): void
+    public function department_name_is_string(): void
     {
         $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::CREATE_DEPARTMENTS));
 
-        $data = Department::factory()->make();
+        $this->brand->makeCurrent();
+
+        $data = Department::factory()->make(static::demoData());
         $data->name = 1;
 
         $response = $this->postJson(route('admin.departments.store'), $data->toArray());
@@ -171,16 +169,35 @@ dd($response->json(['message']));
      * Test department title is string.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_department_title_is_string(): void
+    public function department_title_is_string(): void
     {
         $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::CREATE_DEPARTMENTS));
 
-        $data = Department::factory()->make();
+        $this->brand->makeCurrent();
+
+        $data = Department::factory()->make(static::demoData());
         $data->title = 1;
 
         $response = $this->postJson(route('admin.departments.store'), $data->toArray());
 
         $response->assertUnprocessable();
+    }
+
+    /**
+     * Demo Data
+     *
+     * @return array
+     */
+    private function demoData(): array
+    {
+        return [
+            'name' => $this->faker->name . Str::random(5),
+            'title' => $this->faker->title . Str::random(5),
+            'is_active' => $this->faker->boolean(),
+            'is_default' => $this->faker->boolean(),
+        ];
     }
 }

@@ -23,7 +23,6 @@ use Modules\User\Http\Resources\UserResource;
  *         "slug",
  *         "logo_url",
  *         "is_active",
- *         "tables",
  *         "created_at",
  *         "updated_at",
  *         "deleted_at",
@@ -35,7 +34,6 @@ use Modules\User\Http\Resources\UserResource;
  *     @OA\Property(property="slug", type="string", example="brand-slug"),
  *     @OA\Property(property="logo_url", type="string", example="/logo-url"),
  *     @OA\Property(property="is_active", type="bool", example="true"),
- *     @OA\Property(property="tables", type="array", @OA\Items(type="string")),
  *     @OA\Property(property="created_at", type="string", format="date-time"),
  *     @OA\Property(property="updated_at", type="string", format="date-time"),
  *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true),
@@ -82,18 +80,8 @@ final class BrandResource extends BaseJsonResource
      */
     final public function toArray($request): array
     {
-        return [
-            'id' => $this->resource->id,
-            'name' => $this->resource->name,
-            'title' => $this->resource->title,
-            'slug' => $this->resource->slug,
-            'logo_url' => $this->resource->logo_url,
-            'is_active' => $this->resource->is_active,
-            'tables' => $this->resource->tables,
-            'created_at' => $this->resource->created_at,
-            'updated_at' => $this->resource->updated_at,
-            'deleted_at' => $this->resource->deleted_at,
+        return array_merge(parent::toArray($request), [
             'workers' => UserResource::collection($this->whenLoaded('users')),
-        ];
+        ]);
     }
 }

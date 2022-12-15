@@ -20,7 +20,6 @@ use Modules\User\Repositories\UserRepository;
 use Modules\User\Services\UserBanService;
 use Modules\User\Services\UserBatchService;
 use Modules\User\Services\UserStorage;
-use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 final class UserController extends Controller
@@ -127,7 +126,6 @@ final class UserController extends Controller
      *                     "username",
      *                     "first_name",
      *                     "last_name",
-     *                     "email",
      *                     "password",
      *                     "password_confirmation",
      *                     "roles",
@@ -143,6 +141,8 @@ final class UserController extends Controller
      *                 @OA\Property(property="parent_id", type="integer", description="Parent worker ID"),
      *                 @OA\Property(property="roles", type="array", description="Array of roles ID",
      *                     @OA\Items(@OA\Property(property="id", type="integer")),
+     *                 @OA\Property(property="affiliate_id", type="integer", description="Affiliate worker ID"),
+     *                 @OA\Property(property="show_on_scoreboards", type="boolean", description="Show on scoreboards"),
      *                 ),
      *             )
      *         )
@@ -198,7 +198,6 @@ final class UserController extends Controller
      *                     "username",
      *                     "first_name",
      *                     "last_name",
-     *                     "email",
      *                     "password",
      *                     "password_confirmation",
      *                     "roles",
@@ -217,6 +216,8 @@ final class UserController extends Controller
      *                 ),
      *                 @OA\Property(property="change_password", type="boolean",
      *                     description="Must be set to true if the password is changed."),
+     *                 @OA\Property(property="affiliate_id", type="integer", description="Affiliate worker ID"),
+     *                 @OA\Property(property="show_on_scoreboards", type="boolean", description="Show on scoreboards"),
      *             )
      *         )
      *     ),
@@ -272,6 +273,8 @@ final class UserController extends Controller
      *                 ),
      *                 @OA\Property(property="change_password", type="boolean",
      *                     description="Must be set to true if the password is changed."),
+     *                 @OA\Property(property="affiliate_id", type="integer", description="Affiliate worker ID"),
+     *                 @OA\Property(property="show_on_scoreboards", type="boolean", description="Show on scoreboards"),
      *             )
      *         )
      *     ),
@@ -301,7 +304,7 @@ final class UserController extends Controller
      * @throws AuthorizationException
      * @throws Exception
      */
-    public function update(int $id, UserUpdateRequest $request): UserResource
+    public function update(UserUpdateRequest $request, int $id): UserResource
     {
         $user = $this->userRepository->find($id);
 
@@ -528,7 +531,7 @@ final class UserController extends Controller
      */
     public function updateBatch(UserUpdateBatchRequest $request): JsonResource
     {
-        $users = $this->userBatchService->updateBatch($request->validated('users', []));
+        $users = $this->userBatchService->setAuthUser($request->user())->updateBatch($request->validated('users', []));
 
         abort_if($users->isEmpty(), ResponseAlias::HTTP_UNAUTHORIZED);
 

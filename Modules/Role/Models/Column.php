@@ -1,20 +1,45 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Role\Models;
 
-use App\Models\Traits\ForTenant;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Modules\Role\Database\factories\ColumnFactory;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
-class Column extends Model
+final class Column extends Model
 {
-    use ForTenant;
+    use HasFactory;
+    use UsesLandlordConnection;
 
+    /**
+     * {@inheritdoc}
+     */
     protected $guarded = ['id'];
 
+    /**
+     * {@inheritdoc}
+     */
     public $timestamps = false;
 
-    public function permissions()
+    /**
+     * {@inheritDoc}
+     */
+    protected static function newFactory(): ColumnFactory
     {
-        return $this->hasMany(Permission::class);
+        return ColumnFactory::new();
+    }
+
+    /**
+     * Permissions relation.
+     *
+     * @return BelongsToMany
+     */
+    public function permissions(): BelongsToMany
+    {
+        return $this->belongsToMany(Permission::class, 'permission_column');
     }
 }

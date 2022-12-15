@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -76,24 +77,12 @@ abstract class BaseModuleServiceProvider extends ServiceProvider
     /**
      * Register policies.
      *
-     * @param string|null $modelKey
-     * @param array $policies
      * @return void
      */
-    public function registerPolicies(?string $modelKey = null, array $policies = []): void
+    public function registerPolicies(): void
     {
-        $policies = $policies ?? $this->policies;
-
-        foreach ($policies as $key => $value) {
-            $key = $modelKey ?? $key;
-
-            switch (true) {
-                case is_array($value):
-                    $this->registerPolicies($key, $value);
-                    break;
-                default:
-                    Gate::policy($key, $value);
-            }
+        foreach ($this->policies as $key => $value) {
+            Gate::policy($key, $value);
         }
     }
 
@@ -141,5 +130,51 @@ abstract class BaseModuleServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             module_path($this->getModuleName(), 'Config/config.php'), $this->getModuleNameLower()
         );
+    }
+
+    /**
+     * Register views.
+     *
+     * @return void
+     */
+    public function registerViews(): void
+    {
+        $viewPath = resource_path('views/modules/' . $this->getModuleNameLower());
+
+        $sourcePath = module_path($this->getModuleName(), 'Resources/views');
+
+        $this->publishes([
+            $sourcePath => $viewPath
+        ], ['views', $this->getModuleNameLower() . '-module-views']);
+
+        $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), $this->getModuleNameLower());
+    }
+
+    /**
+     * Get publishable view paths.
+     *
+     * @return array
+     */
+    private function getPublishableViewPaths(): array
+    {
+        $paths = [];
+
+        foreach (Config::get('view.paths') as $path) {
+            if (is_dir($path . '/modules/' . $this->getModuleNameLower())) {
+                $paths[] = $path . '/modules/' . $this->getModuleNameLower();
+            }
+        }
+
+        return $paths;
+    }
+
+    /**
+     * Load migrations.
+     *
+     * @return void
+     */
+    protected function loadMigrations(): void
+    {
+        $this->loadMigrationsFrom(module_path($this->getModuleName(), 'Database/Migrations'));
     }
 }

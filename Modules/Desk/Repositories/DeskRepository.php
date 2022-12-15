@@ -9,7 +9,7 @@ use Modules\Desk\Repositories\Criteria\DeskRequestCriteria;
 class DeskRepository extends BaseRepository
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function model(): string
     {
@@ -17,10 +17,11 @@ class DeskRepository extends BaseRepository
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function boot()
     {
+        $this->pushPermissionColumnValidator(DeskColumnPermissionValidator::class);
         $this->pushCriteria(DeskRequestCriteria::class);
     }
 }

@@ -34,11 +34,11 @@ final class TokenAuthController extends Controller
      *              mediaType="application/json",
      *              @OA\Schema (
      *                  required={
-     *                      "email",
+     *                      "login",
      *                      "password"
      *                  },
      *                  type="object",
-     *                  @OA\Property(property="email", type="string", format="email"),
+     *                  @OA\Property(property="login", type="string", description="Username or Email"),
      *                  @OA\Property(property="password", type="string", format="password"),
      *                  @OA\Property(property="remember_me", type="boolean")
      *              )
@@ -72,7 +72,9 @@ final class TokenAuthController extends Controller
      */
     public function login(LoginRequest $request): array
     {
-        $user = User::where('email', $request->validated('email'))->first();
+        $login = $request->validated('login');
+        $loginType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        $user = User::where($loginType, $login)->first();
 
         if (! $user || ! Hash::check($request->validated('password'), $user->password)) {
             throw ValidationException::withMessages([
@@ -89,7 +91,7 @@ final class TokenAuthController extends Controller
         $expiredAt = CarbonImmutable::now()->add($request->validated('remember_me',
             false) ? config('auth.api_token_prolonged_expires_in') : config('auth.api_token_expires_in'));
 
-        $this->userStorage->update($user, ['last_login' => CarbonImmutable::now()]);
+        $this->userStorage->update($user, ['last_login' => $user->freshTimestamp()]);
 
         return [
             'token' => $user->createToken('api', expiresAt: $expiredAt)->plainTextToken,

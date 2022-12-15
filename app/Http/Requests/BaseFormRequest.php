@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Http\Requests;
-
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Collection as SupportCollection;
@@ -10,13 +10,33 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BaseFormRequest extends FormRequest
 {
-    protected function prefix(array $rules, string $prefix = ''): SupportCollection
+    /**
+     * Rules.
+     *
+     * @return array
+     */
+    public function rules(): array
     {
-        return collect($rules)->map(fn(string $rule) => $prefix . '.' . $rule);
+        return [];
     }
 
+    /**
+     * Prefix for rules.
+     *
+     * @param  array  $rules
+     * @param  string  $prefix
+     * @return SupportCollection
+     */
+    final protected function prefix(array $rules, string $prefix = ''): SupportCollection
+    {
+        return collect($rules)->map(fn (string $rule) => "{$prefix}.{$rule}");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     protected function passedValidation(): void
     {
-        abort_if(!$this->validated(), Response::HTTP_BAD_REQUEST);
+        abort_if(! empty($this->rules()) && ! $this->validated(), Response::HTTP_BAD_REQUEST);
     }
 }

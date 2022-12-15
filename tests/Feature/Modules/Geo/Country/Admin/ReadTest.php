@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Modules\Geo\Country\Admin;
 
-use Illuminate\Contracts\Auth\Authenticatable as UserContract;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Str;
 use Modules\Geo\Enums\CountryPermission;
 use Modules\Geo\Models\Country;
-use Modules\Role\Models\Permission;
-use Modules\User\Models\User;
-use Tests\TestCase;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-class ReadTest extends TestCase
+class ReadTest extends BrandTestCase
 {
-    use DatabaseTransactions;
+    use TenantAware;
+    use HasAuth;
 
     /**
      * Test authorized user can get countries list.
@@ -25,23 +27,15 @@ class ReadTest extends TestCase
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
 
-        $country = Country::factory()->create();
+        $this->brand->makeCurrent();
+
+        $country = Country::factory()->create(static::demoData())->toArray();
 
         $response = $this->getJson(route('admin.countries.index'));
 
         $response->assertOk();
 
-        $response->assertJson([
-            'data' => [
-                [
-                    'id' => $country->id,
-                    'name' => $country->name,
-                    'iso2' => $country->iso2,
-                    'iso3' => $country->iso3,
-                    'currency' => $country->currency,
-                ],
-            ],
-        ]);
+        $response->assertJson(['data' => [$country]]);
     }
 
     /**
@@ -53,7 +47,9 @@ class ReadTest extends TestCase
      */
     public function unauthorized_user_cant_get_countries_list(): void
     {
-        Country::factory()->create();
+        $this->brand->makeCurrent();
+
+        Country::factory()->create(static::demoData());
 
         $response = $this->getJson(route('admin.countries.index'));
 
@@ -71,20 +67,16 @@ class ReadTest extends TestCase
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
 
-        $country = Country::factory()->create();
+        $this->brand->makeCurrent();
+
+        $country = Country::factory()->create(static::demoData());
 
         $response = $this->getJson(route('admin.countries.show', ['country' => $country->id]));
 
         $response->assertOk();
 
         $response->assertJson([
-            'data' => [
-                'id' => $country->id,
-                'name' => $country->name,
-                'iso2' => $country->iso2,
-                'iso3' => $country->iso3,
-                'currency' => $country->currency,
-            ],
+            'data' => $country->toArray(),
         ]);
     }
 
@@ -97,10 +89,27 @@ class ReadTest extends TestCase
      */
     public function unauthorized_user_cant_get_country(): void
     {
-        $country = Country::factory()->create();
+        $this->brand->makeCurrent();
+
+        $country = Country::factory()->create(static::demoData());
 
         $response = $this->getJson(route('admin.countries.show', ['country' => $country->id]));
 
         $response->assertUnauthorized();
+    }
+
+    /**
+     * Demo Data
+     *
+     * @return array
+     */
+    private function demoData(): array
+    {
+        return [
+            'name' => Str::random(5),
+            'iso2' => Str::random(5),
+            'iso3' => Str::random(5),
+            'currency' => 'CUR',
+        ];
     }
 }

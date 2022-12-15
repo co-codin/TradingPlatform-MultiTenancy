@@ -9,16 +9,10 @@ use Modules\Role\Enums\DefaultRole;
 use Modules\Role\Models\Permission;
 use Modules\Role\Models\Role;
 use Modules\User\Models\User;
-use Tests\CreatesApplication;
 
 trait HasAuth
 {
-    use CreatesApplication;
-
-    /**
-     * @var User|null
-     */
-    protected ?User $user = null;
+    protected readonly User $user;
 
     /**
      * Authenticate user.
@@ -55,15 +49,16 @@ trait HasAuth
                 'email' => $email,
             ]);
 
-        $role = Role::factory()->create([
-            'name' => DefaultRole::ADMIN,
-        ]);
+        $role = Role::where('name', DefaultRole::ADMIN)->first() ??
+            Role::factory()->create([
+                'name' => DefaultRole::ADMIN,
+            ]);
 
         $user->roles()->sync($role);
 
         $this->setUser($user);
 
-        $this->actingAs($user, User::DEFAULT_AUTH_GUARD);
+        $this->actingAs($user, $guard);
     }
 
     /**
@@ -76,10 +71,10 @@ trait HasAuth
     final protected function authenticateWithPermission(
         PermissionEnum $permissionEnum,
         string $guard = User::DEFAULT_AUTH_GUARD
-    ): void
-    {
+    ): void {
         $email = 'test@service.com';
 
+        /** @var User $user */
         $user = User::whereEmail($email)->first() ??
             User::factory()->create([
                 'email' => $email,
@@ -88,9 +83,10 @@ trait HasAuth
         $permission = Permission::whereName($permissionEnum->value)->first() ??
             Permission::factory()->create([
                 'name' => $permissionEnum->value,
+                'guard_name' => $guard,
             ]);
 
-        $user->givePermissionTo($permission);
+        $user->permissions()->syncWithoutDetaching($permission);
 
         $this->setUser($user);
 
@@ -112,10 +108,8 @@ trait HasAuth
 
     /**
      * Get user.
-     *
-     * @return User|null
      */
-    final protected function getUser(): ?User
+    final protected function getUser(): User
     {
         return $this->user;
     }

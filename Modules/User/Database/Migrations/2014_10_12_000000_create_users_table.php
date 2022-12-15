@@ -18,10 +18,12 @@ return new class extends Migration
             $table->string('username');
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
             $table->string('password');
             $table->boolean('is_active')->default(true);
             $table->bigInteger('target')->nullable();
+            $table->foreignId('affiliate_id')->nullable()->constrained()->on('users');
+            $table->boolean('show_on_scoreboards')->default(false);
             $table->nestedSet();
             $table->rememberToken();
             $table->softDeletes();
@@ -37,6 +39,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        // Schema::dropIfExists('users');
+        DB::statement("DROP TABLE IF EXISTS users CASCADE;");
     }
 };

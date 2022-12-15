@@ -15,7 +15,7 @@ final class UserDeskUpdateRequest extends BaseFormRequest
                 'required',
                 'array',
             ],
-            'desks.*.id' => 'distinct|integer|exists:desks,id',
+            'desks.*.id' => 'distinct|integer|exists:tenant.desks,id',
         ];
     }
 }

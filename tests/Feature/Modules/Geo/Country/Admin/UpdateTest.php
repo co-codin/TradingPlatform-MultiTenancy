@@ -2,17 +2,17 @@
 
 namespace Tests\Feature\Modules\Geo\Country\Admin;
 
-use Illuminate\Contracts\Auth\Authenticatable as UserContract;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Str;
 use Modules\Geo\Enums\CountryPermission;
 use Modules\Geo\Models\Country;
-use Modules\Role\Models\Permission;
-use Modules\User\Models\User;
-use Tests\TestCase;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-class UpdateTest extends TestCase
+class UpdateTest extends BrandTestCase
 {
-    use DatabaseTransactions;
+    use TenantAware;
+    use HasAuth;
 
     /**
      * Test authorized user can update country.
@@ -25,21 +25,16 @@ class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
 
-        $country = Country::factory()->create();
-        $data = Country::factory()->make();
+        $this->brand->makeCurrent();
 
-        $response = $this->patchJson(route('admin.countries.update', ['country' => $country->id]), $data->toArray());
+        $country = Country::factory()->create(static::demoData());
+        $data = Country::factory()->make(static::demoData())->toArray();
+
+        $response = $this->patchJson(route('admin.countries.update', ['country' => $country->id]), $data);
 
         $response->assertOk();
 
-        $response->assertJson([
-            'data' => [
-                'name' => $data['name'],
-                'iso2' => $data['iso2'],
-                'iso3' => $data['iso3'],
-                'currency' => $data['currency'],
-            ],
-        ]);
+        $response->assertJson(['data' => $data]);
     }
 
     /**
@@ -51,8 +46,10 @@ class UpdateTest extends TestCase
      */
     public function unauthorized_user_cant_update_country(): void
     {
-        $country = Country::factory()->create();
-        $data = Country::factory()->make();
+        $this->brand->makeCurrent();
+
+        $country = Country::factory()->create(static::demoData());
+        $data = Country::factory()->make(static::demoData());
 
         $response = $this->patchJson(route('admin.countries.update', ['country' => $country->id]), $data->toArray());
 
@@ -70,8 +67,10 @@ class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
 
-        $country = Country::factory()->create();
-        $targetCountry = Country::factory()->create();
+        $this->brand->makeCurrent();
+
+        $country = Country::factory()->create(static::demoData());
+        $targetCountry = Country::factory()->create(static::demoData());
         $data = Country::factory()->make(['name' => $country->name]);
 
         $response = $this->patchJson(route('admin.countries.update', ['country' => $targetCountry->id]), $data->toArray());
@@ -90,8 +89,10 @@ class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
 
-        $country = Country::factory()->create();
-        $targetCountry = Country::factory()->create();
+        $this->brand->makeCurrent();
+
+        $country = Country::factory()->create(static::demoData());
+        $targetCountry = Country::factory()->create(static::demoData());
         $data = Country::factory()->make(['iso2' => $country->iso2]);
 
         $response = $this->patchJson(route('admin.countries.update', ['country' => $targetCountry->id]), $data->toArray());
@@ -110,8 +111,10 @@ class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
 
-        $country = Country::factory()->create();
-        $targetCountry = Country::factory()->create();
+        $this->brand->makeCurrent();
+
+        $country = Country::factory()->create(static::demoData());
+        $targetCountry = Country::factory()->create(static::demoData());
         $data = Country::factory()->make(['iso3' => $country->iso3]);
 
         $response = $this->patchJson(route('admin.countries.update', ['country' => $targetCountry->id]), $data->toArray());
@@ -130,7 +133,9 @@ class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
 
-        $country = Country::factory()->create();
+        $this->brand->makeCurrent();
+
+        $country = Country::factory()->create(static::demoData());
         $data = Country::factory()->make(['name' => null])->toArray();
 
         $response = $this->patchJson(route('admin.countries.update', ['country' => $country->id]), $data);
@@ -149,7 +154,9 @@ class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
 
-        $country = Country::factory()->create();
+        $this->brand->makeCurrent();
+
+        $country = Country::factory()->create(static::demoData());
         $data = Country::factory()->make(['iso2' => null])->toArray();
 
         $response = $this->patchJson(route('admin.countries.update', ['country' => $country->id]), $data);
@@ -168,7 +175,9 @@ class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
 
-        $country = Country::factory()->create();
+        $this->brand->makeCurrent();
+
+        $country = Country::factory()->create(static::demoData());
         $data = Country::factory()->make(['iso3' => null])->toArray();
 
         $response = $this->patchJson(route('admin.countries.update', ['country' => $country->id]), $data);
@@ -187,7 +196,9 @@ class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
 
-        $country = Country::factory()->create();
+        $this->brand->makeCurrent();
+
+        $country = Country::factory()->create(static::demoData());
         $data = Country::factory()->make(['currency' => null])->toArray();
 
         $response = $this->patchJson(route('admin.countries.update', ['country' => $country->id]), $data);
@@ -206,8 +217,10 @@ class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
 
-        $country = Country::factory()->create();
-        $data = Country::factory()->make();
+        $this->brand->makeCurrent();
+
+        $country = Country::factory()->create(static::demoData());
+        $data = Country::factory()->make(static::demoData());
         $data->name = 1;
 
         $response = $this->patchJson(route('admin.countries.update', ['country' => $country->id]), $data->toArray());
@@ -226,8 +239,10 @@ class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
 
-        $country = Country::factory()->create();
-        $data = Country::factory()->make();
+        $this->brand->makeCurrent();
+
+        $country = Country::factory()->create(static::demoData());
+        $data = Country::factory()->make(static::demoData());
         $data->iso2 = 1;
 
         $response = $this->patchJson(route('admin.countries.update', ['country' => $country->id]), $data->toArray());
@@ -246,8 +261,10 @@ class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
 
-        $country = Country::factory()->create();
-        $data = Country::factory()->make();
+        $this->brand->makeCurrent();
+
+        $country = Country::factory()->create(static::demoData());
+        $data = Country::factory()->make(static::demoData());
         $data->iso3 = 1;
 
         $response = $this->patchJson(route('admin.countries.update', ['country' => $country->id]), $data->toArray());
@@ -266,12 +283,29 @@ class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::EDIT_COUNTRIES));
 
-        $country = Country::factory()->create();
-        $data = Country::factory()->make();
+        $this->brand->makeCurrent();
+
+        $country = Country::factory()->create(static::demoData());
+        $data = Country::factory()->make(static::demoData());
         $data->currency = 1;
 
         $response = $this->patchJson(route('admin.countries.update', ['country' => $country->id]), $data->toArray());
 
         $response->assertUnprocessable();
+    }
+
+    /**
+     * Demo Data
+     *
+     * @return array
+     */
+    private function demoData(): array
+    {
+        return [
+            'name' => Str::random(5),
+            'iso2' => Str::random(5),
+            'iso3' => Str::random(5),
+            'currency' => 'CUR',
+        ];
     }
 }

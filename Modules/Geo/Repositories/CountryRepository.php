@@ -12,7 +12,7 @@ use Prettus\Repository\Exceptions\RepositoryException;
 final class CountryRepository extends BaseRepository
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function model(): string
     {
@@ -20,11 +20,13 @@ final class CountryRepository extends BaseRepository
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws RepositoryException
      */
     public function boot()
     {
+        $this->pushPermissionColumnValidator(CountryColumnPermissionValidator::class);
         $this->pushCriteria(CountryRequestCriteria::class);
     }
 }

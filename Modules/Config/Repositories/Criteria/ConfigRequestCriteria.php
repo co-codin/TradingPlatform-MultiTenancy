@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Config\Repositories\Criteria;
 
 use App\Http\Filters\LiveFilter;
@@ -8,16 +10,28 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class ConfigRequestCriteria extends BaseCriteria
+final class ConfigRequestCriteria extends BaseCriteria
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
+     */
+    protected static array $allowedModelFields = [
+        'data_type',
+        'name',
+        'value',
+    ];
+
+    /**
+     * {@inheritDoc}
      */
     public function apply($model, RepositoryInterface $repository)
     {
         return QueryBuilder::for($model)
             ->defaultSort('-id')
-            ->allowedFields(static::allowedConfigFields(),)
+            ->allowedFields(
+                static::$allowedModelFields,
+                ConfigTypeRequestCriteria::allowedModelFields('config_type'),
+            )
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::custom('live', new LiveFilter([
@@ -26,23 +40,10 @@ class ConfigRequestCriteria extends BaseCriteria
                 AllowedFilter::trashed(),
             ])
             ->allowedIncludes([
-                'configType',
+                'config_type',
             ])
             ->allowedSorts([
                 'id',
             ]);
-    }
-
-    public static function allowedConfigFields($prefix = null): array
-    {
-        $fields = [
-
-        ];
-
-        if(!$prefix) {
-            return $fields;
-        }
-
-        return array_map(fn($field) => $prefix . "." . $field, $fields);
     }
 }

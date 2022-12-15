@@ -14,12 +14,12 @@ final class LoginTest extends TestCase
     /**
      * @test
      */
-    public function login_success(): void
+    public function success(): void
     {
         $user = $this->getUser();
         $response = $this->post(route('admin.auth.login'), [
-            'email' => $user->email,
-            'password' => 'admin1',
+            'login' => $user->email,
+            'password' => 'password',
         ]);
 
         $response->assertNoContent();
@@ -28,20 +28,21 @@ final class LoginTest extends TestCase
 
     /**
      * @test
+     * @depends success
      */
-    public function login_remember_success(): void
+    public function remember_success(): void
     {
         $user = $this->getUser();
         $response = $this->post(route('admin.auth.login'), [
-            'email' => 'test@admin.com',
-            'password' => 'admin1',
+            'login' => $user->email,
+            'password' => 'password',
             'remember_me' => true,
         ]);
 
         $response->assertNoContent();
         $this->assertAuthenticatedAs($user);
 
-        $response->assertCookie(Auth::guard()->getRecallerName(), vsprintf('%s|%s|%s', [
+        $response->assertCookie(Auth::guard('web')->getRecallerName(), vsprintf('%s|%s|%s', [
             $user->id,
             $user->getRememberToken(),
             $user->password,
@@ -55,7 +56,7 @@ final class LoginTest extends TestCase
     {
         $user = $this->getUser();
         $response = $this->post(route('admin.auth.login'), [
-            'email' => $user->email,
+            'login' => $user->email,
             'password' => 'random',
         ]);
 
@@ -67,8 +68,7 @@ final class LoginTest extends TestCase
         parent::setUp();
 
         $this->setUser(User::factory()->create([
-            'email' => 'test@admin.com',
-            'password' => Hash::make('admin1'),
+            'password' => Hash::make('password'),
         ]));
     }
 }

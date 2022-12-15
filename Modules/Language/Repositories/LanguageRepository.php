@@ -12,7 +12,7 @@ use Prettus\Repository\Exceptions\RepositoryException;
 final class LanguageRepository extends BaseRepository
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function model(): string
     {
@@ -20,11 +20,13 @@ final class LanguageRepository extends BaseRepository
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws RepositoryException
      */
     public function boot()
     {
+        $this->pushPermissionColumnValidator(LanguageColumnPermissionValidator::class);
         $this->pushCriteria(LanguageRequestCriteria::class);
     }
 }

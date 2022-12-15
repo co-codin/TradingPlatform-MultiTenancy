@@ -5,15 +5,17 @@ declare(strict_types=1);
 namespace Tests;
 
 use App\Http\Middleware\VerifyCsrfToken;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Modules\User\Models\DisplayOption;
-use Modules\User\Models\User;
+use Illuminate\Support\Facades\DB;
 use Tests\Traits\HasAuth;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication, DatabaseTransactions, HasAuth;
+    use CreatesApplication;
+    use DatabaseMigrations;
+    use HasAuth;
 
     /**
      * {@inheritDoc}

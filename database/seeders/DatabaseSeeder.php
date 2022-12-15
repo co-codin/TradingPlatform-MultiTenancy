@@ -1,26 +1,45 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Modules\Brand\Database\Seeders\BrandDatabaseSeeder;
-use Modules\Geo\Database\Seeders\GeoDatabaseSeeder;
+use Modules\CommunicationProvider\Database\Seeders\CommunicationProviderDatabaseSeeder;
 use Modules\Role\Database\Seeders\RoleDatabaseSeeder;
 use Modules\User\Database\Seeders\UserDatabaseSeeder;
+use Spatie\Multitenancy\Models\Tenant;
 
-class DatabaseSeeder extends Seeder
+final class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        $this->call(UserDatabaseSeeder::class);
-        $this->call(BrandDatabaseSeeder::class);
-//        $this->call(GeoDatabaseSeeder::class);
-//        $this->call(RoleDatabaseSeeder::class);
+        $this->call([
+            RoleDatabaseSeeder::class,
+            UserDatabaseSeeder::class,
+            CommunicationProviderDatabaseSeeder::class,
+            BrandDatabaseSeeder::class,
+            ModelsTableSeeder::class,
+        ]);
+
+        Tenant::checkCurrent()
+            ? $this->runTenantSpecificSeeders()
+            : $this->runLandlordSpecificSeeders();
+    }
+
+    public function runTenantSpecificSeeders()
+    {
+        // run tenant specific seeders / Если нужно будет
+    }
+
+    public function runLandlordSpecificSeeders()
+    {
+        // run landlord specific seeders / Если нужно будет
     }
 }

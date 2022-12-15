@@ -1,16 +1,34 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Role\Models;
 
+use App\Models\Action;
+use App\Models\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Modules\Role\Database\factories\PermissionFactory;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 use Spatie\Permission\Models\Permission as SpatiePermission;
 
-class Permission extends SpatiePermission
+final class Permission extends SpatiePermission
 {
     use HasFactory;
+    use UsesLandlordConnection;
 
+    /**
+     * {@inheritDoc}
+     */
+    protected static function newFactory(): PermissionFactory
+    {
+        return PermissionFactory::new();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(
@@ -21,23 +39,33 @@ class Permission extends SpatiePermission
         );
     }
 
-    public function model()
+    /**
+     * Model relation.
+     *
+     * @return BelongsTo
+     */
+    public function model(): BelongsTo
     {
         return $this->belongsTo(Model::class);
     }
 
-    public function action()
+    /**
+     * Action relation.
+     *
+     * @return BelongsTo
+     */
+    public function action(): BelongsTo
     {
         return $this->belongsTo(Action::class);
     }
 
-    public function column()
+    /**
+     * Column relation.
+     *
+     * @return BelongsToMany
+     */
+    public function columns(): BelongsToMany
     {
-        return $this->belongsTo(Column::class);
-    }
-
-    protected static function newFactory()
-    {
-        return PermissionFactory::new();
+        return $this->belongsToMany(Column::class, 'permission_column');
     }
 }

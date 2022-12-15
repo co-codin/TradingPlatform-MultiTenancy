@@ -1,9 +1,10 @@
 <?php
+
 namespace Modules\Role\Database\factories;
 
+use App\Models\Action;
+use App\Models\Model;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Modules\Role\Models\Action;
-use Modules\Role\Models\Model;
 use Modules\User\Models\User;
 
 class PermissionFactory extends Factory
@@ -22,8 +23,8 @@ class PermissionFactory extends Factory
      */
     public function definition()
     {
-        $model = Model::inRandomOrder()->first() ?? Model::factory()->create();
-        $action = Action::inRandomOrder()->first() ?? Action::factory()->create();
+        $model = Model::factory()->create();
+        $action = Action::factory()->create();
 
         return [
             'name' => mb_strtolower("{$action->name} {$model->name}"),

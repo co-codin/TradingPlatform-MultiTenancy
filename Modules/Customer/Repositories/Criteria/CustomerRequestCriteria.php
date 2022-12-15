@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Customer\Repositories\Criteria;
 
-use App\Http\Filters\LiveFilter;
 use App\Repositories\Criteria\BaseCriteria;
 use Modules\Department\Repositories\Criteria\DepartmentRequestCriteria;
 use Modules\Desk\Repositories\Criteria\DeskRequestCriteria;
@@ -11,53 +12,62 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class CustomerRequestCriteria extends BaseCriteria
+final class CustomerRequestCriteria extends BaseCriteria
 {
+    protected static array $allowedModelFields = [
+        'id',
+        'user_id',
+    ];
+
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function apply($model, RepositoryInterface $repository)
     {
         return QueryBuilder::for($model)
             ->defaultSort('-id')
             ->allowedFields(array_merge(
-                static::allowedCustomerFields(),
-                UserRequestCriteria::allowedUserFields('affiliateUser'),
-                DeskRequestCriteria::allowedDeskFields('desk'),
-                DepartmentRequestCriteria::allowedDepartmentFields('department')
+                self::$allowedModelFields,
+                UserRequestCriteria::allowedModelFields('affiliateUser'),
+                DeskRequestCriteria::allowedModelFields('desk'),
+                DepartmentRequestCriteria::allowedModelFields('department')
             ))
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('user_id'),
-                AllowedFilter::partial('name'),
-                AllowedFilter::partial('slug'),
-                AllowedFilter::custom('live', new LiveFilter([
-                    'id' => '=',
-                    'name' => 'like',
-                    'slug' => 'like',
-                ])),
+                AllowedFilter::partial('first_name'),
+                AllowedFilter::partial('last_name'),
+                AllowedFilter::partial('email'),
+                AllowedFilter::exact('desk_id'),
+                AllowedFilter::exact('department_id'),
+                AllowedFilter::exact('language_id'),
+                AllowedFilter::exact('country_id'),
+                AllowedFilter::exact('created_at'),
+                AllowedFilter::exact('last_online'),
+                AllowedFilter::exact('conversion_sale_status_id'),
+                AllowedFilter::exact('retention_sale_status_id'),
+
                 AllowedFilter::trashed(),
             ])
             ->allowedIncludes([
-                'desk', 'department', 'affiliateUser'
+                'desk',
+                'department',
+
+                'affiliateUser',
+                'conversionUser',
+                'retentionUser',
+                'complianceUser',
+                'supportUser',
+                'conversionManageUser',
+                'retentionManageUser',
+                'firstConversionUser',
+                'firstRetentionUser',
+                'conversionSaleStatus',
+                'retentionSaleStatus',
             ])
             ->allowedSorts([
-
+                'id', 'first_name', 'last_name', 'language_id',
+                'conversion_sale_status_id', 'retention_sale_status_id',
             ]);
-    }
-
-    public static function allowedCustomerFields($prefix = null): array
-    {
-        $fields = [
-            'id',
-            'user_id',
-
-        ];
-
-        if(!$prefix) {
-            return $fields;
-        }
-
-        return array_map(fn($field) => $prefix . "." . $field, $fields);
     }
 }

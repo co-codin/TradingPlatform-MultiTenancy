@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Modules\Language\Enums;
 
 use App\Enums\BaseEnum;
+use App\Models\Action;
+use Modules\Language\Models\Language;
 use Modules\Role\Contracts\PermissionEnum;
 
 final class LanguagePermission extends BaseEnum implements PermissionEnum
@@ -30,7 +32,28 @@ final class LanguagePermission extends BaseEnum implements PermissionEnum
     const DELETE_LANGUAGES = 'delete languages';
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     */
+    public static function actions(): array
+    {
+        return [
+            self::CREATE_LANGUAGES => Action::NAMES['create'],
+            self::VIEW_LANGUAGES => Action::NAMES['view'],
+            self::EDIT_LANGUAGES => Action::NAMES['edit'],
+            self::DELETE_LANGUAGES => Action::NAMES['delete'],
+        ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function model(): string
+    {
+        return Language::class;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public static function module(): string
     {
@@ -38,15 +61,15 @@ final class LanguagePermission extends BaseEnum implements PermissionEnum
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public static function descriptions(): array
     {
         return [
-            static::CREATE_LANGUAGES => 'Create languages',
-            static::VIEW_LANGUAGES => 'View languages',
-            static::EDIT_LANGUAGES => 'Edit languages',
-            static::DELETE_LANGUAGES => 'Delete languages',
+            self::CREATE_LANGUAGES => 'Create languages',
+            self::VIEW_LANGUAGES => 'View languages',
+            self::EDIT_LANGUAGES => 'Edit languages',
+            self::DELETE_LANGUAGES => 'Delete languages',
         ];
     }
 }

@@ -10,9 +10,9 @@ use Spatie\QueryBuilder\QueryBuilder;
 class TokenRequestCriteria extends BaseCriteria
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    protected array $allowedModelFields = [
+    protected static array $allowedModelFields = [
         'id',
         'token',
         'user_id',
@@ -24,13 +24,13 @@ class TokenRequestCriteria extends BaseCriteria
     ];
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function apply($model, RepositoryInterface $repository)
     {
         return QueryBuilder::for($model)
             ->defaultSort('-id')
-            ->allowedFields($this->allowedModelFields())
+            ->allowedFields(self::$allowedModelFields)
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::partial('token'),

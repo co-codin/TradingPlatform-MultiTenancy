@@ -9,5 +9,9 @@
     "Geo": true,
     "Config": true,
     "Customer": true,
-    "Campaign": true
+    "Campaign": true,
+    "Sale": true,
+    "Media": true,
+    "Communication": true,
+    "CommunicationProvider": true
 }

@@ -1,15 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Token\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
 
-class TokenUpdateRequest extends BaseFormRequest
+final class TokenUpdateRequest extends BaseFormRequest
 {
-    public function rules()
+    /**
+     * {@inheritDoc}
+     */
+    final public function rules(): array
     {
         return [
-            'user_id' => 'sometimes|required|int|exists:users,id',
+            'user_id' => 'sometimes|required|int|exists:public.users,id',
             'token' => 'sometimes|required|string',
             'description' => 'sometimes|nullable',
             'ip' => 'sometimes|required|string',

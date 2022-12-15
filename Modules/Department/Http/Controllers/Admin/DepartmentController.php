@@ -1,11 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Department\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Modules\Department\Dto\DepartmentDto;
@@ -18,18 +18,50 @@ use Modules\Department\Services\DepartmentStorage;
 use OpenApi\Annotations as OA;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
-class DepartmentController extends Controller
+final class DepartmentController extends Controller
 {
     /**
-     * @param DepartmentRepository $repository
-     * @param DepartmentStorage $storage
+     * @param  DepartmentRepository  $departmentRepository
+     * @param  DepartmentStorage  $storage
      */
     public function __construct(
-        protected DepartmentRepository $repository,
+        protected DepartmentRepository $departmentRepository,
         protected DepartmentStorage $storage,
-    )
+    ) {
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/admin/departments/all",
+     *      security={ {"sanctum": {} }},
+     *      tags={"Department"},
+     *      summary="Get departments list all",
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/DepartmentCollection")
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     *
+     * Display departments list all.
+     *
+     * @throws AuthorizationException
+     */
+    public function all(): JsonResource
     {
-        //
+        $this->authorize('viewAny');
+
+        $departments = $this->departmentRepository->all();
+
+        return DepartmentResource::collection($departments);
     }
 
     /**
@@ -58,13 +90,14 @@ class DepartmentController extends Controller
      * Display departments list.
      *
      * @return JsonResource
+     *
      * @throws AuthorizationException
      */
     public function index(): JsonResource
     {
         $this->authorize('viewAny', Department::class);
 
-        return DepartmentResource::collection($this->repository->jsonPaginate());
+        return DepartmentResource::collection($this->departmentRepository->jsonPaginate());
     }
 
     /**
@@ -120,8 +153,9 @@ class DepartmentController extends Controller
      *
      * Store department.
      *
-     * @param DepartmentStoreRequest $request
+     * @param  DepartmentStoreRequest  $request
      * @return JsonResource
+     *
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
@@ -166,13 +200,14 @@ class DepartmentController extends Controller
      *
      * Show the department.
      *
-     * @param int $id
+     * @param  int  $id
      * @return JsonResource
+     *
      * @throws AuthorizationException
      */
     public function show(int $id): JsonResource
     {
-        $department = $this->repository->find($id);
+        $department = $this->departmentRepository->find($id);
 
         $this->authorize('view', $department);
 
@@ -239,15 +274,16 @@ class DepartmentController extends Controller
      *
      * Update the department.
      *
-     * @param DepartmentUpdateRequest $request
-     * @param int $id
+     * @param  DepartmentUpdateRequest  $request
+     * @param  int  $id
      * @return JsonResource
+     *
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
     public function update(DepartmentUpdateRequest $request, int $id): JsonResource
     {
-        $department = $this->repository->find($id);
+        $department = $this->departmentRepository->find($id);
 
         $this->authorize('update', $department);
 
@@ -291,13 +327,14 @@ class DepartmentController extends Controller
      *
      * Remove the department.
      *
-     * @param int $id
+     * @param  int  $id
      * @return Response
+     *
      * @throws AuthorizationException
      */
     public function destroy(int $id): Response
     {
-        $department = $this->repository->find($id);
+        $department = $this->departmentRepository->find($id);
 
         $this->authorize('delete', $department);
 

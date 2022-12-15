@@ -13,12 +13,12 @@ final class ApiLoginTest extends TestCase
     /**
      * @test
      */
-    public function login_success(): void
+    public function success(): void
     {
         $user = $this->getUser();
         $response = $this->post(route('admin.token-auth.login'), [
-            'email' => $user->email,
-            'password' => 'admin1',
+            'login' => $user->email,
+            'password' => 'password',
         ]);
 
         $response->assertOk();
@@ -34,14 +34,14 @@ final class ApiLoginTest extends TestCase
 
     /**
      * @test
-     * @depends login_success
+     * @depends success
      */
-    public function login_remember_success(): void
+    public function remember_success(): void
     {
         $user = $this->getUser();
         $response = $this->post(route('admin.token-auth.login'), [
-            'email' => $user->email,
-            'password' => 'admin1',
+            'login' => $user->email,
+            'password' => 'password',
             'remember_me' => true,
         ]);
 
@@ -58,11 +58,11 @@ final class ApiLoginTest extends TestCase
     /**
      * @test
      */
-    public function login_failed(): void
+    public function failed(): void
     {
         $user = $this->getUser();
         $response = $this->post(route('admin.token-auth.login'), [
-            'email' => $user->email,
+            'login' => $user->email,
             'password' => 'random',
         ]);
 
@@ -74,8 +74,7 @@ final class ApiLoginTest extends TestCase
         parent::setUp();
 
         $this->setUser(User::factory()->create([
-            'email' => 'test@admin.com',
-            'password' => Hash::make('admin1'),
+            'password' => Hash::make('password'),
         ]));
     }
 }

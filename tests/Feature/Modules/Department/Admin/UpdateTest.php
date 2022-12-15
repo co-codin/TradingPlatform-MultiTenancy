@@ -1,42 +1,45 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Modules\Department\Admin;
 
-use Illuminate\Contracts\Auth\Authenticatable as UserContract;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Str;
 use Modules\Department\Enums\DepartmentPermission;
 use Modules\Department\Models\Department;
-use Modules\Role\Models\Permission;
-use Modules\User\Models\User;
-use Tests\TestCase;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-class UpdateTest extends TestCase
+final class UpdateTest extends BrandTestCase
 {
-    use DatabaseTransactions;
+    use TenantAware;
+    use HasAuth;
+    use WithFaker;
 
     /**
      * Test authorized user can update department.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_authorized_user_can_update_department(): void
+    public function authorized_user_can_update_department(): void
     {
         $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::EDIT_DEPARTMENTS));
 
-        $department = Department::factory()->create();
-        $data = Department::factory()->make();
+        $this->brand->makeCurrent();
 
-        $response = $this->patchJson(route('admin.departments.update', ['department' => $department->id]), $data->toArray());
+        $department = Department::factory()->create(static::demoData());
+        $data = Department::factory()->make(static::demoData())->toArray();
+
+        $response = $this->patchJson(route('admin.departments.update', ['department' => $department->id]), $data);
 
         $response->assertOk();
 
         $response->assertJson([
-            'data' => [
-                'name' => $data['name'],
-                'title' => $data['title'],
-                'is_active' => $data['is_active'],
-                'is_default' => $data['is_default'],
-            ],
+            'data' => $data,
         ]);
     }
 
@@ -44,9 +47,13 @@ class UpdateTest extends TestCase
      * Test unauthorized user can`t update department.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_unauthorized_user_cant_update_department(): void
+    public function unauthorized_user_cant_update_department(): void
     {
+        $this->brand->makeCurrent();
+
         $department = Department::factory()->create();
         $data = Department::factory()->make();
 
@@ -59,10 +66,14 @@ class UpdateTest extends TestCase
      * Test department name exist.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_department_name_exist(): void
+    public function department_name_exist(): void
     {
         $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::EDIT_DEPARTMENTS));
+
+        $this->brand->makeCurrent();
 
         $department = Department::factory()->create();
         $targetDepartment = Department::factory()->create();
@@ -77,10 +88,14 @@ class UpdateTest extends TestCase
      * Test department title exist.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_department_title_exist(): void
+    public function department_title_exist(): void
     {
         $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::EDIT_DEPARTMENTS));
+
+        $this->brand->makeCurrent();
 
         $department = Department::factory()->create();
         $targetDepartment = Department::factory()->create();
@@ -95,10 +110,14 @@ class UpdateTest extends TestCase
      * Test department name filled.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_department_name_is_filled(): void
+    public function department_name_is_filled(): void
     {
         $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::EDIT_DEPARTMENTS));
+
+        $this->brand->makeCurrent();
 
         $department = Department::factory()->create();
         $data = Department::factory()->make(['name' => null])->toArray();
@@ -112,10 +131,14 @@ class UpdateTest extends TestCase
      * Test department title filled.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_department_title_is_filled(): void
+    public function department_title_is_filled(): void
     {
         $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::EDIT_DEPARTMENTS));
+
+        $this->brand->makeCurrent();
 
         $department = Department::factory()->create();
         $data = Department::factory()->make(['title' => null])->toArray();
@@ -129,10 +152,14 @@ class UpdateTest extends TestCase
      * Test department name is string.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_department_name_is_string(): void
+    public function department_name_is_string(): void
     {
         $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::EDIT_DEPARTMENTS));
+
+        $this->brand->makeCurrent();
 
         $department = Department::factory()->create();
         $data = Department::factory()->make();
@@ -147,10 +174,14 @@ class UpdateTest extends TestCase
      * Test department title is string.
      *
      * @return void
+     *
+     * @test
      */
-    public function test_department_title_is_string(): void
+    public function department_title_is_string(): void
     {
         $this->authenticateWithPermission(DepartmentPermission::fromValue(DepartmentPermission::EDIT_DEPARTMENTS));
+
+        $this->brand->makeCurrent();
 
         $department = Department::factory()->create();
         $data = Department::factory()->make();
@@ -159,5 +190,20 @@ class UpdateTest extends TestCase
         $response = $this->patchJson(route('admin.departments.update', ['department' => $department->id]), $data->toArray());
 
         $response->assertUnprocessable();
+    }
+
+    /**
+     * Demo Data
+     *
+     * @return array
+     */
+    private function demoData(): array
+    {
+        return [
+            'name' => $this->faker->name,
+            'title' => $this->faker->title . Str::random(5),
+            'is_active' => $this->faker->boolean(),
+            'is_default' => $this->faker->boolean(),
+        ];
     }
 }

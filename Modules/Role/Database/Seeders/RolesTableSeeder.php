@@ -1,33 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Role\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use Modules\Brand\Enums\BrandPermission;
 use Modules\Role\Enums\DefaultRole;
 use Modules\Role\Models\Permission;
 use Modules\Role\Models\Role;
 
-class RolesTableSeeder extends Seeder
+final class RolesTableSeeder extends Seeder
 {
     protected array $roles = [
-//        DefaultRole::ADMIN => '*',
-        'Brand Admin' => [
-            BrandPermission::VIEW_BRANDS,
-            BrandPermission::CREATE_BRANDS,
-            BrandPermission::EDIT_BRANDS,
-            BrandPermission::DELETE_BRANDS,
-        ],
-//        'Brand Manager' => '*',
-//        'Desk Admin' => '*',
-//        'Compliance' => '*',
-//        'Conversion Manager' => '*',
-//        'Conversion Agent' => '*',
-//        'Retention Manager' => '*',
-//        'Affiliate' => '*',
-//        'Affiliate Manager' => '*',
-//        'Support' => '*',
-//        'IT' => '*',
+        DefaultRole::ADMIN,
+        'Brand Admin',
+        'Brand Manager',
+        'Desk Admin',
+        'Compliance',
+        'Conversion Manager',
+        'Conversion Agent',
+        'Retention Manager',
+        'Affiliate',
+        'Affiliate Manager',
+        'Support',
+        'IT',
     ];
 
     public function run()
@@ -37,27 +35,9 @@ class RolesTableSeeder extends Seeder
 
     protected function seedRoles()
     {
-        foreach ($this->roles as $name => $permissions)
+        foreach ($this->roles as $role)
         {
-            $role = Role::query()->firstOrCreate([
-                'name' => $name,
-                'guard_name' => 'api',
-            ]);
-
-            $permissions = $permissions !== "*" ? $permissions : $this->prepareAllPermissions();
-
-            $permissionRecords = Permission::query()->whereIn('name', $permissions)
-                ->get()
-                ->pluck('id')
-                ->toArray()
-            ;
-
-            $role->permissions()->sync($permissionRecords);
+            Role::query()->firstOrCreate(Role::factory()->raw(['name' => $role, 'key' => Str::kebab($role)]));
         }
-    }
-
-    protected function prepareAllPermissions() : array
-    {
-        return Permission::all()->toArray();
     }
 }

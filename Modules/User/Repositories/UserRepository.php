@@ -23,6 +23,7 @@ final class UserRepository extends BaseRepository
      */
     final public function boot()
     {
+        $this->pushPermissionColumnValidator(UserColumnPermissionValidator::class);
         $this->pushCriteria(UserRequestCriteria::class);
     }
 }

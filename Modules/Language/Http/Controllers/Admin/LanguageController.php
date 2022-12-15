@@ -15,18 +15,54 @@ use Modules\Language\Http\Resources\LanguageResource;
 use Modules\Language\Models\Language;
 use Modules\Language\Repositories\LanguageRepository;
 use Modules\Language\Services\LanguageStorage;
+use OpenApi\Annotations as OA;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 final class LanguageController extends Controller
 {
     /**
-     * @param LanguageRepository $repository
-     * @param LanguageStorage $storage
+     * @param  LanguageRepository  $repository
+     * @param  LanguageStorage  $storage
      */
     public function __construct(
         protected LanguageRepository $repository,
         protected LanguageStorage $storage,
-    ) {}
+    ) {
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/admin/languages/all",
+     *      security={ {"sanctum": {} }},
+     *      tags={"Language"},
+     *      summary="Get languages list all",
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/LanguageCollection")
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     *
+     * Display languages list all.
+     *
+     * @throws AuthorizationException
+     */
+    public function all()
+    {
+        $this->authorize('viewAny');
+
+        $languages = $this->repository->all();
+
+        return LanguageResource::collection($languages);
+    }
 
     /**
      * @OA\Get(
@@ -54,6 +90,7 @@ final class LanguageController extends Controller
      * Display languages list.
      *
      * @return JsonResource
+     *
      * @throws AuthorizationException
      */
     public function index(): JsonResource
@@ -109,8 +146,9 @@ final class LanguageController extends Controller
      *
      * Store language.
      *
-     * @param LanguageStoreRequest $request
+     * @param  LanguageStoreRequest  $request
      * @return JsonResource
+     *
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
@@ -155,8 +193,9 @@ final class LanguageController extends Controller
      *
      * Show the language.
      *
-     * @param int $id
+     * @param  int  $id
      * @return JsonResource
+     *
      * @throws AuthorizationException
      */
     public function show(int $id): JsonResource
@@ -221,9 +260,10 @@ final class LanguageController extends Controller
      *
      * Update the language.
      *
-     * @param LanguageUpdateRequest $request
-     * @param int $id
+     * @param  LanguageUpdateRequest  $request
+     * @param  int  $id
      * @return JsonResource
+     *
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
@@ -273,8 +313,9 @@ final class LanguageController extends Controller
      *
      * Remove the language.
      *
-     * @param int $id
+     * @param  int  $id
      * @return Response
+     *
      * @throws AuthorizationException
      */
     public function destroy(int $id): Response

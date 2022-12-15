@@ -4,6 +4,7 @@ namespace Modules\Desk\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Desk\Models\Desk;
 
 class DeskDatabaseSeeder extends Seeder
 {
@@ -14,8 +15,6 @@ class DeskDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Model::unguard();
-
-        // $this->call("OthersTableSeeder");
+        //
     }
 }

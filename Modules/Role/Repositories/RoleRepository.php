@@ -9,7 +9,7 @@ use Modules\Role\Repositories\Criteria\RoleRequestCriteria;
 class RoleRepository extends BaseRepository
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function model(): string
     {
@@ -17,10 +17,11 @@ class RoleRepository extends BaseRepository
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function boot()
     {
+        $this->pushPermissionColumnValidator(RoleColumnPermissionValidator::class);
         $this->pushCriteria(RoleRequestCriteria::class);
     }
 }

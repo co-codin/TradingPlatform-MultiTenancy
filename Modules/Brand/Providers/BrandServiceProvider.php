@@ -1,29 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Brand\Providers;
 
 use App\Providers\BaseModuleServiceProvider;
 use Illuminate\Database\Migrations\Migrator;
-use Modules\Brand\Commands\BrandMigrationCommand;
-use Modules\Brand\Commands\BrandMigrationRollbackCommand;
 use Modules\Brand\Models\Brand;
 use Modules\Brand\Policies\BrandPolicy;
 
-class BrandServiceProvider extends BaseModuleServiceProvider
+final class BrandServiceProvider extends BaseModuleServiceProvider
 {
     /**
      * {@inheritdoc}
      */
     protected array $policies = [
         Brand::class => BrandPolicy::class,
-    ];
-
-    /**
-     * {@inheritdoc}
-     */
-    protected array $commands = [
-        BrandMigrationCommand::class,
-        BrandMigrationRollbackCommand::class,
     ];
 
     /**
@@ -41,10 +33,6 @@ class BrandServiceProvider extends BaseModuleServiceProvider
     {
         parent::boot();
 
-        $this->loadMigrationsFrom(module_path($this->getModuleName(), 'Database/Migrations'));
-
-        $this->app->singleton(Migrator::class, function ($app) {
-            return $app['migrator'];
-        });
+        $this->loadMigrations();
     }
 }

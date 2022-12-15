@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\User\Repositories\Criteria;
 
 use App\Http\Filters\LiveFilter;
@@ -9,40 +11,84 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class UserRequestCriteria extends BaseCriteria
+final class UserRequestCriteria extends BaseCriteria
 {
+    protected static array $allowedModelFields = [
+        'id',
+        'username',
+        'first_name',
+        'last_name',
+        'is_active',
+        'target',
+        'last_login',
+        'created_at',
+        'parent_id',
+        'email',
+        'affiliate_id',
+        'show_on_scoreboards',
+        'updated_at',
+        'deleted_at',
+    ];
+
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function apply($model, RepositoryInterface $repository)
     {
         return QueryBuilder::for($model)
             ->defaultSort('-id')
             ->allowedFields(array_merge(
-               static::allowedUserFields(),
-                BrandRequestCriteria::allowedBrandFields('brands')
+                self::$allowedModelFields,
+                BrandRequestCriteria::allowedModelFields('brands')
             ))
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::partial('username'),
                 AllowedFilter::partial('email'),
                 AllowedFilter::partial('last_name'),
+                AllowedFilter::partial('affiliate_id'),
+                AllowedFilter::partial('show_on_scoreboards'),
                 AllowedFilter::custom('live', new LiveFilter([
                     'id' => '=',
                     'username' => 'like',
                     'last_name' => 'like',
                     'email' => 'like',
                 ])),
+                AllowedFilter::exact('roles.id'),
                 AllowedFilter::trashed(),
+                AllowedFilter::exact('desks.id'),
+                AllowedFilter::exact('departments.id'),
+                AllowedFilter::exact('countries.id'),
+                AllowedFilter::exact('languages.id'),
+            ])
+            ->scopes([
+                'byPermissionsAccess',
             ])
             ->allowedIncludes([
                 'roles',
                 'roles.permissions',
+                'permissions',
                 'parent',
                 'ancestors',
                 'descendants',
                 'children',
                 'brands',
+                'displayOptions',
+                'desks',
+                'departments',
+                'languages',
+                'affiliate',
+                'comProvider',
+
+                'affiliateCustomers',
+                'conversionCustomers',
+                'retentionCustomers',
+                'complianceCustomers',
+                'supportCustomers',
+                'conversionManageCustomers',
+                'retentionManageCustomers',
+                'firstConversionCustomers',
+                'firstRetentionCustomers',
             ])
             ->allowedSorts([
                 'id',
@@ -52,29 +98,5 @@ class UserRequestCriteria extends BaseCriteria
                 'created_at',
                 'updated_at',
             ]);
-    }
-
-    public static function allowedUserFields($prefix = null): array
-    {
-        $fields = [
-            'id',
-            'username',
-            'first_name',
-            'last_name',
-            'is_active',
-            'target',
-            'last_login',
-            'created_at',
-            'parent_id',
-            'email',
-            'updated_at',
-            'deleted_at',
-        ];
-
-        if(!$prefix) {
-            return $fields;
-        }
-
-        return array_map(fn($field) => $prefix . "." . $field, $fields);
     }
 }

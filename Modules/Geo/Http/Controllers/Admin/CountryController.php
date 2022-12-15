@@ -15,20 +15,53 @@ use Modules\Geo\Http\Resources\CountryResource;
 use Modules\Geo\Models\Country;
 use Modules\Geo\Repositories\CountryRepository;
 use Modules\Geo\Services\CountryStorage;
+use OpenApi\Annotations as OA;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 final class CountryController extends Controller
 {
     /**
-     * @param CountryRepository $repository
-     * @param CountryStorage $storage
+     * @param  CountryRepository  $repository
+     * @param  CountryStorage  $storage
      */
     public function __construct(
         protected CountryRepository $repository,
         protected CountryStorage $storage,
-    )
+    ) {
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/admin/countries/all",
+     *      security={ {"sanctum": {} }},
+     *      tags={"Country"},
+     *      summary="Get countries list all",
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/CountryCollection")
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     *
+     * Display countries list all.
+     *
+     * @throws AuthorizationException
+     */
+    public function all(): JsonResource
     {
-        //
+        $this->authorize('viewAny');
+
+        $countries = $this->repository->all();
+
+        return CountryResource::collection($countries);
     }
 
     /**
@@ -57,6 +90,7 @@ final class CountryController extends Controller
      * Display countries list.
      *
      * @return JsonResource
+     *
      * @throws AuthorizationException
      */
     public function index(): JsonResource
@@ -119,8 +153,9 @@ final class CountryController extends Controller
      *
      * Store country.
      *
-     * @param CountryStoreRequest $request
+     * @param  CountryStoreRequest  $request
      * @return JsonResource
+     *
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
@@ -165,8 +200,9 @@ final class CountryController extends Controller
      *
      * Show the country.
      *
-     * @param int $id
+     * @param  int  $id
      * @return JsonResource
+     *
      * @throws AuthorizationException
      */
     public function show(int $id): JsonResource
@@ -238,9 +274,10 @@ final class CountryController extends Controller
      *
      * Update the country.
      *
-     * @param CountryUpdateRequest $request
-     * @param int $id
+     * @param  CountryUpdateRequest  $request
+     * @param  int  $id
      * @return JsonResource
+     *
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
@@ -290,8 +327,9 @@ final class CountryController extends Controller
      *
      * Remove the country.
      *
-     * @param int $id
+     * @param  int  $id
      * @return Response
+     *
      * @throws AuthorizationException
      */
     public function destroy(int $id): Response

@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'api',
         'passwords' => 'users',
     ],
 
@@ -41,15 +41,25 @@ return [
             'provider' => 'users',
         ],
 
+        'api-customer' => [
+            'driver' => 'sanctum',
+            'provider' => 'customers',
+        ],
+
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
 
+        'web-customer' => [
+            'driver' => 'session',
+            'provider' => 'customers',
+        ],
+
         'basic' => [
             'driver' => 'session',
             'provider' => 'users',
-        ]
+        ],
     ],
 
     /*
@@ -74,6 +84,11 @@ return [
             'driver' => 'eloquent',
             'model' => \Modules\User\Models\User::class,
         ],
+
+        'customers' => [
+            'driver' => 'eloquent',
+            'model' => \Modules\Customer\Models\Customer::class,
+        ],
     ],
 
     /*
@@ -95,6 +110,13 @@ return [
         'users' => [
             'provider' => 'users',
             'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'customers' => [
+            'provider' => 'customers',
+            'table' => 'public.password_resets',
             'expire' => 60,
             'throttle' => 60,
         ],
