@@ -33,8 +33,8 @@ class CustomerFactory extends Factory
         $tenant = Tenant::current();
 
         $data = array_merge(
-            $this->getBaseData(),
-            $this->getUserData(),
+            $this->getTenantData(),
+            $this->getLandlordData(),
         );
 
         $tenant->makeCurrent();
@@ -42,7 +42,12 @@ class CustomerFactory extends Factory
         return $data;
     }
 
-    private function getBaseData()
+    /**
+     * Get tenant data.
+     *
+     * @return array
+     */
+    private function getTenantData(): array
     {
         return [
             'first_name' => $this->faker->name(),
@@ -75,7 +80,12 @@ class CustomerFactory extends Factory
         ];
     }
 
-    private function getUserData()
+    /**
+     * Get landlord data.
+     *
+     * @return array
+     */
+    private function getLandlordData(): array
     {
         return [
             'affiliate_user_id' => User::factory(),
