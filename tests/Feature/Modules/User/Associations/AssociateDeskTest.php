@@ -23,6 +23,8 @@ final class AssociateDeskTest extends BrandTestCase
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
+        $this->brand->makeCurrent();
+
         $user = $this->getUser();
         $response = $this->put(route('admin.users.desk.update', ['id' => $user->id]), [
             'desks' => [
@@ -42,6 +44,9 @@ final class AssociateDeskTest extends BrandTestCase
         $this->authenticateUser();
 
         $user = User::factory()->create();
+
+        $this->brand->makeCurrent();
+
         $response = $this->put(route('admin.users.desk.update', ['id' => $user->id]), [
             'desks' => [
                 Desk::factory()->create(),
@@ -57,6 +62,8 @@ final class AssociateDeskTest extends BrandTestCase
     public function not_found(): void
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
+
+        $this->brand->makeCurrent();
 
         $userId = User::orderByDesc('id')->first()?->id + 1 ?? 1;
         $response = $this->put(route('admin.users.desk.update', ['id' => $userId]), [
