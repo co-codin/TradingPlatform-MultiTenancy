@@ -8,10 +8,14 @@ use Modules\Customer\Enums\CustomerPermission;
 use Modules\Customer\Models\Customer;
 use Modules\Role\Enums\ModelHasPermissionStatus;
 use Modules\Role\Models\Permission;
-use Tests\TestCase;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-final class UpdateTest extends TestCase
+final class UpdateTest extends BrandTestCase
 {
+    use TenantAware;
+    use HasAuth;
     /**
      * Test authorized user can update customer.
      *
@@ -23,8 +27,16 @@ final class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(CustomerPermission::fromValue(CustomerPermission::EDIT_CUSTOMERS));
 
-        $customer = Customer::factory()->create();
+        $this->brand->makeCurrent();
+
+        $customer = $this->brand->execute(function () {
+            return Customer::factory()->make();
+        });
+
+        $customer->save();
+
         $data = Customer::factory()->make();
+        $this->brand->makeCurrent();
 
         $response = $this->patchJson(route('admin.customers.update', ['customer' => $customer->id]), $data->toArray());
         $response->assertOk();
@@ -45,7 +57,14 @@ final class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(CustomerPermission::fromValue(CustomerPermission::EDIT_CUSTOMERS));
 
-        $customer = Customer::factory()->create();
+        $this->brand->makeCurrent();
+
+        $customer = $this->brand->execute(function () {
+            return Customer::factory()->make();
+        });
+
+        $customer->save();
+
         $data['permissions'] = [
             [
                 'id' => Permission::factory()->create()->id,
@@ -67,12 +86,14 @@ final class UpdateTest extends TestCase
             ],
         ];
 
+        $this->brand->makeCurrent();
+
         $response = $this->patchJson(route('admin.customers.update', ['customer' => $customer->id]), $data);
 
         $response->assertOk();
 
         $response->assertJsonStructure([
-            'data' => array_keys($data->toArray()),
+            'data' => array_keys($data),
         ]);
     }
 
@@ -85,8 +106,16 @@ final class UpdateTest extends TestCase
      */
     public function unauthorized_user_cant_update_customer(): void
     {
-        $customer = Customer::factory()->create();
+        $this->brand->makeCurrent();
+
+        $customer = $this->brand->execute(function () {
+            return Customer::factory()->make();
+        });
+
+        $customer->save();
+
         $data = Customer::factory()->make();
+        $this->brand->makeCurrent();
 
         $response = $this->patchJson(route('admin.customers.update', ['customer' => $customer->id]), $data->toArray());
 
@@ -104,8 +133,12 @@ final class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(CustomerPermission::fromValue(CustomerPermission::EDIT_CUSTOMERS));
 
+        $this->brand->makeCurrent();
+
         $customerId = Customer::orderByDesc('id')->first()?->id ?? 1;
         $data = Customer::factory()->make();
+
+        $this->brand->makeCurrent();
 
         $response = $this->patchJson(route('admin.customers.update', ['customer' => $customerId]), $data->toArray());
 
@@ -123,8 +156,17 @@ final class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(CustomerPermission::fromValue(CustomerPermission::EDIT_CUSTOMERS));
 
-        $customer = Customer::factory()->create();
+        $this->brand->makeCurrent();
+
+        $customer = $this->brand->execute(function () {
+            return Customer::factory()->make();
+        });
+
+        $customer->save();
+
         $data = Customer::factory()->make();
+
+        $this->brand->makeCurrent();
 
         $response = $this->patchJson(route('admin.customers.update', ['customer' => $customer->id]), $data->toArray());
 
@@ -149,8 +191,17 @@ final class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(CustomerPermission::fromValue(CustomerPermission::EDIT_CUSTOMERS));
 
-        $customer = Customer::factory()->create();
+        $this->brand->makeCurrent();
+
+        $customer = $this->brand->execute(function () {
+            return Customer::factory()->make();
+        });
+
+        $customer->save();
+
         $data = Customer::factory()->make();
+
+        $this->brand->makeCurrent();
 
         $response = $this->patchJson(route('admin.customers.update', ['customer' => $customer->id]), $data->toArray());
 

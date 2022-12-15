@@ -20,6 +20,7 @@ use Modules\Customer\Services\CustomerStorage;
 use Modules\User\Models\User;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
+use Illuminate\Http\Response;
 
 final class CustomerController extends Controller
 {
@@ -464,5 +465,50 @@ final class CustomerController extends Controller
         abort_if($customers->isEmpty(), ResponseAlias::HTTP_UNAUTHORIZED);
 
         return CustomerResource::collection($customers);
+    }
+    /**
+     * @OA\Delete(
+     *      path="/admin/customers/{id}",
+     *      security={ {"sanctum": {} }},
+     *      tags={"Customer"},
+     *      summary="Delete customer",
+     *      description="Returns status.",
+     *      @OA\Parameter(
+     *         description="Customer ID",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/CustomerResource")
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     *
+     * Remove the customer.
+     *
+     * @param int $id
+     * @return Response
+     * @throws AuthorizationException
+     */
+    public function destroy(int $id): Response
+    {
+        $customer = $this->customerRepository->find($id);
+
+        $this->authorize('delete', $customer);
+
+        $this->customerStorage->delete($customer);
+
+        return response()->noContent();
     }
 }
