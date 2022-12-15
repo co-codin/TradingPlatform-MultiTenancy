@@ -2,14 +2,16 @@
 
 namespace Tests\Feature\Modules\Customer\Admin;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Customer\Enums\CustomerPermission;
 use Modules\Customer\Models\Customer;
-use Tests\TestCase;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-class DeleteTest extends TestCase
+class DeleteTest extends BrandTestCase
 {
-    use DatabaseTransactions;
+    use TenantAware;
+    use HasAuth;
 
     /**
      * Test authorized user can delete customer.
@@ -22,9 +24,15 @@ class DeleteTest extends TestCase
     {
         $this->authenticateWithPermission(CustomerPermission::fromValue(CustomerPermission::DELETE_CUSTOMERS));
 
-        $customer = Customer::factory()->create();
+        $this->brand->makeCurrent();
 
-        $response = $this->deleteJson(route('admin.customers.destroy', ['customer' => $customer->id]));
+        $customers = $this->brand->execute(function () {
+            return Customer::factory()->make();
+        });
+
+        $customers->save();
+
+        $response = $this->deleteJson(route('admin.customers.destroy', ['customer' => $customers->id]));
 
         $response->assertNoContent();
     }
@@ -40,9 +48,15 @@ class DeleteTest extends TestCase
     {
         $this->authenticateUser();
 
-        $customer = Customer::factory()->create();
+        $this->brand->makeCurrent();
 
-        $response = $this->deleteJson(route('admin.customers.destroy', ['customer' => $customer->id]));
+        $customers = $this->brand->execute(function () {
+            return Customer::factory()->make();
+        });
+
+        $customers->save();
+
+        $response = $this->deleteJson(route('admin.customers.destroy', ['customer' => $customers->id]));
 
         $response->assertForbidden();
     }
@@ -57,6 +71,8 @@ class DeleteTest extends TestCase
     public function authorized_user_can_delete_not_found_customer(): void
     {
         $this->authenticateWithPermission(CustomerPermission::fromValue(CustomerPermission::DELETE_CUSTOMERS));
+
+        $this->brand->makeCurrent();
 
         $customer = Customer::orderByDesc('id')->first()?->id + 1 ?? 1;
         $response = $this->delete(route('admin.customers.destroy', ['customer' => $customer]));
@@ -73,9 +89,15 @@ class DeleteTest extends TestCase
      */
     final public function unauthorized(): void
     {
-        $customer = Customer::factory()->create();
+        $this->brand->makeCurrent();
 
-        $response = $this->patchJson(route('admin.customers.destroy', ['customer' => $customer->id]));
+        $customers = $this->brand->execute(function () {
+            return Customer::factory()->make();
+        });
+
+        $customers->save();
+
+        $response = $this->patchJson(route('admin.customers.destroy', ['customer' => $customers->id]));
 
         $response->assertUnauthorized();
     }

@@ -2,14 +2,18 @@
 
 namespace Tests\Feature\Modules\Customer\Admin;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\Customer\Enums\CustomerPermission;
 use Modules\Customer\Models\Customer;
-use Tests\TestCase;
+use Modules\Geo\Models\Country;
+use Modules\Sale\Models\SaleStatus;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-class CreateTest extends TestCase
+class CreateTest extends BrandTestCase
 {
-    use DatabaseTransactions;
+    use TenantAware;
+    use HasAuth;
     /**
      * Test authorized user can create customer.
      *
@@ -21,9 +25,24 @@ class CreateTest extends TestCase
     {
         $this->authenticateWithPermission(CustomerPermission::fromValue(CustomerPermission::CREATE_CUSTOMERS));
 
+        $this->brand->makeCurrent();
+
         $data = Customer::factory()->make()->toArray();
+        $this->brand->makeCurrent();
 
         $response = $this->postJson(route('admin.customers.store'), array_merge($data, ['password' => 'password']));
+
+        unset($data['conversion_sale_status_id']);
+        unset($data['retention_sale_status_id']);
+        unset($data['affiliate_user_id']);
+        unset($data['conversion_user_id']);
+        unset($data['retention_user_id']);
+        unset($data['compliance_user_id']);
+        unset($data['support_user_id']);
+        unset($data['conversion_manager_user_id']);
+        unset($data['retention_manager_user_id']);
+        unset($data['first_conversion_user_id']);
+        unset($data['first_retention_user_id']);
 
         $response->assertCreated();
 
@@ -41,7 +60,10 @@ class CreateTest extends TestCase
     {
         $this->authenticateUser();
 
+        $this->brand->makeCurrent();
+
         $data = Customer::factory()->make()->toArray();
+        $this->brand->makeCurrent();
 
         $response = $this->postJson(route('admin.customers.store'), array_merge($data, ['password' => 'password']));
 
@@ -57,7 +79,10 @@ class CreateTest extends TestCase
      */
     public function unauthorized(): void
     {
+        $this->brand->makeCurrent();
+
         $data = Customer::factory()->make()->toArray();
+        $this->brand->makeCurrent();
 
         $response = $this->postJson(route('admin.customers.store'), $data);
 
