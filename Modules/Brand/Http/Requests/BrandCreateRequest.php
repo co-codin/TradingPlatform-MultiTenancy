@@ -16,8 +16,8 @@ final class BrandCreateRequest extends BaseFormRequest
         return [
             'name' => 'required|string|max:255',
             'title' => 'required|string|max:255',
-            'database' => 'required|string|regex:/^[a-z0-9]+(?:_[a-z0-9]+)*$/|unique:brands,database',
-            'domain' => 'required|string|regex:/^[a-z0-9]+(?:_[a-z0-9]+)*$/|unique:brands,domain',
+            'database' => 'required|string|regex:/^[a-z0-9]+(?:_[a-z0-9]+)*$/|unique:landlord.brands,database',
+            'domain' => 'required|string|regex:/^[a-z0-9]+(?:_[a-z0-9]+)*$/|unique:landlord.brands,domain',
             'logo_url' => 'required|string|max:255',
             'is_active' => 'sometimes|boolean',
         ];

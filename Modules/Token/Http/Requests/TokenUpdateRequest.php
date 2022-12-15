@@ -14,7 +14,7 @@ final class TokenUpdateRequest extends BaseFormRequest
     final public function rules(): array
     {
         return [
-            'user_id' => 'sometimes|required|int|exists:users,id',
+            'user_id' => 'sometimes|required|int|exists:landlord.users,id',
             'token' => 'sometimes|required|string',
             'description' => 'sometimes|nullable',
             'ip' => 'sometimes|required|string',

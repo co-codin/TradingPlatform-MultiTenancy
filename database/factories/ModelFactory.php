@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Modules\Role\Database\factories;
+namespace Database\Factories;
 
+use App\Models\Model;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Modules\Role\Models\Model;
 use Modules\Role\Services\ModelService;
 
 final class ModelFactory extends Factory

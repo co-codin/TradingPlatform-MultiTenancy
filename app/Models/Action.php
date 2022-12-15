@@ -1,14 +1,18 @@
 <?php
 
-namespace Modules\Role\Models;
+declare(strict_types=1);
 
+namespace App\Models;
+
+use Database\Factories\ActionFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Role\Database\factories\ActionFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Modules\Role\Models\Permission;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
-class Action extends Model
+final class Action extends Model
 {
     use HasFactory;
     use UsesLandlordConnection;
@@ -28,11 +32,22 @@ class Action extends Model
         'ban' => 'ban',
     ];
 
+    /**
+     * {@inheritdoc}
+     */
     protected $guarded = ['id'];
 
+    /**
+     * {@inheritdoc}
+     */
     public $timestamps = false;
 
-    public function permissions()
+    /**
+     * Permission relation.
+     *
+     * @return HasMany
+     */
+    public function permissions(): HasMany
     {
         return $this->hasMany(Permission::class);
     }

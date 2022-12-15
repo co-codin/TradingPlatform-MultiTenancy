@@ -15,7 +15,7 @@ final class PermissionColumnUpdateRequest extends BaseFormRequest
                 'required',
                 'array',
             ],
-            'columns.*.id' => 'distinct|integer|exists:columns,id',
+            'columns.*.id' => 'distinct|integer|exists:landlord.columns,id',
         ];
     }
 }

@@ -17,7 +17,7 @@ final class UserBanRequest extends BaseFormRequest
     {
         return [
             'users' => 'required|array',
-            'users.*.id' => 'distinct|integer|exists:users,id',
+            'users.*.id' => 'distinct|integer|exists:landlord.users,id',
         ];
     }
 }

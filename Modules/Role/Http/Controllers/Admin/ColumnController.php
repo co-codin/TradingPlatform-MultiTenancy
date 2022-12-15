@@ -15,7 +15,6 @@ use Modules\Role\Http\Resources\ColumnResource;
 use Modules\Role\Models\Column;
 use Modules\Role\Repositories\ColumnRepository;
 use Modules\Role\Services\ColumnStorage;
-use OpenApi\Annotations as OA;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 final class ColumnController extends Controller

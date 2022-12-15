@@ -2,8 +2,8 @@
 
 namespace Modules\User\Database\factories;
 
+use App\Models\Model;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Modules\Role\Models\Model;
 use Modules\User\Models\DisplayOption;
 use Modules\User\Models\User;
 

@@ -17,7 +17,7 @@ final class CustomerBanRequest extends BaseFormRequest
     {
         return [
             'customers' => 'required|array',
-            'customers.*.id' => 'distinct|integer|exists:customers,id',
+            'customers.*.id' => 'distinct|integer|exists:tenant.customers,id',
         ];
     }
 }

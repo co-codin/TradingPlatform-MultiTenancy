@@ -15,8 +15,15 @@ final class Column extends Model
     use HasFactory;
     use UsesLandlordConnection;
 
-    public $timestamps = false;
+    /**
+     * {@inheritdoc}
+     */
     protected $guarded = ['id'];
+
+    /**
+     * {@inheritdoc}
+     */
+    public $timestamps = false;
 
     /**
      * {@inheritDoc}
@@ -26,6 +33,11 @@ final class Column extends Model
         return ColumnFactory::new();
     }
 
+    /**
+     * Permissions relation.
+     *
+     * @return BelongsToMany
+     */
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(Permission::class, 'permission_column');

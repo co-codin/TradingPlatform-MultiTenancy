@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Modules\Role\Database\Seeders;
+namespace Database\Seeders;
 
+use App\Models\Model;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Seeder;
-use Modules\Role\Models\Model;
 use Modules\Role\Services\ModelService;
 
 final class ModelsTableSeeder extends Seeder

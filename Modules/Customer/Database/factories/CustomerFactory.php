@@ -12,6 +12,7 @@ use Modules\Geo\Models\Country;
 use Modules\Language\Models\Language;
 use Modules\Sale\Models\SaleStatus;
 use Modules\User\Models\User;
+use Spatie\Multitenancy\Models\Tenant;
 
 class CustomerFactory extends Factory
 {
@@ -29,6 +30,25 @@ class CustomerFactory extends Factory
      */
     public function definition()
     {
+        $tenant = Tenant::current();
+
+        $data = array_merge(
+            $this->getTenantData(),
+            $this->getLandlordData(),
+        );
+
+        $tenant->makeCurrent();
+
+        return $data;
+    }
+
+    /**
+     * Get tenant data.
+     *
+     * @return array
+     */
+    private function getTenantData(): array
+    {
         return [
             'first_name' => $this->faker->name(),
             'last_name' => $this->faker->name(),
@@ -37,16 +57,6 @@ class CustomerFactory extends Factory
             'password' => Hash::make('password'),
             'phone' => $this->faker->e164PhoneNumber(),
             'phone2' => $this->faker->e164PhoneNumber(),
-
-            'affiliate_user_id' => User::factory(),
-            'conversion_user_id' => $conversion = User::factory()->create(),
-            'retention_user_id' => $retention = User::factory()->create(),
-            'compliance_user_id' => User::factory(),
-            'support_user_id' => User::factory(),
-            'conversion_manager_user_id' => User::factory(),
-            'retention_manager_user_id' => User::factory(),
-            'first_conversion_user_id' => $conversion,
-            'first_retention_user_id' => $retention,
 
             'conversion_sale_status_id' => SaleStatus::factory(),
             'retention_sale_status_id' => SaleStatus::factory(),
@@ -67,6 +77,26 @@ class CustomerFactory extends Factory
             'free_param_1' => $this->faker->sentence(1),
             'free_param_2' => $this->faker->sentence(1),
             'free_param_3' => $this->faker->sentence(1),
+        ];
+    }
+
+    /**
+     * Get landlord data.
+     *
+     * @return array
+     */
+    private function getLandlordData(): array
+    {
+        return [
+            'affiliate_user_id' => User::factory(),
+            'conversion_user_id' => $conversion = User::factory()->create(),
+            'retention_user_id' => $retention = User::factory()->create(),
+            'compliance_user_id' => User::factory(),
+            'support_user_id' => User::factory(),
+            'conversion_manager_user_id' => User::factory(),
+            'retention_manager_user_id' => User::factory(),
+            'first_conversion_user_id' => $conversion,
+            'first_retention_user_id' => $retention,
         ];
     }
 }

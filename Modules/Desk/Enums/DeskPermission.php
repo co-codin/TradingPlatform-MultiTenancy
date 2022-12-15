@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Desk\Enums;
 
+use App\Models\Action;
 use Modules\Desk\Models\Desk;
 use Modules\Role\Contracts\PermissionEnum;
-use Modules\Role\Models\Action;
 
 final class DeskPermission implements PermissionEnum
 {

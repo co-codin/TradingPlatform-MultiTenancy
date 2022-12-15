@@ -4883,6 +4883,10 @@
                                         "description": "RGB HEX",
                                         "type": "string",
                                         "example": "#e1e1e1"
+                                    },
+                                    "department_id": {
+                                        "type": "integer",
+                                        "example": "1"
                                     }
                                 },
                                 "type": "object"
@@ -4998,6 +5002,10 @@
                                         "description": "RGB HEX",
                                         "type": "string",
                                         "example": "#e1e1e1"
+                                    },
+                                    "department_id": {
+                                        "type": "integer",
+                                        "example": "1"
                                     }
                                 },
                                 "type": "object"
@@ -5106,6 +5114,10 @@
                                         "description": "RGB HEX",
                                         "type": "string",
                                         "example": "#e1e1e1"
+                                    },
+                                    "department_id": {
+                                        "type": "integer",
+                                        "example": "1"
                                     }
                                 },
                                 "type": "object"
@@ -8315,6 +8327,13 @@
                     "color": {
                         "type": "string",
                         "example": "#e1e1e1"
+                    },
+                    "department_id": {
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "department": {
+                        "$ref": "#/components/schemas/Department"
                     },
                     "created_at": {
                         "type": "string",

@@ -8,11 +8,11 @@ pipelines:
           - apt-get update && apt-get install -qy git curl libmcrypt-dev libzip-dev libpng-dev zlib1g-dev libpq-dev
           - pecl install redis curl zip
           - docker-php-ext-enable redis zip
-          - docker-php-ext-install exif pcntl gd pgsql pdo_pgsql 
+          - docker-php-ext-install exif pcntl gd pgsql pdo_pgsql
           - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
           - composer install
           - ln -f -s .env.pipelines .env
-          - php artisan migrate --seed
+          - php artisan migrate
           - php artisan serve &
           - sleep 5
           - ./vendor/bin/phpunit

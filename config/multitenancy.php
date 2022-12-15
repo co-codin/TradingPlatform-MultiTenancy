@@ -4,11 +4,11 @@ use Illuminate\Broadcasting\BroadcastEvent;
 use Illuminate\Events\CallQueuedListener;
 use Illuminate\Mail\SendQueuedMailable;
 use Illuminate\Notifications\SendQueuedNotifications;
+use Modules\Brand\Models\Brand;
 use Spatie\Multitenancy\Actions\ForgetCurrentTenantAction;
 use Spatie\Multitenancy\Actions\MakeQueueTenantAwareAction;
 use Spatie\Multitenancy\Actions\MakeTenantCurrentAction;
 use Spatie\Multitenancy\Actions\MigrateTenantAction;
-use Modules\Brand\Models\Brand;
 
 return [
     /*
@@ -111,5 +111,20 @@ return [
      */
     'not_tenant_aware_jobs' => [
         // ...
+    ],
+
+    /*
+     * Required migrations after tenant created.
+     */
+    'tenant_required_migrations' => [
+        'Media' => 'Media',
+        'Campaign' => 'Campaign',
+        'Config' => 'Config',
+        'Sale' => 'Sale',
+        'Department' => 'Department',
+        'Language' => 'Language',
+        'Geo' => 'Geo',
+        'Desk' => 'Desk',
+        'Customer' => 'Customer',
     ],
 ];

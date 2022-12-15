@@ -1,9 +1,10 @@
 <?php
+
 namespace Modules\Role\Database\factories;
 
+use App\Models\Action;
+use App\Models\Model;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Modules\Role\Models\Action;
-use Modules\Role\Models\Model;
 use Modules\User\Models\User;
 
 class PermissionFactory extends Factory

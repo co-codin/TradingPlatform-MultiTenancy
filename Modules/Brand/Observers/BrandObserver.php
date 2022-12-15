@@ -2,20 +2,23 @@
 
 namespace Modules\Brand\Observers;
 
-use Illuminate\Support\Facades\Artisan;
-use Modules\Brand\Models\Brand;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Config;
+use Modules\Brand\Models\Brand;
 
 class BrandObserver
-{/**
+{
+    /**
      * Handle the Brand "created" event.
      *
      * @param  Brand  $brand
      * @return void
      */
-    public function created(Brand $brand)
+    public function created(Brand $brand): void
     {
-        $requiredModules = config('brandmigration.REQUIRED_MODULES');
+        $requiredModules = Config::get('multitenancy.tenant_required_migrations');
+
         foreach ($requiredModules as $module) {
             Artisan::call(sprintf(
                 'tenants:artisan "migrate %s --database=tenant" --tenant=%s',
@@ -34,7 +37,7 @@ class BrandObserver
     /**
      * prepareMigrations
      *
-     * @param  mixed $module
+     * @param  mixed  $module
      * @return string
      */
     private function prepareMigrations($module): string

@@ -6,23 +6,22 @@ namespace Modules\Sale\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
 use Modules\Sale\Dto\SaleStatusDto;
+use Modules\Sale\Http\Requests\SaleStatusStoreRequest;
 use Modules\Sale\Http\Resources\SaleStatusResource;
 use Modules\Sale\Models\SaleStatus;
 use Modules\Sale\Repositories\SaleStatusRepository;
-use Modules\Sale\Http\Requests\SaleStatusStoreRequest;
 use Modules\Sale\Services\SaleStatusStorage;
-use Illuminate\Http\Response;
+use OpenApi\Annotations as OA;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 final class SaleStatusController extends Controller
 {
     /**
-     * @param SaleStatusRepository $repository
-     * @param SaleStatusStorage $storage
+     * @param  SaleStatusRepository  $repository
+     * @param  SaleStatusStorage  $storage
      */
     public function __construct(
         protected SaleStatusRepository $repository,
@@ -55,6 +54,7 @@ final class SaleStatusController extends Controller
      * Display salestatus list.
      *
      * @return JsonResource
+     *
      * @throws AuthorizationException
      */
     public function index(): JsonResource
@@ -83,6 +83,7 @@ final class SaleStatusController extends Controller
      *                 @OA\Property(property="name", type="string", description="Name of sale status"),
      *                 @OA\Property(property="title", type="string", description="Title of sale status"),
      *                 @OA\Property(property="color", type="string", description="RGB HEX", example="#e1e1e1"),
+     *                 @OA\Property(property="department_id", type="integer", example="1"),
      *             )
      *         )
      *      ),
@@ -103,8 +104,9 @@ final class SaleStatusController extends Controller
      *
      * Store salestatus.
      *
-     * @param SaleStatusStoreRequest $request
+     * @param  SaleStatusStoreRequest  $request
      * @return JsonResource
+     *
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
@@ -148,8 +150,9 @@ final class SaleStatusController extends Controller
      *
      * Show the salestatus.
      *
-     * @param int $id
+     * @param  int  $id
      * @return JsonResource
+     *
      * @throws AuthorizationException
      */
     public function show(int $id): JsonResource
@@ -187,6 +190,7 @@ final class SaleStatusController extends Controller
      *                 @OA\Property(property="name", type="string", description="Name of sale status"),
      *                 @OA\Property(property="title", type="string", description="Title of sale status"),
      *                 @OA\Property(property="color", type="string", description="RGB HEX", example="#e1e1e1"),
+     *                 @OA\Property(property="department_id", type="integer", example="1"),
      *             )
      *         )
      *      ),
@@ -224,6 +228,7 @@ final class SaleStatusController extends Controller
      *                 @OA\Property(property="name", type="string", description="Name of sale status"),
      *                 @OA\Property(property="title", type="string", description="Title of sale status"),
      *                 @OA\Property(property="color", type="string", description="RGB HEX", example="#e1e1e1"),
+     *                 @OA\Property(property="department_id", type="integer", example="1"),
      *             )
      *         )
      *      ),
@@ -244,9 +249,10 @@ final class SaleStatusController extends Controller
      *
      * Update the salestatus.
      *
-     * @param SaleStatusStoreRequest $request
-     * @param int $id
+     * @param  SaleStatusStoreRequest  $request
+     * @param  int  $id
      * @return JsonResource
+     *
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
@@ -295,8 +301,9 @@ final class SaleStatusController extends Controller
      *
      * Remove the salestatus.
      *
-     * @param int $id
+     * @param  int  $id
      * @return Response
+     *
      * @throws AuthorizationException
      */
     public function destroy(int $id): Response

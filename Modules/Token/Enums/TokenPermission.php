@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Token\Enums;
 
+use App\Models\Action;
 use Modules\Role\Contracts\PermissionEnum;
-use Modules\Role\Models\Action;
 use Modules\Token\Models\Token;
 
 final class TokenPermission implements PermissionEnum

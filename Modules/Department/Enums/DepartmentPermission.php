@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Modules\Department\Enums;
 
 use App\Enums\BaseEnum;
+use App\Models\Action;
 use Modules\Department\Models\Department;
 use Modules\Role\Contracts\PermissionEnum;
-use Modules\Role\Models\Action;
 
 final class DepartmentPermission extends BaseEnum implements PermissionEnum
 {
