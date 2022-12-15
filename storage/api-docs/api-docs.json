@@ -2021,6 +2021,48 @@
                     }
                 ]
             },
+            "delete": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Delete customer",
+                "description": "Returns status.",
+                "operationId": "2fc603ec41a37b70c90bfe96f8c3a730",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Customer ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
             "patch": {
                 "tags": [
                     "Customer"
@@ -2330,6 +2372,194 @@
                     },
                     "404": {
                         "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/customers/{id}/impersonate/session": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Steteful login impersonate customer",
+                "operationId": "5ccb3b12691930827ac38f177eb6ff75",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Customer id",
+                        "required": true,
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success. The session ID is returned in a cookie named `laravel_session`. You need to include this cookie in subsequent requests.",
+                        "headers": {
+                            "Set-Cookie(example-1)": {
+                                "description": "Encrypted session ID cookie",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "laravel_session=eyJpdiI6IjZKZm...%3D; Path=/; Domain=localhost; HttpOnly; Expires=Fri, 18 Nov 2022 13:25:26 GMT;"
+                                }
+                            },
+                            "Set-Cookie(example-2)": {
+                                "description": "Encrypted recaller cookie. Set if `remember_me=true` was received",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "remember_web-customer_59ba...=eyJpdiI6IjZKZm...%3D; Path=/; Domain=localhost; HttpOnly; Expires=Fri, 18 Nov 2022 13:25:26 GMT;"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "impersonator",
+                                        "target_customer"
+                                    ],
+                                    "properties": {
+                                        "impersonator": {
+                                            "$ref": "#/components/schemas/AuthUser"
+                                        },
+                                        "target_customer": {
+                                            "$ref": "#/components/schemas/AuthCustomer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "419": {
+                        "description": "CSRF token mismatch"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum_frontend": []
+                    }
+                ]
+            }
+        },
+        "/admin/customers/impersonate/session/logout": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Steteful logout impersonate customer",
+                "operationId": "d3c3e984582a2f549febcbb3fd3f5d02",
+                "responses": {
+                    "204": {
+                        "description": "No content. The session ID is returned in a cookie named `laravel_session`. You need to include this cookie in subsequent requests.",
+                        "headers": {
+                            "Set-Cookie(example-1)": {
+                                "description": "Encrypted session ID cookie",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "laravel_session=eyJpdiI6IjZKZm...%3D; Path=/; Domain=localhost; HttpOnly; Expires=Fri, 18 Nov 2022 13:25:26 GMT;"
+                                }
+                            },
+                            "Set-Cookie(example-2)": {
+                                "description": "Encrypted recaller cookie. Set if `remember_me=true` was received",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "remember_web_59ba...=eyJpdiI6IjZKZm...%3D; Path=/; Domain=localhost; HttpOnly; Expires=Fri, 18 Nov 2022 13:25:26 GMT;"
+                                }
+                            }
+                        }
+                    },
+                    "419": {
+                        "description": "CSRF token mismatch"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum_frontend": []
+                    }
+                ]
+            }
+        },
+        "/admin/customers/{id}/impersonate/token": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Stateless api login impersonate customer",
+                "operationId": "4bfcfce46c894194c03257ae6ead75a1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Customer id",
+                        "required": true,
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "impersonator",
+                                        "impersonator_token",
+                                        "target_customer",
+                                        "target_token",
+                                        "target_token_expired_at"
+                                    ],
+                                    "properties": {
+                                        "impersonator": {
+                                            "$ref": "#/components/schemas/AuthUser"
+                                        },
+                                        "target_customer": {
+                                            "$ref": "#/components/schemas/AuthCustomer"
+                                        },
+                                        "impersonator_token": {
+                                            "type": "string"
+                                        },
+                                        "target_token": {
+                                            "type": "string"
+                                        },
+                                        "target_token_expired_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2022-12-17 08:44:09"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -5865,6 +6095,77 @@
                     },
                     "404": {
                         "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/workers/{id}/impersonate/token": {
+            "post": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Stateless api login impersonate worker",
+                "operationId": "3dc1fdb8e51292a16b7e6aaaeaedb130",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "impersonator",
+                                        "impersonator_token",
+                                        "target_worker",
+                                        "target_token",
+                                        "target_token_expired_at"
+                                    ],
+                                    "properties": {
+                                        "impersonator": {
+                                            "$ref": "#/components/schemas/AuthUser"
+                                        },
+                                        "target_worker": {
+                                            "$ref": "#/components/schemas/AuthUser"
+                                        },
+                                        "impersonator_token": {
+                                            "type": "string"
+                                        },
+                                        "target_token": {
+                                            "type": "string"
+                                        },
+                                        "target_token_expired_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2022-12-17 08:44:09"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
