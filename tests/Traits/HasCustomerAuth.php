@@ -22,7 +22,15 @@ trait HasCustomerAuth
     {
         $email = 'customer@service.com';
 
-        $customer = Customer::whereEmail($email)->first() ?? Customer::factory()->create(compact('email'));
+        $this->brand->makeCurrent();
+
+        $customer = Customer::whereEmail($email)->first();
+        if (!$customer) {
+            $customer = $this->brand->execute(function () use ($email) {
+                return Customer::factory()->make(compact('email'));
+            });
+            $customer->save();
+        }
 
         $this->setCustomer($customer);
 
