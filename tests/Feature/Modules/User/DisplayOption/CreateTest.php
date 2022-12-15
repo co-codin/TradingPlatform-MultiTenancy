@@ -27,19 +27,14 @@ class CreateTest extends TestCase
             )
         );
 
-        $data = DisplayOption::factory()->make(['user_id' => $this->getUser()->id]);
+        $data = DisplayOption::factory()->make(['user_id' => $this->getUser()->id])->toArray();
 
-        $response = $this->post(route('admin.users.display-options.store', ['worker' => $this->getUser()->id]), $data->toArray());
+        $response = $this->post(route('admin.users.display-options.store', ['worker' => $this->getUser()->id]), $data);
 
         $response->assertCreated();
 
         $response->assertJson([
-            'data' => [
-                'model_id' => $data['model_id'],
-                'user_id' => $data['user_id'],
-                'name' => $data['name'],
-                'columns' => $data['columns'],
-            ],
+            'data' => $data,
         ]);
     }
 

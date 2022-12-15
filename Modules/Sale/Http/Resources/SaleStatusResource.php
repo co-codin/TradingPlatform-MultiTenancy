@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Modules\Sale\Http\Resources;
 
 use App\Http\Resources\BaseJsonResource;
-use Modules\Sale\Models\SaleStatus;
 use Illuminate\Http\Request;
+use Modules\Department\Http\Resources\DepartmentResource;
+use Modules\Sale\Models\SaleStatus;
+use OpenApi\Annotations as OA;
 
 /**
  * SaleStatus.
@@ -26,6 +28,8 @@ use Illuminate\Http\Request;
  *     @OA\Property(property="title", type="string", example="Any title"),
  *     @OA\Property(property="is_active", type="boolean", example="1"),
  *     @OA\Property(property="color", type="string", example="#e1e1e1"),
+ *     @OA\Property(property="department_id", type="integer", example="1"),
+ *     @OA\Property(property="department", type="object", ref="#/components/schemas/Department", readOnly="true"),
  *     @OA\Property(property="created_at", type="string", format="date-time"),
  *     @OA\Property(property="updated_at", type="string", format="date-time"),
  *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true),
@@ -58,7 +62,6 @@ use Illuminate\Http\Request;
  *
  * Class SaleStatusResource
  *
- * @package Modules\Sale\Http\Resources
  * @mixin SaleStatus
  */
 class SaleStatusResource extends BaseJsonResource
@@ -66,19 +69,13 @@ class SaleStatusResource extends BaseJsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return array
      */
     public function toArray($request): array
     {
-        return [
-            'id' => $this->resource->id,
-            'name' => $this->resource->name,
-            'title' => $this->resource->title,
-            'color' => $this->resource->color,
-            'created_at' => $this->resource->created_at,
-            'updated_at' => $this->resource->updated_at,
-            'deleted_at' => $this->resource->deleted_at,
-        ];
+        return array_merge(parent::toArray($request), [
+            'department' => new DepartmentResource($this->whenLoaded('department')),
+        ]);
     }
 }

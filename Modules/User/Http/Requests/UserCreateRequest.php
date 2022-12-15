@@ -29,7 +29,7 @@ final class UserCreateRequest extends BaseFormRequest
             'email' => [
                 'email',
                 'max:255',
-                'unique:users,email',
+                'unique:public.users,email',
             ],
             'password' => [
                 'required',
@@ -38,14 +38,14 @@ final class UserCreateRequest extends BaseFormRequest
             ],
             'is_active' => 'boolean',
             'target' => 'numeric',
-            'parent_id' => 'integer|exists:users,id',
+            'parent_id' => 'integer|exists:public.users,id',
             'roles.*.id' => [
                 'required',
                 'integer',
                 'min:1',
-                'exists:roles,id',
+                'exists:public.roles,id',
             ],
-            'affiliate_id' => 'nullable|integer|exists:users,id',
+            'affiliate_id' => 'nullable|integer|exists:public.users,id',
             'show_on_scoreboards' => 'sometimes|required|boolean',
         ];
     }

@@ -65,7 +65,7 @@ final class CommunicationProviderController extends Controller
      *      path="/admin/communication/providers/all",
      *      security={ {"sanctum": {} }},
      *      tags={"CommunicationProvider"},
-     *      summary="Get communication provider list all",
+     *      summary="Get communication providers list all",
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
@@ -81,7 +81,7 @@ final class CommunicationProviderController extends Controller
      *      )
      * )
      *
-     * Display communication provider list all.
+     * Display communication providers list all.
      *
      * @throws AuthorizationException
      */

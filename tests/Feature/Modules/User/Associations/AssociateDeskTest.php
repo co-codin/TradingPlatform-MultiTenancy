@@ -7,19 +7,24 @@ namespace Tests\Feature\Modules\User\Associations;
 use Modules\Desk\Models\Desk;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
-use Tests\TestCase;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-final class AssociateDeskTest extends TestCase
+final class AssociateDeskTest extends BrandTestCase
 {
+    use TenantAware;
+    use HasAuth;
+
     /**
      * @test
      */
-    public function user_can_update(): void
+    public function can_update(): void
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
-        $user = User::factory()->create();
-        $response = $this->put("/admin/workers/$user->id/desk", [
+        $user = $this->getUser();
+        $response = $this->put(route('admin.users.desk.update', ['id' => $user->id]), [
             'desks' => [
                 Desk::factory()->create(),
                 Desk::factory()->create(),
@@ -32,28 +37,12 @@ final class AssociateDeskTest extends TestCase
     /**
      * @test
      */
-    public function user_can_update_not_found(): void
-    {
-        $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
-
-        $response = $this->put('/admin/workers/10/desk', [
-            'desks' => [
-                Desk::factory()->create(),
-            ],
-        ]);
-
-        $response->assertNotFound();
-    }
-
-    /**
-     * @test
-     */
     public function can_not_update(): void
     {
         $this->authenticateUser();
 
         $user = User::factory()->create();
-        $response = $this->put("/admin/workers/$user->id/desk", [
+        $response = $this->put(route('admin.users.desk.update', ['id' => $user->id]), [
             'desks' => [
                 Desk::factory()->create(),
             ],
@@ -65,10 +54,33 @@ final class AssociateDeskTest extends TestCase
     /**
      * @test
      */
-    public function not_unauthorized(): void
+    public function not_found(): void
     {
-        $response = $this->put('/admin/workers/1/desk');
+        $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
+
+        $userId = User::orderByDesc('id')->first()?->id + 1 ?? 1;
+        $response = $this->put(route('admin.users.desk.update', ['id' => $userId]), [
+            'desks' => [
+                Desk::factory()->create(),
+            ],
+        ]);
+
+        $response->assertNotFound();
+    }
+
+    /**
+     * @test
+     */
+    public function unauthorized(): void
+    {
+        $response = $this->put(route('admin.users.desk.update', ['id' => 1]));
 
         $response->assertUnauthorized();
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->makeCurrentTenantAndSetHeader();
     }
 }

@@ -8,9 +8,11 @@ use App\Relationships\Traits\WhereHasForTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Customer\Models\Customer;
 use Modules\Department\Database\factories\DepartmentFactory;
+use Modules\Sale\Models\SaleStatus;
 use Modules\User\Models\User;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
@@ -26,7 +28,7 @@ use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
  * @property string $updated_at
  * @property string $deleted_at
  */
-class Department extends Model
+final class Department extends Model
 {
     use HasFactory;
     use SoftDeletes;
@@ -61,5 +63,10 @@ class Department extends Model
     public function users(): BelongsToMany
     {
         return $this->belongsToManyTenant(User::class, 'user_department');
+    }
+
+    public function saleStatuses(): HasMany
+    {
+        return $this->hasMany(SaleStatus::class);
     }
 }
