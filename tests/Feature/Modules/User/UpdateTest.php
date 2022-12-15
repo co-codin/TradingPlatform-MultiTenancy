@@ -139,7 +139,7 @@ final class UpdateTest extends BrandTestCase
             ]
         ));
 
-        $response->assertNotFound();
+        $response->assertForbidden();
     }
 
     /**
