@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Modules\Sale\Enums;
 
 use App\Enums\BaseEnum;
+use App\Models\Action;
 use Modules\Role\Contracts\PermissionEnum;
-use Modules\Role\Models\Action;
 use Modules\Sale\Models\SaleStatus;
 
 final class SaleStatusPermission extends BaseEnum implements PermissionEnum

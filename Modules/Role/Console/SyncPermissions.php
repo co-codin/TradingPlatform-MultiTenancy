@@ -2,10 +2,10 @@
 
 namespace Modules\Role\Console;
 
+use App\Models\Action;
+use App\Models\Model;
 use Illuminate\Console\Command;
 use Modules\Role\Contracts\PermissionEnum;
-use Modules\Role\Models\Action;
-use Modules\Role\Models\Model;
 use Modules\Role\Models\Permission;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder;

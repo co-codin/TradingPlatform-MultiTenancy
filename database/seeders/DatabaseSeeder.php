@@ -7,7 +7,6 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Modules\Brand\Database\Seeders\BrandDatabaseSeeder;
 use Modules\CommunicationProvider\Database\Seeders\CommunicationProviderDatabaseSeeder;
-use Modules\Geo\Database\Seeders\GeoDatabaseSeeder;
 use Modules\Role\Database\Seeders\RoleDatabaseSeeder;
 use Modules\User\Database\Seeders\UserDatabaseSeeder;
 use Spatie\Multitenancy\Models\Tenant;
@@ -26,7 +25,7 @@ final class DatabaseSeeder extends Seeder
             UserDatabaseSeeder::class,
             CommunicationProviderDatabaseSeeder::class,
             BrandDatabaseSeeder::class,
-            //GeoDatabaseSeeder::class,
+            ModelsTableSeeder::class,
         ]);
 
         Tenant::checkCurrent()

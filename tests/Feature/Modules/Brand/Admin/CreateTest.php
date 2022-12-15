@@ -11,6 +11,7 @@ use Tests\TestCase;
 class CreateTest extends TestCase
 {
     use DatabaseTransactions;
+
     /**
      * Test authorized user can create brand.
      *
@@ -29,7 +30,7 @@ class CreateTest extends TestCase
         $response->assertCreated();
 
         $this->assertDatabaseHas('brands', [
-            'name' => $data['name']
+            'name' => $data['name'],
         ]);
 
         $response->assertJson([

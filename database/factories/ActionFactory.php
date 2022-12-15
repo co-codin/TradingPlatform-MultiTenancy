@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Modules\Role\Database\factories;
+namespace Database\Factories;
 
+use App\Models\Action;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Modules\Role\Models\Action;
 
 final class ActionFactory extends Factory
 {

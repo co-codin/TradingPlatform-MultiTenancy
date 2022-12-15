@@ -79,7 +79,7 @@ class DisplayOption extends Model
      */
     public function model(): BelongsTo
     {
-        return $this->belongsTo(\Modules\Role\Models\Model::class);
+        return $this->belongsTo(\App\Models\Model::class);
     }
 
     /**

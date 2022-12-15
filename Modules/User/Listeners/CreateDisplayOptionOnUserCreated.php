@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\User\Listeners;
 
+use App\Models\Model;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
-use Modules\Role\Models\Model;
 use Modules\User\Events\UserCreated;
 
 final class CreateDisplayOptionOnUserCreated implements ShouldQueue

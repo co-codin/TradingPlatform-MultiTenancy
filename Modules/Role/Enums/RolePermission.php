@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Role\Enums;
 
+use App\Models\Action;
 use BenSampo\Enum\Enum;
 use Modules\Role\Contracts\PermissionEnum;
-use Modules\Role\Models\Action;
 use Modules\Role\Models\Role;
 
 final class RolePermission extends Enum implements PermissionEnum

@@ -34,18 +34,18 @@ final class RoleServiceProvider extends BaseModuleServiceProvider
     /**
      * {@inheritDoc}
      */
-    public function boot(): void
+    public function getModuleName(): string
     {
-        parent::boot();
-
-        $this->loadMigrationsFrom(base_path("Modules/{$this->getModuleName()}/Database/Migrations"));
+        return 'Role';
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getModuleName(): string
+    public function boot(): void
     {
-        return 'Role';
+        parent::boot();
+
+        $this->loadMigrations();
     }
 }

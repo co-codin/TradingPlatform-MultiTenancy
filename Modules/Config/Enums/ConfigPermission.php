@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Modules\Config\Enums;
 
 use App\Enums\BaseEnum;
+use App\Models\Action;
 use Modules\Config\Models\Config;
 use Modules\Role\Contracts\PermissionEnum;
-use Modules\Role\Models\Action;
 
 final class ConfigPermission extends BaseEnum implements PermissionEnum
 {

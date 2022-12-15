@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\User\Database\Seeders;
+namespace Modules\Role\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;

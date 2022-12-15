@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Role\Models;
 
+use App\Models\Action;
+use App\Models\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

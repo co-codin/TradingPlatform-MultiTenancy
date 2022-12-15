@@ -2,6 +2,7 @@
 
 namespace App\Relationships\Traits;
 
+use Illuminate\Support\Facades\Config;
 use Spatie\Multitenancy\Models\Tenant;
 
 trait WhereHasForTenant
@@ -13,8 +14,12 @@ trait WhereHasForTenant
      */
     public function initializeWhereHasForTenant()
     {
-        if (strpos($this->table, "public.") === false && $tenant = Tenant::current()) {
-            $this->table = $tenant->getDatabaseName() . '.' . $this->getTable();
+        if (
+            ! str_contains($this->getTable(), 'public.')
+            && $this->getConnectionName() == Config::get('multitenancy.tenant_database_connection_name')
+            && $tenant = Tenant::current()
+        ) {
+            $this->table = "{$tenant->getDatabaseName()}.{$this->getTable()}";
         }
     }
 

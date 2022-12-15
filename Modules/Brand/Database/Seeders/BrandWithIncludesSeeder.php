@@ -30,13 +30,17 @@ final class BrandWithIncludesSeeder extends Seeder
             $customers = collect();
 
             for ($i = 0; $i < 3; $i++) {
-                $customers = $customers->push(
-                    Customer::factory()->create([
+                $customerData = $brand->execute(function () use ($countries, $desks, $departments) {
+                    return  Customer::factory()->make([
                         'country_id' => $countries->random()?->id,
                         'desk_id' => $desks->random()?->id,
                         'department_id' => $departments->random()?->id,
-                    ])
-                );
+                    ]);
+                });
+
+                $customerData->save();
+
+                $customers = $customers->push($customerData);
             }
 
             /** @var Customer $customer */
@@ -60,6 +64,8 @@ final class BrandWithIncludesSeeder extends Seeder
                 $customer->desk->users()->sync($users);
                 $customer->department->users()->sync($users);
             }
+
+            $brand->forget();
         }
     }
 }

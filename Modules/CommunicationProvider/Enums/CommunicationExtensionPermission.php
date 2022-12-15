@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Modules\CommunicationProvider\Enums;
 
 use App\Enums\BaseEnum;
+use App\Models\Action;
 use Modules\CommunicationProvider\Models\CommunicationExtension;
 use Modules\Role\Contracts\PermissionEnum;
-use Modules\Role\Models\Action;
 
 final class CommunicationExtensionPermission extends BaseEnum implements PermissionEnum
 {
