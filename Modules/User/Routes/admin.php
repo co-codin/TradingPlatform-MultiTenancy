@@ -71,6 +71,7 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
 
             // Impersonate
             Route::post('/{id}/impersonate', [UserImpersonateController::class, 'update'])->name('impersonate.update');
+        });
     });
 
     Route::apiResource('workers', UserController::class)
