@@ -20,11 +20,5 @@ final class RoleDatabaseSeeder extends Seeder
             RolesTableSeeder::class,
             ColumnsTableSeeder::class,
         ]);
-
-        if (app()->environment('local', 'dev', 'development')) {
-            $this->call(
-                UserTestAdminSeeder::class,
-            );
-        }
     }
 }
