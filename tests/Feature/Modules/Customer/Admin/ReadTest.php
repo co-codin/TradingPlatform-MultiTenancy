@@ -2,20 +2,17 @@
 
 namespace Tests\Feature\Modules\Customer\Admin;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithFaker;
 use Modules\Customer\Enums\CustomerPermission;
 use Modules\Customer\Models\Customer;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
-use Tests\TestCase;
 use Tests\Traits\HasAuth;
 
 class ReadTest extends BrandTestCase
 {
     use TenantAware;
     use HasAuth;
-    use WithFaker;
+
     /**
      * Test authorized user can get customer list.
      *
@@ -29,15 +26,19 @@ class ReadTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $customers = Customer::factory()->create();
+        $customers = $this->brand->execute(function () {
+            return Customer::factory()->make();
+        });
+
+        $customers->save();
 
         $response = $this->getJson(route('admin.customers.index'));
 
         $response->assertOk();
 
-//        $response->assertJson([
-//            'data' => [$customers->toArray()],
-//        ]);
+        $response->assertJson([
+            'data' => [$customers->toArray()],
+        ]);
     }
 
     /**
@@ -51,7 +52,13 @@ class ReadTest extends BrandTestCase
     {
         $this->authenticateUser();
 
-        Customer::factory()->create();
+        $this->brand->makeCurrent();
+
+        $customers = $this->brand->execute(function () {
+            return Customer::factory()->make();
+        });
+
+        $customers->save();
 
         $response = $this->getJson(route('admin.customers.index'));
 
@@ -67,7 +74,13 @@ class ReadTest extends BrandTestCase
      */
     public function unauthorized_user_get_customer_list(): void
     {
-        Customer::factory()->create();
+        $this->brand->makeCurrent();
+
+        $customers = $this->brand->execute(function () {
+            return Customer::factory()->make();
+        });
+
+        $customers->save();
 
         $response = $this->getJson(route('admin.customers.index'));
 
@@ -85,7 +98,13 @@ class ReadTest extends BrandTestCase
     {
         $this->authenticateWithPermission(CustomerPermission::fromValue(CustomerPermission::VIEW_CUSTOMERS));
 
-        $customers = Customer::factory()->create();
+        $this->brand->makeCurrent();
+
+        $customers = $this->brand->execute(function () {
+            return Customer::factory()->make();
+        });
+
+        $customers->save();
 
         $response = $this->getJson(route('admin.customers.show', ['customer' => $customers->id]));
 
@@ -105,7 +124,13 @@ class ReadTest extends BrandTestCase
     {
         $this->authenticateUser();
 
-        $customers = Customer::factory()->create();
+        $this->brand->makeCurrent();
+
+        $customers = $this->brand->execute(function () {
+            return Customer::factory()->make();
+        });
+
+        $customers->save();
 
         $response = $this->getJson(route('admin.customers.show', ['customer' => $customers->id]));
 
@@ -123,12 +148,15 @@ class ReadTest extends BrandTestCase
     {
         $this->authenticateWithPermission(CustomerPermission::fromValue(CustomerPermission::VIEW_CUSTOMERS));
 
+        $this->brand->makeCurrent();
+
         $customerId = Customer::orderByDesc('id')->first()?->id + 1 ?? 1;
 
         $response = $this->getJson(route('admin.customers.show', ['customer' => $customerId]));
 
         $response->assertNotFound();
     }
+
     /**
      * Test unauthorized user can get customer by ID.
      *
@@ -138,9 +166,15 @@ class ReadTest extends BrandTestCase
      */
     public function unauthorized_user_can_get_customer(): void
     {
-        $customer = Customer::factory()->create();
+        $this->brand->makeCurrent();
 
-        $response = $this->getJson(route('admin.customers.show', ['customer' => $customer->id]));
+        $customers = $this->brand->execute(function () {
+            return Customer::factory()->make();
+        });
+
+        $customers->save();
+
+        $response = $this->getJson(route('admin.customers.show', ['customer' => $customers->id]));
 
         $response->assertUnauthorized();
     }
