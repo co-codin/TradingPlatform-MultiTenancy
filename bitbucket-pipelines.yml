@@ -15,7 +15,7 @@ pipelines:
           - php artisan migrate
           - php artisan serve &
           - sleep 5
-          - ./vendor/bin/phpunit
+          - ./vendor/bin/phpunit memory_limit=-1
           - curl -vk http://localhost:8000
         services:
           - pgsql
