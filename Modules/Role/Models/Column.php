@@ -9,15 +9,21 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Modules\Role\Database\factories\ColumnFactory;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 final class Column extends Model
 {
     use HasFactory;
-    use UsesTenantConnection;
+    use UsesLandlordConnection;
 
-    public $timestamps = false;
+    /**
+     * {@inheritdoc}
+     */
     protected $guarded = ['id'];
+
+    /**
+     * {@inheritdoc}
+     */
+    public $timestamps = false;
 
     /**
      * {@inheritDoc}
@@ -27,6 +33,11 @@ final class Column extends Model
         return ColumnFactory::new();
     }
 
+    /**
+     * Permissions relation.
+     *
+     * @return BelongsToMany
+     */
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(Permission::class, 'permission_column');

@@ -10,13 +10,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Modules\Role\Database\factories\PermissionFactory;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 use Spatie\Permission\Models\Permission as SpatiePermission;
 
 final class Permission extends SpatiePermission
 {
     use HasFactory;
-    use UsesTenantConnection;
+    use UsesLandlordConnection;
 
     /**
      * {@inheritDoc}

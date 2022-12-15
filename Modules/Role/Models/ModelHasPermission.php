@@ -7,11 +7,11 @@ namespace Modules\Role\Models;
 use Illuminate\Database\Eloquent\Relations\MorphPivot;
 use Modules\Role\Dto\ModelHasPermissionData;
 use Modules\Role\Enums\ModelHasPermissionStatus;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
 final class ModelHasPermission extends MorphPivot
 {
-    use UsesTenantConnection;
+    use UsesLandlordConnection;
 
     /**
      * @var string

@@ -38,4 +38,14 @@ final class RoleServiceProvider extends BaseModuleServiceProvider
     {
         return 'Role';
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function boot(): void
+    {
+        parent::boot();
+
+        $this->loadMigrations();
+    }
 }

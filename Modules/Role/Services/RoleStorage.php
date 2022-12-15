@@ -7,6 +7,7 @@ namespace Modules\Role\Services;
 use Illuminate\Support\Arr;
 use Modules\Role\Dto\RoleDto;
 use Modules\Role\Models\Role;
+use Spatie\Multitenancy\Models\Tenant;
 use Spatie\Permission\PermissionRegistrar;
 
 final class RoleStorage
@@ -14,7 +15,7 @@ final class RoleStorage
     /**
      * Store role.
      *
-     * @param RoleDto $dto
+     * @param  RoleDto  $dto
      * @return Role
      */
     final public function store(RoleDto $dto): Role
@@ -22,6 +23,10 @@ final class RoleStorage
         $role = new Role(Arr::only($dto->toArray(),
             ['name', 'key', 'guard_name']
         ));
+
+        if (Tenant::checkCurrent()) {
+            $role->brand()->associate(Tenant::current());
+        }
 
         if (! $role->save()) {
             throw new \LogicException('Не удалось сохранить Роль');
@@ -39,8 +44,8 @@ final class RoleStorage
     /**
      * Update role.
      *
-     * @param Role $role
-     * @param RoleDto $dto
+     * @param  Role  $role
+     * @param  RoleDto  $dto
      * @return Role
      */
     final public function update(Role $role, RoleDto $dto): Role
@@ -63,8 +68,8 @@ final class RoleStorage
     /**
      * Update role permissions.
      *
-     * @param Role $role
-     * @param array $permissions
+     * @param  Role  $role
+     * @param  array  $permissions
      * @return void
      */
     final public function updatePermissions(Role $role, array $permissions): void
@@ -79,7 +84,7 @@ final class RoleStorage
     /**
      * Delete role.
      *
-     * @param Role $role
+     * @param  Role  $role
      * @return void
      */
     final public function delete(Role $role): void

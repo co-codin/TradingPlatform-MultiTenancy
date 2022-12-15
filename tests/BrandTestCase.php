@@ -17,11 +17,6 @@ abstract class BrandTestCase extends BaseTestCase
     use UsesMultitenancyConfig;
 
     /**
-     * @var bool
-     */
-    protected static bool $setUpRun = false;
-
-    /**
      * @var Brand
      */
     public Brand $brand;
@@ -31,12 +26,12 @@ abstract class BrandTestCase extends BaseTestCase
      */
     public static function tearDownAfterClass(): void
     {
-        parent::tearDownAfterClass();
+        (new static())->refreshApplication();
 
         $schemas = DB::select("
                 SELECT schema_name
                 FROM information_schema.schemata
-                WHERE schema_name NOT IN ('pg_toast', 'pg_catalog', 'public', 'information_schema')
+                WHERE schema_name NOT IN ('pg_toast', 'pg_catalog', 'public', 'information_schema');
             ");
 
         foreach ($schemas as $schema) {
@@ -44,6 +39,8 @@ abstract class BrandTestCase extends BaseTestCase
         }
 
         Artisan::call('migrate:reset');
+
+        parent::tearDownAfterClass();
     }
 
     /**

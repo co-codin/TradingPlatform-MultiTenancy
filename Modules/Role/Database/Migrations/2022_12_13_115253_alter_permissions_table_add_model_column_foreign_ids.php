@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -14,11 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('permissions', function (Blueprint $table) {
-            $table->integer('model_id')->nullable();
-            $table->integer('action_id')->nullable();
-
-            $table->foreign('model_id')->on('public.models')->references('id')->onDelete('CASCADE');
-            $table->foreign('action_id')->on('public.actions')->references('id')->onDelete('CASCADE');
+            $table->foreignId('model_id')->nullable()->constrained();
+            $table->foreignId('action_id')->nullable()->constrained();
 
             $table->unique(['model_id', 'action_id']);
         });
