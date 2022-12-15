@@ -3,6 +3,7 @@
 namespace Modules\Customer\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use Modules\Customer\Enums\Gender;
 use Modules\Customer\Models\Customer;
@@ -58,13 +59,13 @@ class CustomerFactory extends Factory
             'phone' => $this->faker->e164PhoneNumber(),
             'phone2' => $this->faker->e164PhoneNumber(),
 
-            'conversion_sale_status_id' => SaleStatus::factory(),
-            'retention_sale_status_id' => SaleStatus::factory(),
-
             'country_id' => Country::all()->random(),
             'language_id' => Language::factory(),
             'department_id' => Department::factory(),
             'desk_id' => Desk::factory(),
+
+            'conversion_sale_status_id' => SaleStatus::factory(),
+            'retention_sale_status_id' => SaleStatus::factory(),
 
             'city' => $this->faker->city(),
             'address' => $this->faker->address(),
