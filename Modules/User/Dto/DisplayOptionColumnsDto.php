@@ -35,19 +35,21 @@ final class DisplayOptionColumnsDto extends BaseDto implements CastsAttributes
      */
     final public function set($model, string $key, $value, array $attributes): string
     {
-        $modelOfModel = (new ("{$model->model->name}"));
+        if (isset($model->model->name)) {
 
-        $columns = array_diff(
-            Schema::getColumnListing($modelOfModel->getTable()),
-            $modelOfModel->getHidden()
-        );
+            $modelOfModel = (new ("{$model->model->name}"));
 
-        foreach ($columns as $property) {
-            $value[$property]['value'] ??= ucfirst(Str::replace('_', ' ', $property)) ?? '';
+            $columns = array_diff(
+                Schema::getColumnListing($modelOfModel->getTable()),
+                $modelOfModel->getHidden()
+            );
 
-            $value[$property] = new DisplayOptionColumnItemDto($value[$property]);
+            foreach ($columns as $property) {
+                $value[$property]['value'] ??= ucfirst(Str::replace('_', ' ', $property)) ?? '';
+
+                $value[$property] = new DisplayOptionColumnItemDto($value[$property]);
+            }
         }
-
         return json_encode($value);
     }
 }
