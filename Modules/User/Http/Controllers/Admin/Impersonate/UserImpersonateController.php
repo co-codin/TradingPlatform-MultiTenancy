@@ -6,35 +6,38 @@ namespace Modules\User\Http\Controllers\Admin\Impersonate;
 
 use App\Http\Controllers\Controller;
 use Carbon\CarbonImmutable;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Modules\User\Http\Resources\AuthUserResource;
 use Modules\User\Repositories\UserRepository;
 
-class UserImpersonateController extends Controller
+final class UserImpersonateController extends Controller
 {
     public function __construct(
-        protected UserRepository $userRepository
+        protected UserRepository $repository
     ) {
     }
 
-    public function update(Request $request, int $id)
+    /**
+     * @throws AuthorizationException
+     */
+    public function token(Request $request, int $id): Response
     {
         $impersonator = auth()->user();
+        $targetWorker = $this->repository->find($id);
 
-        $this->authorize('impersonate', $impersonator);
-
-        $newWorker = $this->userRepository->find($id);
+        $this->authorize('impersonate', $targetWorker);
 
         $expiredAt = CarbonImmutable::now()->add(config('auth.api_token_expires_in'));
+        $targetToken = $targetWorker->createToken('api', expiresAt: $expiredAt);
 
-        $newWorkerToken = $newWorker->createToken('api', expiresAt: $expiredAt);
-
-        return response()->json([
+        return response([
             'data' => [
-                'requested_worker' => new AuthUserResource($impersonator),
-                'requested_worker_token' => $request->bearerToken(),
-                'new_worker' => new AuthUserResource($newWorker),
-                'new_token' => $newWorkerToken->plainTextToken,
+                'impersonator' => new AuthUserResource($impersonator),
+                'impersonator_token' => $request->bearerToken(),
+                'target_worker' => new AuthUserResource($targetWorker),
+                'target_token' => $targetToken->plainTextToken,
             ],
         ]);
     }

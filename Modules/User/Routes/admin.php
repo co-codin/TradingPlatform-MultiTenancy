@@ -70,7 +70,7 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
             Route::put('/{id}/desk', [UserDeskController::class, 'update'])->name('desk.update');
 
             // Impersonate
-            Route::post('/{id}/impersonate', [UserImpersonateController::class, 'update'])->name('impersonate.update');
+            Route::post('/{id}/impersonate/token', [UserImpersonateController::class, 'token'])->name('impersonate.token');
         });
     });
 
