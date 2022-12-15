@@ -57,11 +57,11 @@ final class RoleController extends Controller
      */
     public function all(): AnonymousResourceCollection
     {
-        $this->authorize('viewAny');
+        $this->authorize('viewAny', Role::class);
 
-        $roles = $this->roleRepository->all();
-
-        return RoleResource::collection($roles);
+        return RoleResource::collection(
+            $this->roleRepository->scopes(['byBrand'])->all()
+        );
     }
 
     /**
@@ -95,8 +95,8 @@ final class RoleController extends Controller
     {
         $this->authorize('viewAny', Role::class);
 
-        return new RoleResource(
-            $this->roleRepository->jsonPaginate()
+        return RoleResource::collection(
+            $this->roleRepository->scopes(['byBrand'])->jsonPaginate()
         );
     }
 

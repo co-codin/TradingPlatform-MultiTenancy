@@ -17,6 +17,13 @@ abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepositor
      */
     private BaseColumnPermissionValidator $columnPermissionValidator;
 
+    public function scopes(array $scopes)
+    {
+        $this->model->scopes($scopes);
+
+        return $this;
+    }
+
     /**
      * {@inheritDoc}
      */

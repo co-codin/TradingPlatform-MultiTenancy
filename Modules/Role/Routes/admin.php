@@ -9,7 +9,7 @@ use Modules\Role\Http\Controllers\Admin\PermissionController;
 use Modules\Role\Http\Controllers\Admin\RoleController;
 
 Route::put('roles/{role}/permissions', [RoleController::class, 'updatePermissions']);
-Route::get('roles/all', [RoleController::class, 'all']);
+Route::get('roles/all', [RoleController::class, 'all'])->name('roles.all');
 Route::apiResource('roles', RoleController::class);
 
 Route::get('permissions/all', [PermissionController::class, 'all']);
