@@ -25,7 +25,7 @@ trait HasCustomerAuth
         $this->brand->makeCurrent();
 
         $customer = Customer::whereEmail($email)->first();
-        if (!$customer) {
+        if (! $customer) {
             $customer = $this->brand->execute(function () use ($email) {
                 return Customer::factory()->make(compact('email'));
             });

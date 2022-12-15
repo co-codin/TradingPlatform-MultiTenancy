@@ -8,10 +8,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Modules\Customer\Enums\CustomerPermission;
 use Modules\Customer\Models\Customer;
-use Symfony\Component\HttpFoundation\Response;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
+
 final class ResetTest extends BrandTestCase
 {
     use TenantAware;

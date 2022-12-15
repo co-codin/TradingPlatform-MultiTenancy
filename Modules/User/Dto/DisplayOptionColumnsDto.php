@@ -36,7 +36,6 @@ final class DisplayOptionColumnsDto extends BaseDto implements CastsAttributes
     final public function set($model, string $key, $value, array $attributes): string
     {
         if (isset($model->model->name)) {
-
             $modelOfModel = (new ("{$model->model->name}"));
 
             $columns = array_diff(
@@ -50,6 +49,7 @@ final class DisplayOptionColumnsDto extends BaseDto implements CastsAttributes
                 $value[$property] = new DisplayOptionColumnItemDto($value[$property]);
             }
         }
+
         return json_encode($value);
     }
 }

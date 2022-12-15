@@ -14,19 +14,21 @@ final class UserBatchService
     use HasAuthUser;
 
     /**
-     * @param UserRepository $userRepository
-     * @param UserStorage $userStorage
+     * @param  UserRepository  $userRepository
+     * @param  UserStorage  $userStorage
      */
     final public function __construct(
         protected UserRepository $userRepository,
         protected UserStorage $userStorage,
-    ) {}
+    ) {
+    }
 
     /**
      * Update batch.
      *
-     * @param array $usersData
+     * @param  array  $usersData
      * @return Collection
+     *
      * @throws Exception
      */
     final public function updateBatch(array $usersData): Collection
