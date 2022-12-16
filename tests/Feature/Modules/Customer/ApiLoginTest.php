@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Customer;
 
-use Illuminate\Support\Facades\Hash;
 use Modules\Customer\Models\Customer;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
@@ -20,8 +19,6 @@ final class ApiLoginTest extends BrandTestCase
      */
     public function success(): void
     {
-        $this->brand->makeCurrent();
-
         $customer = $this->getCustomer();
         $response = $this->post(route('customer.token-auth.login'), [
             'email' => $customer->email,
@@ -83,9 +80,14 @@ final class ApiLoginTest extends BrandTestCase
     {
         parent::setUp();
 
-        $this->makeCurrentTenantAndSetHeader();
-        $this->setCustomer(Customer::factory()->create([
-            'password' => Hash::make('password'),
-        ]));
+        $this->brand->makeCurrent();
+
+        $customer = $this->brand->execute(function () {
+            return Customer::factory()->make();
+        });
+
+        $customer->save();
+
+        $this->setCustomer($customer);
     }
 }
