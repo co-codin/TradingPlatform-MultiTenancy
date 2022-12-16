@@ -18,8 +18,9 @@ final class GetCurrentUserTest extends BrandTestCase
      */
     public function success(): void
     {
-        $this->makeCurrentTenantAndSetHeader();
         $this->authenticateCustomer();
+
+        $this->brand->makeCurrent();
 
         $response = $this->get(route('customer.auth.me'));
 
