@@ -21,9 +21,16 @@ final class ApiLogoutTest extends BrandTestCase
      */
     public function success(): void
     {
-        $customer = Customer::factory()->create([
-            'password' => Hash::make('password'),
-        ]);
+        $this->brand->makeCurrent();
+
+        $customer = $this->brand->execute(function () {
+            return Customer::factory()->make([
+                'password' => Hash::make('password'),
+            ]);
+        });
+
+        $customer->save();
+
         $expiredAt = CarbonImmutable::now()->add(config('auth.api_token_expires_in'));
         $token = $customer->createToken('api', expiresAt: $expiredAt);
 
@@ -42,12 +49,5 @@ final class ApiLogoutTest extends BrandTestCase
 
         $response->assertUnauthorized();
         $this->assertGuest();
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->makeCurrentTenantAndSetHeader();
     }
 }
