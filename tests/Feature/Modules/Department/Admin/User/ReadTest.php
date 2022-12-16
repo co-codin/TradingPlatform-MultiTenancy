@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Department\User\Admin;
 
-use Illuminate\Support\Str;
-use Illuminate\Foundation\Testing\WithFaker;
 use Modules\Department\Models\Department;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
@@ -17,7 +15,6 @@ final class ReadTest extends BrandTestCase
 {
     use TenantAware;
     use HasAuth;
-    use WithFaker;
 
     /**
      * @test
@@ -28,7 +25,7 @@ final class ReadTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $departments = Department::factory()->count(2)->create(static::demoData());
+        $departments = Department::factory()->count(2)->create();
 
         $this->user->departments()->syncWithoutDetaching($departments);
 
@@ -94,7 +91,6 @@ final class ReadTest extends BrandTestCase
         $this->brand->makeCurrent();
 
         $departments = Department::factory(2)->create();
-        $this->user?->departments()->syncWithoutDetaching($departments);
 
         for ($i = 1; $i <= 2; $i++) {
             $department = $departments->skip($i - 1)->first();
@@ -109,19 +105,5 @@ final class ReadTest extends BrandTestCase
         $response = $this->get(route('admin.departments.users.allByDepartments'));
 
         $response->assertUnauthorized();
-    }
-    /**
-     * Demo Data
-     *
-     * @return array
-     */
-    private function demoData(): array
-    {
-        return [
-            'name' => $this->faker->name,
-            'title' => $this->faker->title . Str::random(5),
-            'is_active' => $this->faker->boolean(),
-            'is_default' => $this->faker->boolean(),
-        ];
     }
 }

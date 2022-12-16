@@ -17,11 +17,16 @@ final class RegisterTest extends BrandTestCase
      */
     public function success(): void
     {
-        $this->withHeader('tenant', $this->brand->database);
-        $response = $this->post(route('customer.auth.register'), Customer::factory()->raw([
+        $this->brand->makeCurrent();
+
+        $customer = Customer::factory()->raw([
             'password' => 'password',
             'password_confirmation' => 'password',
-        ]));
+        ]);
+
+        $this->brand->makeCurrent();
+
+        $response = $this->post(route('customer.auth.register'), $customer);
 
         $response->assertNoContent();
         $this->assertAuthenticated('web-customer');

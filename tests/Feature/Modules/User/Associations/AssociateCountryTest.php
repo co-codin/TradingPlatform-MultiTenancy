@@ -23,6 +23,8 @@ final class AssociateCountryTest extends BrandTestCase
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
+        $this->brand->makeCurrent();
+
         $user = $this->getUser();
         $countries = Country::all();
         $response = $this->put(route('admin.users.country.update', ['id' => $user->id]), [
@@ -43,6 +45,9 @@ final class AssociateCountryTest extends BrandTestCase
         $this->authenticateUser();
 
         $user = User::factory()->create();
+
+        $this->brand->makeCurrent();
+
         $response = $this->put(route('admin.users.country.update', ['id' => $user->id]), [
             'countries' => [
                 Country::all()->random(),
@@ -58,6 +63,8 @@ final class AssociateCountryTest extends BrandTestCase
     public function not_found(): void
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
+
+        $this->brand->makeCurrent();
 
         $userId = User::orderByDesc('id')->first()?->id + 1 ?? 1;
         $response = $this->put(route('admin.users.country.update', ['id' => $userId]), [

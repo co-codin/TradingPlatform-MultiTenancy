@@ -91,7 +91,7 @@ class PasswordController extends Controller
         $this->authorize('resetPassword', $customer);
 
         $status = $this->passwordService
-            ->setBroker(config('auth.guards.customers.provider'))
+            ->setBroker(config('auth.guards.api-customer.provider'))
             ->dispatchEvent($request->boolean('send_email'))
             ->reset(
                 new PasswordResetDto([

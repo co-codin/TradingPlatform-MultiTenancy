@@ -23,6 +23,8 @@ final class AssociateDepartmentTest extends BrandTestCase
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
+        $this->brand->makeCurrent();
+
         $user = $this->getUser();
         $response = $this->put(route('admin.users.department.update', ['id' => $user->id]), [
             'departments' => [
@@ -42,6 +44,9 @@ final class AssociateDepartmentTest extends BrandTestCase
         $this->authenticateUser();
 
         $user = User::factory()->create();
+
+        $this->brand->makeCurrent();
+
         $response = $this->put(route('admin.users.department.update', ['id' => $user->id]), [
             'departments' => [
                 Department::factory()->create(),
@@ -57,6 +62,8 @@ final class AssociateDepartmentTest extends BrandTestCase
     public function not_found(): void
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
+
+        $this->brand->makeCurrent();
 
         $userId = User::orderByDesc('id')->first()?->id + 1 ?? 1;
         $response = $this->put(route('admin.users.department.update', ['id' => $userId]), [
