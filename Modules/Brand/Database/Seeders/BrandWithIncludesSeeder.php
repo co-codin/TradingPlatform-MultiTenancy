@@ -6,6 +6,7 @@ namespace Modules\Brand\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Modules\Brand\Models\Brand;
+use Modules\Communication\Database\Seeders\CommunicationDatabaseSeeder;
 use Modules\Customer\Models\Customer;
 use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
@@ -21,7 +22,10 @@ final class BrandWithIncludesSeeder extends Seeder
         /** @var Brand $brand */
         foreach ($brands as $brand) {
             $brand->makeCurrent();
-            $this->call(CountryTableSeeder::class);
+            $this->call([
+                CountryTableSeeder::class,
+                CommunicationDatabaseSeeder::class,
+            ]);
             $countries = Country::get();
 
             $desks = Desk::factory(3)->create();

@@ -13,15 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
-            $table->id();
-
-            $table->foreignId('user_id')->references('id')->on('public.users');
-            $table->text('body');
-            $table->unsignedInteger('position')->nullable();
-
-            $table->softDeletes();
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreignId('communication_provider_id')->nullable();
         });
     }
 
@@ -32,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comments');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('communication_provider_id');
+        });
     }
 };
