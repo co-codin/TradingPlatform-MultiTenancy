@@ -26,6 +26,7 @@ final class UserRequestCriteria extends BaseCriteria
         'email',
         'affiliate_id',
         'show_on_scoreboards',
+        'communication_provider_id',
         'updated_at',
         'deleted_at',
     ];
@@ -60,6 +61,7 @@ final class UserRequestCriteria extends BaseCriteria
                 AllowedFilter::exact('departments.id'),
                 AllowedFilter::exact('countries.id'),
                 AllowedFilter::exact('languages.id'),
+                AllowedFilter::exact('communicationProvider.id'),
             ])
             ->scopes([
                 'byPermissionsAccess',
@@ -79,7 +81,7 @@ final class UserRequestCriteria extends BaseCriteria
                 'languages',
                 'countries',
                 'affiliate',
-                'comProvider',
+                'communicationProvider',
 
                 'affiliateCustomers',
                 'conversionCustomers',

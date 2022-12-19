@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Communication\Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 
-class CommunicationDatabaseSeeder extends Seeder
+final class CommunicationDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,6 +18,8 @@ class CommunicationDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+        $this->call([
+            CommunicationProviderDatabaseSeeder::class,
+        ]);
     }
 }

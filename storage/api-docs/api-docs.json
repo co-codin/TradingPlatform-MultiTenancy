@@ -362,10 +362,10 @@
         "/admin/communication/extensions": {
             "get": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Get communication extension list",
-                "operationId": "6bce1f19307c3cc87217644f8307e219",
+                "operationId": "9561ddfb64aa989fcdcba247c4678c7e",
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -392,10 +392,10 @@
             },
             "post": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Store communication extension",
-                "operationId": "5f443c295cfdca84e96032dff6f7af90",
+                "operationId": "d5d8b3c3f8b8d69dd03acc4aeab4b453",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -442,10 +442,10 @@
         "/admin/communication/extensions/{id}": {
             "get": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Get communication extension",
-                "operationId": "f37bac7e954e01aefbc4aeb9ce82a195",
+                "operationId": "b5c95ea0a68124872717de379c44cf42",
                 "parameters": [
                     {
                         "name": "id",
@@ -482,10 +482,10 @@
             },
             "put": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Update communication extension",
-                "operationId": "66ac2fb4b4382167de8bdd9eb9c9a547",
+                "operationId": "56118f5414316a3510cea2ede0e4c9bc",
                 "parameters": [
                     {
                         "name": "id",
@@ -540,10 +540,10 @@
             },
             "delete": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Delete communication extension",
-                "operationId": "4fb57d490095742cdf523f8d5d3a5a25",
+                "operationId": "9ef6b1e14ea532644bbf1d942b57fb49",
                 "parameters": [
                     {
                         "name": "id",
@@ -580,10 +580,10 @@
             },
             "patch": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Update communication extension",
-                "operationId": "7f069a9305a21a9ec7a46f09557504c1",
+                "operationId": "5e013716079f1aa353ab524954763587",
                 "parameters": [
                     {
                         "name": "id",
@@ -637,10 +637,10 @@
         "/admin/communication/providers": {
             "get": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Get communication provider list",
-                "operationId": "b603c10e424d41ad7fc6755522f3e9a4",
+                "operationId": "6118e7791d864d07408292aed653dc8e",
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -667,10 +667,10 @@
             },
             "post": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Store communication provider",
-                "operationId": "b97191f1615d112d2813b5687185c1fa",
+                "operationId": "8bcc16d10ee12d6907c882dcf5cefc9f",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -717,10 +717,10 @@
         "/admin/communication/providers/all": {
             "get": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Get communication providers list all",
-                "operationId": "e0b1b3253dcc630bf5f93854d5e1301f",
+                "operationId": "56198e4a9f50d9ace583b774b76dc888",
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -749,10 +749,10 @@
         "/admin/communication/providers/{id}": {
             "get": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Get communication provider",
-                "operationId": "77645bbb080382810270094488afca8a",
+                "operationId": "fb85dbb4a1f5242726a9795ca8a5dc4b",
                 "parameters": [
                     {
                         "name": "id",
@@ -789,10 +789,10 @@
             },
             "put": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Update communication provider",
-                "operationId": "dcfb57acc519a94b1d40e859e6f93dd5",
+                "operationId": "264a3c44f6502d2752b9b2dbb94e2a82",
                 "parameters": [
                     {
                         "name": "id",
@@ -847,10 +847,10 @@
             },
             "delete": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Delete communication provider",
-                "operationId": "12995c10d56497fd14b68c1ca96e8ade",
+                "operationId": "f1211d2e497516c370916c28f6a010ac",
                 "parameters": [
                     {
                         "name": "id",
@@ -887,10 +887,10 @@
             },
             "patch": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Update communication provider",
-                "operationId": "9543027ee0880924281fc99448e41305",
+                "operationId": "e557940a6b25bd057575cbea4fceffc8",
                 "parameters": [
                     {
                         "name": "id",
@@ -2013,6 +2013,48 @@
                     },
                     "404": {
                         "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Delete customer",
+                "description": "Returns status.",
+                "operationId": "2fc603ec41a37b70c90bfe96f8c3a730",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Customer ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CustomerResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
                     }
                 },
                 "security": [
@@ -8601,6 +8643,25 @@
                         "type": "integer",
                         "nullable": true
                     },
+                    "show_on_scoreboards": {
+                        "description": "Show on scoreboards",
+                        "type": "boolean"
+                    },
+                    "affiliate_id": {
+                        "description": "Affiliate worker ID",
+                        "type": "integer"
+                    },
+                    "communication_provider_id": {
+                        "description": "Default communication provider ID",
+                        "type": "integer"
+                    },
+                    "last_login": {
+                        "description": "Date and time of last login",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": true
+                    },
                     "created_at": {
                         "description": "Date and time of creation",
                         "type": "string",
@@ -8620,13 +8681,6 @@
                         "example": "2022-12-17 08:44:09",
                         "nullable": true
                     },
-                    "last_login": {
-                        "description": "Date and time of last login",
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2022-12-17 08:44:09",
-                        "nullable": true
-                    },
                     "permissions": {
                         "description": "Permission array",
                         "type": "array",
@@ -8641,13 +8695,15 @@
                             "$ref": "#/components/schemas/Role"
                         }
                     },
-                    "affiliate_id": {
-                        "description": "Affiliate worker ID",
-                        "type": "integer"
+                    "communication_provider": {
+                        "$ref": "#/components/schemas/CommunicationProvider"
                     },
-                    "show_on_scoreboards": {
-                        "description": "Show on scoreboards",
-                        "type": "boolean"
+                    "communication_extensions": {
+                        "description": "Array of Communication extensions",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CommunicationExtension"
+                        }
                     }
                 },
                 "type": "object"
