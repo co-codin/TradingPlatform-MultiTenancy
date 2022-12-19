@@ -6,8 +6,6 @@ namespace Modules\Communication\Http\Resources;
 
 use App\Http\Resources\BaseJsonResource;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
-use Modules\Sale\Models\SaleStatus;
 use OpenApi\Annotations as OA;
 
 /**
