@@ -12,8 +12,8 @@ Route::group([
 ], function () {
     // Customers export
     Route::group(['prefix' => 'customers/export'], function () {
-        Route::post('excel', [CustomerExportController::class, 'excel'])->name('customers.export.excel');
-        Route::post('csv', [CustomerExportController::class, 'csv'])->name('customers.export.csv');
+        Route::get('excel', [CustomerExportController::class, 'excel'])->name('customers.export.excel');
+        Route::get('csv', [CustomerExportController::class, 'csv'])->name('customers.export.csv');
     });
 
     // Customers import
