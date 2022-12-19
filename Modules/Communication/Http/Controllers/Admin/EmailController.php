@@ -6,18 +6,16 @@ namespace Modules\Communication\Http\Controllers\Admin;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Communication\Dto\EmailDto;
 use Modules\Communication\Http\Requests\EmailCreateRequest;
 use Modules\Communication\Http\Requests\EmailUpdateRequest;
-use Modules\Communication\Http\Requests\MailCreateRequest;
 use Modules\Communication\Http\Resources\EmailResource;
 use Modules\Communication\Repositories\EmailRepository;
 use Modules\Communication\Services\EmailStorage;
-use Spatie\DataTransferObject\Exceptions\UnknownProperties;
-use Illuminate\Http\Response;
 use OpenApi\Annotations as OA;
-
+use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 final class EmailController extends Controller
 {
@@ -65,6 +63,7 @@ final class EmailController extends Controller
 
         return EmailResource::collection($this->repository->jsonPaginate());
     }
+
     /**
      * @OA\Post(
      *      path="/admin/emails",
@@ -92,7 +91,7 @@ final class EmailController extends Controller
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/MailResource")
+     *          @OA\JsonContent(ref="#/components/schemas/EmailResource")
      *       ),
      *      @OA\Response(
      *          response=401,
