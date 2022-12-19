@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Modules\User\Http\Requests\DisplayOption;
+namespace Modules\User\Http\Requests\Preset;
 
 use App\Http\Requests\BaseFormRequest;
 
-final class UserDisplayOptionUpdateRequest extends BaseFormRequest
+final class UserPresetUpdateRequest extends BaseFormRequest
 {
     /**
      * {@inheritDoc}
@@ -18,7 +18,6 @@ final class UserDisplayOptionUpdateRequest extends BaseFormRequest
             'name' => 'sometimes|required|string',
             'columns' => 'nullable|array',
             'columns.*.name' => 'sometimes|required|string',
-            'columns.*.position' => 'sometimes|required|integer',
         ];
     }
 }

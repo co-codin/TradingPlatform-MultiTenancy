@@ -104,6 +104,7 @@ final class UserRequestCriteria extends BaseCriteria
                 'target',
                 'last_login',
                 'show_on_scoreboards',
+                'departments.name',
                 'created_at',
                 'updated_at',
             ]);
