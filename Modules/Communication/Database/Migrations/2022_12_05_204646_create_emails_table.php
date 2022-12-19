@@ -16,6 +16,13 @@ return new class extends Migration
         Schema::create('emails', function (Blueprint $table) {
             $table->id();
 
+            $table->foreignId('email_template_id')->references('id')->on('email_templates');
+            $table->string('subject');
+            $table->text('body');
+            $table->boolean('sent_by_system')->default(true);
+            $table->integer('user_id')->nullable();
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }
