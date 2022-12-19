@@ -20,7 +20,7 @@ final class UserUpdateBatchRequest extends BaseFormRequest
             'users.*.id' => 'required|integer|exists:landlord.users,id',
             'users.*.first_name' => 'sometimes|required|string|max:255',
             'users.*.last_name' => 'sometimes|required|string|max:255',
-            'users.*.email' => "sometimes|required|email|max:255|unique:landlord.users,email",
+            'users.*.email' => 'sometimes|required|email|max:255|unique:landlord.users,email',
             'users.*.is_active' => 'boolean',
             'users.*.parent_id' => 'integer|exists:landlord.users,id',
             'users.*.change_password' => 'nullable|boolean',
@@ -28,6 +28,7 @@ final class UserUpdateBatchRequest extends BaseFormRequest
             'users.*.roles.*.id' => 'sometimes|required|integer|min:1|exists:landlord.roles,id',
             'users.*.affiliate_id' => 'nullable|integer|exists:landlord.users,id',
             'users.*.show_on_scoreboards' => 'sometimes|required|boolean',
+            'users.*.communication_provider_id' => 'nullable|integer|exists:tenant.communication_providers,id',
         ];
     }
 }

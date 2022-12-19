@@ -16,9 +16,9 @@ final class CommunicationExtensionUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => 'sometimes|string',
-            'user_id' => 'sometimes|int|exists:landlord.users,id',
-            'provider_id' => 'sometimes|int|exists:tenant.communication_providers,id',
+            'name' => 'sometimes|required|string',
+            'user_id' => 'sometimes|required|int|exists:landlord.users,id',
+            'provider_id' => 'sometimes|required|int|exists:tenant.communication_providers,id',
         ];
     }
 }
