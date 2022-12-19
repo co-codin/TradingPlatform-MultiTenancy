@@ -16,6 +16,7 @@ use Modules\User\Http\Controllers\Admin\SocialAuthController;
 use Modules\User\Http\Controllers\Admin\UserController;
 use Modules\User\Http\Controllers\TokenAuthController;
 use Modules\User\Http\Controllers\TokenController;
+use Modules\User\Http\Controllers\Admin\Preset\UserPresetController;
 
 Route::group(['prefix' => 'auth', 'as' => 'auth.', 'middleware' => 'web'], function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login');
@@ -86,11 +87,20 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
     Route::apiResource('workers.display-options', UserDisplayOptionController::class)
         ->except([
             'index',
-            'show',
         ])
         ->names([
             'store' => 'users.display-options.store',
             'update' => 'users.display-options.update',
             'destroy' => 'users.display-options.destroy',
+        ]);
+
+    Route::apiResource('workers.presets', UserPresetController::class)
+        ->except([
+            'index',
+        ])
+        ->names([
+            'store' => 'users.presets.store',
+            'update' => 'users.presets.update',
+            'destroy' => 'users.presets.destroy',
         ]);
 });

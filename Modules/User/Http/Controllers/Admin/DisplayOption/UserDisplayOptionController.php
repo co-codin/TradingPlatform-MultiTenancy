@@ -25,6 +25,15 @@ class UserDisplayOptionController extends Controller
     ) {
     }
 
+    public function show(int $user, int $displayOption)
+    {
+        $displayOption = $this->displayOptionRepository->find($displayOption);
+
+        $this->authorize('view', $displayOption);
+
+        return new DisplayOptionResource($displayOption);
+    }
+
     /**
      * @OA\Post(
      *     path="/admin/workers/{workerId}/display-options",

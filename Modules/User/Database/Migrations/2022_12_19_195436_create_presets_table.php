@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->json('columns');
             $table->timestamps();
+
+            $table->unique(['user_id', 'name']);
         });
     }
 
