@@ -74,13 +74,11 @@ final class CustomerImportController extends Controller
         );
 
         $customerCreateRequest = new CustomerCreateRequest;
-        $customerCreateRequest->merge($data);
+        $customerCreateRequest->merge(head(head($data)));
 
         $validatedData = $this->validate($customerCreateRequest, $customerCreateRequest->rules());
 
-        foreach ($validatedData as $value) {
-            $this->customerStorage->updateOrStore(new CustomerDto($value));
-        }
+        $this->customerStorage->updateOrStore(new CustomerDto($validatedData));
 
         return response('', 200);
     }
@@ -131,13 +129,11 @@ final class CustomerImportController extends Controller
         );
 
         $customerCreateRequest = new CustomerCreateRequest;
-        $customerCreateRequest->merge($data);
+        $customerCreateRequest->merge(head(head($data)));
 
         $validatedData = $this->validate($customerCreateRequest, $customerCreateRequest->rules());
 
-        foreach ($validatedData as $value) {
-            $this->customerStorage->updateOrStore(new CustomerDto($value));
-        }
+        $this->customerStorage->updateOrStore(new CustomerDto($validatedData));
 
         return response('', 200);
     }

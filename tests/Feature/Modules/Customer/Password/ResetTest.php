@@ -8,11 +8,15 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Modules\Customer\Enums\CustomerPermission;
 use Modules\Customer\Models\Customer;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\TestCase;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-final class ResetTest extends TestCase
+final class ResetTest extends BrandTestCase
 {
+    use TenantAware;
+    use HasAuth;
     protected string $testEmail = 'test@admin.com';
 
     /**
@@ -24,10 +28,16 @@ final class ResetTest extends TestCase
             CustomerPermission::fromValue(CustomerPermission::EDIT_CUSTOMERS)
         );
 
-        $customer = Customer::factory()->create([
-            'email' => $this->testEmail,
-            'password' => Hash::make('admin1'),
-        ]);
+        $this->brand->makeCurrent();
+
+        $customer = $this->brand->execute(function () {
+            return Customer::factory()->make([
+                'email' => $this->testEmail,
+                'password' => Hash::make('admin1'),
+            ]);
+        });
+
+        $customer->save();
 
         $response = $this->post(route('admin.customers.password.reset', ['customer' => $customer]), [
             'password' => 'password123',
@@ -48,10 +58,16 @@ final class ResetTest extends TestCase
             CustomerPermission::fromValue(CustomerPermission::EDIT_CUSTOMERS)
         );
 
-        $customer = Customer::factory()->create([
-            'email' => $this->testEmail,
-            'password' => Hash::make('admin1'),
-        ]);
+        $this->brand->makeCurrent();
+
+        $customer = $this->brand->execute(function () {
+            return Customer::factory()->make([
+                'email' => $this->testEmail,
+                'password' => Hash::make('admin1'),
+            ]);
+        });
+
+        $customer->save();
 
         $response = $this->post(route('admin.customers.password.reset', ['customer' => $customer]), [
             'password' => $password = 'password123',
@@ -76,6 +92,8 @@ final class ResetTest extends TestCase
             CustomerPermission::fromValue(CustomerPermission::EDIT_CUSTOMERS)
         );
 
+        $this->brand->makeCurrent();
+
         $customerId = Customer::orderByDesc('id')->first()?->id ?? 1;
 
         $response = $this->post(route('admin.customers.password.reset', ['customer' => $customerId]), [
@@ -84,6 +102,6 @@ final class ResetTest extends TestCase
         ]);
 
         $response->assertUnprocessable();
-        $response->assertJsonValidationErrors(['token', 'email', 'password']);
+        $response->assertJsonValidationErrors(['password']);
     }
 }

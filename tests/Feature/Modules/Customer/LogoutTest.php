@@ -18,7 +18,6 @@ final class LogoutTest extends BrandTestCase
      */
     public function success(): void
     {
-        $this->makeCurrentTenantAndSetHeader();
         $this->authenticateCustomer();
 
         $response = $this->post(route('customer.auth.logout'));
@@ -32,7 +31,6 @@ final class LogoutTest extends BrandTestCase
      */
     public function failed(): void
     {
-        $this->makeCurrentTenantAndSetHeader();
         $response = $this->post(route('customer.auth.logout'));
 
         $response->assertUnauthorized();
