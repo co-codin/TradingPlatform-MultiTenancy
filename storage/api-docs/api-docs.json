@@ -439,6 +439,38 @@
                 ]
             }
         },
+        "/admin/extensions/providers/all": {
+            "get": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Get communication extensions list all",
+                "operationId": "015c5db0d46e55b9fe21966bceb19a43",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CommunicationExtensionCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/communication/extensions/{id}": {
             "get": {
                 "tags": [
@@ -7211,6 +7243,16 @@
                     "provider_id": {
                         "type": "integer"
                     },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
                     "user": {
                         "type": "array",
                         "items": {
@@ -7222,16 +7264,6 @@
                         "items": {
                             "$ref": "#/components/schemas/CommunicationProvider"
                         }
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "readOnly": "true"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time",
-                        "readOnly": "true"
                     }
                 },
                 "type": "object",

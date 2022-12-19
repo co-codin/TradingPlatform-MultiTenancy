@@ -12,6 +12,7 @@ Route::group(['middleware' => 'tenant'], function () {
 
     Route::group(['prefix' => 'communication', 'as' => 'communication.'], function () {
         Route::get('/providers/all', [CommunicationProviderController::class, 'all'])->name('providers.all');
+        Route::get('/extensions/all', [CommunicationExtensionController::class, 'all'])->name('extensions.all');
         Route::apiResource('providers', CommunicationProviderController::class);
         Route::apiResource('extensions', CommunicationExtensionController::class);
     });

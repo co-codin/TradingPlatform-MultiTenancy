@@ -6,6 +6,7 @@ namespace Modules\Communication\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Modules\Communication\Dto\CommunicationExtensionDto;
@@ -58,6 +59,40 @@ final class CommunicationExtensionController extends Controller
         $this->authorize('viewAny', CommunicationExtension::class);
 
         return CommunicationExtensionResource::collection($this->repository->jsonPaginate());
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/admin/extensions/providers/all",
+     *      security={ {"sanctum": {} }},
+     *      tags={"Communication"},
+     *      summary="Get communication extensions list all",
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/CommunicationExtensionCollection")
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     *
+     * Display communication extensions list all.
+     *
+     * @throws AuthorizationException
+     */
+    public function all(): AnonymousResourceCollection
+    {
+        $this->authorize('viewAny', CommunicationExtension::class);
+
+        $extensions = $this->repository->all();
+
+        return CommunicationExtensionResource::collection($extensions);
     }
 
     /**

@@ -58,6 +58,45 @@ final class ReadTest extends BrandTestCase
     /**
      * @test
      */
+    public function can_view_all(): void
+    {
+        $this->authenticateWithPermission(CommunicationExtensionPermission::fromValue(CommunicationExtensionPermission::VIEW_COMMUNICATION_EXTENSION));
+
+        $this->brand->makeCurrent();
+        CommunicationExtension::factory()->count(10)->create();
+
+        $response = $this->get(route('admin.communication.extensions.all'));
+
+        $response->assertOk();
+
+        $response->assertJsonStructure([
+            'data' => [
+                [
+                    'id',
+                    'name',
+                    'user_id',
+                    'provider_id',
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function can_not_view_all(): void
+    {
+        $this->authenticateUser();
+
+        $this->brand->makeCurrent();
+        $response = $this->get(route('admin.communication.extensions.all'));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * @test
+     */
     public function can_view(): void
     {
         $this->authenticateWithPermission(CommunicationExtensionPermission::fromValue(CommunicationExtensionPermission::VIEW_COMMUNICATION_EXTENSION));
