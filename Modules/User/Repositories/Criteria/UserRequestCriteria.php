@@ -62,6 +62,7 @@ final class UserRequestCriteria extends BaseCriteria
                 AllowedFilter::exact('countries.id'),
                 AllowedFilter::exact('languages.id'),
                 AllowedFilter::exact('communicationProvider.id'),
+                AllowedFilter::exact('displayOptions.model_id'),
             ])
             ->scopes([
                 'byPermissionsAccess',
