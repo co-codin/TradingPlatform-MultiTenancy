@@ -93,9 +93,14 @@ final class UserRequestCriteria extends BaseCriteria
             ])
             ->allowedSorts([
                 'id',
+                'username',
+                'first_name',
                 'last_name',
                 'email',
+                'is_active',
+                'target',
                 'last_login',
+                'show_on_scoreboards',
                 'created_at',
                 'updated_at',
             ]);
