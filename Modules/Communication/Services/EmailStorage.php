@@ -13,14 +13,14 @@ final class EmailStorage
     /**
      * Store email.
      *
-     * @param EmailDto $dto
+     * @param  EmailDto  $dto
      * @return Email
      */
     public function store(EmailDto $dto): Email
     {
         $email = Email::create($dto->toArray());
 
-        if (!$email) {
+        if (! $email) {
             throw new LogicException(__('Can not create email'));
         }
 
@@ -30,14 +30,15 @@ final class EmailStorage
     /**
      * Update email.
      *
-     * @param Email $email
-     * @param EmailDto $dto
+     * @param  Email  $email
+     * @param  EmailDto  $dto
      * @return Email
+     *
      * @throws LogicException
      */
     public function update(Email $email, EmailDto $dto): Email
     {
-        if (!$email->update($dto->toArray())) {
+        if (! $email->update($dto->toArray())) {
             throw new LogicException(__('Can not update email'));
         }
 
@@ -47,12 +48,12 @@ final class EmailStorage
     /**
      * Delete email.
      *
-     * @param Email $email
+     * @param  Email  $email
      * @return bool
      */
     public function delete(Email $email): bool
     {
-        if (!$email->delete()) {
+        if (! $email->delete()) {
             throw new LogicException(__('Can not delete email'));
         }
 
