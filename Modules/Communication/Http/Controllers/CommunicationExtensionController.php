@@ -63,7 +63,7 @@ final class CommunicationExtensionController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/admin/extensions/providers/all",
+     *      path="/admin/communication/extensions/all",
      *      security={ {"sanctum": {} }},
      *      tags={"Communication"},
      *      summary="Get communication extensions list all",
@@ -107,8 +107,12 @@ final class CommunicationExtensionController extends Controller
      *             @OA\Schema(
      *                 required={
      *                     "name",
+     *                     "user_id",
+     *                     "provider_id",
      *                 },
      *                 @OA\Property(property="name", type="string", description="Name of communication extension"),
+     *                 @OA\Property(property="user_id", type="integer"),
+     *                 @OA\Property(property="provider_id", type="integer"),
      *             )
      *         )
      *      ),
@@ -205,8 +209,12 @@ final class CommunicationExtensionController extends Controller
      *             @OA\Schema(
      *                 required={
      *                     "name",
+     *                     "user_id",
+     *                     "provider_id",
      *                 },
      *                 @OA\Property(property="name", type="string", description="Name of communication extension"),
+     *                 @OA\Property(property="user_id", type="integer"),
+     *                 @OA\Property(property="provider_id", type="integer"),
      *             )
      *         )
      *      ),
@@ -240,6 +248,8 @@ final class CommunicationExtensionController extends Controller
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 @OA\Property(property="name", type="string", description="Name of communication extension"),
+     *                 @OA\Property(property="user_id", type="integer"),
+     *                 @OA\Property(property="provider_id", type="integer"),
      *             )
      *         )
      *      ),

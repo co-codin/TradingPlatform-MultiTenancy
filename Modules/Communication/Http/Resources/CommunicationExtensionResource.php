@@ -30,8 +30,8 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="provider_id", type="integer"),
  *     @OA\Property(property="created_at", type="string", format="date-time", readOnly="true",),
  *     @OA\Property(property="updated_at", type="string", format="date-time", readOnly="true",),
- *     @OA\Property(property="user", type="array", @OA\Items(ref="#/components/schemas/Worker")),
- *     @OA\Property(property="provider", type="array", @OA\Items(ref="#/components/schemas/CommunicationProvider")),
+ *     @OA\Property(property="user", type="object", ref="#/components/schemas/Worker"),
+ *     @OA\Property(property="provider", type="object", ref="#/components/schemas/CommunicationProvider"),
  * ),
  *
  * @OA\Schema (

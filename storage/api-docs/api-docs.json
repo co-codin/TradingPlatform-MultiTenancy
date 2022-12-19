@@ -401,12 +401,20 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "name"
+                                    "name",
+                                    "user_id",
+                                    "provider_id"
                                 ],
                                 "properties": {
                                     "name": {
                                         "description": "Name of communication extension",
                                         "type": "string"
+                                    },
+                                    "user_id": {
+                                        "type": "integer"
+                                    },
+                                    "provider_id": {
+                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"
@@ -439,13 +447,13 @@
                 ]
             }
         },
-        "/admin/extensions/providers/all": {
+        "/admin/communication/extensions/all": {
             "get": {
                 "tags": [
                     "Communication"
                 ],
                 "summary": "Get communication extensions list all",
-                "operationId": "015c5db0d46e55b9fe21966bceb19a43",
+                "operationId": "bfd9b188a27671cb33eb9f91c0572798",
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -533,12 +541,20 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "name"
+                                    "name",
+                                    "user_id",
+                                    "provider_id"
                                 ],
                                 "properties": {
                                     "name": {
                                         "description": "Name of communication extension",
                                         "type": "string"
+                                    },
+                                    "user_id": {
+                                        "type": "integer"
+                                    },
+                                    "provider_id": {
+                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"
@@ -634,6 +650,12 @@
                                     "name": {
                                         "description": "Name of communication extension",
                                         "type": "string"
+                                    },
+                                    "user_id": {
+                                        "type": "integer"
+                                    },
+                                    "provider_id": {
+                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"
@@ -7254,16 +7276,10 @@
                         "readOnly": "true"
                     },
                     "user": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/Worker"
-                        }
+                        "$ref": "#/components/schemas/Worker"
                     },
                     "provider": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/CommunicationProvider"
-                        }
+                        "$ref": "#/components/schemas/CommunicationProvider"
                     }
                 },
                 "type": "object",

@@ -32,9 +32,6 @@ final class CommunicationProviderRequestCriteria extends BaseCriteria
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::partial('name'),
-                AllowedFilter::partial('created_at'),
-                AllowedFilter::partial('updated_at'),
-                AllowedFilter::trashed(),
             ])
             ->allowedSorts([
                 'id',
