@@ -6,8 +6,11 @@ namespace Modules\Communication\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Communication\Database\factories\EmailFactory;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
+use Modules\Communication\Models\EmailTemplates;
+use Modules\User\Models\User;
 
 /**
  * Class Email
@@ -32,5 +35,15 @@ final class Email extends Model
     protected static function newFactory()
     {
         return EmailFactory::new();
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function template(): BelongsTo
+    {
+        return $this->belongsTo(EmailTemplates::class, 'email_template_id');
     }
 }

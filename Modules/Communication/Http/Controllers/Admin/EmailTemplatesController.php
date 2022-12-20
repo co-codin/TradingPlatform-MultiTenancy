@@ -6,40 +6,40 @@ namespace Modules\Communication\Http\Controllers\Admin;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
-use Modules\Communication\Dto\EmailDto;
-use Modules\Communication\Http\Requests\EmailCreateRequest;
-use Modules\Communication\Http\Requests\EmailUpdateRequest;
-use Modules\Communication\Http\Resources\EmailResource;
-use Modules\Communication\Repositories\EmailRepository;
-use Modules\Communication\Services\EmailStorage;
-use OpenApi\Annotations as OA;
+use Modules\Communication\Dto\EmailTemplatesDto;
+use Modules\Communication\Http\Requests\EmailTemplatesCreateRequest;
+use Modules\Communication\Http\Requests\EmailTemplatesUpdateRequest;
+use Modules\Communication\Http\Resources\EmailTemplatesResource;
+use Modules\Communication\Repositories\EmailTemplatesRepository;
+use Modules\Communication\Services\EmailTemplatesStorage;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
+use Illuminate\Http\Response;
+use OpenApi\Annotations as OA;
 
-final class EmailController extends Controller
+final class EmailTemplatesController extends Controller
 {
     /**
-     * @param  EmailRepository  $repository
-     * @param  EmailStorage  $storage
+     * @param  EmailTemplatesRepository  $repository
+     * @param  EmailTemplatesStorage  $storage
      */
     public function __construct(
-        protected EmailRepository $repository,
-        protected EmailStorage $storage,
+        protected EmailTemplatesRepository $repository,
+        protected EmailTemplatesStorage $storage,
     ) {
     }
 
     /**
      * @OA\Get(
-     *      path="/admin/emails",
+     *      path="/admin/email-templates",
      *      security={ {"sanctum": {} }},
-     *      tags={"Email"},
-     *      summary="Get emails list",
-     *      description="Returns emails list data.",
+     *      tags={"EmailTemplates"},
+     *      summary="Get email templates list",
+     *      description="Returns emails templates list data.",
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/EmailCollection")
+     *          @OA\JsonContent(ref="#/components/schemas/EmailTemplatesCollection")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -51,7 +51,7 @@ final class EmailController extends Controller
      *      )
      * )
      *
-     * Display email list.
+     * Display email templates list.
      *
      * @return JsonResource
      *
@@ -59,39 +59,34 @@ final class EmailController extends Controller
      */
     public function index(): JsonResource
     {
-        $this->authorize('viewAny', Email::class);
+        $this->authorize('viewAny', EmailTemplates::class);
 
-        return EmailResource::collection($this->repository->jsonPaginate());
+        return EmailTemplatesResource::collection($this->repository->jsonPaginate());
     }
-
     /**
      * @OA\Post(
-     *      path="/admin/emails",
+     *      path="/admin/email-templates",
      *      security={ {"sanctum": {} }},
-     *      tags={"Email"},
-     *      summary="Store email",
-     *      description="Returns email data.",
+     *      tags={"EmailTemplates"},
+     *      summary="Store email template",
+     *      description="Returns email template data.",
      *      @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 required={
-     *                     "email_template_id",
-     *                     "subject",
+     *                     "name",
      *                     "body",
      *                 },
-     *                 @OA\Property(property="email_template_id", type="integer", description="Email tempalte ID"),
-     *                 @OA\Property(property="subject", type="string", description="Email subject"),
-     *                 @OA\Property(property="body", type="string", description="Email body"),
-     *                 @OA\Property(property="sent_by_system", type="bool"),
-     *                 @OA\Property(property="user_id", type="integer", description="User ID"),
+     *                 @OA\Property(property="name", type="string", description="Email template name"),
+     *                 @OA\Property(property="body", type="string", description="Email template body"),
      *             )
      *         )
      *      ),
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/EmailResource")
+     *          @OA\JsonContent(ref="#/components/schemas/EmailTemplatesResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -103,32 +98,32 @@ final class EmailController extends Controller
      *      )
      * )
      *
-     * Store mail.
+     * Store email tempaltes.
      *
-     * @param  EmailCreateRequest  $request
+     * @param  EmailTemplatesCreateRequest  $request
      * @return JsonResource
      *
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
-    public function store(EmailCreateRequest $request): JsonResource
+    public function store(EmailTemplatesCreateRequest $request): JsonResource
     {
-        $this->authorize('create', Email::class);
+        $this->authorize('createaa', EmailTemplates::class);
 
-        return new EmailResource(
-            $this->storage->store(EmailDto::fromFormRequest($request)),
+        return new EmailTemplatesResource(
+            $this->storage->store(EmailTemplatesDto::fromFormRequest($request)),
         );
     }
 
     /**
      * @OA\Get(
-     *      path="/admin/emails/{id}",
+     *      path="/admin/email-templates/{id}",
      *      security={ {"sanctum": {} }},
-     *      tags={"Email"},
-     *      summary="Get email",
-     *      description="Returns email data.",
+     *      tags={"EmailTemplates"},
+     *      summary="Get email template",
+     *      description="Returns email template data.",
      *      @OA\Parameter(
-     *         description="Email ID",
+     *         description="Email template ID",
      *         in="path",
      *         name="id",
      *         required=true,
@@ -137,7 +132,7 @@ final class EmailController extends Controller
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/EmailResource")
+     *          @OA\JsonContent(ref="#/components/schemas/EmailTemplatesResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -149,7 +144,7 @@ final class EmailController extends Controller
      *      )
      * )
      *
-     * Show the email.
+     * Show the email templates.
      *
      * @param  int  $id
      * @return JsonResource
@@ -158,22 +153,22 @@ final class EmailController extends Controller
      */
     public function show(int $id): JsonResource
     {
-        $email = $this->repository->find($id);
+        $emailtemplates = $this->repository->find($id);
 
-        $this->authorize('view', $email);
+        $this->authorize('view', $emailtemplates);
 
-        return new EmailResource($email);
+        return new EmailTemplatesResource($emailtemplates);
     }
 
     /**
      * @OA\Put(
-     *      path="/admin/emails/{id}",
+     *      path="/admin/email-templates/{id}",
      *      security={ {"sanctum": {} }},
-     *      tags={"Email"},
-     *      summary="Update email",
-     *      description="Returns email data.",
+     *      tags={"EmailTemplates"},
+     *      summary="Update email template",
+     *      description="Returns email template data.",
      *      @OA\Parameter(
-     *         description="Email ID",
+     *         description="Email template ID",
      *         in="path",
      *         name="id",
      *         required=true,
@@ -184,22 +179,18 @@ final class EmailController extends Controller
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 required={
-     *                     "email_template_id",
-     *                     "subject",
+     *                     "name",
      *                     "body",
      *                 },
-     *                 @OA\Property(property="email_template_id", type="integer", description="Email tempalte ID"),
-     *                 @OA\Property(property="subject", type="string", description="Email subject"),
-     *                 @OA\Property(property="body", type="string", description="Email body"),
-     *                 @OA\Property(property="sent_by_system", type="bool"),
-     *                 @OA\Property(property="user_id", type="integer", description="User ID"),
+     *                 @OA\Property(property="name", type="string", description="Email template name"),
+     *                 @OA\Property(property="body", type="string", description="Email template body"),
      *             )
      *         )
      *      ),
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/EmailResource")
+     *          @OA\JsonContent(ref="#/components/schemas/EmailTemplatesResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -211,13 +202,13 @@ final class EmailController extends Controller
      *      )
      * ),
      * @OA\Patch(
-     *      path="/admin/emails/{id}",
+     *      path="/admin/email-templates/{id}",
      *      security={ {"sanctum": {} }},
-     *      tags={"Email"},
-     *      summary="Update email",
-     *      description="Returns email data.",
+     *      tags={"EmailTemplates"},
+     *      summary="Update email template",
+     *      description="Returns email template data.",
      *      @OA\Parameter(
-     *         description="Email ID",
+     *         description="Email template ID",
      *         in="path",
      *         name="id",
      *         required=true,
@@ -227,18 +218,15 @@ final class EmailController extends Controller
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
-     *                 @OA\Property(property="email_template_id", type="integer", description="Email tempalte ID"),
-     *                 @OA\Property(property="subject", type="string", description="Email subject"),
-     *                 @OA\Property(property="body", type="string", description="Email body"),
-     *                 @OA\Property(property="sent_by_system", type="bool"),
-     *                 @OA\Property(property="user_id", type="integer", description="User ID"),
+     *                 @OA\Property(property="name", type="string", description="Email template name"),
+     *                 @OA\Property(property="body", type="string", description="Email template body"),
      *             )
      *         )
      *      ),
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/EmailResource")
+     *          @OA\JsonContent(ref="#/components/schemas/EmailTemplatesResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -252,35 +240,35 @@ final class EmailController extends Controller
      *
      * Update the email.
      *
-     * @param  EmailUpdateRequest  $request
+     * @param  EmailTemplatesUpdateRequest  $request
      * @param  int  $id
      * @return JsonResource
      *
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
-    public function update(EmailUpdateRequest $request, int $id): JsonResource
+    public function update(EmailTemplatesUpdateRequest $request, int $id): JsonResource
     {
-        $email = $this->repository->find($id);
+        $emailtemplates = $this->repository->find($id);
 
-        $this->authorize('update', $email);
+        $this->authorize('update', $emailtemplates);
 
-        return new EmailResource(
+        return new EmailTemplatesResource(
             $this->storage->update(
-                $email,
-                EmailDto::fromFormRequest($request)
+                $emailtemplates,
+                EmailTemplatesDto::fromFormRequest($request)
             ),
         );
     }
 
     /**
      * @OA\Delete(
-     *      path="/admin/emails/{id}",
+     *      path="/admin/email-templates/{id}",
      *      security={ {"sanctum": {} }},
-     *      tags={"Email"},
-     *      summary="Delete email",
+     *      tags={"EmailTemplates"},
+     *      summary="Delete email template",
      *      @OA\Parameter(
-     *         description="Email ID",
+     *         description="Email template ID",
      *         in="path",
      *         name="id",
      *         required=true,
@@ -289,7 +277,7 @@ final class EmailController extends Controller
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/EmailResource")
+     *          @OA\JsonContent(ref="#/components/schemas/EmailTemplatesResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -301,7 +289,7 @@ final class EmailController extends Controller
      *      )
      * )
      *
-     * Remove the email.
+     * Remove the email template.
      *
      * @param  int  $id
      * @return Response
@@ -310,11 +298,11 @@ final class EmailController extends Controller
      */
     public function destroy(int $id): Response
     {
-        $email = $this->repository->find($id);
+        $emailtemplate = $this->repository->find($id);
 
-        $this->authorize('delete', $email);
+        $this->authorize('delete', $emailtemplate);
 
-        $this->storage->delete($email);
+        $this->storage->delete($emailtemplate);
 
         return response()->noContent();
     }

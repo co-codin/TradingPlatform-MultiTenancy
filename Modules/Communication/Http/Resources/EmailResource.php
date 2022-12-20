@@ -6,15 +6,18 @@ namespace Modules\Communication\Http\Resources;
 
 use App\Http\Resources\BaseJsonResource;
 use Illuminate\Http\Request;
+use Modules\Communication\Models\Email;
+use Modules\User\Http\Resources\AuthUserResource;
+use Modules\User\Http\Resources\UserResource;
 use OpenApi\Annotations as OA;
 
 /**
  * Mail.
  *
  * @OA\Schema(
- *     schema="Mail",
- *     title="Mail",
- *     description="Mail model",
+ *     schema="Email",
+ *     title="Email",
+ *     description="Email model",
  *     required={
  *         "email_template_id",
  *         "subject",
@@ -29,12 +32,12 @@ use OpenApi\Annotations as OA;
  * ),
  *
  * @OA\Schema (
- *     schema="MailCollection",
+ *     schema="EmailCollection",
  *     type="object",
  *     @OA\Property(
  *         property="data",
  *         type="array",
- *         @OA\Items(ref="#/components/schemas/Mail")
+ *         @OA\Items(ref="#/components/schemas/Email")
  *     ),
  *     @OA\Property(
  *         property="meta",
@@ -44,18 +47,18 @@ use OpenApi\Annotations as OA;
  * ),
  *
  * @OA\Schema (
- *     schema="MailResource",
+ *     schema="EmailResource",
  *     type="object",
  *     @OA\Property(
  *         property="data",
  *         type="object",
- *         ref="#/components/schemas/Mail"
+ *         ref="#/components/schemas/Email"
  *     )
  * )
  *
- * Class MailResource
+ * Class EmailResource
  *
- * @mixin Mail
+ * @mixin Email
  */
 class EmailResource extends BaseJsonResource
 {
@@ -67,6 +70,17 @@ class EmailResource extends BaseJsonResource
      */
     public function toArray($request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'subject' => $this->subject,
+            'body' => $this->body,
+            'sent_by_system' => $this->sent_by_system,
+            'deleted_at' => $this->deleted_at,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'email_template_id' => $this->email_template_id,
+            'email_template' => new EmailTemplatesResource($this->template),
+            'user' => new AuthUserResource($this->user),
+        ];
     }
 }

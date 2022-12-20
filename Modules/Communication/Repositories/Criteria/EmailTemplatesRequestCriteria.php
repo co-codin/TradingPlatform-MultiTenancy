@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Communication\Repositories\Criteria;
 
 use App\Repositories\Criteria\BaseCriteria;
@@ -7,7 +9,7 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class EmailTemplatesRequestCriteria extends BaseCriteria
+final class EmailTemplatesRequestCriteria extends BaseCriteria
 {
     protected static array $allowedModelFields = [
         'id',

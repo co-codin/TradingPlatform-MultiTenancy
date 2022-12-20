@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Communication\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Communication\Models\EmailTemplates;
 
-class EmailTemplatesFactory extends Factory
+final class EmailTemplatesFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.

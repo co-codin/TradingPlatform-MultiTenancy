@@ -4,6 +4,8 @@ namespace Modules\Communication\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Communication\Models\Email;
+use Modules\Communication\Models\EmailTemplates;
 
 class CommunicationDatabaseSeeder extends Seeder
 {
@@ -14,8 +16,7 @@ class CommunicationDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Model::unguard();
-
-        // $this->call("OthersTableSeeder");
+        EmailTemplates::factory()->count(5)->create();
+        Email::factory()->count(5)->create();
     }
 }
