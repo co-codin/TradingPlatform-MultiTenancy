@@ -18,7 +18,8 @@ use Spatie\Multitenancy\Models\Tenant;
 final class CustomerImportController extends Controller
 {
     /**
-     * @param  CustomerStorage  $customerStorage
+     * @param CustomerStorage $customerStorage
+     * @param StorageService $storageService
      */
     public function __construct(
         protected CustomerStorage $customerStorage,
@@ -62,11 +63,9 @@ final class CustomerImportController extends Controller
     {
         $this->authorize('import', Customer::class);
 
-        $filePath = $this->storageService->saveTmp('import', $request->file('file'));
-
         CustomerImportJob::dispatch(
             Tenant::current(),
-            $filePath,
+            $this->storageService->saveTmp('import', $request->file('file')),
             null,
             Excel::XLSX,
         );
@@ -110,11 +109,9 @@ final class CustomerImportController extends Controller
     {
         $this->authorize('import', Customer::class);
 
-        $filePath = $this->storageService->saveTmp('import', $request->file('file'));
-
         CustomerImportJob::dispatch(
             Tenant::current(),
-            $filePath,
+            $this->storageService->saveTmp('import', $request->file('file')),
             null,
             Excel::CSV,
         );
