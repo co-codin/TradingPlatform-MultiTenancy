@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Modules\User\Http\Requests\DisplayOption;
+namespace Modules\User\Http\Requests\Preset;
 
 use App\Http\Requests\BaseFormRequest;
 
-final class UserDisplayOptionCreateRequest extends BaseFormRequest
+final class UserPresetCreateRequest extends BaseFormRequest
 {
     /**
      * {@inheritDoc}
