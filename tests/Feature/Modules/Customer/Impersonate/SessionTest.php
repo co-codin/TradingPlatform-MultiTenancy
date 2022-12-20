@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Modules\Customer;
+namespace Tests\Feature\Modules\Customer\Impersonate;
 
 use Illuminate\Support\Facades\Auth;
 use Modules\Customer\Enums\CustomerPermission;
@@ -12,7 +12,7 @@ use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
 
-final class ImpersonateSessionTest extends BrandTestCase
+final class SessionTest extends BrandTestCase
 {
     use HasAuth;
     use TenantAware;

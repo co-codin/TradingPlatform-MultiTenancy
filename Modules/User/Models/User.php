@@ -127,18 +127,14 @@ final class User extends Authenticatable
      */
     public function scopeByPermissionsAccess($query): Builder
     {
-        return match (true) {
-            request()->user()?->brands()->exists() => $query->whereHas('brands', function ($query) {
-                $query->whereIn(
-                    'brands.id',
-                    request()->user()
-                        ->brands()
-                        ->pluck('id')
-                        ->toArray(),
-                );
-            }),
-            default => $query,
-        };
+        $user = request()?->user();
+        if ($user instanceof self && $user->brands()->exists()) {
+            $query = $query->whereHas('brands', function ($query) use ($user) {
+                $query->whereIn('brands.id', $user->brands()->pluck('id')->toArray());
+            });
+        }
+
+        return $query;
     }
 
     public function toArray()

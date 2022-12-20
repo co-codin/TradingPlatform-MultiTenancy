@@ -156,13 +156,20 @@ final class CustomerImpersonateController extends Controller
      */
     public function sessionLogout(Request $request): Response
     {
+        abort_if(
+            session()->missing('impersonator_id'),
+            Response::HTTP_UNAUTHORIZED,
+            'Impersonator session missing'
+        );
+
         $impersonator = $this->userRepository->find(session('impersonator_id'));
+        $rememberMe = session('impersonator_remember_me', false);
 
         auth(Customer::DEFAULT_AUTH_GUARD)->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        Auth::guard(AuthController::GUARD)->login($impersonator, session('impersonator_remember_me', false));
+        Auth::guard(AuthController::GUARD)->login($impersonator, $rememberMe);
         $request->session()->regenerate();
 
         return response()->noContent();

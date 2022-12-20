@@ -36,8 +36,9 @@ Route::group(['middleware' => 'tenant'], function () {
             ->name('customers.impersonate.token');
     });
 
-    Route::group(['middleware' => ['web', 'auth:web']], function () {
-        Route::post('customers/{id}/impersonate/session', [CustomerImpersonateController::class, 'session'])
+    Route::group(['middleware' => 'web'], function () {
+        Route::middleware('auth:web')
+            ->post('customers/{id}/impersonate/session', [CustomerImpersonateController::class, 'session'])
             ->name('customers.impersonate.session');
         Route::post('customers/impersonate/session/logout', [CustomerImpersonateController::class, 'sessionLogout'])
             ->name('customers.impersonate.session.logout');
