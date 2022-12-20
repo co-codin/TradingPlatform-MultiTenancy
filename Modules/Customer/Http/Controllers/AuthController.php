@@ -26,7 +26,7 @@ final class AuthController extends Controller
     /**
      * @OA\Post(
      *     path="/customer/auth/login",
-     *     tags={"Customer"},
+     *     tags={"CustomerAuth"},
      *     summary="Steteful login customer",
      *     @OA\RequestBody(
      *          required=true,
@@ -115,7 +115,7 @@ final class AuthController extends Controller
     /**
      * @OA\Post(
      *     path="/customer/auth/logout",
-     *     tags={"Customer"},
+     *     tags={"CustomerAuth"},
      *     security={ {"sanctum_frontend": {} }},
      *     summary="Steteful logout customer",
      *     @OA\Response(
@@ -147,7 +147,7 @@ final class AuthController extends Controller
     /**
      * @OA\Get(
      *     path="/customer/auth/me",
-     *     tags={"Customer"},
+     *     tags={"CustomerAuth"},
      *     security={ {"sanctum_frontend": {} }},
      *     summary="Authorized customer data",
      *     @OA\Response(
