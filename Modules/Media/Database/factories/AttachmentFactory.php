@@ -1,17 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Media\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Media\Models\Attachment;
 
-class ImageFactory extends Factory
+final class AttachmentFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = \Modules\Media\Models\Image::class;
+    protected $model = Attachment::class;
 
     /**
      * Define the model's default state.
@@ -25,4 +28,3 @@ class ImageFactory extends Factory
         ];
     }
 }
-

@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Modules\Media\Models\Image;
+use Modules\Media\Models\Attachment;
 
-class ImageStorage
+class AttachmentStorage
 {
     protected Model $model;
 
@@ -34,7 +34,7 @@ class ImageStorage
         $ids = $this->images->pluck('id')->filter()->unique();
 
         $this->model->images()
-            ->when($ids->isNotEmpty(), fn($query) => $query->whereNotIn('id', $ids))
+            ->when($ids->isNotEmpty(), fn ($query) => $query->whereNotIn('id', $ids))
             ->delete();
 
         return $this;
@@ -42,7 +42,7 @@ class ImageStorage
 
     protected function createNewImages()
     {
-        $newImages = $this->images->filter(fn($item) => !Arr::exists($item, 'id'));
+        $newImages = $this->images->filter(fn ($item) => ! Arr::exists($item, 'id'));
 
         $this->model->images()->createMany($newImages);
 
@@ -52,10 +52,10 @@ class ImageStorage
     protected function updateExistingImages()
     {
         $this->images
-            ->filter(fn($image) => Arr::exists($image, 'id'))
-            ->each(function($image) {
-                $model = Image::query()->find($image['id']);
-                if($model) {
+            ->filter(fn ($image) => Arr::exists($image, 'id'))
+            ->each(function ($image) {
+                $model = Attachment::query()->find($image['id']);
+                if ($model) {
                     $model->update($image);
                 }
             });

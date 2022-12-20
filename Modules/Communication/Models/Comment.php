@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Communication\Database\factories\CommentFactory;
-use Modules\Media\Models\Image;
+use Modules\Media\Models\Traits\HasAttachment;
 use Modules\User\Models\User;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
@@ -17,6 +17,7 @@ class Comment extends Model
     use HasFactory;
     use SoftDeletes;
     use UsesTenantConnection;
+    use HasAttachment;
 
     protected $guarded = ['id'];
 
@@ -28,11 +29,5 @@ class Comment extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function images()
-    {
-        return $this->morphMany(Image::class, 'imageable')
-            ->orderBy('position');
     }
 }
