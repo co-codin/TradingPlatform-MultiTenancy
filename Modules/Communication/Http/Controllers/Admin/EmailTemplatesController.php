@@ -108,7 +108,7 @@ final class EmailTemplatesController extends Controller
      */
     public function store(EmailTemplatesCreateRequest $request): JsonResource
     {
-        $this->authorize('createaa', EmailTemplates::class);
+        $this->authorize('create', EmailTemplates::class);
 
         return new EmailTemplatesResource(
             $this->storage->store(EmailTemplatesDto::fromFormRequest($request)),
