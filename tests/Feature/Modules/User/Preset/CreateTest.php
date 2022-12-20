@@ -28,7 +28,7 @@ final class CreateTest extends TestCase
         $data = Preset::factory()->make(['user_id' => $this->getUser()->id])->toArray();
 
         $response = $this->post(route('admin.users.presets.store', ['worker' => $this->getUser()->id]), $data);
-dd($response->json('message'));
+
         $response->assertCreated();
 
         $response->assertJson([

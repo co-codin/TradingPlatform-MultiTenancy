@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Feature\Modules\User\DisplayOption;
+namespace Tests\Feature\Modules\User\Preset;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Modules\User\Enums\UserDisplayOptionPermission;
-use Modules\User\Models\DisplayOption;
+use Modules\User\Enums\UserPresetPermission;
+use Modules\User\Models\Preset;
 use Modules\User\Models\User;
 use Tests\TestCase;
 
@@ -13,25 +13,21 @@ class UpdateTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * Test authorized user can update display option.
-     *
-     * @return void
-     *
      * @test
      */
     public function authorized_user_can_update(): void
     {
         $this->authenticateWithPermission(
-            UserDisplayOptionPermission::fromValue(
-                UserDisplayOptionPermission::EDIT_USER_DISPLAY_OPTIONS
+            UserPresetPermission::fromValue(
+                UserPresetPermission::EDIT_USER_PRESET_OPTIONS
             )
         );
 
-        $displayOption = DisplayOption::factory()->create(['user_id' => $this->getUser()->id]);
-        $data = DisplayOption::factory()->make(['user_id' => $this->getUser()->id]);
+        $preset = Preset::factory()->create(['user_id' => $this->getUser()->id]);
+        $data = Preset::factory()->make(['user_id' => $this->getUser()->id]);
 
         $response = $this->patch(
-            route('admin.users.display-options.update', ['worker' => $this->getUser()->id, 'display_option' => $displayOption->id]),
+            route('admin.users.presets.update', ['worker' => $this->getUser()->id, 'preset' => $preset->id]),
             $data->toArray()
         );
 
@@ -48,20 +44,16 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * Test unauthorized user can`t update display option.
-     *
-     * @return void
-     *
      * @test
      */
     public function unauthorized_user_cant_update(): void
     {
         $user = User::factory()->create();
-        $displayOption = DisplayOption::factory()->create(['user_id' => $user->id]);
-        $data = DisplayOption::factory()->make(['user_id' => $user->id]);
+        $preset = Preset::factory()->create(['user_id' => $user->id]);
+        $data = Preset::factory()->make(['user_id' => $user->id]);
 
         $response = $this->patch(
-            route('admin.users.display-options.update', ['worker' => $user->id, 'display_option' => $displayOption->id]),
+            route('admin.users.presets.update', ['worker' => $user->id, 'preset' => $preset->id]),
             $data->toArray()
         );
 
@@ -69,25 +61,21 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * Test name filled.
-     *
-     * @return void
-     *
      * @test
      */
     public function name_is_filled(): void
     {
         $this->authenticateWithPermission(
-            UserDisplayOptionPermission::fromValue(
-                UserDisplayOptionPermission::EDIT_USER_DISPLAY_OPTIONS
+            UserPresetPermission::fromValue(
+                UserPresetPermission::EDIT_USER_PRESET_OPTIONS
             )
         );
 
-        $displayOption = DisplayOption::factory()->create(['user_id' => $this->getUser()->id]);
-        $data = DisplayOption::factory()->make(['user_id' => $this->getUser()->id, 'name' => null]);
+        $preset = Preset::factory()->create(['user_id' => $this->getUser()->id]);
+        $data = Preset::factory()->make(['user_id' => $this->getUser()->id, 'name' => null]);
 
         $response = $this->patch(
-            route('admin.users.display-options.update', ['worker' => $this->getUser()->id, 'display_option' => $displayOption->id]),
+            route('admin.users.presets.update', ['worker' => $this->getUser()->id, 'preset' => $preset->id]),
             $data->toArray()
         );
 
@@ -95,25 +83,21 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * Test model id filled.
-     *
-     * @return void
-     *
      * @test
      */
     public function model_id_is_filled(): void
     {
         $this->authenticateWithPermission(
-            UserDisplayOptionPermission::fromValue(
-                UserDisplayOptionPermission::EDIT_USER_DISPLAY_OPTIONS
+            UserPresetPermission::fromValue(
+                UserPresetPermission::EDIT_USER_PRESET_OPTIONS
             )
         );
 
-        $displayOption = DisplayOption::factory()->create(['user_id' => $this->getUser()->id]);
-        $data = DisplayOption::factory()->make(['user_id' => $this->getUser()->id, 'model_id' => null]);
+        $preset = Preset::factory()->create(['user_id' => $this->getUser()->id]);
+        $data = Preset::factory()->make(['user_id' => $this->getUser()->id, 'model_id' => null]);
 
         $response = $this->patch(
-            route('admin.users.display-options.update', ['worker' => $this->getUser()->id, 'display_option' => $displayOption->id]),
+            route('admin.users.presets.update', ['worker' => $this->getUser()->id, 'preset' => $preset->id]),
             $data->toArray()
         );
 
@@ -121,26 +105,22 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * Test name is string.
-     *
-     * @return void
-     *
      * @test
      */
     public function name_is_string(): void
     {
         $this->authenticateWithPermission(
-            UserDisplayOptionPermission::fromValue(
-                UserDisplayOptionPermission::EDIT_USER_DISPLAY_OPTIONS
+            UserPresetPermission::fromValue(
+                UserPresetPermission::EDIT_USER_PRESET_OPTIONS
             )
         );
 
-        $displayOption = DisplayOption::factory()->create(['user_id' => $this->getUser()->id]);
-        $data = DisplayOption::factory()->make(['user_id' => $this->getUser()->id, 'name' => null]);
+        $preset = Preset::factory()->create(['user_id' => $this->getUser()->id]);
+        $data = Preset::factory()->make(['user_id' => $this->getUser()->id, 'name' => null]);
         $data->name = 1;
 
         $response = $this->patch(
-            route('admin.users.display-options.update', ['worker' => $this->getUser()->id, 'display_option' => $displayOption->id]),
+            route('admin.users.presets.update', ['worker' => $this->getUser()->id, 'preset' => $preset->id]),
             $data->toArray()
         );
 
@@ -148,26 +128,22 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * Test model id is integer.
-     *
-     * @return void
-     *
      * @test
      */
     public function model_id_is_integer(): void
     {
         $this->authenticateWithPermission(
-            UserDisplayOptionPermission::fromValue(
-                UserDisplayOptionPermission::EDIT_USER_DISPLAY_OPTIONS
+            UserPresetPermission::fromValue(
+                UserPresetPermission::EDIT_USER_PRESET_OPTIONS
             )
         );
 
-        $displayOption = DisplayOption::factory()->create(['user_id' => $this->getUser()->id]);
-        $data = DisplayOption::factory()->make(['user_id' => $this->getUser()->id, 'model_id' => null]);
+        $preset = Preset::factory()->create(['user_id' => $this->getUser()->id]);
+        $data = Preset::factory()->make(['user_id' => $this->getUser()->id, 'model_id' => null]);
         $data->model_id = 'string';
 
         $response = $this->patch(
-            route('admin.users.display-options.update', ['worker' => $this->getUser()->id, 'display_option' => $displayOption->id]),
+            route('admin.users.presets.update', ['worker' => $this->getUser()->id, 'preset' => $preset->id]),
             $data->toArray()
         );
 

@@ -28,7 +28,6 @@ class PresetFactory extends Factory
             'model_id' => Model::factory(),
             'name' => $this->faker->unique()->name(),
             'columns' => [],
-            'settings' => [],
         ];
     }
 }

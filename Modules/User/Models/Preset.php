@@ -18,6 +18,10 @@ final class Preset extends Model
      */
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'columns' => 'json',
+    ];
+
     /**
      * User relation.
      *

@@ -1,60 +1,50 @@
 <?php
 
-namespace Tests\Feature\Modules\User\DisplayOption;
+declare(strict_types=1);
 
-use Illuminate\Contracts\Auth\Authenticatable as UserContract;
+namespace Tests\Feature\Modules\User\Preset;
+
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Modules\Geo\Enums\CountryPermission;
-use Modules\Geo\Models\Country;
-use Modules\Role\Models\Permission;
-use Modules\User\Enums\UserDisplayOptionPermission;
-use Modules\User\Models\DisplayOption;
+use Modules\User\Enums\UserPresetPermission;
+use Modules\User\Models\Preset;
 use Modules\User\Models\User;
 use Tests\TestCase;
 
-class DeleteTest extends TestCase
+final class DeleteTest extends TestCase
 {
     use DatabaseTransactions;
 
     /**
-     * Test authorized user can delete display option.
-     *
-     * @return void
-     *
      * @test
      */
     public function authorized_user_can_delete(): void
     {
         $this->authenticateWithPermission(
-            UserDisplayOptionPermission::fromValue(
-                UserDisplayOptionPermission::DELETE_USER_DISPLAY_OPTIONS
+            UserPresetPermission::fromValue(
+                UserPresetPermission::DELETE_USER_PRESET_OPTIONS
             )
         );
 
-        $displayOption = DisplayOption::factory()->create(['user_id' => $this->getUser()->id]);
+        $preset = Preset::factory()->create(['user_id' => $this->getUser()->id]);
 
         $response = $this->delete(
-            route('admin.users.display-options.destroy', ['worker' => $this->getUser()->id, 'display_option' => $displayOption->id]),
+            route('admin.users.presets.destroy', ['worker' => $this->getUser()->id, 'preset' => $preset->id]),
         );
 
         $response->assertNoContent();
     }
 
     /**
-     * Test unauthorized user can`t delete display option.
-     *
-     * @return void
-     *
      * @test
      */
     public function unauthorized_user_cant_delete(): void
     {
         $user = User::factory()->create();
 
-        $displayOption = DisplayOption::factory()->create(['user_id' => $user->id]);
+        $preset = Preset::factory()->create(['user_id' => $user->id]);
 
         $response = $this->delete(
-            route('admin.users.display-options.destroy', ['worker' => $user->id, 'display_option' => $displayOption->id]),
+            route('admin.users.presets.destroy', ['worker' => $user->id, 'preset' => $preset->id]),
         );
 
         $response->assertUnauthorized();
