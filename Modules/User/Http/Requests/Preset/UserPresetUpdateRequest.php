@@ -17,7 +17,7 @@ final class UserPresetUpdateRequest extends BaseFormRequest
             'model_id' => 'sometimes|required|integer|exists:landlord.models,id',
             'name' => 'sometimes|required|string',
             'columns' => 'nullable|array',
-            'columns.*.name' => 'sometimes|required|string',
+            'columns.*' => 'sometimes|required|string',
         ];
     }
 }

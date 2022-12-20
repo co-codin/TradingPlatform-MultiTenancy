@@ -17,7 +17,7 @@ final class UserPresetCreateRequest extends BaseFormRequest
             'model_id' => 'required|integer|exists:landlord.models,id',
             'name' => 'required|string',
             'columns' => 'nullable|array',
-            'columns.*.name' => 'required|string',
+            'columns.*' => 'required|string',
         ];
     }
 }
