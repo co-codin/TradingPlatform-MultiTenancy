@@ -226,6 +226,16 @@ final class User extends Authenticatable
     }
 
     /**
+     * Presets relation.
+     *
+     * @return HasMany
+     */
+    public function presets(): HasMany
+    {
+        return $this->hasMany(Preset::class);
+    }
+
+    /**
      * Affiliate relation.
      *
      * @return BelongsTo
