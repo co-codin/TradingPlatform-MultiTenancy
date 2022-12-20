@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Media\Services;
 
 use Illuminate\Http\UploadedFile;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
 
-class ImageUploader extends FileUploader
+final class AttachmentUploader extends FileUploader
 {
     protected int $maxWidth = 2000;
 
@@ -69,6 +71,6 @@ class ImageUploader extends FileUploader
         Image::load($path)
             ->quality($this->quality)
             ->format(Manipulations::FORMAT_WEBP)
-            ->save( $path . "." . $format);
+            ->save($path . '.' . $format);
     }
 }
