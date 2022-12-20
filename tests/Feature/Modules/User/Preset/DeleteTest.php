@@ -21,7 +21,7 @@ final class DeleteTest extends TestCase
     {
         $this->authenticateWithPermission(
             UserPresetPermission::fromValue(
-                UserPresetPermission::DELETE_USER_PRESET_OPTIONS
+                UserPresetPermission::DELETE_USER_PRESETS
             )
         );
 

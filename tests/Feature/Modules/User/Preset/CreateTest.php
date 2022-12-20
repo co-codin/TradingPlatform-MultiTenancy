@@ -21,7 +21,7 @@ final class CreateTest extends TestCase
     {
         $this->authenticateWithPermission(
             UserPresetPermission::fromValue(
-                UserPresetPermission::CREATE_USER_PRESET_OPTIONS
+                UserPresetPermission::CREATE_USER_PRESETS
             )
         );
 
@@ -57,7 +57,7 @@ final class CreateTest extends TestCase
     {
         $this->authenticateWithPermission(
             UserPresetPermission::fromValue(
-                UserPresetPermission::CREATE_USER_PRESET_OPTIONS
+                UserPresetPermission::CREATE_USER_PRESETS
             )
         );
 
@@ -76,7 +76,7 @@ final class CreateTest extends TestCase
     {
         $this->authenticateWithPermission(
             UserPresetPermission::fromValue(
-                UserPresetPermission::CREATE_USER_PRESET_OPTIONS
+                UserPresetPermission::CREATE_USER_PRESETS
             )
         );
 

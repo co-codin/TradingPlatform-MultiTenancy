@@ -7,7 +7,6 @@ namespace Modules\User\Enums;
 use App\Models\Action;
 use BenSampo\Enum\Enum;
 use Modules\Role\Contracts\PermissionEnum;
-use Modules\User\Models\DisplayOption;
 use Modules\User\Models\Preset;
 
 final class UserPresetPermission extends Enum implements PermissionEnum
@@ -15,22 +14,22 @@ final class UserPresetPermission extends Enum implements PermissionEnum
     /**
      * @var string
      */
-    public const VIEW_USER_PRESET_OPTIONS = 'view user display options';
+    public const VIEW_USER_PRESETS = 'view user presets';
 
     /**
      * @var string
      */
-    public const CREATE_USER_PRESET_OPTIONS = 'create user display options';
+    public const CREATE_USER_PRESETS = 'create user presets';
 
     /**
      * @var string
      */
-    public const EDIT_USER_PRESET_OPTIONS = 'edit user display options';
+    public const EDIT_USER_PRESETS = 'edit user presets';
 
     /**
      * @var string
      */
-    public const DELETE_USER_PRESET_OPTIONS = 'delete user display options';
+    public const DELETE_USER_PRESETS = 'delete user presets';
 
     /**
      * {@inheritDoc}
@@ -38,10 +37,10 @@ final class UserPresetPermission extends Enum implements PermissionEnum
     public static function actions(): array
     {
         return [
-            self::VIEW_USER_PRESET_OPTIONS => Action::NAMES['view'],
-            self::CREATE_USER_PRESET_OPTIONS => Action::NAMES['create'],
-            self::EDIT_USER_PRESET_OPTIONS => Action::NAMES['edit'],
-            self::DELETE_USER_PRESET_OPTIONS => Action::NAMES['delete'],
+            self::VIEW_USER_PRESETS => Action::NAMES['view'],
+            self::CREATE_USER_PRESETS => Action::NAMES['create'],
+            self::EDIT_USER_PRESETS => Action::NAMES['edit'],
+            self::DELETE_USER_PRESETS => Action::NAMES['delete'],
         ];
     }
 
@@ -59,10 +58,10 @@ final class UserPresetPermission extends Enum implements PermissionEnum
     public static function descriptions(): array
     {
         return [
-            self::VIEW_USER_PRESET_OPTIONS => 'View user display options',
-            self::CREATE_USER_PRESET_OPTIONS => 'Create user display options',
-            self::EDIT_USER_PRESET_OPTIONS => 'Edit user display options',
-            self::DELETE_USER_PRESET_OPTIONS => 'Delete user display options',
+            self::VIEW_USER_PRESETS => 'View user presets',
+            self::CREATE_USER_PRESETS => 'Create user presets',
+            self::EDIT_USER_PRESETS => 'Edit user presets',
+            self::DELETE_USER_PRESETS => 'Delete user presets',
         ];
     }
 
