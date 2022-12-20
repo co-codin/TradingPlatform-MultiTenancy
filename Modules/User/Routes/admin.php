@@ -12,11 +12,11 @@ use Modules\User\Http\Controllers\Admin\DisplayOption\UserDisplayOptionControlle
 use Modules\User\Http\Controllers\Admin\Impersonate\UserImpersonateController;
 use Modules\User\Http\Controllers\Admin\Language\UserLanguageController;
 use Modules\User\Http\Controllers\Admin\PasswordController;
+use Modules\User\Http\Controllers\Admin\Preset\UserPresetController;
 use Modules\User\Http\Controllers\Admin\SocialAuthController;
 use Modules\User\Http\Controllers\Admin\UserController;
 use Modules\User\Http\Controllers\TokenAuthController;
 use Modules\User\Http\Controllers\TokenController;
-use Modules\User\Http\Controllers\Admin\Preset\UserPresetController;
 
 Route::group(['prefix' => 'auth', 'as' => 'auth.', 'middleware' => 'web'], function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login');
@@ -89,6 +89,7 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
             'index',
         ])
         ->names([
+            'show' => 'users.display-options.show',
             'store' => 'users.display-options.store',
             'update' => 'users.display-options.update',
             'destroy' => 'users.display-options.destroy',
@@ -99,6 +100,7 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
             'index',
         ])
         ->names([
+            'show' => 'users.presets.show',
             'store' => 'users.presets.store',
             'update' => 'users.presets.update',
             'destroy' => 'users.presets.destroy',
