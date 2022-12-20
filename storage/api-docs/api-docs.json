@@ -6137,77 +6137,6 @@
                 ]
             }
         },
-        "/admin/workers/{id}/impersonate/token": {
-            "post": {
-                "tags": [
-                    "Worker"
-                ],
-                "summary": "Stateless api login impersonate worker",
-                "operationId": "3dc1fdb8e51292a16b7e6aaaeaedb130",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Worker id",
-                        "required": true,
-                        "example": "1"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "required": [
-                                        "impersonator",
-                                        "impersonator_token",
-                                        "target_worker",
-                                        "target_token",
-                                        "target_token_expired_at"
-                                    ],
-                                    "properties": {
-                                        "impersonator": {
-                                            "$ref": "#/components/schemas/AuthUser"
-                                        },
-                                        "target_worker": {
-                                            "$ref": "#/components/schemas/AuthUser"
-                                        },
-                                        "impersonator_token": {
-                                            "type": "string"
-                                        },
-                                        "target_token": {
-                                            "type": "string"
-                                        },
-                                        "target_token_expired_at": {
-                                            "type": "string",
-                                            "format": "date-time",
-                                            "example": "2022-12-17 08:44:09"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
         "/admin/workers/{workerId}/display-options": {
             "post": {
                 "tags": [
@@ -6273,6 +6202,77 @@
                     },
                     "403": {
                         "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/workers/{id}/impersonate/token": {
+            "post": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Stateless api login impersonate worker",
+                "operationId": "3dc1fdb8e51292a16b7e6aaaeaedb130",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "impersonator",
+                                        "impersonator_token",
+                                        "target_worker",
+                                        "target_token",
+                                        "target_token_expired_at"
+                                    ],
+                                    "properties": {
+                                        "impersonator": {
+                                            "$ref": "#/components/schemas/AuthUser"
+                                        },
+                                        "target_worker": {
+                                            "$ref": "#/components/schemas/AuthUser"
+                                        },
+                                        "impersonator_token": {
+                                            "type": "string"
+                                        },
+                                        "target_token": {
+                                            "type": "string"
+                                        },
+                                        "target_token_expired_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2022-12-17 08:44:09"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -9551,7 +9551,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }
