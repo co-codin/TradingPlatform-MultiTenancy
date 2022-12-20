@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\User\Database\factories\UserDisplayOptionFactory;
 use Modules\User\Dto\DisplayOptionColumnsDto;
-use Modules\User\Dto\DisplayOptionSettingsDto;
 
 class DisplayOption extends Model
 {
@@ -59,7 +58,6 @@ class DisplayOption extends Model
      */
     protected $casts = [
         'columns' => DisplayOptionColumnsDto::class,
-        'settings' => DisplayOptionSettingsDto::class,
     ];
 
     /**

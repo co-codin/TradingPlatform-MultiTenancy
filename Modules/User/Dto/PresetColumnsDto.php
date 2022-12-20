@@ -6,20 +6,14 @@ namespace Modules\User\Dto;
 
 use App\Dto\BaseDto;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
-use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
-final class DisplayOptionSettingsDto extends BaseDto implements CastsAttributes
+final class PresetColumnsDto extends BaseDto implements CastsAttributes
 {
     /**
-     * @var int $per_page
-     */
-    public int $per_page = 20;
-
-    /**
      * @param $model
-     * @param string $key
+     * @param  string  $key
      * @param $value
-     * @param array $attributes
+     * @param  array  $attributes
      * @return array
      */
     final public function get($model, string $key, $value, array $attributes): array
@@ -29,14 +23,13 @@ final class DisplayOptionSettingsDto extends BaseDto implements CastsAttributes
 
     /**
      * @param $model
-     * @param string $key
+     * @param  string  $key
      * @param $value
-     * @param array $attributes
+     * @param  array  $attributes
      * @return string
-     * @throws UnknownProperties
      */
     final public function set($model, string $key, $value, array $attributes): string
     {
-        return json_encode((new self($value))->toArray());
+        return json_encode($value);
     }
 }
