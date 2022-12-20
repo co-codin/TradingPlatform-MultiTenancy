@@ -17,7 +17,7 @@ return new class extends Migration
     {
         Schema::create('attachments', function (Blueprint $table) {
             $table->morphs('attachmentable');
-            $table->string('attachment', 500);
+            $table->string('path', 500);
             $table->string('position')->nullable();
             $table->string('caption')->nullable();
         });
