@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\User\Database\factories\PresetFactory;
+use Modules\User\Dto\PresetColumnsDto;
 
 final class Preset extends Model
 {
@@ -19,7 +20,7 @@ final class Preset extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'columns' => 'json',
+        'columns' => PresetColumnsDto::class,
     ];
 
     /**

@@ -19,7 +19,7 @@ class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(
             UserPresetPermission::fromValue(
-                UserPresetPermission::EDIT_USER_PRESET_OPTIONS
+                UserPresetPermission::EDIT_USER_PRESETS
             )
         );
 
@@ -67,7 +67,7 @@ class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(
             UserPresetPermission::fromValue(
-                UserPresetPermission::EDIT_USER_PRESET_OPTIONS
+                UserPresetPermission::EDIT_USER_PRESETS
             )
         );
 
@@ -89,7 +89,7 @@ class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(
             UserPresetPermission::fromValue(
-                UserPresetPermission::EDIT_USER_PRESET_OPTIONS
+                UserPresetPermission::EDIT_USER_PRESETS
             )
         );
 
@@ -111,7 +111,7 @@ class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(
             UserPresetPermission::fromValue(
-                UserPresetPermission::EDIT_USER_PRESET_OPTIONS
+                UserPresetPermission::EDIT_USER_PRESETS
             )
         );
 
@@ -134,7 +134,7 @@ class UpdateTest extends TestCase
     {
         $this->authenticateWithPermission(
             UserPresetPermission::fromValue(
-                UserPresetPermission::EDIT_USER_PRESET_OPTIONS
+                UserPresetPermission::EDIT_USER_PRESETS
             )
         );
 
