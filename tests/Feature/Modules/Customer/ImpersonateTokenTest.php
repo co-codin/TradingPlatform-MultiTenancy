@@ -6,12 +6,14 @@ namespace Tests\Feature\Modules\Customer;
 
 use Modules\Customer\Enums\CustomerPermission;
 use Modules\Customer\Models\Customer;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
 
 final class ImpersonateTokenTest extends BrandTestCase
 {
     use HasAuth;
+    use TenantAware;
 
     private Customer $targetCustomer;
 
@@ -21,6 +23,8 @@ final class ImpersonateTokenTest extends BrandTestCase
     public function can_impersonate(): void
     {
         $this->authenticateWithPermission(CustomerPermission::fromValue(CustomerPermission::IMPERSONATE_CUSTOMERS));
+
+        $this->brand->makeCurrent();
         $customer = $this->targetCustomer;
         $response = $this->post(route('admin.customers.impersonate.token', ['id' => $customer->id]));
 
@@ -44,6 +48,8 @@ final class ImpersonateTokenTest extends BrandTestCase
     public function cant_impersonate(): void
     {
         $this->authenticateUser();
+
+        $this->brand->makeCurrent();
         $response = $this->post(route('admin.customers.impersonate.token', ['id' => $this->targetCustomer->id]));
 
         $response->assertForbidden();
@@ -63,8 +69,11 @@ final class ImpersonateTokenTest extends BrandTestCase
     {
         parent::setUp();
 
-        $this->makeCurrentTenantAndSetHeader();
+        $this->brand->makeCurrent();
+        $this->targetCustomer = $this->brand->execute(function () {
+            return Customer::factory()->make();
+        });
 
-        $this->targetCustomer = Customer::factory()->create();
+        $this->targetCustomer->save();
     }
 }

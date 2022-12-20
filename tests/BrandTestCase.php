@@ -9,7 +9,6 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Modules\Brand\Models\Brand;
-use ReflectionObject;
 use Spatie\Multitenancy\Concerns\UsesMultitenancyConfig;
 
 abstract class BrandTestCase extends BaseTestCase
@@ -39,7 +38,7 @@ abstract class BrandTestCase extends BaseTestCase
             DB::unprepared("DROP SCHEMA IF EXISTS {$schema->schema_name} CASCADE;");
         }
 
-        Artisan::call('migrate:reset');
+        Artisan::call('db:wipe', ['--force' => true]);
 
         parent::tearDownAfterClass();
     }
