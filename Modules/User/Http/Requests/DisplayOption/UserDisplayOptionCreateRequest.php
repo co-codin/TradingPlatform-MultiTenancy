@@ -17,8 +17,7 @@ final class UserDisplayOptionCreateRequest extends BaseFormRequest
             'model_id' => 'required|integer|exists:landlord.models,id',
             'name' => 'required|string',
             'columns' => 'nullable|array',
-            // 'columns.*' => 'required|string',
-            'settings' => 'nullable|array',
+            'columns.*' => 'required|string',
         ];
     }
 }

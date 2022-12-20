@@ -4,8 +4,6 @@ namespace Tests\Feature\Modules\Customer\Admin;
 
 use Modules\Customer\Enums\CustomerPermission;
 use Modules\Customer\Models\Customer;
-use Modules\Geo\Models\Country;
-use Modules\Sale\Models\SaleStatus;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;

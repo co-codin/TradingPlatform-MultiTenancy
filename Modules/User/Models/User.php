@@ -19,7 +19,8 @@ use Kalnoy\Nestedset\NodeTrait;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Brand\Models\Brand;
 use Modules\Communication\Models\Comment;
-use Modules\CommunicationProvider\Models\CommunicationProvider;
+use Modules\Communication\Models\CommunicationExtension;
+use Modules\Communication\Models\CommunicationProvider;
 use Modules\Customer\Models\Customer;
 use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
@@ -225,6 +226,16 @@ final class User extends Authenticatable
     }
 
     /**
+     * Presets relation.
+     *
+     * @return HasMany
+     */
+    public function presets(): HasMany
+    {
+        return $this->hasMany(Preset::class);
+    }
+
+    /**
      * Affiliate relation.
      *
      * @return BelongsTo
@@ -239,9 +250,19 @@ final class User extends Authenticatable
      *
      * @return BelongsTo
      */
-    public function comProvider(): BelongsTo
+    public function communicationProvider(): BelongsTo
     {
-        return $this->belongsTo(CommunicationProvider::class, 'com_provider_id');
+        return $this->belongsTo(CommunicationProvider::class);
+    }
+
+    /**
+     * Communication extensions.
+     *
+     * @return HasMany
+     */
+    public function communicationExtensions(): HasMany
+    {
+        return $this->hasMany(CommunicationExtension::class);
     }
 
     /**
