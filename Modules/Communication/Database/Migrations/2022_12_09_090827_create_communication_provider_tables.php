@@ -27,6 +27,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('public.users');
             $table->foreignId('provider_id')->constrained('communication_providers');
             $table->timestamps();
+            $table->unique(['user_id', 'provider_id']);
         });
     }
 
