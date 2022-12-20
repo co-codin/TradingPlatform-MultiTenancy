@@ -9,10 +9,10 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-final class DisplayOptionCriteria extends BaseCriteria
+final class PresetCriteria extends BaseCriteria
 {
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function apply($model, RepositoryInterface $repository)
     {

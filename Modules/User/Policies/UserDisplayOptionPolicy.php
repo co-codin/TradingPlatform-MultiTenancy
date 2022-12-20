@@ -6,16 +6,28 @@ namespace Modules\User\Policies;
 
 use App\Policies\BasePolicy;
 use Modules\User\Enums\UserDisplayOptionPermission;
-use Modules\User\Enums\UserPermission;
 use Modules\User\Models\DisplayOption;
 use Modules\User\Models\User;
 
 class UserDisplayOptionPolicy extends BasePolicy
 {
     /**
+     * View policy.
+     *
+     * @param  User  $user
+     * @param  DisplayOption  $displayOption
+     * @return bool
+     */
+    public function view(User $user, DisplayOption $displayOption): bool
+    {
+        return $displayOption->user_id === $user->id ||
+            $user->can(UserDisplayOptionPermission::VIEW_USER_DISPLAY_OPTIONS);
+    }
+
+    /**
      * Create policy.
      *
-     * @param User $user
+     * @param  User  $user
      * @return bool
      */
     public function create(User $user): bool
@@ -26,8 +38,8 @@ class UserDisplayOptionPolicy extends BasePolicy
     /**
      * Update policy.
      *
-     * @param User $user
-     * @param DisplayOption $displayOption
+     * @param  User  $user
+     * @param  DisplayOption  $displayOption
      * @return bool
      */
     public function update(User $user, DisplayOption $displayOption): bool
@@ -39,8 +51,8 @@ class UserDisplayOptionPolicy extends BasePolicy
     /**
      * Delete policy.
      *
-     * @param User $user
-     * @param DisplayOption $displayOption
+     * @param  User  $user
+     * @param  DisplayOption  $displayOption
      * @return bool
      */
     public function delete(User $user, DisplayOption $displayOption): bool
