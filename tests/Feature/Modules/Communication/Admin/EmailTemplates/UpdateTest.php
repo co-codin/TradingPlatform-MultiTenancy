@@ -16,7 +16,7 @@ final class UpdateTest extends BrandTestCase
     use HasAuth;
 
     /**
-     * Test authorized user can update template list.
+     * Test authorized user can update template.
      *
      * @return void
      *
@@ -40,8 +40,9 @@ final class UpdateTest extends BrandTestCase
             'data' => $data->toArray(),
         ]);
     }
+
     /**
-     * Test authorized user can`t update template list.
+     * Test authorized user can`t update template.
      *
      * @return void
      *
@@ -61,8 +62,9 @@ final class UpdateTest extends BrandTestCase
 
         $response->assertForbidden();
     }
+
     /**
-     * Test authorized user can update not found template list.
+     * Test authorized user can update not found template.
      *
      * @return void
      *
@@ -82,8 +84,9 @@ final class UpdateTest extends BrandTestCase
 
         $response->assertNotFound();
     }
+
     /**
-     * Test unauthorized user can update template list.
+     * Test unauthorized user can update template.
      *
      * @return void
      *

@@ -7,10 +7,10 @@ namespace Modules\Communication\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Communication\Database\factories\EmailFactory;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
-use Modules\Communication\Models\EmailTemplates;
 use Modules\User\Models\User;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 /**
  * Class Email
@@ -27,6 +27,7 @@ use Modules\User\Models\User;
  */
 final class Email extends Model
 {
+    use SoftDeletes;
     use HasFactory;
     use UsesTenantConnection;
 
