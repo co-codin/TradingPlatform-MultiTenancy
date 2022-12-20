@@ -28,7 +28,7 @@ final class ImportTest extends BrandTestCase
         Desk::factory()->create();
 
         $file = new UploadedFile(
-            resource_path('../storage/customer-import/laravel-excel.xlsx'),
+            storage_path('customer-import/laravel-excel.xlsx'),
             'laravel-excel.xlsx',
             null,
             null,
@@ -52,7 +52,7 @@ final class ImportTest extends BrandTestCase
         Desk::factory()->create();
 
         $file = new UploadedFile(
-            resource_path('../storage/customer-import/laravel-excel.csv'),
+            storage_path('customer-import/laravel-excel.csv'),
             'laravel-excel.csv',
             null,
             null,
