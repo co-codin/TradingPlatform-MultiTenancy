@@ -129,9 +129,10 @@ class UserPolicy extends BasePolicy
      * Impersonate user policy.
      *
      * @param  User  $user
+     * @param  User  $selectedUser
      * @return bool
      */
-    public function impersonate(User $user): bool
+    public function impersonate(User $user, User $selectedUser): bool
     {
         return $user->can(UserPermission::IMPERSONATE_USER);
     }

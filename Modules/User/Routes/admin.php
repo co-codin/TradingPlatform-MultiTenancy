@@ -57,6 +57,9 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
         // Batch
         Route::patch('/update/batch', [UserController::class, 'updateBatch'])->name('batch.update');
 
+        // Impersonate
+        Route::post('/{id}/impersonate/token', [UserImpersonateController::class, 'token'])->name('impersonate.token');
+
         Route::group(['middleware' => 'tenant'], function () {
             // Country
             Route::put('/{id}/country', [UserCountryController::class, 'update'])->name('country.update');
@@ -69,9 +72,6 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
 
             // Desk
             Route::put('/{id}/desk', [UserDeskController::class, 'update'])->name('desk.update');
-
-            // Impersonate
-            Route::post('/{id}/impersonate', [UserImpersonateController::class, 'update'])->name('impersonate.update');
         });
     });
 
