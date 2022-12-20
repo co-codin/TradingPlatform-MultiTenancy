@@ -1,45 +1,51 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Communication\Repositories\Criteria;
 
 use App\Repositories\Criteria\BaseCriteria;
+use Modules\Customer\Repositories\Criteria\CustomerRequestCriteria;
 use Modules\User\Repositories\Criteria\UserRequestCriteria;
 use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class CommentRequestCriteria extends BaseCriteria
+final class CommentRequestCriteria extends BaseCriteria
 {
-    protected static array $allowedModelFields = [
-        'id',
-        'user_id',
-        'body',
-        'position',
-        'created_at',
-        'updated_at',
-        'deleted_at',
-    ];
-
+    /**
+     * {@inheritDoc}
+     */
     public function apply($model, RepositoryInterface $repository)
     {
         return QueryBuilder::for($model)
             ->defaultSort('-id')
             ->allowedFields(array_merge(
-                self::$allowedModelFields,
+                self::allowedModelFields(),
                 UserRequestCriteria::allowedModelFields('users'),
+                CustomerRequestCriteria::allowedModelFields('customers'),
             ))
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('user_id'),
+                AllowedFilter::exact('customer_id'),
                 AllowedFilter::partial('body'),
                 AllowedFilter::trashed(),
             ])
             ->allowedIncludes([
                 'user',
-                'images',
+                'customer',
+                'attachments',
             ])
             ->allowedSorts([
-                'id', 'body', 'user_id', 'position', 'created_at', 'updated_at', 'deleted_at',
+                'id',
+                'body',
+                'user_id',
+                'customer_id',
+                'position',
+                'created_at',
+                'updated_at',
+                'deleted_at',
             ]);
     }
 }
