@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Communication\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
-use App\Http\Controllers\Controller;
 use Modules\Communication\Dto\EmailDto;
 use Modules\Communication\Http\Requests\EmailCreateRequest;
 use Modules\Communication\Http\Requests\EmailUpdateRequest;
@@ -287,10 +287,9 @@ final class EmailController extends Controller
      *         @OA\Schema(type="integer"),
      *      ),
      *      @OA\Response(
-     *          response=201,
-     *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/EmailResource")
-     *       ),
+     *         response=204,
+     *         description="No content"
+     *      ),
      *      @OA\Response(
      *          response=401,
      *          description="Unauthenticated",

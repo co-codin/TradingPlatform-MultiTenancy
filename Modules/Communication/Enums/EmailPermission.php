@@ -6,8 +6,8 @@ namespace Modules\Communication\Enums;
 
 use App\Enums\BaseEnum;
 use App\Models\Action;
-use Modules\Role\Contracts\PermissionEnum;
 use Modules\Communication\Models\Email;
+use Modules\Role\Contracts\PermissionEnum;
 
 final class EmailPermission extends BaseEnum implements PermissionEnum
 {
@@ -30,6 +30,11 @@ final class EmailPermission extends BaseEnum implements PermissionEnum
      * @var string
      */
     public const DELETE_COMMUNICATION_EMAIL = 'delete сommunication email';
+
+    /**
+     * @var string
+     */
+    public const SEND_COMMUNICATION_EMAIL = 'send сommunication email';
 
     /**
      * {@inheritDoc}
@@ -70,6 +75,7 @@ final class EmailPermission extends BaseEnum implements PermissionEnum
             self::VIEW_COMMUNICATION_EMAIL => 'View communication email',
             self::EDIT_COMMUNICATION_EMAIL => 'Edit communication email',
             self::DELETE_COMMUNICATION_EMAIL => 'Delete communication email',
+            self::SEND_COMMUNICATION_EMAIL => 'Send communication email',
         ];
     }
 }

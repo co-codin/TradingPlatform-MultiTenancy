@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Modules\Communication\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 use Modules\Communication\Dto\EmailTemplatesDto;
 use Modules\Communication\Http\Requests\EmailTemplatesCreateRequest;
 use Modules\Communication\Http\Requests\EmailTemplatesUpdateRequest;
 use Modules\Communication\Http\Resources\EmailTemplatesResource;
 use Modules\Communication\Repositories\EmailTemplatesRepository;
 use Modules\Communication\Services\EmailTemplatesStorage;
-use Spatie\DataTransferObject\Exceptions\UnknownProperties;
-use Illuminate\Http\Response;
 use OpenApi\Annotations as OA;
+use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 final class EmailTemplatesController extends Controller
 {
@@ -63,6 +63,7 @@ final class EmailTemplatesController extends Controller
 
         return EmailTemplatesResource::collection($this->repository->jsonPaginate());
     }
+
     /**
      * @OA\Post(
      *      path="/admin/email-templates",
@@ -275,10 +276,9 @@ final class EmailTemplatesController extends Controller
      *         @OA\Schema(type="integer"),
      *      ),
      *      @OA\Response(
-     *          response=201,
-     *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/EmailTemplatesResource")
-     *       ),
+     *         response=204,
+     *         description="No content"
+     *      ),
      *      @OA\Response(
      *          response=401,
      *          description="Unauthenticated",

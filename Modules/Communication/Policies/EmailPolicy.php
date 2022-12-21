@@ -68,4 +68,15 @@ final class EmailPolicy extends BasePolicy
     {
         return $user->can(EmailPermission::DELETE_COMMUNICATION_EMAIL);
     }
+
+    /**
+     * Impersonate user policy.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function send(User $user): bool
+    {
+        return $user->can(EmailPermission::SEND_COMMUNICATION_EMAIL);
+    }
 }

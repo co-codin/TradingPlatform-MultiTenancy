@@ -596,15 +596,8 @@
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EmailResource"
-                                }
-                            }
-                        }
+                    "204": {
+                        "description": "No content"
                     },
                     "401": {
                         "description": "Unauthenticated"
@@ -677,6 +670,54 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/email-send-to-customer": {
+            "post": {
+                "tags": [
+                    "EmailSend"
+                ],
+                "summary": "Send email to customer",
+                "operationId": "33504d99c77b2c8e8d1b524eceb0bbb9",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email_id",
+                                    "customer_id"
+                                ],
+                                "properties": {
+                                    "email_id": {
+                                        "description": "ID of email",
+                                        "type": "integer"
+                                    },
+                                    "customer_id": {
+                                        "description": "ID of customer",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "No content"
                     },
                     "401": {
                         "description": "Unauthenticated"
@@ -905,15 +946,8 @@
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/EmailTemplatesResource"
-                                }
-                            }
-                        }
+                    "204": {
+                        "description": "No content"
                     },
                     "401": {
                         "description": "Unauthenticated"
