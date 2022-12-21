@@ -126,6 +126,6 @@ return [
         'Geo' => 'Geo',
         'Desk' => 'Desk',
         'Customer' => 'Customer',
-        'Communication' => 'Communication'
+        'Communication' => 'Communication',
     ],
 ];

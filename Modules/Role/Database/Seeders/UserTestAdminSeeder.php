@@ -15,7 +15,7 @@ final class UserTestAdminSeeder extends Seeder
 {
     public function run(): void
     {
-        $user = $this->getUser('admin@stoxtech.com');
+        $user = $this->getUserByEmail('admin@stoxtech.com');
 
         $role = Role::query()->firstOrCreate(
             Role::factory()->raw([
@@ -26,16 +26,17 @@ final class UserTestAdminSeeder extends Seeder
 
         $user->assignRole($role);
 
+        $this->createWorkers();
         $this->createTestUsers();
     }
 
     private function createTestUsers(): void
     {
         $emails = [
-            "qa@stoxtech.dev",
-            "qa+worker@stoxtech.dev",
-            "qa+worker1@stoxtech.dev",
-            "qa+worker2@stoxtech.dev",
+            'qa@stoxtech.dev',
+            'qa+worker@stoxtech.dev',
+            'qa+worker1@stoxtech.dev',
+            'qa+worker2@stoxtech.dev',
         ];
 
         $role = Role::query()->firstOrCreate(
@@ -46,11 +47,41 @@ final class UserTestAdminSeeder extends Seeder
         );
 
         foreach ($emails as $email) {
-            $this->getUser($email)->assignRole($role);
+            $this->getUserByEmail($email)->assignRole($role);
         }
     }
 
-    private function getUser(string $email): User
+    public function createWorkers()
+    {
+        $roles = [
+            DefaultRole::BRAND_MANAGER,
+            DefaultRole::COMPLIANCE,
+            DefaultRole::CONVERSION_MANAGER,
+            DefaultRole::CONVERSION_AGENT,
+            DefaultRole::RETENTION_AGENT,
+            DefaultRole::AFFILIATE,
+            DefaultRole::AFFILIATE_MANAGER,
+            DefaultRole::SUPPORT,
+            DefaultRole::IT,
+        ];
+
+        for ($i = 0; $i < 300; $i++) {
+            $role = fake()->randomElement($roles);
+
+            User::factory()
+                ->create()
+                ->assignRole(
+                    Role::query()->firstOrCreate(
+                        Role::factory()->raw([
+                            'name' => $role,
+                            'key' => Str::slug($role),
+                        ])
+                    )
+                );
+        }
+    }
+
+    private function getUserByEmail(string $email): User
     {
         $username = Str::before($email, '@');
 

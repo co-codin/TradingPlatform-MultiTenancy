@@ -47,6 +47,7 @@ final class UserCreateRequest extends BaseFormRequest
             ],
             'affiliate_id' => 'nullable|integer|exists:landlord.users,id',
             'show_on_scoreboards' => 'sometimes|required|boolean',
+            'communication_provider_id' => 'nullable|integer|exists:tenant.communication_providers,id',
         ];
     }
 

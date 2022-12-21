@@ -24,13 +24,11 @@ trait HasCustomerAuth
 
         $this->brand->makeCurrent();
 
-        $customer = Customer::whereEmail($email)->first();
-        if (! $customer) {
-            $customer = $this->brand->execute(function () use ($email) {
-                return Customer::factory()->make(compact('email'));
-            });
-            $customer->save();
-        }
+        /** @var Customer $customer */
+        $customer = Customer::whereEmail($email)->first() ?? $this->brand->execute(
+            fn () => Customer::factory()->make(['email' => $email])
+        );
+        $customer->id ?? $customer->save();
 
         $this->setCustomer($customer);
 
@@ -51,10 +49,10 @@ trait HasCustomerAuth
         $email = 'customer-permission@service.com';
 
         /** @var Customer $customer */
-        $customer = Customer::whereEmail($email)->first() ??
-            Customer::factory()->create([
-                'email' => $email,
-            ]);
+        $customer = Customer::whereEmail($email)->first() ?? $this->brand->execute(
+            fn () => Customer::factory()->make(['email' => $email])
+        );
+        $customer->id ?? $customer->save();
 
         $permission = Permission::whereName($permissionEnum->value)->first() ??
             Permission::factory()->create([

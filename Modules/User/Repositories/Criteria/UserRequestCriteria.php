@@ -26,6 +26,7 @@ final class UserRequestCriteria extends BaseCriteria
         'email',
         'affiliate_id',
         'show_on_scoreboards',
+        'communication_provider_id',
         'updated_at',
         'deleted_at',
     ];
@@ -39,15 +40,16 @@ final class UserRequestCriteria extends BaseCriteria
             ->defaultSort('-id')
             ->allowedFields(array_merge(
                 self::$allowedModelFields,
-                BrandRequestCriteria::allowedModelFields('brands')
+                BrandRequestCriteria::allowedModelFields('brands'),
             ))
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::partial('username'),
                 AllowedFilter::partial('email'),
                 AllowedFilter::partial('last_name'),
-                AllowedFilter::partial('affiliate_id'),
-                AllowedFilter::partial('show_on_scoreboards'),
+                AllowedFilter::exact('show_on_scoreboards'),
+                AllowedFilter::exact('affiliate_id'),
+                AllowedFilter::exact('communication_provider_id'),
                 AllowedFilter::custom('live', new LiveFilter([
                     'id' => '=',
                     'username' => 'like',
@@ -55,11 +57,12 @@ final class UserRequestCriteria extends BaseCriteria
                     'email' => 'like',
                 ])),
                 AllowedFilter::exact('roles.id'),
-                AllowedFilter::trashed(),
                 AllowedFilter::exact('desks.id'),
                 AllowedFilter::exact('departments.id'),
                 AllowedFilter::exact('countries.id'),
                 AllowedFilter::exact('languages.id'),
+                AllowedFilter::exact('displayOptions.model_id'),
+                AllowedFilter::trashed(),
             ])
             ->scopes([
                 'byPermissionsAccess',
@@ -79,7 +82,9 @@ final class UserRequestCriteria extends BaseCriteria
                 'languages',
                 'countries',
                 'affiliate',
-                'comProvider',
+
+                'communicationProvider',
+                'communicationExtensions',
 
                 'affiliateCustomers',
                 'conversionCustomers',
@@ -93,9 +98,15 @@ final class UserRequestCriteria extends BaseCriteria
             ])
             ->allowedSorts([
                 'id',
+                'username',
+                'first_name',
                 'last_name',
                 'email',
+                'is_active',
+                'target',
                 'last_login',
+                'show_on_scoreboards',
+                'departments.name',
                 'created_at',
                 'updated_at',
             ]);

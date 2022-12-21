@@ -14,6 +14,11 @@ final class UserDisplayOptionPermission extends Enum implements PermissionEnum
     /**
      * @var string
      */
+    public const VIEW_USER_DISPLAY_OPTIONS = 'view user display options';
+
+    /**
+     * @var string
+     */
     public const CREATE_USER_DISPLAY_OPTIONS = 'create user display options';
 
     /**
@@ -32,6 +37,7 @@ final class UserDisplayOptionPermission extends Enum implements PermissionEnum
     public static function actions(): array
     {
         return [
+            self::VIEW_USER_DISPLAY_OPTIONS => Action::NAMES['view'],
             self::CREATE_USER_DISPLAY_OPTIONS => Action::NAMES['create'],
             self::EDIT_USER_DISPLAY_OPTIONS => Action::NAMES['edit'],
             self::DELETE_USER_DISPLAY_OPTIONS => Action::NAMES['delete'],
@@ -52,6 +58,7 @@ final class UserDisplayOptionPermission extends Enum implements PermissionEnum
     public static function descriptions(): array
     {
         return [
+            self::VIEW_USER_DISPLAY_OPTIONS => 'View user display options',
             self::CREATE_USER_DISPLAY_OPTIONS => 'Create user display options',
             self::EDIT_USER_DISPLAY_OPTIONS => 'Edit user display options',
             self::DELETE_USER_DISPLAY_OPTIONS => 'Delete user display options',

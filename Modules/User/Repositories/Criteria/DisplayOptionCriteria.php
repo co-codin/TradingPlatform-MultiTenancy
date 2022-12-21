@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\User\Repositories\Criteria;
 
 use App\Repositories\Criteria\BaseCriteria;
@@ -7,10 +9,10 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class DisplayOptionCriteria extends BaseCriteria
+final class DisplayOptionCriteria extends BaseCriteria
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function apply($model, RepositoryInterface $repository)
     {
@@ -31,7 +33,8 @@ class DisplayOptionCriteria extends BaseCriteria
                 AllowedFilter::trashed(),
             ])
             ->allowedIncludes([
-                'user'
+                'user',
+                'model',
             ])
             ->allowedSorts([
                 'id',

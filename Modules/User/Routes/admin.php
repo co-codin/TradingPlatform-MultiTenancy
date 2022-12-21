@@ -9,9 +9,10 @@ use Modules\User\Http\Controllers\Admin\Country\UserCountryController;
 use Modules\User\Http\Controllers\Admin\Department\UserDepartmentController;
 use Modules\User\Http\Controllers\Admin\Desk\UserDeskController;
 use Modules\User\Http\Controllers\Admin\DisplayOption\UserDisplayOptionController;
-use Modules\User\Http\Controllers\Admin\Language\UserLanguageController;
 use Modules\User\Http\Controllers\Admin\Impersonate\UserImpersonateController;
+use Modules\User\Http\Controllers\Admin\Language\UserLanguageController;
 use Modules\User\Http\Controllers\Admin\PasswordController;
+use Modules\User\Http\Controllers\Admin\Preset\UserPresetController;
 use Modules\User\Http\Controllers\Admin\SocialAuthController;
 use Modules\User\Http\Controllers\Admin\UserController;
 use Modules\User\Http\Controllers\TokenAuthController;
@@ -56,6 +57,9 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
         // Batch
         Route::patch('/update/batch', [UserController::class, 'updateBatch'])->name('batch.update');
 
+        // Impersonate
+        Route::post('/{id}/impersonate/token', [UserImpersonateController::class, 'token'])->name('impersonate.token');
+
         Route::group(['middleware' => 'tenant'], function () {
             // Country
             Route::put('/{id}/country', [UserCountryController::class, 'update'])->name('country.update');
@@ -68,9 +72,6 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
 
             // Desk
             Route::put('/{id}/desk', [UserDeskController::class, 'update'])->name('desk.update');
-
-            // Impersonate
-            Route::post('/{id}/impersonate', [UserImpersonateController::class, 'update'])->name('impersonate.update');
         });
     });
 
@@ -86,11 +87,22 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
     Route::apiResource('workers.display-options', UserDisplayOptionController::class)
         ->except([
             'index',
-            'show',
         ])
         ->names([
+            'show' => 'users.display-options.show',
             'store' => 'users.display-options.store',
             'update' => 'users.display-options.update',
             'destroy' => 'users.display-options.destroy',
+        ]);
+
+    Route::apiResource('workers.presets', UserPresetController::class)
+        ->except([
+            'index',
+        ])
+        ->names([
+            'show' => 'users.presets.show',
+            'store' => 'users.presets.store',
+            'update' => 'users.presets.update',
+            'destroy' => 'users.presets.destroy',
         ]);
 });

@@ -1027,10 +1027,10 @@
         "/admin/communication/extensions": {
             "get": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Get communication extension list",
-                "operationId": "6bce1f19307c3cc87217644f8307e219",
+                "operationId": "9561ddfb64aa989fcdcba247c4678c7e",
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -1057,21 +1057,29 @@
             },
             "post": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Store communication extension",
-                "operationId": "5f443c295cfdca84e96032dff6f7af90",
+                "operationId": "d5d8b3c3f8b8d69dd03acc4aeab4b453",
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "name"
+                                    "name",
+                                    "user_id",
+                                    "provider_id"
                                 ],
                                 "properties": {
                                     "name": {
                                         "description": "Name of communication extension",
                                         "type": "string"
+                                    },
+                                    "user_id": {
+                                        "type": "integer"
+                                    },
+                                    "provider_id": {
+                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"
@@ -1104,13 +1112,45 @@
                 ]
             }
         },
+        "/admin/communication/extensions/all": {
+            "get": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Get communication extensions list all",
+                "operationId": "bfd9b188a27671cb33eb9f91c0572798",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CommunicationExtensionCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/communication/extensions/{id}": {
             "get": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Get communication extension",
-                "operationId": "f37bac7e954e01aefbc4aeb9ce82a195",
+                "operationId": "b5c95ea0a68124872717de379c44cf42",
                 "parameters": [
                     {
                         "name": "id",
@@ -1147,10 +1187,10 @@
             },
             "put": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Update communication extension",
-                "operationId": "66ac2fb4b4382167de8bdd9eb9c9a547",
+                "operationId": "56118f5414316a3510cea2ede0e4c9bc",
                 "parameters": [
                     {
                         "name": "id",
@@ -1166,12 +1206,20 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "name"
+                                    "name",
+                                    "user_id",
+                                    "provider_id"
                                 ],
                                 "properties": {
                                     "name": {
                                         "description": "Name of communication extension",
                                         "type": "string"
+                                    },
+                                    "user_id": {
+                                        "type": "integer"
+                                    },
+                                    "provider_id": {
+                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"
@@ -1205,10 +1253,10 @@
             },
             "delete": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Delete communication extension",
-                "operationId": "4fb57d490095742cdf523f8d5d3a5a25",
+                "operationId": "9ef6b1e14ea532644bbf1d942b57fb49",
                 "parameters": [
                     {
                         "name": "id",
@@ -1245,10 +1293,10 @@
             },
             "patch": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Update communication extension",
-                "operationId": "7f069a9305a21a9ec7a46f09557504c1",
+                "operationId": "5e013716079f1aa353ab524954763587",
                 "parameters": [
                     {
                         "name": "id",
@@ -1267,6 +1315,12 @@
                                     "name": {
                                         "description": "Name of communication extension",
                                         "type": "string"
+                                    },
+                                    "user_id": {
+                                        "type": "integer"
+                                    },
+                                    "provider_id": {
+                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"
@@ -1302,10 +1356,10 @@
         "/admin/communication/providers": {
             "get": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Get communication provider list",
-                "operationId": "b603c10e424d41ad7fc6755522f3e9a4",
+                "operationId": "6118e7791d864d07408292aed653dc8e",
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -1332,10 +1386,10 @@
             },
             "post": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Store communication provider",
-                "operationId": "b97191f1615d112d2813b5687185c1fa",
+                "operationId": "8bcc16d10ee12d6907c882dcf5cefc9f",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -1382,10 +1436,10 @@
         "/admin/communication/providers/all": {
             "get": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Get communication providers list all",
-                "operationId": "e0b1b3253dcc630bf5f93854d5e1301f",
+                "operationId": "56198e4a9f50d9ace583b774b76dc888",
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -1414,10 +1468,10 @@
         "/admin/communication/providers/{id}": {
             "get": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Get communication provider",
-                "operationId": "77645bbb080382810270094488afca8a",
+                "operationId": "fb85dbb4a1f5242726a9795ca8a5dc4b",
                 "parameters": [
                     {
                         "name": "id",
@@ -1454,10 +1508,10 @@
             },
             "put": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Update communication provider",
-                "operationId": "dcfb57acc519a94b1d40e859e6f93dd5",
+                "operationId": "264a3c44f6502d2752b9b2dbb94e2a82",
                 "parameters": [
                     {
                         "name": "id",
@@ -1512,10 +1566,10 @@
             },
             "delete": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Delete communication provider",
-                "operationId": "12995c10d56497fd14b68c1ca96e8ade",
+                "operationId": "f1211d2e497516c370916c28f6a010ac",
                 "parameters": [
                     {
                         "name": "id",
@@ -1552,10 +1606,10 @@
             },
             "patch": {
                 "tags": [
-                    "CommunicationProvider"
+                    "Communication"
                 ],
                 "summary": "Update communication provider",
-                "operationId": "9543027ee0880924281fc99448e41305",
+                "operationId": "e557940a6b25bd057575cbea4fceffc8",
                 "parameters": [
                     {
                         "name": "id",
@@ -3037,6 +3091,194 @@
                     },
                     "404": {
                         "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/customers/{id}/impersonate/session": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Steteful login impersonate customer",
+                "operationId": "5ccb3b12691930827ac38f177eb6ff75",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Customer id",
+                        "required": true,
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success. The session ID is returned in a cookie named `laravel_session`. You need to include this cookie in subsequent requests.",
+                        "headers": {
+                            "Set-Cookie(example-1)": {
+                                "description": "Encrypted session ID cookie",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "laravel_session=eyJpdiI6IjZKZm...%3D; Path=/; Domain=localhost; HttpOnly; Expires=Fri, 18 Nov 2022 13:25:26 GMT;"
+                                }
+                            },
+                            "Set-Cookie(example-2)": {
+                                "description": "Encrypted recaller cookie. Set if `remember_me=true` was received",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "remember_web-customer_59ba...=eyJpdiI6IjZKZm...%3D; Path=/; Domain=localhost; HttpOnly; Expires=Fri, 18 Nov 2022 13:25:26 GMT;"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "impersonator",
+                                        "target_customer"
+                                    ],
+                                    "properties": {
+                                        "impersonator": {
+                                            "$ref": "#/components/schemas/AuthUser"
+                                        },
+                                        "target_customer": {
+                                            "$ref": "#/components/schemas/AuthCustomer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "419": {
+                        "description": "CSRF token mismatch"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum_frontend": []
+                    }
+                ]
+            }
+        },
+        "/admin/customers/impersonate/session/logout": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Steteful logout impersonate customer",
+                "operationId": "d3c3e984582a2f549febcbb3fd3f5d02",
+                "responses": {
+                    "204": {
+                        "description": "No content. The session ID is returned in a cookie named `laravel_session`. You need to include this cookie in subsequent requests.",
+                        "headers": {
+                            "Set-Cookie(example-1)": {
+                                "description": "Encrypted session ID cookie",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "laravel_session=eyJpdiI6IjZKZm...%3D; Path=/; Domain=localhost; HttpOnly; Expires=Fri, 18 Nov 2022 13:25:26 GMT;"
+                                }
+                            },
+                            "Set-Cookie(example-2)": {
+                                "description": "Encrypted recaller cookie. Set if `remember_me=true` was received",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "remember_web_59ba...=eyJpdiI6IjZKZm...%3D; Path=/; Domain=localhost; HttpOnly; Expires=Fri, 18 Nov 2022 13:25:26 GMT;"
+                                }
+                            }
+                        }
+                    },
+                    "419": {
+                        "description": "CSRF token mismatch"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum_frontend": []
+                    }
+                ]
+            }
+        },
+        "/admin/customers/{id}/impersonate/token": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Stateless api login impersonate customer",
+                "operationId": "4bfcfce46c894194c03257ae6ead75a1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Customer id",
+                        "required": true,
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "impersonator",
+                                        "impersonator_token",
+                                        "target_customer",
+                                        "target_token",
+                                        "target_token_expired_at"
+                                    ],
+                                    "properties": {
+                                        "impersonator": {
+                                            "$ref": "#/components/schemas/AuthUser"
+                                        },
+                                        "target_customer": {
+                                            "$ref": "#/components/schemas/AuthCustomer"
+                                        },
+                                        "impersonator_token": {
+                                            "type": "string"
+                                        },
+                                        "target_token": {
+                                            "type": "string"
+                                        },
+                                        "target_token_expired_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2022-12-17 08:44:09"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -6297,13 +6539,13 @@
                 ]
             }
         },
-        "/admin/workers/{workerId}/display-options": {
-            "post": {
+        "/admin/workers/{workerId}/display-options/{displayOptionId}": {
+            "get": {
                 "tags": [
                     "Worker"
                 ],
-                "summary": "Add a new worker`s display option",
-                "operationId": "3cc600033e060b1e0944ae3bdb4c4997",
+                "summary": "Show display option.",
+                "operationId": "a2e3760389d4bccca058db9a498b0f5f",
                 "parameters": [
                     {
                         "name": "workerId",
@@ -6313,36 +6555,17 @@
                         "schema": {
                             "type": "integer"
                         }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "model_id",
-                                    "name",
-                                    "columns"
-                                ],
-                                "properties": {
-                                    "model_id": {
-                                        "type": "integer"
-                                    },
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "columns": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
-                                        }
-                                    }
-                                },
-                                "type": "object"
-                            }
+                    },
+                    {
+                        "name": "displayOptionId",
+                        "in": "path",
+                        "description": "Display option id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
                         }
                     }
-                },
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -6369,9 +6592,7 @@
                         "sanctum": []
                     }
                 ]
-            }
-        },
-        "/admin/workers/{workerId}/display-options/{displayOptionId}": {
+            },
             "put": {
                 "tags": [
                     "Worker"
@@ -6581,6 +6802,151 @@
                 ]
             }
         },
+        "/admin/workers/{workerId}/display-options": {
+            "post": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Add a new worker`s display option",
+                "operationId": "3cc600033e060b1e0944ae3bdb4c4997",
+                "parameters": [
+                    {
+                        "name": "workerId",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "model_id",
+                                    "name",
+                                    "columns"
+                                ],
+                                "properties": {
+                                    "model_id": {
+                                        "type": "integer"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "columns": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DisplayOptionResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/workers/{id}/impersonate/token": {
+            "post": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Stateless api login impersonate worker",
+                "operationId": "3dc1fdb8e51292a16b7e6aaaeaedb130",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "impersonator",
+                                        "impersonator_token",
+                                        "target_worker",
+                                        "target_token",
+                                        "target_token_expired_at"
+                                    ],
+                                    "properties": {
+                                        "impersonator": {
+                                            "$ref": "#/components/schemas/AuthUser"
+                                        },
+                                        "target_worker": {
+                                            "$ref": "#/components/schemas/AuthUser"
+                                        },
+                                        "impersonator_token": {
+                                            "type": "string"
+                                        },
+                                        "target_token": {
+                                            "type": "string"
+                                        },
+                                        "target_token_expired_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2022-12-17 08:44:09"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/workers/{id}/language": {
             "put": {
                 "tags": [
@@ -6756,6 +7122,343 @@
                         "description": "Bad Request"
                     }
                 }
+            }
+        },
+        "/admin/workers/{workerId}/presets/{presetId}": {
+            "get": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Show preset.",
+                "operationId": "3aa5216ab63cae9783f0f9b704930956",
+                "parameters": [
+                    {
+                        "name": "workerId",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "presetId",
+                        "in": "path",
+                        "description": "Display option id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PresetResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Update a worker`s preset",
+                "operationId": "f704c23fd1c7fbfabd0f33fbdf1ac483",
+                "parameters": [
+                    {
+                        "name": "workerId",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "presetId",
+                        "in": "path",
+                        "description": "Preset id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "model_id",
+                                    "name"
+                                ],
+                                "properties": {
+                                    "model_id": {
+                                        "type": "integer"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "columns": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PresetResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Delete a worker`s preset",
+                "operationId": "553850d13099b32c6da6d8b0978eecd4",
+                "parameters": [
+                    {
+                        "name": "workerId",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "presetId",
+                        "in": "path",
+                        "description": "Preset id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Update a worker",
+                "operationId": "49184bbf31c9c063d75703bd3dddc251",
+                "parameters": [
+                    {
+                        "name": "workerId",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "presetId",
+                        "in": "path",
+                        "description": "Display option id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "model_id": {
+                                        "type": "integer"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "columns": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PresetResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/workers/{workerId}/presets": {
+            "post": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Add a new worker`s preset",
+                "operationId": "15c0381d157b408cbb0081d33d6b4772",
+                "parameters": [
+                    {
+                        "name": "workerId",
+                        "in": "path",
+                        "description": "Worker id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "model_id",
+                                    "name",
+                                    "columns"
+                                ],
+                                "properties": {
+                                    "model_id": {
+                                        "type": "integer"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "columns": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PresetResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/admin/auth/callback/{provider}": {
@@ -7976,18 +8679,6 @@
                     "provider_id": {
                         "type": "integer"
                     },
-                    "user": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/Worker"
-                        }
-                    },
-                    "provider": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/CommunicationProvider"
-                        }
-                    },
                     "created_at": {
                         "type": "string",
                         "format": "date-time",
@@ -7997,6 +8688,12 @@
                         "type": "string",
                         "format": "date-time",
                         "readOnly": "true"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/Worker"
+                    },
+                    "provider": {
+                        "$ref": "#/components/schemas/CommunicationProvider"
                     }
                 },
                 "type": "object",
@@ -9367,6 +10064,66 @@
                 },
                 "type": "object"
             },
+            "Preset": {
+                "required": [
+                    "id",
+                    "user_id",
+                    "name",
+                    "columns"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "model_id": {
+                        "type": "integer"
+                    },
+                    "user_id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "columns": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "user": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Worker"
+                        }
+                    },
+                    "model": {
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "PresetCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Preset"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "PresetResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Preset"
+                    }
+                },
+                "type": "object"
+            },
             "Worker": {
                 "required": [
                     "id",
@@ -9408,6 +10165,25 @@
                         "type": "integer",
                         "nullable": true
                     },
+                    "show_on_scoreboards": {
+                        "description": "Show on scoreboards",
+                        "type": "boolean"
+                    },
+                    "affiliate_id": {
+                        "description": "Affiliate worker ID",
+                        "type": "integer"
+                    },
+                    "communication_provider_id": {
+                        "description": "Default communication provider ID",
+                        "type": "integer"
+                    },
+                    "last_login": {
+                        "description": "Date and time of last login",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": true
+                    },
                     "created_at": {
                         "description": "Date and time of creation",
                         "type": "string",
@@ -9427,13 +10203,6 @@
                         "example": "2022-12-17 08:44:09",
                         "nullable": true
                     },
-                    "last_login": {
-                        "description": "Date and time of last login",
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2022-12-17 08:44:09",
-                        "nullable": true
-                    },
                     "permissions": {
                         "description": "Permission array",
                         "type": "array",
@@ -9448,13 +10217,15 @@
                             "$ref": "#/components/schemas/Role"
                         }
                     },
-                    "affiliate_id": {
-                        "description": "Affiliate worker ID",
-                        "type": "integer"
+                    "communication_provider": {
+                        "$ref": "#/components/schemas/CommunicationProvider"
                     },
-                    "show_on_scoreboards": {
-                        "description": "Show on scoreboards",
-                        "type": "boolean"
+                    "communication_extensions": {
+                        "description": "Array of Communication extensions",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CommunicationExtension"
+                        }
                     }
                 },
                 "type": "object"

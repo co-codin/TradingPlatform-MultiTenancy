@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\User\Http\Controllers\Admin\DisplayOption;
 
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Client\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Modules\User\Http\Requests\DisplayOption\UserDisplayOptionCreateRequest;
@@ -16,13 +17,74 @@ use Modules\User\Repositories\DisplayOptionRepository;
 use Modules\User\Repositories\UserRepository;
 use Modules\User\Services\UserDisplayOptionStorage;
 
-class UserDisplayOptionController extends Controller
+final class UserDisplayOptionController extends Controller
 {
+    /**
+     * @param  UserRepository  $userRepository
+     * @param  DisplayOptionRepository  $displayOptionRepository
+     * @param  UserDisplayOptionStorage  $userDisplayOptionStorage
+     */
     public function __construct(
         protected UserRepository $userRepository,
         protected DisplayOptionRepository $displayOptionRepository,
         protected UserDisplayOptionStorage $userDisplayOptionStorage
     ) {
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/admin/workers/{workerId}/display-options/{displayOptionId}",
+     *     tags={"Worker"},
+     *     security={ {"sanctum": {} }},
+     *     summary="Show display option.",
+     *     @OA\Parameter(
+     *         description="Worker id",
+     *         in="path",
+     *         name="workerId",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\Parameter(
+     *         description="Display option id",
+     *         in="path",
+     *         name="displayOptionId",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *         @OA\JsonContent(ref="#/components/schemas/DisplayOptionResource")
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized Error"
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Forbidden Error"
+     *     ),
+     * )
+     *
+     * Show user`s display option.
+     *
+     * @param  int  $user
+     * @param  int  $displayOption
+     * @return DisplayOptionResource
+     *
+     * @throws AuthorizationException
+     */
+    public function show(int $user, int $displayOption): JsonResource
+    {
+        $displayOption = $this->displayOptionRepository->find($displayOption);
+
+        $this->authorize('view', $displayOption);
+
+        return new DisplayOptionResource($displayOption);
     }
 
     /**
@@ -214,7 +276,7 @@ class UserDisplayOptionController extends Controller
         $user = $this->userRepository->find($user);
         $displayOption = $this->displayOptionRepository->find($displayOption);
 
-        $this->authorize('update', [DisplayOption::class, $displayOption]);
+        $this->authorize('update', $displayOption);
 
         return new DisplayOptionResource(
             $this->userDisplayOptionStorage->update($user, $displayOption, $request->validated())
@@ -273,7 +335,7 @@ class UserDisplayOptionController extends Controller
         $user = $this->userRepository->find($user);
         $displayOption = $this->displayOptionRepository->find($displayOption);
 
-        $this->authorize('delete', [DisplayOption::class, $displayOption]);
+        $this->authorize('delete', $displayOption);
 
         $this->userDisplayOptionStorage->destroy($user, $displayOption);
 
