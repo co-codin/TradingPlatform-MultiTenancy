@@ -15,6 +15,7 @@ final class CommunicationServiceProvider extends BaseModuleServiceProvider
     protected array $policies = [
         CommunicationProvider::class => CommunicationProviderPolicy::class,
         CommunicationExtension::class => CommunicationExtensionPolicy::class,
+        Call::class => CallPolicy::class,
     ];
 
     public function getModuleName(): string
