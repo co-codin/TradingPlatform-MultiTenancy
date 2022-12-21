@@ -689,6 +689,671 @@
                 ]
             }
         },
+        "/admin/communication/emails": {
+            "get": {
+                "tags": [
+                    "Email"
+                ],
+                "summary": "Get emails list",
+                "description": "Returns emails list data.",
+                "operationId": "bae308b51463f6c998210d88bebdb829",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmailCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Email"
+                ],
+                "summary": "Store email",
+                "description": "Returns email data.",
+                "operationId": "232753a535e83fb263696c5c04e73037",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email_template_id",
+                                    "subject",
+                                    "body"
+                                ],
+                                "properties": {
+                                    "email_template_id": {
+                                        "description": "Email tempalte ID",
+                                        "type": "integer"
+                                    },
+                                    "subject": {
+                                        "description": "Email subject",
+                                        "type": "string"
+                                    },
+                                    "body": {
+                                        "description": "Email body",
+                                        "type": "string"
+                                    },
+                                    "sent_by_system": {
+                                        "type": "boolean"
+                                    },
+                                    "user_id": {
+                                        "description": "User ID",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmailResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/communication/emails/{id}": {
+            "get": {
+                "tags": [
+                    "Email"
+                ],
+                "summary": "Get email",
+                "description": "Returns email data.",
+                "operationId": "0fd76bb543d80647c8f57860bfcfbd58",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Email ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmailResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Email"
+                ],
+                "summary": "Update email",
+                "description": "Returns email data.",
+                "operationId": "5107341628c8c3636de32ffca14ded2b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Email ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email_template_id",
+                                    "subject",
+                                    "body"
+                                ],
+                                "properties": {
+                                    "email_template_id": {
+                                        "description": "Email tempalte ID",
+                                        "type": "integer"
+                                    },
+                                    "subject": {
+                                        "description": "Email subject",
+                                        "type": "string"
+                                    },
+                                    "body": {
+                                        "description": "Email body",
+                                        "type": "string"
+                                    },
+                                    "sent_by_system": {
+                                        "type": "boolean"
+                                    },
+                                    "user_id": {
+                                        "description": "User ID",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmailResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Email"
+                ],
+                "summary": "Delete email",
+                "operationId": "610439b42365ac2bc53af8361ebc6f21",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Email ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Email"
+                ],
+                "summary": "Update email",
+                "description": "Returns email data.",
+                "operationId": "c6fb87368205b9bf125c56fac7fb0b0e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Email ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email_template_id": {
+                                        "description": "Email tempalte ID",
+                                        "type": "integer"
+                                    },
+                                    "subject": {
+                                        "description": "Email subject",
+                                        "type": "string"
+                                    },
+                                    "body": {
+                                        "description": "Email body",
+                                        "type": "string"
+                                    },
+                                    "sent_by_system": {
+                                        "type": "boolean"
+                                    },
+                                    "user_id": {
+                                        "description": "User ID",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmailResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/communication/email-send-to-customer": {
+            "post": {
+                "tags": [
+                    "EmailSend"
+                ],
+                "summary": "Send email to customer",
+                "operationId": "a8d12c5a6c1a0cb6e0228cbe0f727e0b",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email_id",
+                                    "customer_id"
+                                ],
+                                "properties": {
+                                    "email_id": {
+                                        "description": "ID of email",
+                                        "type": "integer"
+                                    },
+                                    "customer_id": {
+                                        "description": "ID of customer",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/communication/email-templates": {
+            "get": {
+                "tags": [
+                    "EmailTemplates"
+                ],
+                "summary": "Get email templates list",
+                "description": "Returns emails templates list data.",
+                "operationId": "7eab9b0e66f06e0769d2025a945bc5af",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmailTemplatesCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "EmailTemplates"
+                ],
+                "summary": "Store email template",
+                "description": "Returns email template data.",
+                "operationId": "9e590fc894dd51f0c78c0fb6d338f75b",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "body"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Email template name",
+                                        "type": "string"
+                                    },
+                                    "body": {
+                                        "description": "Email template body",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmailTemplatesResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/communication/email-templates/{id}": {
+            "get": {
+                "tags": [
+                    "EmailTemplates"
+                ],
+                "summary": "Get email template",
+                "description": "Returns email template data.",
+                "operationId": "697b561a46c0b3d5b0b227a5a91d1fe9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Email template ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmailTemplatesResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "EmailTemplates"
+                ],
+                "summary": "Update email template",
+                "description": "Returns email template data.",
+                "operationId": "1d11edf2bd59cf01331c2db478736992",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Email template ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "body"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Email template name",
+                                        "type": "string"
+                                    },
+                                    "body": {
+                                        "description": "Email template body",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmailTemplatesResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "EmailTemplates"
+                ],
+                "summary": "Delete email template",
+                "operationId": "7a41d567d5cb1e8a3f3e22239c0ef70b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Email template ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "EmailTemplates"
+                ],
+                "summary": "Update email template",
+                "description": "Returns email template data.",
+                "operationId": "2508ba660f0c40da80ff1e0072e6ad52",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Email template ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Email template name",
+                                        "type": "string"
+                                    },
+                                    "body": {
+                                        "description": "Email template body",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmailTemplatesResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/communication/extensions": {
             "get": {
                 "tags": [
@@ -3012,7 +3677,7 @@
         "/customer/auth/login": {
             "post": {
                 "tags": [
-                    "Customer"
+                    "CustomerAuth"
                 ],
                 "summary": "Steteful login customer",
                 "operationId": "7fe1f71bfa0f6e6fd00be4659f27d583",
@@ -3083,7 +3748,7 @@
         "/customer/auth/logout": {
             "post": {
                 "tags": [
-                    "Customer"
+                    "CustomerAuth"
                 ],
                 "summary": "Steteful logout customer",
                 "operationId": "c1c28154fb717e88886388e65cbd8ff8",
@@ -3108,7 +3773,7 @@
         "/customer/auth/me": {
             "get": {
                 "tags": [
-                    "Customer"
+                    "CustomerAuth"
                 ],
                 "summary": "Authorized customer data",
                 "operationId": "f4818ebdacafae80cffcd44fced9c237",
@@ -3134,10 +3799,116 @@
                 ]
             }
         },
+        "/customer/auth/forget-password": {
+            "post": {
+                "tags": [
+                    "CustomerAuth"
+                ],
+                "summary": "Send Reset Password Notification",
+                "operationId": "45c7a15638a68843e31f6142be579a59",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Accepted"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/customer/auth/reset-password": {
+            "post": {
+                "tags": [
+                    "CustomerAuth"
+                ],
+                "summary": "Reset Password",
+                "operationId": "9bed914b9251de8b1db0988edf44599c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password",
+                                    "password_confirmation",
+                                    "token"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "token": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Accepted"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
         "/customer/auth/register": {
             "post": {
                 "tags": [
-                    "Customer"
+                    "CustomerAuth"
                 ],
                 "summary": "Register customer",
                 "description": "Registers a customer",
@@ -3247,7 +4018,7 @@
         "/customer/token-auth/login": {
             "post": {
                 "tags": [
-                    "Customer"
+                    "CustomerAuth"
                 ],
                 "summary": "Stateless api login",
                 "operationId": "aa959a26876eb959e87bc5b42f6b1f27",
@@ -3319,7 +4090,7 @@
         "/customer/token-auth/logout": {
             "post": {
                 "tags": [
-                    "Customer"
+                    "CustomerAuth"
                 ],
                 "summary": "Steteless api logout",
                 "operationId": "17a9ff86764f3717a0e939202e48e99f",
@@ -8425,6 +9196,106 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/CommunicationProvider"
+                    }
+                },
+                "type": "object"
+            },
+            "Email": {
+                "title": "Email",
+                "description": "Email model",
+                "required": [
+                    "email_template_id",
+                    "subject",
+                    "body"
+                ],
+                "properties": {
+                    "email_template_id": {
+                        "description": "Email tempalte ID",
+                        "type": "integer"
+                    },
+                    "subject": {
+                        "description": "Email subject",
+                        "type": "string"
+                    },
+                    "body": {
+                        "description": "Email body",
+                        "type": "string"
+                    },
+                    "sent_by_system": {
+                        "type": "boolean"
+                    },
+                    "user_id": {
+                        "description": "User ID",
+                        "type": "integer"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Email"
+                }
+            },
+            "EmailCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Email"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "EmailResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Email"
+                    }
+                },
+                "type": "object"
+            },
+            "EmailTemplates": {
+                "title": "Email Templates",
+                "description": "EmailTemplates model",
+                "required": [
+                    "name",
+                    "body"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Email template name",
+                        "type": "string"
+                    },
+                    "body": {
+                        "description": "Email template body",
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "EmailTemplates"
+                }
+            },
+            "EmailTemplatesCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/EmailTemplates"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "EmailTemplatesResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/EmailTemplates"
                     }
                 },
                 "type": "object"

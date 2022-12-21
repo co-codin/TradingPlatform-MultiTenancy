@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
 use Modules\Customer\Http\Controllers\AuthController;
+use Modules\Customer\Http\Controllers\PasswordController;
 use Modules\Customer\Http\Controllers\RegisterController;
 use Modules\Customer\Http\Controllers\TokenAuthController;
 
 Route::group(['prefix' => 'auth', 'as' => 'auth.', 'middleware' => ['web', 'tenant']], function () {
     Route::post('login', [AuthController::class, 'login'])->name('login');
     Route::post('register', [RegisterController::class, 'register'])->name('register');
+
+    Route::post('forget-password', [PasswordController::class, 'forget'])->name('password.forget');
+    Route::post('reset-password', [PasswordController::class, 'reset'])->name('password.reset');
 
     Route::group(['middleware' => 'auth:web-customer'], function () {
         Route::get('/me', [AuthController::class, 'me'])->name('me');

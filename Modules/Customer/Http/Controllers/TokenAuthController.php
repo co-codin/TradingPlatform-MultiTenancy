@@ -18,11 +18,6 @@ use OpenApi\Annotations as OA;
 
 final class TokenAuthController extends Controller
 {
-    /**
-     * @var string
-     */
-    public const GUARD = 'api-customer';
-
     public function __construct(
         protected CustomerStorage $storage,
     ) {
@@ -31,7 +26,7 @@ final class TokenAuthController extends Controller
     /**
      * @OA\Post(
      *     path="/customer/token-auth/login",
-     *     tags={"Customer"},
+     *     tags={"CustomerAuth"},
      *     summary="Stateless api login",
      *     @OA\RequestBody(
      *          required=true,
@@ -106,7 +101,7 @@ final class TokenAuthController extends Controller
     /**
      * @OA\Post(
      *     path="/customer/token-auth/logout",
-     *     tags={"Customer"},
+     *     tags={"CustomerAuth"},
      *     security={ {"sanctum": {} }},
      *     summary="Steteless api logout",
      *     @OA\Response(
@@ -123,7 +118,7 @@ final class TokenAuthController extends Controller
      */
     public function logout(): Response
     {
-        Auth::guard(self::GUARD)->user()->tokens()->where('name', 'api')->delete();
+        Auth::guard(Customer::API_AUTH_GUARD)->user()->tokens()->where('name', 'api')->delete();
 
         return response()->noContent();
     }

@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Modules\User\Providers;
 
 use App\Providers\BaseModuleServiceProvider;
+use App\Services\Auth\PasswordService;
+use Modules\User\Http\Controllers\Admin\AuthController;
+use Modules\User\Http\Controllers\Admin\PasswordController;
 use Modules\User\Models\DisplayOption;
 use Modules\User\Models\Preset;
 use Modules\User\Models\User;
@@ -39,5 +42,14 @@ final class UserServiceProvider extends BaseModuleServiceProvider
         parent::boot();
 
         $this->loadMigrations();
+    }
+
+    public function register(): void
+    {
+        parent::register();
+
+        $this->app->when(PasswordController::class)
+            ->needs(PasswordService::class)
+            ->give(fn () => new PasswordService(AuthController::GUARD));
     }
 }

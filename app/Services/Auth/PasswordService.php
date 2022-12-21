@@ -15,32 +15,13 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 final class PasswordService
 {
-    /**
-     * @var string
-     */
-    protected string $broker;
+    private readonly string $broker;
 
-    /**
-     * @var bool
-     */
-    protected bool $dispatchEvent = true;
+    private bool $dispatchEvent = true;
 
-    public function __construct()
+    public function __construct(string $guard)
     {
-        $this->broker = config('auth.guards.web.provider');
-    }
-
-    /**
-     * Set broker.
-     *
-     * @param  string  $broker
-     * @return $this
-     */
-    public function setBroker(string $broker): PasswordService
-    {
-        $this->broker = $broker;
-
-        return $this;
+        $this->broker = config("auth.guards.{$guard}.provider");
     }
 
     /**
@@ -49,7 +30,7 @@ final class PasswordService
      * @param  bool  $value
      * @return $this
      */
-    public function dispatchEvent(bool $value): PasswordService
+    public function dispatchEvent(bool $value): self
     {
         $this->dispatchEvent = $value;
 
@@ -90,5 +71,10 @@ final class PasswordService
         }
 
         return $status;
+    }
+
+    public function sendResetLink(array $credentials): string
+    {
+        return Password::broker($this->broker)->sendResetLink($credentials);
     }
 }
