@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Modules\Comment\Services;
+namespace Modules\Communication\Services;
 
 use Modules\Communication\Dto\CommentDto;
 use Modules\Communication\Models\Comment;
+use Modules\Media\Services\AttachmentStorage;
 
 final class CommentStorage
 {
@@ -18,8 +19,8 @@ final class CommentStorage
     final public function store(CommentDto $dto): Comment
     {
         /** @var Comment $comment */
-        if ($comment = Comment::query()->create($dto->toArray())) {
-            throw new \LogicException(__('Can not update comment.'));
+        if (! $comment = Comment::query()->create($dto->toArray())) {
+            throw new \LogicException(__('Can not store comment.'));
         }
 
         return $comment;
@@ -34,9 +35,7 @@ final class CommentStorage
      */
     final public function update(Comment $comment, CommentDto $commentDto): Comment
     {
-        $attributes = $commentDto->toArray();
-
-        if (! $comment->update($attributes)) {
+        if (! $comment->update($commentDto->toArray())) {
             throw new \LogicException(__('Can not update comment.'));
         }
 

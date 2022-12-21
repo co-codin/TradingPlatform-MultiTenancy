@@ -420,6 +420,12 @@
                                     },
                                     "position": {
                                         "type": "integer"
+                                    },
+                                    "attachments": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
                                     }
                                 },
                                 "type": "object"

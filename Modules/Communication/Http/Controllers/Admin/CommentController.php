@@ -8,22 +8,25 @@ use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
-use Modules\Comment\Services\CommentStorage;
 use Modules\Communication\Dto\CommentDto;
 use Modules\Communication\Http\Requests\CommentCreateRequest;
 use Modules\Communication\Http\Requests\CommentUpdateRequest;
 use Modules\Communication\Http\Resources\CommentResource;
 use Modules\Communication\Models\Comment;
 use Modules\Communication\Repositories\CommentRepository;
+use Modules\Communication\Services\CommentStorage;
+use Modules\Media\Services\AttachmentStorage;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 final class CommentController extends Controller
 {
     /**
-     * @param  CommentRepository  $commentRepository
-     * @param  CommentStorage  $commentStorage
+     * @param AttachmentStorage $attachmentStorage
+     * @param CommentRepository $commentRepository
+     * @param CommentStorage $commentStorage
      */
     public function __construct(
+        protected AttachmentStorage $attachmentStorage,
         protected CommentRepository $commentRepository,
         protected CommentStorage $commentStorage,
     ) {
@@ -133,6 +136,7 @@ final class CommentController extends Controller
      *                 @OA\Property(property="customer_id", type="integer"),
      *                 @OA\Property(property="body", type="string"),
      *                 @OA\Property(property="position", type="integer"),
+     *                 @OA\Property(property="attachments", type="array", @OA\Items(type="integer")),
      *             ),
      *         ),
      *      ),
@@ -163,9 +167,13 @@ final class CommentController extends Controller
     {
         $this->authorize('create', Comment::class);
 
-        return new CommentResource(
-            $this->commentStorage->store(CommentDto::fromFormRequest($request))
-        );
+        $dataDto = CommentDto::fromFormRequest($request);
+
+        $comment = $this->commentStorage->store($dataDto);
+
+        $this->attachmentStorage->update($comment, $dataDto->attachments);
+
+        return new CommentResource($comment);
     }
 
     /**
@@ -189,6 +197,7 @@ final class CommentController extends Controller
      *                 @OA\Property(property="customer_id", type="integer"),
      *                 @OA\Property(property="body", type="string"),
      *                 @OA\Property(property="position", type="integer"),
+     *                 @OA\Property(property="attachments", type="array", @OA\Items(type="integer")),
      *             ),
      *         ),
      *     ),
@@ -234,6 +243,7 @@ final class CommentController extends Controller
      *                 @OA\Property(property="customer_id", type="integer"),
      *                 @OA\Property(property="body", type="string"),
      *                 @OA\Property(property="position", type="integer"),
+     *                 @OA\Property(property="attachments", type="array", @OA\Items(type="integer")),
      *             ),
      *         ),
      *     ),
@@ -275,11 +285,13 @@ final class CommentController extends Controller
 
         $this->authorize('update', $comment);
 
-        return new CommentResource(
-            $this->commentStorage->update(
-                $comment, CommentDto::fromFormRequest($request)
-            )
-        );
+        $dataDto = CommentDto::fromFormRequest($request);
+
+        $comment =$this->commentStorage->update($comment, $dataDto);
+
+        $this->attachmentStorage->update($comment, $dataDto->attachments);
+
+        return new CommentResource($comment);
     }
 
     /**

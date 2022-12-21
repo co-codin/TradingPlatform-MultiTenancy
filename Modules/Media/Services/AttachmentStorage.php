@@ -25,15 +25,17 @@ final class AttachmentStorage
     /**
      * Update.
      *
-     * @param  Model  $model
-     * @param  array  $attachments
+     * @param Model $model
+     * @param Collection|array $attachments
      * @return Collection
      */
-    public function update(Model $model, array $attachments = []): Collection
+    public function update(Model $model, Collection|array $attachments = []): Collection
     {
         DB::beginTransaction();
 
-        $this->deleteNonExistentAttachments()
+        $this->setModel($model)
+            ->setAttachments($attachments)
+            ->deleteNonExistentAttachments()
             ->createNewAttachments()
             ->updateExistingAttachments();
 
@@ -43,7 +45,7 @@ final class AttachmentStorage
     }
 
     /**
-     * Delete non existent attachemnts.
+     * Delete non existent attachments.
      *
      * @return AttachmentStorage
      */
@@ -104,12 +106,12 @@ final class AttachmentStorage
     /**
      * Set attachments.
      *
-     * @param  Collection  $attachments
+     * @param Collection|array $attachments
      * @return AttachmentStorage
      */
-    public function setAttachments(Collection $attachments): AttachmentStorage
+    public function setAttachments(Collection|array $attachments): AttachmentStorage
     {
-        $this->attachments = $attachments;
+        $this->attachments = is_array($attachments) ? collect($attachments) : $attachments;
 
         return $this;
     }
