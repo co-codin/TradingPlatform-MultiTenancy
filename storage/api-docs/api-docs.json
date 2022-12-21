@@ -532,6 +532,12 @@
                                     },
                                     "position": {
                                         "type": "integer"
+                                    },
+                                    "attachments": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -639,6 +645,12 @@
                                     },
                                     "position": {
                                         "type": "integer"
+                                    },
+                                    "attachments": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -8257,6 +8269,9 @@
                     },
                     "customer": {
                         "$ref": "#/components/schemas/Customer"
+                    },
+                    "attachments": {
+                        "type": "object"
                     }
                 },
                 "type": "object",

@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Modules\Media\Services;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\File;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Modules\Media\Models\Attachment;
 
 final class AttachmentStorage
@@ -22,11 +25,24 @@ final class AttachmentStorage
      */
     protected Collection $attachments;
 
+    public function store(Model $model, File|UploadedFile $file)
+    {
+        DB::beginTransaction();
+
+        $attachment = $model->attachments()->create([
+            'path' => Storage::putFile('attachments', $file),
+        ]);
+
+        DB::commit();
+
+        return $attachment;
+    }
+
     /**
      * Update.
      *
-     * @param Model $model
-     * @param Collection|array $attachments
+     * @param  Model  $model
+     * @param  Collection|array  $attachments
      * @return Collection
      */
     public function update(Model $model, Collection|array $attachments = []): Collection
@@ -84,7 +100,7 @@ final class AttachmentStorage
         $this->attachments
             ->filter(fn ($image) => Arr::exists($image, 'id'))
             ->each(function ($image) {
-                Attachment::query()->find($image['id'])?->update($image);
+                Attachment::query()->find($image['id'])?->update($image->toArray());
             });
 
         return $this;
@@ -106,7 +122,7 @@ final class AttachmentStorage
     /**
      * Set attachments.
      *
-     * @param Collection|array $attachments
+     * @param  Collection|array  $attachments
      * @return AttachmentStorage
      */
     public function setAttachments(Collection|array $attachments): AttachmentStorage

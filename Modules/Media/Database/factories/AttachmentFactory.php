@@ -27,9 +27,9 @@ final class AttachmentFactory extends Factory
         $attachmentable = $this->faker->randomElement([
             Comment::class,
         ]);
-;
+
         return [
-            'path' => $this->faker->file('/tmp', '/'),
+            'path' => 'storage/customer-import/laravel-excel.xlsx',
             'attachmentable_id' => $attachmentable::factory(),
             'attachmentable_type' => $attachmentable,
         ];

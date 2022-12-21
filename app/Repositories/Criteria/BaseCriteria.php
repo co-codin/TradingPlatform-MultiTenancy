@@ -14,9 +14,10 @@ abstract class BaseCriteria implements CriteriaInterface
      * Allowed model fields.
      *
      * @param  string|null  $prefix
+     * @param  bool  $nested
      * @return array
      */
-    final protected static function allowedModelFields(?string $prefix, bool $nested = false): array
+    final protected static function allowedModelFields(?string $prefix = null, bool $nested = false): array
     {
         if (! $prefix) {
             return static::$allowedModelFields;

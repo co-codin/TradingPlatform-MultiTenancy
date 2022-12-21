@@ -16,19 +16,24 @@ use Modules\Communication\Models\Comment;
 use Modules\Communication\Repositories\CommentRepository;
 use Modules\Communication\Services\CommentStorage;
 use Modules\Media\Services\AttachmentStorage;
+use Modules\Media\Services\AttachmentUploader;
+use Modules\Media\Services\FileUploader;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 final class CommentController extends Controller
 {
     /**
-     * @param AttachmentStorage $attachmentStorage
-     * @param CommentRepository $commentRepository
-     * @param CommentStorage $commentStorage
+     * @param  AttachmentStorage  $attachmentStorage
+     * @param  AttachmentUploader  $attachmentUploader
+     * @param  CommentRepository  $commentRepository
+     * @param  CommentStorage  $commentStorage
      */
     public function __construct(
         protected AttachmentStorage $attachmentStorage,
+        protected AttachmentUploader $attachmentUploader,
         protected CommentRepository $commentRepository,
         protected CommentStorage $commentStorage,
+        protected FileUploader $fileUploader,
     ) {
     }
 
@@ -171,7 +176,18 @@ final class CommentController extends Controller
 
         $comment = $this->commentStorage->store($dataDto);
 
-        $this->attachmentStorage->update($comment, $dataDto->attachments);
+        $attachments = collect();
+
+        foreach ($dataDto->attachments as $attachment) {
+            $attachments->push(
+                $this->attachmentStorage->store(
+                    $comment,
+                    $this->attachmentUploader->upload($attachment),
+                ),
+            );
+        }
+
+        $this->attachmentStorage->update($comment, $attachments);
 
         return new CommentResource($comment);
     }
@@ -287,9 +303,20 @@ final class CommentController extends Controller
 
         $dataDto = CommentDto::fromFormRequest($request);
 
-        $comment =$this->commentStorage->update($comment, $dataDto);
+        $comment = $this->commentStorage->update($comment, $dataDto);
 
-        $this->attachmentStorage->update($comment, $dataDto->attachments);
+        $attachments = collect();
+
+        foreach ($dataDto->attachments as $attachment) {
+            $attachments->push(
+                $this->attachmentStorage->store(
+                    $comment,
+                    $this->attachmentUploader->upload($attachment),
+                ),
+            );
+        }
+
+        $this->attachmentStorage->update($comment, $attachments);
 
         return new CommentResource($comment);
     }

@@ -33,6 +33,7 @@ use Modules\User\Http\Resources\UserResource;
  *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true),
  *     @OA\Property(property="user", type="object", ref="#/components/schemas/Worker"),
  *     @OA\Property(property="customer", type="object", ref="#/components/schemas/Customer"),
+ *     @OA\Property(property="attachments", type="object"),
  * ),
  *
  * @OA\Schema (
@@ -74,6 +75,7 @@ class CommentResource extends BaseJsonResource
         return array_merge(parent::toArray($request), [
             'user' => UserResource::collection($this->whenLoaded('user')),
             'customer' => CustomerResource::collection($this->whenLoaded('customer')),
+            'attachments' => $this->whenLoaded('attachments'),
         ]);
     }
 }
