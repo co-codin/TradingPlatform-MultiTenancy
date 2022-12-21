@@ -32,7 +32,7 @@ final class CreateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $response = $this->postJson(route('admin.email-templates.store'), $data);
+        $response = $this->postJson(route('admin.communication.email-templates.store'), $data);
 
         $response->assertCreated();
 
@@ -54,7 +54,7 @@ final class CreateTest extends BrandTestCase
 
         $data = EmailTemplates::factory()->make()->toArray();
 
-        $response = $this->postJson(route('admin.email-templates.store'), $data);
+        $response = $this->postJson(route('admin.communication.email-templates.store'), $data);
 
         $response->assertForbidden();
     }
@@ -70,7 +70,7 @@ final class CreateTest extends BrandTestCase
     {
         $data = EmailTemplates::factory()->make()->toArray();
 
-        $response = $this->postJson(route('admin.email-templates.store'), $data);
+        $response = $this->postJson(route('admin.communication.email-templates.store'), $data);
 
         $response->assertUnauthorized();
     }

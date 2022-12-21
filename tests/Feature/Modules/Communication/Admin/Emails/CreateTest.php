@@ -32,7 +32,7 @@ final class CreateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $response = $this->postJson(route('admin.emails.store'), $data);
+        $response = $this->postJson(route('admin.communication.emails.store'), $data);
 
         $response->assertCreated();
 
@@ -58,7 +58,7 @@ final class CreateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $response = $this->postJson(route('admin.emails.store'), $data);
+        $response = $this->postJson(route('admin.communication.emails.store'), $data);
 
         $response->assertForbidden();
     }
@@ -78,7 +78,7 @@ final class CreateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $response = $this->postJson(route('admin.emails.store'), $data);
+        $response = $this->postJson(route('admin.communication.emails.store'), $data);
 
         $response->assertUnauthorized();
     }

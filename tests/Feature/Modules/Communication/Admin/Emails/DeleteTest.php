@@ -33,7 +33,7 @@ final class DeleteTest extends BrandTestCase
         });
         $email->save();
 
-        $response = $this->deleteJson(route('admin.emails.destroy', ['email' => $email->id]));
+        $response = $this->deleteJson(route('admin.communication.emails.destroy', ['email' => $email->id]));
 
         $response->assertNoContent();
     }
@@ -57,7 +57,7 @@ final class DeleteTest extends BrandTestCase
         $email->save();
 
 
-        $response = $this->deleteJson(route('admin.emails.destroy', ['email' => $email->id]));
+        $response = $this->deleteJson(route('admin.communication.emails.destroy', ['email' => $email->id]));
 
         $response->assertForbidden();
     }
@@ -76,7 +76,7 @@ final class DeleteTest extends BrandTestCase
         $this->brand->makeCurrent();
 
         $email = Email::orderByDesc('id')->first()?->id + 1 ?? 1;
-        $response = $this->delete(route('admin.emails.destroy', ['email' => $email]));
+        $response = $this->delete(route('admin.communication.emails.destroy', ['email' => $email]));
 
         $response->assertNotFound();
     }
@@ -98,7 +98,7 @@ final class DeleteTest extends BrandTestCase
         $email->save();
 
 
-        $response = $this->patchJson(route('admin.emails.destroy', ['email' => $email->id]));
+        $response = $this->patchJson(route('admin.communication.emails.destroy', ['email' => $email->id]));
 
         $response->assertUnauthorized();
     }

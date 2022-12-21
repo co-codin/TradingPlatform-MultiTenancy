@@ -32,7 +32,7 @@ final class UpdateTest extends BrandTestCase
 
         $data = EmailTemplates::factory()->make();
 
-        $response = $this->patchJson(route('admin.email-templates.update', ['email_template' => $emailtemplate->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.communication.email-templates.update', ['email_template' => $emailtemplate->id]), $data->toArray());
 
         $response->assertOk();
 
@@ -58,7 +58,7 @@ final class UpdateTest extends BrandTestCase
 
         $data = EmailTemplates::factory()->make();
 
-        $response = $this->patchJson(route('admin.email-templates.update', ['email_template' => $emailtemplate->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.communication.email-templates.update', ['email_template' => $emailtemplate->id]), $data->toArray());
 
         $response->assertForbidden();
     }
@@ -80,7 +80,7 @@ final class UpdateTest extends BrandTestCase
 
         $data = EmailTemplates::factory()->make();
 
-        $response = $this->patchJson(route('admin.email-templates.update', ['email_template' => $emailtemplateId]), $data->toArray());
+        $response = $this->patchJson(route('admin.communication.email-templates.update', ['email_template' => $emailtemplateId]), $data->toArray());
 
         $response->assertNotFound();
     }
@@ -100,7 +100,7 @@ final class UpdateTest extends BrandTestCase
 
         $data = EmailTemplates::factory()->make();
 
-        $response = $this->patchJson(route('admin.email-templates.update', ['email_template' => $emailtemplate->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.communication.email-templates.update', ['email_template' => $emailtemplate->id]), $data->toArray());
 
         $response->assertUnauthorized();
     }

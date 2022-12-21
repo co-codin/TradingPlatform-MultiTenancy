@@ -32,7 +32,7 @@ final class ReadTest extends BrandTestCase
         });
         $email->save();
 
-        $response = $this->getJson(route('admin.emails.index'));
+        $response = $this->getJson(route('admin.communication.emails.index'));
 
         $response->assertOk();
 
@@ -62,7 +62,7 @@ final class ReadTest extends BrandTestCase
         });
         $email->save();
 
-        $response = $this->getJson(route('admin.emails.index'));
+        $response = $this->getJson(route('admin.communication.emails.index'));
 
         $response->assertForbidden();
     }
@@ -83,7 +83,7 @@ final class ReadTest extends BrandTestCase
         });
         $email->save();
 
-        $response = $this->getJson(route('admin.emails.index'));
+        $response = $this->getJson(route('admin.communication.emails.index'));
 
         $response->assertUnauthorized();
     }
@@ -106,7 +106,7 @@ final class ReadTest extends BrandTestCase
         });
         $email->save();
 
-        $response = $this->getJson(route('admin.emails.show', ['email' => $email->id]));
+        $response = $this->getJson(route('admin.communication.emails.show', ['email' => $email->id]));
 
         $response->assertOk();
 
@@ -134,7 +134,7 @@ final class ReadTest extends BrandTestCase
         });
         $email->save();
 
-        $response = $this->getJson(route('admin.emails.show', ['email' => $email->id]));
+        $response = $this->getJson(route('admin.communication.emails.show', ['email' => $email->id]));
 
         $response->assertForbidden();
     }
@@ -154,7 +154,7 @@ final class ReadTest extends BrandTestCase
 
         $emailId = Email::orderByDesc('id')->first()?->id + 1 ?? 1;
 
-        $response = $this->getJson(route('admin.emails.show', ['email' => $emailId]));
+        $response = $this->getJson(route('admin.communication.emails.show', ['email' => $emailId]));
 
         $response->assertNotFound();
     }
@@ -175,7 +175,7 @@ final class ReadTest extends BrandTestCase
         });
         $email->save();
 
-        $response = $this->getJson(route('admin.emails.show', ['email' => $email->id]));
+        $response = $this->getJson(route('admin.communication.emails.show', ['email' => $email->id]));
 
         $response->assertUnauthorized();
     }

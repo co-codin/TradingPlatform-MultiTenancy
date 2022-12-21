@@ -8552,106 +8552,6 @@
                 },
                 "type": "object"
             },
-            "Email": {
-                "title": "Email",
-                "description": "Email model",
-                "required": [
-                    "email_template_id",
-                    "subject",
-                    "body"
-                ],
-                "properties": {
-                    "email_template_id": {
-                        "description": "Email tempalte ID",
-                        "type": "integer"
-                    },
-                    "subject": {
-                        "description": "Email subject",
-                        "type": "string"
-                    },
-                    "body": {
-                        "description": "Email body",
-                        "type": "string"
-                    },
-                    "sent_by_system": {
-                        "type": "boolean"
-                    },
-                    "user_id": {
-                        "description": "User ID",
-                        "type": "integer"
-                    }
-                },
-                "type": "object",
-                "xml": {
-                    "name": "Email"
-                }
-            },
-            "EmailCollection": {
-                "properties": {
-                    "data": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/Email"
-                        }
-                    },
-                    "meta": {
-                        "$ref": "#/components/schemas/Meta"
-                    }
-                },
-                "type": "object"
-            },
-            "EmailResource": {
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/Email"
-                    }
-                },
-                "type": "object"
-            },
-            "EmailTemplates": {
-                "title": "Email Templates",
-                "description": "EmailTemplates model",
-                "required": [
-                    "name",
-                    "body"
-                ],
-                "properties": {
-                    "name": {
-                        "description": "Email template name",
-                        "type": "string"
-                    },
-                    "body": {
-                        "description": "Email template body",
-                        "type": "string"
-                    }
-                },
-                "type": "object",
-                "xml": {
-                    "name": "EmailTemplates"
-                }
-            },
-            "EmailTemplatesCollection": {
-                "properties": {
-                    "data": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/EmailTemplates"
-                        }
-                    },
-                    "meta": {
-                        "$ref": "#/components/schemas/Meta"
-                    }
-                },
-                "type": "object"
-            },
-            "EmailTemplatesResource": {
-                "properties": {
-                    "data": {
-                        "$ref": "#/components/schemas/EmailTemplates"
-                    }
-                },
-                "type": "object"
-            },
             "CommunicationExtension": {
                 "title": "CommunicationExtension",
                 "description": "CommunicationExtension model",
@@ -8776,6 +8676,106 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/CommunicationProvider"
+                    }
+                },
+                "type": "object"
+            },
+            "Email": {
+                "title": "Email",
+                "description": "Email model",
+                "required": [
+                    "email_template_id",
+                    "subject",
+                    "body"
+                ],
+                "properties": {
+                    "email_template_id": {
+                        "description": "Email tempalte ID",
+                        "type": "integer"
+                    },
+                    "subject": {
+                        "description": "Email subject",
+                        "type": "string"
+                    },
+                    "body": {
+                        "description": "Email body",
+                        "type": "string"
+                    },
+                    "sent_by_system": {
+                        "type": "boolean"
+                    },
+                    "user_id": {
+                        "description": "User ID",
+                        "type": "integer"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Email"
+                }
+            },
+            "EmailCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Email"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "EmailResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Email"
+                    }
+                },
+                "type": "object"
+            },
+            "EmailTemplates": {
+                "title": "Email Templates",
+                "description": "EmailTemplates model",
+                "required": [
+                    "name",
+                    "body"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Email template name",
+                        "type": "string"
+                    },
+                    "body": {
+                        "description": "Email template body",
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "EmailTemplates"
+                }
+            },
+            "EmailTemplatesCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/EmailTemplates"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "EmailTemplatesResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/EmailTemplates"
                     }
                 },
                 "type": "object"

@@ -30,7 +30,7 @@ final class ReadTest extends BrandTestCase
 
         $emailtemplate = EmailTemplates::factory()->create();
 
-        $response = $this->getJson(route('admin.email-templates.index'));
+        $response = $this->getJson(route('admin.communication.email-templates.index'));
 
         $response->assertOk();
 
@@ -54,7 +54,7 @@ final class ReadTest extends BrandTestCase
 
         EmailTemplates::factory()->create();
 
-        $response = $this->getJson(route('admin.email-templates.index'));
+        $response = $this->getJson(route('admin.communication.email-templates.index'));
 
         $response->assertForbidden();
     }
@@ -72,7 +72,7 @@ final class ReadTest extends BrandTestCase
 
         EmailTemplates::factory()->create();
 
-        $response = $this->getJson(route('admin.email-templates.index'));
+        $response = $this->getJson(route('admin.communication.email-templates.index'));
 
         $response->assertUnauthorized();
     }
@@ -92,7 +92,7 @@ final class ReadTest extends BrandTestCase
 
         $emailtemplate = EmailTemplates::factory()->create();
 
-        $response = $this->getJson(route('admin.email-templates.show', ['email_template' => $emailtemplate->id]));
+        $response = $this->getJson(route('admin.communication.email-templates.show', ['email_template' => $emailtemplate->id]));
 
         $response->assertOk();
 
@@ -114,7 +114,7 @@ final class ReadTest extends BrandTestCase
 
         $emailtemplate = EmailTemplates::factory()->create();
 
-        $response = $this->getJson(route('admin.email-templates.show', ['email_template' => $emailtemplate->id]));
+        $response = $this->getJson(route('admin.communication.email-templates.show', ['email_template' => $emailtemplate->id]));
 
         $response->assertForbidden();
     }
@@ -134,7 +134,7 @@ final class ReadTest extends BrandTestCase
 
         $emailtemplateId = EmailTemplates::orderByDesc('id')->first()?->id + 1 ?? 1;
 
-        $response = $this->getJson(route('admin.email-templates.show', ['email_template' => $emailtemplateId]));
+        $response = $this->getJson(route('admin.communication.email-templates.show', ['email_template' => $emailtemplateId]));
 
         $response->assertNotFound();
     }
@@ -152,7 +152,7 @@ final class ReadTest extends BrandTestCase
 
         $emailtemplate = EmailTemplates::factory()->create();
 
-        $response = $this->getJson(route('admin.email-templates.show', ['email_template' => $emailtemplate->id]));
+        $response = $this->getJson(route('admin.communication.email-templates.show', ['email_template' => $emailtemplate->id]));
 
         $response->assertUnauthorized();
     }

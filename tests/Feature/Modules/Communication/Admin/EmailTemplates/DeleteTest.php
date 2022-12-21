@@ -30,7 +30,7 @@ final class DeleteTest extends BrandTestCase
 
         $emailtemplate = EmailTemplates::factory()->create();
 
-        $response = $this->deleteJson(route('admin.email-templates.destroy', ['email_template' => $emailtemplate->id]));
+        $response = $this->deleteJson(route('admin.communication.email-templates.destroy', ['email_template' => $emailtemplate->id]));
 
         $response->assertNoContent();
     }
@@ -50,7 +50,7 @@ final class DeleteTest extends BrandTestCase
 
         $emailtemplate = EmailTemplates::factory()->create();
 
-        $response = $this->deleteJson(route('admin.email-templates.destroy', ['email_template' => $emailtemplate->id]));
+        $response = $this->deleteJson(route('admin.communication.email-templates.destroy', ['email_template' => $emailtemplate->id]));
 
         $response->assertForbidden();
     }
@@ -69,7 +69,7 @@ final class DeleteTest extends BrandTestCase
         $this->brand->makeCurrent();
 
         $emailtemplate = EmailTemplates::orderByDesc('id')->first()?->id + 1 ?? 1;
-        $response = $this->delete(route('admin.email-templates.destroy', ['email_template' => $emailtemplate]));
+        $response = $this->delete(route('admin.communication.email-templates.destroy', ['email_template' => $emailtemplate]));
 
         $response->assertNotFound();
     }
@@ -87,7 +87,7 @@ final class DeleteTest extends BrandTestCase
 
         $emailtemplate = EmailTemplates::factory()->create();
 
-        $response = $this->patchJson(route('admin.email-templates.destroy', ['email_template' => $emailtemplate->id]));
+        $response = $this->patchJson(route('admin.communication.email-templates.destroy', ['email_template' => $emailtemplate->id]));
 
         $response->assertUnauthorized();
     }

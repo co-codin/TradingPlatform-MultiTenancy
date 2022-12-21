@@ -39,7 +39,7 @@ final class ToCustomerTest extends BrandTestCase
         });
         $customer->save();
 
-        $response = $this->postJson(route('admin.email.send.to.customer'), ['customer_id' => $customer->id, 'email_id' => $email->id]);
+        $response = $this->postJson(route('admin.communication.email.send.to.customer'), ['customer_id' => $customer->id, 'email_id' => $email->id]);
 
         $response->assertNoContent();
     }
@@ -66,7 +66,7 @@ final class ToCustomerTest extends BrandTestCase
         });
         $customer->save();
 
-        $response = $this->postJson(route('admin.email.send.to.customer'), ['customer_id' => $customer->id, 'email_id' => $email->id]);
+        $response = $this->postJson(route('admin.communication.email.send.to.customer'), ['customer_id' => $customer->id, 'email_id' => $email->id]);
 
         $response->assertForbidden();
     }
@@ -91,7 +91,7 @@ final class ToCustomerTest extends BrandTestCase
         });
         $customer->save();
 
-        $response = $this->postJson(route('admin.email.send.to.customer'), ['customer_id' => $customer->id, 'email_id' => $email->id]);
+        $response = $this->postJson(route('admin.communication.email.send.to.customer'), ['customer_id' => $customer->id, 'email_id' => $email->id]);
 
         $response->assertUnauthorized();
     }
