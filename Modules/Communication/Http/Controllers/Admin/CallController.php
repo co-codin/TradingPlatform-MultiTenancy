@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\Communication\Http\Controllers;
+namespace Modules\Communication\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -31,9 +31,9 @@ final class CallController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/admin/communication/Call",
+     *      path="/admin/communication/call",
      *      security={ {"sanctum": {} }},
-     *      tags={"Call"},
+     *      tags={"CommunicationCall"},
      *      summary="Get call list",
      *      description="Returns call list data.",
      *      @OA\Response(
@@ -68,7 +68,7 @@ final class CallController extends Controller
      * @OA\Post(
      *      path="/admin/communication/call",
      *      security={ {"sanctum": {} }},
-     *      tags={"Call"},
+     *      tags={"CommunicationCall"},
      *      summary="Store call",
      *      description="Returns call data.",
      *      @OA\RequestBody(
@@ -124,7 +124,7 @@ final class CallController extends Controller
      * @OA\Get(
      *      path="/admin/communication/call/{id}",
      *      security={ {"sanctum": {} }},
-     *      tags={"Call"},
+     *      tags={"CommunicationCall"},
      *      summary="Get call",
      *      description="Returns call data.",
      *      @OA\Parameter(
@@ -169,7 +169,7 @@ final class CallController extends Controller
      * @OA\Put(
      *      path="/admin/communication/call/{id}",
      *      security={ {"sanctum": {} }},
-     *      tags={"Call"},
+     *      tags={"CommunicationCall"},
      *      summary="Update call",
      *      description="Returns call data.",
      *      @OA\Parameter(
@@ -213,7 +213,7 @@ final class CallController extends Controller
      * @OA\Patch(
      *      path="/admin/communication/call/{id}",
      *      security={ {"sanctum": {} }},
-     *      tags={"Call"},
+     *      tags={"CommunicationCall"},
      *      summary="Update call",
      *      description="Returns call data.",
      *      @OA\Parameter(
@@ -277,7 +277,7 @@ final class CallController extends Controller
      * @OA\Delete(
      *      path="/admin/communication/call/{id}",
      *      security={ {"sanctum": {} }},
-     *      tags={"Call"},
+     *      tags={"CommunicationCall"},
      *      summary="Delete call",
      *      @OA\Parameter(
      *         description="Call ID",

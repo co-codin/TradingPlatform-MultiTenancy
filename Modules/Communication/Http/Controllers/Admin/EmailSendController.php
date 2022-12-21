@@ -32,7 +32,7 @@ class EmailSendController extends Controller
      * @OA\Post(
      *      path="/admin/communication/email-send-to-customer",
      *      security={ {"sanctum": {} }},
-     *      tags={"EmailSend"},
+     *      tags={"CommunicationEmailSend"},
      *      summary="Send email to customer",
      *      @OA\RequestBody(
      *         @OA\MediaType(

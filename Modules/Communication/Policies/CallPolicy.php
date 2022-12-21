@@ -64,19 +64,8 @@ final class CallPolicy extends BasePolicy
      * @param  Call  $call
      * @return bool
      */
-    public function delete(User $user, Email $email): bool
+    public function delete(User $user, Call $call): bool
     {
         return $user->can(CallPermission::DELETE_COMMUNICATION_CALL);
-    }
-
-    /**
-     * Impersonate user policy.
-     *
-     * @param  User  $user
-     * @return bool
-     */
-    public function send(User $user): bool
-    {
-        return $user->can(CallPermission::SEND_COMMUNICATION_CALL);
     }
 }

@@ -70,18 +70,9 @@ class CallResource extends BaseJsonResource
      */
     public function toArray($request): array
     {
-        return [
-            'id' => $this->id,
-            'user_id' => $this->user_id,
-            'provider_id' => $this->provider_id,
-            'duration' => $this->duration,
-            'text' => $this->text,
-            'status' => $this->status,
-            'deleted_at' => $this->deleted_at,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            // 'email_template' => new EmailTemplatesResource($this->template),
-            'user' => new AuthUserResource($this->user),
-        ];
+        return array_merge(parent::toArray($request), [
+            'user' => new UserResource($this->whenLoaded('user')),
+            'provider' => $this->whenLoaded('provider'),
+        ]);
     }
 }

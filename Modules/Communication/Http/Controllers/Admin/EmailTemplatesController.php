@@ -33,7 +33,7 @@ final class EmailTemplatesController extends Controller
      * @OA\Get(
      *      path="/admin/communication/email-templates",
      *      security={ {"sanctum": {} }},
-     *      tags={"EmailTemplates"},
+     *      tags={"CommunicationEmailTemplates"},
      *      summary="Get email templates list",
      *      description="Returns emails templates list data.",
      *      @OA\Response(
@@ -68,7 +68,7 @@ final class EmailTemplatesController extends Controller
      * @OA\Post(
      *      path="/admin/communication/email-templates",
      *      security={ {"sanctum": {} }},
-     *      tags={"EmailTemplates"},
+     *      tags={"CommunicationEmailTemplates"},
      *      summary="Store email template",
      *      description="Returns email template data.",
      *      @OA\RequestBody(
@@ -120,7 +120,7 @@ final class EmailTemplatesController extends Controller
      * @OA\Get(
      *      path="/admin/communication/email-templates/{id}",
      *      security={ {"sanctum": {} }},
-     *      tags={"EmailTemplates"},
+     *      tags={"CommunicationEmailTemplates"},
      *      summary="Get email template",
      *      description="Returns email template data.",
      *      @OA\Parameter(
@@ -165,7 +165,7 @@ final class EmailTemplatesController extends Controller
      * @OA\Put(
      *      path="/admin/communication/email-templates/{id}",
      *      security={ {"sanctum": {} }},
-     *      tags={"EmailTemplates"},
+     *      tags={"CommunicationEmailTemplates"},
      *      summary="Update email template",
      *      description="Returns email template data.",
      *      @OA\Parameter(
@@ -205,7 +205,7 @@ final class EmailTemplatesController extends Controller
      * @OA\Patch(
      *      path="/admin/communication/email-templates/{id}",
      *      security={ {"sanctum": {} }},
-     *      tags={"EmailTemplates"},
+     *      tags={"CommunicationEmailTemplates"},
      *      summary="Update email template",
      *      description="Returns email template data.",
      *      @OA\Parameter(
@@ -266,7 +266,7 @@ final class EmailTemplatesController extends Controller
      * @OA\Delete(
      *      path="/admin/communication/email-templates/{id}",
      *      security={ {"sanctum": {} }},
-     *      tags={"EmailTemplates"},
+     *      tags={"CommunicationEmailTemplates"},
      *      summary="Delete email template",
      *      @OA\Parameter(
      *         description="Email template ID",

@@ -70,17 +70,9 @@ class EmailResource extends BaseJsonResource
      */
     public function toArray($request): array
     {
-        return [
-            'id' => $this->id,
-            'subject' => $this->subject,
-            'body' => $this->body,
-            'sent_by_system' => $this->sent_by_system,
-            'deleted_at' => $this->deleted_at,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'email_template_id' => $this->email_template_id,
-            'email_template' => new EmailTemplatesResource($this->template),
-            'user' => new AuthUserResource($this->user),
-        ];
+        return array_merge(parent::toArray($request), [
+            'user' => new UserResource($this->whenLoaded('user')),
+            'email_template' => new EmailTemplatesResource($this->whenLoaded('template')),
+        ]);
     }
 }

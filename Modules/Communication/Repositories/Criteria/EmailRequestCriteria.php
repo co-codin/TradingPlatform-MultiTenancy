@@ -43,6 +43,10 @@ final class EmailRequestCriteria extends BaseCriteria
             ])
             ->allowedIncludes([
                 'user',
+                'template'
+            ])
+            ->with([
+                'user', 'template'
             ])
             ->allowedSorts([
                 'id', 'email_template_id', 'subject', 'body', 'sent_by_system', 'user_id', 'created_at', 'updated_at', 'deleted_at',

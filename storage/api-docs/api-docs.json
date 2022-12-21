@@ -359,10 +359,339 @@
                 ]
             }
         },
+        "/admin/communication/call": {
+            "get": {
+                "tags": [
+                    "CommunicationCall"
+                ],
+                "summary": "Get call list",
+                "description": "Returns call list data.",
+                "operationId": "5c0476ecdc6ca74026c65902713ff15c",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CallCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "CommunicationCall"
+                ],
+                "summary": "Store call",
+                "description": "Returns call data.",
+                "operationId": "f6c32d952d54484dd125b8dec7a068b8",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "provider_id",
+                                    "text"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "description": "User ID",
+                                        "type": "integer"
+                                    },
+                                    "provider_id": {
+                                        "description": "Communication provider ID",
+                                        "type": "integer"
+                                    },
+                                    "duration": {
+                                        "description": "Duration sec.",
+                                        "type": "integer"
+                                    },
+                                    "text": {
+                                        "description": "Text",
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "description": "Status",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CallResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/communication/call/{id}": {
+            "get": {
+                "tags": [
+                    "CommunicationCall"
+                ],
+                "summary": "Get call",
+                "description": "Returns call data.",
+                "operationId": "99b59fd0b92b26031050b56c2c94b38a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Call ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CallResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "CommunicationCall"
+                ],
+                "summary": "Update call",
+                "description": "Returns call data.",
+                "operationId": "69d2cc28bcc8a045ed8c9a3e869a1cc2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Call ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "provider_id",
+                                    "text"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "description": "User ID",
+                                        "type": "integer"
+                                    },
+                                    "provider_id": {
+                                        "description": "Communication provider ID",
+                                        "type": "integer"
+                                    },
+                                    "duration": {
+                                        "description": "Duration sec.",
+                                        "type": "integer"
+                                    },
+                                    "text": {
+                                        "description": "Text",
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "description": "Status",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CallResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "CommunicationCall"
+                ],
+                "summary": "Delete call",
+                "operationId": "e9244e7bac57d6cb7e539d87f3f3929b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Call ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "CommunicationCall"
+                ],
+                "summary": "Update call",
+                "description": "Returns call data.",
+                "operationId": "a8a1d198f12ac79bbd25fce3a0e886d6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Call ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "user_id": {
+                                        "description": "User ID",
+                                        "type": "integer"
+                                    },
+                                    "provider_id": {
+                                        "description": "Communication provider ID",
+                                        "type": "integer"
+                                    },
+                                    "duration": {
+                                        "description": "Duration sec.",
+                                        "type": "integer"
+                                    },
+                                    "text": {
+                                        "description": "Text",
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "description": "Status",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CallResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/communication/emails": {
             "get": {
                 "tags": [
-                    "Email"
+                    "CommunicationEmail"
                 ],
                 "summary": "Get emails list",
                 "description": "Returns emails list data.",
@@ -393,7 +722,7 @@
             },
             "post": {
                 "tags": [
-                    "Email"
+                    "CommunicationEmail"
                 ],
                 "summary": "Store email",
                 "description": "Returns email data.",
@@ -461,7 +790,7 @@
         "/admin/communication/emails/{id}": {
             "get": {
                 "tags": [
-                    "Email"
+                    "CommunicationEmail"
                 ],
                 "summary": "Get email",
                 "description": "Returns email data.",
@@ -503,7 +832,7 @@
             },
             "put": {
                 "tags": [
-                    "Email"
+                    "CommunicationEmail"
                 ],
                 "summary": "Update email",
                 "description": "Returns email data.",
@@ -580,7 +909,7 @@
             },
             "delete": {
                 "tags": [
-                    "Email"
+                    "CommunicationEmail"
                 ],
                 "summary": "Delete email",
                 "operationId": "610439b42365ac2bc53af8361ebc6f21",
@@ -614,7 +943,7 @@
             },
             "patch": {
                 "tags": [
-                    "Email"
+                    "CommunicationEmail"
                 ],
                 "summary": "Update email",
                 "description": "Returns email data.",
@@ -688,7 +1017,7 @@
         "/admin/communication/email-send-to-customer": {
             "post": {
                 "tags": [
-                    "EmailSend"
+                    "CommunicationEmailSend"
                 ],
                 "summary": "Send email to customer",
                 "operationId": "a8d12c5a6c1a0cb6e0228cbe0f727e0b",
@@ -736,7 +1065,7 @@
         "/admin/communication/email-templates": {
             "get": {
                 "tags": [
-                    "EmailTemplates"
+                    "CommunicationEmailTemplates"
                 ],
                 "summary": "Get email templates list",
                 "description": "Returns emails templates list data.",
@@ -767,7 +1096,7 @@
             },
             "post": {
                 "tags": [
-                    "EmailTemplates"
+                    "CommunicationEmailTemplates"
                 ],
                 "summary": "Store email template",
                 "description": "Returns email template data.",
@@ -823,7 +1152,7 @@
         "/admin/communication/email-templates/{id}": {
             "get": {
                 "tags": [
-                    "EmailTemplates"
+                    "CommunicationEmailTemplates"
                 ],
                 "summary": "Get email template",
                 "description": "Returns email template data.",
@@ -865,7 +1194,7 @@
             },
             "put": {
                 "tags": [
-                    "EmailTemplates"
+                    "CommunicationEmailTemplates"
                 ],
                 "summary": "Update email template",
                 "description": "Returns email template data.",
@@ -930,7 +1259,7 @@
             },
             "delete": {
                 "tags": [
-                    "EmailTemplates"
+                    "CommunicationEmailTemplates"
                 ],
                 "summary": "Delete email template",
                 "operationId": "7a41d567d5cb1e8a3f3e22239c0ef70b",
@@ -964,7 +1293,7 @@
             },
             "patch": {
                 "tags": [
-                    "EmailTemplates"
+                    "CommunicationEmailTemplates"
                 ],
                 "summary": "Update email template",
                 "description": "Returns email template data.",
@@ -8654,6 +8983,63 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/Brand"
+                    }
+                },
+                "type": "object"
+            },
+            "Call": {
+                "title": "Call",
+                "description": "Call model",
+                "required": [
+                    "email_template_id",
+                    "subject",
+                    "body"
+                ],
+                "properties": {
+                    "user_id": {
+                        "description": "User ID",
+                        "type": "integer"
+                    },
+                    "provider_id": {
+                        "description": "Communication provider ID",
+                        "type": "integer"
+                    },
+                    "duration": {
+                        "description": "Duration sec.",
+                        "type": "integer"
+                    },
+                    "text": {
+                        "description": "Text",
+                        "type": "string"
+                    },
+                    "status": {
+                        "description": "Status",
+                        "type": "integer"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Call"
+                }
+            },
+            "CallCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Call"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "CallResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Call"
                     }
                 },
                 "type": "object"

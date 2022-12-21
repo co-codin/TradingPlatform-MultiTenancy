@@ -42,4 +42,9 @@ final class Call extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function provider(): BelongsTo
+    {
+        return $this->belongsTo(CommunicationProvider::class);
+    }
 }

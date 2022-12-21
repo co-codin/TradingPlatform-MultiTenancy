@@ -42,7 +42,10 @@ final class CallRequestCriteria extends BaseCriteria
                 AllowedFilter::trashed(),
             ])
             ->allowedIncludes([
-                'user',
+                'user', 'provider'
+            ])
+            ->with([
+                'user', 'provider'
             ])
             ->allowedSorts([
                 'id', 'user_id', 'provider_id', 'duration', 'text', 'status', 'created_at', 'updated_at', 'deleted_at',

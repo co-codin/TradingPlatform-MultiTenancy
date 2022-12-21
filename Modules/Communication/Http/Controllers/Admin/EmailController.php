@@ -33,7 +33,7 @@ final class EmailController extends Controller
      * @OA\Get(
      *      path="/admin/communication/emails",
      *      security={ {"sanctum": {} }},
-     *      tags={"Email"},
+     *      tags={"CommunicationEmail"},
      *      summary="Get emails list",
      *      description="Returns emails list data.",
      *      @OA\Response(
@@ -68,7 +68,7 @@ final class EmailController extends Controller
      * @OA\Post(
      *      path="/admin/communication/emails",
      *      security={ {"sanctum": {} }},
-     *      tags={"Email"},
+     *      tags={"CommunicationEmail"},
      *      summary="Store email",
      *      description="Returns email data.",
      *      @OA\RequestBody(
@@ -124,7 +124,7 @@ final class EmailController extends Controller
      * @OA\Get(
      *      path="/admin/communication/emails/{id}",
      *      security={ {"sanctum": {} }},
-     *      tags={"Email"},
+     *      tags={"CommunicationEmail"},
      *      summary="Get email",
      *      description="Returns email data.",
      *      @OA\Parameter(
@@ -169,7 +169,7 @@ final class EmailController extends Controller
      * @OA\Put(
      *      path="/admin/communication/emails/{id}",
      *      security={ {"sanctum": {} }},
-     *      tags={"Email"},
+     *      tags={"CommunicationEmail"},
      *      summary="Update email",
      *      description="Returns email data.",
      *      @OA\Parameter(
@@ -213,7 +213,7 @@ final class EmailController extends Controller
      * @OA\Patch(
      *      path="/admin/communication/emails/{id}",
      *      security={ {"sanctum": {} }},
-     *      tags={"Email"},
+     *      tags={"CommunicationEmail"},
      *      summary="Update email",
      *      description="Returns email data.",
      *      @OA\Parameter(
@@ -277,7 +277,7 @@ final class EmailController extends Controller
      * @OA\Delete(
      *      path="/admin/communication/emails/{id}",
      *      security={ {"sanctum": {} }},
-     *      tags={"Email"},
+     *      tags={"CommunicationEmail"},
      *      summary="Delete email",
      *      @OA\Parameter(
      *         description="Email ID",
