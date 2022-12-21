@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\User\Http\Controllers\Admin;
+namespace Modules\Customer\Http\Controllers;
 
 use App\Dto\Auth\PasswordResetDto;
 use App\Http\Controllers\Controller;
@@ -14,7 +14,7 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
-use Modules\User\Repositories\UserRepository;
+use Modules\Customer\Repositories\CustomerRepository;
 use OpenApi\Annotations as OA;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -25,14 +25,14 @@ final class PasswordController extends Controller
      * @param  PasswordService  $passwordService
      */
     public function __construct(
-        protected PasswordService $passwordService,
+        private readonly PasswordService $passwordService,
     ) {
     }
 
     /**
      * @OA\Post(
-     *     path="/admin/auth/forget-password",
-     *     tags={"Auth"},
+     *     path="/customer/auth/forget-password",
+     *     tags={"CustomerAuth"},
      *     summary="Send Reset Password Notification",
      *     @OA\RequestBody(
      *          required=true,
@@ -61,12 +61,12 @@ final class PasswordController extends Controller
      * )
      *
      * @param  ForgetPasswordRequest  $request
-     * @param  UserRepository  $repository
+     * @param  CustomerRepository  $repository
      * @return Application|ResponseFactory|Response
      *
      * @throws ValidationException
      */
-    public function forget(ForgetPasswordRequest $request, UserRepository $repository)
+    public function forget(ForgetPasswordRequest $request, CustomerRepository $repository)
     {
         $user = $repository->findByField(['email' => $request->validated('email')])->first();
 
@@ -78,7 +78,7 @@ final class PasswordController extends Controller
             throw ValidationException::withMessages(['banned' => 'You have been banned']);
         }
 
-        $status = Password::sendResetLink($request->only('email'));
+        $status = $this->passwordService->sendResetLink($request->only('email'));
         if ($status !== Password::RESET_LINK_SENT) {
             abort(Response::HTTP_BAD_REQUEST, $status);
         }
@@ -88,8 +88,8 @@ final class PasswordController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/admin/auth/reset-password",
-     *     tags={"Auth"},
+     *     path="/customer/auth/reset-password",
+     *     tags={"CustomerAuth"},
      *     summary="Reset Password",
      *     @OA\RequestBody(
      *          required=true,

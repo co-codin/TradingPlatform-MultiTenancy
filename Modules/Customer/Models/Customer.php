@@ -7,6 +7,7 @@ namespace Modules\Customer\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Brand\Models\Brand;
 use Modules\Customer\Database\factories\CustomerFactory;
@@ -47,12 +48,18 @@ final class Customer extends Authenticatable
     use CustomerRelations;
     use HasRoles;
     use HasApiTokens;
+    use Notifiable;
     use UsesTenantConnection;
 
     /**
      * @var string
      */
     public const DEFAULT_AUTH_GUARD = 'web-customer';
+
+    /**
+     * @var string
+     */
+    public const API_AUTH_GUARD = 'api-customer';
 
     /**
      * @var array

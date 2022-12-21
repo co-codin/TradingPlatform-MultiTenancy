@@ -23,7 +23,7 @@ final class RegisterController extends Controller
     /**
      * @OA\Post(
      *      path="/customer/auth/register",
-     *      tags={"Customer"},
+     *      tags={"CustomerAuth"},
      *      summary="Register customer",
      *      description="Registers a customer",
      *      @OA\RequestBody(

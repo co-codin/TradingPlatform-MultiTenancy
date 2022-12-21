@@ -10,8 +10,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Password;
 use Modules\Customer\Http\Requests\PasswordResetRequest;
-use Modules\Customer\Models\Customer;
 use Modules\Customer\Repositories\CustomerRepository;
+use OpenApi\Annotations as OA;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -91,7 +91,6 @@ class PasswordController extends Controller
         $this->authorize('resetPassword', $customer);
 
         $status = $this->passwordService
-            ->setBroker(config('auth.guards.api-customer.provider'))
             ->dispatchEvent($request->boolean('send_email'))
             ->reset(
                 new PasswordResetDto([
