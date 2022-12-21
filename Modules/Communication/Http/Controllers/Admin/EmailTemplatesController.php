@@ -31,7 +31,7 @@ final class EmailTemplatesController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/admin/email-templates",
+     *      path="/admin/communication/email-templates",
      *      security={ {"sanctum": {} }},
      *      tags={"EmailTemplates"},
      *      summary="Get email templates list",
@@ -66,7 +66,7 @@ final class EmailTemplatesController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/admin/email-templates",
+     *      path="/admin/communication/email-templates",
      *      security={ {"sanctum": {} }},
      *      tags={"EmailTemplates"},
      *      summary="Store email template",
@@ -118,7 +118,7 @@ final class EmailTemplatesController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/admin/email-templates/{id}",
+     *      path="/admin/communication/email-templates/{id}",
      *      security={ {"sanctum": {} }},
      *      tags={"EmailTemplates"},
      *      summary="Get email template",
@@ -163,7 +163,7 @@ final class EmailTemplatesController extends Controller
 
     /**
      * @OA\Put(
-     *      path="/admin/email-templates/{id}",
+     *      path="/admin/communication/email-templates/{id}",
      *      security={ {"sanctum": {} }},
      *      tags={"EmailTemplates"},
      *      summary="Update email template",
@@ -203,7 +203,7 @@ final class EmailTemplatesController extends Controller
      *      )
      * ),
      * @OA\Patch(
-     *      path="/admin/email-templates/{id}",
+     *      path="/admin/communication/email-templates/{id}",
      *      security={ {"sanctum": {} }},
      *      tags={"EmailTemplates"},
      *      summary="Update email template",
@@ -264,7 +264,7 @@ final class EmailTemplatesController extends Controller
 
     /**
      * @OA\Delete(
-     *      path="/admin/email-templates/{id}",
+     *      path="/admin/communication/email-templates/{id}",
      *      security={ {"sanctum": {} }},
      *      tags={"EmailTemplates"},
      *      summary="Delete email template",

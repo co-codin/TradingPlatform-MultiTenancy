@@ -31,7 +31,7 @@ final class EmailController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/admin/emails",
+     *      path="/admin/communication/emails",
      *      security={ {"sanctum": {} }},
      *      tags={"Email"},
      *      summary="Get emails list",
@@ -66,7 +66,7 @@ final class EmailController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/admin/emails",
+     *      path="/admin/communication/emails",
      *      security={ {"sanctum": {} }},
      *      tags={"Email"},
      *      summary="Store email",
@@ -122,7 +122,7 @@ final class EmailController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/admin/emails/{id}",
+     *      path="/admin/communication/emails/{id}",
      *      security={ {"sanctum": {} }},
      *      tags={"Email"},
      *      summary="Get email",
@@ -167,7 +167,7 @@ final class EmailController extends Controller
 
     /**
      * @OA\Put(
-     *      path="/admin/emails/{id}",
+     *      path="/admin/communication/emails/{id}",
      *      security={ {"sanctum": {} }},
      *      tags={"Email"},
      *      summary="Update email",
@@ -211,7 +211,7 @@ final class EmailController extends Controller
      *      )
      * ),
      * @OA\Patch(
-     *      path="/admin/emails/{id}",
+     *      path="/admin/communication/emails/{id}",
      *      security={ {"sanctum": {} }},
      *      tags={"Email"},
      *      summary="Update email",
@@ -275,7 +275,7 @@ final class EmailController extends Controller
 
     /**
      * @OA\Delete(
-     *      path="/admin/emails/{id}",
+     *      path="/admin/communication/emails/{id}",
      *      security={ {"sanctum": {} }},
      *      tags={"Email"},
      *      summary="Delete email",

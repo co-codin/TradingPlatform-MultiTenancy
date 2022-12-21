@@ -30,7 +30,7 @@ class EmailSendController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/admin/email-send-to-customer",
+     *      path="/admin/communication/email-send-to-customer",
      *      security={ {"sanctum": {} }},
      *      tags={"EmailSend"},
      *      summary="Send email to customer",

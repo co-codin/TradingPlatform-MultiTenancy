@@ -359,14 +359,14 @@
                 ]
             }
         },
-        "/admin/emails": {
+        "/admin/communication/emails": {
             "get": {
                 "tags": [
                     "Email"
                 ],
                 "summary": "Get emails list",
                 "description": "Returns emails list data.",
-                "operationId": "d4615b1ece05bea2443ffe3527b76135",
+                "operationId": "bae308b51463f6c998210d88bebdb829",
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -397,7 +397,7 @@
                 ],
                 "summary": "Store email",
                 "description": "Returns email data.",
-                "operationId": "7f49934fd012a56834787ed36b260ea6",
+                "operationId": "232753a535e83fb263696c5c04e73037",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -458,14 +458,14 @@
                 ]
             }
         },
-        "/admin/emails/{id}": {
+        "/admin/communication/emails/{id}": {
             "get": {
                 "tags": [
                     "Email"
                 ],
                 "summary": "Get email",
                 "description": "Returns email data.",
-                "operationId": "d6fb1cd265a28af52973ea277f6a0cab",
+                "operationId": "0fd76bb543d80647c8f57860bfcfbd58",
                 "parameters": [
                     {
                         "name": "id",
@@ -507,7 +507,7 @@
                 ],
                 "summary": "Update email",
                 "description": "Returns email data.",
-                "operationId": "5fdb36a8146ad0d28a40b768b56f4e65",
+                "operationId": "5107341628c8c3636de32ffca14ded2b",
                 "parameters": [
                     {
                         "name": "id",
@@ -583,7 +583,7 @@
                     "Email"
                 ],
                 "summary": "Delete email",
-                "operationId": "7efc6faee842f9fdb645547eb66da731",
+                "operationId": "610439b42365ac2bc53af8361ebc6f21",
                 "parameters": [
                     {
                         "name": "id",
@@ -618,7 +618,7 @@
                 ],
                 "summary": "Update email",
                 "description": "Returns email data.",
-                "operationId": "f6e846df0813a314f38d7374b79a9a99",
+                "operationId": "c6fb87368205b9bf125c56fac7fb0b0e",
                 "parameters": [
                     {
                         "name": "id",
@@ -685,13 +685,13 @@
                 ]
             }
         },
-        "/admin/email-send-to-customer": {
+        "/admin/communication/email-send-to-customer": {
             "post": {
                 "tags": [
                     "EmailSend"
                 ],
                 "summary": "Send email to customer",
-                "operationId": "33504d99c77b2c8e8d1b524eceb0bbb9",
+                "operationId": "a8d12c5a6c1a0cb6e0228cbe0f727e0b",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -733,14 +733,14 @@
                 ]
             }
         },
-        "/admin/email-templates": {
+        "/admin/communication/email-templates": {
             "get": {
                 "tags": [
                     "EmailTemplates"
                 ],
                 "summary": "Get email templates list",
                 "description": "Returns emails templates list data.",
-                "operationId": "2459a52c104737218ad8e2f38201713b",
+                "operationId": "7eab9b0e66f06e0769d2025a945bc5af",
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -771,7 +771,7 @@
                 ],
                 "summary": "Store email template",
                 "description": "Returns email template data.",
-                "operationId": "fa4523d0d871c6176dfa22f26e790aeb",
+                "operationId": "9e590fc894dd51f0c78c0fb6d338f75b",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -820,14 +820,14 @@
                 ]
             }
         },
-        "/admin/email-templates/{id}": {
+        "/admin/communication/email-templates/{id}": {
             "get": {
                 "tags": [
                     "EmailTemplates"
                 ],
                 "summary": "Get email template",
                 "description": "Returns email template data.",
-                "operationId": "674a82b89f2cd284dab6eaaa34ee018e",
+                "operationId": "697b561a46c0b3d5b0b227a5a91d1fe9",
                 "parameters": [
                     {
                         "name": "id",
@@ -869,7 +869,7 @@
                 ],
                 "summary": "Update email template",
                 "description": "Returns email template data.",
-                "operationId": "c001133d07e0e0ca1a034caf7aff2a53",
+                "operationId": "1d11edf2bd59cf01331c2db478736992",
                 "parameters": [
                     {
                         "name": "id",
@@ -933,7 +933,7 @@
                     "EmailTemplates"
                 ],
                 "summary": "Delete email template",
-                "operationId": "7f5367a20b8296c05eeaacf5c3a44b07",
+                "operationId": "7a41d567d5cb1e8a3f3e22239c0ef70b",
                 "parameters": [
                     {
                         "name": "id",
@@ -968,7 +968,7 @@
                 ],
                 "summary": "Update email template",
                 "description": "Returns email template data.",
-                "operationId": "39daf5dbd56123606bf6e2b60b96cea5",
+                "operationId": "2508ba660f0c40da80ff1e0072e6ad52",
                 "parameters": [
                     {
                         "name": "id",
