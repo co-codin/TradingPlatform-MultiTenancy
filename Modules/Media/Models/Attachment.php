@@ -21,6 +21,11 @@ final class Attachment extends Model
     protected $guarded = ['id'];
 
     /**
+     * {@inheritdoc}
+     */
+    public $timestamps = false;
+
+    /**
      * @return MorphTo
      */
     public function attachmentable(): MorphTo

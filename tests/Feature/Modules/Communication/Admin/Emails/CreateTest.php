@@ -36,8 +36,6 @@ final class CreateTest extends BrandTestCase
 
         $response->assertCreated();
 
-        unset($data['user_id']);
-
         $response->assertJson(['data' => $data]);
     }
 

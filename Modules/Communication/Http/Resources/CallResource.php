@@ -6,7 +6,7 @@ namespace Modules\Communication\Http\Resources;
 
 use App\Http\Resources\BaseJsonResource;
 use Illuminate\Http\Request;
-use Modules\Communication\Models\Email;
+use Modules\Communication\Models\Call;
 use Modules\User\Http\Resources\AuthUserResource;
 use Modules\User\Http\Resources\UserResource;
 use OpenApi\Annotations as OA;
@@ -15,29 +15,29 @@ use OpenApi\Annotations as OA;
  * Mail.
  *
  * @OA\Schema(
- *     schema="Email",
- *     title="Email",
- *     description="Email model",
+ *     schema="Call",
+ *     title="Call",
+ *     description="Call model",
  *     required={
  *         "email_template_id",
  *         "subject",
  *         "body",
  *     },
- *     @OA\Xml(name="Email"),
- *     @OA\Property(property="email_template_id", type="integer", description="Email tempalte ID"),
- *     @OA\Property(property="subject", type="string", description="Email subject"),
- *     @OA\Property(property="body", type="string", description="Email body"),
- *     @OA\Property(property="sent_by_system", type="bool"),
+ *     @OA\Xml(name="Call"),
  *     @OA\Property(property="user_id", type="integer", description="User ID"),
+ *     @OA\Property(property="provider_id", type="integer", description="Communication provider ID"),
+ *     @OA\Property(property="duration", type="integer", description="Duration sec."),
+ *     @OA\Property(property="text", type="string", description="Text"),
+ *     @OA\Property(property="status", type="integer", description="Status"),
  * ),
  *
  * @OA\Schema (
- *     schema="EmailCollection",
+ *     schema="CallCollection",
  *     type="object",
  *     @OA\Property(
  *         property="data",
  *         type="array",
- *         @OA\Items(ref="#/components/schemas/Email")
+ *         @OA\Items(ref="#/components/schemas/Call")
  *     ),
  *     @OA\Property(
  *         property="meta",
@@ -47,20 +47,20 @@ use OpenApi\Annotations as OA;
  * ),
  *
  * @OA\Schema (
- *     schema="EmailResource",
+ *     schema="CallResource",
  *     type="object",
  *     @OA\Property(
  *         property="data",
  *         type="object",
- *         ref="#/components/schemas/Email"
+ *         ref="#/components/schemas/Call"
  *     )
  * )
  *
- * Class EmailResource
+ * Class CallResource
  *
- * @mixin Email
+ * @mixin Call
  */
-class EmailResource extends BaseJsonResource
+class CallResource extends BaseJsonResource
 {
     /**
      * Transform the resource into an array.
@@ -72,7 +72,7 @@ class EmailResource extends BaseJsonResource
     {
         return array_merge(parent::toArray($request), [
             'user' => new UserResource($this->whenLoaded('user')),
-            'email_template' => new EmailTemplatesResource($this->whenLoaded('template')),
+            'provider' => $this->whenLoaded('provider'),
         ]);
     }
 }

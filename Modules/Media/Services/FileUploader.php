@@ -2,6 +2,7 @@
 
 namespace Modules\Media\Services;
 
+use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -9,16 +10,18 @@ class FileUploader
 {
     protected string $dir;
 
-    protected string $disk = "s3";
+    protected string $disk = 'local';
 
     public function __construct()
     {
         $this->dir = $this->defaultUploadDir();
     }
 
-    public function upload(UploadedFile $file): string
+    public function upload(UploadedFile|File $file): UploadedFile|File
     {
-        return $file->store($this->dir, ['disk' => $this->disk]);
+        $file->store($this->dir, ['disk' => $this->disk]);
+
+        return $file;
     }
 
     public function setDir(string $dir): static
@@ -37,7 +40,7 @@ class FileUploader
 
     protected function defaultUploadDir(): string
     {
-        return sprintf("%d/%s", date('Y'), date('m'));
+        return sprintf('%d/%s', date('Y'), date('m'));
     }
 
     protected function fullFilePath(string $path)

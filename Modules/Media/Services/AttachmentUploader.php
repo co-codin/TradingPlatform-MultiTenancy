@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Media\Services;
 
+use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
@@ -18,15 +19,15 @@ final class AttachmentUploader extends FileUploader
 
     protected int $quality = 85;
 
-    public function upload(UploadedFile $file): string
+    public function upload(UploadedFile|File $file): UploadedFile|File
     {
-        $path = parent::upload($file);
+        $file = parent::upload($file);
 
-        $fullPath = $this->fullFilePath($path);
+//        $fullPath = $this->fullFilePath($file->path());
 
-        $this->resize($fullPath);
+//        $this->resize($fullPath);
 
-        return $path;
+        return $file;
     }
 
     public function setMaxWidth(int $maxWidth): static

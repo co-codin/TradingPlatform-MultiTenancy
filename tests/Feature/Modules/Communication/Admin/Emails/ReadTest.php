@@ -36,11 +36,8 @@ final class ReadTest extends BrandTestCase
 
         $response->assertOk();
 
-        $emailOut = $email->toArray();
-        unset($emailOut['user_id']);
-
         $response->assertJson([
-            'data' => [$emailOut],
+            'data' => [$email->toArray()],
         ]);
     }
 
@@ -110,10 +107,7 @@ final class ReadTest extends BrandTestCase
 
         $response->assertOk();
 
-        $emailOut = $email->toArray();
-        unset($emailOut['user_id']);
-
-        $response->assertJson(['data' => $emailOut]);
+        $response->assertJson(['data' => $email->toArray()]);
     }
 
     /**
