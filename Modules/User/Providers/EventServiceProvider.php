@@ -15,7 +15,7 @@ final class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         UserCreated::class => [
-            //            CreateDisplayOptionOnUserCreated::class,
+            CreateDisplayOptionOnUserCreated::class,
         ],
     ];
 }

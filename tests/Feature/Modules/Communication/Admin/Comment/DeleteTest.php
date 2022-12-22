@@ -26,6 +26,8 @@ final class DeleteTest extends BrandTestCase
 
         $comment = Comment::factory()->create();
 
+        $this->brand->makeCurrent();
+
         $response = $this->delete(route('admin.comments.destroy', ['comment' => $comment]));
 
         $response->assertNoContent();
@@ -42,6 +44,8 @@ final class DeleteTest extends BrandTestCase
 
         $comment = Comment::factory()->create();
 
+        $this->brand->makeCurrent();
+
         $response = $this->delete(route('admin.comments.destroy', ['comment' => $comment]));
 
         $response->assertForbidden();
@@ -55,6 +59,7 @@ final class DeleteTest extends BrandTestCase
         $this->authenticateUser();
 
         $this->brand->makeCurrent();
+
         $commentId = Comment::orderByDesc('id')->first()?->id + 1 ?? 1;
 
         $response = $this->delete(route('admin.comments.destroy', ['comment' => $commentId]));

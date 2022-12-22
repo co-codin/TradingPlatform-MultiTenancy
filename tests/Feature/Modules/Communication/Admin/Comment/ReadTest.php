@@ -23,7 +23,10 @@ final class ReadTest extends BrandTestCase
         $this->authenticateWithPermission(CommentPermission::fromValue(CommentPermission::VIEW_COMMENT));
 
         $this->brand->makeCurrent();
-        $comments = Comment::factory()->count(10)->create();
+
+        $comments = Comment::factory(10)->create();
+
+        $this->brand->makeCurrent();
 
         $response = $this->get(route('admin.comments.index'));
 

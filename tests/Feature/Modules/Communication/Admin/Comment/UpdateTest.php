@@ -24,8 +24,12 @@ final class UpdateTest extends BrandTestCase
         $this->authenticateWithPermission(CommentPermission::fromValue(CommentPermission::EDIT_COMMENT));
 
         $this->brand->makeCurrent();
+
         $comment = Comment::factory()->create();
         $commentData = Comment::factory()->make()->toArray();
+
+        $this->brand->makeCurrent();
+
         $data = array_merge($commentData, [
             'attachments' => [
                 UploadedFile::fake()->image('avatar.jpg'),
@@ -46,8 +50,11 @@ final class UpdateTest extends BrandTestCase
         $this->authenticateUser();
 
         $this->brand->makeCurrent();
+
         $comment = Comment::factory()->create();
         $data = Comment::factory()->make();
+
+        $this->brand->makeCurrent();
 
         $response = $this->patch(route('admin.comments.update', ['comment' => $comment]), $data->toArray());
 
@@ -62,9 +69,11 @@ final class UpdateTest extends BrandTestCase
         $this->authenticateUser();
 
         $this->brand->makeCurrent();
-        $commentId = Comment::orderByDesc('id')->first()?->id + 1 ?? 1;
 
+        $commentId = Comment::orderByDesc('id')->first()?->id + 1 ?? 1;
         $data = Comment::factory()->make();
+
+        $this->brand->makeCurrent();
 
         $response = $this->patch(route('admin.comments.update', ['comment' => $commentId]),
             $data->toArray());

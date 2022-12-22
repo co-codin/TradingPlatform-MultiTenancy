@@ -26,6 +26,9 @@ final class CreateTest extends BrandTestCase
         $this->brand->makeCurrent();
 
         $commentData = Comment::factory()->make()->toArray();
+
+        $this->brand->makeCurrent();
+
         $data = array_merge($commentData, [
             'attachments' => [
                 UploadedFile::fake()->image('avatar.jpg'),
@@ -48,6 +51,9 @@ final class CreateTest extends BrandTestCase
         $this->brand->makeCurrent();
 
         $commentData = Comment::factory()->make()->toArray();
+
+        $this->brand->makeCurrent();
+
         $data = array_merge($commentData, [
             'attachments' => [
                 UploadedFile::fake()->image('avatar.jpg'),

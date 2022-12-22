@@ -2,8 +2,7 @@
 
 namespace Modules\Customer\Database\factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Database\Eloquent\Model;
+use Database\Factories\BaseFactory;
 use Illuminate\Support\Facades\Hash;
 use Modules\Customer\Enums\Gender;
 use Modules\Customer\Models\Customer;
@@ -13,9 +12,10 @@ use Modules\Geo\Models\Country;
 use Modules\Language\Models\Language;
 use Modules\Sale\Models\SaleStatus;
 use Modules\User\Models\User;
+use Spatie\Multitenancy\Landlord;
 use Spatie\Multitenancy\Models\Tenant;
 
-class CustomerFactory extends Factory
+class CustomerFactory extends BaseFactory
 {
     /**
      * The name of the factory's corresponding model.
@@ -29,13 +29,15 @@ class CustomerFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         $tenant = Tenant::current();
 
         $data = array_merge(
             $this->getTenantData(),
-            $this->getLandlordData(),
+            Landlord::execute(function () {
+                return $this->getLandlordData();
+            }),
         );
 
         $tenant->makeCurrent();

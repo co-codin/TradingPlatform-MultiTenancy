@@ -2,14 +2,12 @@
 
 namespace Modules\Communication\Database\factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Database\Factories\BaseFactory;
 use Modules\Communication\Models\Comment;
 use Modules\Customer\Models\Customer;
 use Modules\User\Models\User;
-use Spatie\Multitenancy\Landlord;
-use Spatie\Multitenancy\Models\Tenant;
 
-class CommentFactory extends Factory
+class CommentFactory extends BaseFactory
 {
     /**
      * The name of the factory's corresponding model.
@@ -28,9 +26,7 @@ class CommentFactory extends Factory
         return [
             'body' => $this->faker->realText(),
             'customer_id' => Customer::factory(),
-            'user_id' => Landlord::execute(function () {
-                return User::factory();
-            }),
+            'user_id' => User::factory(),
         ];
     }
 }
