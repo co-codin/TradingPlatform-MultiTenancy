@@ -10,12 +10,14 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Modules\Communication\Dto\CommunicationExtensionDto;
+use Modules\Communication\Http\Requests\CommunicationExtensionBulkReplaceRequest;
 use Modules\Communication\Http\Requests\CommunicationExtensionStoreRequest;
 use Modules\Communication\Http\Requests\CommunicationExtensionUpdateRequest;
 use Modules\Communication\Http\Resources\CommunicationExtensionResource;
 use Modules\Communication\Models\CommunicationExtension;
 use Modules\Communication\Repositories\CommunicationExtensionRepository;
 use Modules\Communication\Services\CommunicationExtensionStorage;
+use Modules\User\Models\User;
 use OpenApi\Annotations as OA;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
@@ -334,5 +336,79 @@ final class CommunicationExtensionController extends Controller
         $this->storage->delete($communicationExtension);
 
         return response()->noContent();
+    }
+
+    /**
+     * @OA\Put(
+     *     path="/admin/communication/extensions/bulk-replace-by-worker",
+     *     security={ {"sanctum": {} }},
+     *     tags={"Communication"},
+     *     summary="Replace communication extensions by worker",
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 required={
+     *                     "user_id",
+     *                     "extensions",
+     *                 },
+     *                 @OA\Property(property="user_id", type="integer", description="Worker ID"),
+     *                 @OA\Property(
+     *                     property="extensions",
+     *                     type="array",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         required={
+     *                             "name",
+     *                             "provider_id",
+     *                         },
+     *                         @OA\Property(property="name", type="string", description="Name of communication extension"),
+     *                         @OA\Property(property="provider_id", type="integer", description="Communication Provider ID"),
+     *                     )
+     *                 ),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/CommunicationExtensionCollection")
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated",
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Content"
+     *     )
+     * ),
+     *
+     * @param  CommunicationExtensionBulkReplaceRequest  $request
+     * @return AnonymousResourceCollection
+     *
+     * @throws AuthorizationException
+     */
+    public function bulkReplaceByUser(CommunicationExtensionBulkReplaceRequest $request): AnonymousResourceCollection
+    {
+        $this->authorize('create', CommunicationExtension::class);
+
+        foreach ($this->repository->findWhere(['user_id' => $request->validated('user_id')]) as $extension) {
+            $this->authorize('delete', $extension);
+        }
+
+        $this->storage->replaceByUserId($request->validated('user_id'), $request->validated('extensions', []));
+
+        return CommunicationExtensionResource::collection(
+            $this->repository->findWhere(['user_id' => $request->validated('user_id')])
+        );
     }
 }

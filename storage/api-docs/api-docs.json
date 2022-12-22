@@ -2012,6 +2012,83 @@
                 ]
             }
         },
+        "/admin/communication/extensions/bulk-replace-by-worker": {
+            "put": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Replace communication extensions by worker",
+                "operationId": "0e5269d506818ca3a738db2f712ae854",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "extensions"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "description": "Worker ID",
+                                        "type": "integer"
+                                    },
+                                    "extensions": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "name",
+                                                "provider_id"
+                                            ],
+                                            "properties": {
+                                                "name": {
+                                                    "description": "Name of communication extension",
+                                                    "type": "string"
+                                                },
+                                                "provider_id": {
+                                                    "description": "Communication Provider ID",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CommunicationExtensionCollection"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Unprocessable Content"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/communication/providers": {
             "get": {
                 "tags": [
