@@ -8,38 +8,38 @@ use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
-use Modules\Communication\Dto\EmailDto;
-use Modules\Communication\Http\Requests\EmailCreateRequest;
-use Modules\Communication\Http\Requests\EmailUpdateRequest;
-use Modules\Communication\Http\Resources\EmailResource;
-use Modules\Communication\Repositories\EmailRepository;
-use Modules\Communication\Services\EmailStorage;
+use Modules\Communication\Dto\CallDto;
+use Modules\Communication\Http\Requests\CallCreateRequest;
+use Modules\Communication\Http\Requests\CallUpdateRequest;
+use Modules\Communication\Http\Resources\CallResource;
+use Modules\Communication\Repositories\CallRepository;
+use Modules\Communication\Services\CallStorage;
 use OpenApi\Annotations as OA;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
-final class EmailController extends Controller
+final class CallController extends Controller
 {
     /**
-     * @param  EmailRepository  $repository
-     * @param  EmailStorage  $storage
+     * @param  CallRepository  $repository
+     * @param  CallStorage  $storage
      */
     public function __construct(
-        protected EmailRepository $repository,
-        protected EmailStorage $storage,
+        protected CallRepository $repository,
+        protected CallStorage $storage,
     ) {
     }
 
     /**
      * @OA\Get(
-     *      path="/admin/communication/emails",
+     *      path="/admin/communication/call",
      *      security={ {"sanctum": {} }},
-     *      tags={"CommunicationEmail"},
-     *      summary="Get emails list",
-     *      description="Returns emails list data.",
+     *      tags={"CommunicationCall"},
+     *      summary="Get call list",
+     *      description="Returns call list data.",
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/EmailCollection")
+     *          @OA\JsonContent(ref="#/components/schemas/CallCollection")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -51,7 +51,7 @@ final class EmailController extends Controller
      *      )
      * )
      *
-     * Display email list.
+     * Display call list.
      *
      * @return JsonResource
      *
@@ -59,39 +59,39 @@ final class EmailController extends Controller
      */
     public function index(): JsonResource
     {
-        $this->authorize('viewAny', Email::class);
+        $this->authorize('viewAny', Call::class);
 
-        return EmailResource::collection($this->repository->jsonPaginate());
+        return CallResource::collection($this->repository->jsonPaginate());
     }
 
     /**
      * @OA\Post(
-     *      path="/admin/communication/emails",
+     *      path="/admin/communication/call",
      *      security={ {"sanctum": {} }},
-     *      tags={"CommunicationEmail"},
-     *      summary="Store email",
-     *      description="Returns email data.",
+     *      tags={"CommunicationCall"},
+     *      summary="Store call",
+     *      description="Returns call data.",
      *      @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 required={
-     *                     "email_template_id",
-     *                     "subject",
-     *                     "body",
+     *                     "user_id",
+     *                     "provider_id",
+     *                     "text",
      *                 },
-     *                 @OA\Property(property="email_template_id", type="integer", description="Email tempalte ID"),
-     *                 @OA\Property(property="subject", type="string", description="Email subject"),
-     *                 @OA\Property(property="body", type="string", description="Email body"),
-     *                 @OA\Property(property="sent_by_system", type="bool"),
      *                 @OA\Property(property="user_id", type="integer", description="User ID"),
+     *                 @OA\Property(property="provider_id", type="integer", description="Communication provider ID"),
+     *                 @OA\Property(property="duration", type="integer", description="Duration sec."),
+     *                 @OA\Property(property="text", type="string", description="Text"),
+     *                 @OA\Property(property="status", type="integer", description="Status"),
      *             )
      *         )
      *      ),
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/EmailResource")
+     *          @OA\JsonContent(ref="#/components/schemas/CallResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -103,32 +103,32 @@ final class EmailController extends Controller
      *      )
      * )
      *
-     * Store mail.
+     * Store call.
      *
-     * @param  EmailCreateRequest  $request
+     * @param  CallCreateRequest  $request
      * @return JsonResource
      *
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
-    public function store(EmailCreateRequest $request): JsonResource
+    public function store(CallCreateRequest $request): JsonResource
     {
-        $this->authorize('create', Email::class);
+        $this->authorize('create', Call::class);
 
-        return new EmailResource(
-            $this->storage->store(EmailDto::fromFormRequest($request)),
+        return new CallResource(
+            $this->storage->store(CallDto::fromFormRequest($request)),
         );
     }
 
     /**
      * @OA\Get(
-     *      path="/admin/communication/emails/{id}",
+     *      path="/admin/communication/call/{id}",
      *      security={ {"sanctum": {} }},
-     *      tags={"CommunicationEmail"},
-     *      summary="Get email",
-     *      description="Returns email data.",
+     *      tags={"CommunicationCall"},
+     *      summary="Get call",
+     *      description="Returns call data.",
      *      @OA\Parameter(
-     *         description="Email ID",
+     *         description="Call ID",
      *         in="path",
      *         name="id",
      *         required=true,
@@ -137,7 +137,7 @@ final class EmailController extends Controller
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/EmailResource")
+     *          @OA\JsonContent(ref="#/components/schemas/CallResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -149,7 +149,7 @@ final class EmailController extends Controller
      *      )
      * )
      *
-     * Show the email.
+     * Show the Call.
      *
      * @param  int  $id
      * @return JsonResource
@@ -158,22 +158,22 @@ final class EmailController extends Controller
      */
     public function show(int $id): JsonResource
     {
-        $email = $this->repository->find($id);
+        $call = $this->repository->find($id);
 
-        $this->authorize('view', $email);
+        $this->authorize('view', $call);
 
-        return new EmailResource($email);
+        return new CallResource($call);
     }
 
     /**
      * @OA\Put(
-     *      path="/admin/communication/emails/{id}",
+     *      path="/admin/communication/call/{id}",
      *      security={ {"sanctum": {} }},
-     *      tags={"CommunicationEmail"},
-     *      summary="Update email",
-     *      description="Returns email data.",
+     *      tags={"CommunicationCall"},
+     *      summary="Update call",
+     *      description="Returns call data.",
      *      @OA\Parameter(
-     *         description="Email ID",
+     *         description="Call ID",
      *         in="path",
      *         name="id",
      *         required=true,
@@ -184,22 +184,22 @@ final class EmailController extends Controller
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 required={
-     *                     "email_template_id",
-     *                     "subject",
-     *                     "body",
+     *                     "user_id",
+     *                     "provider_id",
+     *                     "text",
      *                 },
-     *                 @OA\Property(property="email_template_id", type="integer", description="Email tempalte ID"),
-     *                 @OA\Property(property="subject", type="string", description="Email subject"),
-     *                 @OA\Property(property="body", type="string", description="Email body"),
-     *                 @OA\Property(property="sent_by_system", type="bool"),
      *                 @OA\Property(property="user_id", type="integer", description="User ID"),
+     *                 @OA\Property(property="provider_id", type="integer", description="Communication provider ID"),
+     *                 @OA\Property(property="duration", type="integer", description="Duration sec."),
+     *                 @OA\Property(property="text", type="string", description="Text"),
+     *                 @OA\Property(property="status", type="integer", description="Status"),
      *             )
      *         )
      *      ),
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/EmailResource")
+     *          @OA\JsonContent(ref="#/components/schemas/CallResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -211,13 +211,13 @@ final class EmailController extends Controller
      *      )
      * ),
      * @OA\Patch(
-     *      path="/admin/communication/emails/{id}",
+     *      path="/admin/communication/call/{id}",
      *      security={ {"sanctum": {} }},
-     *      tags={"CommunicationEmail"},
-     *      summary="Update email",
-     *      description="Returns email data.",
+     *      tags={"CommunicationCall"},
+     *      summary="Update call",
+     *      description="Returns call data.",
      *      @OA\Parameter(
-     *         description="Email ID",
+     *         description="Call ID",
      *         in="path",
      *         name="id",
      *         required=true,
@@ -227,18 +227,18 @@ final class EmailController extends Controller
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
-     *                 @OA\Property(property="email_template_id", type="integer", description="Email tempalte ID"),
-     *                 @OA\Property(property="subject", type="string", description="Email subject"),
-     *                 @OA\Property(property="body", type="string", description="Email body"),
-     *                 @OA\Property(property="sent_by_system", type="bool"),
      *                 @OA\Property(property="user_id", type="integer", description="User ID"),
+     *                 @OA\Property(property="provider_id", type="integer", description="Communication provider ID"),
+     *                 @OA\Property(property="duration", type="integer", description="Duration sec."),
+     *                 @OA\Property(property="text", type="string", description="Text"),
+     *                 @OA\Property(property="status", type="integer", description="Status"),
      *             )
      *         )
      *      ),
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/EmailResource")
+     *          @OA\JsonContent(ref="#/components/schemas/CallResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -250,37 +250,37 @@ final class EmailController extends Controller
      *      )
      * )
      *
-     * Update the email.
+     * Update the Call.
      *
-     * @param  EmailUpdateRequest  $request
+     * @param  CallUpdateRequest $request
      * @param  int  $id
      * @return JsonResource
      *
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
-    public function update(EmailUpdateRequest $request, int $id): JsonResource
+    public function update(CallUpdateRequest $request, int $id): JsonResource
     {
-        $email = $this->repository->find($id);
+        $call = $this->repository->find($id);
 
-        $this->authorize('update', $email);
+        $this->authorize('update', $call);
 
-        return new EmailResource(
+        return new CallResource(
             $this->storage->update(
-                $email,
-                EmailDto::fromFormRequest($request)
+                $call,
+                CallDto::fromFormRequest($request)
             ),
         );
     }
 
     /**
      * @OA\Delete(
-     *      path="/admin/communication/emails/{id}",
+     *      path="/admin/communication/call/{id}",
      *      security={ {"sanctum": {} }},
-     *      tags={"CommunicationEmail"},
-     *      summary="Delete email",
+     *      tags={"CommunicationCall"},
+     *      summary="Delete call",
      *      @OA\Parameter(
-     *         description="Email ID",
+     *         description="Call ID",
      *         in="path",
      *         name="id",
      *         required=true,
@@ -300,7 +300,7 @@ final class EmailController extends Controller
      *      )
      * )
      *
-     * Remove the email.
+     * Remove the call.
      *
      * @param  int  $id
      * @return Response
@@ -309,11 +309,11 @@ final class EmailController extends Controller
      */
     public function destroy(int $id): Response
     {
-        $email = $this->repository->find($id);
+        $call = $this->repository->find($id);
 
-        $this->authorize('delete', $email);
+        $this->authorize('delete', $call);
 
-        $this->storage->delete($email);
+        $this->storage->delete($call);
 
         return response()->noContent();
     }

@@ -10,15 +10,15 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-final class EmailRequestCriteria extends BaseCriteria
+final class CallRequestCriteria extends BaseCriteria
 {
     protected static array $allowedModelFields = [
         'id',
-        'email_template_id',
-        'subject',
-        'body',
-        'sent_by_system',
         'user_id',
+        'provider_id',
+        'duration',
+        'text',
+        'status',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -34,22 +34,21 @@ final class EmailRequestCriteria extends BaseCriteria
             ))
             ->allowedFilters([
                 AllowedFilter::exact('id'),
-                AllowedFilter::exact('email_template_id'),
-                AllowedFilter::partial('subject'),
-                AllowedFilter::partial('body'),
-                AllowedFilter::partial('sent_by_system'),
-                AllowedFilter::partial('user_id'),
+                AllowedFilter::exact('user_id'),
+                AllowedFilter::exact('provider_id'),
+                AllowedFilter::partial('duration'),
+                AllowedFilter::partial('text'),
+                AllowedFilter::partial('status'),
                 AllowedFilter::trashed(),
             ])
             ->allowedIncludes([
-                'user',
-                'template'
+                'user', 'provider'
             ])
             ->with([
-                'user', 'template'
+                'user', 'provider'
             ])
             ->allowedSorts([
-                'id', 'email_template_id', 'subject', 'body', 'sent_by_system', 'user_id', 'created_at', 'updated_at', 'deleted_at',
+                'id', 'user_id', 'provider_id', 'duration', 'text', 'status', 'created_at', 'updated_at', 'deleted_at',
             ]);
     }
 }

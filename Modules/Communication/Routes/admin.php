@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Communication\Http\Controllers\Admin\CommentController;
 use Modules\Communication\Http\Controllers\CommunicationExtensionController;
 use Modules\Communication\Http\Controllers\CommunicationProviderController;
+use Modules\Communication\Http\Controllers\Admin\CallController;
 use Modules\Communication\Http\Controllers\Admin\EmailController;
 use Modules\Communication\Http\Controllers\Admin\EmailSendController;
 use Modules\Communication\Http\Controllers\Admin\EmailTemplatesController;
@@ -18,7 +19,7 @@ Route::group(['middleware' => 'tenant'], function () {
         Route::get('/extensions/all', [CommunicationExtensionController::class, 'all'])->name('extensions.all');
         Route::apiResource('providers', CommunicationProviderController::class);
         Route::apiResource('extensions', CommunicationExtensionController::class);
-
+        Route::apiResource('call', CallController::class);
         Route::apiResource('emails', EmailController::class);
         Route::apiResource('email-templates', EmailTemplatesController::class);
         Route::post('email-send-to-customer', [EmailSendController::class, 'emailSendToCustomer'])->name('email.send.to.customer');

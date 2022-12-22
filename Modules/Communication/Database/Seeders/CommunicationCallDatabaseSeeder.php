@@ -6,8 +6,9 @@ namespace Modules\Communication\Database\Seeders;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
+use Modules\Communication\Models\Call;
 
-final class CommunicationDatabaseSeeder extends Seeder
+final class CommunicationCallDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,10 +19,6 @@ final class CommunicationDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        $this->call([
-            CommunicationProviderDatabaseSeeder::class,
-            CommunicationEmailDatabaseSeeder::class,
-            CommunicationCallDatabaseSeeder::class,
-        ]);
+        Call::factory()->count(5)->create();
     }
 }

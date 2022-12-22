@@ -40,11 +40,8 @@ final class UpdateTest extends BrandTestCase
 
         $response->assertOk();
 
-        $dataOut = $data->toArray();
-        unset($dataOut['user_id']);
-
         $response->assertJson([
-            'data' => $dataOut,
+            'data' => $data->toArray(),
         ]);
     }
     /**
