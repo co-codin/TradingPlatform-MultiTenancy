@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\User\Database\factories\UserDisplayOptionFactory;
 use Modules\User\Dto\DisplayOptionColumnsDto;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
 class DisplayOption extends Model
 {
     use HasFactory;
+    use UsesLandlordConnection;
 
     /**
      * @var array
