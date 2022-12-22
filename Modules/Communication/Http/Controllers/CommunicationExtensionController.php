@@ -400,7 +400,10 @@ final class CommunicationExtensionController extends Controller
     public function bulkReplaceByUser(CommunicationExtensionBulkReplaceRequest $request): AnonymousResourceCollection
     {
         $this->authorize('create', CommunicationExtension::class);
-        $this->authorize('delete', CommunicationExtension::class);
+
+        foreach ($this->repository->findWhere(['user_id' => $request->validated('user_id')]) as $extension) {
+            $this->authorize('delete', $extension);
+        }
 
         $this->storage->replaceByUserId($request->validated('user_id'), $request->validated('extensions', []));
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Traits;
 
+use Illuminate\Support\Arr;
 use Modules\Role\Contracts\PermissionEnum;
 use Modules\Role\Enums\DefaultRole;
 use Modules\Role\Models\Permission;
@@ -91,6 +92,20 @@ trait HasAuth
         $this->setUser($user);
 
         $this->actingAs($user, $guard);
+    }
+
+    final protected function addPermissions(array $permissionEnums): void
+    {
+        $user = $this->getUser();
+        $permissions = [];
+
+        foreach ($permissionEnums as $enum) {
+            $permissions[] = Permission::whereName($enum->value)->first() ?? Permission::factory()->create([
+                'name' => $enum->value,
+            ]);
+        }
+
+        $user->permissions()->syncWithoutDetaching(Arr::pluck($permissions, 'id'));
     }
 
     /**
