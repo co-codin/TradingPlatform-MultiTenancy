@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('user_id')->references('id')->on('public.users');
+            $table->foreignId('customer_id')->references('id')->on('customers');
             $table->text('body');
             $table->unsignedInteger('position')->nullable();
 

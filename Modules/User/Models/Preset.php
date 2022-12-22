@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\User\Database\factories\PresetFactory;
 use Modules\User\Dto\PresetColumnsDto;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
 final class Preset extends Model
 {
     use HasFactory;
+    use UsesLandlordConnection;
 
     /**
      * {@inheritdoc}
