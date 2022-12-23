@@ -19,12 +19,12 @@ final class TransactionStatusDto extends BaseDto
     public ?string $title;
 
     /**
-     * @var bool|null $is_active
+     * @var bool|int|null $is_active
      */
-    public ?bool $is_active;
+    public bool|int|null $is_active;
 
     /**
-     * @var bool|null $is_valid
+     * @var bool|int|null $is_valid
      */
-    public ?bool $is_valid;
+    public bool|int|null $is_valid;
 }

@@ -37,8 +37,8 @@ final class TransactionStatusRequestCriteria extends BaseCriteria
                 AllowedFilter::exact('id'),
                 AllowedFilter::partial('name'),
                 AllowedFilter::partial('title'),
-                AllowedFilter::partial('is_active'),
-                AllowedFilter::partial('is_valid'),
+                AllowedFilter::exact('is_active'),
+                AllowedFilter::exact('is_valid'),
                 AllowedFilter::custom('live', new LiveFilter([
                     'id' => '=',
                     'name' => 'like',

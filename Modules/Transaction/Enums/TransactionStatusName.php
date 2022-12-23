@@ -11,20 +11,20 @@ final class TransactionStatusName extends Enum
     /**
      * @var string
      */
-    public const COMPLETED = 'Completed';
+    public const COMPLETED = 'completed';
 
     /**
      * @var string
      */
-    public const DECLINED = 'Declined';
+    public const DECLINED = 'declined';
 
     /**
      * @var string
      */
-    public const CANCELED = 'Canceled';
+    public const CANCELED = 'canceled';
 
     /**
      * @var string
      */
-    public const PENDING = 'Pending';
+    public const PENDING = 'pending';
 }

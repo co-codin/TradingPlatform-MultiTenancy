@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('transaction_statuses', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name');
+            $table->string('name')->index();
             $table->string('title');
             $table->boolean('is_active')->default(0);
             $table->boolean('is_valid')->default(0);
