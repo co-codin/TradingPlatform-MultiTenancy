@@ -17,12 +17,12 @@ class CurrencyTableSeeder extends Seeder
         $currencies = collect(
             json_decode(file_get_contents('Modules/Currency/Database/data/currencies.json'))
         )
-        ->filter(function ($item) {
+        ->filter(function ($currency) {
             return ! empty($currency->currency)
                 && ! empty($currency->code)
                 && ! empty($currency->symbol);
         });
-
+dd($currencies);
         foreach ($currencies as $currency) {
             Currency::query()->updateOrCreate([
                 'name' => $currency->currency,
