@@ -13,11 +13,12 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-final class ChatEvent implements ShouldBroadcast
+final class ChatHistoryEvent implements ShouldBroadcast
 {
     use Dispatchable;
     use InteractsWithSockets;
     use SerializesModels;
+
     /**
      * Create a new event instance.
      *
@@ -41,8 +42,9 @@ final class ChatEvent implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'chat_message';
+        return 'chat_history_message';
     }
+
     public function broadcastWith()
     {
         return ['message' => $this->message, 'user' => $this->user_id];

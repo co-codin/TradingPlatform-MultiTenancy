@@ -44,9 +44,11 @@ class ChatMessageFactory extends Factory
     private function getTenantData(): array
     {
         return [
-            'customer_id' => $customer = Customer::factory(),
+            'customer_id' => $customer = Customer::factory()->create(),
             'message' => $this->faker->sentence(3),
-            'initiator' => $customer->id,
+            'initiator_id' => $customer->id,
+            'initiator_type' => 'customer',
+            'read' => 0,
         ];
     }
 
