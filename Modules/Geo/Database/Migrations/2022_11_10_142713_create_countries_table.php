@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name')->unique()->index();
             $table->string('iso2')->unique()->index();
             $table->string('iso3')->unique()->index();
-            $table->foreignId('currency_id')->nullable();
+            $table->string('currency')->nullable()->index();
 
             $table->timestamps();
             $table->softDeletes();

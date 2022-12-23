@@ -7,9 +7,7 @@ namespace Modules\Geo\Models;
 use App\Relationships\Traits\WhereHasForTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Modules\Currency\Models\Currency;
 use Modules\Geo\Database\factories\CountryFactory;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
@@ -44,15 +42,5 @@ class Country extends Model
     protected static function newFactory(): CountryFactory
     {
         return CountryFactory::new();
-    }
-
-    /**
-     * Currency relation.
-     *
-     * @return BelongsTo
-     */
-    public function currency(): BelongsTo
-    {
-        return $this->belongsTo(Currency::class);
     }
 }
