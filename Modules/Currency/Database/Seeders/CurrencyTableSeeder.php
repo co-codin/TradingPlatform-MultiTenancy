@@ -14,13 +14,20 @@ class CurrencyTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $currencies = collect(json_decode(file_get_contents('Modules/Currency/Database/data/currencies.json')));
+        $currencies = collect(
+            json_decode(file_get_contents('Modules/Currency/Database/data/currencies.json'))
+        )
+        ->filter(function ($item) {
+            return ! empty($currency->currency)
+                && ! empty($currency->code)
+                && ! empty($currency->symbol);
+        });
 
         foreach ($currencies as $currency) {
             Currency::query()->updateOrCreate([
-                'name' => $currency['currency'],
-                'iso3' => $currency['code'],
-                'symbol' => $currency['symbol'],
+                'name' => $currency->currency,
+                'iso3' => $currency->code,
+                'symbol' => $currency->symbol,
                 'is_available' => true,
             ]);
         }
