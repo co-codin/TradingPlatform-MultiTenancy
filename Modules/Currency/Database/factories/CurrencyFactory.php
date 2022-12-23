@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\User\Database\factories;
+namespace Modules\Currency\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Currency\Models\Currency;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\User\Http\Resources;
+namespace Modules\Currency\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Currency\Models\Currency;

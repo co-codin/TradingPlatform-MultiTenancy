@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Currency\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Modules\Currency\Database\factories\CurrencyFactory;
 use Modules\Geo\Models\Country;
-use Modules\User\Database\factories\CurrencyFactory;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 final class Currency extends Model

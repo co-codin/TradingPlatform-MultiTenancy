@@ -6,7 +6,7 @@ namespace Modules\Currency\Providers;
 
 use App\Providers\BaseModuleServiceProvider;
 use Modules\Currency\Models\Currency;
-use Modules\Geo\Policies\CurrencyPolicy;
+use Modules\Currency\Policies\CurrencyPolicy;
 
 final class CurrencyServiceProvider extends BaseModuleServiceProvider
 {

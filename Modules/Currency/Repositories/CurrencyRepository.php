@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Modules\Currency\Repositories;
 
 use App\Repositories\BaseRepository;
-use Modules\Geo\Models\Country;
-use Modules\Geo\Repositories\Criteria\CountryRequestCriteria;
-use Modules\Geo\Repositories\Criteria\CurrencyRequestCriteria;
+use Modules\Currency\Models\Currency;
+use Modules\Currency\Repositories\Criteria\CurrencyRequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
 
 final class CurrencyRepository extends BaseRepository
@@ -17,7 +16,7 @@ final class CurrencyRepository extends BaseRepository
      */
     public function model(): string
     {
-        return Country::class;
+        return Currency::class;
     }
 
     /**

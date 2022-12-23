@@ -2,25 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Modules\User\Http\Controllers\Admin;
+namespace Modules\Currency\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Modules\Currency\Dto\CurrencyDto;
 use Modules\Currency\Http\Requests\CurrencyStoreRequest;
 use Modules\Currency\Http\Requests\CurrencyUpdateRequest;
+use Modules\Currency\Http\Resources\CurrencyResource;
 use Modules\Currency\Models\Currency;
+use Modules\Currency\Repositories\CurrencyRepository;
 use Modules\Currency\Services\CurrencyStorage;
-use Modules\User\Http\Resources\CurrencyResource;
-use Modules\User\Models\User;
+use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 final class CurrencyController extends Controller
 {
     /**
-     * @param CurrencyStorage $currencyStorage
-     * @param CurrencyRepository $currencyRepository
+     * @param  CurrencyStorage  $currencyStorage
+     * @param  CurrencyRepository  $currencyRepository
      */
     public function __construct(
         protected CurrencyStorage $currencyStorage,
@@ -150,12 +152,13 @@ final class CurrencyController extends Controller
      * )
      *
      * @throws AuthorizationException
+     * @throws UnknownProperties
      */
     public function store(CurrencyStoreRequest $request): CurrencyResource
     {
-        $this->authorize('create', User::class);
+        $this->authorize('create', Currency::class);
 
-        $currency = $this->currencyStorage->store($request->validated());
+        $currency = $this->currencyStorage->store(CurrencyDto::fromFormRequest($request));
 
         return new CurrencyResource($currency);
     }
@@ -266,7 +269,7 @@ final class CurrencyController extends Controller
 
         $this->authorize('update', $currency);
 
-        $currency = $this->currencyStorage->update($currency, $request->validated());
+        $currency = $this->currencyStorage->update($currency, CurrencyDto::fromFormRequest($request));
 
         return new CurrencyResource($currency);
     }
