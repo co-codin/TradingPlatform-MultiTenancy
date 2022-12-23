@@ -14,5 +14,6 @@
     "Media": true,
     "Communication": true,
     "CommunicationProvider": true,
+    "Currency": true,
     "Transaction": true
 }

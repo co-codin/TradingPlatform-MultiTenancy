@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -13,16 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('countries', function (Blueprint $table) {
+        Schema::create('currencies', function (Blueprint $table) {
             $table->id();
 
             $table->string('name')->unique()->index();
-            $table->string('iso2')->unique()->index();
             $table->string('iso3')->unique()->index();
-            $table->string('currency')->nullable()->index();
+            $table->string('symbol')->index();
+            $table->boolean('is_available')->default(0);
 
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('countries');
+        Schema::dropIfExists('currencies');
     }
 };
