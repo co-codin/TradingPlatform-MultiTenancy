@@ -127,5 +127,6 @@ return [
         'Desk' => 'Desk',
         'Customer' => 'Customer',
         'Communication' => 'Communication',
+        'Transaction' => 'Transaction',
     ],
 ];
