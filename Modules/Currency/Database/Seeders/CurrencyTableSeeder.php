@@ -22,7 +22,7 @@ class CurrencyTableSeeder extends Seeder
                 && ! empty($currency->code)
                 && ! empty($currency->symbol);
         });
-dd($currencies);
+
         foreach ($currencies as $currency) {
             Currency::query()->updateOrCreate([
                 'name' => $currency->currency,
