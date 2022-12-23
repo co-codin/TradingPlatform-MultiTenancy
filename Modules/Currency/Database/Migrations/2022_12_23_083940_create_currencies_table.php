@@ -16,6 +16,11 @@ return new class extends Migration
         Schema::create('currencies', function (Blueprint $table) {
             $table->id();
 
+            $table->string('name')->unique()->index();
+            $table->string('iso3')->unique()->index();
+            $table->string('symbol')->index();
+            $table->boolean('is_available')->default(0);
+
             $table->timestamps();
         });
     }

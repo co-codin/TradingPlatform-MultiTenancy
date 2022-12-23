@@ -117,6 +117,7 @@ return [
      * Required migrations after tenant created.
      */
     'tenant_required_migrations' => [
+        'Currency' => 'Currency',
         'Media' => 'Media',
         'Campaign' => 'Campaign',
         'Config' => 'Config',

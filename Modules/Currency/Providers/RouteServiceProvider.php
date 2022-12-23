@@ -28,6 +28,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('admin')
             ->as('admin.')
+            ->middleware(['api', 'auth:api'])
             ->group(module_path('Currency', '/Routes/admin.php'));
     }
 }

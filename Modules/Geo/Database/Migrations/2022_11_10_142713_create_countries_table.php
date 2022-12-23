@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name')->unique()->index();
             $table->string('iso2')->unique()->index();
             $table->string('iso3')->unique()->index();
-            $table->string('currency')->nullable()->index();
+            $table->foreignId('currency_id')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

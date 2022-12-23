@@ -8,6 +8,11 @@ use Prettus\Repository\Contracts\CriteriaInterface;
 
 abstract class BaseCriteria implements CriteriaInterface
 {
+    /**
+     * Allowed model fields value.
+     *
+     * @var array
+     */
     protected static array $allowedModelFields = [];
 
     /**

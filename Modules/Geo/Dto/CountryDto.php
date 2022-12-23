@@ -22,9 +22,4 @@ final class CountryDto extends BaseDto
      * @var string|null
      */
     public ?string $iso3;
-
-    /**
-     * @var string|null
-     */
-    public ?string $currency;
 }

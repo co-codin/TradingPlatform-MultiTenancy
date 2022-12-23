@@ -12,10 +12,10 @@ class CurrencyDatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        Model::unguard();
-
-        // $this->call("OthersTableSeeder");
+         $this->call([
+             CurrencyTableSeeder::class,
+         ]);
     }
 }
