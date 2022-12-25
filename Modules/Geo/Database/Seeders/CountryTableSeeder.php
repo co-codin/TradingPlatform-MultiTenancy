@@ -15,9 +15,9 @@ class CountryTableSeeder extends Seeder
     public function run()
     {
         $countries = json_decode(file_get_contents('Modules/Geo/Database/data/country.json'), true);
-        $currencies = collect(json_decode(file_get_contents('Modules/Geo/Database/data/currencies.json')));
+        $currencies = collect(json_decode(file_get_contents('Modules/Currency/Database/data/currencies.json')));
 
-        $rows = array_filter($countries, fn($value) => ! is_null($value['iso3']));
+        $rows = array_filter($countries, fn ($value) => ! is_null($value['iso3']));
 
         foreach ($rows as $row) {
             Country::query()->updateOrCreate([

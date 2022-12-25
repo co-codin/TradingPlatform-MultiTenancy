@@ -13,5 +13,7 @@
     "Sale": true,
     "Media": true,
     "Communication": true,
-    "CommunicationProvider": true
+    "CommunicationProvider": true,
+    "Currency": true,
+    "Transaction": true
 }
