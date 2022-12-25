@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
 use Modules\Customer\Http\Controllers\AuthController;
+use Modules\Customer\Http\Controllers\CustomerChatController;
 use Modules\Customer\Http\Controllers\PasswordController;
 use Modules\Customer\Http\Controllers\RegisterController;
 use Modules\Customer\Http\Controllers\TokenAuthController;
@@ -26,4 +27,10 @@ Route::group(['prefix' => 'token-auth', 'as' => 'token-auth.', 'middleware' => [
     Route::group(['middleware' => 'auth:api-customer'], function () {
         Route::post('logout', [TokenAuthController::class, 'logout'])->name('logout');
     });
+});
+
+Route::group(['middleware' => 'auth:api-customer'], function () {
+    Route::post('chat-message-history', [CustomerChatController::class, 'history'])->name('chat.history');
+    Route::post('chat-message-send', [CustomerChatController::class, 'store'])->name('chat.store');
+    Route::post('chat-message-delivery', [CustomerChatController::class, 'delivery'])->name('chat.delivery');
 });

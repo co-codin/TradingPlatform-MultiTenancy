@@ -9,7 +9,7 @@ $customer_id = $_GET['customer_id'] ?? '';
 
 <head>
     <meta charset="utf-8">
-    <title>Example Pusher.com</title>
+    <title>Customer Pusher.com</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -18,7 +18,7 @@ $customer_id = $_GET['customer_id'] ?? '';
 
 <body>
     <main class="content">
-        <div class="container p-0">
+        <div class="container-off px-3">
 
             <div class="card">
                 <div class="row g-0">
@@ -41,16 +41,20 @@ $customer_id = $_GET['customer_id'] ?? '';
                                 </div>
                                 <button type="submit" class="btn btn-primary">Apply</button>
                             </form>
+
+                            <h5 class="mt-5">Unread <span class="badge badge-pill badge-danger customer-chat-notifications">0</span></h5>
+
                         </div>
-                        <div class="logs p-4">
-                        </div>
+
 
                     </div>
                     <div class="col-12 col-lg-7 col-xl-9">
 
                         <div class="position-relative">
                             <div class="chat-messages p-4" style="min-height: 500px;">
-                                Loading ...
+                                <div class="alert alert-warning" role="alert">
+                                    Loading chat body ...
+                                </div>
                             </div>
                         </div>
 
@@ -129,9 +133,10 @@ $customer_id = $_GET['customer_id'] ?? '';
         var pusher = new Pusher('634f4d0e0d42805e948d', {
             cluster: 'ap2',
             channelAuthorization: {
-                endpoint: "/broadcasting/auth",
+                endpoint: "/customer/broadcasting/auth",
                 headers: {
-                    "Authorization": "Bearer  <?= $token ?>"
+                    "Authorization": "Bearer  <?= $token ?>",
+                    "Tenant": "<?= $tenant ?>"
                 },
             },
         });
@@ -139,20 +144,7 @@ $customer_id = $_GET['customer_id'] ?? '';
         /*************** */
         var channel = pusher.subscribe('private-chat.<?= $customer_id ?>');
 
-        var myUser = 0;
-        channel.bind('chat_history_message', function(data) {
-            myUser = data.user;
-            var chatMessages = $(".chat-messages");
-            chatMessages.html('');
-            $.each(data.message, function(i, item) {
-                chatMessages.append(chatMessageBody(item));
-            });
-
-            scrollBottom();
-        });
-
         channel.bind('chat_message', function(data) {
-            myUser = data.user;
             var chatMessages = $(".chat-messages");
             chatMessages.append(chatMessageBody(data.message));
 
@@ -164,12 +156,15 @@ $customer_id = $_GET['customer_id'] ?? '';
             var hoursAndMinutes = padTo2Digits(date.getHours()) + ':' + padTo2Digits(date.getMinutes());
             var yearMonthDay = date.getUTCFullYear() + '-' + padTo2Digits(date.getUTCMonth() + 1) + '-' + padTo2Digits(date.getUTCDate());
             var messOwner = ''
+            var isMe;
             if (data.initiator_type == 'user') {
                 messOwner = data.user.first_name + ` ` + data.user.last_name;
+                isMe = false;
             } else {
                 messOwner = data.customer.first_name + ` ` + data.customer.last_name;
+                isMe = true;
             }
-            var isMe = (data.user.id == myUser) ? true : false;
+
             /************************ */
             return `<div class="chat-message-` + (isMe ? `right` : `left`) + ` pb-4">
                                     <div>
@@ -192,34 +187,39 @@ $customer_id = $_GET['customer_id'] ?? '';
             $('.chat-messages').scrollTop($('.chat-messages')[0].scrollHeight);
         }
 
-        // Chat history loading request: /admin/communication/chat-message-history
-        axios.post('/admin/communication/chat-message-history', {
-                'customer_id': '<?= $customer_id ?>'
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': 'Bearer <?= $token ?>',
-                    'Tenant': '<?= $tenant ?>'
-                }
+        /************** */
+        var axiosHeader = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer <?= $token ?>',
+            'Tenant': '<?= $tenant ?>'
+        };
+        /************** */
+        // Chat history loading request: /admin/customer/chat-message-history
+        axios.post('/customer/chat-message-history', {}, {
+                headers: axiosHeader
             })
             .then((response) => {
-                console.log(response.data);
+                var chatMessages = $(".chat-messages");
+                chatMessages.html('');
+                $.each(response.data.message, function(i, item) {
+                    chatMessages.append(chatMessageBody(item));
+                    scrollBottom();
+                });
+                $(".customer-chat-notifications").html(response.data.unread);
+            })
+            .catch(error => {
+                alert(error.response.data.message);
             });
+
         /************** */
         $('.action-send').on('click', function() {
             $('.action-send').html('Wait');
             $('.action-send').addClass('btn-warning').removeClass('btn-primary');
-            axios.post('/admin/communication/chat-message-send', {
-                    'customer_id': '<?= $customer_id ?>',
+            axios.post('/customer/chat-message-send', {
                     'message': $('.user-message').val()
                 }, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': 'Bearer <?= $token ?>',
-                        'Tenant': '<?= $tenant ?>'
-                    }
+                    headers: axiosHeader
                 })
                 .then((response) => {
                     $('.action-send').html('Send');
@@ -228,9 +228,17 @@ $customer_id = $_GET['customer_id'] ?? '';
                 .catch(error => {
                     $('.action-send').html('Send');
                     $('.action-send').addClass('btn-primary').removeClass('btn-warning');
+                    alert(error.message);
                 });
             $('.user-message').val('');
         });
+
+        /**************** */
+        var channel_notify = pusher.subscribe('private-chatnotificationcustomer.<?= $customer_id ?>');
+        channel_notify.bind('chat_notification', function(data) {
+            $(".customer-chat-notifications").html(data.total);
+        });
+        /*************** */
     </script>
 </body>
 

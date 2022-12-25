@@ -2,15 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Modules\Communication\Events;
+namespace Modules\Customer\Events;
 
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use App\Message;
+use Illuminate\Broadcasting\Channel;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-final class ChatEvent implements ShouldBroadcast
+final class CustomerChatNotificationEvent implements ShouldBroadcast
 {
     use Dispatchable;
     use InteractsWithSockets;
@@ -23,11 +26,10 @@ final class ChatEvent implements ShouldBroadcast
      */
     public function __construct(
         public $user_id,
-        public $customer_id,
         public $message,
+        public $total,
     ) {
     }
-
     /**
      * Get the channels the event should be broadcast on.
      *
@@ -35,16 +37,15 @@ final class ChatEvent implements ShouldBroadcast
      */
     public function broadcastOn(): PrivateChannel
     {
-        return new PrivateChannel('chat.' . $this->customer_id);
+        return new PrivateChannel('chatnotification.' . $this->user_id);
     }
 
     public function broadcastAs()
     {
-        return 'chat_message';
+        return 'chat_notification';
     }
-
     public function broadcastWith()
     {
-        return ['message' => $this->message, 'user' => $this->user_id];
+        return ['notification' => $this->message, 'total' => $this->total];
     }
 }

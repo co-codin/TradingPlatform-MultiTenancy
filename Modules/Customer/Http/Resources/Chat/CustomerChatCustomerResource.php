@@ -2,32 +2,32 @@
 
 declare(strict_types=1);
 
-namespace Modules\Communication\Http\Resources\Chat;
+namespace Modules\Customer\Http\Resources\Chat;
 
 use App\Http\Resources\BaseJsonResource;
 use Illuminate\Http\Request;
-use Modules\Communication\Models\ChatMessage;
+use Modules\Customer\Models\CustomerChatMessage;
 use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *     schema="ChatUserMessage",
- *     title="ChatUserMessage",
+ *     schema="CustomerChatCustomerMessage",
+ *     title="CustomerChatCustomerMessage",
  *     description="ChatMessage model",
  *     @OA\Xml(name="ChatMessage"),
- *     @OA\Property(property="id", type="integer", description="User ID"),
- *     @OA\Property(property="username", type="string", description="Username"),
- *     @OA\Property(property="first_name", type="string", description="User first name"),
- *     @OA\Property(property="last_name", type="string", description="User last name"),
+ *     @OA\Property(property="id", type="integer", description="Customer ID"),
+ *     @OA\Property(property="first_name", type="string", description="Customer first name"),
+ *     @OA\Property(property="last_name", type="string", description="Customer last name"),
+ *     @OA\Property(property="gender", type="integer", description="Customer gender"),
  * ),
  *
  * @OA\Schema (
- *     schema="ChatUserMessageCollection",
+ *     schema="CustomerChatCustomerMessageCollection",
  *     type="object",
  *     @OA\Property(
  *         property="data",
  *         type="array",
- *         @OA\Items(ref="#/components/schemas/ChatUserMessage")
+ *         @OA\Items(ref="#/components/schemas/CustomerChatCustomerMessage")
  *     ),
  *     @OA\Property(
  *         property="meta",
@@ -37,20 +37,20 @@ use OpenApi\Annotations as OA;
  * ),
  *
  * @OA\Schema (
- *     schema="ChatUserMessageResource",
+ *     schema="CustomerChatCustomerMessageResource",
  *     type="object",
  *     @OA\Property(
  *         property="data",
  *         type="object",
- *         ref="#/components/schemas/ChatUserMessage"
+ *         ref="#/components/schemas/CustomerChatCustomerMessage"
  *     )
  * )
  *
- * Class ChatUserResource
+ * Class CustomerChatCustomerResource
  *
- * @mixin ChatMessage
+ * @mixin CustomerChatMessage
  */
-class ChatUserResource extends BaseJsonResource
+class CustomerChatCustomerResource extends BaseJsonResource
 {
     /**
      * Transform the resource into an array.
@@ -62,9 +62,9 @@ class ChatUserResource extends BaseJsonResource
     {
         return [
             'id' => $this->id,
-            'username' => $this->username,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
+            'gender' => $this->gender,
         ];
     }
 }

@@ -9,7 +9,7 @@ $customer_id = $_GET['customer_id'] ?? '';
 
 <head>
     <meta charset="utf-8">
-    <title>Example Pusher.com</title>
+    <title>User Pusher.com</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -18,7 +18,7 @@ $customer_id = $_GET['customer_id'] ?? '';
 
 <body>
     <main class="content">
-        <div class="container p-0">
+        <div class="container-off px-3">
 
             <div class="card">
                 <div class="row g-0">
@@ -41,16 +41,25 @@ $customer_id = $_GET['customer_id'] ?? '';
                                 </div>
                                 <button type="submit" class="btn btn-primary">Apply</button>
                             </form>
+
+                            <h5 class="mt-5">Unread <span class="badge badge-pill badge-danger chat-notifications">0</span></h5>
+
+                            <h5 class="mt-5">Brands</h5>
+                            <div class="list-group brands mt-2"></div>
+
+                            <h5 class="mt-5">Customers</h5>
+                            <div class="list-group customers mt-2"></div>
                         </div>
-                        <div class="logs p-4">
-                        </div>
+
 
                     </div>
                     <div class="col-12 col-lg-7 col-xl-9">
 
                         <div class="position-relative">
                             <div class="chat-messages p-4" style="min-height: 500px;">
-                                Loading ...
+                                <div class="alert alert-warning" role="alert">
+                                    Loading chat body ...
+                                </div>
                             </div>
                         </div>
 
@@ -131,29 +140,20 @@ $customer_id = $_GET['customer_id'] ?? '';
             channelAuthorization: {
                 endpoint: "/broadcasting/auth",
                 headers: {
-                    "Authorization": "Bearer  <?= $token ?>"
+                    "Authorization": "Bearer  <?= $token ?>",
+                    "Tenant": "<?= $tenant ?>"
                 },
             },
         });
+
 
         /*************** */
         var channel = pusher.subscribe('private-chat.<?= $customer_id ?>');
 
         var myUser = 0;
-        channel.bind('chat_history_message', function(data) {
-            myUser = data.user;
-            var chatMessages = $(".chat-messages");
-            chatMessages.html('');
-            $.each(data.message, function(i, item) {
-                chatMessages.append(chatMessageBody(item));
-            });
-
-            scrollBottom();
-        });
-
         channel.bind('chat_message', function(data) {
-            myUser = data.user;
             var chatMessages = $(".chat-messages");
+            myUser = data.user;
             chatMessages.append(chatMessageBody(data.message));
 
             scrollBottom();
@@ -164,12 +164,15 @@ $customer_id = $_GET['customer_id'] ?? '';
             var hoursAndMinutes = padTo2Digits(date.getHours()) + ':' + padTo2Digits(date.getMinutes());
             var yearMonthDay = date.getUTCFullYear() + '-' + padTo2Digits(date.getUTCMonth() + 1) + '-' + padTo2Digits(date.getUTCDate());
             var messOwner = ''
+            var isMe;
             if (data.initiator_type == 'user') {
                 messOwner = data.user.first_name + ` ` + data.user.last_name;
+                isMe = (data.user.id == myUser) ? true : false;
             } else {
                 messOwner = data.customer.first_name + ` ` + data.customer.last_name;
+                isMe = false;
             }
-            var isMe = (data.user.id == myUser) ? true : false;
+
             /************************ */
             return `<div class="chat-message-` + (isMe ? `right` : `left`) + ` pb-4">
                                     <div>
@@ -192,19 +195,39 @@ $customer_id = $_GET['customer_id'] ?? '';
             $('.chat-messages').scrollTop($('.chat-messages')[0].scrollHeight);
         }
 
+        /************** */
+        var axiosHeader = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer <?= $token ?>',
+            'Tenant': '<?= $tenant ?>'
+        };
+        /************** */
         // Chat history loading request: /admin/communication/chat-message-history
         axios.post('/admin/communication/chat-message-history', {
                 'customer_id': '<?= $customer_id ?>'
             }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': 'Bearer <?= $token ?>',
-                    'Tenant': '<?= $tenant ?>'
-                }
+                headers: axiosHeader
             })
             .then((response) => {
-                console.log(response.data);
+                myUser = response.data.user;
+                var chatMessages = $(".chat-messages");
+                chatMessages.html('');
+                $.each(response.data.message, function(i, item) {
+                    chatMessages.append(chatMessageBody(item));
+                    scrollBottom();
+                });
+                $(".chat-notifications").html(response.data.unread);
+
+                /********* */
+                var channel_notify = pusher.subscribe('private-chatnotification.' + myUser);
+                channel_notify.bind('chat_notification', function(data) {
+                    $(".chat-notifications").html(data.total);
+                });
+                /********* */
+            })
+            .catch(error => {
+                alert(error.response.data.message);
             });
         /************** */
         $('.action-send').on('click', function() {
@@ -214,12 +237,7 @@ $customer_id = $_GET['customer_id'] ?? '';
                     'customer_id': '<?= $customer_id ?>',
                     'message': $('.user-message').val()
                 }, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': 'Bearer <?= $token ?>',
-                        'Tenant': '<?= $tenant ?>'
-                    }
+                    headers: axiosHeader
                 })
                 .then((response) => {
                     $('.action-send').html('Send');
@@ -228,9 +246,43 @@ $customer_id = $_GET['customer_id'] ?? '';
                 .catch(error => {
                     $('.action-send').html('Send');
                     $('.action-send').addClass('btn-primary').removeClass('btn-warning');
+                    alert(error.message);
                 });
             $('.user-message').val('');
         });
+
+        /**************** */
+
+        axios.get('/admin/brands', {
+                headers: axiosHeader
+            })
+            .then((response) => {
+                var chatBrands = $(".brands");
+                $.each(response.data.data, function(i, item) {
+                    chatBrands.append(`<a href="?token=<?= $token ?>&tenant=` + item.database + `&customer_id=<?= $customer_id ?>" class="list-group-item list-group-item-action ` + ((item.database == '<?= $tenant ?>') ? `active` : ``) + `">` + item.name + `<br> <small>` + item.database + `</small></a>`);
+                });
+            })
+            .catch(error => {
+                alert(error.response.data.message);
+            });
+
+        /**************** */
+
+        axios.get('/admin/customers', {
+                headers: axiosHeader
+            })
+            .then((response) => {
+
+                var chatCustomers = $(".customers");
+                $.each(response.data.data, function(i, item) {
+                    chatCustomers.append(`<a href="?token=<?= $token ?>&tenant=<?= $tenant ?>&customer_id=` + item.id + `" class="list-group-item list-group-item-action ` + ((item.id == '<?= $customer_id ?>') ? `active` : ``) + `">` + item.first_name + ` ` + item.last_name + `</a>`);
+                });
+            })
+            .catch(error => {
+                alert(error.response.data.message);
+            });
+
+        /*************** */
     </script>
 </body>
 

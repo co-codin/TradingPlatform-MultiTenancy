@@ -9,6 +9,8 @@ use App\Services\Auth\PasswordService;
 use Modules\Customer\Http\Controllers\Admin\Auth\PasswordController;
 use Modules\Customer\Http\Controllers\PasswordController as CustomerPasswordController;
 use Modules\Customer\Models\Customer;
+use Modules\Customer\Models\CustomerChatMessage;
+use Modules\Customer\Policies\CustomerChatPolicy;
 use Modules\Customer\Policies\CustomerPolicy;
 use Modules\User\Models\User;
 use Modules\User\Policies\UserPolicy;
@@ -21,6 +23,7 @@ final class CustomerServiceProvider extends BaseModuleServiceProvider
     protected array $policies = [
         Customer::class => CustomerPolicy::class,
         User::class => UserPolicy::class,
+        CustomerChatMessage::class => CustomerChatPolicy::class,
     ];
 
     /**
