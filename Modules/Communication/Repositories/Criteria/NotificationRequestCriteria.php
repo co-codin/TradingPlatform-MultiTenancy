@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Communication\Repositories\Criteria;
 
 use App\Repositories\Criteria\BaseCriteria;
+use Modules\User\Repositories\Criteria\UserRequestCriteria;
 use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -32,6 +33,7 @@ final class NotificationRequestCriteria extends BaseCriteria
             ->defaultSort('-id')
             ->allowedFields(
                 self::$allowedModelFields,
+                UserRequestCriteria::allowedModelFields('user')
             )
             ->allowedFilters([
                 AllowedFilter::exact('id'),
@@ -48,6 +50,10 @@ final class NotificationRequestCriteria extends BaseCriteria
                 'type',
                 'created_at',
                 'updated_at',
+            ])
+            ->allowedIncludes([
+                'user',
+                'notifiable',
             ]);
     }
 }
