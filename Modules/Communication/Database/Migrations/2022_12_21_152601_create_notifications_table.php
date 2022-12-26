@@ -19,7 +19,6 @@ return new class extends Migration
             $table->morphs('notifiable');
             $table->text('data');
             $table->foreignId('user_id')->constrained('public.users');
-            $table->foreignId('customer_id')->constrained();
             $table->timestamp('read_at')->nullable();
             $table->timestamps();
         });

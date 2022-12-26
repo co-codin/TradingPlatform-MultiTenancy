@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Modules\Customer\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Brand\Models\Brand;
+use Modules\Communication\Models\DatabaseNotification;
 use Modules\Customer\Database\factories\CustomerFactory;
 use Modules\Customer\Events\CustomerSaving;
 use Modules\Customer\Models\Traits\CustomerRelations;
@@ -144,5 +146,15 @@ final class Customer extends Authenticatable
     public function getBrand(): ?Brand
     {
         return app(Tenant::class)->current();
+    }
+
+    /**
+     * Get the entity's notifications.
+     *
+     * @return MorphMany
+     */
+    public function notifications(): MorphMany
+    {
+        return $this->morphMany(DatabaseNotification::class, 'notifiable')->latest();
     }
 }
