@@ -71,6 +71,8 @@ final class UserRequestCriteria extends BaseCriteria
                 'roles',
                 'roles.permissions',
                 'permissions',
+                'roles.permissions.columns',
+                'permissions.columns',
                 'parent',
                 'ancestors',
                 'descendants',
