@@ -688,6 +688,114 @@
                 ]
             }
         },
+        "/admin/communication/chat-message-history": {
+            "post": {
+                "tags": [
+                    "CommunicationChat"
+                ],
+                "summary": "Chat message history",
+                "description": "Returns chat data.",
+                "operationId": "ac3142e373caa49b99a6b710eff3c8a2",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "customer_id"
+                                ],
+                                "properties": {
+                                    "customer_id": {
+                                        "description": "Customer ID",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "$ref": "#/components/schemas/ChatMessageCollection"
+                                        },
+                                        "user": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/communication/chat-message-send": {
+            "post": {
+                "tags": [
+                    "CommunicationChat"
+                ],
+                "summary": "Store chat message",
+                "description": "Returns chat message data.",
+                "operationId": "fdc47cb4c886e7a3d7ba49ca486864d6",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "customer_id",
+                                    "message"
+                                ],
+                                "properties": {
+                                    "customer_id": {
+                                        "description": "Customer ID",
+                                        "type": "integer"
+                                    },
+                                    "message": {
+                                        "description": "Message",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/comments": {
             "get": {
                 "tags": [
@@ -4201,6 +4309,93 @@
                 "security": [
                     {
                         "sanctum_frontend": []
+                    }
+                ]
+            }
+        },
+        "/customer/chat-message-history": {
+            "post": {
+                "tags": [
+                    "CustomerChat"
+                ],
+                "summary": "Chat message history",
+                "description": "Returns chat data.",
+                "operationId": "189e582de08897beefded957417afdff",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "$ref": "#/components/schemas/CustomerChatMessageCollection"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/customer/chat-message-send": {
+            "post": {
+                "tags": [
+                    "CustomerChat"
+                ],
+                "summary": "Store chat message",
+                "description": "Returns chat message data.",
+                "operationId": "49264089b9e0927cb04a26d3de111eb4",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "customer_id",
+                                    "message"
+                                ],
+                                "properties": {
+                                    "customer_id": {
+                                        "description": "Customer ID",
+                                        "type": "integer"
+                                    },
+                                    "message": {
+                                        "description": "Message",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
                     }
                 ]
             }
@@ -9781,6 +9976,173 @@
                 },
                 "type": "object"
             },
+            "ChatCustomerMessage": {
+                "title": "ChatCustomerMessage",
+                "description": "ChatMessage model",
+                "properties": {
+                    "id": {
+                        "description": "Customer ID",
+                        "type": "integer"
+                    },
+                    "first_name": {
+                        "description": "Customer first name",
+                        "type": "string"
+                    },
+                    "last_name": {
+                        "description": "Customer last name",
+                        "type": "string"
+                    },
+                    "gender": {
+                        "description": "Customer gender",
+                        "type": "integer"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ChatMessage"
+                }
+            },
+            "ChatCustomerMessageCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ChatCustomerMessage"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "ChatCustomerMessageResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ChatCustomerMessage"
+                    }
+                },
+                "type": "object"
+            },
+            "ChatMessage": {
+                "title": "ChatMessage",
+                "description": "ChatMessage model",
+                "required": [
+                    "id",
+                    "user_id",
+                    "customer_id",
+                    "message",
+                    "initiator_id",
+                    "initiator_type",
+                    "read"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Message"
+                    },
+                    "initiator_id": {
+                        "type": "integer",
+                        "example": "Message owner ID"
+                    },
+                    "initiator_type": {
+                        "type": "string",
+                        "example": "Message owner Type"
+                    },
+                    "read": {
+                        "type": "integer",
+                        "example": "Read status 0 or 1"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/ChatUserMessage"
+                    },
+                    "customer": {
+                        "$ref": "#/components/schemas/ChatCustomerMessage"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ChatMessage"
+                }
+            },
+            "ChatMessageCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ChatMessage"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "ChatMessageResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ChatMessage"
+                    }
+                },
+                "type": "object"
+            },
+            "ChatUserMessage": {
+                "title": "ChatUserMessage",
+                "description": "ChatMessage model",
+                "properties": {
+                    "id": {
+                        "description": "User ID",
+                        "type": "integer"
+                    },
+                    "username": {
+                        "description": "Username",
+                        "type": "string"
+                    },
+                    "first_name": {
+                        "description": "User first name",
+                        "type": "string"
+                    },
+                    "last_name": {
+                        "description": "User last name",
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ChatMessage"
+                }
+            },
+            "ChatUserMessageCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ChatUserMessage"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "ChatUserMessageResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ChatUserMessage"
+                    }
+                },
+                "type": "object"
+            },
             "Comment": {
                 "title": "Comment",
                 "description": "Comment model",
@@ -10271,6 +10633,173 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/AuthCustomer"
+                    }
+                },
+                "type": "object"
+            },
+            "CustomerChatCustomerMessage": {
+                "title": "CustomerChatCustomerMessage",
+                "description": "ChatMessage model",
+                "properties": {
+                    "id": {
+                        "description": "Customer ID",
+                        "type": "integer"
+                    },
+                    "first_name": {
+                        "description": "Customer first name",
+                        "type": "string"
+                    },
+                    "last_name": {
+                        "description": "Customer last name",
+                        "type": "string"
+                    },
+                    "gender": {
+                        "description": "Customer gender",
+                        "type": "integer"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ChatMessage"
+                }
+            },
+            "CustomerChatCustomerMessageCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CustomerChatCustomerMessage"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "CustomerChatCustomerMessageResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/CustomerChatCustomerMessage"
+                    }
+                },
+                "type": "object"
+            },
+            "CustomerChatMessage": {
+                "title": "CustomerChatMessage",
+                "description": "CustomerChatMessage model",
+                "required": [
+                    "id",
+                    "user_id",
+                    "customer_id",
+                    "message",
+                    "initiator_id",
+                    "initiator_type",
+                    "read"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Message"
+                    },
+                    "initiator_id": {
+                        "type": "integer",
+                        "example": "Message owner ID"
+                    },
+                    "initiator_type": {
+                        "type": "string",
+                        "example": "Message owner Type"
+                    },
+                    "read": {
+                        "type": "integer",
+                        "example": "Read status 0 or 1"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/CustomerChatUserMessage"
+                    },
+                    "customer": {
+                        "$ref": "#/components/schemas/CustomerChatCustomerMessage"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "CustomerChatMessage"
+                }
+            },
+            "CustomerChatMessageCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CustomerChatMessage"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "CustomerChatMessageResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/CustomerChatMessage"
+                    }
+                },
+                "type": "object"
+            },
+            "CustomerChatUserMessage": {
+                "title": "CustomerChatUserMessage",
+                "description": "CustomerChatMessage model",
+                "properties": {
+                    "id": {
+                        "description": "User ID",
+                        "type": "integer"
+                    },
+                    "username": {
+                        "description": "Username",
+                        "type": "string"
+                    },
+                    "first_name": {
+                        "description": "User first name",
+                        "type": "string"
+                    },
+                    "last_name": {
+                        "description": "User last name",
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ChatMessage"
+                }
+            },
+            "CustomerChatUserMessageCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CustomerChatUserMessage"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "CustomerChatUserMessageResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/CustomerChatUserMessage"
                     }
                 },
                 "type": "object"

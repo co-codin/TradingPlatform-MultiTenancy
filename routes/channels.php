@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Broadcast;
+use Modules\Customer\Models\Customer;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,18 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+Broadcast::channel('chat.{customerId}', function ($user, $customerId) {
+    if (\Request::path() == 'broadcasting/auth') {
+        return Customer::find($customerId);
+    } else {
+        return (int) $user->id === (int) $customerId;
+    }
+});
+
+Broadcast::channel('chatnotification.{userId}', function ($user, $userId) {
+    return (int) $user->id === (int) $userId;
+});
+
+Broadcast::channel('chatnotificationcustomer.{customerId}', function ($user, $customerId) {
+    return (int) $user->id === (int) $customerId;
 });
