@@ -3132,6 +3132,327 @@
                 ]
             }
         },
+        "/admin/currencies": {
+            "get": {
+                "tags": [
+                    "Currency"
+                ],
+                "summary": "Get currencies",
+                "operationId": "b26c8d0b49b084ee053b7122f3f5476d",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CurrencyCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Currency"
+                ],
+                "summary": "Add a new currency",
+                "operationId": "d0f1aa9d3564d11e79d9cad0abade33e",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "iso3",
+                                    "symbol"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Currency name"
+                                    },
+                                    "iso3": {
+                                        "description": "Currency iso3"
+                                    },
+                                    "symbol": {
+                                        "description": "Currency symbol"
+                                    },
+                                    "is_available": {
+                                        "description": "Currency is avaialble"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CurrencyResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/currencies/{id}": {
+            "get": {
+                "tags": [
+                    "Currency"
+                ],
+                "summary": "Get currency data",
+                "operationId": "1ce4149024db89c3ee9f878c7255051a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Currency ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CurrencyResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Currency"
+                ],
+                "summary": "Update a currency",
+                "operationId": "a9ea2ab07027374202c9916d2df44ada",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Currency ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "iso3",
+                                    "symbol"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Currency name"
+                                    },
+                                    "iso3": {
+                                        "description": "Currency iso3"
+                                    },
+                                    "symbol": {
+                                        "description": "Currency symbol"
+                                    },
+                                    "is_available": {
+                                        "description": "Currency is avaialble"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CurrencyResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Currency"
+                ],
+                "summary": "Delete a currency",
+                "operationId": "78daa105c80c1ae91bbf1ca44e431607",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Currency ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Currency"
+                ],
+                "summary": "Update a currency",
+                "operationId": "dcd25a6f3e67891f428344a49b41acaf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Currency ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Currency name"
+                                    },
+                                    "iso3": {
+                                        "description": "Currency iso3"
+                                    },
+                                    "symbol": {
+                                        "description": "Currency symbol"
+                                    },
+                                    "is_available": {
+                                        "description": "Currency is avaialble"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CurrencyResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/customers/{id}/reset-password": {
             "post": {
                 "tags": [
@@ -7498,6 +7819,324 @@
                 ]
             }
         },
+        "/admin/transaction-mt5-types": {
+            "get": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Get transaction Mt5 type",
+                "operationId": "14f557e38422d093ee42323915003d13",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionsMt5TypeCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Add a new transaction Mt5 type",
+                "operationId": "c18895be7d7f9bcb8c9f0364036018cd",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "title",
+                                    "mt5_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Transaction Mt5 type name"
+                                    },
+                                    "title": {
+                                        "description": "Transaction Mt5 type title",
+                                        "type": "string"
+                                    },
+                                    "mt5_id": {
+                                        "description": "Transaction Mt5 type mt5_id",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionsMt5TypeResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/transaction-mt5-types/{id}": {
+            "get": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Get transaction Mt5 type data",
+                "operationId": "48b3b9fcd95a0cefaf3c34db800c8818",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Transaction Mt5 type ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionsMt5TypeResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Update a transaction Mt5 type",
+                "operationId": "137682d1dd4fa27c40684db9b1e652ac",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Transaction Mt5 type ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "title",
+                                    "mt5_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Transaction Mt5 type name"
+                                    },
+                                    "title": {
+                                        "description": "Transaction Mt5 type title",
+                                        "type": "string"
+                                    },
+                                    "mt5_id": {
+                                        "description": "Transaction Mt5 type mt5_id",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionsMt5TypeResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Delete a transaction Mt5 type",
+                "operationId": "b5f212003b7162f089cf7b2f6a15990d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Transaction Mt5 type ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Update a transaction Mt5 type",
+                "operationId": "8431a376e8fea82347acf0aca343a467",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Transaction Mt5 type ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Transaction Mt5 type name"
+                                    },
+                                    "title": {
+                                        "description": "Transaction Mt5 type title",
+                                        "type": "string"
+                                    },
+                                    "mt5_id": {
+                                        "description": "Transaction Mt5 type mt5_id",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionsMt5TypeResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/auth/login": {
             "post": {
                 "tags": [
@@ -10592,6 +11231,88 @@
                 },
                 "type": "object"
             },
+            "Currency": {
+                "required": [
+                    "id",
+                    "name",
+                    "iso3",
+                    "symbol",
+                    "is_available",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Currency ID",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Currency name",
+                        "type": "string"
+                    },
+                    "iso3": {
+                        "description": "Currency iso3",
+                        "type": "string"
+                    },
+                    "symbol": {
+                        "description": "Currency symbol",
+                        "type": "string"
+                    },
+                    "is_available": {
+                        "description": "Currency is available",
+                        "type": "boolean"
+                    },
+                    "created_at": {
+                        "description": "Date and time of creation",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "updated_at": {
+                        "description": "Date and time of last update",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "deleted_at": {
+                        "description": "Date and time of soft delete",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": true
+                    },
+                    "countries": {
+                        "description": "Array of countries",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Country"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "CurrencyCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Currency"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "CurrencyResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Currency"
+                    }
+                },
+                "type": "object"
+            },
             "AuthCustomer": {
                 "properties": {
                     "id": {
@@ -11876,6 +12597,76 @@
                 },
                 "type": "object"
             },
+            "TransactionsMt5Type": {
+                "required": [
+                    "id",
+                    "name",
+                    "title",
+                    "mt5_id",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Transaction MT5 type ID",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Transaction MT5 type name",
+                        "type": "string"
+                    },
+                    "title": {
+                        "description": "Transaction MT5 type title",
+                        "type": "string"
+                    },
+                    "mt5_id": {
+                        "description": "Transaction MT5 type mt5_id",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "description": "Date and time of creation",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "updated_at": {
+                        "description": "Date and time of last update",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "deleted_at": {
+                        "description": "Date and time of soft delete",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "TransactionsMt5TypeCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TransactionsMt5Type"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "TransactionsMt5TypeResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/TransactionsMt5Type"
+                    }
+                },
+                "type": "object"
+            },
             "AuthUser": {
                 "properties": {
                     "id": {
@@ -12233,7 +13024,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }
