@@ -312,7 +312,7 @@ final class UserController extends Controller
 
         $user = $this->userStorage->update($user, $request->validated());
 
-        return new UserResource($user->load('roles'));
+        return new UserResource($user);
     }
 
     /**
