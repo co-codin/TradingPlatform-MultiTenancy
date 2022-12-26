@@ -26,6 +26,7 @@ final class ReadTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
+        Currency::truncate();
         $currencies = Currency::factory(10)->create();
 
         $response = $this->get(route('admin.currencies.index'));
@@ -62,6 +63,7 @@ final class ReadTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
+        Currency::truncate();
         $currency = Currency::factory()->create();
 
         $response = $this->get(route('admin.currencies.show', ['currency' => $currency]));
@@ -78,6 +80,8 @@ final class ReadTest extends BrandTestCase
         $this->authenticateUser();
 
         $this->brand->makeCurrent();
+
+        Currency::truncate();
         $currency = Currency::factory()->create();
 
         $response = $this->get(route('admin.currencies.show', ['currency' => $currency]));
@@ -116,6 +120,8 @@ final class ReadTest extends BrandTestCase
     public function not_unauthorized_view(): void
     {
         $this->brand->makeCurrent();
+
+        Currency::truncate();
         $currency = Currency::factory()->create();
 
         $response = $this->get(route('admin.currencies.show', ['currency' => $currency]));

@@ -26,6 +26,7 @@ final class UpdateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
+        Currency::truncate();
         $currency = Currency::factory()->create();
         $currencyData = Currency::factory()->make()->toArray();
 
@@ -46,6 +47,7 @@ final class UpdateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
+        Currency::truncate();
         $currency = Currency::factory()->create();
         $data = Currency::factory()->make();
 

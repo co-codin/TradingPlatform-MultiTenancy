@@ -32,7 +32,7 @@ final class ExportTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $response = $this->post(route('admin.customers.export.excel'));
+        $response = $this->get(route('admin.customers.export.excel'));
 
         $response->assertSuccessful();
     }
@@ -54,7 +54,7 @@ final class ExportTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $response = $this->post(route('admin.customers.export.csv'));
+        $response = $this->get(route('admin.customers.export.csv'));
 
         $response->assertSuccessful();
     }
