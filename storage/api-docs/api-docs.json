@@ -10927,6 +10927,62 @@
                 ]
             }
         },
+        "/admin/workers/export/excel": {
+            "post": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Export workers excel data",
+                "operationId": "6e96d94984604c52293a1619ec2c0861",
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/workers/export/csv": {
+            "post": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Export workers csv data",
+                "operationId": "a021bf30089ce7423dfa9435cd30c92c",
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/token-auth/login": {
             "post": {
                 "tags": [
@@ -13819,7 +13875,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }
