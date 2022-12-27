@@ -17,14 +17,21 @@ final class UserTestAdminSeeder extends Seeder
     {
         $user = $this->getUserByEmail('admin@stoxtech.com');
 
-        $role = Role::query()->firstOrCreate(
-            Role::factory()->raw([
-                'name' => DefaultRole::ADMIN,
-                'key' => strtolower(DefaultRole::ADMIN),
-            ])
-        );
-
-        $user->assignRole($role);
+        $user->assignRole([
+            Role::query()->firstOrCreate(
+                Role::factory()->raw([
+                    'name' => DefaultRole::ADMIN,
+                    'key' => strtolower(DefaultRole::ADMIN),
+                ])
+            ),
+            Role::query()->firstOrCreate(
+                Role::factory()->raw([
+                    'name' => DefaultRole::ADMIN,
+                    'key' => strtolower(DefaultRole::ADMIN),
+                    'guard_name' => 'api',
+                ])
+            ),
+        ]);
 
         $this->createWorkers();
         $this->createTestUsers();
@@ -39,15 +46,20 @@ final class UserTestAdminSeeder extends Seeder
             'qa+worker2@stoxtech.dev',
         ];
 
-        $role = Role::query()->firstOrCreate(
+        $roles = Role::query()->firstOrCreate(
             Role::factory()->raw([
                 'name' => 'Brand Admin',
                 'key' => 'brand-admin',
-            ])
+            ]),
+            Role::factory()->raw([
+                'name' => 'Brand Admin',
+                'key' => 'brand-admin',
+                'guard_name' => 'api',
+            ]),
         );
 
         foreach ($emails as $email) {
-            $this->getUserByEmail($email)->assignRole($role);
+            $this->getUserByEmail($email)->assignRole($roles);
         }
     }
 
@@ -68,16 +80,14 @@ final class UserTestAdminSeeder extends Seeder
         for ($i = 0; $i < 300; $i++) {
             $role = fake()->randomElement($roles);
 
-            User::factory()
-                ->create()
-                ->assignRole(
-                    Role::query()->firstOrCreate(
-                        Role::factory()->raw([
-                            'name' => $role,
-                            'key' => Str::slug($role),
-                        ])
-                    )
-                );
+            User::factory()->create()->assignRole(
+                Role::query()->firstOrCreate(
+                    Role::factory()->raw([
+                        'name' => $role,
+                        'key' => Str::slug($role),
+                    ])
+                )
+            );
         }
     }
 
