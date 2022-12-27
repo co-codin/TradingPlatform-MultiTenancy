@@ -17,14 +17,14 @@ use OpenApi\Annotations as OA;
  *     description="NotificationTemplate model",
  *     required={
  *         "id",
- *         "user_id",
+ *         "creator_id",
  *         "data",
  *         "created_at",
  *         "updated_at",
  *     },
  *     @OA\Xml(name="NotificationTemplate"),
  *     @OA\Property(property="id", type="integer", readOnly="true", example="1"),
- *     @OA\Property(property="user_id", type="integer", example="Worker ID"),
+ *     @OA\Property(property="creator_id", type="integer", example="Worker ID"),
  *     @OA\Property(
  *         property="data",
  *         type="object",
@@ -35,8 +35,9 @@ use OpenApi\Annotations as OA;
  *         @OA\Property(property="subject", type="string", description="Subject of notification template"),
  *         @OA\Property(property="text", type="string", description="Text of notification template"),
  *     ),
- *     @OA\Property(property="created_at", type="string", format="date-time", readOnly="true",),
- *     @OA\Property(property="updated_at", type="string", format="date-time", readOnly="true",),
+ *     @OA\Property(property="created_at", type="string", format="date-time", readOnly="true"),
+ *     @OA\Property(property="updated_at", type="string", format="date-time", readOnly="true"),
+ *     @OA\Property(property="creator", type="object", ref="#/components/schemas/Worker"),
  * ),
  *
  * @OA\Schema (
@@ -76,7 +77,7 @@ class NotificationTemplateResource extends BaseJsonResource
     public function toArray($request): array
     {
         return array_merge(parent::toArray($request), [
-            'user' => new UserResource($this->whenLoaded('user')),
+            'creator' => new UserResource($this->whenLoaded('creator')),
         ]);
     }
 }

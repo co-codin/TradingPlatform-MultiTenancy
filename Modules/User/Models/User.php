@@ -362,14 +362,4 @@ final class User extends Authenticatable
     {
         return $this->morphMany(DatabaseNotification::class, 'notifiable')->latest();
     }
-
-    /**
-     * Get the user sent notifications.
-     *
-     * @return HasMany
-     */
-    public function sentNotifications(): HasMany
-    {
-        return $this->hasMany(DatabaseNotification::class, 'user_id');
-    }
 }

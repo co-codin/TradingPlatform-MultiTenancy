@@ -9,12 +9,16 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Modules\Communication\Dto\NotificationTemplateDto;
+use Modules\Communication\Http\Requests\NotificationTemplateSendRequest;
 use Modules\Communication\Http\Requests\NotificationTemplateStoreRequest;
 use Modules\Communication\Http\Requests\NotificationTemplateUpdateRequest;
 use Modules\Communication\Http\Resources\NotificationTemplateResource;
 use Modules\Communication\Models\NotificationTemplate;
+use Modules\Communication\Notifications\TemplateNotification;
 use Modules\Communication\Repositories\NotificationTemplateRepository;
 use Modules\Communication\Services\NotificationTemplateStorage;
+use Modules\Customer\Models\Customer;
+use Modules\Customer\Repositories\CustomerRepository;
 use OpenApi\Annotations as OA;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
@@ -23,6 +27,7 @@ final class NotificationTemplateController extends Controller
     public function __construct(
         private readonly NotificationTemplateRepository $repository,
         private readonly NotificationTemplateStorage $storage,
+        private readonly CustomerRepository $customerRepository,
     ) {
     }
 
@@ -119,6 +124,10 @@ final class NotificationTemplateController extends Controller
      *          @OA\JsonContent(ref="#/components/schemas/NotificationTemplateResource")
      *       ),
      *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *      ),
@@ -141,7 +150,7 @@ final class NotificationTemplateController extends Controller
         $this->authorize('create', NotificationTemplate::class);
 
         return new NotificationTemplateResource(
-            $this->storage->store(NotificationTemplateDto::fromFormRequest($request)),
+            $this->storage->store(NotificationTemplateDto::fromFormRequest($request), $request->user()->id),
         );
     }
 
@@ -162,6 +171,10 @@ final class NotificationTemplateController extends Controller
      *          description="Successful operation",
      *          @OA\JsonContent(ref="#/components/schemas/NotificationTemplateResource")
      *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
      *      @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
@@ -219,6 +232,10 @@ final class NotificationTemplateController extends Controller
      *          @OA\JsonContent(ref="#/components/schemas/NotificationTemplateResource")
      *       ),
      *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *      ),
@@ -252,6 +269,10 @@ final class NotificationTemplateController extends Controller
      *          description="Successful operation",
      *          @OA\JsonContent(ref="#/components/schemas/NotificationTemplateResource")
      *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
      *      @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
@@ -326,6 +347,72 @@ final class NotificationTemplateController extends Controller
         $this->authorize('delete', $template);
 
         $this->storage->delete($template);
+
+        return response()->noContent();
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/admin/communication/notification-templates/{id}/send",
+     *      security={ {"sanctum": {} }},
+     *      tags={"Communication"},
+     *      summary="Send notification template to customer",
+     *      @OA\Parameter(
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *      ),
+     *      @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 required={
+     *                     "customer_id",
+     *                 },
+     *                 @OA\Property(property="customer_id", type="integer", description="Notification recipient ID"),
+     *                 @OA\Property(property="params", type="object", description="Object of template params"),
+     *                 @OA\Property(property="immediately", type="boolean", description="Should the notification be sent immediately?"),
+     *             )
+     *         )
+     *      ),
+     *      @OA\Response(
+     *         response=204,
+     *         description="No content"
+     *      ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     *
+     * Send notification template to customer.
+     *
+     * @param  NotificationTemplateSendRequest  $request
+     * @param  int  $id
+     * @return Response
+     *
+     * @throws AuthorizationException
+     */
+    public function send(NotificationTemplateSendRequest $request, int $id): Response
+    {
+        $template = $this->repository->find($id);
+
+        $this->authorize('send', $template);
+
+        /** @var Customer $customer */
+        $customer = $this->customerRepository->find($request->validated('customer_id'));
+        $notification = new TemplateNotification($template, $request->user()->id, $request->validated('params'));
+
+        $request->validated('immediately') ? $customer->notifyNow($notification) : $customer->notify($notification);
 
         return response()->noContent();
     }

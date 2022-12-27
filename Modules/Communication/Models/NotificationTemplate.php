@@ -25,7 +25,7 @@ final class NotificationTemplate extends Model
         return NotificationTemplateFactory::new();
     }
 
-    public function user(): BelongsTo
+    public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

@@ -1862,6 +1862,9 @@
                             }
                         }
                     },
+                    "400": {
+                        "description": "Bad Request"
+                    },
                     "401": {
                         "description": "Unauthenticated"
                     },
@@ -1936,6 +1939,9 @@
                             }
                         }
                     },
+                    "400": {
+                        "description": "Bad Request"
+                    },
                     "401": {
                         "description": "Unauthenticated"
                     },
@@ -1998,6 +2004,9 @@
                                 }
                             }
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request"
                     },
                     "401": {
                         "description": "Unauthenticated"
@@ -2097,6 +2106,73 @@
                                 }
                             }
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/communication/notification-templates/{id}/send": {
+            "post": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Send notification template to customer",
+                "operationId": "424c26ffbc7b8303d038f56bfcb4056f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "customer_id"
+                                ],
+                                "properties": {
+                                    "customer_id": {
+                                        "description": "Notification recipient ID",
+                                        "type": "integer"
+                                    },
+                                    "params": {
+                                        "description": "Object of template params",
+                                        "type": "object"
+                                    },
+                                    "immediately": {
+                                        "description": "Should the notification be sent immediately?",
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "400": {
+                        "description": "Bad Request"
                     },
                     "401": {
                         "description": "Unauthenticated"
@@ -12126,7 +12202,7 @@
                 "description": "NotificationTemplate model",
                 "required": [
                     "id",
-                    "user_id",
+                    "creator_id",
                     "data",
                     "created_at",
                     "updated_at"
@@ -12137,7 +12213,7 @@
                         "readOnly": "true",
                         "example": "1"
                     },
-                    "user_id": {
+                    "creator_id": {
                         "type": "integer",
                         "example": "Worker ID"
                     },
@@ -12167,6 +12243,9 @@
                         "type": "string",
                         "format": "date-time",
                         "readOnly": "true"
+                    },
+                    "creator": {
+                        "$ref": "#/components/schemas/Worker"
                     }
                 },
                 "type": "object",
@@ -14271,7 +14350,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }

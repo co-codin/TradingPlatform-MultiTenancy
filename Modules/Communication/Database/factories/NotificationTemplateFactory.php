@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\Communication\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use Modules\Communication\Models\NotificationTemplate;
 use Modules\User\Models\User;
 
@@ -26,12 +25,11 @@ final class NotificationTemplateFactory extends Factory
     public function definition()
     {
         return [
-            'id' => Str::uuid()->toString(),
             'data' => [
                 'subject' => $this->faker->sentence,
                 'text' => $this->faker->text,
             ],
-            'user_id' => User::inRandomOrder()->first() ?? User::factory()->create(),
+            'creator_id' => User::inRandomOrder()->first() ?? User::factory()->create(),
         ];
     }
 }

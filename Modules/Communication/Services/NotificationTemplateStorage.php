@@ -14,15 +14,17 @@ final class NotificationTemplateStorage
      * Store communication provider.
      *
      * @param  NotificationTemplateDto  $dto
+     * @param  int  $creatorId
      * @return NotificationTemplate
      */
-    public function store(NotificationTemplateDto $dto): NotificationTemplate
+    public function store(NotificationTemplateDto $dto, int $creatorId): NotificationTemplate
     {
         $template = NotificationTemplate::create([
             'data' => [
                 'subject' => $dto->subject,
                 'text' => $dto->text,
             ],
+            'creator_id' => $creatorId,
         ]);
 
         if (! $template) {

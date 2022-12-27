@@ -18,7 +18,7 @@ final class NotificationTemplateRequestCriteria extends BaseCriteria
     protected static array $allowedModelFields = [
         'id',
         'data',
-        'user_id',
+        'creator_id',
     ];
 
     /**
@@ -30,21 +30,21 @@ final class NotificationTemplateRequestCriteria extends BaseCriteria
             ->defaultSort('-id')
             ->allowedFields(
                 self::$allowedModelFields,
-                UserRequestCriteria::allowedModelFields('user')
+                UserRequestCriteria::allowedModelFields('creator')
             )
             ->allowedFilters([
                 AllowedFilter::exact('id'),
-                AllowedFilter::exact('user_id'),
+                AllowedFilter::exact('creator_id'),
                 AllowedFilter::partial('data'),
             ])
             ->allowedSorts([
                 'id',
-                'user_id',
+                'creator_id',
                 'created_at',
                 'updated_at',
             ])
             ->allowedIncludes([
-                'user',
+                'creator',
             ]);
     }
 }

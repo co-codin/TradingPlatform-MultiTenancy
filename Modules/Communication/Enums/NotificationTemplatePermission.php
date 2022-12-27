@@ -6,7 +6,7 @@ namespace Modules\Communication\Enums;
 
 use App\Enums\BaseEnum;
 use App\Models\Action;
-use Modules\Communication\Models\DatabaseNotification;
+use Modules\Communication\Notifications\TemplateNotification;
 use Modules\Role\Contracts\PermissionEnum;
 
 final class NotificationTemplatePermission extends BaseEnum implements PermissionEnum
@@ -30,6 +30,10 @@ final class NotificationTemplatePermission extends BaseEnum implements Permissio
      * @var string
      */
     public const DELETE_NOTIFICATION_TEMPLATE = 'delete notification template';
+    /**
+     * @var string
+     */
+    public const SEND_NOTIFICATION_TEMPLATE = 'send notification template';
 
     /**
      * {@inheritDoc}
@@ -41,6 +45,7 @@ final class NotificationTemplatePermission extends BaseEnum implements Permissio
             self::VIEW_NOTIFICATION_TEMPLATE => Action::NAMES['view'],
             self::EDIT_NOTIFICATION_TEMPLATE => Action::NAMES['edit'],
             self::DELETE_NOTIFICATION_TEMPLATE => Action::NAMES['delete'],
+            self::SEND_NOTIFICATION_TEMPLATE => Action::NAMES['send'],
         ];
     }
 
@@ -49,7 +54,7 @@ final class NotificationTemplatePermission extends BaseEnum implements Permissio
      */
     public static function model(): string
     {
-        return DatabaseNotification::class;
+        return TemplateNotification::class;
     }
 
     /**
@@ -70,6 +75,7 @@ final class NotificationTemplatePermission extends BaseEnum implements Permissio
             self::VIEW_NOTIFICATION_TEMPLATE => 'View notification template',
             self::EDIT_NOTIFICATION_TEMPLATE => 'Edit notification template',
             self::DELETE_NOTIFICATION_TEMPLATE => 'Delete notification template',
+            self::SEND_NOTIFICATION_TEMPLATE => 'Send notification template',
         ];
     }
 }

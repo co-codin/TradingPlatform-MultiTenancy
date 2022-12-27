@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('notification_templates', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->foreignId('user_id')->constrained('public.users');
+            $table->id();
+            $table->foreignId('creator_id')->constrained('public.users');
             $table->text('data');
             $table->timestamps();
         });

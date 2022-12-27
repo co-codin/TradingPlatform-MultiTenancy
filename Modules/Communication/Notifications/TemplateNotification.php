@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Modules\Communication\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Modules\Communication\Models\NotificationTemplate;
 
-final class TemplateNotification extends Notification
+final class TemplateNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -20,6 +21,7 @@ final class TemplateNotification extends Notification
      */
     public function __construct(
         private readonly NotificationTemplate $template,
+        private readonly int $senderId,
         private readonly array $params,
     ) {
     }
@@ -59,6 +61,8 @@ final class TemplateNotification extends Notification
         return [
             'subject' => $this->template->data['subject'],
             'text' => $this->template->data['text'],
+            'sender_id' => $this->senderId,
+            'template_id' => $this->template->id,
         ];
     }
 }
