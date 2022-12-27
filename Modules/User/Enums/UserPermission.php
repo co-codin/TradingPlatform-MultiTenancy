@@ -49,7 +49,7 @@ final class UserPermission extends Enum implements PermissionEnum
     /**
      * @var string
      */
-    public const EXPORT_USERS = 'export customers';
+    public const EXPORT_USERS = 'export users';
 
     /**
      * {@inheritDoc}
