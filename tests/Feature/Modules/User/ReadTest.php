@@ -75,7 +75,7 @@ final class ReadTest extends BrandTestCase
             'departments',
             'languages',
             'affiliate',
-            'comProvider',
+            // 'comProvider',
         ];
 
         $this->makeCurrentTenantAndSetHeader();
@@ -124,16 +124,16 @@ final class ReadTest extends BrandTestCase
                     'deleted_at',
                     'last_login',
                     'created_at',
-                    'roles',
-                    'ancestors',
-                    'descendants',
-                    'brands',
-                    'display_options',
-                    'desks',
-                    'departments',
-                    'languages',
-                    'affiliate',
-                    'com_provider',
+                    // 'roles',
+                    // 'ancestors',
+                    // 'descendants',
+                    // 'brands',
+                    // 'display_options',
+                    // 'desks',
+                    // 'departments',
+                    // 'languages',
+                    // 'affiliate',
+                    // 'com_provider',
                 ],
             ],
         ]);
@@ -162,7 +162,7 @@ final class ReadTest extends BrandTestCase
             'departments',
             'languages',
             'affiliate',
-            'comProvider',
+            // 'comProvider',
         ];
 
         $this->brand->makeCurrent();

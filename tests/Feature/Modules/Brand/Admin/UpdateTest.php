@@ -9,8 +9,7 @@ use Tests\TestCase;
 
 class UpdateTest extends TestCase
 {
-    use DatabaseTransactions;
-
+    // use DatabaseTransactions;
     /**
      * Test authorized user can update brand.
      *

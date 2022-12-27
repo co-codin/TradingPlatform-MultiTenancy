@@ -10,8 +10,7 @@ use Tests\TestCase;
 
 class CreateTest extends TestCase
 {
-    use DatabaseTransactions;
-
+    // use DatabaseTransactions;
     /**
      * Test authorized user can create brand.
      *
