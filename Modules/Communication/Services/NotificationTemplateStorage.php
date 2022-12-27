@@ -18,41 +18,51 @@ final class NotificationTemplateStorage
      */
     public function store(NotificationTemplateDto $dto): NotificationTemplate
     {
-        $notification = NotificationTemplate::create($dto->toArray());
+        $template = NotificationTemplate::create([
+            'data' => [
+                'subject' => $dto->subject,
+                'text' => $dto->text,
+            ],
+        ]);
 
-        if (! $notification) {
-            throw new LogicException(__('Can not create communication provider'));
+        if (! $template) {
+            throw new LogicException(__('Can not create notification template'));
         }
 
-        return $notification;
+        return $template;
     }
 
     /**
-     * Update communication provider.
+     * Update notification template.
      *
-     * @param  NotificationTemplate  $notification
+     * @param  NotificationTemplate  $template
      * @param  NotificationTemplateDto  $dto
      * @return NotificationTemplate
      */
-    public function update(NotificationTemplate $notification, NotificationTemplateDto $dto): NotificationTemplate
+    public function update(NotificationTemplate $template, NotificationTemplateDto $dto): NotificationTemplate
     {
-        if (! $notification->update($dto->toArray())) {
-            throw new LogicException(__('Can not update communication provider'));
+        if (! $template->update([
+            'data' => [
+                'subject' => $dto->subject ?? $template->data['subject'],
+                'text' => $dto->text ?? $template->data['text'],
+            ],
+        ])) {
+            throw new LogicException(__('Can not update notification template'));
         }
 
-        return $notification;
+        return $template;
     }
 
     /**
-     * Delete communication provider.
+     * Delete notification template.
      *
-     * @param  NotificationTemplate  $notification
+     * @param  NotificationTemplate  $template
      * @return bool
      */
-    public function delete(NotificationTemplate $notification): bool
+    public function delete(NotificationTemplate $template): bool
     {
-        if (! $notification->delete()) {
-            throw new LogicException(__('Can not delete communication provider'));
+        if (! $template->delete()) {
+            throw new LogicException(__('Can not delete notification template'));
         }
 
         return true;

@@ -5,34 +5,47 @@ declare(strict_types=1);
 namespace Modules\Communication\Http\Resources;
 
 use App\Http\Resources\BaseJsonResource;
-use Modules\Communication\Models\CommunicationProvider;
+use Illuminate\Http\Request;
+use Modules\Communication\Models\NotificationTemplate;
+use Modules\User\Http\Resources\UserResource;
 use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
- *     schema="CommunicationProvider",
- *     title="CommunicationProvider",
- *     description="CommunicationProvider model",
+ *     schema="NotificationTemplate",
+ *     title="NotificationTemplate",
+ *     description="NotificationTemplate model",
  *     required={
  *         "id",
- *         "name",
+ *         "user_id",
+ *         "data",
  *         "created_at",
  *         "updated_at",
  *     },
- *     @OA\Xml(name="CommunicationProvider"),
+ *     @OA\Xml(name="NotificationTemplate"),
  *     @OA\Property(property="id", type="integer", readOnly="true", example="1"),
- *     @OA\Property(property="name", type="string", example="Any name"),
+ *     @OA\Property(property="user_id", type="integer", example="Worker ID"),
+ *     @OA\Property(
+ *         property="data",
+ *         type="object",
+ *         required={
+ *             "subject",
+ *             "text",
+ *         },
+ *         @OA\Property(property="subject", type="string", description="Subject of notification template"),
+ *         @OA\Property(property="text", type="string", description="Text of notification template"),
+ *     ),
  *     @OA\Property(property="created_at", type="string", format="date-time", readOnly="true",),
  *     @OA\Property(property="updated_at", type="string", format="date-time", readOnly="true",),
  * ),
  *
  * @OA\Schema (
- *     schema="CommunicationProviderCollection",
+ *     schema="NotificationTemplateCollection",
  *     type="object",
  *     @OA\Property(
  *         property="data",
  *         type="array",
- *         @OA\Items(ref="#/components/schemas/CommunicationProvider")
+ *         @OA\Items(ref="#/components/schemas/NotificationTemplate")
  *     ),
  *     @OA\Property(
  *         property="meta",
@@ -42,16 +55,28 @@ use OpenApi\Annotations as OA;
  * ),
  *
  * @OA\Schema (
- *     schema="CommunicationProviderResource",
+ *     schema="NotificationTemplateResource",
  *     type="object",
  *     @OA\Property(
  *         property="data",
  *         type="object",
- *         ref="#/components/schemas/CommunicationProvider"
+ *         ref="#/components/schemas/NotificationTemplate"
  *     )
  * )
- * @mixin CommunicationProvider
+ * @mixin NotificationTemplate
  */
 class NotificationTemplateResource extends BaseJsonResource
 {
+    /**
+     * Transform the resource into an array.
+     *
+     * @param  Request  $request
+     * @return array
+     */
+    public function toArray($request): array
+    {
+        return array_merge(parent::toArray($request), [
+            'user' => new UserResource($this->whenLoaded('user')),
+        ]);
+    }
 }

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Modules\Communication\Repositories;
 
 use App\Repositories\BaseRepository;
-use Modules\Communication\Models\DatabaseNotification;
-use Modules\Communication\Repositories\Criteria\NotificationRequestCriteria;
+use Modules\Communication\Models\NotificationTemplate;
+use Modules\Communication\Repositories\Criteria\NotificationTemplateRequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
 
 final class NotificationTemplateRepository extends BaseRepository
@@ -16,7 +16,7 @@ final class NotificationTemplateRepository extends BaseRepository
      */
     public function model(): string
     {
-        return DatabaseNotification::class;
+        return NotificationTemplate::class;
     }
 
     /**
@@ -26,6 +26,6 @@ final class NotificationTemplateRepository extends BaseRepository
      */
     public function boot()
     {
-        $this->pushCriteria(NotificationRequestCriteria::class);
+        $this->pushCriteria(NotificationTemplateRequestCriteria::class);
     }
 }

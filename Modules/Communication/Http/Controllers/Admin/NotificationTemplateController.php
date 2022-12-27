@@ -105,9 +105,11 @@ final class NotificationTemplateController extends Controller
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 required={
-     *                     "name",
+     *                     "subject",
+     *                     "text",
      *                 },
-     *                 @OA\Property(property="name", type="string", description="Name of notification template"),
+     *                 @OA\Property(property="text", type="string", description="Text of notification template"),
+     *                 @OA\Property(property="subject", type="string", description="Subject of notification template"),
      *             )
      *         )
      *      ),
@@ -203,9 +205,11 @@ final class NotificationTemplateController extends Controller
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 required={
-     *                     "name",
+     *                     "subject",
+     *                     "text",
      *                 },
-     *                 @OA\Property(property="name", type="string", description="Name of notification template"),
+     *                 @OA\Property(property="text", type="string", description="Text of notification template"),
+     *                 @OA\Property(property="subject", type="string", description="Subject of notification template"),
      *             )
      *         )
      *      ),
@@ -238,7 +242,8 @@ final class NotificationTemplateController extends Controller
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
-     *                 @OA\Property(property="name", type="string", description="Name of notification template"),
+     *                 @OA\Property(property="text", type="string", description="Text of notification template"),
+     *                 @OA\Property(property="subject", type="string", description="Subject of notification template"),
      *             )
      *         )
      *      ),

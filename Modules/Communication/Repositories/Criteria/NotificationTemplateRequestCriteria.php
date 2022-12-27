@@ -10,18 +10,15 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-final class NotificationRequestCriteria extends BaseCriteria
+final class NotificationTemplateRequestCriteria extends BaseCriteria
 {
     /**
      * {@inheritdoc}
      */
     protected static array $allowedModelFields = [
         'id',
-        'type',
-        'notifiable',
         'data',
         'user_id',
-        'read_at',
     ];
 
     /**
@@ -38,22 +35,16 @@ final class NotificationRequestCriteria extends BaseCriteria
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('user_id'),
-                AllowedFilter::exact('read_at'),
-                AllowedFilter::exact('notifiable'),
-                AllowedFilter::partial('type'),
                 AllowedFilter::partial('data'),
             ])
             ->allowedSorts([
                 'id',
                 'user_id',
-                'read_at',
-                'type',
                 'created_at',
                 'updated_at',
             ])
             ->allowedIncludes([
                 'user',
-                'notifiable',
             ]);
     }
 }

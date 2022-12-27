@@ -16,6 +16,10 @@ final class NotificationTemplate extends Model
     use HasFactory;
     use UsesTenantConnection;
 
+    protected $casts = [
+        'data' => 'array',
+    ];
+
     private static function newFactory(): NotificationTemplateFactory
     {
         return NotificationTemplateFactory::new();

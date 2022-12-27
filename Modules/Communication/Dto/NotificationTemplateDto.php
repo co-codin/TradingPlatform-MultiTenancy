@@ -8,5 +8,6 @@ use App\Dto\BaseDto;
 
 final class NotificationTemplateDto extends BaseDto
 {
-    public ?string $name;
+    public ?string $subject;
+    public ?string $text;
 }

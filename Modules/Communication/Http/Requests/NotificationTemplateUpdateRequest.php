@@ -16,7 +16,8 @@ final class NotificationTemplateUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => 'sometimes|required|string',
+            'subject' => 'sometimes|required|string',
+            'text' => 'sometimes|required|string',
         ];
     }
 }

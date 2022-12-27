@@ -9,16 +9,16 @@ use Modules\Communication\Models\Call;
 use Modules\Communication\Models\Comment;
 use Modules\Communication\Models\CommunicationExtension;
 use Modules\Communication\Models\CommunicationProvider;
-use Modules\Communication\Models\DatabaseNotification;
 use Modules\Communication\Models\Email;
 use Modules\Communication\Models\EmailTemplates;
+use Modules\Communication\Models\NotificationTemplate;
 use Modules\Communication\Policies\CallPolicy;
 use Modules\Communication\Policies\CommentPolicy;
 use Modules\Communication\Policies\CommunicationExtensionPolicy;
 use Modules\Communication\Policies\CommunicationProviderPolicy;
 use Modules\Communication\Policies\EmailPolicy;
 use Modules\Communication\Policies\EmailTemplatesPolicy;
-use Modules\Communication\Policies\NotificationPolicy;
+use Modules\Communication\Policies\NotificationTemplatePolicy;
 
 class CommunicationServiceProvider extends BaseModuleServiceProvider
 {
@@ -32,7 +32,7 @@ class CommunicationServiceProvider extends BaseModuleServiceProvider
         Call::class => CallPolicy::class,
         Email::class => EmailPolicy::class,
         EmailTemplates::class => EmailTemplatesPolicy::class,
-        DatabaseNotification::class => NotificationPolicy::class,
+        NotificationTemplate::class => NotificationTemplatePolicy::class,
     ];
 
     /**

@@ -16,7 +16,8 @@ final class NotificationTemplateStoreRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
+            'subject' => 'required|string',
+            'text' => 'required|string',
         ];
     }
 }

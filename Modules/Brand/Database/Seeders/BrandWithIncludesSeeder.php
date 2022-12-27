@@ -7,7 +7,7 @@ namespace Modules\Brand\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Modules\Brand\Models\Brand;
 use Modules\Communication\Database\Seeders\CommunicationDatabaseSeeder;
-use Modules\Communication\Database\Seeders\NotificationDatabaseSeeder;
+use Modules\Communication\Database\Seeders\NotificationTemplateDatabaseSeeder;
 use Modules\Customer\Models\Customer;
 use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
@@ -83,7 +83,7 @@ final class BrandWithIncludesSeeder extends Seeder
     private function afterCustomers(): void
     {
         $this->call([
-            NotificationDatabaseSeeder::class,
+            NotificationTemplateDatabaseSeeder::class,
         ]);
     }
 }
