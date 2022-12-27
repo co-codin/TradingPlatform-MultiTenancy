@@ -6,7 +6,7 @@ namespace Modules\Communication\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
 
-final class NotificationStoreRequest extends BaseFormRequest
+final class NotificationTemplateStoreRequest extends BaseFormRequest
 {
     /**
      * Get the validation rules that apply to the request.

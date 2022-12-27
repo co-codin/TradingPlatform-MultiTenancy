@@ -52,6 +52,6 @@ use OpenApi\Annotations as OA;
  * )
  * @mixin CommunicationProvider
  */
-class NotificationResource extends BaseJsonResource
+class NotificationTemplateResource extends BaseJsonResource
 {
 }

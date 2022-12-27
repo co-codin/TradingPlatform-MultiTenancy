@@ -8,34 +8,34 @@ use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
-use Modules\Communication\Dto\NotificationDto;
-use Modules\Communication\Http\Requests\NotificationStoreRequest;
-use Modules\Communication\Http\Requests\NotificationUpdateRequest;
-use Modules\Communication\Http\Resources\NotificationResource;
-use Modules\Communication\Models\DatabaseNotification;
-use Modules\Communication\Repositories\NotificationRepository;
-use Modules\Communication\Services\NotificationStorage;
+use Modules\Communication\Dto\NotificationTemplateDto;
+use Modules\Communication\Http\Requests\NotificationTemplateStoreRequest;
+use Modules\Communication\Http\Requests\NotificationTemplateUpdateRequest;
+use Modules\Communication\Http\Resources\NotificationTemplateResource;
+use Modules\Communication\Models\NotificationTemplate;
+use Modules\Communication\Repositories\NotificationTemplateRepository;
+use Modules\Communication\Services\NotificationTemplateStorage;
 use OpenApi\Annotations as OA;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
-final class NotificationController extends Controller
+final class NotificationTemplateController extends Controller
 {
     public function __construct(
-        private readonly NotificationRepository $repository,
-        private readonly NotificationStorage $storage,
+        private readonly NotificationTemplateRepository $repository,
+        private readonly NotificationTemplateStorage $storage,
     ) {
     }
 
     /**
      * @OA\Get(
-     *      path="/admin/communication/notifications",
+     *      path="/admin/communication/notification-templates",
      *      security={ {"sanctum": {} }},
      *      tags={"Communication"},
-     *      summary="Get notification list",
+     *      summary="Get notification template list",
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/NotificationCollection")
+     *          @OA\JsonContent(ref="#/components/schemas/NotificationTemplateCollection")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -47,7 +47,7 @@ final class NotificationController extends Controller
      *      )
      * )
      *
-     * Display notification list.
+     * Display notification template list.
      *
      * @return JsonResource
      *
@@ -55,21 +55,21 @@ final class NotificationController extends Controller
      */
     public function index(): JsonResource
     {
-        $this->authorize('viewAny', DatabaseNotification::class);
+        $this->authorize('viewAny', NotificationTemplate::class);
 
-        return NotificationResource::collection($this->repository->jsonPaginate());
+        return NotificationTemplateResource::collection($this->repository->jsonPaginate());
     }
 
     /**
      * @OA\Get(
-     *      path="/admin/communication/notifications/all",
+     *      path="/admin/communication/notification-templates/all",
      *      security={ {"sanctum": {} }},
      *      tags={"Communication"},
-     *      summary="Get communication notifications list all",
+     *      summary="Get communication notification templates list all",
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/NotificationCollection")
+     *          @OA\JsonContent(ref="#/components/schemas/NotificationTemplateCollection")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -81,25 +81,25 @@ final class NotificationController extends Controller
      *      )
      * )
      *
-     * Display communication notifications list all.
+     * Display communication notification templates list all.
      *
      * @throws AuthorizationException
      */
     public function all(): JsonResource
     {
-        $this->authorize('viewAny', DatabaseNotification::class);
+        $this->authorize('viewAny', NotificationTemplate::class);
 
-        $notifications = $this->repository->all();
+        $templates = $this->repository->all();
 
-        return NotificationResource::collection($notifications);
+        return NotificationTemplateResource::collection($templates);
     }
 
     /**
      * @OA\Post(
-     *      path="/admin/communication/notifications",
+     *      path="/admin/communication/notification-templates",
      *      security={ {"sanctum": {} }},
      *      tags={"Communication"},
-     *      summary="Store notification",
+     *      summary="Store notification template",
      *      @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/json",
@@ -107,14 +107,14 @@ final class NotificationController extends Controller
      *                 required={
      *                     "name",
      *                 },
-     *                 @OA\Property(property="name", type="string", description="Name of notification"),
+     *                 @OA\Property(property="name", type="string", description="Name of notification template"),
      *             )
      *         )
      *      ),
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/NotificationResource")
+     *          @OA\JsonContent(ref="#/components/schemas/NotificationTemplateResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -126,29 +126,29 @@ final class NotificationController extends Controller
      *      )
      * )
      *
-     * Store notification.
+     * Store notification template.
      *
-     * @param  NotificationStoreRequest  $request
+     * @param  NotificationTemplateStoreRequest  $request
      * @return JsonResource
      *
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
-    public function store(NotificationStoreRequest $request): JsonResource
+    public function store(NotificationTemplateStoreRequest $request): JsonResource
     {
-        $this->authorize('create', DatabaseNotification::class);
+        $this->authorize('create', NotificationTemplate::class);
 
-        return new NotificationResource(
-            $this->storage->store(NotificationDto::fromFormRequest($request)),
+        return new NotificationTemplateResource(
+            $this->storage->store(NotificationTemplateDto::fromFormRequest($request)),
         );
     }
 
     /**
      * @OA\Get(
-     *      path="/admin/communication/notifications/{id}",
+     *      path="/admin/communication/notification-templates/{id}",
      *      security={ {"sanctum": {} }},
      *      tags={"Communication"},
-     *      summary="Get notification",
+     *      summary="Get notification template",
      *      @OA\Parameter(
      *         in="path",
      *         name="id",
@@ -158,7 +158,7 @@ final class NotificationController extends Controller
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/NotificationResource")
+     *          @OA\JsonContent(ref="#/components/schemas/NotificationTemplateResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -170,7 +170,7 @@ final class NotificationController extends Controller
      *      )
      * )
      *
-     * Show the notification.
+     * Show the notification template.
      *
      * @param  int  $id
      * @return JsonResource
@@ -179,19 +179,19 @@ final class NotificationController extends Controller
      */
     public function show(int $id): JsonResource
     {
-        $notification = $this->repository->find($id);
+        $template = $this->repository->find($id);
 
-        $this->authorize('view', $notification);
+        $this->authorize('view', $template);
 
-        return new NotificationResource($notification);
+        return new NotificationTemplateResource($template);
     }
 
     /**
      * @OA\Put(
-     *      path="/admin/communication/notifications/{id}",
+     *      path="/admin/communication/notification-templates/{id}",
      *      security={ {"sanctum": {} }},
      *      tags={"Communication"},
-     *      summary="Update notification",
+     *      summary="Update notification template",
      *      @OA\Parameter(
      *         in="path",
      *         name="id",
@@ -205,14 +205,14 @@ final class NotificationController extends Controller
      *                 required={
      *                     "name",
      *                 },
-     *                 @OA\Property(property="name", type="string", description="Name of notification"),
+     *                 @OA\Property(property="name", type="string", description="Name of notification template"),
      *             )
      *         )
      *      ),
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/NotificationResource")
+     *          @OA\JsonContent(ref="#/components/schemas/NotificationTemplateResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -224,10 +224,10 @@ final class NotificationController extends Controller
      *      )
      * ),
      * @OA\Patch(
-     *      path="/admin/communication/notifications/{id}",
+     *      path="/admin/communication/notification-templates/{id}",
      *      security={ {"sanctum": {} }},
      *      tags={"Communication"},
-     *      summary="Update notification",
+     *      summary="Update notification template",
      *      @OA\Parameter(
      *         in="path",
      *         name="id",
@@ -238,14 +238,14 @@ final class NotificationController extends Controller
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
-     *                 @OA\Property(property="name", type="string", description="Name of notification"),
+     *                 @OA\Property(property="name", type="string", description="Name of notification template"),
      *             )
      *         )
      *      ),
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/NotificationResource")
+     *          @OA\JsonContent(ref="#/components/schemas/NotificationTemplateResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -257,35 +257,35 @@ final class NotificationController extends Controller
      *      )
      * )
      *
-     * Update the notification.
+     * Update the notification template.
      *
-     * @param  NotificationUpdateRequest  $request
+     * @param  NotificationTemplateUpdateRequest  $request
      * @param  int  $id
      * @return JsonResource
      *
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
-    public function update(NotificationUpdateRequest $request, int $id): JsonResource
+    public function update(NotificationTemplateUpdateRequest $request, int $id): JsonResource
     {
-        $notification = $this->repository->find($id);
+        $template = $this->repository->find($id);
 
-        $this->authorize('update', $notification);
+        $this->authorize('update', $template);
 
-        return new NotificationResource(
+        return new NotificationTemplateResource(
             $this->storage->update(
-                $notification,
-                NotificationDto::fromFormRequest($request)
+                $template,
+                NotificationTemplateDto::fromFormRequest($request)
             ),
         );
     }
 
     /**
      * @OA\Delete(
-     *      path="/admin/communication/notifications/{id}",
+     *      path="/admin/communication/notification-templates/{id}",
      *      security={ {"sanctum": {} }},
      *      tags={"Communication"},
-     *      summary="Delete notification",
+     *      summary="Delete notification template",
      *      @OA\Parameter(
      *         in="path",
      *         name="id",
@@ -295,7 +295,7 @@ final class NotificationController extends Controller
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/NotificationResource")
+     *          @OA\JsonContent(ref="#/components/schemas/NotificationTemplateResource")
      *       ),
      *      @OA\Response(
      *          response=401,
@@ -307,7 +307,7 @@ final class NotificationController extends Controller
      *      )
      * )
      *
-     * Remove the notification.
+     * Remove the notification template.
      *
      * @param  int  $id
      * @return Response
@@ -316,11 +316,11 @@ final class NotificationController extends Controller
      */
     public function destroy(int $id): Response
     {
-        $notification = $this->repository->find($id);
+        $template = $this->repository->find($id);
 
-        $this->authorize('delete', $notification);
+        $this->authorize('delete', $template);
 
-        $this->storage->delete($notification);
+        $this->storage->delete($template);
 
         return response()->noContent();
     }

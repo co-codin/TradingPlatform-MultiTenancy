@@ -9,7 +9,7 @@ use Modules\Communication\Models\DatabaseNotification;
 use Modules\Communication\Repositories\Criteria\NotificationRequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
 
-final class NotificationRepository extends BaseRepository
+final class NotificationTemplateRepository extends BaseRepository
 {
     /**
      * {@inheritDoc}

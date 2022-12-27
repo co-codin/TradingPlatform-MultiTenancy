@@ -6,7 +6,7 @@ namespace Modules\Communication\Dto;
 
 use App\Dto\BaseDto;
 
-final class NotificationDto extends BaseDto
+final class NotificationTemplateDto extends BaseDto
 {
     public ?string $name;
 }

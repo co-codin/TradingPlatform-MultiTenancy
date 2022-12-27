@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace Modules\Communication\Services;
 
 use LogicException;
-use Modules\Communication\Dto\NotificationDto;
-use Modules\Communication\Models\DatabaseNotification;
+use Modules\Communication\Dto\NotificationTemplateDto;
+use Modules\Communication\Models\NotificationTemplate;
 
-final class NotificationStorage
+final class NotificationTemplateStorage
 {
     /**
      * Store communication provider.
      *
-     * @param  NotificationDto  $dto
-     * @return DatabaseNotification
+     * @param  NotificationTemplateDto  $dto
+     * @return NotificationTemplate
      */
-    public function store(NotificationDto $dto): DatabaseNotification
+    public function store(NotificationTemplateDto $dto): NotificationTemplate
     {
-        $notification = DatabaseNotification::create($dto->toArray());
+        $notification = NotificationTemplate::create($dto->toArray());
 
         if (! $notification) {
             throw new LogicException(__('Can not create communication provider'));
@@ -30,11 +30,11 @@ final class NotificationStorage
     /**
      * Update communication provider.
      *
-     * @param  DatabaseNotification  $notification
-     * @param  NotificationDto  $dto
-     * @return DatabaseNotification
+     * @param  NotificationTemplate  $notification
+     * @param  NotificationTemplateDto  $dto
+     * @return NotificationTemplate
      */
-    public function update(DatabaseNotification $notification, NotificationDto $dto): DatabaseNotification
+    public function update(NotificationTemplate $notification, NotificationTemplateDto $dto): NotificationTemplate
     {
         if (! $notification->update($dto->toArray())) {
             throw new LogicException(__('Can not update communication provider'));
@@ -46,10 +46,10 @@ final class NotificationStorage
     /**
      * Delete communication provider.
      *
-     * @param  DatabaseNotification  $notification
+     * @param  NotificationTemplate  $notification
      * @return bool
      */
-    public function delete(DatabaseNotification $notification): bool
+    public function delete(NotificationTemplate $notification): bool
     {
         if (! $notification->delete()) {
             throw new LogicException(__('Can not delete communication provider'));
