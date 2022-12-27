@@ -15,6 +15,7 @@ use Modules\User\Http\Controllers\Admin\PasswordController;
 use Modules\User\Http\Controllers\Admin\Preset\UserPresetController;
 use Modules\User\Http\Controllers\Admin\SocialAuthController;
 use Modules\User\Http\Controllers\Admin\UserController;
+use Modules\User\Http\Controllers\Admin\UserExportController;
 use Modules\User\Http\Controllers\TokenAuthController;
 use Modules\User\Http\Controllers\TokenController;
 
@@ -59,6 +60,12 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
 
         // Impersonate
         Route::post('/{id}/impersonate/token', [UserImpersonateController::class, 'token'])->name('impersonate.token');
+
+        // Workers export
+        Route::group(['prefix' => 'export'], function () {
+            Route::get('excel', [UserExportController::class, 'excel'])->name('export.excel');
+            Route::get('csv', [UserExportController::class, 'csv'])->name('export.csv');
+        });
 
         Route::group(['middleware' => 'tenant'], function () {
             // Country

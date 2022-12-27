@@ -47,6 +47,11 @@ final class UserPermission extends Enum implements PermissionEnum
     public const IMPERSONATE_USER = 'impersonate users';
 
     /**
+     * @var string
+     */
+    public const EXPORT_USERS = 'export customers';
+
+    /**
      * {@inheritDoc}
      */
     public static function actions(): array
@@ -57,6 +62,7 @@ final class UserPermission extends Enum implements PermissionEnum
             self::EDIT_USERS => Action::NAMES['edit'],
             self::DELETE_USERS => Action::NAMES['delete'],
             self::VIEW_DEPARTMENT_USERS => Action::NAMES['view'],
+            self::EXPORT_USERS => Action::NAMES['export'],
         ];
     }
 
@@ -80,8 +86,8 @@ final class UserPermission extends Enum implements PermissionEnum
             self::DELETE_USERS => 'Delete users',
             self::BAN_USERS => 'Ban users',
             self::VIEW_DEPARTMENT_USERS => 'View department users',
-            self::VIEW_DEPARTMENT_USERS => 'View department users',
             self::IMPERSONATE_USER => 'Impersonate user',
+            self::EXPORT_USERS => 'Export users',
         ];
     }
 
