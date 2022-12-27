@@ -9,8 +9,7 @@ use Tests\TestCase;
 
 class DeleteTest extends TestCase
 {
-    use DatabaseTransactions;
-
+    // use DatabaseTransactions;
     /**
      * Test authorized user can delete brand.
      *
