@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Role\Console;
 
 use App\Models\Action;
@@ -13,13 +15,13 @@ use Symfony\Component\Finder\Finder;
 /**
  * Class SyncPermission
  */
-class SyncPermissions extends Command
+final class SyncPermissions extends Command
 {
     protected $signature = 'permission:sync';
 
     protected $description = 'synchronize all permissions';
 
-    public function handle()
+    public function handle(): void
     {
         $permissionFiles = Finder::create()
             ->in([
@@ -32,7 +34,9 @@ class SyncPermissions extends Command
         $availablePermissions = [];
 
         collect($permissionFiles)->map(function (SplFileInfo $file) {
-            return '\\' . ucfirst(str_replace('/', '\\', str_replace(base_path() . '/', '', $file->getPath()))) . '\\' . $file->getBasename('.' . $file->getExtension());
+            return '\\' . ucfirst(
+                str_replace('/', '\\', str_replace(base_path() . '/', '', $file->getPath()))
+            ) . '\\' . $file->getBasename('.' . $file->getExtension());
         })
             ->filter(fn (string $class) => is_subclass_of($class, PermissionEnum::class))
             ->each(function ($enumClass) use (&$availablePermissions) {
@@ -55,7 +59,7 @@ class SyncPermissions extends Command
                             ],
                             [
                                 'name' => $value,
-                                'guard_name' => 'api',
+                                'guard_name' => 'web',
                             ]
                         );
                 }
