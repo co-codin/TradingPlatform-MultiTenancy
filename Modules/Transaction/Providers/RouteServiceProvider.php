@@ -2,8 +2,8 @@
 
 namespace Modules\Transaction\Providers;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -18,6 +18,21 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
+     * Define the "admin" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapAdminRoutes(): void
+    {
+        Route::prefix('admin')
+            ->as('admin.')
+            ->middleware(['api', 'auth:api'])
+            ->group(module_path('Transaction', '/Routes/admin.php'));
+    }
+
+    /**
      * Define the "api" routes for the application.
      *
      * These routes are typically stateless.
@@ -26,9 +41,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes(): void
     {
-        Route::prefix('admin')
-            ->as('admin.')
-            ->middleware(['api', 'auth:api'])
-            ->group(module_path('Transaction', '/Routes/admin.php'));
+        Route::prefix('api')
+            ->as('api.')
+            ->group(module_path('Transaction', '/Routes/api.php'));
     }
 }

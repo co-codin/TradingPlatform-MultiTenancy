@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Traits;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Arr;
+use Modules\Customer\Models\Customer;
 use Modules\Role\Contracts\PermissionEnum;
 use Modules\Role\Enums\DefaultRole;
 use Modules\Role\Models\Permission;
@@ -13,7 +15,7 @@ use Modules\User\Models\User;
 
 trait HasAuth
 {
-    protected readonly User $user;
+    protected readonly Authenticatable $user;
 
     /**
      * Authenticate user.
@@ -27,6 +29,28 @@ trait HasAuth
 
         $user = User::whereEmail($email)->first() ??
             User::factory()->create([
+                'email' => $email,
+            ]);
+
+        $this->setUser($user);
+
+        $this->actingAs($user, $guard);
+    }
+
+    /**
+     * Authenticate customer.
+     *
+     * @param  string  $guard
+     * @return void
+     */
+    final protected function authenticateCustomer(string $guard = Customer::API_AUTH_GUARD): void
+    {
+        $this->brand?->makeCurrent();
+
+        $email = 'customer@service.com';
+
+        $user = Customer::whereEmail($email)->first() ??
+            Customer::factory()->create([
                 'email' => $email,
             ]);
 
@@ -94,6 +118,45 @@ trait HasAuth
         $this->actingAs($user, $guard);
     }
 
+    /**
+     * Authenticate customer with permission.
+     *
+     * @param  PermissionEnum  $permissionEnum
+     * @param  string  $guard
+     * @return void
+     */
+    final protected function authenticateCustomerWithPermission(
+        PermissionEnum $permissionEnum,
+        string $guard = Customer::API_AUTH_GUARD
+    ): void {
+        $this->brand?->makeCurrent();
+
+        $email = 'test-customer@service.com';
+
+        /** @var Customer $customer */
+        if (! $customer = Customer::whereEmail($email)->first()) {
+            $customer = Customer::factory()->make([
+                'email' => $email,
+            ]);
+
+            $this->brand?->makeCurrent();
+            $customer->save();
+            $this->brand?->makeCurrent();
+        }
+
+        $permission = Permission::whereName($permissionEnum->value)->first() ??
+            Permission::factory()->create([
+                'name' => $permissionEnum->value,
+                'guard_name' => $guard,
+            ]);
+
+        $customer->permissions()->syncWithoutDetaching($permission);
+
+        $this->setUser($customer);
+
+        $this->actingAs($customer, $guard);
+    }
+
     final protected function addPermissions(array $permissionEnums): void
     {
         $user = $this->getUser();
@@ -111,10 +174,10 @@ trait HasAuth
     /**
      * Set user.
      *
-     * @param  User  $user
+     * @param  Authenticatable  $user
      * @return $this
      */
-    final protected function setUser(User $user): static
+    final protected function setUser(Authenticatable $user): static
     {
         $this->user = $user;
 

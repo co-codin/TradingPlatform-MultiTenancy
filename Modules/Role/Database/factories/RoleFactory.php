@@ -1,9 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Modules\Role\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class RoleFactory extends Factory
+final class RoleFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
@@ -22,7 +25,7 @@ class RoleFactory extends Factory
         return [
             'name' => $this->faker->name,
             'key' => $this->faker->name,
-            'guard_name' => 'api'
+            'guard_name' => 'web',
         ];
     }
 }

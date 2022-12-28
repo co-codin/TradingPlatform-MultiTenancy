@@ -1791,6 +1791,549 @@
                 ]
             }
         },
+        "/admin/communication/notifications": {
+            "get": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Get sent notification list",
+                "operationId": "dffb05a85aebb456e0f96d70cfb618a9",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotificationCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/communication/notifications/{id}": {
+            "get": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Get sent notification",
+                "operationId": "20d8d03cd2516a596135bf12b388fd13",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotificationResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/communication/notifications/send": {
+            "post": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Send notification to customer",
+                "operationId": "fea0ef4868833a0d2d1223db73d4b3dc",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "notifiable_type",
+                                    "notifiable_id",
+                                    "subject",
+                                    "text"
+                                ],
+                                "properties": {
+                                    "notifiable_type": {
+                                        "description": "Notification recipient type",
+                                        "type": "string",
+                                        "enum": [
+                                            "customer",
+                                            "user"
+                                        ]
+                                    },
+                                    "notifiable_id": {
+                                        "description": "Notification recipient ID",
+                                        "type": "integer"
+                                    },
+                                    "subject": {
+                                        "description": "Subject of notification",
+                                        "type": "string"
+                                    },
+                                    "text": {
+                                        "description": "Text of notification",
+                                        "type": "string"
+                                    },
+                                    "immediately": {
+                                        "description": "Should the notification be sent immediately?",
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/communication/notification-templates": {
+            "get": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Get notification template list",
+                "operationId": "81ea886946579ee5124464d4d3764b23",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotificationTemplateCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Store notification template",
+                "operationId": "dfe6275a9b927f9446eb325cc5e78c3d",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "subject",
+                                    "text"
+                                ],
+                                "properties": {
+                                    "text": {
+                                        "description": "Text of notification template",
+                                        "type": "string"
+                                    },
+                                    "subject": {
+                                        "description": "Subject of notification template",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotificationTemplateResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/communication/notification-templates/all": {
+            "get": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Get communication notification templates list all",
+                "operationId": "855a940a4be34557badfcc3b51cf0569",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotificationTemplateCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/communication/notification-templates/{id}": {
+            "get": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Get notification template",
+                "operationId": "c70fee6d5d4e5562c0f751cf31344237",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotificationTemplateResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Update notification template",
+                "operationId": "b5ef23fe8eaa96f22dd0af16f6430a5d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "subject",
+                                    "text"
+                                ],
+                                "properties": {
+                                    "text": {
+                                        "description": "Text of notification template",
+                                        "type": "string"
+                                    },
+                                    "subject": {
+                                        "description": "Subject of notification template",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotificationTemplateResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Delete notification template",
+                "operationId": "7922946f30b44c2ffd9e2b57ae3f4d99",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotificationTemplateResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Update notification template",
+                "operationId": "041d6f58b9b45ec17f7841aaa631fa3d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "text": {
+                                        "description": "Text of notification template",
+                                        "type": "string"
+                                    },
+                                    "subject": {
+                                        "description": "Subject of notification template",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotificationTemplateResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/communication/notification-templates/{id}/send": {
+            "post": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Send notification template to customer",
+                "operationId": "424c26ffbc7b8303d038f56bfcb4056f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "customer_id"
+                                ],
+                                "properties": {
+                                    "customer_id": {
+                                        "description": "Notification recipient ID",
+                                        "type": "integer"
+                                    },
+                                    "params": {
+                                        "description": "Object of template params",
+                                        "type": "object"
+                                    },
+                                    "immediately": {
+                                        "description": "Should the notification be sent immediately?",
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/communication/extensions": {
             "get": {
                 "tags": [
@@ -7489,6 +8032,62 @@
                 ]
             }
         },
+        "/admin/transactions/export/excel": {
+            "post": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Export transactions excel data",
+                "operationId": "02dd8a427d15441ecaa7a07c1861bc00",
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/transactions/export/csv": {
+            "post": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Export transactions csv data",
+                "operationId": "d5ee05f8e602eb2cd1afe258ade7aaab",
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/transaction-statuses": {
             "get": {
                 "tags": [
@@ -7795,6 +8394,324 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/TransactionStatusResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/transaction-methods": {
+            "get": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Get transaction method",
+                "operationId": "3a435a4a359e462d6f731fda09d0655d",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionsMethodCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Add a new transaction method",
+                "operationId": "bdd79e62126950584e8b4d4a21e440f1",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "title",
+                                    "is_active"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Transaction method name"
+                                    },
+                                    "title": {
+                                        "description": "Transaction method title",
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "description": "Transaction method is active",
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionsMethodResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/transaction-methods/{id}": {
+            "get": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Get transaction method data",
+                "operationId": "06d710876b258317f70efc2541f9fd9b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Transaction method ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionsMethodResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Update a transaction method",
+                "operationId": "646761694ef9f0f8b433e01c3b84e87e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Transaction method ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "title",
+                                    "is_active"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Transaction method name"
+                                    },
+                                    "title": {
+                                        "description": "Transaction method title",
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "description": "Transaction method is active",
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionsMethodResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Delete a transaction method",
+                "operationId": "4d8ade5581000742ffebd6f15d84c27c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Transaction method ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Update a transaction method",
+                "operationId": "8cdb1b6517077bbe5a4606b0b172d833",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Transaction method ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Transaction method name"
+                                    },
+                                    "title": {
+                                        "description": "Transaction method title",
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "description": "Transaction method is active",
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionsMethodResource"
                                 }
                             }
                         }
@@ -8445,6 +9362,269 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/TransactionsWalletResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/transactions": {
+            "get": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Get transactions",
+                "operationId": "9ebb847e0c39ef9bbacba507bf3ad9f8",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Add a new transaction",
+                "operationId": "4ca3dddcac68f9c25ce8d7f8bda4e768",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/transactions/{id}": {
+            "get": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Get transaction data",
+                "operationId": "7b7d7b560a02c38e1549269ceef9b6c6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Transaction ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Update a transaction",
+                "operationId": "cedebb639eb07de17a7846028b5fe8d1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Transaction ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Delete a transaction",
+                "operationId": "c3465f2b6d47f27b3a5d54365ff6bc3e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Transaction ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Update a transaction",
+                "operationId": "3f32980bf01ed2352f86c078580adbb0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Transaction ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionResource"
                                 }
                             }
                         }
@@ -9989,16 +11169,6 @@
                                     },
                                     "roles": {
                                         "description": "Array of roles ID",
-                                        "properties": {
-                                            "affiliate_id": {
-                                                "description": "Affiliate worker ID",
-                                                "type": "integer"
-                                            },
-                                            "show_on_scoreboards": {
-                                                "description": "Show on scoreboards",
-                                                "type": "boolean"
-                                            }
-                                        },
                                         "type": "array",
                                         "items": {
                                             "properties": {
@@ -10008,6 +11178,50 @@
                                             },
                                             "type": "object"
                                         }
+                                    },
+                                    "desks": {
+                                        "description": "Array of roles desks",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "languages": {
+                                        "description": "Array of languages ID",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "countries": {
+                                        "description": "Array of countries ID",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "affiliate_id": {
+                                        "description": "Affiliate worker ID",
+                                        "type": "integer"
+                                    },
+                                    "show_on_scoreboards": {
+                                        "description": "Show on scoreboards",
+                                        "type": "boolean"
                                     }
                                 },
                                 "type": "object"
@@ -10591,6 +11805,62 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/workers/export/excel": {
+            "post": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Export workers excel data",
+                "operationId": "6e96d94984604c52293a1619ec2c0861",
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/workers/export/csv": {
+            "post": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Export workers csv data",
+                "operationId": "a021bf30089ce7423dfa9435cd30c92c",
+                "responses": {
+                    "200": {
+                        "description": "success"
                     },
                     "401": {
                         "description": "Unauthorized Error"
@@ -11422,6 +12692,193 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/EmailTemplates"
+                    }
+                },
+                "type": "object"
+            },
+            "Notification": {
+                "title": "Notification",
+                "description": "Notification model",
+                "required": [
+                    "id",
+                    "notifiable_id",
+                    "notifiable_type",
+                    "data",
+                    "read_at",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "data": {
+                        "required": [
+                            "subject",
+                            "text",
+                            "sender_id"
+                        ],
+                        "properties": {
+                            "subject": {
+                                "description": "Subject of notification",
+                                "type": "string"
+                            },
+                            "text": {
+                                "description": "Text of notification",
+                                "type": "string"
+                            },
+                            "sender_id": {
+                                "description": "Worker sender ID",
+                                "type": "string"
+                            },
+                            "template_id": {
+                                "description": "Notification template ID",
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "notifiable_id": {
+                        "description": "Notification recipient ID",
+                        "type": "integer"
+                    },
+                    "notifiable_type": {
+                        "description": "Notification recipient type",
+                        "type": "string"
+                    },
+                    "read_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "sender": {
+                        "$ref": "#/components/schemas/Worker"
+                    },
+                    "notifiable": {
+                        "type": "object",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/Worker"
+                            },
+                            {
+                                "$ref": "#/components/schemas/Customer"
+                            }
+                        ]
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Notification"
+                }
+            },
+            "NotificationCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Notification"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "NotificationResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Notification"
+                    }
+                },
+                "type": "object"
+            },
+            "NotificationTemplate": {
+                "title": "NotificationTemplate",
+                "description": "NotificationTemplate model",
+                "required": [
+                    "id",
+                    "creator_id",
+                    "data",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "creator_id": {
+                        "type": "integer",
+                        "example": "Worker ID"
+                    },
+                    "data": {
+                        "required": [
+                            "subject",
+                            "text"
+                        ],
+                        "properties": {
+                            "subject": {
+                                "description": "Subject of notification template",
+                                "type": "string"
+                            },
+                            "text": {
+                                "description": "Text of notification template",
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "creator": {
+                        "$ref": "#/components/schemas/Worker"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "NotificationTemplate"
+                }
+            },
+            "NotificationTemplateCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/NotificationTemplate"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "NotificationTemplateResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/NotificationTemplate"
                     }
                 },
                 "type": "object"
@@ -12854,6 +14311,61 @@
                 },
                 "type": "object"
             },
+            "Transaction": {
+                "required": [
+                    "id",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Transaction method ID",
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "description": "Date and time of creation",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "updated_at": {
+                        "description": "Date and time of last update",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "deleted_at": {
+                        "description": "Date and time of soft delete",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "TransactionCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Transaction"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "TransactionResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Transaction"
+                    }
+                },
+                "type": "object"
+            },
             "TransactionStatus": {
                 "required": [
                     "id",
@@ -12925,6 +14437,76 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/TransactionStatus"
+                    }
+                },
+                "type": "object"
+            },
+            "TransactionsMethod": {
+                "required": [
+                    "id",
+                    "name",
+                    "title",
+                    "is_active",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Transaction method ID",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Transaction method name",
+                        "type": "string"
+                    },
+                    "title": {
+                        "description": "Transaction method title",
+                        "type": "string"
+                    },
+                    "is_active": {
+                        "description": "Transaction method is active",
+                        "type": "boolean"
+                    },
+                    "created_at": {
+                        "description": "Date and time of creation",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "updated_at": {
+                        "description": "Date and time of last update",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "deleted_at": {
+                        "description": "Date and time of soft delete",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "TransactionsMethodCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TransactionsMethod"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "TransactionsMethodResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/TransactionsMethod"
                     }
                 },
                 "type": "object"
@@ -13075,6 +14657,13 @@
                 "type": "object"
             },
             "AuthUser": {
+                "required": [
+                    "id",
+                    "first_name",
+                    "last_name",
+                    "permissions",
+                    "roles"
+                ],
                 "properties": {
                     "id": {
                         "type": "integer"
@@ -13091,8 +14680,36 @@
                             "type": "string"
                         }
                     },
-                    "role": {
-                        "$ref": "#/components/schemas/Role"
+                    "roles": {
+                        "description": "Array of roles",
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "id",
+                                "name",
+                                "key",
+                                "guard_name"
+                            ],
+                            "properties": {
+                                "id": {
+                                    "description": "Role ID",
+                                    "type": "integer"
+                                },
+                                "name": {
+                                    "description": "Name of role",
+                                    "type": "string"
+                                },
+                                "key": {
+                                    "description": "Constant key of role",
+                                    "type": "string"
+                                },
+                                "guard_name": {
+                                    "description": "Name of auth guard",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
                     }
                 },
                 "type": "object"
@@ -13246,6 +14863,7 @@
                     "first_name",
                     "last_name",
                     "is_active",
+                    "show_on_scoreboards",
                     "created_at",
                     "updated_at"
                 ],
@@ -13431,7 +15049,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }

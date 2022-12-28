@@ -3,7 +3,6 @@
 namespace Modules\Transaction\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
 
 class TransactionDatabaseSeeder extends Seeder
 {
@@ -12,10 +11,12 @@ class TransactionDatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        Model::unguard();
-
-        // $this->call("OthersTableSeeder");
+        $this->call([
+            TransactionMt5TypeTableSeeder::class,
+            TransactionStatusTableSeeder::class,
+            TransactionMethodTableSeeder::class,
+        ]);
     }
 }

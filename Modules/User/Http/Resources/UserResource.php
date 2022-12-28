@@ -28,6 +28,7 @@ use OpenApi\Annotations as OA;
  *         "first_name",
  *         "last_name",
  *         "is_active",
+ *         "show_on_scoreboards",
  *         "created_at",
  *         "updated_at",
  *     },

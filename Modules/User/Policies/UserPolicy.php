@@ -136,4 +136,15 @@ class UserPolicy extends BasePolicy
     {
         return $user->can(UserPermission::IMPERSONATE_USER);
     }
+
+    /**
+     * Export customers policy.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function export(User $user): bool
+    {
+        return $user->can(UserPermission::EXPORT_USERS);
+    }
 }

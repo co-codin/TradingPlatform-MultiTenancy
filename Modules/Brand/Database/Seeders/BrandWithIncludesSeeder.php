@@ -7,6 +7,7 @@ namespace Modules\Brand\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Modules\Brand\Models\Brand;
 use Modules\Communication\Database\Seeders\CommunicationDatabaseSeeder;
+use Modules\Communication\Database\Seeders\NotificationTemplateDatabaseSeeder;
 use Modules\Customer\Models\Customer;
 use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
@@ -22,12 +23,9 @@ final class BrandWithIncludesSeeder extends Seeder
         /** @var Brand $brand */
         foreach ($brands as $brand) {
             $brand->makeCurrent();
-            $this->call([
-                CountryTableSeeder::class,
-                CommunicationDatabaseSeeder::class,
-            ]);
-            $countries = Country::get();
+            $this->beforeCustomers();
 
+            $countries = Country::get();
             $desks = Desk::factory(3)->create();
             $departments = Department::factory(3)->create();
 
@@ -69,7 +67,23 @@ final class BrandWithIncludesSeeder extends Seeder
                 $customer->department->users()->sync($users);
             }
 
+            $this->afterCustomers();
             $brand->forget();
         }
+    }
+
+    private function beforeCustomers(): void
+    {
+        $this->call([
+            CountryTableSeeder::class,
+            CommunicationDatabaseSeeder::class,
+        ]);
+    }
+
+    private function afterCustomers(): void
+    {
+        $this->call([
+            NotificationTemplateDatabaseSeeder::class,
+        ]);
     }
 }
