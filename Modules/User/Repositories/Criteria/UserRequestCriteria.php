@@ -70,9 +70,10 @@ final class UserRequestCriteria extends BaseCriteria
             ->allowedIncludes([
                 'roles',
                 'roles.permissions',
-                'permissions',
                 'roles.permissions.columns',
+                'permissions',
                 'permissions.columns',
+
                 'parent',
                 'ancestors',
                 'descendants',
@@ -111,6 +112,7 @@ final class UserRequestCriteria extends BaseCriteria
                 'departments.name',
                 'created_at',
                 'updated_at',
+                'deleted_at',
             ]);
     }
 }

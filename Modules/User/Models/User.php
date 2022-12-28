@@ -43,7 +43,6 @@ use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
  * @property string $email
  * @property int|null $affiliate_id
  * @property bool $show_on_scoreboards
- * @property-read Role $role
  * @property-read Role[]|Collection $roles
  * @property-read Brand[]|Collection $brands
  * @property-read Department[]|Collection $departments

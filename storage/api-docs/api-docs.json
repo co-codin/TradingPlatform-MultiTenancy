@@ -10906,16 +10906,6 @@
                                     },
                                     "roles": {
                                         "description": "Array of roles ID",
-                                        "properties": {
-                                            "affiliate_id": {
-                                                "description": "Affiliate worker ID",
-                                                "type": "integer"
-                                            },
-                                            "show_on_scoreboards": {
-                                                "description": "Show on scoreboards",
-                                                "type": "boolean"
-                                            }
-                                        },
                                         "type": "array",
                                         "items": {
                                             "properties": {
@@ -10925,6 +10915,50 @@
                                             },
                                             "type": "object"
                                         }
+                                    },
+                                    "desks": {
+                                        "description": "Array of roles desks",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "languages": {
+                                        "description": "Array of languages ID",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "countries": {
+                                        "description": "Array of countries ID",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "affiliate_id": {
+                                        "description": "Affiliate worker ID",
+                                        "type": "integer"
+                                    },
+                                    "show_on_scoreboards": {
+                                        "description": "Show on scoreboards",
+                                        "type": "boolean"
                                     }
                                 },
                                 "type": "object"
@@ -14305,6 +14339,13 @@
                 "type": "object"
             },
             "AuthUser": {
+                "required": [
+                    "id",
+                    "first_name",
+                    "last_name",
+                    "permissions",
+                    "roles"
+                ],
                 "properties": {
                     "id": {
                         "type": "integer"
@@ -14321,8 +14362,36 @@
                             "type": "string"
                         }
                     },
-                    "role": {
-                        "$ref": "#/components/schemas/Role"
+                    "roles": {
+                        "description": "Array of roles",
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "id",
+                                "name",
+                                "key",
+                                "guard_name"
+                            ],
+                            "properties": {
+                                "id": {
+                                    "description": "Role ID",
+                                    "type": "integer"
+                                },
+                                "name": {
+                                    "description": "Name of role",
+                                    "type": "string"
+                                },
+                                "key": {
+                                    "description": "Constant key of role",
+                                    "type": "string"
+                                },
+                                "guard_name": {
+                                    "description": "Name of auth guard",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
                     }
                 },
                 "type": "object"
@@ -14476,6 +14545,7 @@
                     "first_name",
                     "last_name",
                     "is_active",
+                    "show_on_scoreboards",
                     "created_at",
                     "updated_at"
                 ],
