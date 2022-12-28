@@ -4,18 +4,38 @@ declare(strict_types=1);
 
 namespace Modules\Transaction\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Transaction\Database\factories\TransactionsMethodFactory;
+use Modules\Transaction\Enums\TransactionMethodName;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
-class TransactionsMethod extends Model
+final class TransactionsMethod extends Model
 {
     use HasFactory;
     use UsesTenantConnection;
+
+    /**
+     * {@inheritdoc}
+     */
     protected $guarded = ['id'];
 
-    protected static function newFactory()
+    /**
+     * {@inheritdoc}
+     */
+    protected $casts = [
+        'name' => TransactionMethodName::class,
+    ];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $table = 'transaction_methods';
+
+    /**
+     * {@inheritDoc}
+     */
+    protected static function newFactory(): TransactionsMethodFactory
     {
         return TransactionsMethodFactory::new();
     }

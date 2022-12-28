@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transactions_mt5_types', function (Blueprint $table) {
+        Schema::create('transaction_mt5_types', function (Blueprint $table) {
             $table->id();
 
             $table->string('name');
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transactions_mt5_types');
+        Schema::dropIfExists('transaction_mt5_types');
     }
 };
