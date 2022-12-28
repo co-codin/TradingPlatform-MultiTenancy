@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\User\Services;
 
 use Exception;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Modules\User\Models\DisplayOption;
 use Modules\User\Models\User;
@@ -13,7 +12,7 @@ use Modules\User\Models\User;
 final class UserStorage
 {
     /**
-     * @param array $attributes
+     * @param  array  $attributes
      * @return User
      */
     public function store(array $attributes): User
@@ -23,14 +22,18 @@ final class UserStorage
         $user = User::create($attributes);
 
         $user->assignRole($attributes['roles']);
+        $user->desks()->sync($attributes['desks']);
+        $user->languages()->sync($attributes['languages']);
+        $user->countries()->sync($attributes['countries']);
 
         return $user;
     }
 
     /**
-     * @param User $user
-     * @param array $attributes
+     * @param  User  $user
+     * @param  array  $attributes
      * @return User
+     *
      * @throws Exception
      */
     public function update(User $user, array $attributes): User
@@ -51,12 +54,13 @@ final class UserStorage
     }
 
     /**
-     * @param User $user
+     * @param  User  $user
+     *
      * @throws Exception
      */
     public function destroy(User $user): void
     {
-        if (!$user->delete()) {
+        if (! $user->delete()) {
             throw new Exception('Cant delete user');
         }
     }
@@ -64,8 +68,8 @@ final class UserStorage
     /**
      * Store user display option.
      *
-     * @param User $user
-     * @param array $attributes
+     * @param  User  $user
+     * @param  array  $attributes
      * @return DisplayOption
      */
     public function storeDisplayOption(User $user, array $attributes): DisplayOption
@@ -76,10 +80,11 @@ final class UserStorage
     /**
      * Update user display option.
      *
-     * @param User $user
-     * @param int $displayOptionId
-     * @param array $attributes
+     * @param  User  $user
+     * @param  int  $displayOptionId
+     * @param  array  $attributes
      * @return DisplayOption
+     *
      * @throws Exception
      */
     public function updateDisplayOption(User $user, int $displayOptionId, array $attributes): DisplayOption
@@ -97,9 +102,10 @@ final class UserStorage
     /**
      * Destroy user display option.
      *
-     * @param User $user
-     * @param int $displayOptionId
+     * @param  User  $user
+     * @param  int  $displayOptionId
      * @return void
+     *
      * @throws Exception
      */
     public function destroyDisplayOption(User $user, int $displayOptionId): void

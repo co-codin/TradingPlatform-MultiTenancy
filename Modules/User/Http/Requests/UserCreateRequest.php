@@ -45,6 +45,21 @@ final class UserCreateRequest extends BaseFormRequest
                 'min:1',
                 'exists:landlord.roles,id',
             ],
+            'desks.*.id' => [
+                'integer',
+                'min:1',
+                'exists:tenant.desks,id',
+            ],
+            'languages.*.id' => [
+                'integer',
+                'min:1',
+                'exists:tenant.languages,id',
+            ],
+            'countries.*.id' => [
+                'integer',
+                'min:1',
+                'exists:tenant.countries,id',
+            ],
             'affiliate_id' => 'nullable|integer|exists:landlord.users,id',
             'show_on_scoreboards' => 'sometimes|required|boolean',
             'communication_provider_id' => 'nullable|integer|exists:tenant.communication_providers,id',
