@@ -26,6 +26,7 @@ final class DeleteTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
+        Currency::truncate();
         $currency = Currency::factory()->create();
 
         $response = $this->delete(route('admin.currencies.destroy', ['currency' => $currency]));
@@ -42,6 +43,7 @@ final class DeleteTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
+        Currency::truncate();
         $currency = Currency::factory()->create();
 
         $response = $this->delete(route('admin.currencies.destroy', ['currency' => $currency]));
@@ -72,6 +74,7 @@ final class DeleteTest extends BrandTestCase
     {
         $this->brand->makeCurrent();
 
+        Currency::truncate();
         $currency = Currency::factory()->create();
 
         $response = $this->delete(route('admin.currencies.destroy', ['currency' => $currency]));

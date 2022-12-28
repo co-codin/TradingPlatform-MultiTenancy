@@ -26,6 +26,7 @@ final class CreateTest extends BrandTestCase
 
          $this->brand->makeCurrent();
 
+         Currency::truncate();
          $data = Currency::factory()->make()->toArray();
 
          $response = $this->post(route('admin.currencies.store'), $data);
@@ -43,6 +44,7 @@ final class CreateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
+        Currency::truncate();
         $data = Currency::factory()->make()->toArray();
 
         $response = $this->post(route('admin.currencies.store'), $data);

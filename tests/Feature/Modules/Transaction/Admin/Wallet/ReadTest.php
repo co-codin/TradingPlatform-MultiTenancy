@@ -64,6 +64,7 @@ final class ReadTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
+        Currency::truncate();
         $transactionsWallet = TransactionsWallet::factory()->create();
 
         $response = $this->get(route('admin.transaction-wallets.show', ['transaction_wallet' => $transactionsWallet]));
@@ -80,6 +81,8 @@ final class ReadTest extends BrandTestCase
         $this->authenticateUser();
 
         $this->brand->makeCurrent();
+
+        Currency::truncate();
         $transactionsWallet = TransactionsWallet::factory()->create();
 
         $response = $this->get(route('admin.transaction-wallets.show', ['transaction_wallet' => $transactionsWallet]));
@@ -95,6 +98,8 @@ final class ReadTest extends BrandTestCase
         $this->authenticateUser();
 
         $this->brand->makeCurrent();
+
+        Currency::truncate();
         $transactionsWalletId = TransactionsWallet::query()->orderByDesc('id')->first()?->id + 1 ?? 1;
 
         $response = $this->get(route('admin.transaction-wallets.show', ['transaction_wallet' => $transactionsWalletId]));
@@ -118,6 +123,8 @@ final class ReadTest extends BrandTestCase
     public function not_unauthorized_view(): void
     {
         $this->brand->makeCurrent();
+
+        Currency::truncate();
         $transactionsWallet = TransactionsWallet::factory()->create();
 
         $response = $this->get(route('admin.transaction-wallets.show', ['transaction_wallet' => $transactionsWallet]));
