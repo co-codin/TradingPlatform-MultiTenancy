@@ -1791,6 +1791,152 @@
                 ]
             }
         },
+        "/admin/communication/notifications": {
+            "get": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Get sent notification list",
+                "operationId": "dffb05a85aebb456e0f96d70cfb618a9",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotificationCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/communication/notifications/{id}": {
+            "get": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Get sent notification",
+                "operationId": "20d8d03cd2516a596135bf12b388fd13",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotificationResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/communication/notifications/send": {
+            "post": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Send notification to customer",
+                "operationId": "fea0ef4868833a0d2d1223db73d4b3dc",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "notifiable_type",
+                                    "notifiable_id",
+                                    "subject",
+                                    "text"
+                                ],
+                                "properties": {
+                                    "notifiable_type": {
+                                        "description": "Notification recipient type",
+                                        "type": "string",
+                                        "enum": [
+                                            "customer",
+                                            "user"
+                                        ]
+                                    },
+                                    "notifiable_id": {
+                                        "description": "Notification recipient ID",
+                                        "type": "integer"
+                                    },
+                                    "subject": {
+                                        "description": "Subject of notification",
+                                        "type": "string"
+                                    },
+                                    "text": {
+                                        "description": "Text of notification",
+                                        "type": "string"
+                                    },
+                                    "immediately": {
+                                        "description": "Should the notification be sent immediately?",
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/communication/notification-templates": {
             "get": {
                 "tags": [
@@ -12249,6 +12395,115 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/EmailTemplates"
+                    }
+                },
+                "type": "object"
+            },
+            "Notification": {
+                "title": "Notification",
+                "description": "Notification model",
+                "required": [
+                    "id",
+                    "notifiable_id",
+                    "notifiable_type",
+                    "data",
+                    "read_at",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "data": {
+                        "required": [
+                            "subject",
+                            "text",
+                            "sender_id"
+                        ],
+                        "properties": {
+                            "subject": {
+                                "description": "Subject of notification",
+                                "type": "string"
+                            },
+                            "text": {
+                                "description": "Text of notification",
+                                "type": "string"
+                            },
+                            "sender_id": {
+                                "description": "Worker sender ID",
+                                "type": "string"
+                            },
+                            "template_id": {
+                                "description": "Notification template ID",
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "notifiable_id": {
+                        "description": "Notification recipient ID",
+                        "type": "integer"
+                    },
+                    "notifiable_type": {
+                        "description": "Notification recipient type",
+                        "type": "string"
+                    },
+                    "read_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "sender": {
+                        "$ref": "#/components/schemas/Worker"
+                    },
+                    "notifiable": {
+                        "type": "object",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/Worker"
+                            },
+                            {
+                                "$ref": "#/components/schemas/Customer"
+                            }
+                        ]
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Notification"
+                }
+            },
+            "NotificationCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Notification"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "NotificationResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Notification"
                     }
                 },
                 "type": "object"
