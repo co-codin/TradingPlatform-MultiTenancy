@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -21,6 +22,7 @@ use Modules\Brand\Models\Brand;
 use Modules\Communication\Models\Comment;
 use Modules\Communication\Models\CommunicationExtension;
 use Modules\Communication\Models\CommunicationProvider;
+use Modules\Communication\Models\DatabaseNotification;
 use Modules\Customer\Models\Customer;
 use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
@@ -349,5 +351,15 @@ final class User extends Authenticatable
     final public function firstRetentionCustomers(): HasMany
     {
         return $this->hasMany(Customer::class, 'first_retention_user_id', 'id');
+    }
+
+    /**
+     * Get the entity's notifications.
+     *
+     * @return MorphMany
+     */
+    public function notifications(): MorphMany
+    {
+        return $this->morphMany(DatabaseNotification::class, 'notifiable')->latest();
     }
 }

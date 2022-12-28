@@ -1791,6 +1791,403 @@
                 ]
             }
         },
+        "/admin/communication/notification-templates": {
+            "get": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Get notification template list",
+                "operationId": "81ea886946579ee5124464d4d3764b23",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotificationTemplateCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Store notification template",
+                "operationId": "dfe6275a9b927f9446eb325cc5e78c3d",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "subject",
+                                    "text"
+                                ],
+                                "properties": {
+                                    "text": {
+                                        "description": "Text of notification template",
+                                        "type": "string"
+                                    },
+                                    "subject": {
+                                        "description": "Subject of notification template",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotificationTemplateResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/communication/notification-templates/all": {
+            "get": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Get communication notification templates list all",
+                "operationId": "855a940a4be34557badfcc3b51cf0569",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotificationTemplateCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/communication/notification-templates/{id}": {
+            "get": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Get notification template",
+                "operationId": "c70fee6d5d4e5562c0f751cf31344237",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotificationTemplateResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Update notification template",
+                "operationId": "b5ef23fe8eaa96f22dd0af16f6430a5d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "subject",
+                                    "text"
+                                ],
+                                "properties": {
+                                    "text": {
+                                        "description": "Text of notification template",
+                                        "type": "string"
+                                    },
+                                    "subject": {
+                                        "description": "Subject of notification template",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotificationTemplateResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Delete notification template",
+                "operationId": "7922946f30b44c2ffd9e2b57ae3f4d99",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotificationTemplateResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Update notification template",
+                "operationId": "041d6f58b9b45ec17f7841aaa631fa3d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "text": {
+                                        "description": "Text of notification template",
+                                        "type": "string"
+                                    },
+                                    "subject": {
+                                        "description": "Subject of notification template",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotificationTemplateResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/communication/notification-templates/{id}/send": {
+            "post": {
+                "tags": [
+                    "Communication"
+                ],
+                "summary": "Send notification template to customer",
+                "operationId": "424c26ffbc7b8303d038f56bfcb4056f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "customer_id"
+                                ],
+                                "properties": {
+                                    "customer_id": {
+                                        "description": "Notification recipient ID",
+                                        "type": "integer"
+                                    },
+                                    "params": {
+                                        "description": "Object of template params",
+                                        "type": "object"
+                                    },
+                                    "immediately": {
+                                        "description": "Should the notification be sent immediately?",
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/communication/extensions": {
             "get": {
                 "tags": [
@@ -11856,6 +12253,84 @@
                 },
                 "type": "object"
             },
+            "NotificationTemplate": {
+                "title": "NotificationTemplate",
+                "description": "NotificationTemplate model",
+                "required": [
+                    "id",
+                    "creator_id",
+                    "data",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "creator_id": {
+                        "type": "integer",
+                        "example": "Worker ID"
+                    },
+                    "data": {
+                        "required": [
+                            "subject",
+                            "text"
+                        ],
+                        "properties": {
+                            "subject": {
+                                "description": "Subject of notification template",
+                                "type": "string"
+                            },
+                            "text": {
+                                "description": "Text of notification template",
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "creator": {
+                        "$ref": "#/components/schemas/Worker"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "NotificationTemplate"
+                }
+            },
+            "NotificationTemplateCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/NotificationTemplate"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "NotificationTemplateResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/NotificationTemplate"
+                    }
+                },
+                "type": "object"
+            },
             "Config": {
                 "title": "Config",
                 "description": "Config model",
@@ -13931,7 +14406,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }
