@@ -12,7 +12,7 @@ use Modules\User\Models\User;
 final class NotificationTemplatePolicy extends BasePolicy
 {
     /**
-     * View any notification policy.
+     * View any notification template policy.
      *
      * @param  User  $user
      * @return bool
@@ -23,7 +23,7 @@ final class NotificationTemplatePolicy extends BasePolicy
     }
 
     /**
-     * View notification policy.
+     * View notification template policy.
      *
      * @param  User  $user
      * @param  NotificationTemplate  $template
@@ -35,7 +35,7 @@ final class NotificationTemplatePolicy extends BasePolicy
     }
 
     /**
-     * Create notification policy.
+     * Create notification template policy.
      *
      * @param  User  $user
      * @return bool
@@ -46,7 +46,7 @@ final class NotificationTemplatePolicy extends BasePolicy
     }
 
     /**
-     * Update notification policy.
+     * Update notification template policy.
      *
      * @param  User  $user
      * @param  NotificationTemplate  $template
@@ -58,7 +58,7 @@ final class NotificationTemplatePolicy extends BasePolicy
     }
 
     /**
-     * Delete notification policy.
+     * Delete notification template policy.
      *
      * @param  User  $user
      * @param  NotificationTemplate  $template
@@ -67,5 +67,16 @@ final class NotificationTemplatePolicy extends BasePolicy
     public function delete(User $user, NotificationTemplate $template): bool
     {
         return $user->can(NotificationTemplatePermission::DELETE_NOTIFICATION_TEMPLATE);
+    }
+
+    /**
+     * Send notification template policy.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function send(User $user): bool
+    {
+        return $user->can(NotificationTemplatePermission::SEND_NOTIFICATION_TEMPLATE);
     }
 }

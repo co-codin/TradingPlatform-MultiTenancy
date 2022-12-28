@@ -412,7 +412,8 @@ final class NotificationTemplateController extends Controller
         $customer = $this->customerRepository->find($request->validated('customer_id'));
         $notification = new TemplateNotification($template, $request->user()->id, $request->validated('params'));
 
-        $request->validated('immediately') ? $customer->notifyNow($notification) : $customer->notify($notification);
+        $request->validated('immediately', false)
+            ? $customer->notifyNow($notification) : $customer->notify($notification);
 
         return response()->noContent();
     }
