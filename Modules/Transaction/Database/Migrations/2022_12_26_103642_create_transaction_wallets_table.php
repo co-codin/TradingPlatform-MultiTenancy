@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transactions_methods', function (Blueprint $table) {
+        Schema::create('transaction_wallets', function (Blueprint $table) {
             $table->id();
 
             $table->string('name');
             $table->string('title');
-            $table->boolean('is_active')->default(1);
+            $table->string('mt5_id')->unique();
+            $table->integer('currency_id');
 
             $table->softDeletes();
             $table->timestamps();
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transactions_methods');
+        Schema::dropIfExists('transaction_wallets');
     }
 };

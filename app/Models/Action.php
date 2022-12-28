@@ -30,6 +30,7 @@ final class Action extends Model
         'export' => 'export',
         'import' => 'import',
         'ban' => 'ban',
+        'send' => 'send',
     ];
 
     /**

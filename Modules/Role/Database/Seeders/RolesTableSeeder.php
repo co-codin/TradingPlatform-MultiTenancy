@@ -34,7 +34,7 @@ final class RolesTableSeeder extends Seeder
     protected function seedRoles()
     {
         foreach ($this->roles as $role) {
-            Role::query()->firstOrCreate(Role::factory()->raw(['name' => $role, 'key' => Str::kebab($role)]));
+            Role::query()->firstOrCreate(Role::factory()->raw(['name' => $role, 'key' => Str::slug($role)]));
         }
     }
 }

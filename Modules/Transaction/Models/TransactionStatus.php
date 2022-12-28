@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Transaction\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Transaction\Database\factories\TransactionStatusFactory;
+use Modules\Transaction\Enums\TransactionStatusName;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 final class TransactionStatus extends Model
@@ -20,6 +21,18 @@ final class TransactionStatus extends Model
     protected $guarded = [
         'id',
     ];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $casts = [
+        'name' => TransactionStatusName::class,
+    ];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $table = 'transaction_statuses';
 
     /**
      * {@inheritDoc}
