@@ -9,6 +9,7 @@ use Modules\Communication\Http\Controllers\Admin\CommentController;
 use Modules\Communication\Http\Controllers\Admin\EmailController;
 use Modules\Communication\Http\Controllers\Admin\EmailSendController;
 use Modules\Communication\Http\Controllers\Admin\EmailTemplatesController;
+use Modules\Communication\Http\Controllers\Admin\NotificationController;
 use Modules\Communication\Http\Controllers\Admin\NotificationTemplateController;
 use Modules\Communication\Http\Controllers\CommunicationExtensionController;
 use Modules\Communication\Http\Controllers\CommunicationProviderController;
@@ -31,6 +32,10 @@ Route::group(['middleware' => 'tenant'], function () {
         Route::apiResource('email-templates', EmailTemplatesController::class);
         Route::post('email-send-to-customer', [EmailSendController::class, 'emailSendToCustomer'])
             ->name('email.send.to.customer');
+
+        Route::apiResource('notifications', NotificationController::class);
+        Route::post('notifications/send', [NotificationController::class, 'send'])
+            ->name('notifications.send');
 
         Route::apiResource('notification-templates', NotificationTemplateController::class);
         Route::get('notification-templates/all', [NotificationTemplateController::class, 'all'])
