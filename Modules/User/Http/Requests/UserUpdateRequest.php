@@ -44,7 +44,6 @@ final class UserUpdateRequest extends BaseFormRequest
                 'exclude_unless:change_password,true',
                 'required',
                 'string',
-                'confirmed',
             ],
             'roles.*.id' => [
                 'sometimes',

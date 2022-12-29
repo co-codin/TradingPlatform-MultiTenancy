@@ -11125,8 +11125,10 @@
                                     "first_name",
                                     "last_name",
                                     "password",
-                                    "password_confirmation",
-                                    "roles"
+                                    "roles",
+                                    "desks",
+                                    "languages",
+                                    "countries"
                                 ],
                                 "properties": {
                                     "username": {
@@ -11147,11 +11149,6 @@
                                     },
                                     "password": {
                                         "description": "Password",
-                                        "type": "string",
-                                        "format": "password"
-                                    },
-                                    "password_confirmation": {
-                                        "description": "Password confirmation",
                                         "type": "string",
                                         "format": "password"
                                     },
@@ -11328,7 +11325,6 @@
                                     "first_name",
                                     "last_name",
                                     "password",
-                                    "password_confirmation",
                                     "roles"
                                 ],
                                 "properties": {
@@ -11351,11 +11347,6 @@
                                     },
                                     "password": {
                                         "description": "Password",
-                                        "type": "string",
-                                        "format": "password"
-                                    },
-                                    "password_confirmation": {
-                                        "description": "Password confirmation",
                                         "type": "string",
                                         "format": "password"
                                     },
@@ -11509,11 +11500,6 @@
                                     },
                                     "password": {
                                         "description": "Password",
-                                        "type": "string",
-                                        "format": "password"
-                                    },
-                                    "password_confirmation": {
-                                        "description": "Password confirmation",
                                         "type": "string",
                                         "format": "password"
                                     },
@@ -11749,11 +11735,6 @@
                                                 },
                                                 "password": {
                                                     "description": "Password",
-                                                    "type": "string",
-                                                    "format": "password"
-                                                },
-                                                "password_confirmation": {
-                                                    "description": "Password confirmation",
                                                     "type": "string",
                                                     "format": "password"
                                                 },
@@ -15049,7 +15030,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }

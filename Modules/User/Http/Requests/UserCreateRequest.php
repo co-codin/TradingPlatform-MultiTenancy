@@ -34,7 +34,6 @@ final class UserCreateRequest extends BaseFormRequest
             'password' => [
                 'required',
                 'string',
-                'confirmed',
             ],
             'is_active' => 'boolean',
             'target' => 'numeric',

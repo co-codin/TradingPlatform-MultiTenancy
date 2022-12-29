@@ -25,7 +25,6 @@ final class CreateTest extends TestCase
                 ->withAffiliate()
                 ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
             [
-                'password_confirmation' => 'admin',
                 'roles' => [
                     [
                         'id' => Role::factory()->create()->id,
@@ -65,7 +64,6 @@ final class CreateTest extends TestCase
                 ->withAffiliate()
                 ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
             [
-                'password_confirmation' => 'admin',
                 'role_id' => [
                     Role::factory()->create()->id,
                 ],

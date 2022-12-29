@@ -31,7 +31,6 @@ final class UpdateTest extends BrandTestCase
                 ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
             [
                 'change_password' => true,
-                'password_confirmation' => 'admin',
                 'roles' => [
                     [
                         'id' => Role::factory()->create()->id,
@@ -81,7 +80,6 @@ final class UpdateTest extends BrandTestCase
                 ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
             [
                 'change_password' => true,
-                'password_confirmation' => 'admin',
                 'roles' => [
                     [
                         'id' => Role::factory()->create()->id,
@@ -130,7 +128,6 @@ final class UpdateTest extends BrandTestCase
                 ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
             [
                 'change_password' => true,
-                'password_confirmation' => 'admin',
                 'roles' => [
                     [
                         'id' => Role::factory()->create()->id,
@@ -158,7 +155,6 @@ final class UpdateTest extends BrandTestCase
                 ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
             [
                 'change_password' => true,
-                'password_confirmation' => 'admin',
                 'roles' => [
                     [
                         'id' => Role::factory()->create()->id,
@@ -185,7 +181,6 @@ final class UpdateTest extends BrandTestCase
                 ->withAffiliate()
                 ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
             [
-                'password_confirmation' => 'admin',
                 'roles' => [
                     [
                         'id' => Role::factory()->create()->id,
