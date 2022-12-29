@@ -69,6 +69,7 @@ final class UpdateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
+        Currency::truncate();
         $currencyId = Currency::orderByDesc('id')->first()?->id + 1 ?? 1;
         $data = Currency::factory()->make();
 
@@ -86,6 +87,8 @@ final class UpdateTest extends BrandTestCase
     public function unauthorized(): void
     {
         $this->brand->makeCurrent();
+
+        Currency::truncate();
         $currency = Currency::factory()->create();
 
         $response = $this->patch(route('admin.currencies.update', ['currency' => $currency]));

@@ -24,6 +24,17 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
+        if ($token = \Illuminate\Support\Facades\ParallelTesting::token()) {
+
+            $dbname = 'testing_test_' . $token;
+
+            config([
+                "database.connections.pgsql.database" => $dbname,
+                "database.connections.tenant.database" => $dbname,
+                "database.connections.landlord.database" => $dbname,
+            ]);
+        }
+
         $this->withoutMiddleware(VerifyCsrfToken::class);
     }
 }

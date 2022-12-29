@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Sale\Admin\SaleStatus;
 
+use Modules\Department\Models\Department;
 use Modules\Sale\Enums\SaleStatusPermission;
 use Modules\Sale\Models\SaleStatus;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
@@ -66,6 +67,8 @@ class CreateTest extends BrandTestCase
      */
     public function unauthorized(): void
     {
+        $this->brand->makeCurrent();
+
         $data = SaleStatus::factory()->make()->toArray();
 
         $response = $this->postJson(route('admin.sale-statuses.store'), $data);
