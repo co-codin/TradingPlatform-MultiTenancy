@@ -22,14 +22,14 @@ final class CustomerCreateRequest extends BaseFormRequest
             'last_name' => 'required|string',
             'gender' => [
                 'required',
-                new EnumValue(Gender::class, false)
+                new EnumValue(Gender::class, false),
             ],
             'email' => 'required|email|max:100|unique:tenant.customers,email',
             'password' => 'required|string',
             'phone' => 'required|string',
-            'country_id' => 'sometimes|int|exists:tenant.countries,id',
-            'phone2' => 'sometimes|',
-            'language_id' => 'sometimes|int|exists:tenant.languages,id',
+            'country_id' => 'required|int|exists:tenant.countries,id',
+            'phone2' => 'sometimes',
+            'language_id' => 'required|int|exists:tenant.languages,id',
             'city' => 'sometimes|string',
             'address' => 'sometimes|string',
             'postal_code' => 'sometimes|string',
