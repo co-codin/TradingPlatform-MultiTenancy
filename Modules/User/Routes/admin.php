@@ -48,15 +48,15 @@ Route::group(['prefix' => 'token', 'as' => 'token.', 'middleware' => ['api', 'au
 
 Route::group(['middleware' => ['api', 'auth:api']], function () {
     Route::group(['prefix' => 'workers', 'as' => 'users.'], function () {
-        // Brand
-        Route::put('/{id}/brand', [UserBrandController::class, 'update'])->name('brand.update');
-
         // Ban
         Route::patch('/ban', [UserController::class, 'ban'])->name('ban');
         Route::patch('/unban', [UserController::class, 'unban'])->name('unban');
 
         // Batch
         Route::patch('/update/batch', [UserController::class, 'updateBatch'])->name('batch.update');
+
+        // Brand
+        Route::put('/{id}/brand', [UserBrandController::class, 'update'])->name('brand.update');
 
         // Impersonate
         Route::post('/{id}/impersonate/token', [UserImpersonateController::class, 'token'])->name('impersonate.token');
