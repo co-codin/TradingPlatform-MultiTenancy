@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Modules\Customer\Models\Traits;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
 use Modules\Geo\Models\Country;
 use Modules\Sale\Models\SaleStatus;
+use Modules\Transaction\Models\Transaction;
 use Modules\User\Models\User;
 
 trait CustomerRelations
@@ -151,6 +153,16 @@ trait CustomerRelations
     final public function retentionSaleStatus(): BelongsTo
     {
         return $this->belongsTo(SaleStatus::class, 'retention_sale_status_id', 'id');
+    }
+
+    /**
+     * Transactions relation.
+     *
+     * @return HasMany
+     */
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class, 'customer_id', 'id');
     }
 
     // TODO надо допольнить всех отношений

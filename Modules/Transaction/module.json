@@ -5,7 +5,8 @@
     "keywords": [],
     "priority": 0,
     "providers": [
-        "Modules\\Transaction\\Providers\\TransactionServiceProvider"
+        "Modules\\Transaction\\Providers\\TransactionServiceProvider",
+        "Modules\\Transaction\\Providers\\EventServiceProvider"
     ],
     "files": []
 }

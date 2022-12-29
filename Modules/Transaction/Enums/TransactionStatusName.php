@@ -11,7 +11,7 @@ final class TransactionStatusName extends Enum
     /**
      * @var string
      */
-    public const COMPLETED = 'completed';
+    public const APPROVED = 'approved';
 
     /**
      * @var string
