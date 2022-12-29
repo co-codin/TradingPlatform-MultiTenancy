@@ -43,7 +43,7 @@ trait HasAuth
      * @param  string  $guard
      * @return void
      */
-    final protected function authenticateCustomer(string $guard = Customer::API_AUTH_GUARD): void
+    final protected function authenticateCustomer(string $guard = Customer::DEFAULT_AUTH_GUARD): void
     {
         $this->brand?->makeCurrent();
 
@@ -127,7 +127,7 @@ trait HasAuth
      */
     final protected function authenticateCustomerWithPermission(
         PermissionEnum $permissionEnum,
-        string $guard = Customer::API_AUTH_GUARD
+        string $guard = Customer::DEFAULT_AUTH_GUARD
     ): void {
         $this->brand?->makeCurrent();
 
