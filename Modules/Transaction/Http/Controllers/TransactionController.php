@@ -6,7 +6,6 @@ namespace Modules\Transaction\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Exception;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Modules\Transaction\Dto\TransactionDto;
@@ -20,8 +19,8 @@ use Modules\Transaction\Services\TransactionStorage;
 final class TransactionController extends Controller
 {
     /**
-     * @param TransactionStorage $transactionStorage
-     * @param TransactionRepository $transactionRepository
+     * @param  TransactionStorage  $transactionStorage
+     * @param  TransactionRepository  $transactionRepository
      */
     public function __construct(
         protected TransactionStorage $transactionStorage,
@@ -51,16 +50,10 @@ final class TransactionController extends Controller
      * )
      *
      * @return JsonResource
-     *
-     * @throws AuthorizationException
      */
     public function index(): JsonResource
     {
-        $this->authorize('viewAny', Transaction::class);
-
-        $transactions = $this->transactionRepository->jsonPaginate();
-
-        return TransactionResource::collection($transactions);
+        return TransactionResource::collection($this->transactionRepository->jsonPaginate());
     }
 
     /**
@@ -97,16 +90,12 @@ final class TransactionController extends Controller
      *
      * @param  int  $id
      * @return JsonResource
-     *
-     * @throws AuthorizationException
      */
     public function show(int $id): JsonResource
     {
-        $transaction = $this->transactionRepository->find($id);
-
-        $this->authorize('view', $transaction);
-
-        return new TransactionResource($transaction);
+        return new TransactionResource(
+            $this->transactionRepository->find($id),
+        );
     }
 
     /**
@@ -141,19 +130,16 @@ final class TransactionController extends Controller
      *     ),
      * )
      *
-     * @param TransactionCreateRequest $request
+     * @param  TransactionCreateRequest  $request
      * @return JsonResource
      *
-     * @throws AuthorizationException
      * @throws Exception
      */
     public function store(TransactionCreateRequest $request): JsonResource
     {
-        $this->authorize('create', Transaction::class);
-
-        $transaction = $this->transactionStorage->store(TransactionDto::fromFormRequest($request));
-
-        return new TransactionResource($transaction);
+        return new TransactionResource(
+            $this->transactionStorage->store(TransactionDto::fromFormRequest($request)),
+        );
     }
 
     /**
@@ -240,22 +226,20 @@ final class TransactionController extends Controller
      *     )
      * )
      *
-     * @param TransactionUpdateRequest $request
-     * @param int $id
+     * @param  TransactionUpdateRequest  $request
+     * @param  int  $id
      * @return JsonResource
      *
-     * @throws AuthorizationException
      * @throws Exception
      */
     public function update(TransactionUpdateRequest $request, int $id): JsonResource
     {
-        $transaction = $this->transactionRepository->find($id);
-
-        $this->authorize('update', $transaction);
-
-        $transaction = $this->transactionStorage->update($transaction, TransactionDto::fromFormRequest($request));
-
-        return new TransactionResource($transaction);
+        return new TransactionResource(
+            $this->transactionStorage->update(
+                $this->transactionRepository->find($id),
+                TransactionDto::fromFormRequest($request),
+            ),
+        );
     }
 
     /**
@@ -289,19 +273,16 @@ final class TransactionController extends Controller
      *     )
      * )
      *
-     * @param int $id
+     * @param  int  $id
      * @return Response
      *
-     * @throws AuthorizationException
      * @throws Exception
      */
     public function destroy(int $id): Response
     {
-        $transaction = $this->transactionRepository->find($id);
-
-        $this->authorize('delete', $transaction);
-
-        $this->transactionStorage->destroy($transaction);
+        $this->transactionStorage->destroy(
+            $this->transactionRepository->find($id),
+        );
 
         return response()->noContent();
     }

@@ -34,7 +34,7 @@ final class TransactionPermission extends Enum implements PermissionEnum
     /**
      * @var string
      */
-    public const EXPORT_TRANSACTIONS = 'export users';
+    public const EXPORT_TRANSACTIONS = 'export transactions';
 
     /**
      * {@inheritDoc}
@@ -64,11 +64,11 @@ final class TransactionPermission extends Enum implements PermissionEnum
     public static function descriptions(): array
     {
         return [
-            self::CREATE_TRANSACTIONS => 'Create users',
-            self::VIEW_TRANSACTIONS => 'View users',
-            self::EDIT_TRANSACTIONS => 'Edit users',
-            self::DELETE_TRANSACTIONS => 'Delete users',
-            self::EXPORT_TRANSACTIONS => 'Export users',
+            self::CREATE_TRANSACTIONS => 'Create transactions',
+            self::VIEW_TRANSACTIONS => 'View transactions',
+            self::EDIT_TRANSACTIONS => 'Edit transactions',
+            self::DELETE_TRANSACTIONS => 'Delete transactions',
+            self::EXPORT_TRANSACTIONS => 'Export transactions',
         ];
     }
 
