@@ -4337,6 +4337,107 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
+                                    "first_name": {
+                                        "description": "First name",
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "description": "Last name",
+                                        "type": "string"
+                                    },
+                                    "gender": {
+                                        "description": "1-Male, 2-Female, 3-Other",
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "email": {
+                                        "description": "Email",
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "description": "Password of customer",
+                                        "type": "string"
+                                    },
+                                    "phone": {
+                                        "description": "Phone",
+                                        "type": "string",
+                                        "format": "phone"
+                                    },
+                                    "country_id": {
+                                        "description": "Country id",
+                                        "type": "integer"
+                                    },
+                                    "language_id": {
+                                        "description": "Language id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "phone2": {
+                                        "description": "Second phone",
+                                        "type": "string",
+                                        "format": "phone",
+                                        "nullable": "true"
+                                    },
+                                    "city": {
+                                        "description": "City",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "address": {
+                                        "description": "Address",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "postal_code": {
+                                        "description": "Post code",
+                                        "type": "integer"
+                                    },
+                                    "desk_id": {
+                                        "description": "Desk id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "offer_name": {
+                                        "description": "Offer name",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "offer_url": {
+                                        "description": "Offer url",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "comment_about_customer": {
+                                        "description": "Comment about customer",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "source": {
+                                        "description": "Source",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "click_id": {
+                                        "description": "Click id",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "free_param_1": {
+                                        "description": "Free param 1",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "free_param_2": {
+                                        "description": "Free param 2",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "free_param_3": {
+                                        "description": "Free param 3",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
                                     "affiliate_user_id": {
                                         "description": "Affiliate worker ID",
                                         "type": "integer"
@@ -4512,6 +4613,107 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
+                                    "first_name": {
+                                        "description": "First name",
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "description": "Last name",
+                                        "type": "string"
+                                    },
+                                    "gender": {
+                                        "description": "1-Male, 2-Female, 3-Other",
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "email": {
+                                        "description": "Email",
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "description": "Password of customer",
+                                        "type": "string"
+                                    },
+                                    "phone": {
+                                        "description": "Phone",
+                                        "type": "string",
+                                        "format": "phone"
+                                    },
+                                    "country_id": {
+                                        "description": "Country id",
+                                        "type": "integer"
+                                    },
+                                    "language_id": {
+                                        "description": "Language id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "phone2": {
+                                        "description": "Second phone",
+                                        "type": "string",
+                                        "format": "phone",
+                                        "nullable": "true"
+                                    },
+                                    "city": {
+                                        "description": "City",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "address": {
+                                        "description": "Address",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "postal_code": {
+                                        "description": "Post code",
+                                        "type": "integer"
+                                    },
+                                    "desk_id": {
+                                        "description": "Desk id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "offer_name": {
+                                        "description": "Offer name",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "offer_url": {
+                                        "description": "Offer url",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "comment_about_customer": {
+                                        "description": "Comment about customer",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "source": {
+                                        "description": "Source",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "click_id": {
+                                        "description": "Click id",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "free_param_1": {
+                                        "description": "Free param 1",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "free_param_2": {
+                                        "description": "Free param 2",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
+                                    "free_param_3": {
+                                        "description": "Free param 3",
+                                        "type": "string",
+                                        "nullable": "true"
+                                    },
                                     "affiliate_user_id": {
                                         "description": "Affiliate worker ID",
                                         "type": "integer"
@@ -13301,16 +13503,11 @@
                     "first_name",
                     "last_name",
                     "gender",
+                    "password",
                     "email",
                     "phone",
                     "country_id",
-                    "is_demo",
-                    "is_active",
-                    "is_active_trading",
-                    "is_test",
-                    "is_ftd",
-                    "created_at",
-                    "updated_at"
+                    "language_id"
                 ],
                 "properties": {
                     "id": {
@@ -15030,7 +15227,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }

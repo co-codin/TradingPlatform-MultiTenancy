@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
 use Modules\Customer\Dto\CustomerDto;
 use Modules\Customer\Http\Requests\CustomerBanRequest;
 use Modules\Customer\Http\Requests\CustomerCreateRequest;
@@ -20,7 +21,6 @@ use Modules\Customer\Services\CustomerStorage;
 use Modules\User\Models\User;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
-use Illuminate\Http\Response;
 
 final class CustomerController extends Controller
 {
@@ -210,6 +210,27 @@ final class CustomerController extends Controller
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
+     *                 @OA\Property(property="first_name", type="string", description="First name"),
+     *                 @OA\Property(property="last_name", type="string", description="Last name"),
+     *                 @OA\Property(property="gender", type="integer", description="1-Male, 2-Female, 3-Other", example="1"),
+     *                 @OA\Property(property="email", type="string", format="email", description="Email"),
+     *                 @OA\Property(property="password", type="string", description="Password of customer"),
+     *                 @OA\Property(property="phone", type="string", format="phone", description="Phone"),
+     *                 @OA\Property(property="country_id", type="integer", description="Country id"),
+     *                 @OA\Property(property="language_id", type="integer", description="Language id", nullable="true"),
+     *                 @OA\Property(property="phone2", type="string", format="phone", description="Second phone", nullable="true"),
+     *                 @OA\Property(property="city", type="string", description="City", nullable="true"),
+     *                 @OA\Property(property="address", type="string", description="Address", nullable="true"),
+     *                 @OA\Property(property="postal_code", type="integer", description="Post code"),
+     *                 @OA\Property(property="desk_id", type="integer", description="Desk id", nullable="true"),
+     *                 @OA\Property(property="offer_name", type="string", description="Offer name", nullable="true"),
+     *                 @OA\Property(property="offer_url", type="string", description="Offer url", nullable="true"),
+     *                 @OA\Property(property="comment_about_customer", type="string", description="Comment about customer", nullable="true"),
+     *                 @OA\Property(property="source", type="string", description="Source", nullable="true"),
+     *                 @OA\Property(property="click_id", type="string", description="Click id", nullable="true"),
+     *                 @OA\Property(property="free_param_1", type="string", description="Free param 1", nullable="true"),
+     *                 @OA\Property(property="free_param_2", type="string", description="Free param 2", nullable="true"),
+     *                 @OA\Property(property="free_param_3", type="string", description="Free param 3", nullable="true"),
      *                 @OA\Property(property="affiliate_user_id", type="integer", description="Affiliate worker ID"),
      *                 @OA\Property(property="conversion_user_id", type="integer", description="Conversion worker ID"),
      *                 @OA\Property(property="retention_user_id", type="integer", description="Retention user ID"),
@@ -273,6 +294,27 @@ final class CustomerController extends Controller
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
+     *                 @OA\Property(property="first_name", type="string", description="First name"),
+     *                 @OA\Property(property="last_name", type="string", description="Last name"),
+     *                 @OA\Property(property="gender", type="integer", description="1-Male, 2-Female, 3-Other", example="1"),
+     *                 @OA\Property(property="email", type="string", format="email", description="Email"),
+     *                 @OA\Property(property="password", type="string", description="Password of customer"),
+     *                 @OA\Property(property="phone", type="string", format="phone", description="Phone"),
+     *                 @OA\Property(property="country_id", type="integer", description="Country id"),
+     *                 @OA\Property(property="language_id", type="integer", description="Language id", nullable="true"),
+     *                 @OA\Property(property="phone2", type="string", format="phone", description="Second phone", nullable="true"),
+     *                 @OA\Property(property="city", type="string", description="City", nullable="true"),
+     *                 @OA\Property(property="address", type="string", description="Address", nullable="true"),
+     *                 @OA\Property(property="postal_code", type="integer", description="Post code"),
+     *                 @OA\Property(property="desk_id", type="integer", description="Desk id", nullable="true"),
+     *                 @OA\Property(property="offer_name", type="string", description="Offer name", nullable="true"),
+     *                 @OA\Property(property="offer_url", type="string", description="Offer url", nullable="true"),
+     *                 @OA\Property(property="comment_about_customer", type="string", description="Comment about customer", nullable="true"),
+     *                 @OA\Property(property="source", type="string", description="Source", nullable="true"),
+     *                 @OA\Property(property="click_id", type="string", description="Click id", nullable="true"),
+     *                 @OA\Property(property="free_param_1", type="string", description="Free param 1", nullable="true"),
+     *                 @OA\Property(property="free_param_2", type="string", description="Free param 2", nullable="true"),
+     *                 @OA\Property(property="free_param_3", type="string", description="Free param 3", nullable="true"),
      *                 @OA\Property(property="affiliate_user_id", type="integer", description="Affiliate worker ID"),
      *                 @OA\Property(property="conversion_user_id", type="integer", description="Conversion worker ID"),
      *                 @OA\Property(property="retention_user_id", type="integer", description="Retention user ID"),
@@ -466,6 +508,7 @@ final class CustomerController extends Controller
 
         return CustomerResource::collection($customers);
     }
+
     /**
      * @OA\Delete(
      *      path="/admin/customers/{id}",
@@ -497,8 +540,9 @@ final class CustomerController extends Controller
      *
      * Remove the customer.
      *
-     * @param int $id
+     * @param  int  $id
      * @return Response
+     *
      * @throws AuthorizationException
      */
     public function destroy(int $id): Response
