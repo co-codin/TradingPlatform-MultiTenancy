@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Customer\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -16,6 +17,9 @@ use Modules\Customer\Database\factories\CustomerFactory;
 use Modules\Customer\Events\CustomerSaving;
 use Modules\Customer\Models\Traits\CustomerRelations;
 use Modules\Role\Models\Traits\HasRoles;
+use Modules\Transaction\Enums\TransactionMethodName;
+use Modules\Transaction\Enums\TransactionMt5TypeName;
+use Modules\Transaction\Enums\TransactionStatusName;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 use Spatie\Multitenancy\Models\Tenant;
 
@@ -146,6 +150,34 @@ final class Customer extends Authenticatable
     public function getBrand(): ?Brand
     {
         return app(Tenant::class)->current();
+    }
+
+    /**
+     * Get approved deposits.
+     *
+     * @return Collection
+     */
+    public function getApprovedDeposits(): Collection
+    {
+        return $this->transactions()
+            ->whereHas('method', fn ($q) => $q->where('name', TransactionMethodName::DEPOSIT))
+            ->whereHas('status', fn ($q) => $q->where('name', TransactionStatusName::APPROVED))
+            ->whereHas('mt5Type', fn ($q) => $q->where('name', TransactionMt5TypeName::BALANCE))
+            ->get();
+    }
+
+    /**
+     * Get approved withdraws.
+     *
+     * @return Collection
+     */
+    public function getApprovedWithdraws(): Collection
+    {
+        return $this->transactions()
+            ->whereHas('method', fn ($q) => $q->where('name', TransactionMethodName::WITHDRAW))
+            ->whereHas('status', fn ($q) => $q->where('name', TransactionStatusName::APPROVED))
+            ->whereHas('mt5Type', fn ($q) => $q->where('name', TransactionMt5TypeName::BALANCE))
+            ->get();
     }
 
     /**
