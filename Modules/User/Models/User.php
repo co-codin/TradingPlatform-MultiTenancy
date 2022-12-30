@@ -80,7 +80,8 @@ final class User extends Authenticatable
      * {@inheritdoc}
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -136,15 +137,6 @@ final class User extends Authenticatable
         }
 
         return $query;
-    }
-
-    public function toArray()
-    {
-        if (auth()->check()) {
-            $this->makeVisible($this->hidden);
-        }
-
-        return parent::toArray();
     }
 
     public function setEmailAttribute(string $value): void
