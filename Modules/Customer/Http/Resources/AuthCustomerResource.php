@@ -60,6 +60,10 @@ final class AuthCustomerResource extends JsonResource
             'email' => $this->email,
             'phone' => $this->phone,
             'country' => new CountryResource($this->country),
+            'notifications' => [
+                'count' => $this->unreadNotifications->count(),
+                'list' => $this->unreadNotifications,
+            ],
         ];
     }
 }
