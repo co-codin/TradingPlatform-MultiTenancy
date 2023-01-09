@@ -119,11 +119,6 @@ final class User extends Authenticatable
         return UserFactory::new();
     }
 
-    public function createAffiliateToken()
-    {
-        return $this->tokens()->create();
-    }
-
     /**
      * Scope for querying users by permissions access.
      *
