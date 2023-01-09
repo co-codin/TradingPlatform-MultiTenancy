@@ -26,7 +26,7 @@ return new class extends Migration
             $table->foreignId('currency_id')->constrained('currencies');
             $table->foreignId('mt5_type_id')->constrained('transaction_mt5_types');
             $table->foreignId('method_id')->constrained('transaction_methods');
-            $table->foreignId('wallet_id')->constrained('transaction_wallets');
+            $table->foreignId('wallet_id')->constrained('wallets');
 
             $table->string('external_id')->nullable();
             $table->text('data')->nullable();

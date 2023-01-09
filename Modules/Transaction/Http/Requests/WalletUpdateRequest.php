@@ -6,7 +6,7 @@ namespace Modules\Transaction\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
 
-final class TransactionsWalletUpdateRequest extends BaseFormRequest
+final class WalletUpdateRequest extends BaseFormRequest
 {
     /**
      * {@inheritDoc}

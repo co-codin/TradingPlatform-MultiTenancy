@@ -5,7 +5,7 @@ use Modules\Transaction\Http\Controllers\Admin\TransactionExportController;
 use Modules\Transaction\Http\Controllers\Admin\TransactionsMethodController;
 use Modules\Transaction\Http\Controllers\Admin\TransactionsMt5TypeController;
 use Modules\Transaction\Http\Controllers\Admin\TransactionStatusController;
-use Modules\Transaction\Http\Controllers\Admin\TransactionsWalletController;
+use Modules\Transaction\Http\Controllers\Admin\WalletController;
 use Modules\Transaction\Http\Controllers\TransactionController;
 
 Route::group(['prefix' => 'transactions'], function () {
@@ -17,7 +17,7 @@ Route::group(['prefix' => 'transactions'], function () {
 
     Route::apiResource('statuses', TransactionStatusController::class);
     Route::apiResource('mt5-types', TransactionsMt5TypeController::class);
-    Route::apiResource('wallets', TransactionsWalletController::class);
+    Route::apiResource('wallets', WalletController::class);
     Route::apiResource('methods', TransactionsMethodController::class);
 });
 

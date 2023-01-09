@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Modules\Transaction\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Modules\Transaction\Models\TransactionsWallet;
+use Modules\Transaction\Models\Wallet;
 
 /**
  * @OA\Schema (
@@ -20,11 +20,11 @@ use Modules\Transaction\Models\TransactionsWallet;
  *         "created_at",
  *         "updated_at",
  *     },
- *     @OA\Property(property="id", type="integer", description="Transaction wallet ID"),
- *     @OA\Property(property="name", type="string", description="Transaction wallet name"),
- *     @OA\Property(property="title", type="string", description="Transaction wallet title"),
- *     @OA\Property(property="mt5_id", type="string", description="Transaction wallet mt5_id"),
- *     @OA\Property(property="currency_id", type="integer", description="Transaction wallet currency_id"),
+ *     @OA\Property(property="id", type="integer", description="Wallet ID"),
+ *     @OA\Property(property="name", type="string", description="Wallet name"),
+ *     @OA\Property(property="title", type="string", description="Wallet title"),
+ *     @OA\Property(property="mt5_id", type="string", description="Wallet mt5_id"),
+ *     @OA\Property(property="currency_id", type="integer", description="Wallet currency_id"),
  *     @OA\Property(property="created_at", type="string", format="date-time", description="Date and time of creation", example="2022-12-17 08:44:09"),
  *     @OA\Property(property="updated_at", type="string", format="date-time", description="Date and time of last update", example="2022-12-17 08:44:09"),
  *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true, description="Date and time of soft delete", example="2022-12-17 08:44:09"),
@@ -56,9 +56,9 @@ use Modules\Transaction\Models\TransactionsWallet;
  * )
  *
  * Class TransactionsWalletResource
- * @mixin TransactionsWallet
+ * @mixin Wallet
  */
-final class TransactionsWalletResource extends JsonResource
+final class WalletResource extends JsonResource
 {
     /**
      * {@inheritDoc}

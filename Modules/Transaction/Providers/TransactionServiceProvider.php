@@ -9,12 +9,12 @@ use Modules\Transaction\Models\Transaction;
 use Modules\Transaction\Models\TransactionsMethod;
 use Modules\Transaction\Models\TransactionsMt5Type;
 use Modules\Transaction\Models\TransactionStatus;
-use Modules\Transaction\Models\TransactionsWallet;
+use Modules\Transaction\Models\Wallet;
+use Modules\Transaction\Policies\TransactionPolicy;
 use Modules\Transaction\Policies\TransactionsMethodPolicy;
 use Modules\Transaction\Policies\TransactionsMt5TypePolicy;
 use Modules\Transaction\Policies\TransactionStatusPolicy;
-use Modules\Transaction\Policies\TransactionsWalletPolicy;
-use Modules\Transaction\Policies\TransactionPolicy;
+use Modules\Transaction\Policies\WalletPolicy;
 
 final class TransactionServiceProvider extends BaseModuleServiceProvider
 {
@@ -25,7 +25,7 @@ final class TransactionServiceProvider extends BaseModuleServiceProvider
         Transaction::class => TransactionPolicy::class,
         TransactionStatus::class => TransactionStatusPolicy::class,
         TransactionsMt5Type::class => TransactionsMt5TypePolicy::class,
-        TransactionsWallet::class => TransactionsWalletPolicy::class,
+        Wallet::class => WalletPolicy::class,
         TransactionsMethod::class => TransactionsMethodPolicy::class,
     ];
 

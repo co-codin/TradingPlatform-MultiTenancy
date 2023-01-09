@@ -21,7 +21,7 @@ final class TransactionCreateRequest extends BaseFormRequest
             'customer_id' => 'required|int|exists:tenant.customers,id',
             'status_id' => 'required|int|exists:tenant.transaction_statuses,id',
             'method_id' => 'required|int|exists:tenant.transaction_methods,id',
-            'wallet_id' => 'required|int|exists:tenant.transaction_wallets,id',
+            'wallet_id' => 'required|int|exists:tenant.wallets,id',
 
             'external_id' => 'sometimes|required|string|nullable',
             'description' => 'sometimes|required|string|nullable',

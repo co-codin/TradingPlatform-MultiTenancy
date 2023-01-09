@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Modules\Transaction\Admin\Wallet;
 
 use Modules\Currency\Models\Currency;
-use Modules\Transaction\Enums\TransactionsWalletPermission;
-use Modules\Transaction\Models\TransactionsWallet;
+use Modules\Transaction\Enums\WalletPermission;
+use Modules\Transaction\Models\Wallet;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
@@ -22,13 +22,13 @@ final class CreateTest extends BrandTestCase
     public function can_create(): void
     {
         $this->authenticateWithPermission(
-            TransactionsWalletPermission::fromValue(TransactionsWalletPermission::CREATE_TRANSACTION_WALLET)
+            WalletPermission::fromValue(WalletPermission::CREATE_WALLET)
         );
 
         $this->brand->makeCurrent();
 
         Currency::truncate();
-        $data = TransactionsWallet::factory()->make()->toArray();
+        $data = Wallet::factory()->make()->toArray();
 
         $response = $this->post(route('admin.transaction-wallets.store'), $data);
 
@@ -46,7 +46,7 @@ final class CreateTest extends BrandTestCase
         $this->brand->makeCurrent();
 
         Currency::truncate();
-        $data = TransactionsWallet::factory()->make()->toArray();
+        $data = Wallet::factory()->make()->toArray();
 
         $response = $this->post(route('admin.transaction-wallets.store'), $data);
 

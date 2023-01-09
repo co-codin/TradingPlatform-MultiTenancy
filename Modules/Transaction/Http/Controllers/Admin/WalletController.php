@@ -9,23 +9,23 @@ use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
-use Modules\Transaction\Dto\TransactionsWalletDto;
-use Modules\Transaction\Http\Requests\TransactionsWalletCreateRequest;
-use Modules\Transaction\Http\Requests\TransactionsWalletUpdateRequest;
-use Modules\Transaction\Http\Resources\TransactionsWalletResource;
-use Modules\Transaction\Models\TransactionsWallet;
-use Modules\Transaction\Repositories\TransactionsWalletRepository;
-use Modules\Transaction\Services\TransactionsWalletStorage;
+use Modules\Transaction\Dto\WalletDto;
+use Modules\Transaction\Http\Requests\WalletCreateRequest;
+use Modules\Transaction\Http\Requests\WalletUpdateRequest;
+use Modules\Transaction\Http\Resources\WalletResource;
+use Modules\Transaction\Models\Wallet;
+use Modules\Transaction\Repositories\WalletRepository;
+use Modules\Transaction\Services\WalletStorage;
 
-final class TransactionsWalletController extends Controller
+final class WalletController extends Controller
 {
     /**
-     * @param TransactionsWalletRepository $transactionsWalletRepository
-     * @param TransactionsWalletStorage $transactionsWalletStorage
+     * @param WalletRepository $repository
+     * @param WalletStorage $storage
      */
     public function __construct(
-        protected TransactionsWalletRepository $transactionsWalletRepository,
-        protected TransactionsWalletStorage $transactionsWalletStorage,
+        protected WalletRepository $repository,
+        protected WalletStorage $storage,
     ) {
     }
 
@@ -34,7 +34,7 @@ final class TransactionsWalletController extends Controller
      *     path="/admin/transaction-wallets",
      *     tags={"Transaction"},
      *     security={ {"sanctum": {} }},
-     *     summary="Get transaction wallet",
+     *     summary="Get wallet",
      *     @OA\Response(
      *          response=200,
      *          description="success",
@@ -56,11 +56,11 @@ final class TransactionsWalletController extends Controller
      */
     public function index(): JsonResource
     {
-        $this->authorize('viewAny', TransactionsWallet::class);
+        $this->authorize('viewAny', Wallet::class);
 
-        $transactionsWallet = $this->transactionsWalletRepository->jsonPaginate();
+        $wallet = $this->repository->jsonPaginate();
 
-        return TransactionsWalletResource::collection($transactionsWallet);
+        return WalletResource::collection($wallet);
     }
 
     /**
@@ -68,11 +68,11 @@ final class TransactionsWalletController extends Controller
      *     path="/admin/transaction-wallets/{id}",
      *     tags={"Transaction"},
      *     security={ {"sanctum": {} }},
-     *     summary="Get transaction wallet data",
+     *     summary="Get wallet data",
      *     @OA\Parameter(
      *          name="id",
      *          in="path",
-     *          description="Transaction wallet ID",
+     *          description="Wallet ID",
      *          required=true,
      *          @OA\Schema (type="integer")
      *     ),
@@ -102,11 +102,11 @@ final class TransactionsWalletController extends Controller
      */
     public function show(int $id): JsonResource
     {
-        $transactionsWallet = $this->transactionsWalletRepository->find($id);
+        $wallet = $this->repository->find($id);
 
-        $this->authorize('view', $transactionsWallet);
+        $this->authorize('view', $wallet);
 
-        return new TransactionsWalletResource($transactionsWallet);
+        return new WalletResource($wallet);
     }
 
     /**
@@ -114,7 +114,7 @@ final class TransactionsWalletController extends Controller
      *     path="/admin/transaction-wallets",
      *     tags={"Transaction"},
      *     security={ {"sanctum": {} }},
-     *     summary="Add a new transaction wallet",
+     *     summary="Add a new wallet",
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/json",
@@ -125,10 +125,10 @@ final class TransactionsWalletController extends Controller
      *                     "mt5_id",
      *                     "currency_id",
      *                 },
-     *                 @OA\Property(property="name", description="Transaction wallet name"),
-     *                 @OA\Property(property="title", type="string", description="Transaction wallet title"),
-     *                 @OA\Property(property="mt5_id", type="string", description="Transaction wallet mt5_id"),
-     *                 @OA\Property(property="currency_id", type="integer", description="Transaction wallet currency_id"),
+     *                 @OA\Property(property="name", description="Wallet name"),
+     *                 @OA\Property(property="title", type="string", description="Wallet title"),
+     *                 @OA\Property(property="mt5_id", type="string", description="Wallet mt5_id"),
+     *                 @OA\Property(property="currency_id", type="integer", description="Wallet currency_id"),
      *             )
      *         )
      *     ),
@@ -154,13 +154,13 @@ final class TransactionsWalletController extends Controller
      * @throws AuthorizationException
      * @throws Exception
      */
-    public function store(TransactionsWalletCreateRequest $request): JsonResource
+    public function store(WalletCreateRequest $request): JsonResource
     {
-        $this->authorize('create', TransactionsWallet::class);
+        $this->authorize('create', Wallet::class);
 
-        $transactionsWallet = $this->transactionsWalletStorage->store(TransactionsWalletDto::fromFormRequest($request));
+        $wallet = $this->storage->store(WalletDto::fromFormRequest($request));
 
-        return new TransactionsWalletResource($transactionsWallet);
+        return new WalletResource($wallet);
     }
 
     /**
@@ -168,9 +168,9 @@ final class TransactionsWalletController extends Controller
      *     path="/admin/transaction-wallets/{id}",
      *     tags={"Transaction"},
      *     security={ {"sanctum": {} }},
-     *     summary="Update a transaction wallet",
+     *     summary="Update a wallet",
      *     @OA\Parameter(
-     *         description="Transaction wallet ID",
+     *         description="Wallet ID",
      *         in="path",
      *         name="id",
      *         required=true,
@@ -186,10 +186,10 @@ final class TransactionsWalletController extends Controller
      *                     "mt5_id",
      *                     "currency_id",
      *                 },
-     *                 @OA\Property(property="name", description="Transaction wallet name"),
-     *                 @OA\Property(property="title", type="string", description="Transaction wallet title"),
-     *                 @OA\Property(property="mt5_id", type="string", description="Transaction wallet mt5_id"),
-     *                 @OA\Property(property="currency_id", type="integer", description="Transaction wallet currency_id"),
+     *                 @OA\Property(property="name", description="Wallet name"),
+     *                 @OA\Property(property="title", type="string", description="Wallet title"),
+     *                 @OA\Property(property="mt5_id", type="string", description="Wallet mt5_id"),
+     *                 @OA\Property(property="currency_id", type="integer", description="Wallet currency_id"),
      *             )
      *         )
      *     ),
@@ -219,9 +219,9 @@ final class TransactionsWalletController extends Controller
      *     path="/admin/transaction-wallets/{id}",
      *     tags={"Transaction"},
      *     security={ {"sanctum": {} }},
-     *     summary="Update a transaction wallet",
+     *     summary="Update a wallet",
      *     @OA\Parameter(
-     *         description="Transaction wallet ID",
+     *         description="Wallet ID",
      *         in="path",
      *         name="id",
      *         required=true,
@@ -231,10 +231,10 @@ final class TransactionsWalletController extends Controller
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
-     *                 @OA\Property(property="name", description="Transaction wallet name"),
-     *                 @OA\Property(property="title", type="string", description="Transaction wallet title"),
-     *                 @OA\Property(property="mt5_id", type="string", description="Transaction wallet mt5_id"),
-     *                 @OA\Property(property="currency_id", type="integer", description="Transaction wallet currency_id"),
+     *                 @OA\Property(property="name", description="Wallet name"),
+     *                 @OA\Property(property="title", type="string", description="Wallet title"),
+     *                 @OA\Property(property="mt5_id", type="string", description="Wallet mt5_id"),
+     *                 @OA\Property(property="currency_id", type="integer", description="Wallet currency_id"),
      *             )
      *         )
      *     ),
@@ -264,15 +264,15 @@ final class TransactionsWalletController extends Controller
      * @throws AuthorizationException
      * @throws Exception
      */
-    public function update(TransactionsWalletUpdateRequest $request, int $id): JsonResource
+    public function update(WalletUpdateRequest $request, int $id): JsonResource
     {
-        $transactionsWallet = $this->transactionsWalletRepository->find($id);
+        $wallet = $this->repository->find($id);
 
-        $this->authorize('update', $transactionsWallet);
+        $this->authorize('update', $wallet);
 
-        $transactionsWallet = $this->transactionsWalletStorage->update($transactionsWallet, TransactionsWalletDto::fromFormRequest($request));
+        $wallet = $this->storage->update($wallet, WalletDto::fromFormRequest($request));
 
-        return new TransactionsWalletResource($transactionsWallet);
+        return new WalletResource($wallet);
     }
 
     /**
@@ -280,9 +280,9 @@ final class TransactionsWalletController extends Controller
      *     path="/admin/transaction-wallets/{id}",
      *     tags={"Transaction"},
      *     security={ {"sanctum": {} }},
-     *     summary="Delete a transaction wallet",
+     *     summary="Delete a wallet",
      *     @OA\Parameter(
-     *         description="Transaction wallet ID",
+     *         description="Wallet ID",
      *         in="path",
      *         name="id",
      *         required=true,
@@ -311,11 +311,11 @@ final class TransactionsWalletController extends Controller
      */
     public function destroy(int $id): Response
     {
-        $transactionsWallet = $this->transactionsWalletRepository->find($id);
+        $wallet = $this->repository->find($id);
 
-        $this->authorize('delete', $transactionsWallet);
+        $this->authorize('delete', $wallet);
 
-        $this->transactionsWalletStorage->destroy($transactionsWallet);
+        $this->storage->destroy($wallet);
 
         return response()->noContent();
     }
