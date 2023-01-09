@@ -26,7 +26,7 @@ final class CustomerController extends Controller
      *      path="/affiliate/customers",
      *      security={ {"sanctum": {} }},
      *      tags={"Customer"},
-     *      summary="Get customers list",
+     *      summary="Get affiliate customers list",
      *      description="Returns customers list data.",
      *      @OA\Response(
      *          response=201,
@@ -61,7 +61,7 @@ final class CustomerController extends Controller
      *      path="/affiliate/customers/{id}",
      *      security={ {"sanctum": {} }},
      *      tags={"Customer"},
-     *      summary="Get customer",
+     *      summary="Get affiliate customer",
      *      description="Returns customer data.",
      *      @OA\Parameter(
      *         description="Customer ID",
