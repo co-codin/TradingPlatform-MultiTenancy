@@ -10,20 +10,14 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Customer\Http\Resources\CustomerResource;
 use Modules\Customer\Models\Customer;
 use Modules\Customer\Repositories\CustomerRepository;
-use Modules\Customer\Services\CustomerBanService;
-use Modules\Customer\Services\CustomerStorage;
 
 final class CustomerController extends Controller
 {
     /**
-     * @param  CustomerBanService  $customerBanService
      * @param  CustomerRepository  $customerRepository
-     * @param  CustomerStorage  $customerStorage
      */
     public function __construct(
-        protected CustomerBanService $customerBanService,
         protected CustomerRepository $customerRepository,
-        protected CustomerStorage $customerStorage,
     ) {
     }
 
