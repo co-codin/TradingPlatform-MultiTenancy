@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\User\Services;
 
 use Exception;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Modules\User\Models\DisplayOption;
 use Modules\User\Models\User;
@@ -21,10 +22,11 @@ final class UserStorage
 
         $user = User::create($attributes);
 
-        $user->assignRole($attributes['roles']);
-        $user->desks()->sync($attributes['desks']);
-        $user->languages()->sync($attributes['languages']);
-        $user->countries()->sync($attributes['countries']);
+        $user->roles()->sync(Arr::pluck($attributes['roles'], 'id'));
+
+        ! empty($attributes['desks']) && $user->desks()->sync(Arr::pluck($attributes['desks'], 'id'));
+        ! empty($attributes['languages']) && $user->languages()->sync(Arr::pluck($attributes['languages'], 'id'));
+        ! empty($attributes['countries']) && $user->countries()->sync(Arr::pluck($attributes['countries'], 'id'));
 
         return $user;
     }

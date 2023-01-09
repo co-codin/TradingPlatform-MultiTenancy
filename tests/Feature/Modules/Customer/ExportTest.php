@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Modules\Customer\Admin;
+namespace Tests\Feature\Modules\Customer;
 
 use Modules\Customer\Enums\CustomerPermission;
 use Modules\Customer\Models\Customer;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Modules\Department\User\Admin;
+namespace Tests\Feature\Modules\Department\Admin\User;
 
 use Modules\Department\Models\Department;
 use Modules\User\Enums\UserPermission;

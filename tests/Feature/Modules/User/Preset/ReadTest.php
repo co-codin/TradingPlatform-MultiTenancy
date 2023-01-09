@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Modules\Preset\Preset;
+namespace Tests\Feature\Modules\User\Preset;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\User\Models\Preset;
