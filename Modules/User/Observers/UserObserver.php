@@ -43,7 +43,11 @@ final class UserObserver
      */
     private function assignAffiliateAndCreateToken(User $user): void
     {
-        $user->createToken('api');
+        $user->tokens()->create([
+            'token' => 'api',
+            'ip' => request()->ip(),
+        ]);
+
         $user->assignRole(DefaultRole::AFFILIATE);
     }
 }
