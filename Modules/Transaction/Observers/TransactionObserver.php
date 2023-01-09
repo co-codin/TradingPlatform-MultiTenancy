@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Transaction\Observers;
 
-use Modules\Customer\Models\Customer;
 use Modules\Transaction\Models\Transaction;
+use Modules\Transaction\Services\CurrencyConverter;
 
 final class TransactionObserver
 {
@@ -68,9 +68,10 @@ final class TransactionObserver
      * Handle the Customer "creating" event.
      *
      * @param  Transaction  $transaction
+     * @param  CurrencyConverter  $converter
      * @return void
      */
-    public function creating(Transaction $transaction): void
+    public function creating(Transaction $transaction, CurrencyConverter $converter): void
     {
         if (
             ! $transaction->is_ftd
@@ -80,6 +81,20 @@ final class TransactionObserver
             && $transaction->customer->transactions()->count() === 0
         ) {
             $transaction->is_ftd = true;
+        }
+
+        switch ($currency = $transaction->wallet->iso3) {
+            case 'USD':
+                $transaction->amount_usd = $transaction->amount;
+                $transaction->amount_eur = $converter->convert('USD', 'EUR', $transaction->amount);
+                break;
+            case 'EUR':
+                $transaction->amount_eur = $transaction->amount;
+                $transaction->amount_usd = $converter->convert('EUR', 'USD', $transaction->amount);
+                break;
+            default:
+                $transaction->amount_eur = $converter->convert($currency, 'EUR', $transaction->amount);
+                $transaction->amount_usd = $converter->convert($currency, 'USD', $transaction->amount);
         }
     }
 }

@@ -134,6 +134,16 @@ final class Transaction extends Model
     }
 
     /**
+     * Wallet relation.
+     *
+     * @return BelongsTo
+     */
+    public function wallet(): BelongsTo
+    {
+        return $this->belongsTo(Wallet::class);
+    }
+
+    /**
      * {@inheritDoc}
      */
     protected static function newFactory(): TransactionFactory
