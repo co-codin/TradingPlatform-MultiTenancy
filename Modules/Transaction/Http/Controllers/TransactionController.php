@@ -7,7 +7,6 @@ namespace Modules\Transaction\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Http\Response;
 use Modules\Transaction\Dto\TransactionDto;
 use Modules\Transaction\Http\Requests\TransactionCreateRequest;
 use Modules\Transaction\Http\Requests\TransactionUpdateRequest;
@@ -240,50 +239,5 @@ final class TransactionController extends Controller
                 TransactionDto::fromFormRequest($request),
             ),
         );
-    }
-
-    /**
-     * @OA\Delete(
-     *     path="/admin/transactions/{id}",
-     *     tags={"Transaction"},
-     *     security={ {"sanctum": {} }},
-     *     summary="Delete a transaction",
-     *     @OA\Parameter(
-     *         description="Transaction ID",
-     *         in="path",
-     *         name="id",
-     *         required=true,
-     *         @OA\Schema(type="integer"),
-     *     ),
-     *     @OA\Response(
-     *         response=204,
-     *         description="No content"
-     *     ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="Unauthorized Error"
-     *     ),
-     *     @OA\Response(
-     *          response=403,
-     *          description="Forbidden Error"
-     *     ),
-     *     @OA\Response(
-     *          response=404,
-     *          description="Not Found"
-     *     )
-     * )
-     *
-     * @param  int  $id
-     * @return Response
-     *
-     * @throws Exception
-     */
-    public function destroy(int $id): Response
-    {
-        $this->transactionStorage->destroy(
-            $this->transactionRepository->find($id),
-        );
-
-        return response()->noContent();
     }
 }
