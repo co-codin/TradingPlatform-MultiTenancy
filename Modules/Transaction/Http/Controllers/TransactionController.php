@@ -6,15 +6,14 @@ namespace Modules\Transaction\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Exception;
-use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Response;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Modules\Transaction\Dto\TransactionDto;
 use Modules\Transaction\Http\Requests\TransactionCreateRequest;
 use Modules\Transaction\Http\Requests\TransactionUpdateRequest;
 use Modules\Transaction\Http\Resources\TransactionResource;
-use Modules\Transaction\Models\Transaction;
 use Modules\Transaction\Repositories\TransactionRepository;
 use Modules\Transaction\Services\TransactionStorage;
+use OpenApi\Annotations as OA;
 
 final class TransactionController extends Controller
 {
@@ -49,9 +48,9 @@ final class TransactionController extends Controller
      *     )
      * )
      *
-     * @return JsonResource
+     * @return AnonymousResourceCollection
      */
-    public function index(): JsonResource
+    public function index(): AnonymousResourceCollection
     {
         return TransactionResource::collection($this->transactionRepository->jsonPaginate());
     }
@@ -89,9 +88,9 @@ final class TransactionController extends Controller
      * )
      *
      * @param  int  $id
-     * @return JsonResource
+     * @return TransactionResource
      */
-    public function show(int $id): JsonResource
+    public function show(int $id): TransactionResource
     {
         return new TransactionResource(
             $this->transactionRepository->find($id),
@@ -131,11 +130,11 @@ final class TransactionController extends Controller
      * )
      *
      * @param  TransactionCreateRequest  $request
-     * @return JsonResource
+     * @return TransactionResource
      *
      * @throws Exception
      */
-    public function store(TransactionCreateRequest $request): JsonResource
+    public function store(TransactionCreateRequest $request): TransactionResource
     {
         return new TransactionResource(
             $this->transactionStorage->store(TransactionDto::fromFormRequest($request)),
@@ -228,11 +227,11 @@ final class TransactionController extends Controller
      *
      * @param  TransactionUpdateRequest  $request
      * @param  int  $id
-     * @return JsonResource
+     * @return TransactionResource
      *
      * @throws Exception
      */
-    public function update(TransactionUpdateRequest $request, int $id): JsonResource
+    public function update(TransactionUpdateRequest $request, int $id): TransactionResource
     {
         return new TransactionResource(
             $this->transactionStorage->update(
@@ -240,50 +239,5 @@ final class TransactionController extends Controller
                 TransactionDto::fromFormRequest($request),
             ),
         );
-    }
-
-    /**
-     * @OA\Delete(
-     *     path="/admin/transactions/{id}",
-     *     tags={"Transaction"},
-     *     security={ {"sanctum": {} }},
-     *     summary="Delete a transaction",
-     *     @OA\Parameter(
-     *         description="Transaction ID",
-     *         in="path",
-     *         name="id",
-     *         required=true,
-     *         @OA\Schema(type="integer"),
-     *     ),
-     *     @OA\Response(
-     *         response=204,
-     *         description="No content"
-     *     ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="Unauthorized Error"
-     *     ),
-     *     @OA\Response(
-     *          response=403,
-     *          description="Forbidden Error"
-     *     ),
-     *     @OA\Response(
-     *          response=404,
-     *          description="Not Found"
-     *     )
-     * )
-     *
-     * @param  int  $id
-     * @return Response
-     *
-     * @throws Exception
-     */
-    public function destroy(int $id): Response
-    {
-        $this->transactionStorage->destroy(
-            $this->transactionRepository->find($id),
-        );
-
-        return response()->noContent();
     }
 }

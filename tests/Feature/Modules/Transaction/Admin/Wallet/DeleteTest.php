@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Modules\Transaction\Admin\Wallet;
 
 use Modules\Currency\Models\Currency;
-use Modules\Transaction\Enums\TransactionsWalletPermission;
-use Modules\Transaction\Models\TransactionsWallet;
+use Modules\Transaction\Enums\WalletPermission;
+use Modules\Transaction\Models\Wallet;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
@@ -22,13 +22,13 @@ final class DeleteTest extends BrandTestCase
     public function can_delete(): void
     {
         $this->authenticateWithPermission(
-            TransactionsWalletPermission::fromValue(TransactionsWalletPermission::DELETE_TRANSACTION_WALLET)
+            WalletPermission::fromValue(WalletPermission::DELETE_WALLET)
         );
 
         $this->brand->makeCurrent();
 
         Currency::truncate();
-        $transactionsWallet = TransactionsWallet::factory()->create();
+        $transactionsWallet = Wallet::factory()->create();
 
         $response = $this->delete(route('admin.transaction-wallets.destroy', ['transaction_wallet' => $transactionsWallet]));
 
@@ -45,7 +45,7 @@ final class DeleteTest extends BrandTestCase
         $this->brand->makeCurrent();
 
         Currency::truncate();
-        $transactionsWallet = TransactionsWallet::factory()->create();
+        $transactionsWallet = Wallet::factory()->create();
 
         $response = $this->delete(route('admin.transaction-wallets.destroy', ['transaction_wallet' => $transactionsWallet]));
 
@@ -61,7 +61,7 @@ final class DeleteTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $transactionsWalletId = TransactionsWallet::orderByDesc('id')->first()?->id + 1 ?? 1;
+        $transactionsWalletId = Wallet::orderByDesc('id')->first()?->id + 1 ?? 1;
 
         $response = $this->delete(route('admin.transaction-wallets.destroy', ['transaction_wallet' => $transactionsWalletId]));
 
@@ -76,7 +76,7 @@ final class DeleteTest extends BrandTestCase
         $this->brand->makeCurrent();
 
         Currency::truncate();
-        $transactionsWallet = TransactionsWallet::factory()->create();
+        $transactionsWallet = Wallet::factory()->create();
 
         $response = $this->delete(route('admin.transaction-wallets.destroy', ['transaction_wallet' => $transactionsWallet]));
 

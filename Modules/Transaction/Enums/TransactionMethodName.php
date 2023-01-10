@@ -8,13 +8,4 @@ use BenSampo\Enum\Enum;
 
 final class TransactionMethodName extends Enum
 {
-    /**
-     * @var string
-     */
-    public const WITHDRAW = 'withdraw';
-
-    /**
-     * @var string
-     */
-    public const DEPOSIT = 'deposit';
 }

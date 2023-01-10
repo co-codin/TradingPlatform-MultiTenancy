@@ -9,13 +9,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Customer\Models\Customer;
 use Modules\Transaction\Database\factories\TransactionFactory;
-use Modules\Transaction\Enums\TransactionMethodName;
 use Modules\Transaction\Enums\TransactionMt5TypeName;
 use Modules\Transaction\Enums\TransactionStatusName;
+use Modules\Transaction\Enums\TransactionType;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 final class Transaction extends Model
 {
     use HasFactory;
+    use UsesTenantConnection;
+
+    protected $casts = [
+        'data' => 'array',
+    ];
 
     /**
      * {@inheritdoc}
@@ -25,23 +31,23 @@ final class Transaction extends Model
     ];
 
     /**
-     * Transaction method is withdraw.
+     * Transaction type is withdrawal.
      *
      * @return bool
      */
-    public function isWithdrawMethod(): bool
+    public function isWithdrawal(): bool
     {
-        return $this->method?->name->value === TransactionMethodName::WITHDRAW;
+        return $this->type === TransactionType::WITHDRAWAL;
     }
 
     /**
-     * Transaction method is deposit.
+     * Transaction type is deposit.
      *
      * @return bool
      */
-    public function isDepositMethod(): bool
+    public function isDeposit(): bool
     {
-        return $this->method?->name->value === TransactionMethodName::DEPOSIT;
+        return $this->type === TransactionType::DEPOSIT;
     }
 
     /**
@@ -125,6 +131,16 @@ final class Transaction extends Model
     public function method(): BelongsTo
     {
         return $this->belongsTo(TransactionsMethod::class, 'method_id', 'id');
+    }
+
+    /**
+     * Wallet relation.
+     *
+     * @return BelongsTo
+     */
+    public function wallet(): BelongsTo
+    {
+        return $this->belongsTo(Wallet::class);
     }
 
     /**

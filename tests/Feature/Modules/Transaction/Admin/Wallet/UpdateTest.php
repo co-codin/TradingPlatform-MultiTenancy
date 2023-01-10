@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Modules\Transaction\Admin\Wallet;
 
 use Modules\Currency\Models\Currency;
-use Modules\Transaction\Enums\TransactionsWalletPermission;
-use Modules\Transaction\Models\TransactionsWallet;
+use Modules\Transaction\Enums\WalletPermission;
+use Modules\Transaction\Models\Wallet;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
@@ -22,14 +22,14 @@ final class UpdateTest extends BrandTestCase
     public function can_update(): void
     {
         $this->authenticateWithPermission(
-            TransactionsWalletPermission::fromValue(TransactionsWalletPermission::EDIT_TRANSACTION_WALLET)
+            WalletPermission::fromValue(WalletPermission::EDIT_WALLET)
         );
 
         $this->brand->makeCurrent();
 
         Currency::truncate();
-        $transactionsWallet = TransactionsWallet::factory()->create();
-        $transactionsWalletData = TransactionsWallet::factory()->make()->toArray();
+        $transactionsWallet = Wallet::factory()->create();
+        $transactionsWalletData = Wallet::factory()->make()->toArray();
 
         $this->brand->makeCurrent();
 
@@ -49,8 +49,8 @@ final class UpdateTest extends BrandTestCase
         $this->brand->makeCurrent();
 
         Currency::truncate();
-        $transactionsWallet = TransactionsWallet::factory()->create();
-        $data = TransactionsWallet::factory()->make();
+        $transactionsWallet = Wallet::factory()->create();
+        $data = Wallet::factory()->make();
 
         $this->brand->makeCurrent();
 
@@ -71,8 +71,8 @@ final class UpdateTest extends BrandTestCase
         $this->brand->makeCurrent();
 
         Currency::truncate();
-        $transactionsWalletId = TransactionsWallet::orderByDesc('id')->first()?->id + 1 ?? 1;
-        $data = TransactionsWallet::factory()->make();
+        $transactionsWalletId = Wallet::orderByDesc('id')->first()?->id + 1 ?? 1;
+        $data = Wallet::factory()->make();
 
         $this->brand->makeCurrent();
 
@@ -90,7 +90,7 @@ final class UpdateTest extends BrandTestCase
         $this->brand->makeCurrent();
 
         Currency::truncate();
-        $transactionsWallet = TransactionsWallet::factory()->create();
+        $transactionsWallet = Wallet::factory()->create();
 
         $response = $this->patch(route('admin.transaction-wallets.update', ['transaction_wallet' => $transactionsWallet]));
 

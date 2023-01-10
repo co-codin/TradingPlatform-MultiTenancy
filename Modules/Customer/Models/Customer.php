@@ -17,9 +17,9 @@ use Modules\Customer\Database\factories\CustomerFactory;
 use Modules\Customer\Events\CustomerSaving;
 use Modules\Customer\Models\Traits\CustomerRelations;
 use Modules\Role\Models\Traits\HasRoles;
-use Modules\Transaction\Enums\TransactionMethodName;
 use Modules\Transaction\Enums\TransactionMt5TypeName;
 use Modules\Transaction\Enums\TransactionStatusName;
+use Modules\Transaction\Enums\TransactionType;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 use Spatie\Multitenancy\Models\Tenant;
 
@@ -160,21 +160,21 @@ final class Customer extends Authenticatable
     public function getApprovedDeposits(): Collection
     {
         return $this->transactions()
-            ->whereHas('method', fn ($q) => $q->where('name', TransactionMethodName::DEPOSIT))
+            ->where('type', '=', TransactionType::DEPOSIT)
             ->whereHas('status', fn ($q) => $q->where('name', TransactionStatusName::APPROVED))
             ->whereHas('mt5Type', fn ($q) => $q->where('name', TransactionMt5TypeName::BALANCE))
             ->get();
     }
 
     /**
-     * Get approved withdraws.
+     * Get approved withdrawals.
      *
      * @return Collection
      */
-    public function getApprovedWithdraws(): Collection
+    public function getApprovedWithdrawals(): Collection
     {
         return $this->transactions()
-            ->whereHas('method', fn ($q) => $q->where('name', TransactionMethodName::WITHDRAW))
+            ->where('type', '=', TransactionType::WITHDRAWAL)
             ->whereHas('status', fn ($q) => $q->where('name', TransactionStatusName::APPROVED))
             ->whereHas('mt5Type', fn ($q) => $q->where('name', TransactionMt5TypeName::BALANCE))
             ->get();
