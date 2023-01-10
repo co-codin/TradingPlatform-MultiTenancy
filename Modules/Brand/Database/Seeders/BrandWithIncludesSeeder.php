@@ -27,11 +27,13 @@ final class BrandWithIncludesSeeder extends Seeder
 
             $countries = Country::get();
             $desks = Desk::factory(3)->create();
-            $departments = Department::factory(3)->create();
+
+            Department::factory(3)->create();
+            $departments = Department::get();
 
             $customers = collect();
 
-            for ($i = 0; $i < 3; $i++) {
+            for ($i = 0; $i < 10; $i++) {
                 $customerData = $brand->execute(function () use ($countries, $desks, $departments) {
                     return  Customer::factory()->make([
                         'country_id' => $countries->random()?->id,

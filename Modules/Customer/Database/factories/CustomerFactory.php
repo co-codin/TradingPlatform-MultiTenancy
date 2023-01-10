@@ -63,7 +63,7 @@ class CustomerFactory extends BaseFactory
 
             'country_id' => Country::all()->random(),
             'language_id' => Language::factory(),
-            'department_id' => Department::factory(),
+            'department_id' => Department::inRandomOrder()->first(),
             'desk_id' => Desk::factory(),
 
             'conversion_sale_status_id' => SaleStatus::factory(),
