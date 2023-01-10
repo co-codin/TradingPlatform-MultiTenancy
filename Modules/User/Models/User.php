@@ -30,6 +30,7 @@ use Modules\Geo\Models\Country;
 use Modules\Language\Models\Language;
 use Modules\Role\Models\Role;
 use Modules\Role\Models\Traits\HasRoles;
+use Modules\Token\Models\Token;
 use Modules\User\Database\factories\UserFactory;
 use Modules\User\Events\UserCreated;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
@@ -352,5 +353,15 @@ final class User extends Authenticatable
     public function notifications(): MorphMany
     {
         return $this->morphMany(DatabaseNotification::class, 'notifiable')->latest();
+    }
+
+    /**
+     * Affiliate Token
+     *
+     * @return hasMany
+     */
+    public function affiliateToken(): hasMany
+    {
+        return $this->hasMany(Token::class);
     }
 }
