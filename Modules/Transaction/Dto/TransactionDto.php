@@ -17,11 +17,24 @@ final class TransactionDto extends BaseDto
      */
     public ?int $worker_id;
     /**
-     * @var int|null
+     * @var bool|int|null
      */
-    public ?int $is_test;
+    public ?bool $is_test;
     /**
      * @var int|null
      */
     public ?int $method_id;
+    /**
+     * @var string|null
+     */
+    public ?string $description;
+    /**
+     * @var string|null
+     */
+    public ?string $external_id;
+    /**
+     * @var float|null
+     */
+    public ?float $amount;
 }
+// -Amount(если статус Pending. При изменении суммы, нужно также проверять курс валют и записывать поле amount_usd)

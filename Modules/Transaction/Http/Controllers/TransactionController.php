@@ -163,6 +163,21 @@ final class TransactionController extends Controller
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
+     *                 required={
+     *                     "amount",
+     *                     "method_id",
+     *                     "is_test",
+     *                     "worker_id",
+     *                     "status_id",
+     *                     "external_id",
+     *                 },
+     *                 @OA\Property(property="amount", type="float", description="Amount of transaction"),
+     *                 @OA\Property(property="method_id", type="integer", description="Method ID"),
+     *                 @OA\Property(property="is_test", type="boolean", description="Is test"),
+     *                 @OA\Property(property="worker_id", type="integer", description="Worker ID"),
+     *                 @OA\Property(property="status_id", type="integer", description="Status ID"),
+     *                 @OA\Property(property="external_id", type="string", description="External ID"),
+     *                 @OA\Property(property="description", type="string", description="Description"),
      *             )
      *         )
      *     ),
@@ -204,6 +219,13 @@ final class TransactionController extends Controller
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
+     *                 @OA\Property(property="amount", type="float", description="Amount of transaction"),
+     *                 @OA\Property(property="method_id", type="integer", description="Method ID"),
+     *                 @OA\Property(property="is_test", type="boolean", description="Is test"),
+     *                 @OA\Property(property="worker_id", type="integer", description="Worker ID"),
+     *                 @OA\Property(property="status_id", type="integer", description="Status ID"),
+     *                 @OA\Property(property="external_id", type="string", description="External ID"),
+     *                 @OA\Property(property="description", type="string", description="Description"),
      *             )
      *         )
      *     ),
@@ -262,7 +284,7 @@ final class TransactionController extends Controller
      *                        @OA\Property(property="id", type="integer", description="Transaction ID"),
      *                        @OA\Property(property="status_id", type="integer", description="Status ID"),
      *                        @OA\Property(property="worker_id", type="integer", description="Worker ID"),
-     *                        @OA\Property(property="is_test", type="integer", description="Is test"),
+     *                        @OA\Property(property="is_test", type="boolean", description="Is test"),
      *                        @OA\Property(property="method_id", type="integer", description="Method ID"),
      *                    )
      *                )
