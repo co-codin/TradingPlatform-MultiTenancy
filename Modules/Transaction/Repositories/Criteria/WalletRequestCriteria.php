@@ -10,7 +10,7 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-final class TransactionsWalletRequestCriteria extends BaseCriteria
+final class WalletRequestCriteria extends BaseCriteria
 {
     protected static array $allowedModelFields = [
         'id',

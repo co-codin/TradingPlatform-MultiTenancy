@@ -6,7 +6,7 @@ namespace Modules\Transaction\Dto;
 
 use App\Dto\BaseDto;
 
-final class TransactionsWalletDto extends BaseDto
+final class WalletDto extends BaseDto
 {
     /**
      * @var string|null $name
