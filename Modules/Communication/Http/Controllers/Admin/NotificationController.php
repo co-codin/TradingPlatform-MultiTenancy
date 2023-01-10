@@ -10,6 +10,7 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Notifications\Notifiable;
 use Modules\Communication\Enums\NotifiableType;
+use Modules\Communication\Events\NotificationEvent;
 use Modules\Communication\Http\Requests\NotificationSendRequest;
 use Modules\Communication\Http\Resources\NotificationResource;
 use Modules\Communication\Http\Resources\NotificationTemplateResource;
@@ -179,6 +180,15 @@ final class NotificationController extends Controller
         );
 
         $request->validated('immediately') ? $notifiable->notifyNow($notification) : $notifiable->notify($notification);
+
+        NotificationEvent::dispatch(
+            $request->validated('notifiable_type'),
+            $request->validated('notifiable_id'),
+            [
+                'count' => $notifiable->unreadNotifications->count(),
+                'notification' => $notifiable->unreadNotifications->first(),
+            ]
+        );
 
         return response()->noContent();
     }

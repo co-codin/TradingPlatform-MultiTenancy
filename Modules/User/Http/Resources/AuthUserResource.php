@@ -82,6 +82,10 @@ class AuthUserResource extends JsonResource
             'email' => $this->email,
             'permissions' => $this->getPermissionsViaRoles()->pluck('name'),
             'roles' => $this->roles->map->only(['id', 'name', 'guard_name', 'key'])->values(),
+            'notifications' => [
+                'count' => $this->unreadNotifications->count(),
+                'list' => $this->unreadNotifications,
+            ],
         ];
     }
 }
