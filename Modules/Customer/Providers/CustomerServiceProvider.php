@@ -8,6 +8,7 @@ use App\Providers\BaseModuleServiceProvider;
 use App\Services\Auth\PasswordService;
 use Modules\Customer\Http\Controllers\Admin\Auth\PasswordController;
 use Modules\Customer\Http\Controllers\PasswordController as CustomerPasswordController;
+use Modules\Customer\Http\Middleware\AffiliateTokenMiddleware;
 use Modules\Customer\Models\Customer;
 use Modules\Customer\Models\CustomerChatMessage;
 use Modules\Customer\Policies\CustomerChatPolicy;
@@ -42,6 +43,9 @@ final class CustomerServiceProvider extends BaseModuleServiceProvider
         parent::boot();
 
         $this->registerViews();
+
+        $router = $this->app['router'];
+        $router->aliasMiddleware('affiliation-token', AffiliateTokenMiddleware::class);
     }
 
     public function register(): void
