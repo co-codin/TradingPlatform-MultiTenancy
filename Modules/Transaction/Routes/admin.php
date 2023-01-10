@@ -15,6 +15,8 @@ Route::group(['prefix' => 'transactions'], function () {
         Route::get('csv', [TransactionExportController::class, 'csv'])->name('transactions.export.csv');
     });
 
+    Route::patch('/update/batch', [TransactionController::class, 'updateBatch'])->name('transactions.batch.update');
+
     Route::apiResource('statuses', TransactionStatusController::class);
     Route::apiResource('mt5-types', TransactionsMt5TypeController::class);
     Route::apiResource('wallets', WalletController::class);

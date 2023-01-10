@@ -6,9 +6,11 @@ namespace Modules\Customer\Models\Traits;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Modules\Campaign\Models\Campaign;
 use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
 use Modules\Geo\Models\Country;
+use Modules\Language\Models\Language;
 use Modules\Sale\Models\SaleStatus;
 use Modules\Transaction\Models\Transaction;
 use Modules\User\Models\User;
@@ -36,13 +38,53 @@ trait CustomerRelations
     }
 
     /**
+     * Campaign.
+     *
+     * @return BelongsTo
+     */
+    final public function campaign(): BelongsTo
+    {
+        return $this->belongsTo(Campaign::class, 'campaign_id', 'id');
+    }
+
+    /**
      * Country relation.
      *
      * @return BelongsTo
      */
-    public function country(): BelongsTo
+    final public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);
+    }
+
+    /**
+     * Language.
+     *
+     * @return BelongsTo
+     */
+    final public function language(): BelongsTo
+    {
+        return $this->belongsTo(Language::class, 'language_id', 'id');
+    }
+
+    /**
+     * Supposed language.
+     *
+     * @return BelongsTo
+     */
+    final public function supposedLanguage(): BelongsTo
+    {
+        return $this->belongsTo(Language::class, 'supposed_language_id', 'id');
+    }
+
+    /**
+     * Platform language.
+     *
+     * @return BelongsTo
+     */
+    final public function platformLanguage(): BelongsTo
+    {
+        return $this->belongsTo(Language::class, 'platformLanguage', 'id');
     }
 
     /**
@@ -160,7 +202,7 @@ trait CustomerRelations
      *
      * @return HasMany
      */
-    public function transactions(): HasMany
+    final public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class, 'customer_id', 'id');
     }

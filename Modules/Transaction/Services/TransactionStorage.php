@@ -44,4 +44,20 @@ final class TransactionStorage
 
         return $transaction;
     }
+
+    /**
+     * Update Batch
+     *
+     * @param  mixed  $transaction
+     * @param  mixed  $transactionArray
+     * @return Transaction
+     */
+    public function updateBatch(Transaction $transaction, array $transactionArray): Transaction
+    {
+        if (! $transaction->update($transactionArray)) {
+            throw new Exception(__('Can not update transaction'));
+        }
+
+        return $transaction;
+    }
 }

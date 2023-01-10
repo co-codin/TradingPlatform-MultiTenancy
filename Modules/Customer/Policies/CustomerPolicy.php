@@ -135,4 +135,15 @@ final class CustomerPolicy extends BasePolicy
     {
         return $user->can(CustomerPermission::IMPORT_CUSTOMERS);
     }
+
+    /**
+     * View any by affiliate policy.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function viewAnyByAffiliate(User $user): bool
+    {
+        return $user->isAffiliate();
+    }
 }
