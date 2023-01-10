@@ -9294,8 +9294,8 @@
                 "tags": [
                     "Transaction"
                 ],
-                "summary": "Get transaction wallet",
-                "operationId": "f96abf99514a56d53bdc22dcf90f3be7",
+                "summary": "Get wallet",
+                "operationId": "4c0bda3d3c54f60790b4d88d88bae87e",
                 "responses": {
                     "200": {
                         "description": "success",
@@ -9324,8 +9324,8 @@
                 "tags": [
                     "Transaction"
                 ],
-                "summary": "Add a new transaction wallet",
-                "operationId": "48f1df208769c7cf0b5f97aaccf9a8c8",
+                "summary": "Add a new wallet",
+                "operationId": "6521ced0b951f5d55b9e33165928c21d",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -9338,18 +9338,18 @@
                                 ],
                                 "properties": {
                                     "name": {
-                                        "description": "Transaction wallet name"
+                                        "description": "Wallet name"
                                     },
                                     "title": {
-                                        "description": "Transaction wallet title",
+                                        "description": "Wallet title",
                                         "type": "string"
                                     },
                                     "mt5_id": {
-                                        "description": "Transaction wallet mt5_id",
+                                        "description": "Wallet mt5_id",
                                         "type": "string"
                                     },
                                     "currency_id": {
-                                        "description": "Transaction wallet currency_id",
+                                        "description": "Wallet currency_id",
                                         "type": "integer"
                                     }
                                 },
@@ -9391,13 +9391,13 @@
                 "tags": [
                     "Transaction"
                 ],
-                "summary": "Get transaction wallet data",
-                "operationId": "c4acf843286ae6650c40c9851ac3ee32",
+                "summary": "Get wallet data",
+                "operationId": "44923f7737b1750659a2f570e1c6b6c8",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Transaction wallet ID",
+                        "description": "Wallet ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -9435,13 +9435,13 @@
                 "tags": [
                     "Transaction"
                 ],
-                "summary": "Update a transaction wallet",
-                "operationId": "9827fd5e47abd5a946ceaf2b281e3b8b",
+                "summary": "Update a wallet",
+                "operationId": "49f217bf6d44e43ecdd30f9d91e005d9",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Transaction wallet ID",
+                        "description": "Wallet ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -9460,18 +9460,18 @@
                                 ],
                                 "properties": {
                                     "name": {
-                                        "description": "Transaction wallet name"
+                                        "description": "Wallet name"
                                     },
                                     "title": {
-                                        "description": "Transaction wallet title",
+                                        "description": "Wallet title",
                                         "type": "string"
                                     },
                                     "mt5_id": {
-                                        "description": "Transaction wallet mt5_id",
+                                        "description": "Wallet mt5_id",
                                         "type": "string"
                                     },
                                     "currency_id": {
-                                        "description": "Transaction wallet currency_id",
+                                        "description": "Wallet currency_id",
                                         "type": "integer"
                                     }
                                 },
@@ -9514,13 +9514,13 @@
                 "tags": [
                     "Transaction"
                 ],
-                "summary": "Delete a transaction wallet",
-                "operationId": "aa437f64ab976b4b23f09b505acf508b",
+                "summary": "Delete a wallet",
+                "operationId": "8d790d5b7ff87d680c4791c06b111689",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Transaction wallet ID",
+                        "description": "Wallet ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -9551,13 +9551,13 @@
                 "tags": [
                     "Transaction"
                 ],
-                "summary": "Update a transaction wallet",
-                "operationId": "90e641594e25e39fd1c37da447c3ff2b",
+                "summary": "Update a wallet",
+                "operationId": "818f43d8dec8a14bbb6b8eef8fb95f2a",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Transaction wallet ID",
+                        "description": "Wallet ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -9570,18 +9570,18 @@
                             "schema": {
                                 "properties": {
                                     "name": {
-                                        "description": "Transaction wallet name"
+                                        "description": "Wallet name"
                                     },
                                     "title": {
-                                        "description": "Transaction wallet title",
+                                        "description": "Wallet title",
                                         "type": "string"
                                     },
                                     "mt5_id": {
-                                        "description": "Transaction wallet mt5_id",
+                                        "description": "Wallet mt5_id",
                                         "type": "string"
                                     },
                                     "currency_id": {
-                                        "description": "Transaction wallet currency_id",
+                                        "description": "Wallet currency_id",
                                         "type": "integer"
                                     }
                                 },
@@ -9792,43 +9792,6 @@
                     }
                 ]
             },
-            "delete": {
-                "tags": [
-                    "Transaction"
-                ],
-                "summary": "Delete a transaction",
-                "operationId": "c3465f2b6d47f27b3a5d54365ff6bc3e",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Transaction ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No content"
-                    },
-                    "401": {
-                        "description": "Unauthorized Error"
-                    },
-                    "403": {
-                        "description": "Forbidden Error"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            },
             "patch": {
                 "tags": [
                     "Transaction"
@@ -9866,6 +9829,86 @@
                     },
                     "400": {
                         "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/transactions/update/batch": {
+            "patch": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Batch transaction update",
+                "operationId": "58bebb6fb714916f8bc5ff5b1eb3f6ab",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "transactions"
+                                ],
+                                "properties": {
+                                    "transactions": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Transaction ID",
+                                                    "type": "integer"
+                                                },
+                                                "status_id": {
+                                                    "description": "Status ID",
+                                                    "type": "integer"
+                                                },
+                                                "worker_id": {
+                                                    "description": "Worker ID",
+                                                    "type": "integer"
+                                                },
+                                                "is_test": {
+                                                    "description": "Is test",
+                                                    "type": "integer"
+                                                },
+                                                "method_id": {
+                                                    "description": "Method ID",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionResource"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "Unauthorized Error"
@@ -14804,23 +14847,23 @@
                 ],
                 "properties": {
                     "id": {
-                        "description": "Transaction wallet ID",
+                        "description": "Wallet ID",
                         "type": "integer"
                     },
                     "name": {
-                        "description": "Transaction wallet name",
+                        "description": "Wallet name",
                         "type": "string"
                     },
                     "title": {
-                        "description": "Transaction wallet title",
+                        "description": "Wallet title",
                         "type": "string"
                     },
                     "mt5_id": {
-                        "description": "Transaction wallet mt5_id",
+                        "description": "Wallet mt5_id",
                         "type": "string"
                     },
                     "currency_id": {
-                        "description": "Transaction wallet currency_id",
+                        "description": "Wallet currency_id",
                         "type": "integer"
                     },
                     "created_at": {
@@ -15260,7 +15303,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Modules\Transaction\Admin\Wallet;
 
 use Modules\Currency\Models\Currency;
-use Modules\Transaction\Enums\TransactionsWalletPermission;
-use Modules\Transaction\Models\TransactionsWallet;
+use Modules\Transaction\Enums\WalletPermission;
+use Modules\Transaction\Models\Wallet;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
@@ -22,13 +22,13 @@ final class ReadTest extends BrandTestCase
     public function can_view_any(): void
     {
         $this->authenticateWithPermission(
-            TransactionsWalletPermission::fromValue(TransactionsWalletPermission::VIEW_TRANSACTION_WALLET)
+            WalletPermission::fromValue(WalletPermission::VIEW_WALLET)
         );
 
         $this->brand->makeCurrent();
 
         Currency::truncate();
-        $transactionsWallet = TransactionsWallet::factory(10)->create();
+        $transactionsWallet = Wallet::factory(10)->create();
 
         $response = $this->get(route('admin.transaction-wallets.index'));
 
@@ -59,13 +59,13 @@ final class ReadTest extends BrandTestCase
     public function can_view(): void
     {
         $this->authenticateWithPermission(
-            TransactionsWalletPermission::fromValue(TransactionsWalletPermission::VIEW_TRANSACTION_WALLET)
+            WalletPermission::fromValue(WalletPermission::VIEW_WALLET)
         );
 
         $this->brand->makeCurrent();
 
         Currency::truncate();
-        $transactionsWallet = TransactionsWallet::factory()->create();
+        $transactionsWallet = Wallet::factory()->create();
 
         $response = $this->get(route('admin.transaction-wallets.show', ['transaction_wallet' => $transactionsWallet]));
 
@@ -83,7 +83,7 @@ final class ReadTest extends BrandTestCase
         $this->brand->makeCurrent();
 
         Currency::truncate();
-        $transactionsWallet = TransactionsWallet::factory()->create();
+        $transactionsWallet = Wallet::factory()->create();
 
         $response = $this->get(route('admin.transaction-wallets.show', ['transaction_wallet' => $transactionsWallet]));
 
@@ -100,7 +100,7 @@ final class ReadTest extends BrandTestCase
         $this->brand->makeCurrent();
 
         Currency::truncate();
-        $transactionsWalletId = TransactionsWallet::query()->orderByDesc('id')->first()?->id + 1 ?? 1;
+        $transactionsWalletId = Wallet::query()->orderByDesc('id')->first()?->id + 1 ?? 1;
 
         $response = $this->get(route('admin.transaction-wallets.show', ['transaction_wallet' => $transactionsWalletId]));
 
@@ -125,7 +125,7 @@ final class ReadTest extends BrandTestCase
         $this->brand->makeCurrent();
 
         Currency::truncate();
-        $transactionsWallet = TransactionsWallet::factory()->create();
+        $transactionsWallet = Wallet::factory()->create();
 
         $response = $this->get(route('admin.transaction-wallets.show', ['transaction_wallet' => $transactionsWallet]));
 

@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace Modules\Transaction\Services;
 
 use Exception;
-use Modules\Transaction\Models\Transaction;
 use Modules\Transaction\Dto\TransactionDto;
+use Modules\Transaction\Models\Transaction;
 
 final class TransactionStorage
 {
     /**
      * Store.
      *
-     * @param TransactionDto $transactionDto
+     * @param  TransactionDto  $transactionDto
      * @return Transaction
+     *
      * @throws Exception
      */
     public function store(TransactionDto $transactionDto): Transaction
@@ -29,9 +30,10 @@ final class TransactionStorage
     /**
      * Update.
      *
-     * @param Transaction $transaction
-     * @param TransactionDto $transactionDto
+     * @param  Transaction  $transaction
+     * @param  TransactionDto  $transactionDto
      * @return Transaction
+     *
      * @throws Exception
      */
     public function update(Transaction $transaction, TransactionDto $transactionDto): Transaction
@@ -44,16 +46,18 @@ final class TransactionStorage
     }
 
     /**
-     * Destroy.
+     * Update Batch
      *
-     * @param Transaction $transaction
-     * @return void
-     * @throws Exception
+     * @param  mixed  $transaction
+     * @param  mixed  $transactionArray
+     * @return Transaction
      */
-    public function destroy(Transaction $transaction): void
+    public function updateBatch(Transaction $transaction, array $transactionArray): Transaction
     {
-        if (! $transaction->delete()) {
-            throw new Exception(__('Can not delete transaction'));
+        if (! $transaction->update($transactionArray)) {
+            throw new Exception(__('Can not update transaction'));
         }
+
+        return $transaction;
     }
 }
