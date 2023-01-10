@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Modules\DisplayOption\DisplayOption;
+namespace Tests\Feature\Modules\User\DisplayOption;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\User\Models\DisplayOption;
