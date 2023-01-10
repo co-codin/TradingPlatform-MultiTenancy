@@ -27,6 +27,16 @@ trait HasRoles
     }
 
     /**
+     * Is affiliate.
+     *
+     * @return bool
+     */
+    public function isAffiliate(): bool
+    {
+        return $this->hasRole(DefaultRole::AFFILIATE);
+    }
+
+    /**
      * Get admin.
      *
      * @return Model|null

@@ -7,7 +7,6 @@ namespace Tests\Feature\Modules\User;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
 use Tests\TestCase;
-use Tests\Traits\HasAuth;
 
 final class ExportTest extends TestCase
 {
