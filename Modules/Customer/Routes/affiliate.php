@@ -8,6 +8,6 @@ Route::group(['middleware' => 'affiliation-token'], function () {
     Route::post('auth/register', [RegisterController::class, 'register']);
 
     Route::group(['middleware' => 'auth:api'], function () {
-        Route::apiResource('customers', CustomerController::class)->only(['index', 'show']);
+        Route::apiResource('customers', CustomerController::class)->only(['index']);
     });
 });

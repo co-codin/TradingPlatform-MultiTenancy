@@ -53,51 +53,10 @@ final class CustomerController extends Controller
     {
         $this->authorize('viewAnyByAffiliate', Customer::class);
 
-        return CustomerResource::collection($this->customerRepository->jsonPaginate());
-    }
-
-    /**
-     * @OA\Get(
-     *      path="/affiliate/customers/{id}",
-     *      security={ {"sanctum": {} }},
-     *      tags={"Customer"},
-     *      summary="Get affiliate customer",
-     *      description="Returns customer data.",
-     *      @OA\Parameter(
-     *         description="Customer ID",
-     *         in="path",
-     *         name="id",
-     *         required=true,
-     *         @OA\Schema(type="integer"),
-     *      ),
-     *      @OA\Response(
-     *          response=201,
-     *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/CustomerResource")
-     *       ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      )
-     * )
-     *
-     * Show the customer.
-     *
-     * @param  int  $id
-     * @return JsonResource
-     *
-     * @throws AuthorizationException
-     */
-    public function show(int $id): JsonResource
-    {
-        $customer = $this->customerRepository->find($id);
-
-        $this->authorize('viewByAffiliate', $customer);
-
-        return new CustomerResource($customer);
+        return CustomerResource::collection(
+            $this->customerRepository
+                ->where('affiliate_user_id', auth()->id())
+                ->jsonPaginate()
+        );
     }
 }
