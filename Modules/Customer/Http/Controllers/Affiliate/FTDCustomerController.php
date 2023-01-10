@@ -22,32 +22,9 @@ final class FTDCustomerController extends Controller
     }
 
     /**
-     * @OA\Get(
-     *      path="/affiliate/ftd-customers",
-     *      security={ {"sanctum": {} }},
-     *      tags={"Customer"},
-     *      summary="Get ftd customers list",
-     *      description="Returns ftd customers list data.",
-     *      @OA\Response(
-     *          response=201,
-     *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/FTDCustomerCollection")
-     *       ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      )
-     * )
-     *
      * Display ftd customer list.
      *
      * @return JsonResource
-     *
-     * @throws AuthorizationException
      */
     public function index(): JsonResource
     {

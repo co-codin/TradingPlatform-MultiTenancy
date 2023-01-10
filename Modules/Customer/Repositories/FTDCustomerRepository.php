@@ -4,7 +4,7 @@ namespace Modules\Customer\Repositories;
 
 use App\Repositories\BaseRepository;
 use Modules\Customer\Models\Customer;
-use Modules\Customer\Repositories\Criteria\FTDCustomerRequestCriteria;
+use Modules\Customer\Repositories\Criteria\CustomerRequestCriteria;
 
 class FTDCustomerRepository extends BaseRepository
 {
@@ -21,6 +21,6 @@ class FTDCustomerRepository extends BaseRepository
      */
     public function boot()
     {
-        $this->pushCriteria(FTDCustomerRequestCriteria::class);
+        $this->pushCriteria(CustomerRequestCriteria::class);
     }
 }
