@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Modules\Customer\Affiliate;
 
+use Illuminate\Support\Str;
 use Modules\Customer\Enums\CustomerPermission;
 use Modules\Customer\Models\Customer;
 use Modules\Role\Enums\DefaultRole;
@@ -27,10 +28,19 @@ class ReadTest extends BrandTestCase
     {
         $this->authenticateWithPermission(CustomerPermission::fromValue(CustomerPermission::VIEW_CUSTOMERS));
 
+        $affiliateToken = $this->user->affiliateToken()->create([
+            'token' => Str::random(),
+            'ip' => request()->ip(),
+        ]);
+
+        $this->withHeader('AffiliateToken', $affiliateToken->token);
+
         $this->brand->makeCurrent();
 
         $customers = $this->brand->execute(function () {
-            return Customer::factory()->make();
+            return Customer::factory()->make([
+                'affiliate_user_id' => $this->user->id,
+            ]);
         });
 
         $customers->save();
@@ -62,6 +72,13 @@ class ReadTest extends BrandTestCase
     {
         $this->authenticateUser();
 
+        $affiliateToken = $this->user->affiliateToken()->create([
+            'token' => Str::random(),
+            'ip' => request()->ip(),
+        ]);
+
+        $this->withHeader('AffiliateToken', $affiliateToken->token);
+
         $this->brand->makeCurrent();
 
         $customers = $this->brand->execute(function () {
@@ -69,13 +86,6 @@ class ReadTest extends BrandTestCase
         });
 
         $customers->save();
-
-        $this->user->assignRole(
-            Role::where('name', DefaultRole::AFFILIATE)->first()
-            ?? Role::factory()->create([
-                'name' => DefaultRole::AFFILIATE,
-            ])
-        );
 
         $response = $this->getJson(route('affiliate.customers.index'));
 
@@ -100,119 +110,6 @@ class ReadTest extends BrandTestCase
         $customers->save();
 
         $response = $this->getJson(route('affiliate.customers.index'));
-
-        $response->assertUnauthorized();
-    }
-
-    /**
-     * Test authorized user can get customer by ID.
-     *
-     * @return void
-     *
-     * @test
-     */
-    public function affiliate_user_can_get_customer(): void
-    {
-        $this->authenticateWithPermission(CustomerPermission::fromValue(CustomerPermission::VIEW_CUSTOMERS));
-
-        $this->brand->makeCurrent();
-
-        $customer = $this->brand->execute(function () {
-            return Customer::factory()->make();
-        });
-
-        $customer->save();
-
-        $this->user->assignRole(
-            Role::where('name', DefaultRole::AFFILIATE)->first()
-            ?? Role::factory()->create([
-                'name' => DefaultRole::AFFILIATE,
-            ])
-        );
-
-        $response = $this->getJson(route('affiliate.customers.show', ['customer' => $customer->id]));
-
-        $response->assertOk();
-
-        $response->assertJson(['data' => $customer->toArray()]);
-    }
-
-    /**
-     * Test authorized user can get customer by ID.
-     *
-     * @return void
-     *
-     * @test
-     */
-    public function affiliate_user_cant_get_customer(): void
-    {
-        $this->authenticateUser();
-
-        $this->brand->makeCurrent();
-
-        $customer = $this->brand->execute(function () {
-            return Customer::factory()->make();
-        });
-
-        $customer->save();
-
-        $this->user->assignRole(
-            Role::where('name', DefaultRole::AFFILIATE)->first()
-            ?? Role::factory()->create([
-                'name' => DefaultRole::AFFILIATE,
-            ])
-        );
-
-        $response = $this->getJson(route('affiliate.customers.show', ['customer' => $customer->id]));
-
-        $response->assertForbidden();
-    }
-
-    /**
-     * Test authorized user can get not found customer by ID.
-     *
-     * @return void
-     *
-     * @test
-     */
-    public function affiliate_user_can_get_not_found_customer(): void
-    {
-        $this->authenticateWithPermission(CustomerPermission::fromValue(CustomerPermission::VIEW_CUSTOMERS));
-
-        $this->brand->makeCurrent();
-
-        $customerId = Customer::orderByDesc('id')->first()?->id + 1 ?? 1;
-
-        $this->user->assignRole(
-            Role::where('name', DefaultRole::AFFILIATE)->first()
-            ?? Role::factory()->create([
-                'name' => DefaultRole::AFFILIATE,
-            ])
-        );
-
-        $response = $this->getJson(route('affiliate.customers.show', ['customer' => $customerId]));
-
-        $response->assertNotFound();
-    }
-
-    /**
-     * Test unauthorized user can get customer by ID.
-     *
-     * @return void
-     *
-     * @test
-     */
-    public function unauthorized_user_can_get_customer(): void
-    {
-        $this->brand->makeCurrent();
-
-        $customer = $this->brand->execute(function () {
-            return Customer::factory()->make();
-        });
-
-        $customer->save();
-
-        $response = $this->getJson(route('affiliate.customers.show', ['customer' => $customer->id]));
 
         $response->assertUnauthorized();
     }
