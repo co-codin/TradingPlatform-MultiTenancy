@@ -5287,6 +5287,39 @@
                 ]
             }
         },
+        "/affiliate/ftd-customers": {
+            "get": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Get ftd customers list",
+                "description": "Returns ftd customers list data.",
+                "operationId": "799145978c5074390556e39362339ba1",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FTDCustomerCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/customer/auth/login": {
             "post": {
                 "tags": [
@@ -13904,6 +13937,341 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/Customer"
+                    }
+                },
+                "type": "object"
+            },
+            "FTDCustomer": {
+                "required": [
+                    "id",
+                    "first_name",
+                    "last_name",
+                    "gender",
+                    "password",
+                    "email",
+                    "phone",
+                    "country_id",
+                    "language_id"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Worker ID",
+                        "type": "integer"
+                    },
+                    "first_name": {
+                        "description": "First name",
+                        "type": "string"
+                    },
+                    "last_name": {
+                        "description": "Last name",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "Email",
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "phone": {
+                        "description": "Phone",
+                        "type": "string",
+                        "format": "phone"
+                    },
+                    "phone2": {
+                        "description": "Second phone",
+                        "type": "string",
+                        "format": "phone",
+                        "nullable": "true"
+                    },
+                    "birthday": {
+                        "description": "Birthday",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "country_id": {
+                        "description": "Country id",
+                        "type": "integer"
+                    },
+                    "language_id": {
+                        "description": "Language id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "supposed_language_id": {
+                        "description": "Supposed language id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "platform_language_id": {
+                        "description": "Platform language id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "state": {
+                        "description": "State",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "city": {
+                        "description": "City",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "address": {
+                        "description": "Address",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "postal_code": {
+                        "description": "Postal code",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "verification_status_id": {
+                        "description": "Verification status id",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "is_demo": {
+                        "description": "Is demo",
+                        "type": "boolean"
+                    },
+                    "is_active": {
+                        "description": "Is active",
+                        "type": "boolean"
+                    },
+                    "is_active_trading": {
+                        "description": "Is active trading",
+                        "type": "boolean"
+                    },
+                    "is_test": {
+                        "description": "Is test",
+                        "type": "boolean"
+                    },
+                    "affiliate_user_id": {
+                        "description": "Affiliate user id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "conversion_user_id": {
+                        "description": "Conversion user id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "retention_user_id": {
+                        "description": "Retention user id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "compliance_user_id": {
+                        "description": "Compliance user id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "support_user_id": {
+                        "description": "Support user id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "conversion_manager_user_id": {
+                        "description": "Conversion manager user id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "retention_manager_user_id": {
+                        "description": "Retention manager user id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "first_conversion_user_id": {
+                        "description": "First conversion user id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "first_retention_user_id": {
+                        "description": "First retention user id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "desk_id": {
+                        "description": "Desk id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "department_id": {
+                        "description": "Department id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "last_online": {
+                        "description": "Last online",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": "true"
+                    },
+                    "first_autologin_time": {
+                        "description": "First auto login time",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": "true"
+                    },
+                    "first_login_time": {
+                        "description": "First login time",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": "true"
+                    },
+                    "first_deposit_date": {
+                        "description": "First deposit date",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": "true"
+                    },
+                    "last_approved_deposit_date": {
+                        "description": "last approved deposit date",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": "true"
+                    },
+                    "last_pending_deposit_date": {
+                        "description": "last pending deposit date",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": "true"
+                    },
+                    "last_pending_withdrawal_date": {
+                        "description": "last pending withdrawal date",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": "true"
+                    },
+                    "last_communication_date": {
+                        "description": "last communication date",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": "true"
+                    },
+                    "banned_at": {
+                        "description": "Banned at",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": "true"
+                    },
+                    "campaign_id": {
+                        "description": "Campaign id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "offer_name": {
+                        "description": "Offer name",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "offer_url": {
+                        "description": "Offer url",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "comment_about_customer": {
+                        "description": "Comment about customer",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "source": {
+                        "description": "Source",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "click_id": {
+                        "description": "Click id",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "free_param_1": {
+                        "description": "Free param 1",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "free_param_2": {
+                        "description": "Free param 2",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "free_param_3": {
+                        "description": "Free param 3",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "balance": {
+                        "description": "Balance",
+                        "type": "number",
+                        "format": "float",
+                        "nullable": "true"
+                    },
+                    "balance_usd": {
+                        "description": "Balance USD",
+                        "type": "number",
+                        "format": "float",
+                        "nullable": "true"
+                    },
+                    "is_ftd": {
+                        "description": "Is FTD",
+                        "type": "boolean",
+                        "nullable": "true"
+                    },
+                    "timezone": {
+                        "description": "Timezone",
+                        "type": "string",
+                        "nullable": "true"
+                    },
+                    "created_at": {
+                        "description": "Date and time of creation",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "updated_at": {
+                        "description": "Date and time of last update",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "deleted_at": {
+                        "description": "Date and time of soft delete",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "FTDCustomerCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FTDCustomer"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "FTDCustomerResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/FTDCustomer"
                     }
                 },
                 "type": "object"
