@@ -19,6 +19,8 @@ Route::group(['prefix' => 'transactions'], function () {
     Route::apiResource('mt5-types', TransactionsMt5TypeController::class);
     Route::apiResource('wallets', WalletController::class);
     Route::apiResource('methods', TransactionsMethodController::class);
+
+    Route::patch('/update/batch', [TransactionController::class, 'updateBatch'])->name('transactions.batch.update');
 });
 
 Route::apiResource('transactions', TransactionController::class);

@@ -9814,6 +9814,86 @@
                 ]
             }
         },
+        "/admin/transactions/update/batch": {
+            "patch": {
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "Batch transaction update",
+                "operationId": "58bebb6fb714916f8bc5ff5b1eb3f6ab",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "transactions"
+                                ],
+                                "properties": {
+                                    "transactions": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Transaction ID",
+                                                    "type": "integer"
+                                                },
+                                                "status_id": {
+                                                    "description": "Status ID",
+                                                    "type": "integer"
+                                                },
+                                                "worker_id": {
+                                                    "description": "Worker ID",
+                                                    "type": "integer"
+                                                },
+                                                "is_test": {
+                                                    "description": "Is test",
+                                                    "type": "integer"
+                                                },
+                                                "method_id": {
+                                                    "description": "Method ID",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/auth/login": {
             "post": {
                 "tags": [

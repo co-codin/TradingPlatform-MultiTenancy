@@ -7,11 +7,14 @@ namespace Modules\Transaction\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Transaction\Dto\TransactionDto;
 use Modules\Transaction\Http\Requests\TransactionCreateRequest;
+use Modules\Transaction\Http\Requests\TransactionUpdateBatchRequest;
 use Modules\Transaction\Http\Requests\TransactionUpdateRequest;
 use Modules\Transaction\Http\Resources\TransactionResource;
 use Modules\Transaction\Repositories\TransactionRepository;
+use Modules\Transaction\Services\TransactionBatchService;
 use Modules\Transaction\Services\TransactionStorage;
 use OpenApi\Annotations as OA;
 
@@ -20,10 +23,12 @@ final class TransactionController extends Controller
     /**
      * @param  TransactionStorage  $transactionStorage
      * @param  TransactionRepository  $transactionRepository
+     * @param  TransactionBatchService  $transactionBatchService
      */
     public function __construct(
         protected TransactionStorage $transactionStorage,
         protected TransactionRepository $transactionRepository,
+        protected TransactionBatchService $transactionBatchService,
     ) {
     }
 
@@ -239,5 +244,61 @@ final class TransactionController extends Controller
                 TransactionDto::fromFormRequest($request),
             ),
         );
+    }
+
+    /**
+     * @OA\Patch (
+     *     path="/admin/transactions/update/batch",
+     *     tags={"Transaction"},
+     *     security={ {"sanctum": {} }},
+     *     summary="Batch transaction update",
+     *     @OA\RequestBody(
+     *        @OA\MediaType(
+     *            mediaType="application/json",
+     *            @OA\Schema(
+     *                required={"transactions"},
+     *                @OA\Property(property="transactions", type="array",
+     *                    @OA\Items(required={"id"},
+     *                        @OA\Property(property="id", type="integer", description="Transaction ID"),
+     *                        @OA\Property(property="status_id", type="integer", description="Status ID"),
+     *                        @OA\Property(property="worker_id", type="integer", description="Worker ID"),
+     *                        @OA\Property(property="is_test", type="integer", description="Is test"),
+     *                        @OA\Property(property="method_id", type="integer", description="Method ID"),
+     *                    )
+     *                )
+     *            ),
+     *        ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Ok",
+     *         @OA\JsonContent(ref="#/components/schemas/TransactionResource")
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized Error"
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Forbidden Error"
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Not Found"
+     *     )
+     * )
+     *
+     * Update batch transaction.
+     *
+     * @param  TransactionUpdateBatchRequest  $request
+     * @return JsonResource
+     *
+     * @throws Exception
+     */
+    public function updateBatch(TransactionUpdateBatchRequest $request): JsonResource
+    {
+        $transactions = $this->transactionBatchService->setAuthUser($request->user())->updateBatch($request->validated('transactions', []));
+
+        return TransactionResource::collection($transactions);
     }
 }
