@@ -6,7 +6,7 @@ namespace Modules\Transaction\Enums;
 
 use BenSampo\Enum\Enum;
 
-final class TransactionMt5TypeName extends Enum
+final class TransactionMt5TypeEnum extends Enum
 {
     /**
      * @var string

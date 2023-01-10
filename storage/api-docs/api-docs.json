@@ -9661,7 +9661,78 @@
                 "requestBody": {
                     "content": {
                         "application/json": {
-                            "schema": {}
+                            "schema": {
+                                "required": [
+                                    "type",
+                                    "mt5_type",
+                                    "status",
+                                    "amount",
+                                    "customer_id",
+                                    "method_id",
+                                    "wallet_id"
+                                ],
+                                "properties": {
+                                    "type": {
+                                        "description": "Transaction type",
+                                        "type": "string",
+                                        "enum": [
+                                            "withdrawal",
+                                            "deposit"
+                                        ]
+                                    },
+                                    "mt5_type": {
+                                        "description": "Transaction MT5 type",
+                                        "type": "string",
+                                        "enum": [
+                                            "balance",
+                                            "credit",
+                                            "charge",
+                                            "correction",
+                                            "bonus"
+                                        ]
+                                    },
+                                    "status": {
+                                        "description": "Transaction status",
+                                        "type": "string",
+                                        "enum": [
+                                            "approved",
+                                            "declined",
+                                            "canceled",
+                                            "pending"
+                                        ]
+                                    },
+                                    "amount": {
+                                        "description": "ID of customer",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "customer_id": {
+                                        "description": "ID of customer",
+                                        "type": "integer"
+                                    },
+                                    "method_id": {
+                                        "description": "ID of method",
+                                        "type": "integer"
+                                    },
+                                    "wallet_id": {
+                                        "description": "ID of wallet",
+                                        "type": "integer"
+                                    },
+                                    "external_id": {
+                                        "description": "ID of transaction in external service",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Transaction description",
+                                        "type": "string"
+                                    },
+                                    "is_test": {
+                                        "description": "Test transaction flag",
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
                         }
                     }
                 },

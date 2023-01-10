@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Modules\Transaction\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Modules\Transaction\Enums\TransactionStatusName;
+use Modules\Transaction\Enums\TransactionStatusEnum;
 use Modules\Transaction\Models\TransactionStatus;
 
 final class TransactionStatusFactory extends Factory
@@ -23,7 +23,7 @@ final class TransactionStatusFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->randomElement(TransactionStatusName::asArray()),
+            'name' => $this->faker->randomElement(TransactionStatusEnum::asArray()),
             'title' => $this->faker->title(),
             'is_active' => $this->faker->boolean(),
             'is_valid' => $this->faker->boolean(),

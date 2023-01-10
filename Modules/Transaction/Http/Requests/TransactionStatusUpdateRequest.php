@@ -6,7 +6,7 @@ namespace Modules\Transaction\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
 use BenSampo\Enum\Rules\EnumValue;
-use Modules\Transaction\Enums\TransactionStatusName;
+use Modules\Transaction\Enums\TransactionStatusEnum;
 
 final class TransactionStatusUpdateRequest extends BaseFormRequest
 {
@@ -21,7 +21,7 @@ final class TransactionStatusUpdateRequest extends BaseFormRequest
                 'required',
                 'string',
                 'max:255',
-                new EnumValue(TransactionStatusName::class, false),
+                new EnumValue(TransactionStatusEnum::class, false),
             ],
             'title' => 'sometimes|required|string|max:255',
             'is_active' => 'sometimes|required|boolean|max:255',

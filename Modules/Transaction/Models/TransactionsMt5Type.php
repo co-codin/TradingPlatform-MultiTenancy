@@ -7,7 +7,7 @@ namespace Modules\Transaction\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Transaction\Database\factories\TransactionsMt5TypeFactory;
-use Modules\Transaction\Enums\TransactionMt5TypeName;
+use Modules\Transaction\Enums\TransactionMt5TypeEnum;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 final class TransactionsMt5Type extends Model
@@ -24,7 +24,7 @@ final class TransactionsMt5Type extends Model
      * {@inheritdoc}
      */
     protected $casts = [
-        'name' => TransactionMt5TypeName::class,
+        'name' => TransactionMt5TypeEnum::class,
     ];
 
     /**

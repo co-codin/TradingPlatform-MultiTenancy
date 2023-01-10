@@ -20,13 +20,13 @@ use OpenApi\Annotations as OA;
 final class TransactionController extends Controller
 {
     /**
-     * @param  TransactionStorage  $transactionStorage
-     * @param  TransactionRepository  $transactionRepository
+     * @param  TransactionStorage  $storage
+     * @param  TransactionRepository  $repository
      * @param  TransactionBatchService  $transactionBatchService
      */
     public function __construct(
-        protected TransactionStorage $transactionStorage,
-        protected TransactionRepository $transactionRepository,
+        protected TransactionStorage $storage,
+        protected TransactionRepository $repository,
         protected TransactionBatchService $transactionBatchService,
     ) {
     }
@@ -56,7 +56,7 @@ final class TransactionController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        return TransactionResource::collection($this->transactionRepository->jsonPaginate());
+        return TransactionResource::collection($this->repository->jsonPaginate());
     }
 
     /**
@@ -97,7 +97,7 @@ final class TransactionController extends Controller
     public function show(int $id): TransactionResource
     {
         return new TransactionResource(
-            $this->transactionRepository->find($id),
+            $this->repository->find($id),
         );
     }
 
@@ -111,6 +111,25 @@ final class TransactionController extends Controller
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
+     *                 required={
+     *                     "type",
+     *                     "mt5_type",
+     *                     "status",
+     *                     "amount",
+     *                     "customer_id",
+     *                     "method_id",
+     *                     "wallet_id"
+     *                 },
+     *                 @OA\Property(property="type", type="string", enum={"withdrawal", "deposit"}, description="Transaction type"),
+     *                 @OA\Property(property="mt5_type", type="string", enum={"balance", "credit", "charge", "correction", "bonus"}, description="Transaction MT5 type"),
+     *                 @OA\Property(property="status", type="string", enum={"approved", "declined", "canceled", "pending"}, description="Transaction status"),
+     *                 @OA\Property(property="amount", type="number", format="float", description="ID of customer"),
+     *                 @OA\Property(property="customer_id", type="integer", description="ID of customer"),
+     *                 @OA\Property(property="method_id", type="integer", description="ID of method"),
+     *                 @OA\Property(property="wallet_id", type="integer", description="ID of wallet"),
+     *                 @OA\Property(property="external_id", type="string", description="ID of transaction in external service"),
+     *                 @OA\Property(property="description", type="string", description="Transaction description"),
+     *                 @OA\Property(property="is_test", type="boolean", description="Test transaction flag"),
      *             )
      *         )
      *     ),
@@ -141,7 +160,7 @@ final class TransactionController extends Controller
     public function store(TransactionCreateRequest $request): TransactionResource
     {
         return new TransactionResource(
-            $this->transactionStorage->store(TransactionDto::fromFormRequest($request)),
+            $this->storage->store(TransactionDto::fromFormRequest($request)),
         );
     }
 
@@ -238,8 +257,8 @@ final class TransactionController extends Controller
     public function update(TransactionUpdateRequest $request, int $id): TransactionResource
     {
         return new TransactionResource(
-            $this->transactionStorage->update(
-                $this->transactionRepository->find($id),
+            $this->storage->update(
+                $this->repository->find($id),
                 TransactionDto::fromFormRequest($request),
             ),
         );
@@ -296,7 +315,9 @@ final class TransactionController extends Controller
      */
     public function updateBatch(TransactionUpdateBatchRequest $request): AnonymousResourceCollection
     {
-        $transactions = $this->transactionBatchService->setAuthUser($request->user())->updateBatch($request->validated('transactions', []));
+        $transactions = $this->transactionBatchService
+            ->setAuthUser($request->user())
+            ->updateBatch($request->validated('transactions', []));
 
         return TransactionResource::collection($transactions);
     }
