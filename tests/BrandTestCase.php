@@ -28,17 +28,6 @@ abstract class BrandTestCase extends BaseTestCase
     {
         (new static())->refreshApplication();
 
-        if ($token = \Illuminate\Support\Facades\ParallelTesting::token()) {
-
-            $dbname = 'testing_test_' . $token;
-
-            config([
-                "database.connections.pgsql.database" => $dbname,
-                "database.connections.tenant.database" => $dbname,
-                "database.connections.landlord.database" => $dbname,
-            ]);
-        }
-
         $schemas = DB::select("
                 SELECT schema_name
                 FROM information_schema.schemata
@@ -59,17 +48,6 @@ abstract class BrandTestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        if ($token = \Illuminate\Support\Facades\ParallelTesting::token()) {
-
-            $dbname = 'testing_test_' . $token;
-
-            config([
-                "database.connections.pgsql.database" => $dbname,
-                "database.connections.tenant.database" => $dbname,
-                "database.connections.landlord.database" => $dbname,
-            ]);
-        }
 
         $this->withoutMiddleware(VerifyCsrfToken::class);
 
