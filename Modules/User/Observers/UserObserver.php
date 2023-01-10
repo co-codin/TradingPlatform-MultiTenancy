@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\User\Observers;
 
+use Illuminate\Support\Str;
 use Modules\Role\Enums\DefaultRole;
 use Modules\User\Models\User;
 
@@ -18,36 +19,12 @@ final class UserObserver
     public function created(User $user): void
     {
         if ($user->affiliate()->exists()) {
-            $this->assignAffiliateAndCreateToken($user);
+            $user->tokens()->create([
+                'token' => Str::random(),
+                'ip' => request()->ip(),
+            ]);
+
+            $user->assignRole(DefaultRole::AFFILIATE);
         }
-    }
-
-    /**
-     * Handle the User "updating" event.
-     *
-     * @param  User  $user
-     * @return void
-     */
-    public function updating(User $user): void
-    {
-        if (! $user->getOriginal('affiliate_id') && $user->affiliate_id) {
-            $this->assignAffiliateAndCreateToken($user);
-        }
-    }
-
-    /**
-     * Assign affiliate user and create token.
-     *
-     * @param User $user
-     * @return void
-     */
-    private function assignAffiliateAndCreateToken(User $user): void
-    {
-        $user->tokens()->create([
-            'token' => 'api',
-            'ip' => request()->ip(),
-        ]);
-
-        $user->assignRole(DefaultRole::AFFILIATE);
     }
 }
