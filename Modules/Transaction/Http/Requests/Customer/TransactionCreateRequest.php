@@ -19,9 +19,7 @@ final class TransactionCreateRequest extends BaseFormRequest
             'type' => ['required', new EnumValue(TransactionType::class)],
             'amount' => 'required|max:20|decimal:10',
             'customer_id' => 'required|int|exists:tenant.customers,id',
-            'status_id' => 'required|int|exists:tenant.transaction_statuses,id',
             'method_id' => 'required|int|exists:tenant.transaction_methods,id',
-            'wallet_id' => 'required|int|exists:tenant.wallets,id',
 
             'external_id' => 'sometimes|required|string|nullable',
             'description' => 'sometimes|required|string|nullable',
