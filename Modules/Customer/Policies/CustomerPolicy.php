@@ -146,4 +146,15 @@ final class CustomerPolicy extends BasePolicy
     {
         return $user->isAffiliate();
     }
+
+    /**
+     * Create by affiliate policy.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function createByAffiliate(User $user): bool
+    {
+        return $user->isAffiliate();
+    }
 }
