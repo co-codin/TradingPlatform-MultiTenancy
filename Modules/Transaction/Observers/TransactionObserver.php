@@ -72,25 +72,6 @@ final class TransactionObserver
     }
 
     /**
-     * Handle the Customer "creating" event.
-     *
-     * @param  Transaction  $transaction
-     * @return void
-     */
-    public function creating(Transaction $transaction): void
-    {
-        if (
-            ! $transaction->is_ftd
-            && $transaction->isDeposit()
-            && $transaction->isApprovedStatus()
-            && $transaction->isBalanceMt5Type()
-            && $transaction->customer->transactions()->count() === 0
-        ) {
-            $transaction->is_ftd = true;
-        }
-    }
-
-    /**
      * Handle the Customer "saving" event.
      *
      * @param  Transaction  $transaction

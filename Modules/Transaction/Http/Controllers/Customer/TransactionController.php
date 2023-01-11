@@ -11,7 +11,7 @@ use Modules\Transaction\Dto\TransactionDto;
 use Modules\Transaction\Http\Requests\Customer\TransactionCreateRequest;
 use Modules\Transaction\Http\Resources\TransactionResource;
 use Modules\Transaction\Repositories\TransactionRepository;
-use Modules\Transaction\Services\TransactionStorage;
+use Modules\Transaction\Services\Customer\TransactionStorage;
 
 final class TransactionController extends Controller
 {
