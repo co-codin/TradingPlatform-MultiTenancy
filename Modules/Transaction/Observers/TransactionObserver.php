@@ -10,6 +10,13 @@ use Modules\Transaction\Services\CurrencyConverter;
 final class TransactionObserver
 {
     /**
+     * @param CurrencyConverter $converter
+     */
+    public function __construct(protected CurrencyConverter $converter)
+    {
+    }
+
+    /**
      * Handle the Customer "created" event.
      *
      * @param  Transaction  $transaction
@@ -65,36 +72,27 @@ final class TransactionObserver
     }
 
     /**
-     * Handle the Customer "creating" event.
+     * Handle the Customer "saving" event.
      *
      * @param  Transaction  $transaction
-     * @param  CurrencyConverter  $converter
      * @return void
      */
-    public function creating(Transaction $transaction, CurrencyConverter $converter): void
+    public function saving(Transaction $transaction): void
     {
-        if (
-            ! $transaction->is_ftd
-            && $transaction->isDeposit()
-            && $transaction->isApprovedStatus()
-            && $transaction->isBalanceMt5Type()
-            && $transaction->customer->transactions()->count() === 0
-        ) {
-            $transaction->is_ftd = true;
-        }
-
-        switch ($currency = $transaction->wallet->iso3) {
-            case 'USD':
-                $transaction->amount_usd = $transaction->amount;
-                $transaction->amount_eur = $converter->convert('USD', 'EUR', $transaction->amount);
-                break;
-            case 'EUR':
-                $transaction->amount_eur = $transaction->amount;
-                $transaction->amount_usd = $converter->convert('EUR', 'USD', $transaction->amount);
-                break;
-            default:
-                $transaction->amount_eur = $converter->convert($currency, 'EUR', $transaction->amount);
-                $transaction->amount_usd = $converter->convert($currency, 'USD', $transaction->amount);
+        if ($currency = $transaction->wallet?->iso3) {
+            switch ($currency) {
+                case 'USD':
+                    $transaction->amount_usd = $transaction->amount;
+                    $transaction->amount_eur = $this->converter->convert('USD', 'EUR', $transaction->amount);
+                    break;
+                case 'EUR':
+                    $transaction->amount_eur = $transaction->amount;
+                    $transaction->amount_usd = $this->converter->convert('EUR', 'USD', $transaction->amount);
+                    break;
+                default:
+                    $transaction->amount_eur = $this->converter->convert($currency, 'EUR', $transaction->amount);
+                    $transaction->amount_usd = $this->converter->convert($currency, 'USD', $transaction->amount);
+            }
         }
     }
 }

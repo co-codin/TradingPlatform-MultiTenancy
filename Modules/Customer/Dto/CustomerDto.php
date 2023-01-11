@@ -38,7 +38,12 @@ final class CustomerDto extends BaseDto
     /**
      * @var int|null
      */
-    public ?int $country_id = 0;
+    public ?int $country_id = null;
+
+    /**
+     * @var int|null
+     */
+    public ?int $currency_id = null;
     /**
      * @var string|null
      */
@@ -46,7 +51,7 @@ final class CustomerDto extends BaseDto
     /**
      * @var int|null
      */
-    public ?int $language_id = 0;
+    public ?int $language_id = null;
     /**
      * @var string|null
      */
@@ -62,11 +67,11 @@ final class CustomerDto extends BaseDto
     /**
      * @var int|null
      */
-    public ?int $desk_id = 0;
+    public ?int $desk_id = null;
     /**
      * @var int|null
      */
-    public ?int $department_id = 0;
+    public ?int $department_id = null;
     /**
      * @var string|null
      */
@@ -158,6 +163,11 @@ final class CustomerDto extends BaseDto
      * @var int|null
      */
     public ?int $retention_sale_status_id = null;
+
+    /**
+     * @var int|null
+     */
+    public ?int $campaign_id = null;
 
     /**
      * @var array
