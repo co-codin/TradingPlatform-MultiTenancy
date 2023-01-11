@@ -7,17 +7,17 @@ namespace Modules\Customer\Http\Controllers\Affiliate;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Modules\Customer\Http\Resources\FTDCustomerResource;
+use Modules\Customer\Http\Resources\CustomerResource;
 use Modules\Customer\Models\Customer;
-use Modules\Customer\Repositories\FTDCustomerRepository;
+use Modules\Customer\Repositories\CustomerRepository;
 
 final class FTDCustomerController extends Controller
 {
     /**
-     * @param  FTDCustomerRepository  $customerRepository
+     * @param  CustomerRepository  $customerRepository
      */
     public function __construct(
-        protected FTDCustomerRepository $customerRepository,
+        protected CustomerRepository $customerRepository,
     ) {
     }
 
@@ -30,7 +30,7 @@ final class FTDCustomerController extends Controller
     {
         $this->authorize('viewAnyByAffiliate', Customer::class);
 
-        return FTDCustomerResource::collection(
+        return CustomerResource::collection(
             $this->customerRepository
                 ->where('affiliate_user_id', auth()->id())
                 ->where('is_ftd', true)
