@@ -7,6 +7,7 @@ namespace Modules\Transaction\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Currency\Models\Currency;
 use Modules\Customer\Models\Customer;
 use Modules\Transaction\Database\factories\TransactionFactory;
 use Modules\Transaction\Enums\TransactionMt5TypeEnum;
@@ -141,6 +142,16 @@ final class Transaction extends Model
     public function wallet(): BelongsTo
     {
         return $this->belongsTo(Wallet::class);
+    }
+
+    /**
+     * Currency relation.
+     *
+     * @return BelongsTo
+     */
+    public function currency(): BelongsTo
+    {
+        return $this->belongsTo(Currency::class);
     }
 
     /**

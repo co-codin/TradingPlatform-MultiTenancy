@@ -82,7 +82,7 @@ final class TransactionObserver
      */
     public function creating(Transaction $transaction): void
     {
-        if ($currency = $transaction->wallet?->currency->iso3) {
+        if ($currency = $transaction->currency?->iso3) {
             switch ($currency) {
                 case 'USD':
                     $transaction->amount_usd = $transaction->amount;

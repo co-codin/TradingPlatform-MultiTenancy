@@ -33,21 +33,12 @@ final class TransactionStorage
             default => null
         };
 
-        $transaction = Transaction::query()->create([
-            'type' => $transactionDto->type,
+        $transaction = Transaction::query()->create(array_merge($transactionDto->toArray(), [
             'mt5_type_id' => TransactionsMt5Type::firstWhere('name', $transactionDto->mt5_type)->id,
             'status_id' => TransactionStatus::firstWhere('name', $transactionDto->status)->id,
-            'amount' => $transactionDto->amount,
-            'customer_id' => $transactionDto->customer_id,
-            'creator_id' => $transactionDto->creator_id,
             'worker_id' => $workerId,
-            'method_id' => $transactionDto->method_id,
-            'wallet_id' => $transactionDto->wallet_id,
             'currency_id' => Wallet::find($transactionDto->wallet_id)->currency->id,
-            'external_id' => $transactionDto->external_id,
-            'description' => $transactionDto->description,
-            'is_test' => $transactionDto->is_test,
-        ]);
+        ]));
 
         if (! $transaction) {
             throw new Exception(__('Can not store transaction'));
