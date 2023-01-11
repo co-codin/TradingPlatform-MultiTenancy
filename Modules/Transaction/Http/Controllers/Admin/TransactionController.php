@@ -182,7 +182,7 @@ final class TransactionController extends Controller
         $dto->creator_id = Auth::id();
 
         return new TransactionResource(
-            $this->storage->store(TransactionDto::fromFormRequest($request)),
+            $this->storage->store($dto),
         );
     }
 
