@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Modules\Transaction;
+namespace tests\Feature\Modules\Transaction\Customer;
 
 use Modules\Transaction\Models\Transaction;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
@@ -25,7 +25,7 @@ final class CreateTest extends BrandTestCase
 
         $data = Transaction::factory()->make()->toArray();
 
-        $response = $this->post(route('api.transactions.store'), $data);
+        $response = $this->post(route('customer.transactions.store'), $data);
 
         $response->assertCreated();
         $response->assertJson(['data' => $data]);
@@ -36,7 +36,7 @@ final class CreateTest extends BrandTestCase
      */
     public function not_unauthorized(): void
     {
-        $response = $this->post(route('api.transactions.store'));
+        $response = $this->post(route('customer.transactions.store'));
 
         $response->assertUnauthorized();
     }

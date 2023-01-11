@@ -31,11 +31,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/brands": {
@@ -64,11 +62,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -127,11 +123,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/brands/{id}": {
@@ -142,15 +136,13 @@
                 "summary": "Show brand",
                 "description": "Returns brand data.",
                 "operationId": "brands.show",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Brand id",
-                        "required": true,
-                        "example": "1"
-                    }
-                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Brand id",
+                    "required": true,
+                    "example": "1"
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -169,11 +161,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -181,17 +171,15 @@
                 ],
                 "summary": "Update a brand",
                 "operationId": "a2095cdf34924899b60bb49de21eb565",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Brand id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Brand id",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -242,11 +230,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -254,17 +240,15 @@
                 ],
                 "summary": "Delete a brand",
                 "operationId": "8ee4bf224461c4894c6e30148a6523a3",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Brand id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Brand id",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "204": {
                         "description": "No content"
@@ -279,11 +263,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -291,17 +273,15 @@
                 ],
                 "summary": "Update a brand",
                 "operationId": "3335140a0f1ae501a78cbd3506a3d173",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Brand id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Brand id",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -352,11 +332,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/campaign": {
@@ -792,11 +770,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -859,11 +835,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/communication/call/{id}": {
@@ -874,17 +848,15 @@
                 "summary": "Get call",
                 "description": "Returns call data.",
                 "operationId": "99b59fd0b92b26031050b56c2c94b38a",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Call ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Call ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -903,11 +875,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -916,17 +886,15 @@
                 "summary": "Update call",
                 "description": "Returns call data.",
                 "operationId": "69d2cc28bcc8a045ed8c9a3e869a1cc2",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Call ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Call ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -981,11 +949,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -993,17 +959,15 @@
                 ],
                 "summary": "Delete call",
                 "operationId": "e9244e7bac57d6cb7e539d87f3f3929b",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Call ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Call ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "204": {
                         "description": "No content"
@@ -1015,11 +979,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -1028,17 +990,15 @@
                 "summary": "Update call",
                 "description": "Returns call data.",
                 "operationId": "a8a1d198f12ac79bbd25fce3a0e886d6",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Call ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Call ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -1088,11 +1048,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/communication/chat-message-history": {
@@ -1147,11 +1105,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/communication/chat-message-send": {
@@ -1196,11 +1152,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/comments": {
@@ -1229,11 +1183,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -1295,11 +1247,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/comments/{id}": {
@@ -1310,15 +1260,13 @@
                 "summary": "Show comment",
                 "description": "Returns comment data.",
                 "operationId": "comments.show",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Comment id",
-                        "required": true,
-                        "example": "1"
-                    }
-                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Comment id",
+                    "required": true,
+                    "example": "1"
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -1337,11 +1285,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -1349,17 +1295,15 @@
                 ],
                 "summary": "Update a comment",
                 "operationId": "598c9df9f148e5abf799fb70a1d0dec8",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Comment id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Comment id",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -1413,11 +1357,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -1425,17 +1367,15 @@
                 ],
                 "summary": "Delete a comment",
                 "operationId": "6181ec07efe75040e2bbf81ceb09dbea",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Comment id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Comment id",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "204": {
                         "description": "No content"
@@ -1450,11 +1390,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -1462,17 +1400,15 @@
                 ],
                 "summary": "Update a comment",
                 "operationId": "9cf23cce47618e06622e5134fa1d1a5b",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Comment id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Comment id",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -1526,11 +1462,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/communication/emails": {
@@ -1559,11 +1493,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -1625,11 +1557,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/communication/emails/{id}": {
@@ -1640,17 +1570,15 @@
                 "summary": "Get email",
                 "description": "Returns email data.",
                 "operationId": "0fd76bb543d80647c8f57860bfcfbd58",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Email ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Email ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -1669,11 +1597,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -1682,17 +1608,15 @@
                 "summary": "Update email",
                 "description": "Returns email data.",
                 "operationId": "5107341628c8c3636de32ffca14ded2b",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Email ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Email ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -1746,11 +1670,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -1758,17 +1680,15 @@
                 ],
                 "summary": "Delete email",
                 "operationId": "610439b42365ac2bc53af8361ebc6f21",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Email ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Email ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "204": {
                         "description": "No content"
@@ -1780,11 +1700,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -1793,17 +1711,15 @@
                 "summary": "Update email",
                 "description": "Returns email data.",
                 "operationId": "c6fb87368205b9bf125c56fac7fb0b0e",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Email ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Email ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -1852,11 +1768,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/communication/email-send-to-customer": {
@@ -1900,11 +1814,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/communication/email-templates": {
@@ -1933,11 +1845,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -1987,11 +1897,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/communication/email-templates/{id}": {
@@ -2002,17 +1910,15 @@
                 "summary": "Get email template",
                 "description": "Returns email template data.",
                 "operationId": "697b561a46c0b3d5b0b227a5a91d1fe9",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Email template ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Email template ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -2031,11 +1937,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -2044,17 +1948,15 @@
                 "summary": "Update email template",
                 "description": "Returns email template data.",
                 "operationId": "1d11edf2bd59cf01331c2db478736992",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Email template ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Email template ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -2096,11 +1998,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -2108,17 +2008,15 @@
                 ],
                 "summary": "Delete email template",
                 "operationId": "7a41d567d5cb1e8a3f3e22239c0ef70b",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Email template ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Email template ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "204": {
                         "description": "No content"
@@ -2130,11 +2028,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -2143,17 +2039,15 @@
                 "summary": "Update email template",
                 "description": "Returns email template data.",
                 "operationId": "2508ba660f0c40da80ff1e0072e6ad52",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Email template ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Email template ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -2191,11 +2085,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/communication/notifications": {
@@ -2223,11 +2115,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/communication/notifications/{id}": {
@@ -2237,16 +2127,14 @@
                 ],
                 "summary": "Get sent notification",
                 "operationId": "20d8d03cd2516a596135bf12b388fd13",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -2268,11 +2156,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/communication/notifications/send": {
@@ -2337,11 +2223,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/communication/notification-templates": {
@@ -2369,11 +2253,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -2425,11 +2307,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/communication/notification-templates/all": {
@@ -2457,11 +2337,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/communication/notification-templates/{id}": {
@@ -2471,16 +2349,14 @@
                 ],
                 "summary": "Get notification template",
                 "operationId": "c70fee6d5d4e5562c0f751cf31344237",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -2502,11 +2378,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -2514,16 +2388,14 @@
                 ],
                 "summary": "Update notification template",
                 "operationId": "b5ef23fe8eaa96f22dd0af16f6430a5d",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -2568,11 +2440,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -2580,16 +2450,14 @@
                 ],
                 "summary": "Delete notification template",
                 "operationId": "7922946f30b44c2ffd9e2b57ae3f4d99",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -2608,11 +2476,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -2620,16 +2486,14 @@
                 ],
                 "summary": "Update notification template",
                 "operationId": "041d6f58b9b45ec17f7841aaa631fa3d",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -2670,11 +2534,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/communication/notification-templates/{id}/send": {
@@ -2684,16 +2546,14 @@
                 ],
                 "summary": "Send notification template to customer",
                 "operationId": "424c26ffbc7b8303d038f56bfcb4056f",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -2734,11 +2594,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/communication/extensions": {
@@ -2766,11 +2624,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -2822,11 +2678,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/communication/extensions/all": {
@@ -2854,11 +2708,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/communication/extensions/{id}": {
@@ -2868,16 +2720,14 @@
                 ],
                 "summary": "Get communication extension",
                 "operationId": "b5c95ea0a68124872717de379c44cf42",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -2896,11 +2746,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -2908,16 +2756,14 @@
                 ],
                 "summary": "Update communication extension",
                 "operationId": "56118f5414316a3510cea2ede0e4c9bc",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -2962,11 +2808,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -2974,16 +2818,14 @@
                 ],
                 "summary": "Delete communication extension",
                 "operationId": "9ef6b1e14ea532644bbf1d942b57fb49",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -3002,11 +2844,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -3014,16 +2854,14 @@
                 ],
                 "summary": "Update communication extension",
                 "operationId": "5e013716079f1aa353ab524954763587",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -3063,11 +2901,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/communication/extensions/bulk-replace-by-worker": {
@@ -3140,11 +2976,9 @@
                         "description": "Unprocessable Content"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/communication/providers": {
@@ -3172,11 +3006,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -3220,11 +3052,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/communication/providers/all": {
@@ -3252,11 +3082,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/communication/providers/{id}": {
@@ -3266,16 +3094,14 @@
                 ],
                 "summary": "Get communication provider",
                 "operationId": "fb85dbb4a1f5242726a9795ca8a5dc4b",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -3294,11 +3120,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -3306,16 +3130,14 @@
                 ],
                 "summary": "Update communication provider",
                 "operationId": "264a3c44f6502d2752b9b2dbb94e2a82",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -3352,11 +3174,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -3364,16 +3184,14 @@
                 ],
                 "summary": "Delete communication provider",
                 "operationId": "f1211d2e497516c370916c28f6a010ac",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -3392,11 +3210,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -3404,16 +3220,14 @@
                 ],
                 "summary": "Update communication provider",
                 "operationId": "e557940a6b25bd057575cbea4fceffc8",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -3447,11 +3261,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/configs": {
@@ -3479,11 +3291,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -3545,11 +3355,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/configs/{id}": {
@@ -3559,17 +3367,15 @@
                 ],
                 "summary": "Get config data",
                 "operationId": "1158766cbc221ebdfd591651299902f5",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Config ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Config ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "200": {
                         "description": "success",
@@ -3591,11 +3397,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -3603,17 +3407,15 @@
                 ],
                 "summary": "Update a config",
                 "operationId": "3a1b02052d6ca0a4ada89f03f05893a4",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Config ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Config ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -3671,11 +3473,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -3683,17 +3483,15 @@
                 ],
                 "summary": "Delete a config",
                 "operationId": "d0708a91c71ef4e9b40f588a14338af0",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Config ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Config ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "204": {
                         "description": "No content"
@@ -3708,11 +3506,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -3720,17 +3516,15 @@
                 ],
                 "summary": "Update a config",
                 "operationId": "90f09248057230cf7b6e1a7049928c03",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Config ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Config ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -3782,11 +3576,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/configs/types": {
@@ -3814,11 +3606,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -3865,11 +3655,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/configs/types/{id}": {
@@ -3879,17 +3667,15 @@
                 ],
                 "summary": "Get config type data",
                 "operationId": "60cbfad03321cb287cedb39490d17e7f",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Config type ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Config type ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "200": {
                         "description": "success",
@@ -3911,11 +3697,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -3923,17 +3707,15 @@
                 ],
                 "summary": "Update a config type",
                 "operationId": "232134e689e991251ec452fce456e383",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Config type ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Config type ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -3976,11 +3758,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -3988,17 +3768,15 @@
                 ],
                 "summary": "Delete a config type",
                 "operationId": "89979e6080bcc7d6598a3b15aba64bdf",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Config type ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Config type ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "204": {
                         "description": "No content"
@@ -4013,11 +3791,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -4025,17 +3801,15 @@
                 ],
                 "summary": "Update a config type",
                 "operationId": "6698188f48905dcc54874de79d3006de",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Config type ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Config type ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -4075,11 +3849,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/currencies": {
@@ -4107,11 +3879,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -4168,11 +3938,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/currencies/{id}": {
@@ -4182,17 +3950,15 @@
                 ],
                 "summary": "Get currency data",
                 "operationId": "1ce4149024db89c3ee9f878c7255051a",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Currency ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Currency ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "200": {
                         "description": "success",
@@ -4214,11 +3980,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -4226,17 +3990,15 @@
                 ],
                 "summary": "Update a currency",
                 "operationId": "a9ea2ab07027374202c9916d2df44ada",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Currency ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Currency ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -4289,11 +4051,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -4301,17 +4061,15 @@
                 ],
                 "summary": "Delete a currency",
                 "operationId": "78daa105c80c1ae91bbf1ca44e431607",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Currency ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Currency ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "204": {
                         "description": "No content"
@@ -4326,11 +4084,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -4338,17 +4094,15 @@
                 ],
                 "summary": "Update a currency",
                 "operationId": "dcd25a6f3e67891f428344a49b41acaf",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Currency ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Currency ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -4396,11 +4150,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/customers/{id}/reset-password": {
@@ -4410,17 +4162,15 @@
                 ],
                 "summary": "Reset password",
                 "operationId": "e034fa77747e6febb295eeae32959388",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Customer ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Customer ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -4519,11 +4269,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -4672,11 +4420,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/customers/{id}": {
@@ -4687,17 +4433,15 @@
                 "summary": "Get customer",
                 "description": "Returns customer data.",
                 "operationId": "bc9c1d2ce85d47cc898bf5fb8ec03776",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Customer ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Customer ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -4716,11 +4460,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -4728,17 +4470,15 @@
                 ],
                 "summary": "Update a customer",
                 "operationId": "37826335160a27c47aac2543710caefd",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Customer ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Customer ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -4950,11 +4690,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -4963,17 +4701,15 @@
                 "summary": "Delete customer",
                 "description": "Returns status.",
                 "operationId": "2fc603ec41a37b70c90bfe96f8c3a730",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Customer ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Customer ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -4992,11 +4728,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -5004,17 +4738,15 @@
                 ],
                 "summary": "Update a customer",
                 "operationId": "2bf40a061e82cc15e45b99b88ef8f291",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Customer ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Customer ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -5226,11 +4958,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/customers/ban": {
@@ -5290,11 +5020,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/customers/unban": {
@@ -5354,11 +5082,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/customers/export/excel": {
@@ -5382,11 +5108,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/customers/export/csv": {
@@ -5410,11 +5134,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/customers/{id}/impersonate/session": {
@@ -5424,15 +5146,13 @@
                 ],
                 "summary": "Steteful login impersonate customer",
                 "operationId": "5ccb3b12691930827ac38f177eb6ff75",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Customer id",
-                        "required": true,
-                        "example": "1"
-                    }
-                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Customer id",
+                    "required": true,
+                    "example": "1"
+                }],
                 "responses": {
                     "200": {
                         "description": "Success. The session ID is returned in a cookie named `laravel_session`. You need to include this cookie in subsequent requests.",
@@ -5486,11 +5206,9 @@
                         }
                     }
                 },
-                "security": [
-                    {
-                        "sanctum_frontend": []
-                    }
-                ]
+                "security": [{
+                    "sanctum_frontend": []
+                }]
             }
         },
         "/admin/customers/impersonate/session/logout": {
@@ -5527,11 +5245,9 @@
                         "description": "Unauthorized Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum_frontend": []
-                    }
-                ]
+                "security": [{
+                    "sanctum_frontend": []
+                }]
             }
         },
         "/admin/customers/{id}/impersonate/token": {
@@ -5541,15 +5257,13 @@
                 ],
                 "summary": "Stateless api login impersonate customer",
                 "operationId": "4bfcfce46c894194c03257ae6ead75a1",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Customer id",
-                        "required": true,
-                        "example": "1"
-                    }
-                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Customer id",
+                    "required": true,
+                    "example": "1"
+                }],
                 "responses": {
                     "200": {
                         "description": "success",
@@ -5598,11 +5312,9 @@
                         }
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/customers/import/excel": {
@@ -5626,11 +5338,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/customers/import/csv": {
@@ -5654,44 +5364,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
-        "/affiliate/customers": {
-            "get": {
-                "tags": [
-                    "Customer"
-                ],
-                "summary": "Get affiliate customers list",
-                "description": "Returns customers list data.",
-                "operationId": "f8f506eea645d0cbc9da62737ca67ce5",
-                "responses": {
-                    "201": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/CustomerCollection"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/customer/auth/login": {
@@ -5783,11 +5458,9 @@
                         "description": "Unauthorized Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum_frontend": []
-                    }
-                ]
+                "security": [{
+                    "sanctum_frontend": []
+                }]
             }
         },
         "/customer/auth/me": {
@@ -5812,11 +5485,9 @@
                         "description": "Unauthorized Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum_frontend": []
-                    }
-                ]
+                "security": [{
+                    "sanctum_frontend": []
+                }]
             }
         },
         "/customer/chat-message-history": {
@@ -5850,11 +5521,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/customer/chat-message-send": {
@@ -5899,11 +5568,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/customer/auth/forget-password": {
@@ -6209,11 +5876,9 @@
                         "description": "Unauthorized Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/departments/all": {
@@ -6241,11 +5906,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/departments": {
@@ -6274,11 +5937,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -6287,8 +5948,7 @@
                 "summary": "Store department",
                 "description": "Returns department data.",
                 "operationId": "departments.store",
-                "parameters": [
-                    {
+                "parameters": [{
                         "name": "name",
                         "in": "query",
                         "description": "Name",
@@ -6335,11 +5995,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/departments/{id}": {
@@ -6350,15 +6008,13 @@
                 "summary": "Get department",
                 "description": "Returns department data.",
                 "operationId": "departments.show",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Department id",
-                        "required": true,
-                        "example": 1
-                    }
-                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Department id",
+                    "required": true,
+                    "example": 1
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -6377,11 +6033,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -6390,15 +6044,13 @@
                 "summary": "Delete department",
                 "description": "Returns status.",
                 "operationId": "departments.delete",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Department id",
-                        "required": true,
-                        "example": 1
-                    }
-                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Department id",
+                    "required": true,
+                    "example": 1
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -6417,11 +6069,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -6430,8 +6080,7 @@
                 "summary": "Update department",
                 "description": "Returns department data.",
                 "operationId": "departments.update",
-                "parameters": [
-                    {
+                "parameters": [{
                         "name": "id",
                         "in": "path",
                         "description": "Department id",
@@ -6485,11 +6134,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/departments/workers": {
@@ -6517,11 +6164,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/desks/all": {
@@ -6549,11 +6194,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/desks": {
@@ -6581,11 +6224,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -6642,11 +6283,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/desks/{id}": {
@@ -6656,16 +6295,14 @@
                 ],
                 "summary": "Get desk",
                 "operationId": "7d56353bfe18df54cdcc485b4b3f45af",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -6684,11 +6321,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -6696,16 +6331,14 @@
                 ],
                 "summary": "Update desk",
                 "operationId": "66de62051bb46ac798c7243a00d668e0",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -6755,11 +6388,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -6767,16 +6398,14 @@
                 ],
                 "summary": "Delete desk",
                 "operationId": "4509e557b9b1c53faab3b8c0b2361f61",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -6795,11 +6424,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -6807,16 +6434,14 @@
                 ],
                 "summary": "Update desk",
                 "operationId": "cc044d6b0245d80c385614a08bafc3ec",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -6862,11 +6487,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/countries/all": {
@@ -6894,11 +6517,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/countries": {
@@ -6927,11 +6548,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -6940,8 +6559,7 @@
                 "summary": "Store country",
                 "description": "Returns country data.",
                 "operationId": "countries.store",
-                "parameters": [
-                    {
+                "parameters": [{
                         "name": "name",
                         "in": "query",
                         "description": "Name",
@@ -6988,11 +6606,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/countries/{id}": {
@@ -7003,15 +6619,13 @@
                 "summary": "Get country",
                 "description": "Returns country data.",
                 "operationId": "countries.show",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Country id",
-                        "required": true,
-                        "example": 1
-                    }
-                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Country id",
+                    "required": true,
+                    "example": 1
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -7030,11 +6644,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -7043,15 +6655,13 @@
                 "summary": "Delete country",
                 "description": "Returns status.",
                 "operationId": "countries.delete",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Country id",
-                        "required": true,
-                        "example": 1
-                    }
-                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Country id",
+                    "required": true,
+                    "example": 1
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -7070,11 +6680,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -7083,8 +6691,7 @@
                 "summary": "Update country",
                 "description": "Returns country data.",
                 "operationId": "countries.update",
-                "parameters": [
-                    {
+                "parameters": [{
                         "name": "id",
                         "in": "path",
                         "description": "Country id",
@@ -7138,11 +6745,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/languages/all": {
@@ -7170,11 +6775,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/languages": {
@@ -7203,11 +6806,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -7216,8 +6817,7 @@
                 "summary": "Store language",
                 "description": "Returns language data.",
                 "operationId": "languages.store",
-                "parameters": [
-                    {
+                "parameters": [{
                         "name": "name",
                         "in": "query",
                         "description": "Name",
@@ -7257,11 +6857,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/languages/{id}": {
@@ -7272,15 +6870,13 @@
                 "summary": "Get language",
                 "description": "Returns language data.",
                 "operationId": "languages.show",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Language id",
-                        "required": true,
-                        "example": 1
-                    }
-                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Language id",
+                    "required": true,
+                    "example": 1
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -7299,11 +6895,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -7312,15 +6906,13 @@
                 "summary": "Delete language",
                 "description": "Returns status.",
                 "operationId": "languages.delete",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Language id",
-                        "required": true,
-                        "example": 1
-                    }
-                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Language id",
+                    "required": true,
+                    "example": 1
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -7339,11 +6931,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -7352,8 +6942,7 @@
                 "summary": "Update language",
                 "description": "Returns language data.",
                 "operationId": "languages.update",
-                "parameters": [
-                    {
+                "parameters": [{
                         "name": "id",
                         "in": "path",
                         "description": "Language id",
@@ -7400,11 +6989,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/permissions/columns": {
@@ -7432,11 +7019,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -7482,11 +7067,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/permissions/columns/{id}": {
@@ -7496,17 +7079,15 @@
                 ],
                 "summary": "Get column data",
                 "operationId": "225fb38157f0e296bf25e56bb1c91ff1",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Column ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Column ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "200": {
                         "description": "success",
@@ -7528,11 +7109,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -7540,17 +7119,15 @@
                 ],
                 "summary": "Update a сolumn",
                 "operationId": "92a488be8b06a62ba1aec55e91e78064",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Column ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Column ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -7592,11 +7169,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -7604,17 +7179,15 @@
                 ],
                 "summary": "Delete a column",
                 "operationId": "d4452f7f17a82d92a0284485ecc5a98a",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Column ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Column ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "204": {
                         "description": "No content"
@@ -7629,11 +7202,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -7641,17 +7212,15 @@
                 ],
                 "summary": "Update a column",
                 "operationId": "578b679bde11f0f14a698721253ddad3",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Column ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Column ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -7710,11 +7279,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/permissions/{id}/columns": {
@@ -7724,17 +7291,15 @@
                 ],
                 "summary": "Update permission columns",
                 "operationId": "9361892c39a0ae8b8da9be21536ca618",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Permission id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Permission id",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -7781,11 +7346,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/permissions": {
@@ -7813,11 +7376,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/permissions/all": {
@@ -7845,11 +7406,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/permissions/{id}": {
@@ -7859,17 +7418,15 @@
                 ],
                 "summary": "Get permission data",
                 "operationId": "7f440d2efa45f5f5b2ff77a3cdee3d26",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Permission ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Permission ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "200": {
                         "description": "success",
@@ -7891,11 +7448,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/permissions/count": {
@@ -7919,11 +7474,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/roles/all": {
@@ -7951,11 +7504,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/roles": {
@@ -7983,11 +7534,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -8056,11 +7605,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/roles/{id}": {
@@ -8070,17 +7617,15 @@
                 ],
                 "summary": "Get role data",
                 "operationId": "5476a17a1a8e92e4ae380afa959f0d20",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Role ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Role ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "200": {
                         "description": "success",
@@ -8102,11 +7647,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -8114,17 +7657,15 @@
                 ],
                 "summary": "Update a role",
                 "operationId": "2c5c949404129653d34fb02ee487248f",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Role ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Role ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -8189,11 +7730,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -8201,17 +7740,15 @@
                 ],
                 "summary": "Delete a role",
                 "operationId": "a83de148463c08c56e7c3ba05f86a5c2",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Role ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Role ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "204": {
                         "description": "No content"
@@ -8226,11 +7763,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -8238,17 +7773,15 @@
                 ],
                 "summary": "Update a role",
                 "operationId": "8b8fc1ffafc15a4acbdf89044b13b1d7",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Role ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Role ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -8307,11 +7840,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/sale-statuses": {
@@ -8340,11 +7871,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -8404,11 +7933,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/sale-statuses/{id}": {
@@ -8419,17 +7946,15 @@
                 "summary": "Get salestatus",
                 "description": "Returns salestatus data.",
                 "operationId": "512b5fa2cae02ebfb639715f3319fc72",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Sale statuses ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Sale statuses ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -8448,11 +7973,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -8461,17 +7984,15 @@
                 "summary": "Update salestatus",
                 "description": "Returns salestatus data.",
                 "operationId": "83b3eb51afba342ce220ad299f7eaa6b",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Sale statuses ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Sale statuses ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -8523,11 +8044,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -8536,17 +8055,15 @@
                 "summary": "Delete salestatus",
                 "description": "Returns status.",
                 "operationId": "9485c480b3bf562d78b5b9c9c4db898a",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Sale statuses ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Sale statuses ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "201": {
                         "description": "Successful operation",
@@ -8565,11 +8082,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -8578,17 +8093,15 @@
                 "summary": "Update salestatus",
                 "description": "Returns salestatus data.",
                 "operationId": "44e9fcaa7348acd0a8ab081721d4a704",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Sale statuses ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Sale statuses ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -8635,11 +8148,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/tokens/all": {
@@ -8667,11 +8178,9 @@
                         "description": "Forbidden"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/transactions/export/excel": {
@@ -8695,11 +8204,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/transactions/export/csv": {
@@ -8723,11 +8230,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/transaction-statuses": {
@@ -8755,11 +8260,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -8818,11 +8321,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/transaction-statuses/{id}": {
@@ -8832,17 +8333,15 @@
                 ],
                 "summary": "Get transaction status data",
                 "operationId": "36c8f538e5e58982a9657a79f3e2a52c",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Transaction status ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Transaction status ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "200": {
                         "description": "success",
@@ -8864,11 +8363,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -8876,17 +8373,15 @@
                 ],
                 "summary": "Update a transaction status",
                 "operationId": "45d75a9cbc65610f6cd4e909a2fe5908",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Transaction status ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Transaction status ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -8942,11 +8437,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -8954,17 +8447,15 @@
                 ],
                 "summary": "Delete a transaction status",
                 "operationId": "c223f2428869f925bc58d8712e0f3d3d",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Transaction status ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Transaction status ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "204": {
                         "description": "No content"
@@ -8979,11 +8470,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -8991,17 +8480,15 @@
                 ],
                 "summary": "Update a transaction status",
                 "operationId": "c9de304db60b506011205b401feafec6",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Transaction status ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Transaction status ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -9053,11 +8540,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/transaction-methods": {
@@ -9085,11 +8570,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -9145,11 +8628,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/transaction-methods/{id}": {
@@ -9159,17 +8640,15 @@
                 ],
                 "summary": "Get transaction method data",
                 "operationId": "06d710876b258317f70efc2541f9fd9b",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Transaction method ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Transaction method ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "200": {
                         "description": "success",
@@ -9191,11 +8670,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -9203,17 +8680,15 @@
                 ],
                 "summary": "Update a transaction method",
                 "operationId": "646761694ef9f0f8b433e01c3b84e87e",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Transaction method ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Transaction method ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -9265,11 +8740,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -9277,17 +8750,15 @@
                 ],
                 "summary": "Delete a transaction method",
                 "operationId": "4d8ade5581000742ffebd6f15d84c27c",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Transaction method ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Transaction method ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "204": {
                         "description": "No content"
@@ -9302,11 +8773,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -9314,17 +8783,15 @@
                 ],
                 "summary": "Update a transaction method",
                 "operationId": "8cdb1b6517077bbe5a4606b0b172d833",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Transaction method ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Transaction method ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -9371,11 +8838,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/transaction-mt5-types": {
@@ -9403,11 +8868,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -9463,11 +8926,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/transaction-mt5-types/{id}": {
@@ -9477,17 +8938,15 @@
                 ],
                 "summary": "Get transaction Mt5 type data",
                 "operationId": "48b3b9fcd95a0cefaf3c34db800c8818",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Transaction Mt5 type ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Transaction Mt5 type ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "200": {
                         "description": "success",
@@ -9509,11 +8968,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -9521,17 +8978,15 @@
                 ],
                 "summary": "Update a transaction Mt5 type",
                 "operationId": "137682d1dd4fa27c40684db9b1e652ac",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Transaction Mt5 type ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Transaction Mt5 type ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -9583,11 +9038,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -9595,17 +9048,15 @@
                 ],
                 "summary": "Delete a transaction Mt5 type",
                 "operationId": "b5f212003b7162f089cf7b2f6a15990d",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Transaction Mt5 type ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Transaction Mt5 type ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "204": {
                         "description": "No content"
@@ -9620,11 +9071,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -9632,17 +9081,15 @@
                 ],
                 "summary": "Update a transaction Mt5 type",
                 "operationId": "8431a376e8fea82347acf0aca343a467",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Transaction Mt5 type ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Transaction Mt5 type ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -9689,11 +9136,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/transaction-wallets": {
@@ -9721,11 +9166,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -9786,11 +9229,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/transaction-wallets/{id}": {
@@ -9800,17 +9241,15 @@
                 ],
                 "summary": "Get wallet data",
                 "operationId": "44923f7737b1750659a2f570e1c6b6c8",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Wallet ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Wallet ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "200": {
                         "description": "success",
@@ -9832,11 +9271,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -9844,17 +9281,15 @@
                 ],
                 "summary": "Update a wallet",
                 "operationId": "49f217bf6d44e43ecdd30f9d91e005d9",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Wallet ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Wallet ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -9911,11 +9346,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -9923,17 +9356,15 @@
                 ],
                 "summary": "Delete a wallet",
                 "operationId": "8d790d5b7ff87d680c4791c06b111689",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Wallet ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Wallet ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "204": {
                         "description": "No content"
@@ -9948,11 +9379,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -9960,17 +9389,15 @@
                 ],
                 "summary": "Update a wallet",
                 "operationId": "818f43d8dec8a14bbb6b8eef8fb95f2a",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Wallet ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Wallet ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -10021,11 +9448,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/transactions": {
@@ -10053,11 +9478,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -10093,11 +9516,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/transactions/{id}": {
@@ -10107,17 +9528,15 @@
                 ],
                 "summary": "Get transaction data",
                 "operationId": "7b7d7b560a02c38e1549269ceef9b6c6",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Transaction ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Transaction ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "200": {
                         "description": "success",
@@ -10139,11 +9558,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -10151,17 +9568,15 @@
                 ],
                 "summary": "Update a transaction",
                 "operationId": "cedebb639eb07de17a7846028b5fe8d1",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Transaction ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Transaction ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -10193,11 +9608,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -10205,17 +9618,15 @@
                 ],
                 "summary": "Update a transaction",
                 "operationId": "3f32980bf01ed2352f86c078580adbb0",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Transaction ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Transaction ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -10247,11 +9658,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/transactions/update/batch": {
@@ -10327,11 +9736,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/auth/login": {
@@ -10422,11 +9829,9 @@
                         "description": "Unauthorized Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum_frontend": []
-                    }
-                ]
+                "security": [{
+                    "sanctum_frontend": []
+                }]
             }
         },
         "/admin/auth/user": {
@@ -10451,11 +9856,9 @@
                         "description": "Unauthorized Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum_frontend": []
-                    }
-                ]
+                "security": [{
+                    "sanctum_frontend": []
+                }]
             }
         },
         "/admin/workers/{id}/brand": {
@@ -10465,17 +9868,15 @@
                 ],
                 "summary": "Update worker brands",
                 "operationId": "f925d8c3fc4affbee411ed10cf59b255",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Worker id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Worker id",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -10522,11 +9923,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/workers/{id}/country": {
@@ -10536,17 +9935,15 @@
                 ],
                 "summary": "Update worker countries",
                 "operationId": "de69e9dad98cbd42520160619ad9ec93",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Worker id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Worker id",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -10593,11 +9990,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/workers/{id}/department": {
@@ -10607,17 +10002,15 @@
                 ],
                 "summary": "Update worker departments",
                 "operationId": "331336218a2f76ceb0720f5e6cbbcca6",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Worker id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Worker id",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -10664,11 +10057,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/workers/{id}/desk": {
@@ -10678,17 +10069,15 @@
                 ],
                 "summary": "Update worker desks",
                 "operationId": "3c369b7abc43a3752e2f6faa4b65cc93",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Worker id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Worker id",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -10735,11 +10124,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/workers/{workerId}/display-options/{displayOptionId}": {
@@ -10749,8 +10136,7 @@
                 ],
                 "summary": "Show display option.",
                 "operationId": "a2e3760389d4bccca058db9a498b0f5f",
-                "parameters": [
-                    {
+                "parameters": [{
                         "name": "workerId",
                         "in": "path",
                         "description": "Worker id",
@@ -10790,11 +10176,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -10802,8 +10186,7 @@
                 ],
                 "summary": "Update a worker`s display option",
                 "operationId": "51d02c2d6ad4c4ec2c46906af4903f3d",
-                "parameters": [
-                    {
+                "parameters": [{
                         "name": "workerId",
                         "in": "path",
                         "description": "Worker id",
@@ -10873,11 +10256,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -10885,8 +10266,7 @@
                 ],
                 "summary": "Delete a worker`s display option",
                 "operationId": "f9b2b9345ed6e7406acaeaca2b488eaf",
-                "parameters": [
-                    {
+                "parameters": [{
                         "name": "workerId",
                         "in": "path",
                         "description": "Worker id",
@@ -10919,11 +10299,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -10931,8 +10309,7 @@
                 ],
                 "summary": "Update a worker",
                 "operationId": "a68dabe45a22274481c43a5afcb9c937",
-                "parameters": [
-                    {
+                "parameters": [{
                         "name": "workerId",
                         "in": "path",
                         "description": "Worker id",
@@ -10998,11 +10375,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/workers/{workerId}/display-options": {
@@ -11012,17 +10387,15 @@
                 ],
                 "summary": "Add a new worker`s display option",
                 "operationId": "3cc600033e060b1e0944ae3bdb4c4997",
-                "parameters": [
-                    {
-                        "name": "workerId",
-                        "in": "path",
-                        "description": "Worker id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "workerId",
+                    "in": "path",
+                    "description": "Worker id",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -11072,11 +10445,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/workers/{id}/impersonate/token": {
@@ -11086,15 +10457,13 @@
                 ],
                 "summary": "Stateless api login impersonate worker",
                 "operationId": "3dc1fdb8e51292a16b7e6aaaeaedb130",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Worker id",
-                        "required": true,
-                        "example": "1"
-                    }
-                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Worker id",
+                    "required": true,
+                    "example": "1"
+                }],
                 "responses": {
                     "200": {
                         "description": "success",
@@ -11143,11 +10512,9 @@
                         }
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/workers/{id}/language": {
@@ -11157,17 +10524,15 @@
                 ],
                 "summary": "Update worker languages",
                 "operationId": "d1983466c95ec4772f21be6e61c69520",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Worker id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Worker id",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -11214,11 +10579,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/auth/forget-password": {
@@ -11334,8 +10697,7 @@
                 ],
                 "summary": "Show preset.",
                 "operationId": "3aa5216ab63cae9783f0f9b704930956",
-                "parameters": [
-                    {
+                "parameters": [{
                         "name": "workerId",
                         "in": "path",
                         "description": "Worker id",
@@ -11375,11 +10737,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -11387,8 +10747,7 @@
                 ],
                 "summary": "Update a worker`s preset",
                 "operationId": "f704c23fd1c7fbfabd0f33fbdf1ac483",
-                "parameters": [
-                    {
+                "parameters": [{
                         "name": "workerId",
                         "in": "path",
                         "description": "Worker id",
@@ -11458,11 +10817,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -11470,8 +10827,7 @@
                 ],
                 "summary": "Delete a worker`s preset",
                 "operationId": "553850d13099b32c6da6d8b0978eecd4",
-                "parameters": [
-                    {
+                "parameters": [{
                         "name": "workerId",
                         "in": "path",
                         "description": "Worker id",
@@ -11504,11 +10860,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -11516,8 +10870,7 @@
                 ],
                 "summary": "Update a worker",
                 "operationId": "49184bbf31c9c063d75703bd3dddc251",
-                "parameters": [
-                    {
+                "parameters": [{
                         "name": "workerId",
                         "in": "path",
                         "description": "Worker id",
@@ -11583,11 +10936,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/workers/{workerId}/presets": {
@@ -11597,17 +10948,15 @@
                 ],
                 "summary": "Add a new worker`s preset",
                 "operationId": "15c0381d157b408cbb0081d33d6b4772",
-                "parameters": [
-                    {
-                        "name": "workerId",
-                        "in": "path",
-                        "description": "Worker id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "workerId",
+                    "in": "path",
+                    "description": "Worker id",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -11657,11 +11006,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/auth/callback/{provider}": {
@@ -11671,18 +11018,16 @@
                 ],
                 "summary": "OAuth provider callback endpoint",
                 "operationId": "7e90017f737dac29a1d287d87bc7cc15",
-                "parameters": [
-                    {
-                        "name": "provider",
-                        "in": "path",
-                        "description": "OAuth provider name",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "google"
-                        }
+                "parameters": [{
+                    "name": "provider",
+                    "in": "path",
+                    "description": "OAuth provider name",
+                    "required": true,
+                    "schema": {
+                        "type": "string",
+                        "example": "google"
                     }
-                ],
+                }],
                 "responses": {
                     "302": {
                         "description": "Redirects to `redirect_url` with cookies (and possibly validation or application errors in query params)",
@@ -11711,8 +11056,7 @@
                 ],
                 "summary": "OAuth provider login endpoint",
                 "operationId": "d7faf6de8b626da990c15a2ab1615605",
-                "parameters": [
-                    {
+                "parameters": [{
                         "name": "provider",
                         "in": "path",
                         "description": "OAuth provider name",
@@ -11789,11 +11133,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "post": {
                 "tags": [
@@ -11932,11 +11274,9 @@
                         "description": "Forbidden Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/workers/{id}": {
@@ -11946,17 +11286,15 @@
                 ],
                 "summary": "Get worker data",
                 "operationId": "359da0eae0f04a73c55066cd67112f82",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Worker ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Worker ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "200": {
                         "description": "success",
@@ -11978,11 +11316,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "put": {
                 "tags": [
@@ -11990,17 +11326,15 @@
                 ],
                 "summary": "Update a worker",
                 "operationId": "278a2b82092a5514efe40bafeba5f9f1",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Worker ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Worker ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -12101,11 +11435,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "delete": {
                 "tags": [
@@ -12113,17 +11445,15 @@
                 ],
                 "summary": "Delete a worker",
                 "operationId": "cdf83c0b6567f662b50ddc5a811c8d91",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Worker ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Worker ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "responses": {
                     "204": {
                         "description": "No content"
@@ -12138,11 +11468,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             },
             "patch": {
                 "tags": [
@@ -12150,17 +11478,15 @@
                 ],
                 "summary": "Update a worker",
                 "operationId": "29a2d3523eea86f75d65ccc3e599bc8e",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Worker ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Worker ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
                     }
-                ],
+                }],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -12254,11 +11580,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/workers/ban": {
@@ -12311,11 +11635,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/workers/unban": {
@@ -12368,11 +11690,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/workers/batch": {
@@ -12482,11 +11802,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/workers/export/excel": {
@@ -12510,11 +11828,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/workers/export/csv": {
@@ -12538,11 +11854,9 @@
                         "description": "Not Found"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/token-auth/login": {
@@ -12632,11 +11946,9 @@
                         "description": "Unauthorized Error"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/token/create": {
@@ -12700,11 +12012,9 @@
                         }
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         },
         "/admin/token/delete": {
@@ -12728,11 +12038,9 @@
                         "description": "CSRF token mismatch"
                     }
                 },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                "security": [{
+                    "sanctum": []
+                }]
             }
         }
     },
@@ -13534,8 +12842,7 @@
                     },
                     "notifiable": {
                         "type": "object",
-                        "oneOf": [
-                            {
+                        "oneOf": [{
                                 "$ref": "#/components/schemas/Worker"
                             },
                             {
@@ -15810,7 +15117,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }

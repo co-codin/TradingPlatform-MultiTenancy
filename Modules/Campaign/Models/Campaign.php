@@ -10,17 +10,21 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\Campaign\Database\factories\CampaignFactory;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
-class Campaign extends Model
+final class Campaign extends Model
 {
     use HasFactory;
     use UsesTenantConnection;
 
-    protected $guarded = ['id'];
-
-    protected $casts = [
-        'working_hours' => 'collection',
+    /**
+     * {@inheritdoc}
+     */
+    protected $guarded = [
+        'id',
     ];
 
+    /**
+     * {@inheritDoc}
+     */
     protected static function newFactory()
     {
         return CampaignFactory::new();
