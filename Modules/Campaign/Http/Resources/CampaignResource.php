@@ -24,7 +24,7 @@ use OpenApi\Annotations as OA;
  *     },
  *     @OA\Property(property="id", type="integer", description="Campaign ID"),
  *     @OA\Property(property="cpa", type="float", description="Campaign cpa"),
- *     @OA\Property(property="working_hours", type="array", @OA\Items(type="string"), description="Campaign working hours by week days"),
+ *     @OA\Property(property="working_hours", type="string", description="Campaign working hours by week days", example={"1":{"start":"10:00","end":"18:00"},"2":{"start":"10:00","end":"18:00"},"3":{"start":"10:00","end":"18:00"},"4":{"start":"10:00","end":"18:00"},"5":{"start":"10:00","end":"18:00"}}),
  *     @OA\Property(property="daily_cap", type="integer", description="Campaign daily cap"),
  *     @OA\Property(property="crg", type="float", description="Campaign crg"),
  *     @OA\Property(property="created_at", type="string", format="date-time", description="Date and time of creation", example="2022-12-17 08:44:09"),
@@ -67,6 +67,10 @@ final class CampaignResource extends JsonResource
      */
     public function toArray($request): array
     {
-        return array_merge(parent::toArray($request), ['working_hours' => $this->working_hours]);
+        return array_merge(
+            parent::toArray($request), [
+                'working_hours' => $this->working_hours,
+                'is_working_hours' => $this->isWorkingHours()
+            ]);
     }
 }

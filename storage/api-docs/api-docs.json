@@ -414,9 +414,28 @@
                                     },
                                     "working_hours": {
                                         "description": "Campaign working hours by week days",
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
+                                        "type": "string",
+                                        "example": {
+                                            "1": {
+                                                "start": "10:00",
+                                                "end": "18:00"
+                                            },
+                                            "2": {
+                                                "start": "10:00",
+                                                "end": "18:00"
+                                            },
+                                            "3": {
+                                                "start": "10:00",
+                                                "end": "18:00"
+                                            },
+                                            "4": {
+                                                "start": "10:00",
+                                                "end": "18:00"
+                                            },
+                                            "5": {
+                                                "start": "10:00",
+                                                "end": "18:00"
+                                            }
                                         }
                                     },
                                     "daily_cap": {
@@ -542,9 +561,28 @@
                                     },
                                     "working_hours": {
                                         "description": "Campaign working hours by week days",
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
+                                        "type": "string",
+                                        "example": {
+                                            "1": {
+                                                "start": "10:00",
+                                                "end": "18:00"
+                                            },
+                                            "2": {
+                                                "start": "10:00",
+                                                "end": "18:00"
+                                            },
+                                            "3": {
+                                                "start": "10:00",
+                                                "end": "18:00"
+                                            },
+                                            "4": {
+                                                "start": "10:00",
+                                                "end": "18:00"
+                                            },
+                                            "5": {
+                                                "start": "10:00",
+                                                "end": "18:00"
+                                            }
                                         }
                                     },
                                     "daily_cap": {
@@ -658,9 +696,28 @@
                                     },
                                     "working_hours": {
                                         "description": "Campaign working hours by week days",
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
+                                        "type": "string",
+                                        "example": {
+                                            "1": {
+                                                "start": "10:00",
+                                                "end": "18:00"
+                                            },
+                                            "2": {
+                                                "start": "10:00",
+                                                "end": "18:00"
+                                            },
+                                            "3": {
+                                                "start": "10:00",
+                                                "end": "18:00"
+                                            },
+                                            "4": {
+                                                "start": "10:00",
+                                                "end": "18:00"
+                                            },
+                                            "5": {
+                                                "start": "10:00",
+                                                "end": "18:00"
+                                            }
                                         }
                                     },
                                     "daily_cap": {
@@ -12792,9 +12849,28 @@
                     },
                     "working_hours": {
                         "description": "Campaign working hours by week days",
-                        "type": "array",
-                        "items": {
-                            "type": "string"
+                        "type": "string",
+                        "example": {
+                            "1": {
+                                "start": "10:00",
+                                "end": "18:00"
+                            },
+                            "2": {
+                                "start": "10:00",
+                                "end": "18:00"
+                            },
+                            "3": {
+                                "start": "10:00",
+                                "end": "18:00"
+                            },
+                            "4": {
+                                "start": "10:00",
+                                "end": "18:00"
+                            },
+                            "5": {
+                                "start": "10:00",
+                                "end": "18:00"
+                            }
                         }
                     },
                     "daily_cap": {
