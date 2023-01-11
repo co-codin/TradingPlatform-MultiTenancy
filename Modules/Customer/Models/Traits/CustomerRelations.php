@@ -7,6 +7,7 @@ namespace Modules\Customer\Models\Traits;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Campaign\Models\Campaign;
+use Modules\Currency\Models\Currency;
 use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
 use Modules\Geo\Models\Country;
@@ -65,6 +66,16 @@ trait CustomerRelations
     final public function language(): BelongsTo
     {
         return $this->belongsTo(Language::class, 'language_id', 'id');
+    }
+
+    /**
+     * Language.
+     *
+     * @return BelongsTo
+     */
+    final public function currency(): BelongsTo
+    {
+        return $this->belongsTo(Currency::class, 'currency_id', 'id');
     }
 
     /**
