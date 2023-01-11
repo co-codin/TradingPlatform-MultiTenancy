@@ -6,6 +6,7 @@ namespace Modules\Campaign\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Campaign\Models\Campaign;
+use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema (
@@ -66,6 +67,6 @@ final class CampaignResource extends JsonResource
      */
     public function toArray($request): array
     {
-        return parent::toArray($request);
+        return array_merge(parent::toArray($request), ['working_hours' => $this->working_hours]);
     }
 }

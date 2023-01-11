@@ -16,13 +16,13 @@ use Modules\Campaign\Http\Resources\CampaignResource;
 use Modules\Campaign\Models\Campaign;
 use Modules\Campaign\Repositories\CampaignRepository;
 use Modules\Campaign\Services\CampaignStorage;
+use OpenApi\Annotations as OA;
 
 class CampaignController extends Controller
 {
-
     /**
-     * @param CampaignRepository $repository
-     * @param CampaignStorage $storage
+     * @param  CampaignRepository  $repository
+     * @param  CampaignStorage  $storage
      */
     public function __construct(
         protected CampaignRepository $repository,

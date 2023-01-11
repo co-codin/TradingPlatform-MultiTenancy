@@ -17,7 +17,7 @@ class Campaign extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'working_hours' => 'array',
+        'working_hours' => 'collection',
     ];
 
     protected static function newFactory()
