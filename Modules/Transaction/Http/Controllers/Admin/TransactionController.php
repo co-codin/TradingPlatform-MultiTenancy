@@ -2,16 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Modules\Transaction\Http\Controllers;
+namespace Modules\Transaction\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Modules\Transaction\Dto\TransactionDto;
-use Modules\Transaction\Http\Requests\TransactionCreateRequest;
-use Modules\Transaction\Http\Requests\TransactionUpdateBatchRequest;
-use Modules\Transaction\Http\Requests\TransactionUpdateRequest;
+use Modules\Transaction\Enums\TransactionStatusEnum;
+use Modules\Transaction\Enums\TransactionType;
+use Modules\Transaction\Http\Requests\Admin\TransactionCreateRequest;
+use Modules\Transaction\Http\Requests\Admin\TransactionUpdateBatchRequest;
+use Modules\Transaction\Http\Requests\Admin\TransactionUpdateRequest;
 use Modules\Transaction\Http\Resources\TransactionResource;
+use Modules\Transaction\Models\Transaction;
+use Modules\Transaction\Models\TransactionStatus;
 use Modules\Transaction\Repositories\TransactionRepository;
 use Modules\Transaction\Services\TransactionBatchService;
 use Modules\Transaction\Services\TransactionStorage;
@@ -159,6 +165,22 @@ final class TransactionController extends Controller
      */
     public function store(TransactionCreateRequest $request): TransactionResource
     {
+        if (
+            $request->validated('type') === TransactionType::WITHDRAWAL
+            && Transaction::where([
+                'customer_id' => $request->validated('customer_id'),
+                'type' => $request->validated('type'),
+                'status_id' => TransactionStatus::firstWhere('name', TransactionStatusEnum::PENDING)->id,
+            ])->exists()
+        ) {
+            throw ValidationException::withMessages([
+                'type' => 'Must be only one transaction with withdrawal type and pending status.',
+            ]);
+        }
+
+        $dto = TransactionDto::fromFormRequest($request);
+        $dto->creator_id = Auth::id();
+
         return new TransactionResource(
             $this->storage->store(TransactionDto::fromFormRequest($request)),
         );

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\Transaction\Http\Requests;
+namespace Modules\Transaction\Http\Requests\Admin;
 
 use App\Http\Requests\BaseFormRequest;
 use BenSampo\Enum\Rules\EnumValue;

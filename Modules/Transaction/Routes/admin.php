@@ -1,12 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Transaction\Http\Controllers\Admin\TransactionController;
 use Modules\Transaction\Http\Controllers\Admin\TransactionExportController;
 use Modules\Transaction\Http\Controllers\Admin\TransactionsMethodController;
 use Modules\Transaction\Http\Controllers\Admin\TransactionsMt5TypeController;
 use Modules\Transaction\Http\Controllers\Admin\TransactionStatusController;
 use Modules\Transaction\Http\Controllers\Admin\WalletController;
-use Modules\Transaction\Http\Controllers\TransactionController;
 
 Route::group(['prefix' => 'transactions'], function () {
     // Export

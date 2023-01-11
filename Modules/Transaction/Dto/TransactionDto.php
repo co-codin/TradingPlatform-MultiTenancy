@@ -20,4 +20,6 @@ final class TransactionDto extends BaseDto
     public ?string $external_id;
     public ?string $description;
     public ?bool $is_test;
+
+    public ?int $creator_id;
 }

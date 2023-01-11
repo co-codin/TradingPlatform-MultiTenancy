@@ -35,10 +35,11 @@ final class TransactionStorage
 
         $transaction = Transaction::query()->create([
             'type' => $transactionDto->type,
-            'mt5_type_id' => TransactionsMt5Type::where('name', $transactionDto->mt5_type)->first()->id,
-            'status_id' => TransactionStatus::where('name', $transactionDto->status)->first()->id,
+            'mt5_type_id' => TransactionsMt5Type::firstWhere('name', $transactionDto->mt5_type)->id,
+            'status_id' => TransactionStatus::firstWhere('name', $transactionDto->status)->id,
             'amount' => $transactionDto->amount,
             'customer_id' => $transactionDto->customer_id,
+            'creator_id' => $transactionDto->creator_id,
             'worker_id' => $workerId,
             'method_id' => $transactionDto->method_id,
             'wallet_id' => $transactionDto->wallet_id,

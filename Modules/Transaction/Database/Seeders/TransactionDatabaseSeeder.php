@@ -17,6 +17,8 @@ class TransactionDatabaseSeeder extends Seeder
             TransactionMt5TypeTableSeeder::class,
             TransactionStatusTableSeeder::class,
             TransactionMethodTableSeeder::class,
+            WalletTableSeeder::class,
+            TransactionTableSeeder::class,
         ]);
     }
 }
