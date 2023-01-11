@@ -39,27 +39,6 @@ final class CustomerController extends Controller
     }
 
     /**
-     * @OA\Get(
-     *      path="/affiliate/customers",
-     *      security={ {"sanctum": {} }},
-     *      tags={"Customer"},
-     *      summary="Get affiliate customers list",
-     *      description="Returns customers list data.",
-     *      @OA\Response(
-     *          response=201,
-     *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/CustomerCollection")
-     *       ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      )
-     * )
-     *
      * Display customer list.
      *
      * @return JsonResource
@@ -78,61 +57,6 @@ final class CustomerController extends Controller
     }
 
     /**
-     * @OA\Post(
-     *      path="/affiliate/customers",
-     *      security={ {"sanctum": {} }},
-     *      tags={"Customer"},
-     *      summary="Store affiliate customer",
-     *      description="Returns affiliate customer data.",
-     *      @OA\RequestBody(
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *             @OA\Schema(
-     *                 required={
-     *                     "first_name",
-     *                     "last_name",
-     *                     "phone",
-     *                     "email",
-     *                     "country",
-     *                     "language",
-     *                     "currency",
-     *                     "campaign_id",
-     *                 },
-     *                 @OA\Property(property="first_name", type="string", description="First name"),
-     *                 @OA\Property(property="last_name", type="string", description="Last name"),
-     *                 @OA\Property(property="phone", type="string", description="Phone"),
-     *                 @OA\Property(property="country", type="string", description="ISO2, ISO3 or name of country"),
-     *                 @OA\Property(property="language", type="string", description="ISO2 or full name of language"),
-     *                 @OA\Property(property="currency", type="string", description="ISO3 of currency"),
-     *                 @OA\Property(property="campaign_id", type="integer", description="Available IDs for affiliate"),
-     *                 @OA\Property(property="brand_id", type="integer", description="Brand ID"),
-     *                 @OA\Property(property="desk_id", type="integer", description="Desk ID"),
-     *                 @OA\Property(property="offer_name", type="string", description="Offer name"),
-     *                 @OA\Property(property="offer_url", type="string", description="Offer URL"),
-     *                 @OA\Property(property="comment_about_customer", type="string", description="Comment about customer"),
-     *                 @OA\Property(property="source", type="string", description="Source"),
-     *                 @OA\Property(property="click_id", type="string", description="Click ID"),
-     *                 @OA\Property(property="free_param_1", type="string", description="Free param 1"),
-     *                 @OA\Property(property="free_param_2", type="string", description="Free param 2"),
-     *                 @OA\Property(property="free_param_3", type="string", description="Free param 3"),
-     *             )
-     *         )
-     *      ),
-     *      @OA\Response(
-     *          response=201,
-     *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/CustomerResource")
-     *       ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      )
-     * )
-     *
      * Store customer.
      *
      * @param  CustomerCreateRequest  $request
@@ -143,21 +67,21 @@ final class CustomerController extends Controller
      */
     public function store(CustomerCreateRequest $request): Response
     {
-        $this->authorize('create', Customer::class);
+        $this->authorize('createByAffiliate', Customer::class);
 
         $country = $this->countryRepository
-            ->where('iso2', $request->post('country'))
-            ->orWhere('iso3', $request->post('country'))
-            ->orWhere('name', $request->post('country'))
+            ->whereLowerCase('iso2', strtolower($request->post('country')))
+            ->orWhereLowerCase('iso3', strtolower($request->post('country')))
+            ->orWhereLowerCase('name', strtolower($request->post('country')))
             ->firstOrFail();
 
         $language = $this->languageRepository
-            ->where('code', $request->post('language'))
-            ->orWhere('name', $request->post('language'))
+            ->whereLowerCase('code', strtolower($request->post('language')))
+            ->orWhereLowerCase('name', strtolower($request->post('language')))
             ->firstOrFail();
 
         $currency = $this->currencyRepository
-            ->where('iso3', $request->post('currency'))
+            ->whereLowerCase('iso3', strtolower($request->post('currency')))
             ->firstOrFail();
 
         $data = array_merge($request->validated(), [

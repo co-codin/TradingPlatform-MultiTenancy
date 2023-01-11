@@ -8,6 +8,8 @@ use Modules\Customer\Enums\CustomerPermission;
 use Modules\Customer\Models\Customer;
 use Modules\Geo\Models\Country;
 use Modules\Language\Models\Language;
+use Modules\Role\Enums\DefaultRole;
+use Modules\Role\Models\Role;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
@@ -26,6 +28,13 @@ class CreateTest extends BrandTestCase
     public function authorized_user_can_create_customer(): void
     {
         $this->authenticateWithPermission(CustomerPermission::fromValue(CustomerPermission::CREATE_CUSTOMERS));
+
+        $this->user->assignRole(
+            Role::where('name', DefaultRole::AFFILIATE)->first()
+            ?? Role::factory()->create([
+                'name' => DefaultRole::AFFILIATE,
+            ])
+        );
 
         $affiliateToken = $this->user->affiliateToken()->create([
             'token' => Str::random(),

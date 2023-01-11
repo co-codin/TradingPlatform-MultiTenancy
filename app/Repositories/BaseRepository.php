@@ -79,4 +79,32 @@ abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepositor
 
         return $this;
     }
+
+    /**
+     * Where in lower case.
+     *
+     * @param $column
+     * @param $value
+     * @return Builder
+     */
+    public function whereLowerCase($column, $value = null): static
+    {
+        $this->model->query()->whereRaw("LOWER(`{$column}`) = $value", [$value]);
+
+        return $this;
+    }
+
+    /**
+     * Or where in lower case.
+     *
+     * @param $column
+     * @param $value
+     * @return Builder
+     */
+    public function orWhereLowerCase($column, $value = null): static
+    {
+        $this->model->query()->orWhereRaw("LOWER(`{$column}`) = $value", [$value]);
+
+        return $this;
+    }
 }
