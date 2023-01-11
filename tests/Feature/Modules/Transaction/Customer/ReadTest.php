@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Modules\Transaction;
+namespace tests\Feature\Modules\Transaction\Customer;
 
 use Modules\Transaction\Models\Transaction;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
@@ -25,7 +25,7 @@ final class ReadTest extends BrandTestCase
 
         $transaction = Transaction::factory(10)->create();
 
-        $response = $this->get(route('api.transactions.index'));
+        $response = $this->get(route('customer.transactions.index'));
 
         $response->assertOk();
 
@@ -45,10 +45,12 @@ final class ReadTest extends BrandTestCase
 
         $transaction = Transaction::factory()->create();
 
-        $response = $this->get(route('api.transactions.show', ['transaction' => $transaction]));
+        $response = $this->get(route('customer.transactions.show', ['transaction' => $transaction]));
 
         $response->assertOk();
-        $response->assertJson(['data' => $transaction->toArray()]);
+        $response->assertJson(['data' => [
+            'id' => $transaction->id,
+        ]]);
     }
 
     /**
@@ -59,7 +61,7 @@ final class ReadTest extends BrandTestCase
         $this->authenticateCustomer();
         $transactionId = Transaction::query()->orderByDesc('id')->first()?->id + 1 ?? 1;
 
-        $response = $this->get(route('api.transactions.show', ['transaction' => $transactionId]));
+        $response = $this->get(route('customer.transactions.show', ['transaction' => $transactionId]));
 
         $response->assertNotFound();
     }
@@ -71,7 +73,7 @@ final class ReadTest extends BrandTestCase
     {
         $this->authenticateUser();
 
-        $response = $this->get(route('api.transactions.index'));
+        $response = $this->get(route('customer.transactions.index'));
 
         $response->assertUnauthorized();
     }
@@ -84,7 +86,7 @@ final class ReadTest extends BrandTestCase
         $this->brand->makeCurrent();
         $transaction = Transaction::factory()->create();
 
-        $response = $this->get(route('api.transactions.show', ['transaction' => $transaction]));
+        $response = $this->get(route('customer.transactions.show', ['transaction' => $transaction]));
 
         $response->assertUnauthorized();
     }
