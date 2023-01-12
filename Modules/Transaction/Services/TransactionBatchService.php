@@ -9,6 +9,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Modules\Transaction\Dto\TransactionDto;
 use Modules\Transaction\Enums\TransactionPermission;
+use Modules\Transaction\Enums\TransactionStatusEnum;
+use Modules\Transaction\Models\TransactionStatus;
 use Modules\Transaction\Repositories\TransactionRepository;
 use Modules\User\Services\Traits\HasAuthUser;
 
@@ -42,8 +44,18 @@ class TransactionBatchService
             $transaction = $this->transactionRepository->find($item['id']);
 
             if ($this->authUser?->can(TransactionPermission::EDIT_TRANSACTIONS, $transaction)) {
+
+                if ($transaction->status_id != TransactionStatus::firstWhere('name', TransactionStatusEnum::PENDING)->id) {
+                    throw new Exception(__('Can not update transaction status'));
+                }
+
                 $updatedTransactions->push(
-                    $this->transactionStorage->updateBatch($transaction, Arr::whereNotNull(TransactionDto::create($item)->toArray()))
+                    $this->transactionStorage->updateBatch(
+                        $transaction,
+                        array_merge(Arr::whereNotNull(TransactionDto::create($item)->toArray()), [
+                            'status_id' => TransactionStatus::firstWhere('name', $item['status'])->id,
+                        ])
+                    )
                 );
             }
         }

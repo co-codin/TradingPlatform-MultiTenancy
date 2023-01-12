@@ -9651,7 +9651,48 @@
                 "requestBody": {
                     "content": {
                         "application/json": {
-                            "schema": {}
+                            "schema": {
+                                "required": [
+                                    "amount",
+                                    "method_id",
+                                    "is_test",
+                                    "worker_id",
+                                    "status_id",
+                                    "external_id"
+                                ],
+                                "properties": {
+                                    "amount": {
+                                        "description": "Amount of transaction",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "method_id": {
+                                        "description": "Method ID",
+                                        "type": "integer"
+                                    },
+                                    "is_test": {
+                                        "description": "Is test",
+                                        "type": "boolean"
+                                    },
+                                    "worker_id": {
+                                        "description": "Worker ID",
+                                        "type": "integer"
+                                    },
+                                    "status_id": {
+                                        "description": "Status ID",
+                                        "type": "integer"
+                                    },
+                                    "external_id": {
+                                        "description": "External ID",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Description",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
                         }
                     }
                 },
@@ -9701,7 +9742,40 @@
                 "requestBody": {
                     "content": {
                         "application/json": {
-                            "schema": {}
+                            "schema": {
+                                "properties": {
+                                    "amount": {
+                                        "description": "Amount of transaction",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "method_id": {
+                                        "description": "Method ID",
+                                        "type": "integer"
+                                    },
+                                    "is_test": {
+                                        "description": "Is test",
+                                        "type": "boolean"
+                                    },
+                                    "worker_id": {
+                                        "description": "Worker ID",
+                                        "type": "integer"
+                                    },
+                                    "status_id": {
+                                        "description": "Status ID",
+                                        "type": "integer"
+                                    },
+                                    "external_id": {
+                                        "description": "External ID",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Description",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
                         }
                     }
                 },
@@ -9770,7 +9844,7 @@
                                                 },
                                                 "is_test": {
                                                     "description": "Is test",
-                                                    "type": "integer"
+                                                    "type": "boolean"
                                                 },
                                                 "method_id": {
                                                     "description": "Method ID",
