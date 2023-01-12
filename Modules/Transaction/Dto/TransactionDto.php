@@ -11,18 +11,13 @@ final class TransactionDto extends BaseDto
     public ?string $type;
     public ?string $mt5_type;
     public ?string $status;
-
     public ?float $amount;
     public ?int $customer_id;
     public ?int $method_id;
     public ?int $wallet_id;
-
     public ?string $external_id;
     public ?string $description;
     public ?bool $is_test;
-
     public ?int $creator_id;
-
     public ?int $worker_id;
-    public ?int $status_id;
 }
