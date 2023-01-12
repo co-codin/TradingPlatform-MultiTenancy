@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Modules\Transaction\Observers;
 
+use Modules\Transaction\Jobs\ChangeCustomerDepartmentAfterDeposit;
 use Modules\Transaction\Models\Transaction;
 use Modules\Transaction\Services\CurrencyConverter;
 
 final class TransactionObserver
 {
     /**
-     * @param CurrencyConverter $converter
+     * @param  CurrencyConverter  $converter
      */
-    public function __construct(protected CurrencyConverter $converter)
+    public function __construct(private readonly CurrencyConverter $converter)
     {
     }
 
@@ -35,10 +36,10 @@ final class TransactionObserver
 
             if ($transaction->isBalanceMt5Type()) {
                 $approvedDeposits = $transaction->customer->getApprovedDeposits();
-                $approvedWithdraw = $transaction->customer->getApprovedWithdraws();
+                $approvedWithdrawals = $transaction->customer->getApprovedWithdrawals();
 
-                $transaction->customer->balance = $approvedDeposits->sum('amount') - $approvedWithdraw->sum('amount');
-                $transaction->customer->balance_usd = $approvedDeposits->sum('amount_usd') - $approvedWithdraw->sum('amount_usd');
+                $transaction->customer->balance = $approvedDeposits->sum('amount') - $approvedWithdrawals->sum('amount');
+                $transaction->customer->balance_usd = $approvedDeposits->sum('amount_usd') - $approvedWithdrawals->sum('amount_usd');
             }
         }
 
@@ -52,6 +53,8 @@ final class TransactionObserver
             $transaction->customer->last_approved_deposit_date = now();
             $transaction->customer->last_pending_deposit_date = null;
 
+            ChangeCustomerDepartmentAfterDeposit::dispatchSync($transaction->customer);
+
             if ($transaction->isFirstCustomerDeposit()) {
                 $transaction->customer->first_deposit_date = now();
                 $transaction->customer->is_ftd = true;
@@ -59,10 +62,10 @@ final class TransactionObserver
 
             if ($transaction->isBalanceMt5Type()) {
                 $approvedDeposits = $transaction->customer->getApprovedDeposits();
-                $approvedWithdraw = $transaction->customer->getApprovedWithdraws();
+                $approvedWithdrawals = $transaction->customer->getApprovedWithdrawals();
 
-                $transaction->customer->balance = $approvedDeposits->sum('amount') - $approvedWithdraw->sum('amount');
-                $transaction->customer->balance_usd = $approvedDeposits->sum('amount_usd') - $approvedWithdraw->sum('amount_usd');
+                $transaction->customer->balance = $approvedDeposits->sum('amount') - $approvedWithdrawals->sum('amount');
+                $transaction->customer->balance_usd = $approvedDeposits->sum('amount_usd') - $approvedWithdrawals->sum('amount_usd');
             }
         }
 
@@ -72,14 +75,14 @@ final class TransactionObserver
     }
 
     /**
-     * Handle the Customer "saving" event.
+     * Handle the Customer "creating" event.
      *
      * @param  Transaction  $transaction
      * @return void
      */
-    public function saving(Transaction $transaction): void
+    public function creating(Transaction $transaction): void
     {
-        if ($currency = $transaction->wallet?->iso3) {
+        if ($currency = $transaction->currency?->iso3) {
             switch ($currency) {
                 case 'USD':
                     $transaction->amount_usd = $transaction->amount;

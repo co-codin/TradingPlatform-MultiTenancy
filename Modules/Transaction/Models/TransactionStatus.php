@@ -7,7 +7,7 @@ namespace Modules\Transaction\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Transaction\Database\factories\TransactionStatusFactory;
-use Modules\Transaction\Enums\TransactionStatusName;
+use Modules\Transaction\Enums\TransactionStatusEnum;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 final class TransactionStatus extends Model
@@ -26,7 +26,7 @@ final class TransactionStatus extends Model
      * {@inheritdoc}
      */
     protected $casts = [
-        'name' => TransactionStatusName::class,
+        'name' => TransactionStatusEnum::class,
     ];
 
     /**

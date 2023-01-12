@@ -65,10 +65,10 @@ class CustomerFactory extends BaseFactory
 
             'campaign_id' => Campaign::factory(),
 
-            'country_id' => Country::all()->random(),
+            'country_id' => Country::inRandomOrder()->first(),
             'language_id' => Language::factory(),
-            'currency_id' => Currency::all()->random(),
-            'department_id' => Department::factory(),
+            'currency_id' => Currency::inRandomOrder()->first(),
+            'department_id' => Department::inRandomOrder()->first(),
             'desk_id' => Desk::factory(),
 
             'conversion_sale_status_id' => SaleStatus::factory(),

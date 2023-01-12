@@ -7,10 +7,11 @@ namespace Modules\Transaction\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Currency\Models\Currency;
 use Modules\Customer\Models\Customer;
 use Modules\Transaction\Database\factories\TransactionFactory;
-use Modules\Transaction\Enums\TransactionMt5TypeName;
-use Modules\Transaction\Enums\TransactionStatusName;
+use Modules\Transaction\Enums\TransactionMt5TypeEnum;
+use Modules\Transaction\Enums\TransactionStatusEnum;
 use Modules\Transaction\Enums\TransactionType;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
@@ -57,7 +58,7 @@ final class Transaction extends Model
      */
     public function isPendingStatus(): bool
     {
-        return $this->status?->name->value === TransactionStatusName::PENDING;
+        return $this->status?->name->value === TransactionStatusEnum::PENDING;
     }
 
     /**
@@ -67,7 +68,7 @@ final class Transaction extends Model
      */
     public function isApprovedStatus(): bool
     {
-        return $this->status?->name->value === TransactionStatusName::APPROVED;
+        return $this->status?->name->value === TransactionStatusEnum::APPROVED;
     }
 
     /**
@@ -77,7 +78,7 @@ final class Transaction extends Model
      */
     public function isBalanceMt5Type(): bool
     {
-        return $this->mt5Type?->name->value === TransactionMt5TypeName::BALANCE;
+        return $this->mt5Type?->name->value === TransactionMt5TypeEnum::BALANCE;
     }
 
     /**
@@ -141,6 +142,16 @@ final class Transaction extends Model
     public function wallet(): BelongsTo
     {
         return $this->belongsTo(Wallet::class);
+    }
+
+    /**
+     * Currency relation.
+     *
+     * @return BelongsTo
+     */
+    public function currency(): BelongsTo
+    {
+        return $this->belongsTo(Currency::class);
     }
 
     /**
