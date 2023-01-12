@@ -21,11 +21,21 @@ final class CampaignFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
+        $working_hours = [
+            1 => ['start' => '10:00', 'end' => '18:00'],
+            2 => ['start' => '10:00', 'end' => '18:00'],
+            3 => ['start' => '10:00', 'end' => '18:00'],
+            4 => ['start' => '10:00', 'end' => '18:00'],
+            5 => ['start' => '10:00', 'end' => '18:00'],
+        ];
+
         return [
-            //
+            'cpa' => $this->faker->randomFloat(2, 5, 30),
+            'working_hours' => $working_hours,
+            'daily_cap' => $this->faker->numberBetween(1, 10),
+            'crg' => $this->faker->randomFloat(2, 5, 30),
         ];
     }
 }
-
