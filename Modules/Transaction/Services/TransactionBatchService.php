@@ -44,8 +44,9 @@ class TransactionBatchService
             $transaction = $this->transactionRepository->find($item['id']);
 
             if ($this->authUser?->can(TransactionPermission::EDIT_TRANSACTIONS, $transaction)) {
-                if ($item['status'] == TransactionStatusEnum::PENDING) {
-                    throw new Exception(__('Can not update transaction status to ' . TransactionStatusEnum::PENDING));
+
+                if ($transaction->status_id != TransactionStatus::firstWhere('name', TransactionStatusEnum::PENDING)->id) {
+                    throw new Exception(__('Can not update transaction status'));
                 }
 
                 $updatedTransactions->push(

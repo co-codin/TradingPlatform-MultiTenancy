@@ -59,8 +59,8 @@ final class TransactionStorage
      */
     public function update(Transaction $transaction, TransactionDto $transactionDto): Transaction
     {
-        if ($transactionDto->status == TransactionStatusEnum::PENDING) {
-            throw new Exception(__('Can not update transaction status to ' . TransactionStatusEnum::PENDING));
+        if ($transaction->status_id != TransactionStatus::firstWhere('name', TransactionStatusEnum::PENDING)->id) {
+            throw new Exception(__('Can not update transaction status'));
         }
         if (!$transaction->update(array_merge($transactionDto->toArray(), [
             'status_id' => TransactionStatus::firstWhere('name', $transactionDto->status)->id,
