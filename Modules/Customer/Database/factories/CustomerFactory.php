@@ -4,6 +4,8 @@ namespace Modules\Customer\Database\factories;
 
 use Database\Factories\BaseFactory;
 use Illuminate\Support\Facades\Hash;
+use Modules\Campaign\Models\Campaign;
+use Modules\Currency\Models\Currency;
 use Modules\Customer\Enums\Gender;
 use Modules\Customer\Models\Customer;
 use Modules\Department\Models\Department;
@@ -61,9 +63,12 @@ class CustomerFactory extends BaseFactory
             'phone' => $this->faker->e164PhoneNumber(),
             'phone2' => $this->faker->e164PhoneNumber(),
 
-            'country_id' => Country::all()->random(),
+            'campaign_id' => Campaign::factory(),
+
+            'country_id' => Country::inRandomOrder()->first(),
             'language_id' => Language::factory(),
-            'department_id' => Department::factory(),
+            'currency_id' => Currency::inRandomOrder()->first(),
+            'department_id' => Department::inRandomOrder()->first(),
             'desk_id' => Desk::factory(),
 
             'conversion_sale_status_id' => SaleStatus::factory(),

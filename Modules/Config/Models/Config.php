@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Modules\Config\Models;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Config\Database\factories\ConfigFactory;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
@@ -28,6 +28,9 @@ final class Config extends Model
     use HasFactory;
     use UsesTenantConnection;
 
+    /**
+     * {@inheritdoc}
+     */
     protected $guarded = ['id'];
 
     /**

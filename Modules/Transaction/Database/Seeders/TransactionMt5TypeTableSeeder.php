@@ -6,7 +6,7 @@ namespace Modules\Transaction\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
-use Modules\Transaction\Enums\TransactionMt5TypeName;
+use Modules\Transaction\Enums\TransactionMt5TypeEnum;
 use Modules\Transaction\Models\TransactionsMt5Type;
 
 final class TransactionMt5TypeTableSeeder extends Seeder
@@ -18,7 +18,7 @@ final class TransactionMt5TypeTableSeeder extends Seeder
      */
     public function run()
     {
-        foreach (TransactionMt5TypeName::getValues() as $value) {
+        foreach (TransactionMt5TypeEnum::getValues() as $value) {
             TransactionsMt5Type::query()->updateOrCreate(
                 [
                     'name' => $value,

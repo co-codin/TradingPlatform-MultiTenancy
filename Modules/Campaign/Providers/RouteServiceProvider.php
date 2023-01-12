@@ -2,8 +2,8 @@
 
 namespace Modules\Campaign\Providers;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -31,10 +31,9 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapAdminRoutes();
     }
 
-
     protected function mapAdminRoutes()
     {
-        Route::middleware(['api', 'auth:sanctum'])
+        Route::middleware(['api', 'auth:api'])
             ->as('admin.')
             ->prefix('admin')
             ->group(module_path('Campaign', '/Routes/admin.php'));

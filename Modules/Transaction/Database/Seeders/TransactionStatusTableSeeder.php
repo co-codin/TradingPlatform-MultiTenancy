@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Modules\Transaction\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Modules\Transaction\Enums\TransactionStatusName;
+use Modules\Transaction\Enums\TransactionStatusEnum;
 use Modules\Transaction\Models\TransactionStatus;
 
 final class TransactionStatusTableSeeder extends Seeder
@@ -17,7 +17,7 @@ final class TransactionStatusTableSeeder extends Seeder
      */
     public function run()
     {
-        foreach (TransactionStatusName::getValues() as $value) {
+        foreach (TransactionStatusEnum::getValues() as $value) {
             TransactionStatus::query()->updateOrCreate(
                 [
                     'name' => $value,

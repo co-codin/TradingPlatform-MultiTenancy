@@ -45,7 +45,7 @@ final class RouteServiceProvider extends ServiceProvider
         Route::middleware(['api'])
             ->as('affiliate.')
             ->prefix('affiliate')
-            ->group(module_path('Customer', '/Routes/affiliate-api.php'));
+            ->group(module_path('Customer', '/Routes/affiliate.php'));
     }
 
     /**

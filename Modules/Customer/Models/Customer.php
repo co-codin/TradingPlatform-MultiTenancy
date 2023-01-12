@@ -17,8 +17,8 @@ use Modules\Customer\Database\factories\CustomerFactory;
 use Modules\Customer\Events\CustomerSaving;
 use Modules\Customer\Models\Traits\CustomerRelations;
 use Modules\Role\Models\Traits\HasRoles;
-use Modules\Transaction\Enums\TransactionMt5TypeName;
-use Modules\Transaction\Enums\TransactionStatusName;
+use Modules\Transaction\Enums\TransactionMt5TypeEnum;
+use Modules\Transaction\Enums\TransactionStatusEnum;
 use Modules\Transaction\Enums\TransactionType;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 use Spatie\Multitenancy\Models\Tenant;
@@ -161,8 +161,8 @@ final class Customer extends Authenticatable
     {
         return $this->transactions()
             ->where('type', '=', TransactionType::DEPOSIT)
-            ->whereHas('status', fn ($q) => $q->where('name', TransactionStatusName::APPROVED))
-            ->whereHas('mt5Type', fn ($q) => $q->where('name', TransactionMt5TypeName::BALANCE))
+            ->whereHas('status', fn ($q) => $q->where('name', TransactionStatusEnum::APPROVED))
+            ->whereHas('mt5Type', fn ($q) => $q->where('name', TransactionMt5TypeEnum::BALANCE))
             ->get();
     }
 
@@ -175,8 +175,8 @@ final class Customer extends Authenticatable
     {
         return $this->transactions()
             ->where('type', '=', TransactionType::WITHDRAWAL)
-            ->whereHas('status', fn ($q) => $q->where('name', TransactionStatusName::APPROVED))
-            ->whereHas('mt5Type', fn ($q) => $q->where('name', TransactionMt5TypeName::BALANCE))
+            ->whereHas('status', fn ($q) => $q->where('name', TransactionStatusEnum::APPROVED))
+            ->whereHas('mt5Type', fn ($q) => $q->where('name', TransactionMt5TypeEnum::BALANCE))
             ->get();
     }
 

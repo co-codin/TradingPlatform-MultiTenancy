@@ -4,11 +4,19 @@ declare(strict_types=1);
 
 namespace Modules\Transaction\Observers;
 
+use Modules\Transaction\Jobs\ChangeCustomerDepartmentAfterDeposit;
 use Modules\Transaction\Models\Transaction;
 use Modules\Transaction\Services\CurrencyConverter;
 
 final class TransactionObserver
 {
+    /**
+     * @param  CurrencyConverter  $converter
+     */
+    public function __construct(private readonly CurrencyConverter $converter)
+    {
+    }
+
     /**
      * Handle the Customer "created" event.
      *
@@ -28,10 +36,10 @@ final class TransactionObserver
 
             if ($transaction->isBalanceMt5Type()) {
                 $approvedDeposits = $transaction->customer->getApprovedDeposits();
-                $approvedWithdraw = $transaction->customer->getApprovedWithdraws();
+                $approvedWithdrawals = $transaction->customer->getApprovedWithdrawals();
 
-                $transaction->customer->balance = $approvedDeposits->sum('amount') - $approvedWithdraw->sum('amount');
-                $transaction->customer->balance_usd = $approvedDeposits->sum('amount_usd') - $approvedWithdraw->sum('amount_usd');
+                $transaction->customer->balance = $approvedDeposits->sum('amount') - $approvedWithdrawals->sum('amount');
+                $transaction->customer->balance_usd = $approvedDeposits->sum('amount_usd') - $approvedWithdrawals->sum('amount_usd');
             }
         }
 
@@ -45,6 +53,8 @@ final class TransactionObserver
             $transaction->customer->last_approved_deposit_date = now();
             $transaction->customer->last_pending_deposit_date = null;
 
+            ChangeCustomerDepartmentAfterDeposit::dispatchSync($transaction->customer);
+
             if ($transaction->isFirstCustomerDeposit()) {
                 $transaction->customer->first_deposit_date = now();
                 $transaction->customer->is_ftd = true;
@@ -52,10 +62,10 @@ final class TransactionObserver
 
             if ($transaction->isBalanceMt5Type()) {
                 $approvedDeposits = $transaction->customer->getApprovedDeposits();
-                $approvedWithdraw = $transaction->customer->getApprovedWithdraws();
+                $approvedWithdrawals = $transaction->customer->getApprovedWithdrawals();
 
-                $transaction->customer->balance = $approvedDeposits->sum('amount') - $approvedWithdraw->sum('amount');
-                $transaction->customer->balance_usd = $approvedDeposits->sum('amount_usd') - $approvedWithdraw->sum('amount_usd');
+                $transaction->customer->balance = $approvedDeposits->sum('amount') - $approvedWithdrawals->sum('amount');
+                $transaction->customer->balance_usd = $approvedDeposits->sum('amount_usd') - $approvedWithdrawals->sum('amount_usd');
             }
         }
 
@@ -68,33 +78,24 @@ final class TransactionObserver
      * Handle the Customer "creating" event.
      *
      * @param  Transaction  $transaction
-     * @param  CurrencyConverter  $converter
      * @return void
      */
-    public function creating(Transaction $transaction, CurrencyConverter $converter): void
+    public function creating(Transaction $transaction): void
     {
-        if (
-            ! $transaction->is_ftd
-            && $transaction->isDeposit()
-            && $transaction->isApprovedStatus()
-            && $transaction->isBalanceMt5Type()
-            && $transaction->customer->transactions()->count() === 0
-        ) {
-            $transaction->is_ftd = true;
-        }
-
-        switch ($currency = $transaction->wallet->iso3) {
-            case 'USD':
-                $transaction->amount_usd = $transaction->amount;
-                $transaction->amount_eur = $converter->convert('USD', 'EUR', $transaction->amount);
-                break;
-            case 'EUR':
-                $transaction->amount_eur = $transaction->amount;
-                $transaction->amount_usd = $converter->convert('EUR', 'USD', $transaction->amount);
-                break;
-            default:
-                $transaction->amount_eur = $converter->convert($currency, 'EUR', $transaction->amount);
-                $transaction->amount_usd = $converter->convert($currency, 'USD', $transaction->amount);
+        if ($currency = $transaction->currency?->iso3) {
+            switch ($currency) {
+                case 'USD':
+                    $transaction->amount_usd = $transaction->amount;
+                    $transaction->amount_eur = $this->converter->convert('USD', 'EUR', $transaction->amount);
+                    break;
+                case 'EUR':
+                    $transaction->amount_eur = $transaction->amount;
+                    $transaction->amount_usd = $this->converter->convert('EUR', 'USD', $transaction->amount);
+                    break;
+                default:
+                    $transaction->amount_eur = $this->converter->convert($currency, 'EUR', $transaction->amount);
+                    $transaction->amount_usd = $this->converter->convert($currency, 'USD', $transaction->amount);
+            }
         }
     }
 

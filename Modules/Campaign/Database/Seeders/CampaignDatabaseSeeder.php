@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Campaign\Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
+use Modules\Campaign\Models\Campaign;
 
-class CampaignDatabaseSeeder extends Seeder
+final class CampaignDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,6 +19,6 @@ class CampaignDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+        Campaign::factory()->count(5)->create();
     }
 }

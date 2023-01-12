@@ -4,19 +4,53 @@ declare(strict_types=1);
 
 namespace Modules\Campaign\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Modules\Campaign\Database\factories\CampaignFactory;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
-class Campaign extends Model
+final class Campaign extends Model
 {
     use HasFactory;
     use UsesTenantConnection;
 
-    protected $fillable = [];
+    /**
+     * {@inheritdoc}
+     */
+    protected $guarded = [
+        'id',
+    ];
 
+    /**
+     * {@inheritDoc}
+     */
     protected static function newFactory()
     {
-        return \Modules\Campaign\Database\factories\CampaignFactory::new();
+        return CampaignFactory::new();
+    }
+
+    /**
+     * Check for working hours
+     *
+     * @return bool
+     */
+    public function isWorkingHours(): bool
+    {
+        $dayOfTheWeek = Carbon::now()->dayOfWeek;
+
+        if (isset($this->working_hours[$dayOfTheWeek])) {
+            $working_hours = $this->working_hours[$dayOfTheWeek];
+
+            $startDate = Carbon::createFromFormat('H:i', $working_hours['start'] ?? '10:00');
+            $endDate = Carbon::createFromFormat('H:i', $working_hours['end'] ?? '18:00');
+
+            $check = Carbon::now()->between($startDate, $endDate, true);
+            if ($check) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

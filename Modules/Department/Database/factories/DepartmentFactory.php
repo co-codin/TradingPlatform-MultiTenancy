@@ -19,16 +19,16 @@ class DepartmentFactory extends Factory
      * Define the model's default state.
      *
      * @return array
+     *
      * @throws Exception
      */
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name,
-            'title' => $this->faker->title,
+            'name' => $name = $this->faker->name,
+            'title' => $name,
             'is_active' => $this->faker->boolean(),
             'is_default' => $this->faker->boolean(),
         ];
     }
 }
-

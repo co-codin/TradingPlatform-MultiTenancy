@@ -7,7 +7,7 @@ namespace Modules\Transaction\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Transaction\Database\factories\TransactionsMethodFactory;
-use Modules\Transaction\Enums\TransactionMethodName;
+use Modules\Transaction\Enums\TransactionMethodEnum;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 final class TransactionsMethod extends Model
@@ -24,7 +24,7 @@ final class TransactionsMethod extends Model
      * {@inheritdoc}
      */
     protected $casts = [
-        'name' => TransactionMethodName::class,
+        'name' => TransactionMethodEnum::class,
     ];
 
     /**
