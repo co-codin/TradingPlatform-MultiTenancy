@@ -47,8 +47,6 @@ final class CustomerController extends Controller
      */
     public function index(): JsonResource
     {
-        $this->authorize('viewAnyByAffiliate', Customer::class);
-
         return CustomerResource::collection(
             $this->customerRepository
                 ->where('affiliate_user_id', auth()->id())
@@ -67,8 +65,6 @@ final class CustomerController extends Controller
      */
     public function store(CustomerCreateRequest $request): Response
     {
-        $this->authorize('createByAffiliate', Customer::class);
-
         $country = $this->countryRepository
             ->whereLowerCase('iso2', strtolower($request->post('country')))
             ->orWhereLowerCase('iso3', strtolower($request->post('country')))
