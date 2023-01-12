@@ -22,4 +22,9 @@ final class ConfigType extends BaseEnum
      * @var string
      */
     public const BACKEND = 'backend';
+
+    /**
+     * @var string
+     */
+    public const TRANSACTION = 'transaction';
 }
