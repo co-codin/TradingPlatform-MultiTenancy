@@ -14,11 +14,13 @@ use Modules\Role\Dto\RoleDto;
 use Modules\Role\Http\Requests\RoleCreateRequest;
 use Modules\Role\Http\Requests\RoleUpdateRequest;
 use Modules\Role\Http\Resources\RoleResource;
+use Modules\Role\Models\Permission;
 use Modules\Role\Models\Role;
 use Modules\Role\Repositories\RoleRepository;
 use Modules\Role\Services\RoleStorage;
 use OpenApi\Annotations as OA;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
+use Spatie\QueryBuilder\QueryBuilderRequest;
 
 final class RoleController extends Controller
 {
@@ -95,9 +97,14 @@ final class RoleController extends Controller
     {
         $this->authorize('viewAny', Role::class);
 
+        $additional = array_intersect_key(
+            ['all_permissions_count' => Permission::count()],
+            array_flip(app(QueryBuilderRequest::class)->appends()->toArray())
+        );
+
         return RoleResource::collection(
             $this->roleRepository->scopes(['byBrand'])->jsonPaginate()
-        );
+        )->additional($additional);
     }
 
     /**
@@ -145,7 +152,12 @@ final class RoleController extends Controller
 
         $this->authorize('view', $role);
 
-        return new RoleResource($role);
+        $additional = array_intersect_key(
+            ['all_permissions_count' => Permission::count()],
+            array_flip(app(QueryBuilderRequest::class)->appends()->toArray())
+        );
+
+        return (new RoleResource($role))->additional($additional);
     }
 
     /**
