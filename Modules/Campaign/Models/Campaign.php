@@ -18,6 +18,17 @@ final class Campaign extends Model
     use UsesTenantConnection;
 
     /**
+     * @var array
+     */
+    public const BASE_WORKING_HOURS = [
+        1 => ['start' => '10:00', 'end' => '18:00'],
+        2 => ['start' => '10:00', 'end' => '18:00'],
+        3 => ['start' => '10:00', 'end' => '18:00'],
+        4 => ['start' => '10:00', 'end' => '18:00'],
+        5 => ['start' => '10:00', 'end' => '18:00'],
+    ];
+
+    /**
      * {@inheritdoc}
      */
     protected $guarded = [
@@ -72,6 +83,8 @@ final class Campaign extends Model
     {
         return $this
             ->belongsToMany(Country::class, 'campaign_country')
-            ->withPivot('cpa', 'working_hours', 'daily_cap', 'crg');
+            ->using(CampaignCountry::class)
+            ->withPivot('cpa', 'crg', 'working_days', 'working_hours', 'daily_cap')
+            ->withTimestamps();
     }
 }

@@ -6,6 +6,8 @@ namespace Tests\Feature\Modules\Campaign\Admin;
 
 use Modules\Campaign\Enums\CampaignPermission;
 use Modules\Campaign\Models\Campaign;
+use Modules\Campaign\Models\CampaignCountry;
+use Modules\Geo\Models\Country;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
@@ -35,7 +37,20 @@ final class UpdateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $response = $this->patchJson(route('admin.campaign.update', ['campaign' => $campaign->id]), $campaignData);
+        $countries = Country::query()->limit(3)->get();
+
+        $campaignCountryData = [];
+
+        foreach ($countries as $country) {
+            $campaignCountryData[$country->id] = CampaignCountry::factory()->create([
+                'campaign_id' => $campaign->id,
+                'country_id' => $country->id,
+            ]);
+        }
+
+        $response = $this->patchJson(route('admin.campaign.update', ['campaign' => $campaign->id]), array_merge($campaignData, [
+            'countries' => $campaignCountryData,
+        ]));
 
         $response->assertOk();
         $response->assertJsonStructure([
