@@ -14,6 +14,7 @@ use Modules\Geo\Models\Country;
 use Modules\Language\Models\Language;
 use Modules\Sale\Models\SaleStatus;
 use Modules\Transaction\Models\Transaction;
+use Modules\Transaction\Models\Wallet;
 use Modules\User\Models\User;
 
 trait CustomerRelations
@@ -216,6 +217,16 @@ trait CustomerRelations
     final public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class, 'customer_id', 'id');
+    }
+
+    /**
+     * Wallets relation.
+     *
+     * @return HasMany
+     */
+    final public function wallets(): HasMany
+    {
+        return $this->hasMany(Wallet::class, 'customer_id', 'id');
     }
 
     // TODO надо допольнить всех отношений

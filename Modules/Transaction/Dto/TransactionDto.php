@@ -16,6 +16,8 @@ final class TransactionDto extends BaseDto
     public ?int $customer_id;
     public ?int $method_id;
     public ?int $wallet_id;
+    public ?int $currency_id;
+    public ?int $mt5_type_id;
 
     public ?string $external_id;
     public ?string $description;

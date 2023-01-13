@@ -23,6 +23,13 @@ final class Campaign extends Model
     ];
 
     /**
+     * {@inheritdoc}
+     */
+    protected $casts = [
+        'working_hours' => 'collection',
+    ];
+
+    /**
      * {@inheritDoc}
      */
     protected static function newFactory()

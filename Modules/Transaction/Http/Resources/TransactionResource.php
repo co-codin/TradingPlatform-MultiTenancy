@@ -57,6 +57,12 @@ final class TransactionResource extends JsonResource
      */
     public function toArray($request): array
     {
-        return parent::toArray($request);
+        $data = parent::toArray($request);
+
+        if (array_key_exists(static::$wrap, $data)) {
+            $data = [static::$wrap => $data];
+        }
+
+        return $data;
     }
 }

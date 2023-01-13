@@ -20,8 +20,8 @@ use Modules\Transaction\Services\WalletStorage;
 final class WalletController extends Controller
 {
     /**
-     * @param WalletRepository $repository
-     * @param WalletStorage $storage
+     * @param  WalletRepository  $repository
+     * @param  WalletStorage  $storage
      */
     public function __construct(
         protected WalletRepository $repository,
@@ -124,11 +124,13 @@ final class WalletController extends Controller
      *                     "title",
      *                     "mt5_id",
      *                     "currency_id",
+     *                     "customer_id",
      *                 },
      *                 @OA\Property(property="name", description="Wallet name"),
      *                 @OA\Property(property="title", type="string", description="Wallet title"),
      *                 @OA\Property(property="mt5_id", type="string", description="Wallet mt5_id"),
      *                 @OA\Property(property="currency_id", type="integer", description="Wallet currency_id"),
+     *                 @OA\Property(property="customer_id", type="integer", description="Wallet customer_id"),
      *             )
      *         )
      *     ),
@@ -185,11 +187,13 @@ final class WalletController extends Controller
      *                     "title",
      *                     "mt5_id",
      *                     "currency_id",
+     *                     "customer_id",
      *                 },
      *                 @OA\Property(property="name", description="Wallet name"),
      *                 @OA\Property(property="title", type="string", description="Wallet title"),
      *                 @OA\Property(property="mt5_id", type="string", description="Wallet mt5_id"),
      *                 @OA\Property(property="currency_id", type="integer", description="Wallet currency_id"),
+     *                 @OA\Property(property="customer_id", type="integer", description="Wallet customer_id"),
      *             )
      *         )
      *     ),
@@ -235,6 +239,7 @@ final class WalletController extends Controller
      *                 @OA\Property(property="title", type="string", description="Wallet title"),
      *                 @OA\Property(property="mt5_id", type="string", description="Wallet mt5_id"),
      *                 @OA\Property(property="currency_id", type="integer", description="Wallet currency_id"),
+     *                 @OA\Property(property="customer_id", type="integer", description="Wallet customer_id"),
      *             )
      *         )
      *     ),

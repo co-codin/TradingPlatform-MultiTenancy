@@ -11,13 +11,12 @@ use Modules\Config\Enums\DataType;
 use Modules\Config\Models\Config;
 use Modules\Role\Enums\ModelHasPermissionStatus;
 use Modules\Transaction\Dto\TransactionDto;
-use Modules\Transaction\Enums\TransactionMt5TypeName;
+use Modules\Transaction\Enums\TransactionMt5TypeEnum;
 use Modules\Transaction\Enums\TransactionPermission;
-use Modules\Transaction\Enums\TransactionStatusName;
+use Modules\Transaction\Enums\TransactionStatusEnum;
 use Modules\Transaction\Enums\TransactionType;
 use Modules\Transaction\Models\Transaction;
 use Modules\Transaction\Models\TransactionStatus;
-use Modules\Transaction\Models\Wallet;
 
 final class TransactionStorage
 {
@@ -35,7 +34,7 @@ final class TransactionStorage
 
         // Preset pending status for transaction
         $transaction->status()->associate(
-            TransactionStatus::query()->where('name', TransactionStatusName::PENDING)->firstOrFail()
+            TransactionStatus::query()->where('name', TransactionStatusEnum::PENDING)->firstOrFail()
         );
 
         // Is first deposit
@@ -49,6 +48,10 @@ final class TransactionStorage
             $transaction->is_ftd = true;
         }
 
+        if ($transaction->wallet->customer->id !== auth()->id()) {
+            throw new Exception(__('It is not your wallet'));
+        }
+
         // Checking for withdrawal
         if ($transaction->isWithdrawal() && $transaction->isBalanceMt5Type()) {
             $customerTransactionConfig = Config::whereHas('configType', fn ($q) => $q->where('name', ConfigType::TRANSACTION))
@@ -58,18 +61,21 @@ final class TransactionStorage
 
             if ($customerTransactionConfig) {
                 // Check min withdrawal amount by current currency
-                if (isset($customerTransactionConfig->value['min_withdraw'][$transaction->currency->iso3])) {
-                    if ($transaction->amount < $customerTransactionConfig->value['min_withdraw'][$transaction->currency->iso3]) {
+                if (isset($customerTransactionConfig->value[$transaction->wallet?->currency?->iso3]['min_withdraw'])) {
+                    if (
+                        $transaction->amount
+                        < $customerTransactionConfig->value[$transaction->wallet?->currency?->iso3]['min_withdraw']
+                    ) {
                         throw new Exception(__('Amount less, than minimum withdrawal amount'));
                     }
                 // Check min withdrawal amount by USD currency
-                } elseif (isset($customerTransactionConfig->value['min_withdraw']['USD'])) {
-                    if ($transaction->amount_usd < $customerTransactionConfig->value['min_withdraw']['USD']) {
+                } elseif (isset($customerTransactionConfig->value['USD']['min_withdraw'])) {
+                    if ($transaction->amount_usd < $customerTransactionConfig->value['USD']['min_withdraw']) {
                         throw new Exception(__('Amount less, than minimum withdrawal amount'));
                     }
                 // Check min withdrawal amount by EUR currency
-                } elseif (isset($customerTransactionConfig->value['min_withdraw']['EUR'])) {
-                    if ($transaction->amount_eur < $customerTransactionConfig->value['min_withdraw']['EUR']) {
+                } elseif (isset($customerTransactionConfig->value['EUR']['min_withdraw'])) {
+                    if ($transaction->amount_eur < $customerTransactionConfig->value['EUR']['min_withdraw']) {
                         throw new Exception(__('Amount less, than minimum withdrawal amount'));
                     }
                 } else {
@@ -99,15 +105,15 @@ final class TransactionStorage
             if (
                 $transaction->customer->transactions()
                     ->where('type', TransactionType::WITHDRAWAL)
-                    ->whereHas('status', fn ($q) => $q->where('name', TransactionStatusName::PENDING))
-                    ->whereHas('mt5Type', fn ($q) => $q->where('name', TransactionMt5TypeName::BALANCE))
+                    ->whereHas('status', fn ($q) => $q->where('name', TransactionStatusEnum::PENDING))
+                    ->whereHas('mt5Type', fn ($q) => $q->where('name', TransactionMt5TypeEnum::BALANCE))
                     ->exists()
             ) {
                 throw new Exception(__('Withdrawal transaction already created'));
             }
         }
 
-        if ($transaction->save()) {
+        if (! $transaction->save()) {
             throw new Exception(__('Can not store transaction'));
         }
 
