@@ -25,22 +25,12 @@ final class WalletFactory extends Factory
      */
     public function definition(): array
     {
-        $tenant = Tenant::current();
-        $customer = Customer::inRandomOrder()->first();
-
-        if (! $customer) {
-            $customer = Landlord::execute(fn () => Customer::factory()->make());
-            $tenant->makeCurrent();
-            $customer->save();
-            $tenant->makeCurrent();
-        }
-
         return [
             'name' => $this->faker->sentence(2),
             'title' => $this->faker->title(),
             'mt5_id' => $this->faker->unique()->name(),
             'currency_id' => Currency::inRandomOrder()->first() ?? Currency::factory(),
-            'customer_id' => $customer->id,
+            'customer_id' => (Customer::inRandomOrder()->first() ?? Customer::factory()->create())->id,
         ];
     }
 }

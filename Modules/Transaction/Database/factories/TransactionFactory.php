@@ -31,8 +31,6 @@ final class TransactionFactory extends BaseFactory
      */
     public function definition(): array
     {
-        $tenant = Tenant::current();
-
         $fromCustomer = $this->faker->boolean;
         $type = $this->faker->randomElement(TransactionType::getValues());
         $mt5Type = $this->faker->randomElement($type === TransactionType::WITHDRAWAL
@@ -45,8 +43,8 @@ final class TransactionFactory extends BaseFactory
 
         return [
             'type' => $type,
-            'mt5_type_id' => TransactionsMt5Type::firstWhere('name', $mt5Type)?->id,
-            'status_id' => TransactionStatus::inRandomOrder()->first()?->id,
+            'mt5_type_id' => TransactionsMt5Type::firstWhere('name', $mt5Type)->id,
+            'status_id' => TransactionStatus::inRandomOrder()->first()->id,
             'creator_id' => $fromCustomer ? $customer->id : User::inRandomOrder()->first()->id,
             'customer_id' => $customer->id,
             'worker_id' => match ($customer->department->name) {
@@ -55,7 +53,7 @@ final class TransactionFactory extends BaseFactory
                 default => null,
             },
             'amount' => $this->faker->randomFloat(nbMaxDecimals: 10, max: 20),
-            'method_id' => TransactionsMethod::inRandomOrder()->first()?->id,
+            'method_id' => TransactionsMethod::inRandomOrder()->first()->id,
             'wallet_id' => $wallet->id,
             'currency_id' => $wallet->currency->id,
             'external_id' => (string) ($this->faker->boolean ? $this->faker->uuid : $this->faker->numberBetween()),
