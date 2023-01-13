@@ -5,6 +5,7 @@ namespace Modules\Customer\Services;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use LogicException;
+use Modules\Campaign\Models\Campaign;
 use Modules\Customer\Dto\CustomerDto;
 use Modules\Customer\Events\CustomerEdited;
 use Modules\Customer\Events\CustomerStored;
@@ -22,6 +23,10 @@ final class CustomerStorage
     {
         $attributes = $dto->toArray();
         $attributes['password'] = Hash::make($attributes['password']);
+
+        if (isset($attributes['campaign_id']) && ! ($campaign = Campaign::find($attributes['campaign_id']))->is_active) {
+            throw new LogicException(__('Can not create customer because the selected campaign ":name" is not active', ['name' => $campaign->name]));
+        }
 
         $customer = Customer::create($attributes);
 
