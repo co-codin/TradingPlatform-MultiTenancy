@@ -26,7 +26,10 @@ final class СhangeStatusTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $campaign = Campaign::factory()->create();
+        $campaign = $this->brand->execute(function () {
+            return Campaign::factory()->make();
+        });
+        $campaign->save();
 
         $this->brand->makeCurrent();
 
@@ -44,7 +47,10 @@ final class СhangeStatusTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $campaign = Campaign::factory()->create();
+        $campaign = $this->brand->execute(function () {
+            return Campaign::factory()->make();
+        });
+        $campaign->save();
 
         $this->brand->makeCurrent();
 
@@ -84,7 +90,10 @@ final class СhangeStatusTest extends BrandTestCase
     {
         $this->brand->makeCurrent();
 
-        $campaign = Campaign::factory()->create();
+        $campaign = $this->brand->execute(function () {
+            return Campaign::factory()->make();
+        });
+        $campaign->save();
 
         $response = $this->patch(route('admin.campaign.change-status', ['campaign' => $campaign]));
 

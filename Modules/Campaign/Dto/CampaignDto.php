@@ -8,23 +8,16 @@ use App\Dto\BaseDto;
 
 final class CampaignDto extends BaseDto
 {
-    /**
-     * @var float|null $cpa
-     */
+    public ?int $affiliate_id;
+    public ?string $name;
     public ?float $cpa;
-
-    /**
-     * @var array|null $working_hours
-     */
     public ?array $working_hours;
-
-    /**
-     * @var int|null $daily_cap
-     */
     public ?int $daily_cap;
-
-    /**
-     * @var float|null $crg
-     */
     public ?float $crg;
+    public ?bool $is_active;
+    public ?float $balance;
+    public ?int $monthly_cr;
+    public ?int $monthly_pv;
+    public ?float $crg_cost;
+    public ?float $ftd_cost;
 }

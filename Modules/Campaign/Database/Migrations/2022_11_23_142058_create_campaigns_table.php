@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('campaigns', function (Blueprint $table) {
             $table->id();
 
+            $table->foreignId('affiliate_id')->constrained('public.users');
             $table->string('name');
             $table->unsignedFloat('cpa');
             $table->json('working_hours');

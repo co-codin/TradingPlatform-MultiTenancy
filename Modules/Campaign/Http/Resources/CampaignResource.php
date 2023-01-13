@@ -14,6 +14,7 @@ use OpenApi\Annotations as OA;
  *     type="object",
  *     required={
  *         "id",
+ *         "affiliate_id",
  *         "name",
  *         "cpa",
  *         "working_hours",
@@ -29,6 +30,7 @@ use OpenApi\Annotations as OA;
  *         "updated_at",
  *     },
  *     @OA\Property(property="id", type="integer", description="Campaign ID"),
+ *     @OA\Property(property="affiliate_id", type="integer", description="Campaign affiliate id"),
  *     @OA\Property(property="name", type="string", description="Campaign name"),
  *     @OA\Property(property="cpa", type="float", description="Campaign cpa"),
  *     @OA\Property(property="working_hours", type="string", description="Campaign working hours by week days", example={"1":{"start":"10:00","end":"18:00"},"2":{"start":"10:00","end":"18:00"},"3":{"start":"10:00","end":"18:00"},"4":{"start":"10:00","end":"18:00"},"5":{"start":"10:00","end":"18:00"}}),

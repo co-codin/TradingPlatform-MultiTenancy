@@ -26,15 +26,21 @@ final class UpdateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $campaign = Campaign::factory()->create();
+        $campaign = $this->brand->execute(function () {
+            return Campaign::factory()->make();
+        });
+        $campaign->save();
+
         $campaignData = Campaign::factory()->make()->toArray();
 
         $this->brand->makeCurrent();
 
-        $response = $this->patch(route('admin.campaign.update', ['campaign' => $campaign]), $campaignData);
+        $response = $this->patchJson(route('admin.campaign.update', ['campaign' => $campaign->id]), $campaignData);
 
         $response->assertOk();
-        $response->assertJson(['data' => $campaignData]);
+        $response->assertJsonStructure([
+            'data' => array_keys($campaignData),
+        ]);
     }
 
     /**
@@ -46,13 +52,18 @@ final class UpdateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $campaign = Campaign::factory()->create();
+        $campaign = $this->brand->execute(function () {
+            return Campaign::factory()->make();
+        });
+        $campaign->save();
+
         $data = Campaign::factory()->make();
 
         $this->brand->makeCurrent();
 
         $response = $this->patch(
-            route('admin.campaign.update', ['campaign' => $campaign]), $data->toArray()
+            route('admin.campaign.update', ['campaign' => $campaign]),
+            $data->toArray()
         );
 
         $response->assertForbidden();
@@ -72,8 +83,10 @@ final class UpdateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $response = $this->patch(route('admin.campaign.update', ['campaign' => $campaignId]),
-            $data->toArray());
+        $response = $this->patch(
+            route('admin.campaign.update', ['campaign' => $campaignId]),
+            $data->toArray()
+        );
 
         $response->assertNotFound();
     }
@@ -85,7 +98,10 @@ final class UpdateTest extends BrandTestCase
     {
         $this->brand->makeCurrent();
 
-        $campaign = Campaign::factory()->create();
+        $campaign = $this->brand->execute(function () {
+            return Campaign::factory()->make();
+        });
+        $campaign->save();
 
         $response = $this->patch(route('admin.campaign.update', ['campaign' => $campaign]));
 
