@@ -16,6 +16,7 @@ final class UserUpdateRequest extends BaseFormRequest
                 'required',
                 'string',
                 'max:255',
+                'unique:landlord.users,username,' . $this->route('worker'),
             ],
             'first_name' => [
                 'sometimes',

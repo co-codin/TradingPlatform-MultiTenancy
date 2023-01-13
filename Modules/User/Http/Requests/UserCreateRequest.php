@@ -15,6 +15,7 @@ final class UserCreateRequest extends BaseFormRequest
                 'required',
                 'string',
                 'max:255',
+                'unique:landlord.users,username',
             ],
             'first_name' => [
                 'required',
