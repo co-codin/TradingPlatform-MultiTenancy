@@ -22,6 +22,27 @@ final class FTDCustomerController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *      path="/affiliate/ftd-customers",
+     *      security={ {"sanctum": {} }},
+     *      tags={"Customer"},
+     *      summary="Get affiliate customers with ftd list",
+     *      description="Returns affiliate customers with ftd list data.",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/AffiliateCustomerCollection")
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     *
      * Display ftd customer list.
      *
      * @return JsonResource
@@ -30,8 +51,6 @@ final class FTDCustomerController extends Controller
      */
     public function index(): JsonResource
     {
-        $this->authorize('viewAnyByAffiliate', Customer::class);
-
         return AffiliateCustomerResource::collection(
             $this->customerRepository
                 ->where('affiliate_user_id', auth()->id())
