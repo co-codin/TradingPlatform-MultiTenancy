@@ -42,6 +42,10 @@ final class CampaignStorage
             throw new Exception('Can not update campaign');
         }
 
+        if ($campaignDto->countries) {
+            $campaign->countries()->sync($campaignDto->countries);
+        }
+
         return $campaign;
     }
 
