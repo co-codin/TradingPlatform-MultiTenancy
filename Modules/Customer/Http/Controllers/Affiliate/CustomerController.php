@@ -12,8 +12,7 @@ use Illuminate\Support\Str;
 use Modules\Currency\Repositories\CurrencyRepository;
 use Modules\Customer\Dto\CustomerDto;
 use Modules\Customer\Http\Requests\Affiliate\CustomerCreateRequest;
-use Modules\Customer\Http\Resources\CustomerResource;
-use Modules\Customer\Models\Customer;
+use Modules\Customer\Http\Resources\AffiliateCustomerResource;
 use Modules\Customer\Repositories\CustomerRepository;
 use Modules\Customer\Services\CustomerStorage;
 use Modules\Geo\Repositories\CountryRepository;
@@ -47,7 +46,7 @@ final class CustomerController extends Controller
      */
     public function index(): JsonResource
     {
-        return CustomerResource::collection(
+        return AffiliateCustomerResource::collection(
             $this->customerRepository
                 ->where('affiliate_user_id', auth()->id())
                 ->jsonPaginate()
@@ -60,7 +59,6 @@ final class CustomerController extends Controller
      * @param  CustomerCreateRequest  $request
      * @return Response
      *
-     * @throws AuthorizationException
      * @throws UnknownProperties
      */
     public function store(CustomerCreateRequest $request): Response

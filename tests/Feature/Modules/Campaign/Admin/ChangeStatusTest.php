@@ -10,7 +10,7 @@ use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
 
-final class СhangeStatusTest extends BrandTestCase
+final class ChangeStatusTest extends BrandTestCase
 {
     use TenantAware;
     use HasAuth;
