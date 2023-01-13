@@ -14,6 +14,7 @@ final class CampaignCreateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
+            'affiliate_id' => 'required|int|exists:landlord.users,id',
             'name' => 'required|string',
             'cpa' => 'required|numeric',
             'working_hours' => 'required|array',

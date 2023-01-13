@@ -401,6 +401,7 @@
                         "application/json": {
                             "schema": {
                                 "required": [
+                                    "affiliate_id",
                                     "name",
                                     "cpa",
                                     "working_hours",
@@ -414,6 +415,10 @@
                                     "ftd_cost"
                                 ],
                                 "properties": {
+                                    "affiliate_id": {
+                                        "description": "Campaign affiliate id",
+                                        "type": "integer"
+                                    },
                                     "name": {
                                         "description": "Campaign name",
                                         "type": "string"
@@ -13250,6 +13255,7 @@
             "Campaign": {
                 "required": [
                     "id",
+                    "affiliate_id",
                     "name",
                     "cpa",
                     "working_hours",
@@ -13267,6 +13273,10 @@
                 "properties": {
                     "id": {
                         "description": "Campaign ID",
+                        "type": "integer"
+                    },
+                    "affiliate_id": {
+                        "description": "Campaign affiliate id",
                         "type": "integer"
                     },
                     "name": {
