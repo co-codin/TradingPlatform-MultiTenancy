@@ -10298,7 +10298,8 @@
                                     "name",
                                     "title",
                                     "mt5_id",
-                                    "currency_id"
+                                    "currency_id",
+                                    "customer_id"
                                 ],
                                 "properties": {
                                     "name": {
@@ -10314,6 +10315,10 @@
                                     },
                                     "currency_id": {
                                         "description": "Wallet currency_id",
+                                        "type": "integer"
+                                    },
+                                    "customer_id": {
+                                        "description": "Wallet customer_id",
                                         "type": "integer"
                                     }
                                 },
@@ -10420,7 +10425,8 @@
                                     "name",
                                     "title",
                                     "mt5_id",
-                                    "currency_id"
+                                    "currency_id",
+                                    "customer_id"
                                 ],
                                 "properties": {
                                     "name": {
@@ -10436,6 +10442,10 @@
                                     },
                                     "currency_id": {
                                         "description": "Wallet currency_id",
+                                        "type": "integer"
+                                    },
+                                    "customer_id": {
+                                        "description": "Wallet customer_id",
                                         "type": "integer"
                                     }
                                 },
@@ -10547,6 +10557,10 @@
                                     "currency_id": {
                                         "description": "Wallet currency_id",
                                         "type": "integer"
+                                    },
+                                    "customer_id": {
+                                        "description": "Wallet customer_id",
+                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"
@@ -10628,12 +10642,12 @@
                             "schema": {
                                 "required": [
                                     "type",
-                                    "mt5_type",
-                                    "status",
+                                    "mt5_type_id",
                                     "amount",
                                     "customer_id",
                                     "method_id",
-                                    "wallet_id"
+                                    "wallet_id",
+                                    "currency_id"
                                 ],
                                 "properties": {
                                     "type": {
@@ -10644,7 +10658,7 @@
                                             "deposit"
                                         ]
                                     },
-                                    "mt5_type": {
+                                    "mt5_type_id": {
                                         "description": "Transaction MT5 type",
                                         "type": "string",
                                         "enum": [
@@ -10656,12 +10670,16 @@
                                         ]
                                     },
                                     "amount": {
-                                        "description": "ID of customer",
+                                        "description": "Amount",
                                         "type": "number",
                                         "format": "float"
                                     },
                                     "customer_id": {
                                         "description": "ID of customer",
+                                        "type": "integer"
+                                    },
+                                    "currency_id": {
+                                        "description": "ID of currency",
                                         "type": "integer"
                                     },
                                     "method_id": {
@@ -10670,6 +10688,10 @@
                                     },
                                     "external_id": {
                                         "description": "ID of transaction in external service",
+                                        "type": "string"
+                                    },
+                                    "wallet_id": {
+                                        "description": "ID of wallet",
                                         "type": "string"
                                     },
                                     "description": {
@@ -15814,6 +15836,7 @@
                     "title",
                     "mt5_id",
                     "currency_id",
+                    "customer_id",
                     "created_at",
                     "updated_at"
                 ],
@@ -15836,6 +15859,10 @@
                     },
                     "currency_id": {
                         "description": "Wallet currency_id",
+                        "type": "integer"
+                    },
+                    "customer_id": {
+                        "description": "Wallet customer_id",
                         "type": "integer"
                     },
                     "created_at": {
@@ -16275,7 +16302,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }

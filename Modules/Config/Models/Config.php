@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Config\Database\factories\ConfigFactory;
+use Modules\Config\Dto\ConfigValue;
+use Modules\Config\Enums\DataType;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 /**
@@ -32,6 +34,33 @@ final class Config extends Model
      * {@inheritdoc}
      */
     protected $guarded = ['id'];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $casts = [
+        'value' => ConfigValue::class,
+    ];
+
+    /**
+     * Is json data type.
+     *
+     * @return bool
+     */
+    public function isJsonDataType(): bool
+    {
+        return $this->data_type === DataType::JSON;
+    }
+
+    /**
+     * Is string data type.
+     *
+     * @return bool
+     */
+    public function isStringDataType(): bool
+    {
+        return $this->data_type === DataType::STRING;
+    }
 
     /**
      * Config type relation.

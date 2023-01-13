@@ -18,6 +18,7 @@ final class WalletUpdateRequest extends BaseFormRequest
             'title' => 'required|string|max:255',
             'mt5_id' => 'required|string|max:255',
             'currency_id' => 'required|integer|max:255',
+            'customer_id' => 'required|integer|max:255|exists:tenant.customers,id',
         ];
     }
 }

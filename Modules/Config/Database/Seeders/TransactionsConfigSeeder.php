@@ -30,16 +30,16 @@ final class TransactionsConfigSeeder extends Seeder
                 'name' => ConfigName::CUSTOMER_RESTRICTIONS,
             ],
             [
-                'value' => json_encode([
+                'value' => [
                     'USD' => [
-                        'min_deposit' => 123,
-                        'min_withdraw' => 123,
+                        'min_deposit' => 1,
+                        'min_withdraw' => 1,
                     ],
                     'EUR' => [
-                        'min_deposit' => 123,
-                        'min_withdraw' => 123,
+                        'min_deposit' => 1,
+                        'min_withdraw' => 1,
                     ],
-                ]),
+                ],
             ]
         );
     }

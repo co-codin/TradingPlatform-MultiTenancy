@@ -107,19 +107,21 @@ final class TransactionController extends Controller
      *             @OA\Schema(
      *                 required={
      *                     "type",
-     *                     "mt5_type",
-     *                     "status",
+     *                     "mt5_type_id",
      *                     "amount",
      *                     "customer_id",
      *                     "method_id",
-     *                     "wallet_id"
+     *                     "wallet_id",
+     *                     "currency_id",
      *                 },
      *                 @OA\Property(property="type", type="string", enum={"withdrawal", "deposit"}, description="Transaction type"),
-     *                 @OA\Property(property="mt5_type", type="string", enum={"balance", "credit", "charge", "correction", "bonus"}, description="Transaction MT5 type"),
-     *                 @OA\Property(property="amount", type="number", format="float", description="ID of customer"),
+     *                 @OA\Property(property="mt5_type_id", type="string", enum={"balance", "credit", "charge", "correction", "bonus"}, description="Transaction MT5 type"),
+     *                 @OA\Property(property="amount", type="number", format="float", description="Amount"),
      *                 @OA\Property(property="customer_id", type="integer", description="ID of customer"),
+     *                 @OA\Property(property="currency_id", type="integer", description="ID of currency"),
      *                 @OA\Property(property="method_id", type="integer", description="ID of method"),
      *                 @OA\Property(property="external_id", type="string", description="ID of transaction in external service"),
+     *                 @OA\Property(property="wallet_id", type="string", description="ID of wallet"),
      *                 @OA\Property(property="description", type="string", description="Transaction description"),
      *                 @OA\Property(property="is_test", type="boolean", description="Test transaction flag"),
      *             )

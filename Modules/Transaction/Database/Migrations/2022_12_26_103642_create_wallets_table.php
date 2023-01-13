@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('mt5_id')->unique();
             $table->integer('currency_id');
+            $table->foreignId('customer_id')->constrained('customers');
 
             $table->softDeletes();
             $table->timestamps();

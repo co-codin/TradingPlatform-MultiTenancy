@@ -24,6 +24,9 @@ final class Campaign extends Model
         'id',
     ];
 
+    /**
+     * {@inheritdoc}
+     */
     protected $casts = [
         'working_hours' => 'collection',
     ];
