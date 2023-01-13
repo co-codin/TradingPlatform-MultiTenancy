@@ -6,7 +6,7 @@ namespace Modules\Config\Enums;
 
 use App\Enums\BaseEnum;
 
-final class DataType extends BaseEnum
+final class ConfigDataTypeEnum extends BaseEnum
 {
     /**
      * @var string
@@ -17,4 +17,14 @@ final class DataType extends BaseEnum
      * @var string
      */
     public const STRING = 'string';
+
+    /**
+     * @var string
+     */
+    public const BOOLEAN = 'boolean';
+
+    /**
+     * @var string
+     */
+    public const INTEGER = 'integer';
 }

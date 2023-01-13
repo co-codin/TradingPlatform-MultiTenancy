@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Config\Database\factories\ConfigFactory;
 use Modules\Config\Dto\ConfigValue;
-use Modules\Config\Enums\DataType;
+use Modules\Config\Enums\ConfigDataTypeEnum;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 /**
@@ -49,7 +49,7 @@ final class Config extends Model
      */
     public function isJsonDataType(): bool
     {
-        return $this->data_type === DataType::JSON;
+        return $this->data_type === ConfigDataTypeEnum::JSON;
     }
 
     /**
@@ -59,7 +59,17 @@ final class Config extends Model
      */
     public function isStringDataType(): bool
     {
-        return $this->data_type === DataType::STRING;
+        return $this->data_type === ConfigDataTypeEnum::STRING;
+    }
+
+    /**
+     * Is integer data type.
+     *
+     * @return bool
+     */
+    public function isIntegerDataType(): bool
+    {
+        return $this->data_type === ConfigDataTypeEnum::INTEGER;
     }
 
     /**
