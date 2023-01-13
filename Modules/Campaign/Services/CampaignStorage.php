@@ -5,21 +5,22 @@ declare(strict_types=1);
 namespace Modules\Campaign\Services;
 
 use Exception;
-use Modules\Campaign\Models\Campaign;
 use Modules\Campaign\Dto\CampaignDto;
+use Modules\Campaign\Models\Campaign;
 
 final class CampaignStorage
 {
     /**
      * Store.
      *
-     * @param CampaignDto $campaignDto
+     * @param  CampaignDto  $campaignDto
      * @return Campaign
+     *
      * @throws Exception
      */
     public function store(CampaignDto $campaignDto): Campaign
     {
-        if (!$campaign = Campaign::query()->create($campaignDto->toArray())) {
+        if (! $campaign = Campaign::query()->create($campaignDto->toArray())) {
             throw new Exception(__('Can not store campaign'));
         }
 
@@ -29,30 +30,35 @@ final class CampaignStorage
     /**
      * Update.
      *
-     * @param Campaign $campaign
-     * @param CampaignDto $campaignDto
+     * @param  Campaign  $campaign
+     * @param  CampaignDto  $campaignDto
      * @return Campaign
+     *
      * @throws Exception
      */
     public function update(Campaign $campaign, CampaignDto $campaignDto): Campaign
     {
-        if (!$campaign->update($campaignDto->toArray())) {
+        if (! $campaign->update($campaignDto->toArray())) {
             throw new Exception('Can not update campaign');
         }
+
         return $campaign;
     }
 
     /**
-     * Destroy.
+     * Change status.
      *
-     * @param Campaign $campaign
-     * @return void
+     * @param  Campaign  $campaign
+     * @return Campaign
+     *
      * @throws Exception
      */
-    public function destroy(Campaign $campaign): void
+    public function changeStatus(Campaign $campaign): Campaign
     {
-        if (!$campaign->delete()) {
-            throw new Exception('Can not delete campaign');
+        if (! $campaign->update(['is_active' => ! $campaign->is_active])) {
+            throw new Exception('Can not change status of campaign');
         }
+
+        return $campaign;
     }
 }

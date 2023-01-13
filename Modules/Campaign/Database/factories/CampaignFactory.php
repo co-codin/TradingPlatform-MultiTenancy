@@ -32,10 +32,17 @@ final class CampaignFactory extends Factory
         ];
 
         return [
+            'name' => $this->faker->sentence(3),
             'cpa' => $this->faker->randomFloat(2, 5, 30),
             'working_hours' => $working_hours,
             'daily_cap' => $this->faker->numberBetween(1, 10),
             'crg' => $this->faker->randomFloat(2, 5, 30),
+            'is_active' => $this->faker->boolean(),
+            'balance' => $this->faker->randomFloat(2, 500, 3000),
+            'monthly_cr' => $this->faker->numberBetween(1, 20),
+            'monthly_pv' => $this->faker->numberBetween(1, 20),
+            'crg_cost' => $this->faker->randomFloat(2, 10, 300),
+            'ftd_cost' => $this->faker->randomFloat(2, 10, 300),
         ];
     }
 }

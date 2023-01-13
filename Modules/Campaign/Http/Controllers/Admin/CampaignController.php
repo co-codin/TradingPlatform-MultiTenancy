@@ -119,15 +119,29 @@ class CampaignController extends Controller
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 required={
+     *                     "name",
      *                     "cpa",
      *                     "working_hours",
      *                     "daily_cap",
      *                     "crg",
+     *                     "is_active",
+     *                     "balance",
+     *                     "monthly_cr",
+     *                     "monthly_pv",
+     *                     "crg_cost",
+     *                     "ftd_cost",
      *                 },
+     *                 @OA\Property(property="name", type="string", description="Campaign name"),
      *                 @OA\Property(property="cpa", type="float", description="Campaign cpa"),
      *                 @OA\Property(property="working_hours", type="string", description="Campaign working hours by week days", example={"1":{"start":"10:00","end":"18:00"},"2":{"start":"10:00","end":"18:00"},"3":{"start":"10:00","end":"18:00"},"4":{"start":"10:00","end":"18:00"},"5":{"start":"10:00","end":"18:00"}}),
      *                 @OA\Property(property="daily_cap", type="integer", description="Campaign daily cap"),
      *                 @OA\Property(property="crg", type="float", description="Campaign crg"),
+     *                 @OA\Property(property="is_active", type="boolean", description="Campaign is active"),
+     *                 @OA\Property(property="balance", type="float", description="Campaign balance"),
+     *                 @OA\Property(property="monthly_cr", type="integer", description="Campaign monthly cr"),
+     *                 @OA\Property(property="monthly_pv", type="integer", description="Campaign monthly pv"),
+     *                 @OA\Property(property="crg_cost", type="float", description="Campaign crg cost"),
+     *                 @OA\Property(property="ftd_cost", type="float", description="Campaign ftd cost"),
      *             )
      *         )
      *     ),
@@ -178,15 +192,29 @@ class CampaignController extends Controller
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 required={
+     *                     "name",
      *                     "cpa",
      *                     "working_hours",
      *                     "daily_cap",
      *                     "crg",
+     *                     "is_active",
+     *                     "balance",
+     *                     "monthly_cr",
+     *                     "monthly_pv",
+     *                     "crg_cost",
+     *                     "ftd_cost",
      *                 },
+     *                 @OA\Property(property="name", type="string", description="Campaign name"),
      *                 @OA\Property(property="cpa", type="float", description="Campaign cpa"),
      *                 @OA\Property(property="working_hours", type="string", description="Campaign working hours by week days", example={"1":{"start":"10:00","end":"18:00"},"2":{"start":"10:00","end":"18:00"},"3":{"start":"10:00","end":"18:00"},"4":{"start":"10:00","end":"18:00"},"5":{"start":"10:00","end":"18:00"}}),
      *                 @OA\Property(property="daily_cap", type="integer", description="Campaign daily cap"),
      *                 @OA\Property(property="crg", type="float", description="Campaign crg"),
+     *                 @OA\Property(property="is_active", type="boolean", description="Campaign is active"),
+     *                 @OA\Property(property="balance", type="float", description="Campaign balance"),
+     *                 @OA\Property(property="monthly_cr", type="integer", description="Campaign monthly cr"),
+     *                 @OA\Property(property="monthly_pv", type="integer", description="Campaign monthly pv"),
+     *                 @OA\Property(property="crg_cost", type="float", description="Campaign crg cost"),
+     *                 @OA\Property(property="ftd_cost", type="float", description="Campaign ftd cost"),
      *             )
      *         )
      *     ),
@@ -228,10 +256,17 @@ class CampaignController extends Controller
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
+     *                 @OA\Property(property="name", type="string", description="Campaign name"),
      *                 @OA\Property(property="cpa", type="float", description="Campaign cpa"),
      *                 @OA\Property(property="working_hours", type="string", description="Campaign working hours by week days", example={"1":{"start":"10:00","end":"18:00"},"2":{"start":"10:00","end":"18:00"},"3":{"start":"10:00","end":"18:00"},"4":{"start":"10:00","end":"18:00"},"5":{"start":"10:00","end":"18:00"}}),
      *                 @OA\Property(property="daily_cap", type="integer", description="Campaign daily cap"),
      *                 @OA\Property(property="crg", type="float", description="Campaign crg"),
+     *                 @OA\Property(property="is_active", type="boolean", description="Campaign is active"),
+     *                 @OA\Property(property="balance", type="float", description="Campaign balance"),
+     *                 @OA\Property(property="monthly_cr", type="integer", description="Campaign monthly cr"),
+     *                 @OA\Property(property="monthly_pv", type="integer", description="Campaign monthly pv"),
+     *                 @OA\Property(property="crg_cost", type="float", description="Campaign crg cost"),
+     *                 @OA\Property(property="ftd_cost", type="float", description="Campaign ftd cost"),
      *             )
      *         )
      *     ),
@@ -271,11 +306,11 @@ class CampaignController extends Controller
     }
 
     /**
-     * @OA\Delete(
-     *     path="/admin/campaign/{id}",
+     * @OA\Patch(
+     *     path="/admin/campaign/{id}/change-status",
      *     tags={"Campaign"},
      *     security={ {"sanctum": {} }},
-     *     summary="Delete a campaign",
+     *     summary="Change of campaign status",
      *     @OA\Parameter(
      *         description="Campaign ID",
      *         in="path",
@@ -284,8 +319,9 @@ class CampaignController extends Controller
      *         @OA\Schema(type="integer"),
      *     ),
      *     @OA\Response(
-     *         response=204,
-     *         description="No content"
+     *         response=200,
+     *         description="Ok",
+     *         @OA\JsonContent(ref="#/components/schemas/CampaignResource")
      *     ),
      *     @OA\Response(
      *          response=401,
@@ -304,14 +340,12 @@ class CampaignController extends Controller
      * @throws AuthorizationException
      * @throws Exception
      */
-    public function destroy(int $id): Response
+    public function changeStatus(int $id): JsonResource
     {
         $campaign = $this->repository->find($id);
 
-        $this->authorize('delete', $campaign);
+        $this->authorize('update', $campaign);
 
-        $this->storage->destroy($campaign);
-
-        return response()->noContent();
+        return new CampaignResource($this->storage->changeStatus($campaign));
     }
 }

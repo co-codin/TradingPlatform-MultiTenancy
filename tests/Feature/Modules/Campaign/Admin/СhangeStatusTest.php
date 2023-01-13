@@ -10,7 +10,7 @@ use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
 
-final class DeleteTest extends BrandTestCase
+final class СhangeStatusTest extends BrandTestCase
 {
     use TenantAware;
     use HasAuth;
@@ -18,25 +18,27 @@ final class DeleteTest extends BrandTestCase
     /**
      * @test
      */
-    public function can_delete(): void
+    public function can_change_status(): void
     {
         $this->authenticateWithPermission(
-            CampaignPermission::fromValue(CampaignPermission::DELETE_CAMPAIGN)
+            CampaignPermission::fromValue(CampaignPermission::EDIT_CAMPAIGN)
         );
 
         $this->brand->makeCurrent();
 
         $campaign = Campaign::factory()->create();
 
-        $response = $this->delete(route('admin.campaign.destroy', ['campaign' => $campaign]));
+        $this->brand->makeCurrent();
 
-        $response->assertNoContent();
+        $response = $this->patch(route('admin.campaign.change-status', ['campaign' => $campaign]), []);
+
+        $response->assertOk();
     }
 
     /**
      * @test
      */
-    public function cant_delete(): void
+    public function can_not_change_status(): void
     {
         $this->authenticateUser();
 
@@ -44,7 +46,12 @@ final class DeleteTest extends BrandTestCase
 
         $campaign = Campaign::factory()->create();
 
-        $response = $this->delete(route('admin.campaign.destroy', ['campaign' => $campaign]));
+        $this->brand->makeCurrent();
+
+        $response = $this->patch(
+            route('admin.campaign.change-status', ['campaign' => $campaign]),
+            []
+        );
 
         $response->assertForbidden();
     }
@@ -60,7 +67,12 @@ final class DeleteTest extends BrandTestCase
 
         $campaignId = Campaign::orderByDesc('id')->first()?->id + 1 ?? 1;
 
-        $response = $this->delete(route('admin.campaign.destroy', ['campaign' => $campaignId]));
+        $this->brand->makeCurrent();
+
+        $response = $this->patch(
+            route('admin.campaign.change-status', ['campaign' => $campaignId]),
+            []
+        );
 
         $response->assertNotFound();
     }
@@ -74,7 +86,7 @@ final class DeleteTest extends BrandTestCase
 
         $campaign = Campaign::factory()->create();
 
-        $response = $this->delete(route('admin.campaign.destroy', ['campaign' => $campaign]));
+        $response = $this->patch(route('admin.campaign.change-status', ['campaign' => $campaign]));
 
         $response->assertUnauthorized();
     }
