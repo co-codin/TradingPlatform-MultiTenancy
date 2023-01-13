@@ -6,5 +6,6 @@ use Illuminate\Support\Facades\Route;
 use Modules\Campaign\Http\Controllers\Admin\CampaignController;
 
 Route::group(['middleware' => 'tenant'], function () {
-    Route::apiResource('campaign', CampaignController::class);
+    Route::patch('campaign/{campaign}/change-status', [CampaignController::class, 'changeStatus'])->name('campaign.change-status');
+    Route::apiResource('campaign', CampaignController::class)->except('destroy');
 });

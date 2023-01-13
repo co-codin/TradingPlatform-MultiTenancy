@@ -26,7 +26,7 @@ class CampaignPolicy extends BasePolicy
      * View policy.
      *
      * @param  User  $user
-     * @param  Campaign $campaign
+     * @param  Campaign  $campaign
      * @return bool
      */
     public function view(User $user, Campaign $campaign): bool
@@ -37,7 +37,7 @@ class CampaignPolicy extends BasePolicy
     /**
      * Create policy.
      *
-     * @param User  $user
+     * @param  User  $user
      * @return bool
      */
     public function create(User $user): bool
@@ -55,17 +55,5 @@ class CampaignPolicy extends BasePolicy
     public function update(User $user, Campaign $campaign): bool
     {
         return $user->can(CampaignPermission::EDIT_CAMPAIGN);
-    }
-
-    /**
-     * Delete policy.
-     *
-     * @param  User  $user
-     * @param  Campaign  $campaign
-     * @return bool
-     */
-    public function delete(User $user, Campaign $campaign): bool
-    {
-        return $user->can(CampaignPermission::DELETE_CAMPAIGN);
     }
 }
