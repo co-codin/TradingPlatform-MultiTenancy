@@ -14355,6 +14355,67 @@
                 },
                 "type": "object"
             },
+            "AffiliateCustomer": {
+                "required": [
+                    "id",
+                    "email"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Worker ID",
+                        "type": "integer"
+                    },
+                    "email": {
+                        "description": "Email",
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "is_ftd": {
+                        "description": "Is FTD",
+                        "type": "boolean",
+                        "nullable": "true"
+                    },
+                    "first_deposit_date": {
+                        "description": "First deposit date",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": "true"
+                    },
+                    "created_at": {
+                        "description": "Date and time of creation",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "conversion_sale_status": {
+                        "$ref": "#/components/schemas/SaleStatusResource"
+                    }
+                },
+                "type": "object"
+            },
+            "AffiliateCustomerCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AffiliateCustomer"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "AffiliateCustomerResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/AffiliateCustomer"
+                    }
+                },
+                "type": "object"
+            },
             "AuthCustomer": {
                 "properties": {
                     "id": {

@@ -10,7 +10,7 @@ use Modules\Sale\Http\Resources\SaleStatusResource;
 
 /**
  * @OA\Schema (
- *     schema="Customer",
+ *     schema="AffiliateCustomer",
  *     type="object",
  *     required={
  *         "id",
