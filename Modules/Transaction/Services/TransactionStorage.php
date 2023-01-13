@@ -8,6 +8,7 @@ use Exception;
 use Modules\Customer\Models\Customer;
 use Modules\Department\Enums\DepartmentEnum;
 use Modules\Transaction\Dto\TransactionDto;
+use Modules\Transaction\Enums\TransactionStatusEnum;
 use Modules\Transaction\Models\Transaction;
 use Modules\Transaction\Models\TransactionsMt5Type;
 use Modules\Transaction\Models\TransactionStatus;
@@ -40,7 +41,7 @@ final class TransactionStorage
             'currency_id' => Wallet::find($transactionDto->wallet_id)->currency->id,
         ]));
 
-        if (! $transaction) {
+        if (!$transaction) {
             throw new Exception(__('Can not store transaction'));
         }
 
@@ -58,7 +59,12 @@ final class TransactionStorage
      */
     public function update(Transaction $transaction, TransactionDto $transactionDto): Transaction
     {
-        if (! $transaction->update($transactionDto->toArray())) {
+        if ($transaction->status_id != TransactionStatus::firstWhere('name', TransactionStatusEnum::PENDING)->id) {
+            throw new Exception(__('Can not update transaction status'));
+        }
+        if (!$transaction->update(array_merge($transactionDto->toArray(), [
+            'status_id' => TransactionStatus::firstWhere('name', $transactionDto->status)->id,
+        ]))) {
             throw new Exception(__('Can not update transaction'));
         }
 
@@ -74,7 +80,7 @@ final class TransactionStorage
      */
     public function updateBatch(Transaction $transaction, array $transactionArray): Transaction
     {
-        if (! $transaction->update($transactionArray)) {
+        if (!$transaction->update($transactionArray)) {
             throw new Exception(__('Can not update transaction'));
         }
 

@@ -401,12 +401,28 @@
                         "application/json": {
                             "schema": {
                                 "required": [
+                                    "affiliate_id",
+                                    "name",
                                     "cpa",
                                     "working_hours",
                                     "daily_cap",
-                                    "crg"
+                                    "crg",
+                                    "is_active",
+                                    "balance",
+                                    "monthly_cr",
+                                    "monthly_pv",
+                                    "crg_cost",
+                                    "ftd_cost"
                                 ],
                                 "properties": {
+                                    "affiliate_id": {
+                                        "description": "Campaign affiliate id",
+                                        "type": "integer"
+                                    },
+                                    "name": {
+                                        "description": "Campaign name",
+                                        "type": "string"
+                                    },
                                     "cpa": {
                                         "description": "Campaign cpa",
                                         "type": "number",
@@ -444,6 +460,33 @@
                                     },
                                     "crg": {
                                         "description": "Campaign crg",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "is_active": {
+                                        "description": "Campaign is active",
+                                        "type": "boolean"
+                                    },
+                                    "balance": {
+                                        "description": "Campaign balance",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "monthly_cr": {
+                                        "description": "Campaign monthly cr",
+                                        "type": "integer"
+                                    },
+                                    "monthly_pv": {
+                                        "description": "Campaign monthly pv",
+                                        "type": "integer"
+                                    },
+                                    "crg_cost": {
+                                        "description": "Campaign crg cost",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "ftd_cost": {
+                                        "description": "Campaign ftd cost",
                                         "type": "number",
                                         "format": "float"
                                     }
@@ -548,12 +591,23 @@
                         "application/json": {
                             "schema": {
                                 "required": [
+                                    "name",
                                     "cpa",
                                     "working_hours",
                                     "daily_cap",
-                                    "crg"
+                                    "crg",
+                                    "is_active",
+                                    "balance",
+                                    "monthly_cr",
+                                    "monthly_pv",
+                                    "crg_cost",
+                                    "ftd_cost"
                                 ],
                                 "properties": {
+                                    "name": {
+                                        "description": "Campaign name",
+                                        "type": "string"
+                                    },
                                     "cpa": {
                                         "description": "Campaign cpa",
                                         "type": "number",
@@ -593,6 +647,33 @@
                                         "description": "Campaign crg",
                                         "type": "number",
                                         "format": "float"
+                                    },
+                                    "is_active": {
+                                        "description": "Campaign is active",
+                                        "type": "boolean"
+                                    },
+                                    "balance": {
+                                        "description": "Campaign balance",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "monthly_cr": {
+                                        "description": "Campaign monthly cr",
+                                        "type": "integer"
+                                    },
+                                    "monthly_pv": {
+                                        "description": "Campaign monthly pv",
+                                        "type": "integer"
+                                    },
+                                    "crg_cost": {
+                                        "description": "Campaign crg cost",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "ftd_cost": {
+                                        "description": "Campaign ftd cost",
+                                        "type": "number",
+                                        "format": "float"
                                     }
                                 },
                                 "type": "object"
@@ -613,43 +694,6 @@
                     },
                     "400": {
                         "description": "Bad Request"
-                    },
-                    "401": {
-                        "description": "Unauthorized Error"
-                    },
-                    "403": {
-                        "description": "Forbidden Error"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "Campaign"
-                ],
-                "summary": "Delete a campaign",
-                "operationId": "ce8f3cd51fcec131552f5803d8baff0a",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Campaign ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No content"
                     },
                     "401": {
                         "description": "Unauthorized Error"
@@ -689,6 +733,10 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
+                                    "name": {
+                                        "description": "Campaign name",
+                                        "type": "string"
+                                    },
                                     "cpa": {
                                         "description": "Campaign cpa",
                                         "type": "number",
@@ -728,6 +776,33 @@
                                         "description": "Campaign crg",
                                         "type": "number",
                                         "format": "float"
+                                    },
+                                    "is_active": {
+                                        "description": "Campaign is active",
+                                        "type": "boolean"
+                                    },
+                                    "balance": {
+                                        "description": "Campaign balance",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "monthly_cr": {
+                                        "description": "Campaign monthly cr",
+                                        "type": "integer"
+                                    },
+                                    "monthly_pv": {
+                                        "description": "Campaign monthly pv",
+                                        "type": "integer"
+                                    },
+                                    "crg_cost": {
+                                        "description": "Campaign crg cost",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "ftd_cost": {
+                                        "description": "Campaign ftd cost",
+                                        "type": "number",
+                                        "format": "float"
                                     }
                                 },
                                 "type": "object"
@@ -748,6 +823,52 @@
                     },
                     "400": {
                         "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/campaign/{id}/change-status": {
+            "patch": {
+                "tags": [
+                    "Campaign"
+                ],
+                "summary": "Change of campaign status",
+                "operationId": "5e1e44284d7b3b228bd13de332d73f3d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Campaign ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CampaignResource"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "Unauthorized Error"
@@ -8849,7 +8970,54 @@
                 "requestBody": {
                     "content": {
                         "application/json": {
-                            "schema": {}
+                            "schema": {
+                                "required": [
+                                    "amount",
+                                    "method_id",
+                                    "is_test",
+                                    "worker_id",
+                                    "status",
+                                    "external_id"
+                                ],
+                                "properties": {
+                                    "amount": {
+                                        "description": "Amount of transaction",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "method_id": {
+                                        "description": "Method ID",
+                                        "type": "integer"
+                                    },
+                                    "is_test": {
+                                        "description": "Is test",
+                                        "type": "boolean"
+                                    },
+                                    "worker_id": {
+                                        "description": "Worker ID",
+                                        "type": "integer"
+                                    },
+                                    "status": {
+                                        "description": "Transaction status",
+                                        "type": "string",
+                                        "enum": [
+                                            "approved",
+                                            "declined",
+                                            "canceled",
+                                            "pending"
+                                        ]
+                                    },
+                                    "external_id": {
+                                        "description": "External ID",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Description",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
                         }
                     }
                 },
@@ -8903,7 +9071,46 @@
                 "requestBody": {
                     "content": {
                         "application/json": {
-                            "schema": {}
+                            "schema": {
+                                "properties": {
+                                    "amount": {
+                                        "description": "Amount of transaction",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "method_id": {
+                                        "description": "Method ID",
+                                        "type": "integer"
+                                    },
+                                    "is_test": {
+                                        "description": "Is test",
+                                        "type": "boolean"
+                                    },
+                                    "worker_id": {
+                                        "description": "Worker ID",
+                                        "type": "integer"
+                                    },
+                                    "status": {
+                                        "description": "Transaction status",
+                                        "type": "string",
+                                        "enum": [
+                                            "approved",
+                                            "declined",
+                                            "canceled",
+                                            "pending"
+                                        ]
+                                    },
+                                    "external_id": {
+                                        "description": "External ID",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Description",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
                         }
                     }
                 },
@@ -8964,9 +9171,15 @@
                                                     "description": "Transaction ID",
                                                     "type": "integer"
                                                 },
-                                                "status_id": {
-                                                    "description": "Status ID",
-                                                    "type": "integer"
+                                                "status": {
+                                                    "description": "Transaction status",
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "approved",
+                                                        "declined",
+                                                        "canceled",
+                                                        "pending"
+                                                    ]
                                                 },
                                                 "worker_id": {
                                                     "description": "Worker ID",
@@ -8974,7 +9187,7 @@
                                                 },
                                                 "is_test": {
                                                     "description": "Is test",
-                                                    "type": "integer"
+                                                    "type": "boolean"
                                                 },
                                                 "method_id": {
                                                     "description": "Method ID",
@@ -13064,11 +13277,18 @@
             "Campaign": {
                 "required": [
                     "id",
+                    "affiliate_id",
+                    "name",
                     "cpa",
                     "working_hours",
                     "daily_cap",
                     "crg",
-                    "deleted_at",
+                    "is_active",
+                    "balance",
+                    "monthly_cr",
+                    "monthly_pv",
+                    "crg_cost",
+                    "ftd_cost",
                     "created_at",
                     "updated_at"
                 ],
@@ -13076,6 +13296,14 @@
                     "id": {
                         "description": "Campaign ID",
                         "type": "integer"
+                    },
+                    "affiliate_id": {
+                        "description": "Campaign affiliate id",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Campaign name",
+                        "type": "string"
                     },
                     "cpa": {
                         "description": "Campaign cpa",
@@ -13117,6 +13345,37 @@
                         "type": "number",
                         "format": "float"
                     },
+                    "is_active": {
+                        "description": "Campaign is active",
+                        "type": "boolean"
+                    },
+                    "balance": {
+                        "description": "Campaign balance",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "monthly_cr": {
+                        "description": "Campaign monthly cr",
+                        "type": "integer"
+                    },
+                    "monthly_pv": {
+                        "description": "Campaign monthly pv",
+                        "type": "integer"
+                    },
+                    "crg_cost": {
+                        "description": "Campaign crg cost",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "ftd_cost": {
+                        "description": "Campaign ftd cost",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "country_id": {
+                        "description": "Campaign country ID",
+                        "type": "integer"
+                    },
                     "created_at": {
                         "description": "Date and time of creation",
                         "type": "string",
@@ -13128,13 +13387,6 @@
                         "type": "string",
                         "format": "date-time",
                         "example": "2022-12-17 08:44:09"
-                    },
-                    "deleted_at": {
-                        "description": "Date and time of soft delete",
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2022-12-17 08:44:09",
-                        "nullable": true
                     }
                 },
                 "type": "object"

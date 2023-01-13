@@ -10,7 +10,7 @@ use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
 
-final class UpdateTest extends BrandTestCase
+final class СhangeStatusTest extends BrandTestCase
 {
     use TenantAware;
     use HasAuth;
@@ -18,7 +18,7 @@ final class UpdateTest extends BrandTestCase
     /**
      * @test
      */
-    public function can_update(): void
+    public function can_change_status(): void
     {
         $this->authenticateWithPermission(
             CampaignPermission::fromValue(CampaignPermission::EDIT_CAMPAIGN)
@@ -31,22 +31,17 @@ final class UpdateTest extends BrandTestCase
         });
         $campaign->save();
 
-        $campaignData = Campaign::factory()->make()->toArray();
-
         $this->brand->makeCurrent();
 
-        $response = $this->patchJson(route('admin.campaign.update', ['campaign' => $campaign->id]), $campaignData);
+        $response = $this->patch(route('admin.campaign.change-status', ['campaign' => $campaign]), []);
 
         $response->assertOk();
-        $response->assertJsonStructure([
-            'data' => array_keys($campaignData),
-        ]);
     }
 
     /**
      * @test
      */
-    public function can_not_update(): void
+    public function can_not_change_status(): void
     {
         $this->authenticateUser();
 
@@ -57,13 +52,11 @@ final class UpdateTest extends BrandTestCase
         });
         $campaign->save();
 
-        $data = Campaign::factory()->make();
-
         $this->brand->makeCurrent();
 
         $response = $this->patch(
-            route('admin.campaign.update', ['campaign' => $campaign]),
-            $data->toArray()
+            route('admin.campaign.change-status', ['campaign' => $campaign]),
+            []
         );
 
         $response->assertForbidden();
@@ -79,13 +72,12 @@ final class UpdateTest extends BrandTestCase
         $this->brand->makeCurrent();
 
         $campaignId = Campaign::orderByDesc('id')->first()?->id + 1 ?? 1;
-        $data = Campaign::factory()->make();
 
         $this->brand->makeCurrent();
 
         $response = $this->patch(
-            route('admin.campaign.update', ['campaign' => $campaignId]),
-            $data->toArray()
+            route('admin.campaign.change-status', ['campaign' => $campaignId]),
+            []
         );
 
         $response->assertNotFound();
@@ -103,7 +95,7 @@ final class UpdateTest extends BrandTestCase
         });
         $campaign->save();
 
-        $response = $this->patch(route('admin.campaign.update', ['campaign' => $campaign]));
+        $response = $this->patch(route('admin.campaign.change-status', ['campaign' => $campaign]));
 
         $response->assertUnauthorized();
     }

@@ -98,4 +98,34 @@ final class TransactionObserver
             }
         }
     }
+
+    /**
+     * Handle the Customer "updating" event.
+     *
+     * @param  Transaction  $transaction
+     * @return void
+     */
+    public function updating(Transaction $transaction): void
+    {
+        $converter = new CurrencyConverter;
+        if (
+            $transaction->isDeposit()
+            && $transaction->isPendingStatus()
+            && $transaction->isBalanceMt5Type()
+        ) {
+            switch ($currency = $transaction->wallet->iso3) {
+                case 'USD':
+                    $transaction->amount_usd = $transaction->amount;
+                    $transaction->amount_eur = $converter->convert('USD', 'EUR', $transaction->amount);
+                    break;
+                case 'EUR':
+                    $transaction->amount_eur = $transaction->amount;
+                    $transaction->amount_usd = $converter->convert('EUR', 'USD', $transaction->amount);
+                    break;
+                default:
+                    $transaction->amount_eur = $converter->convert($currency, 'EUR', $transaction->amount);
+                    $transaction->amount_usd = $converter->convert($currency, 'USD', $transaction->amount);
+            }
+        }
+    }
 }

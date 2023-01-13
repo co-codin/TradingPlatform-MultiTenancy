@@ -6,8 +6,8 @@ namespace Modules\Campaign\Enums;
 
 use App\Models\Action;
 use BenSampo\Enum\Enum;
-use Modules\Role\Contracts\PermissionEnum;
 use Modules\Campaign\Models\Campaign;
+use Modules\Role\Contracts\PermissionEnum;
 
 final class CampaignPermission extends Enum implements PermissionEnum
 {
@@ -27,11 +27,6 @@ final class CampaignPermission extends Enum implements PermissionEnum
     public const EDIT_CAMPAIGN = 'edit campaign';
 
     /**
-     * @var string
-     */
-    public const DELETE_CAMPAIGN = 'delete campaign';
-
-    /**
      * {@inheritDoc}
      */
     public static function actions(): array
@@ -40,7 +35,6 @@ final class CampaignPermission extends Enum implements PermissionEnum
             self::CREATE_CAMPAIGN => Action::NAMES['create'],
             self::VIEW_CAMPAIGN => Action::NAMES['view'],
             self::EDIT_CAMPAIGN => Action::NAMES['edit'],
-            self::DELETE_CAMPAIGN => Action::NAMES['delete'],
         ];
     }
 
@@ -61,7 +55,6 @@ final class CampaignPermission extends Enum implements PermissionEnum
             self::CREATE_CAMPAIGN => 'Create campaign',
             self::VIEW_CAMPAIGN => 'View campaign',
             self::EDIT_CAMPAIGN => 'Edit campaign',
-            self::DELETE_CAMPAIGN => 'Delete campaign',
         ];
     }
 

@@ -7,7 +7,9 @@ namespace Modules\Campaign\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Modules\Campaign\Database\factories\CampaignFactory;
+use Modules\Geo\Models\Country;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 final class Campaign extends Model
@@ -59,5 +61,17 @@ final class Campaign extends Model
         }
 
         return false;
+    }
+
+    /**
+     * Country relation.
+     *
+     * @return BelongsToMany
+     */
+    public function countries(): BelongsToMany
+    {
+        return $this
+            ->belongsToMany(Country::class, 'campaign_country')
+            ->withPivot('cpa', 'working_hours', 'daily_cap', 'crg');
     }
 }

@@ -14,22 +14,37 @@ use OpenApi\Annotations as OA;
  *     type="object",
  *     required={
  *         "id",
+ *         "affiliate_id",
+ *         "name",
  *         "cpa",
  *         "working_hours",
  *         "daily_cap",
  *         "crg",
- *         "deleted_at",
+ *         "is_active",
+ *         "balance",
+ *         "monthly_cr",
+ *         "monthly_pv",
+ *         "crg_cost",
+ *         "ftd_cost",
  *         "created_at",
  *         "updated_at",
  *     },
  *     @OA\Property(property="id", type="integer", description="Campaign ID"),
+ *     @OA\Property(property="affiliate_id", type="integer", description="Campaign affiliate id"),
+ *     @OA\Property(property="name", type="string", description="Campaign name"),
  *     @OA\Property(property="cpa", type="float", description="Campaign cpa"),
  *     @OA\Property(property="working_hours", type="string", description="Campaign working hours by week days", example={"1":{"start":"10:00","end":"18:00"},"2":{"start":"10:00","end":"18:00"},"3":{"start":"10:00","end":"18:00"},"4":{"start":"10:00","end":"18:00"},"5":{"start":"10:00","end":"18:00"}}),
  *     @OA\Property(property="daily_cap", type="integer", description="Campaign daily cap"),
  *     @OA\Property(property="crg", type="float", description="Campaign crg"),
+ *     @OA\Property(property="is_active", type="boolean", description="Campaign is active"),
+ *     @OA\Property(property="balance", type="float", description="Campaign balance"),
+ *     @OA\Property(property="monthly_cr", type="integer", description="Campaign monthly cr"),
+ *     @OA\Property(property="monthly_pv", type="integer", description="Campaign monthly pv"),
+ *     @OA\Property(property="crg_cost", type="float", description="Campaign crg cost"),
+ *     @OA\Property(property="ftd_cost", type="float", description="Campaign ftd cost"),
+ *     @OA\Property(property="country_id", type="integer", description="Campaign country ID"),
  *     @OA\Property(property="created_at", type="string", format="date-time", description="Date and time of creation", example="2022-12-17 08:44:09"),
  *     @OA\Property(property="updated_at", type="string", format="date-time", description="Date and time of last update", example="2022-12-17 08:44:09"),
- *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true, description="Date and time of soft delete", example="2022-12-17 08:44:09"),
  * ),
  *
  * @OA\Schema (
@@ -70,7 +85,8 @@ final class CampaignResource extends JsonResource
         return array_merge(
             parent::toArray($request), [
                 'working_hours' => $this->working_hours,
-                'is_working_hours' => $this->isWorkingHours()
+                'is_working_hours' => $this->isWorkingHours(),
+                'countries' => $this->whenLoaded('countries'),
             ]);
     }
 }

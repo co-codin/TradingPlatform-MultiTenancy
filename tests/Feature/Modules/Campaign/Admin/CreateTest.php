@@ -28,6 +28,8 @@ final class CreateTest extends BrandTestCase
 
         $data = Campaign::factory()->make()->toArray();
 
+        $this->brand->makeCurrent();
+
         $response = $this->post(route('admin.campaign.store'), $data);
 
         $response->assertCreated();
@@ -44,6 +46,8 @@ final class CreateTest extends BrandTestCase
         $this->brand->makeCurrent();
 
         $data = Campaign::factory()->make()->toArray();
+
+        $this->brand->makeCurrent();
 
         $response = $this->post(route('admin.campaign.store'), $data);
 
