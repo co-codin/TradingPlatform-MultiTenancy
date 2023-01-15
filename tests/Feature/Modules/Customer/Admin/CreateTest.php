@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Modules\Customer\Admin;
 
+use Illuminate\Support\Arr;
 use Modules\Customer\Enums\CustomerPermission;
 use Modules\Customer\Models\Customer;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
@@ -25,22 +26,26 @@ class CreateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $data = Customer::factory()->make()->toArray();
-        $this->brand->makeCurrent();
+        $customers = $this->brand->execute(function () {
+            return Customer::factory()->make();
+        });
+
+        $data = Arr::except($customers->toArray(), [
+            'conversion_sale_status_id',
+            'retention_sale_status_id',
+            'affiliate_user_id',
+            'conversion_user_id',
+            'retention_user_id',
+            'compliance_user_id',
+            'support_user_id',
+            'conversion_manager_user_id',
+            'retention_manager_user_id',
+            'first_conversion_user_id',
+            'first_retention_user_id',
+            'campaign_id'
+        ]);
 
         $response = $this->postJson(route('admin.customers.store'), array_merge($data, ['password' => 'password']));
-
-        unset($data['conversion_sale_status_id']);
-        unset($data['retention_sale_status_id']);
-        unset($data['affiliate_user_id']);
-        unset($data['conversion_user_id']);
-        unset($data['retention_user_id']);
-        unset($data['compliance_user_id']);
-        unset($data['support_user_id']);
-        unset($data['conversion_manager_user_id']);
-        unset($data['retention_manager_user_id']);
-        unset($data['first_conversion_user_id']);
-        unset($data['first_retention_user_id']);
 
         $response->assertCreated();
 
