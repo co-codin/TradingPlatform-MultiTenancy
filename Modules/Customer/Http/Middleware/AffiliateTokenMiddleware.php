@@ -24,7 +24,7 @@ class AffiliateTokenMiddleware
             abort(404, 'AffiliateToken not found');
         }
 
-        if (!Campaign::whereAffiliateId($token->user_id)->whereId($request->post('campaign_id'))->exists()) {
+        if ($request->post('campaign_id') && !Campaign::whereAffiliateId($token->user_id)->whereId($request->post('campaign_id'))->exists()) {
             abort(404, 'Campaign not found');
         }
 
