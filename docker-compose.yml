@@ -45,7 +45,7 @@ services:
             APP_ENV: '${APP_ENV:-local}'
         volumes:
             - 'sail-pgsql:/var/lib/postgresql/data'
-            - './vendor/laravel/sail/database/pgsql/:/docker-entrypoint-initdb.d/'
+            - './startup/pgsql/:/docker-entrypoint-initdb.d/'
         networks:
             - sail
         healthcheck:
