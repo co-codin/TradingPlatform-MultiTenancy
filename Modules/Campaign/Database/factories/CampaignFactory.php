@@ -33,7 +33,6 @@ final class CampaignFactory extends Factory
         ];
 
         return [
-            'affiliate_id' => (User::first() ?? User::factory()->create())->id,
             'name' => $this->faker->sentence(3),
             'cpa' => $this->faker->randomFloat(2, 5, 30),
             'working_hours' => $working_hours,
