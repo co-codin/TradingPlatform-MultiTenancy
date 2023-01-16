@@ -5,12 +5,12 @@ namespace Modules\Campaign\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Campaign\Database\factories\CampaignTransactionFactory;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
 class CampaignTransaction extends Model
 {
     use HasFactory;
-    use UsesTenantConnection;
+    use UsesLandlordConnection;
 
     protected $guarded = [
         'id',

@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use Modules\Campaign\Http\Controllers\Admin\CampaignController;
 use Modules\Campaign\Http\Controllers\Admin\CampaignTransactionController;
 
-Route::patch('campaign/{campaign}/change-status', [CampaignController::class, 'changeStatus'])->name('campaign.change-status');
-Route::apiResource('campaign', CampaignController::class)->except('destroy');
-Route::apiResource('campaign-transaction', CampaignTransactionController::class)->except('destroy');
+Route::group(['middleware' => 'tenant'], function () {
+    Route::patch('campaign/{campaign}/change-status', [CampaignController::class, 'changeStatus'])->name('campaign.change-status');
+    Route::apiResource('campaign', CampaignController::class)->except('destroy');
+    Route::apiResource('campaign-transaction', CampaignTransactionController::class)->except('destroy');
+});

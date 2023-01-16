@@ -45,8 +45,6 @@ final class CreateTest extends BrandTestCase
 
         $data = CampaignTransaction::factory()->make()->toArray();
 
-        $this->brand->makeCurrent();
-
         $response = $this->post(route('admin.campaign-transaction.store'), $data);
 
         $response->assertForbidden();
