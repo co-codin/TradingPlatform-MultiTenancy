@@ -29,6 +29,11 @@ Route::group(['prefix' => 'token-auth', 'as' => 'token-auth.', 'middleware' => [
     });
 });
 
+Route::group(['prefix' => 'url-auth', 'as' => 'url-auth.', 'middleware' => ['api', 'web']], function () {
+    Route::get('login', [\Modules\Customer\Http\Controllers\UrlAuthController::class, 'login'])->name('login');
+    Route::get('create', [\Modules\Customer\Http\Controllers\UrlAuthController::class, 'create'])->name('create');
+});
+
 Route::group(['middleware' => 'auth:api-customer'], function () {
     Route::post('chat-message-history', [CustomerChatController::class, 'history'])->name('chat.history');
     Route::post('chat-message-send', [CustomerChatController::class, 'store'])->name('chat.store');
