@@ -24,7 +24,7 @@ final class LoginTest extends BrandTestCase
 
         $response = $this->post(route('customer.auth.login'), [
             'email' => $customer->email,
-            'password' => 'password',
+            'password' => 'Password%',
         ]);
 
         $response->assertNoContent();
@@ -40,7 +40,7 @@ final class LoginTest extends BrandTestCase
         $customer = $this->getCustomer();
         $response = $this->post(route('customer.auth.login'), [
             'email' => $customer->email,
-            'password' => 'password',
+            'password' => 'Password%',
             'remember_me' => true,
         ]);
 
@@ -62,7 +62,7 @@ final class LoginTest extends BrandTestCase
         $customer = $this->getCustomer();
         $response = $this->post(route('customer.auth.login'), [
             'email' => $customer->email,
-            'password' => 'random',
+            'password' => 'Password%',
         ]);
 
         $response->assertUnprocessable();
