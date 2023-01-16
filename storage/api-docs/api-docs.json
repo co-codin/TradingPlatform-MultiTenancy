@@ -6623,12 +6623,12 @@
             }
         },
         "/customer/url-auth/login": {
-            "post": {
+            "get": {
                 "tags": [
                     "CustomerAuth"
                 ],
                 "summary": "One time stateful customer login",
-                "operationId": "feb96ee546f44a104fd42dd02ebb6a9f",
+                "operationId": "b5881e4a9a05bbae1fde8c64473428e0",
                 "parameters": [
                     {
                         "name": "key",
@@ -13730,10 +13730,6 @@
                         "description": "Campaign ftd cost",
                         "type": "number",
                         "format": "float"
-                    },
-                    "country_id": {
-                        "description": "Campaign country ID",
-                        "type": "integer"
                     },
                     "created_at": {
                         "description": "Date and time of creation",

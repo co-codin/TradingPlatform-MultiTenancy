@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Modules\Brand\Models\Brand;
 use Modules\Customer\Dto\UrlAuthDto;
@@ -17,7 +16,6 @@ use Modules\Customer\Models\Customer;
 use Modules\Customer\Services\CustomerStorage;
 use OpenApi\Annotations as OA;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
-use Spatie\Multitenancy\Models\Tenant;
 
 final class UrlAuthController extends Controller
 {
@@ -27,7 +25,7 @@ final class UrlAuthController extends Controller
     }
 
     /**
-     * @OA\Post(
+     * @OA\Get(
      *     path="/customer/url-auth/login",
      *     tags={"CustomerAuth"},
      *     summary="One time stateful customer login",
@@ -69,19 +67,17 @@ final class UrlAuthController extends Controller
      */
     public function login(Request $request): Response
     {
-        $key = 'url-auth:'.$request->query('key');
+        $key = 'url-auth:' . $request->query('key');
         $customerInfo = Cache::get($key);
-        abort_if(!$customerInfo, Response::HTTP_NOT_FOUND);
+        abort_if(! $customerInfo, Response::HTTP_NOT_FOUND);
 
         $urlAuthDto = UrlAuthDto::create($customerInfo);
-        Brand::find($urlAuthDto->brandId)->makeCurrent();
-        if (
-            !Auth::guard(Customer::DEFAULT_AUTH_GUARD)->loginUsingId($urlAuthDto->customerId)
-        ) {
-            throw ValidationException::withMessages([
-                'credentials' => 'The provided credentials are incorrect.',
-            ]);
-        }
+
+        abort_if(
+            ! Brand::find($urlAuthDto->brandId)?->makeCurrent()
+            || ! Auth::guard(Customer::DEFAULT_AUTH_GUARD)->loginUsingId($urlAuthDto->customerId),
+            Response::HTTP_NOT_FOUND
+        );
 
         /** @var Customer $customer */
         $customer = Auth::guard(Customer::DEFAULT_AUTH_GUARD)->user();
@@ -99,17 +95,5 @@ final class UrlAuthController extends Controller
         Cache::forget($key);
 
         return response()->noContent();
-    }
-
-    public function create(Request $request): array
-    {
-        $key = Str::random();
-
-        Cache::put("url-auth:{$key}", [
-            'customerId' => $request->query('customer_id'),
-            'brandId' => Tenant::current()->id,
-        ], now()->addMinutes(30));
-
-        return ['url' => url(route('customer.url-auth.login', compact('key'), false))];
     }
 }
