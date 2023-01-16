@@ -23,7 +23,7 @@ return new class extends Migration
             $table->unsignedInteger('daily_cap');
             $table->unsignedFloat('crg');
             $table->boolean('is_active')->default(true);
-            $table->unsignedFloat('balance');
+            $table->float('balance');
             $table->integer('monthly_cr');
             $table->integer('monthly_pv');
             $table->unsignedFloat('crg_cost');

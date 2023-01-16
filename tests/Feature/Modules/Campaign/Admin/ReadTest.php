@@ -24,10 +24,7 @@ final class ReadTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $campaign = $this->brand->execute(function () {
-            return Campaign::factory()->make();
-        });
-        $campaign->save();
+        $campaign = Campaign::factory()->create();
 
         $response = $this->getJson(route('admin.campaign.index'));
 
@@ -63,10 +60,7 @@ final class ReadTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $campaign = $this->brand->execute(function () {
-            return Campaign::factory()->make();
-        });
-        $campaign->save();
+        $campaign = Campaign::factory()->create();
 
         $response = $this->get(route('admin.campaign.show', ['campaign' => $campaign]));
 
@@ -83,10 +77,7 @@ final class ReadTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $campaign = $this->brand->execute(function () {
-            return Campaign::factory()->make();
-        });
-        $campaign->save();
+        $campaign = Campaign::factory()->create();
 
         $response = $this->get(route('admin.campaign.show', ['campaign' => $campaign]));
 
@@ -126,10 +117,7 @@ final class ReadTest extends BrandTestCase
     {
         $this->brand->makeCurrent();
 
-        $campaign = $this->brand->execute(function () {
-            return Campaign::factory()->make();
-        });
-        $campaign->save();
+        $campaign = Campaign::factory()->create();
 
         $response = $this->get(route('admin.campaign.show', ['campaign' => $campaign]));
 

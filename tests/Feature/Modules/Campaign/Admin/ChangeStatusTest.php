@@ -26,12 +26,7 @@ final class ChangeStatusTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $campaign = $this->brand->execute(function () {
-            return Campaign::factory()->make();
-        });
-        $campaign->save();
-
-        $this->brand->makeCurrent();
+        $campaign = Campaign::factory()->create();
 
         $response = $this->patch(route('admin.campaign.change-status', ['campaign' => $campaign]), []);
 
@@ -47,12 +42,7 @@ final class ChangeStatusTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $campaign = $this->brand->execute(function () {
-            return Campaign::factory()->make();
-        });
-        $campaign->save();
-
-        $this->brand->makeCurrent();
+        $campaign = Campaign::factory()->create();
 
         $response = $this->patch(
             route('admin.campaign.change-status', ['campaign' => $campaign]),
@@ -73,8 +63,6 @@ final class ChangeStatusTest extends BrandTestCase
 
         $campaignId = Campaign::orderByDesc('id')->first()?->id + 1 ?? 1;
 
-        $this->brand->makeCurrent();
-
         $response = $this->patch(
             route('admin.campaign.change-status', ['campaign' => $campaignId]),
             []
@@ -90,10 +78,7 @@ final class ChangeStatusTest extends BrandTestCase
     {
         $this->brand->makeCurrent();
 
-        $campaign = $this->brand->execute(function () {
-            return Campaign::factory()->make();
-        });
-        $campaign->save();
+        $campaign = Campaign::factory()->create();
 
         $response = $this->patch(route('admin.campaign.change-status', ['campaign' => $campaign]));
 

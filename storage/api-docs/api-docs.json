@@ -1019,6 +1019,337 @@
                 ]
             }
         },
+        "/admin/campaign-transaction": {
+            "get": {
+                "tags": [
+                    "Campaign"
+                ],
+                "summary": "Get campaigns",
+                "operationId": "53a4134f5e6eca9bd1fde723d519d396",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CampaignTransactionCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Campaign"
+                ],
+                "summary": "Add a new campaign transaction",
+                "operationId": "52f02ce3cb623b44408b31cbbd24679f",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "affiliate_id",
+                                    "type",
+                                    "amount",
+                                    "customer_ids"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "description": "Campaign transaction ID",
+                                        "type": "integer"
+                                    },
+                                    "affiliate_id": {
+                                        "description": "Campaign transaction affiliate id",
+                                        "type": "integer"
+                                    },
+                                    "type": {
+                                        "description": "Campaign transaction type (1-Correction, 2-Payment)",
+                                        "type": "integer",
+                                        "enum": [
+                                            1,
+                                            2
+                                        ]
+                                    },
+                                    "amount": {
+                                        "description": "Campaign transaction amount",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "customer_ids": {
+                                        "description": "Campaign transaction customer_ids",
+                                        "type": "string",
+                                        "example": [
+                                            1,
+                                            2,
+                                            3
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CampaignTransactionResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/campaign-transaction/{id}": {
+            "get": {
+                "tags": [
+                    "Campaign"
+                ],
+                "summary": "Get campaign data",
+                "operationId": "08d046df17c32219ea74e182a629e7eb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Campaign transaction ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CampaignTransactionResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Campaign"
+                ],
+                "summary": "Update a campaign transaction",
+                "operationId": "324b3dbfdc1095fe2c986dc84db001a6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Campaign transaction ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "type",
+                                    "amount",
+                                    "customer_ids"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "description": "Campaign transaction ID",
+                                        "type": "integer"
+                                    },
+                                    "type": {
+                                        "description": "Campaign transaction type (1-Correction, 2-Payment)",
+                                        "type": "integer",
+                                        "enum": [
+                                            1,
+                                            2
+                                        ]
+                                    },
+                                    "amount": {
+                                        "description": "Campaign transaction amount",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "customer_ids": {
+                                        "description": "Campaign transaction customer_ids",
+                                        "type": "string",
+                                        "example": [
+                                            1,
+                                            2,
+                                            3
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CampaignTransactionResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Campaign"
+                ],
+                "summary": "Update a campaign",
+                "operationId": "aa10eb3195dd6224f5ccab09ad6a8dfd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Campaign transaction ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "Campaign transaction ID",
+                                        "type": "integer"
+                                    },
+                                    "type": {
+                                        "description": "Campaign transaction type (1-Correction, 2-Payment)",
+                                        "type": "integer",
+                                        "enum": [
+                                            1,
+                                            2
+                                        ]
+                                    },
+                                    "amount": {
+                                        "description": "Campaign transaction amount",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "customer_ids": {
+                                        "description": "Campaign transaction customer_ids",
+                                        "type": "string",
+                                        "example": [
+                                            1,
+                                            2,
+                                            3
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CampaignTransactionResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/communication/call": {
             "get": {
                 "tags": [
@@ -13731,6 +14062,84 @@
                 },
                 "type": "object"
             },
+            "CampaignTransaction": {
+                "required": [
+                    "id",
+                    "affiliate_id",
+                    "type",
+                    "amount",
+                    "customer_ids",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Campaign transaction ID",
+                        "type": "integer"
+                    },
+                    "affiliate_id": {
+                        "description": "Campaign transaction affiliate id",
+                        "type": "integer"
+                    },
+                    "type": {
+                        "description": "Campaign transaction type (1-Correction, 2-Payment)",
+                        "type": "integer",
+                        "enum": [
+                            1,
+                            2
+                        ]
+                    },
+                    "amount": {
+                        "description": "Campaign transaction amount",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "customer_ids": {
+                        "description": "Campaign transaction customer_ids",
+                        "type": "string",
+                        "example": [
+                            1,
+                            2,
+                            3
+                        ]
+                    },
+                    "created_at": {
+                        "description": "Date and time of creation",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "updated_at": {
+                        "description": "Date and time of last update",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    }
+                },
+                "type": "object"
+            },
+            "CampaignTransactionCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CampaignTransaction"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "CampaignTransactionResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/CampaignTransaction"
+                    }
+                },
+                "type": "object"
+            },
             "Call": {
                 "title": "Call",
                 "description": "Call model",
@@ -16681,7 +17090,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }

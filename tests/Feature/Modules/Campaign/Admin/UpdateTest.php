@@ -28,14 +28,9 @@ final class UpdateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $campaign = $this->brand->execute(function () {
-            return Campaign::factory()->make();
-        });
-        $campaign->save();
+        $campaign = Campaign::factory()->create();
 
         $campaignData = Campaign::factory()->make()->toArray();
-
-        $this->brand->makeCurrent();
 
         $countries = Country::query()->limit(3)->get();
 
@@ -67,10 +62,7 @@ final class UpdateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $campaign = $this->brand->execute(function () {
-            return Campaign::factory()->make();
-        });
-        $campaign->save();
+        $campaign = Campaign::factory()->create();
 
         $data = Campaign::factory()->make();
 
@@ -113,10 +105,7 @@ final class UpdateTest extends BrandTestCase
     {
         $this->brand->makeCurrent();
 
-        $campaign = $this->brand->execute(function () {
-            return Campaign::factory()->make();
-        });
-        $campaign->save();
+        $campaign = Campaign::factory()->create();
 
         $response = $this->patch(route('admin.campaign.update', ['campaign' => $campaign]));
 
