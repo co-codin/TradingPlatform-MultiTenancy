@@ -131,6 +131,7 @@ class CampaignController extends Controller
      *                     "monthly_pv",
      *                     "crg_cost",
      *                     "ftd_cost",
+     *                     "country_id",
      *                 },
      *                 @OA\Property(property="affiliate_id", type="integer", description="Campaign affiliate id"),
      *                 @OA\Property(property="name", type="string", description="Campaign name"),
@@ -144,6 +145,7 @@ class CampaignController extends Controller
      *                 @OA\Property(property="monthly_pv", type="integer", description="Campaign monthly pv"),
      *                 @OA\Property(property="crg_cost", type="float", description="Campaign crg cost"),
      *                 @OA\Property(property="ftd_cost", type="float", description="Campaign ftd cost"),
+     *                 @OA\Property(property="country_id", type="integer", description="Campaign country id"),
      *             )
      *         )
      *     ),
@@ -205,6 +207,7 @@ class CampaignController extends Controller
      *                     "monthly_pv",
      *                     "crg_cost",
      *                     "ftd_cost",
+     *                     "country_id",
      *                 },
      *                 @OA\Property(property="name", type="string", description="Campaign name"),
      *                 @OA\Property(property="cpa", type="float", description="Campaign cpa"),
@@ -217,6 +220,7 @@ class CampaignController extends Controller
      *                 @OA\Property(property="monthly_pv", type="integer", description="Campaign monthly pv"),
      *                 @OA\Property(property="crg_cost", type="float", description="Campaign crg cost"),
      *                 @OA\Property(property="ftd_cost", type="float", description="Campaign ftd cost"),
+     *                 @OA\Property(property="country_id", type="integer", description="Campaign country id"),
      *             )
      *         )
      *     ),
@@ -269,6 +273,7 @@ class CampaignController extends Controller
      *                 @OA\Property(property="monthly_pv", type="integer", description="Campaign monthly pv"),
      *                 @OA\Property(property="crg_cost", type="float", description="Campaign crg cost"),
      *                 @OA\Property(property="ftd_cost", type="float", description="Campaign ftd cost"),
+     *                 @OA\Property(property="country_id", type="integer", description="Campaign country id"),
      *             )
      *         )
      *     ),

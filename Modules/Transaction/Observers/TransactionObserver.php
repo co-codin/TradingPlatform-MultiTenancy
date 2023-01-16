@@ -25,12 +25,10 @@ final class TransactionObserver
      */
     public function created(Transaction $transaction): void
     {
-        /** Метод withdrawal и статус pending */
         if ($transaction->isWithdrawal() && $transaction->isPendingStatus()) {
             $transaction->customer->last_pending_withdrawal_date = now();
         }
 
-        /** Метод withdrawal и статус approved */
         if ($transaction->isWithdrawal() && $transaction->isApprovedStatus()) {
             $transaction->customer->last_pending_withdrawal_date = null;
 
@@ -43,12 +41,10 @@ final class TransactionObserver
             }
         }
 
-        /** Метод deposit и статус pending */
         if ($transaction->isDeposit() && $transaction->isPendingStatus()) {
             $transaction->customer->last_pending_deposit_date = now();
         }
 
-        /** Метод deposit и статус approved */
         if ($transaction->isDeposit() && $transaction->isApprovedStatus()) {
             $transaction->customer->last_approved_deposit_date = now();
             $transaction->customer->last_pending_deposit_date = null;
