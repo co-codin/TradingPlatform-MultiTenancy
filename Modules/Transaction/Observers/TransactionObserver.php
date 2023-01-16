@@ -4,12 +4,21 @@ declare(strict_types=1);
 
 namespace Modules\Transaction\Observers;
 
+use Modules\Config\Enums\ConfigEnum;
+use Modules\Config\Models\Config;
 use Modules\Transaction\Jobs\ChangeCustomerDepartmentAfterDeposit;
 use Modules\Transaction\Models\Transaction;
 use Modules\Transaction\Services\CurrencyConverter;
 
 final class TransactionObserver
 {
+    /**
+     * Default customer department change delay after deposit (in minutes)
+     *
+     * @type int
+     */
+    private const DEFAULT_CHANGE_DEPARTMENT_DELAY = 5;
+
     /**
      * @param  CurrencyConverter  $converter
      */
@@ -53,7 +62,10 @@ final class TransactionObserver
             $transaction->customer->last_approved_deposit_date = now();
             $transaction->customer->last_pending_deposit_date = null;
 
-            ChangeCustomerDepartmentAfterDeposit::dispatchSync($transaction->customer);
+            ChangeCustomerDepartmentAfterDeposit::dispatch($transaction->customer)->delay(now()->addMinutes(
+                Config::getValueByEnum(ConfigEnum::fromValue(ConfigEnum::CHANGE_DEPARTMENT_DELAY))
+                    ?? self::DEFAULT_CHANGE_DEPARTMENT_DELAY
+            ));
 
             if ($transaction->isFirstCustomerDeposit()) {
                 $transaction->customer->first_deposit_date = now();

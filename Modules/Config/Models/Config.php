@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Config\Database\factories\ConfigFactory;
 use Modules\Config\Dto\ConfigValue;
 use Modules\Config\Enums\ConfigDataTypeEnum;
+use Modules\Config\Enums\ConfigEnum;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 /**
@@ -77,7 +78,7 @@ final class Config extends Model
      *
      * @return BelongsTo
      */
-    final public function configType(): BelongsTo
+    public function configType(): BelongsTo
     {
         return $this->belongsTo(ConfigType::class);
     }
@@ -87,8 +88,13 @@ final class Config extends Model
      *
      * @return ConfigFactory
      */
-    final protected static function newFactory(): Factory
+    protected static function newFactory(): Factory
     {
         return ConfigFactory::new();
+    }
+
+    public static function getValueByEnum(ConfigEnum $configEnum): mixed
+    {
+        return self::firstWhere('name', $configEnum->value)?->value;
     }
 }

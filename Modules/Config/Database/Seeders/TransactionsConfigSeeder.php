@@ -43,7 +43,7 @@ final class TransactionsConfigSeeder extends Seeder
             ]
         );
 
-        $configType->configs()->updateOrInsert(
+        $configType->configs()->updateOrCreate(
             ['data_type' => ConfigDataTypeEnum::INTEGER, 'name' => ConfigEnum::CHANGE_DEPARTMENT_DELAY],
             ['value' => 5]
         );
