@@ -28,7 +28,6 @@ return new class extends Migration
             $table->integer('monthly_pv');
             $table->unsignedFloat('crg_cost');
             $table->unsignedFloat('ftd_cost');
-            $table->foreignId('country_id')->constrained('public.countries');
 
             $table->timestamps();
         });
