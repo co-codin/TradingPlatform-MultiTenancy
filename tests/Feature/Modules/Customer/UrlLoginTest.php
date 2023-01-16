@@ -30,7 +30,7 @@ final class UrlLoginTest extends BrandTestCase
             'brandId' => $this->brand->id,
         ], now()->addMinutes(30));
 
-        $response = $this->get(route('customer.url-auth.login'), compact('key'));
+        $response = $this->get(route('customer.url-auth.login', compact('key')));
 
         $response->assertNoContent();
         $this->assertAuthenticatedAs($customer, Customer::DEFAULT_AUTH_GUARD);
@@ -41,7 +41,7 @@ final class UrlLoginTest extends BrandTestCase
      */
     public function login_not_found(): void
     {
-        $response = $this->post(route('customer.auth.login'), [
+        $response = $this->get(route('customer.url-auth.login'), [
             'key' => Str::random(),
         ]);
 
