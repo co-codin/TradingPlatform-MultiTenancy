@@ -16,6 +16,7 @@ final class UserCreateRequest extends BaseFormRequest
                 'string',
                 'max:255',
                 'unique:landlord.users,username',
+                'regex:/^[\p{Alphabetic}0-9]+(?:_[\p{Alphabetic}0-9]+)*$/u',
             ],
             'first_name' => [
                 'required',
@@ -35,6 +36,8 @@ final class UserCreateRequest extends BaseFormRequest
             'password' => [
                 'required',
                 'string',
+                'min:8',
+                'regex:/(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[\p{Alphabetic}0-9!@#$%^&*]{8,}/',
             ],
             'is_active' => 'boolean',
             'target' => 'numeric',

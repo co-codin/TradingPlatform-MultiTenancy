@@ -18,6 +18,11 @@ trait HasAuth
     protected readonly Authenticatable $user;
 
     /**
+     * @var string
+     */
+    public static string $basePassword = 'Password%';
+
+    /**
      * Authenticate user.
      *
      * @param  string  $guard
