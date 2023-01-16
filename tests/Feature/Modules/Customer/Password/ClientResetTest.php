@@ -28,8 +28,8 @@ final class ClientResetTest extends BrandTestCase
     {
         $response = $this->post(route('customer.auth.password.reset'), [
             'email' => $this->customer->email,
-            'password' => 'password123',
-            'password_confirmation' => 'password123',
+            'password' => 'Password%',
+            'password_confirmation' => 'Password%',
             'token' => Password::broker(self::BROKER)->createToken($this->customer),
         ]);
 
@@ -44,8 +44,8 @@ final class ClientResetTest extends BrandTestCase
     {
         $response = $this->post(route('customer.auth.password.reset'), [
             'email' => $this->customer->email,
-            'password' => 'password123',
-            'password_confirmation' => 'password123',
+            'password' => 'Password%',
+            'password_confirmation' => 'Password%',
             'token' => Str::random(),
         ]);
 
@@ -60,8 +60,8 @@ final class ClientResetTest extends BrandTestCase
     {
         $response = $this->post(route('customer.auth.password.reset'), [
             'email' => 'test@non-existent.test',
-            'password' => 'password123',
-            'password_confirmation' => 'password123',
+            'password' => 'Password%',
+            'password_confirmation' => 'Password%',
             'token' => Password::broker(self::BROKER)->createToken($this->customer),
         ]);
 
@@ -76,8 +76,8 @@ final class ClientResetTest extends BrandTestCase
     {
         $response = $this->post(route('customer.auth.password.reset'), [
             'email' => 'test',
-            'password' => 'password123',
-            'password_confirmation' => 'password1234',
+            'password' => 'Password%',
+            'password_confirmation' => 'Password%',
         ]);
 
         $response->assertUnprocessable();

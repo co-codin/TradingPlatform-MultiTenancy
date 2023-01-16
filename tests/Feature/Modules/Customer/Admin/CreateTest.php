@@ -12,6 +12,7 @@ class CreateTest extends BrandTestCase
 {
     use TenantAware;
     use HasAuth;
+
     /**
      * Test authorized user can create customer.
      *
@@ -28,7 +29,7 @@ class CreateTest extends BrandTestCase
         $data = Customer::factory()->make()->toArray();
         $this->brand->makeCurrent();
 
-        $response = $this->postJson(route('admin.customers.store'), array_merge($data, ['password' => 'password']));
+        $response = $this->postJson(route('admin.customers.store'), array_merge($data, ['password' => self::$basePassword]));
 
         unset($data['conversion_sale_status_id']);
         unset($data['retention_sale_status_id']);
@@ -63,7 +64,7 @@ class CreateTest extends BrandTestCase
         $data = Customer::factory()->make()->toArray();
         $this->brand->makeCurrent();
 
-        $response = $this->postJson(route('admin.customers.store'), array_merge($data, ['password' => 'password']));
+        $response = $this->postJson(route('admin.customers.store'), array_merge($data, ['password' => self::$basePassword]));
 
         $response->assertForbidden();
     }

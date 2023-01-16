@@ -20,8 +20,8 @@ final class RegisterTest extends BrandTestCase
         $this->brand->makeCurrent();
 
         $customer = Customer::factory()->raw([
-            'password' => 'password',
-            'password_confirmation' => 'password',
+            'password' => 'Password%',
+            'password_confirmation' => 'Password%',
         ]);
 
         $this->brand->makeCurrent();

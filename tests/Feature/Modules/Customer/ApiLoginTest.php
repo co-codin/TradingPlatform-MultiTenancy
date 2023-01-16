@@ -22,7 +22,7 @@ final class ApiLoginTest extends BrandTestCase
         $customer = $this->getCustomer();
         $response = $this->post(route('customer.token-auth.login'), [
             'email' => $customer->email,
-            'password' => 'password',
+            'password' => 'Password%',
         ]);
 
         $response->assertOk();
@@ -45,7 +45,7 @@ final class ApiLoginTest extends BrandTestCase
         $customer = $this->getCustomer();
         $response = $this->post(route('customer.token-auth.login'), [
             'email' => $customer->email,
-            'password' => 'password',
+            'password' => 'Password%',
             'remember_me' => true,
         ]);
 
@@ -70,7 +70,7 @@ final class ApiLoginTest extends BrandTestCase
         $customer = $this->getCustomer();
         $response = $this->post(route('customer.token-auth.login'), [
             'email' => $customer->email,
-            'password' => 'random',
+            'password' => 'Password%',
         ]);
 
         $response->assertUnprocessable();
