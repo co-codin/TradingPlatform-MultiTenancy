@@ -6,11 +6,10 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Modules\Brand\Database\Seeders\BrandDatabaseSeeder;
+use Modules\Campaign\Database\Seeders\CampaignDatabaseSeeder;
+use Modules\Geo\Database\Seeders\GeoDatabaseSeeder;
 use Modules\Role\Database\Seeders\RoleDatabaseSeeder;
 use Modules\User\Database\Seeders\UserDatabaseSeeder;
-use Modules\Geo\Database\Seeders\GeoDatabaseSeeder;
-use Modules\Campaign\Database\Seeders\CampaignDatabaseSeeder;
-use Spatie\Multitenancy\Models\Tenant;
 
 final class DatabaseSeeder extends Seeder
 {
@@ -29,19 +28,5 @@ final class DatabaseSeeder extends Seeder
             BrandDatabaseSeeder::class,
             ModelsTableSeeder::class,
         ]);
-
-        Tenant::checkCurrent()
-            ? $this->runTenantSpecificSeeders()
-            : $this->runLandlordSpecificSeeders();
-    }
-
-    public function runTenantSpecificSeeders()
-    {
-        // run tenant specific seeders / Если нужно будет
-    }
-
-    public function runLandlordSpecificSeeders()
-    {
-        // run landlord specific seeders / Если нужно будет
     }
 }

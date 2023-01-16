@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Modules\Campaign\Models\Campaign;
 use Modules\Currency\Models\Currency;
 use Modules\Customer\Models\Customer;
+use Modules\Geo\Database\Seeders\GeoDatabaseSeeder;
 use Modules\Geo\Models\Country;
 use Modules\Language\Models\Language;
 use Modules\Role\Enums\DefaultRole;
@@ -20,6 +21,14 @@ class CreateTest extends BrandTestCase
 {
     use TenantAware;
     use HasAuth;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed(GeoDatabaseSeeder::class);
+    }
+
     /**
      * Test affiliate user can create customer.
      *
@@ -49,7 +58,7 @@ class CreateTest extends BrandTestCase
 
         $campaign = Campaign::factory()->create([
             'affiliate_id' => $user->id,
-            'is_active' => true
+            'is_active' => true,
         ]);
 
         $data = $this->brand->execute(function () use ($user) {
@@ -72,6 +81,7 @@ class CreateTest extends BrandTestCase
             'link',
         ]]);
     }
+
     /**
      * Test affiliate user can create customer with is_active false campaign.
      *
@@ -101,7 +111,7 @@ class CreateTest extends BrandTestCase
 
         $campaign = Campaign::factory()->create([
             'affiliate_id' => $user->id,
-            'is_active' => false
+            'is_active' => false,
         ]);
 
         $data = $this->brand->execute(function () use ($user) {
@@ -119,6 +129,7 @@ class CreateTest extends BrandTestCase
 
         $response->assertStatus(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
+
     /**
      * Test affiliate user create customer with wrong affiliate token.
      *
@@ -148,7 +159,7 @@ class CreateTest extends BrandTestCase
 
         $campaign = Campaign::factory()->create([
             'affiliate_id' => $user->id,
-            'is_active' => true
+            'is_active' => true,
         ]);
 
         $data = $this->brand->execute(function () use ($user) {
