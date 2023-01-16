@@ -42,7 +42,6 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="monthly_pv", type="integer", description="Campaign monthly pv"),
  *     @OA\Property(property="crg_cost", type="float", description="Campaign crg cost"),
  *     @OA\Property(property="ftd_cost", type="float", description="Campaign ftd cost"),
- *     @OA\Property(property="country_id", type="integer", description="Campaign country ID"),
  *     @OA\Property(property="created_at", type="string", format="date-time", description="Date and time of creation", example="2022-12-17 08:44:09"),
  *     @OA\Property(property="updated_at", type="string", format="date-time", description="Date and time of last update", example="2022-12-17 08:44:09"),
  * ),

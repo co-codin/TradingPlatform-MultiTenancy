@@ -119,12 +119,10 @@ return [
     'tenant_required_migrations' => [
         'Currency' => 'Currency',
         'Media' => 'Media',
-        'Campaign' => 'Campaign',
         'Config' => 'Config',
         'Department' => 'Department',
         'Sale' => 'Sale',
         'Language' => 'Language',
-        'Geo' => 'Geo',
         'Desk' => 'Desk',
         'Customer' => 'Customer',
         'Communication' => 'Communication',
