@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Modules\Customer\Affiliate\FTD;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Modules\Customer\Enums\CustomerPermission;
 use Modules\Customer\Models\Customer;
 use Modules\Role\Enums\DefaultRole;
 use Modules\Role\Models\Role;
@@ -18,7 +18,7 @@ class ReadTest extends BrandTestCase
     use HasAuth;
 
     /**
-     * Test authorized user can get ftd customer list.
+     * Test affiliate user can get ftd customer list.
      *
      * @return void
      *
@@ -26,9 +26,9 @@ class ReadTest extends BrandTestCase
      */
     public function affiliate_user_can_get_ftd_customer_list(): void
     {
-        $this->authenticateWithPermission(CustomerPermission::fromValue(CustomerPermission::VIEW_CUSTOMERS));
+        $user = User::factory()->create();
 
-        $affiliateToken = $this->user->affiliateToken()->create([
+        $affiliateToken = $user->affiliateToken()->create([
             'token' => Str::random(),
             'ip' => request()->ip(),
         ]);
@@ -37,16 +37,16 @@ class ReadTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $customers = $this->brand->execute(function () {
+        $customers = $this->brand->execute(function () use ($user) {
             return Customer::factory()->make([
-                'affiliate_user_id' => $this->user->id,
+                'affiliate_user_id' => $user->id,
                 'is_ftd' => true
             ]);
         });
 
         $customers->save();
 
-        $this->user->assignRole(
+        $user->assignRole(
             Role::where('name', DefaultRole::AFFILIATE)->first()
                 ?? Role::factory()->create([
                     'name' => DefaultRole::AFFILIATE,
@@ -58,66 +58,36 @@ class ReadTest extends BrandTestCase
         $response->assertOk();
 
         $response->assertJson([
-            'data' => [$customers->toArray()],
+            'data' => [Arr::only($customers->toArray(), [
+                'id',
+                'email',
+                'is_ftd',
+                'first_deposit_date',
+                'created_at'
+            ])],
         ]);
     }
 
     /**
-     * Test unauthorized user cant get ftd customer list.
+     * Test affiliate user send wrong affiliate token.
      *
      * @return void
      *
      * @test
      */
-    public function affiliate_user_cant_get_ftd_customer_list(): void
+    public function affiliate_user_send_wrong_affiliate_token(): void
     {
-        $this->authenticateUser();
+        $user = User::factory()->create();
 
-        $affiliateToken = $this->user->affiliateToken()->create([
+        $user->affiliateToken()->create([
             'token' => Str::random(),
             'ip' => request()->ip(),
         ]);
 
-        $this->withHeader('AffiliateToken', $affiliateToken->token);
-
-        $this->brand->makeCurrent();
-
-        $customers = $this->brand->execute(function () {
-            return Customer::factory()->make([
-                'affiliate_user_id' => $this->user->id,
-                'is_ftd' => true
-            ]);
-        });
-
-        $customers->save();
+        $this->withHeader('AffiliateToken', 'wrong_affiliate_token');
 
         $response = $this->getJson(route('affiliate.ftd-customers.index'));
 
-        $response->assertForbidden();
-    }
-
-    /**
-     * Test unauthorized user get ftd customer list.
-     *
-     * @return void
-     *
-     * @test
-     */
-    public function unauthorized_user_get_ftd_customer_list(): void
-    {
-        $this->brand->makeCurrent();
-
-        $customers = $this->brand->execute(function () {
-            return Customer::factory()->make([
-                'affiliate_user_id' => 1,
-                'is_ftd' => true
-            ]);
-        });
-
-        $customers->save();
-
-        $response = $this->getJson(route('affiliate.ftd-customers.index'));
-
-        $response->assertUnauthorized();
+        $response->assertNotFound();
     }
 }

@@ -27,7 +27,7 @@ final class CustomerCreateRequest extends BaseFormRequest
             'email' => 'required|email|max:100|unique:tenant.customers,email',
             'password' => 'required|string',
             'phone' => 'required|string',
-            'country_id' => 'required|int|exists:tenant.countries,id',
+            'country_id' => 'required|int|exists:landlord.countries,id',
             'phone2' => 'sometimes',
             'language_id' => 'required|int|exists:tenant.languages,id',
             'city' => 'sometimes|string',
@@ -43,6 +43,7 @@ final class CustomerCreateRequest extends BaseFormRequest
             'free_param_1' => 'sometimes|string',
             'free_param_2' => 'sometimes|string',
             'free_param_3' => 'sometimes|string',
+            'currency_id' => 'required|int|exists:tenant.currencies,id',
         ];
     }
 }

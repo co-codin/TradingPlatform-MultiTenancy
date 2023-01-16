@@ -8,6 +8,8 @@ use Illuminate\Database\Seeder;
 use Modules\Brand\Database\Seeders\BrandDatabaseSeeder;
 use Modules\Role\Database\Seeders\RoleDatabaseSeeder;
 use Modules\User\Database\Seeders\UserDatabaseSeeder;
+use Modules\Geo\Database\Seeders\GeoDatabaseSeeder;
+use Modules\Campaign\Database\Seeders\CampaignDatabaseSeeder;
 use Spatie\Multitenancy\Models\Tenant;
 
 final class DatabaseSeeder extends Seeder
@@ -22,6 +24,8 @@ final class DatabaseSeeder extends Seeder
         $this->call([
             RoleDatabaseSeeder::class,
             UserDatabaseSeeder::class,
+            GeoDatabaseSeeder::class,
+            CampaignDatabaseSeeder::class,
             BrandDatabaseSeeder::class,
             ModelsTableSeeder::class,
         ]);

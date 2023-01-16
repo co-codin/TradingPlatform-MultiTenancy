@@ -27,7 +27,7 @@ final class CustomerRegisterRequest extends BaseFormRequest
             'email' => 'required|email|max:100|unique:tenant.customers,email',
             'password' => 'required|string|min:6|confirmed',
             'phone' => 'required|string|regex:/^\+(?:\d\s?){6,14}\d$/',
-            'country_id' => 'required|int|exists:tenant.countries,id',
+            'country_id' => 'required|int|exists:landlord.countries,id',
         ];
     }
 
