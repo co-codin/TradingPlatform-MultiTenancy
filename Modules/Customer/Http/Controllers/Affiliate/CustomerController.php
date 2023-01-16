@@ -10,15 +10,16 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
+use Modules\Brand\Models\Brand;
 use Modules\Currency\Repositories\CurrencyRepository;
 use Modules\Customer\Dto\CustomerDto;
 use Modules\Customer\Http\Requests\Affiliate\CustomerCreateRequest;
 use Modules\Customer\Http\Resources\AffiliateCustomerResource;
 use Modules\Customer\Repositories\CustomerRepository;
 use Modules\Customer\Services\CustomerStorage;
+use Modules\Customer\Services\UrlAuthCreator;
 use Modules\Geo\Repositories\CountryRepository;
 use Modules\Language\Repositories\LanguageRepository;
-use Modules\Token\Models\Token;
 use Modules\Token\Repositories\TokenRepository;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
@@ -140,11 +141,12 @@ final class CustomerController extends Controller
      * Store customer.
      *
      * @param  CustomerCreateRequest  $request
+     * @param  UrlAuthCreator  $urlAuthCreator
      * @return Response
      *
      * @throws UnknownProperties
      */
-    public function store(CustomerCreateRequest $request): Response
+    public function store(CustomerCreateRequest $request, UrlAuthCreator $urlAuthCreator): Response
     {
         $country = $this->countryRepository
             ->whereLowerCase('iso2', strtolower($request->post('country')))
@@ -171,12 +173,12 @@ final class CustomerController extends Controller
             'affiliate_user_id' => $token->user_id,
         ]);
 
-        $this->customerStorage->store(new CustomerDto($data));
+        $customer = $this->customerStorage->store(new CustomerDto($data));
 
         return response([
             'data' => [
                 'password' => $password,
-                'link' => '',
+                'link' => $urlAuthCreator->create($customer->id, Brand::current()->id),
             ],
         ], 201);
     }
