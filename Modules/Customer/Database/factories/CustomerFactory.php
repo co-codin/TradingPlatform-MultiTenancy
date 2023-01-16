@@ -93,7 +93,7 @@ class CustomerFactory extends BaseFactory
     private function getLandlordData(): array
     {
         return [
-            'country_id' => Country::inRandomOrder()->first(),
+            'country_id' => Country::inRandomOrder()->first() ?? Country::factory(),
             'campaign_id' => Campaign::factory(),
             'affiliate_user_id' => User::factory(),
             'conversion_user_id' => $conversion = User::factory()->create(),
