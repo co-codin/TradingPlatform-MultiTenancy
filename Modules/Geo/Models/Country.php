@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Geo\Database\factories\CountryFactory;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
 /**
  * Class Country
@@ -26,7 +26,7 @@ class Country extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    use UsesTenantConnection;
+    use UsesLandlordConnection;
     use WhereHasForTenant;
 
     /**

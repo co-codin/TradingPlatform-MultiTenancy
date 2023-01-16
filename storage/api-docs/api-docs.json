@@ -6953,6 +6953,47 @@
                 ]
             }
         },
+        "/customer/url-auth/login": {
+            "get": {
+                "tags": [
+                    "CustomerAuth"
+                ],
+                "summary": "One time stateful customer login",
+                "operationId": "b5881e4a9a05bbae1fde8c64473428e0",
+                "parameters": [
+                    {
+                        "name": "key",
+                        "in": "query",
+                        "description": "One time key",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content. The session ID is returned in a cookie named `laravel_session`. You need to include this cookie in subsequent requests.",
+                        "headers": {
+                            "Set-Cookie(example-1)": {
+                                "description": "Encrypted session ID cookie",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "laravel_session=eyJpdiI6IjZKZm...%3D; Path=/; Domain=localhost; HttpOnly; Expires=Fri, 18 Nov 2022 13:25:26 GMT;"
+                                }
+                            },
+                            "Set-Cookie(example-2)": {
+                                "description": "Encrypted recaller cookie. Set if `remember_me=true` was received",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "remember_web_59ba...=eyJpdiI6IjZKZm...%3D; Path=/; Domain=localhost; HttpOnly; Expires=Fri, 18 Nov 2022 13:25:26 GMT;"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/admin/departments/all": {
             "get": {
                 "tags": [
@@ -14020,10 +14061,6 @@
                         "description": "Campaign ftd cost",
                         "type": "number",
                         "format": "float"
-                    },
-                    "country_id": {
-                        "description": "Campaign country ID",
-                        "type": "integer"
                     },
                     "created_at": {
                         "description": "Date and time of creation",

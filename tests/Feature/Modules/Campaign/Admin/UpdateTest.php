@@ -6,15 +6,11 @@ namespace Tests\Feature\Modules\Campaign\Admin;
 
 use Modules\Campaign\Enums\CampaignPermission;
 use Modules\Campaign\Models\Campaign;
-use Modules\Campaign\Models\CampaignCountry;
-use Modules\Geo\Models\Country;
-use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
 
 final class UpdateTest extends BrandTestCase
 {
-    use TenantAware;
     use HasAuth;
 
     /**
@@ -25,8 +21,6 @@ final class UpdateTest extends BrandTestCase
         $this->authenticateWithPermission(
             CampaignPermission::fromValue(CampaignPermission::EDIT_CAMPAIGN)
         );
-
-        $this->brand->makeCurrent();
 
         $campaign = Campaign::factory()->create();
 
@@ -60,13 +54,9 @@ final class UpdateTest extends BrandTestCase
     {
         $this->authenticateUser();
 
-        $this->brand->makeCurrent();
-
         $campaign = Campaign::factory()->create();
 
         $data = Campaign::factory()->make();
-
-        $this->brand->makeCurrent();
 
         $response = $this->patch(
             route('admin.campaign.update', ['campaign' => $campaign]),
@@ -83,12 +73,8 @@ final class UpdateTest extends BrandTestCase
     {
         $this->authenticateUser();
 
-        $this->brand->makeCurrent();
-
         $campaignId = Campaign::orderByDesc('id')->first()?->id + 1 ?? 1;
         $data = Campaign::factory()->make();
-
-        $this->brand->makeCurrent();
 
         $response = $this->patch(
             route('admin.campaign.update', ['campaign' => $campaignId]),
@@ -103,8 +89,6 @@ final class UpdateTest extends BrandTestCase
      */
     public function unauthorized(): void
     {
-        $this->brand->makeCurrent();
-
         $campaign = Campaign::factory()->create();
 
         $response = $this->patch(route('admin.campaign.update', ['campaign' => $campaign]));

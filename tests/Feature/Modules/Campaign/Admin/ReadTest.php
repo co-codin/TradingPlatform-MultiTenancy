@@ -6,13 +6,11 @@ namespace Tests\Feature\Modules\Campaign\Admin;
 
 use Modules\Campaign\Enums\CampaignPermission;
 use Modules\Campaign\Models\Campaign;
-use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
 
 final class ReadTest extends BrandTestCase
 {
-    use TenantAware;
     use HasAuth;
 
     /**
@@ -21,8 +19,6 @@ final class ReadTest extends BrandTestCase
     public function can_view_any(): void
     {
         $this->authenticateWithPermission(CampaignPermission::fromValue(CampaignPermission::VIEW_CAMPAIGN));
-
-        $this->brand->makeCurrent();
 
         $campaign = Campaign::factory()->create();
 
@@ -42,8 +38,6 @@ final class ReadTest extends BrandTestCase
     {
         $this->authenticateUser();
 
-        $this->brand->makeCurrent();
-
         $response = $this->get(route('admin.campaign.index'));
 
         $response->assertForbidden();
@@ -57,8 +51,6 @@ final class ReadTest extends BrandTestCase
         $this->authenticateWithPermission(
             CampaignPermission::fromValue(CampaignPermission::VIEW_CAMPAIGN)
         );
-
-        $this->brand->makeCurrent();
 
         $campaign = Campaign::factory()->create();
 
@@ -75,8 +67,6 @@ final class ReadTest extends BrandTestCase
     {
         $this->authenticateUser();
 
-        $this->brand->makeCurrent();
-
         $campaign = Campaign::factory()->create();
 
         $response = $this->get(route('admin.campaign.show', ['campaign' => $campaign]));
@@ -90,8 +80,6 @@ final class ReadTest extends BrandTestCase
     public function not_found(): void
     {
         $this->authenticateUser();
-
-        $this->brand->makeCurrent();
 
         $campaignId = Campaign::query()->orderByDesc('id')->first()?->id + 1 ?? 1;
 
@@ -115,8 +103,6 @@ final class ReadTest extends BrandTestCase
      */
     public function not_unauthorized_view(): void
     {
-        $this->brand->makeCurrent();
-
         $campaign = Campaign::factory()->create();
 
         $response = $this->get(route('admin.campaign.show', ['campaign' => $campaign]));

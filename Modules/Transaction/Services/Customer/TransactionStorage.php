@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Modules\Transaction\Services\Customer;
 
 use Exception;
-use Modules\Config\Enums\ConfigName;
-use Modules\Config\Enums\ConfigType;
-use Modules\Config\Enums\DataType;
+use Modules\Config\Enums\ConfigDataTypeEnum;
+use Modules\Config\Enums\ConfigEnum;
+use Modules\Config\Enums\ConfigTypeEnum;
 use Modules\Config\Models\Config;
 use Modules\Role\Enums\ModelHasPermissionStatus;
 use Modules\Transaction\Dto\TransactionDto;
@@ -54,9 +54,9 @@ final class TransactionStorage
 
         // Checking for withdrawal
         if ($transaction->isWithdrawal() && $transaction->isBalanceMt5Type()) {
-            $customerTransactionConfig = Config::whereHas('configType', fn ($q) => $q->where('name', ConfigType::TRANSACTION))
-                ->where('data_type', DataType::JSON)
-                ->where('name', ConfigName::CUSTOMER_RESTRICTIONS)
+            $customerTransactionConfig = Config::whereHas('configType', fn ($q) => $q->where('name', ConfigTypeEnum::TRANSACTION))
+                ->where('data_type', ConfigDataTypeEnum::JSON)
+                ->where('name', ConfigEnum::CUSTOMER_RESTRICTIONS)
                 ->first();
 
             if ($customerTransactionConfig) {

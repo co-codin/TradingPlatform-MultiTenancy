@@ -6,6 +6,7 @@ namespace Modules\Campaign\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Campaign\Models\Campaign;
+use Modules\User\Models\User;
 
 final class CampaignFactory extends Factory
 {
@@ -32,7 +33,7 @@ final class CampaignFactory extends Factory
         ];
 
         return [
-            'affiliate_id' => 1,
+            'affiliate_id' => (User::first() ?? User::factory()->create())->id,
             'name' => $this->faker->sentence(3),
             'cpa' => $this->faker->randomFloat(2, 5, 30),
             'working_hours' => $working_hours,

@@ -8,16 +8,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Customer\Http\Resources\AffiliateCustomerResource;
-use Modules\Customer\Models\Customer;
+use Illuminate\Http\Request;
 use Modules\Customer\Repositories\CustomerRepository;
+use Modules\Token\Repositories\TokenRepository;
 
 final class FTDCustomerController extends Controller
 {
     /**
      * @param  CustomerRepository  $customerRepository
+     * @param  TokenRepository  $tokenRepository
      */
     public function __construct(
         protected CustomerRepository $customerRepository,
+        protected TokenRepository $tokenRepository
     ) {
     }
 
@@ -49,11 +52,13 @@ final class FTDCustomerController extends Controller
      *
      * @throws AuthorizationException
      */
-    public function index(): JsonResource
+    public function index(Request $request): JsonResource
     {
+        $token = $this->tokenRepository->whereToken($request->header('AffiliateToken'))->firstOrFail();
+
         return AffiliateCustomerResource::collection(
             $this->customerRepository
-                ->where('affiliate_user_id', auth()->id())
+                ->where('affiliate_user_id', $token->user_id)
                 ->where('is_ftd', true)
                 ->jsonPaginate()
         );

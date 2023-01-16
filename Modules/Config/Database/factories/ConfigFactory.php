@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Modules\Config\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Modules\Config\Enums\DataType;
+use Modules\Config\Enums\ConfigDataTypeEnum;
 use Modules\Config\Models\Config;
 use Modules\Config\Models\ConfigType;
 
@@ -27,10 +27,14 @@ final class ConfigFactory extends Factory
     {
         return [
             'config_type_id' => ConfigType::factory(),
-            'data_type' => $type = $this->faker->randomElement(DataType::getValues()),
-            'name' => $this->faker->name(),
-            'value' => $type == DataType::JSON ? json_encode([]) : $this->faker->name(),
+            'data_type' => $type = $this->faker->randomElement(ConfigDataTypeEnum::getValues()),
+            'name' => $this->faker->sentence(3),
+            'value' => match ($type) {
+                ConfigDataTypeEnum::JSON => json_encode(array_flip($this->faker->words()), JSON_THROW_ON_ERROR),
+                ConfigDataTypeEnum::INTEGER => $this->faker->numberBetween(),
+                ConfigDataTypeEnum::STRING => $this->faker->word,
+                ConfigDataTypeEnum::BOOLEAN => $this->faker->boolean,
+            },
         ];
     }
 }
-

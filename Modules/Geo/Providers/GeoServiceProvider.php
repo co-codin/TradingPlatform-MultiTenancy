@@ -24,4 +24,13 @@ final class GeoServiceProvider extends BaseModuleServiceProvider
     {
         return 'Geo';
     }
+    /**
+     * {@inheritDoc}
+     */
+    public function boot(): void
+    {
+        parent::boot();
+
+        $this->loadMigrations();
+    }
 }

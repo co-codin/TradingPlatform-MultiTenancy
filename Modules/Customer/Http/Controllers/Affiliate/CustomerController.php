@@ -6,6 +6,7 @@ namespace Modules\Customer\Http\Controllers\Affiliate;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
@@ -17,6 +18,8 @@ use Modules\Customer\Repositories\CustomerRepository;
 use Modules\Customer\Services\CustomerStorage;
 use Modules\Geo\Repositories\CountryRepository;
 use Modules\Language\Repositories\LanguageRepository;
+use Modules\Token\Models\Token;
+use Modules\Token\Repositories\TokenRepository;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 final class CustomerController extends Controller
@@ -27,6 +30,7 @@ final class CustomerController extends Controller
      * @param  CountryRepository  $countryRepository
      * @param  LanguageRepository  $languageRepository
      * @param  CustomerStorage  $customerStorage
+     * @param  TokenRepository  $tokenRepository
      */
     public function __construct(
         protected CustomerRepository $customerRepository,
@@ -34,6 +38,7 @@ final class CustomerController extends Controller
         protected CountryRepository $countryRepository,
         protected LanguageRepository $languageRepository,
         protected CustomerStorage $customerStorage,
+        protected TokenRepository $tokenRepository
     ) {
     }
 
@@ -65,11 +70,13 @@ final class CustomerController extends Controller
      *
      * @throws AuthorizationException
      */
-    public function index(): JsonResource
+    public function index(Request $request): JsonResource
     {
+        $token = $this->tokenRepository->whereToken($request->header('AffiliateToken'))->firstOrFail();
+
         return AffiliateCustomerResource::collection(
             $this->customerRepository
-                ->where('affiliate_user_id', auth()->id())
+                ->where('affiliate_user_id', $token->user_id)
                 ->jsonPaginate()
         );
     }
@@ -154,12 +161,14 @@ final class CustomerController extends Controller
             ->whereLowerCase('iso3', strtolower($request->post('currency')))
             ->firstOrFail();
 
+        $token = $this->tokenRepository->whereToken($request->header('AffiliateToken'))->firstOrFail();
+
         $data = array_merge($request->validated(), [
             'country_id' => $country->id,
             'language_id' => $language->id,
             'currency_id' => $currency->id,
             'password' => $password = Str::random(),
-            'affiliate_user_id' => auth()->id(),
+            'affiliate_user_id' => $token->user_id,
         ]);
 
         $this->customerStorage->store(new CustomerDto($data));

@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Geo\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
 
-class GeoDatabaseSeeder extends Seeder
+final class GeoDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +15,8 @@ class GeoDatabaseSeeder extends Seeder
      */
     public function run()
     {
-       $this->call(CountryTableSeeder::class);
+        $this->call(
+            CountryTableSeeder::class
+        );
     }
 }

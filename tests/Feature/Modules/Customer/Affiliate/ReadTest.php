@@ -2,9 +2,10 @@
 
 namespace Tests\Feature\Modules\Customer\Affiliate;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Modules\Customer\Enums\CustomerPermission;
 use Modules\Customer\Models\Customer;
+use Modules\Geo\Database\Seeders\GeoDatabaseSeeder;
 use Modules\Role\Enums\DefaultRole;
 use Modules\Role\Models\Role;
 use Modules\User\Models\User;
@@ -17,8 +18,15 @@ class ReadTest extends BrandTestCase
     use TenantAware;
     use HasAuth;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed(GeoDatabaseSeeder::class);
+    }
+
     /**
-     * Test authorized user can get customer list.
+     * Test affiliate user can get customer list.
      *
      * @return void
      *
@@ -26,9 +34,9 @@ class ReadTest extends BrandTestCase
      */
     public function affiliate_user_can_get_customer_list(): void
     {
-        $this->authenticateWithPermission(CustomerPermission::fromValue(CustomerPermission::VIEW_CUSTOMERS));
+        $user = User::factory()->create();
 
-        $affiliateToken = $this->user->affiliateToken()->create([
+        $affiliateToken = $user->affiliateToken()->create([
             'token' => Str::random(),
             'ip' => request()->ip(),
         ]);
@@ -37,19 +45,15 @@ class ReadTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $customers = $this->brand->execute(function () {
-            return Customer::factory()->make([
-                'affiliate_user_id' => $this->user->id,
-            ]);
-        });
+        $customers = Customer::factory()->create([
+            'affiliate_user_id' => $user->id,
+        ]);
 
-        $customers->save();
-
-        $this->user->assignRole(
+        $user->assignRole(
             Role::where('name', DefaultRole::AFFILIATE)->first()
-            ?? Role::factory()->create([
-                'name' => DefaultRole::AFFILIATE,
-            ])
+                ?? Role::factory()->create([
+                    'name' => DefaultRole::AFFILIATE,
+                ])
         );
 
         $response = $this->getJson(route('affiliate.customers.index'));
@@ -57,60 +61,36 @@ class ReadTest extends BrandTestCase
         $response->assertOk();
 
         $response->assertJson([
-            'data' => [$customers->toArray()],
+            'data' => [Arr::only($customers->toArray(), [
+                'id',
+                'email',
+                'is_ftd',
+                'first_deposit_date',
+                'created_at',
+            ])],
         ]);
     }
 
     /**
-     * Test unauthorized user cant get customer list.
+     * Test affiliate user send wrong affiliate token.
      *
      * @return void
      *
      * @test
      */
-    public function affiliate_user_cant_get_customer_list(): void
+    public function affiliate_user_send_wrong_affiliate_token(): void
     {
-        $this->authenticateUser();
+        $user = User::factory()->create();
 
-        $affiliateToken = $this->user->affiliateToken()->create([
+        $user->affiliateToken()->create([
             'token' => Str::random(),
             'ip' => request()->ip(),
         ]);
 
-        $this->withHeader('AffiliateToken', $affiliateToken->token);
-
-        $this->brand->makeCurrent();
-
-        $customers = $this->brand->execute(function () {
-            return Customer::factory()->make();
-        });
-
-        $customers->save();
+        $this->withHeader('AffiliateToken', 'wrong_affiliate_token');
 
         $response = $this->getJson(route('affiliate.customers.index'));
 
-        $response->assertForbidden();
-    }
-
-    /**
-     * Test unauthorized user get customer list.
-     *
-     * @return void
-     *
-     * @test
-     */
-    public function unauthorized_user_get_customer_list(): void
-    {
-        $this->brand->makeCurrent();
-
-        $customers = $this->brand->execute(function () {
-            return Customer::factory()->make();
-        });
-
-        $customers->save();
-
-        $response = $this->getJson(route('affiliate.customers.index'));
-
-        $response->assertUnauthorized();
+        $response->assertNotFound();
     }
 }
