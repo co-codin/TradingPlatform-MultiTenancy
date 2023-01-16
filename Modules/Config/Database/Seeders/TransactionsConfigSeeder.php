@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Modules\Config\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Modules\Config\Enums\ConfigName;
-use Modules\Config\Enums\ConfigType as ConfigTypeEnum;
-use Modules\Config\Enums\DataType;
+use Modules\Config\Enums\ConfigDataTypeEnum;
+use Modules\Config\Enums\ConfigEnum;
+use Modules\Config\Enums\ConfigTypeEnum;
 use Modules\Config\Models\ConfigType;
 
 final class TransactionsConfigSeeder extends Seeder
@@ -26,21 +26,26 @@ final class TransactionsConfigSeeder extends Seeder
 
         $configType->configs()->updateOrCreate(
             [
-                'data_type' => DataType::JSON,
-                'name' => ConfigName::CUSTOMER_RESTRICTIONS,
+                'data_type' => ConfigDataTypeEnum::JSON,
+                'name' => ConfigEnum::CUSTOMER_RESTRICTIONS,
             ],
             [
-                'value' => json_encode([
+                'value' => [
                     'USD' => [
-                        'min_deposit' => 123,
-                        'min_withdraw' => 123,
+                        'min_deposit' => 1,
+                        'min_withdraw' => 1,
                     ],
                     'EUR' => [
-                        'min_deposit' => 123,
-                        'min_withdraw' => 123,
+                        'min_deposit' => 1,
+                        'min_withdraw' => 1,
                     ],
-                ]),
+                ],
             ]
+        );
+
+        $configType->configs()->updateOrCreate(
+            ['data_type' => ConfigDataTypeEnum::INTEGER, 'name' => ConfigEnum::CHANGE_DEPARTMENT_DELAY],
+            ['value' => 5]
         );
     }
 }

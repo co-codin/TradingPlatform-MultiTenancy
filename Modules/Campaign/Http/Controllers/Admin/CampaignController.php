@@ -220,7 +220,25 @@ class CampaignController extends Controller
      *                 @OA\Property(property="monthly_pv", type="integer", description="Campaign monthly pv"),
      *                 @OA\Property(property="crg_cost", type="float", description="Campaign crg cost"),
      *                 @OA\Property(property="ftd_cost", type="float", description="Campaign ftd cost"),
-     *                 @OA\Property(property="country_id", type="integer", description="Campaign country id"),
+     *                 @OA\Property(
+     *                     property="countries",
+     *                     type="array",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         required={
+     *                             "cpa",
+     *                             "crg",
+     *                             "working_days",
+     *                             "working_hours",
+     *                             "daily_cap",
+     *                         },
+     *                         @OA\Property(property="cpa", type="float", description="Cpa"),
+     *                         @OA\Property(property="crg", type="float", description="Crg"),
+     *                         @OA\Property(property="working_days", type="string", description="Working days", example={"1":{"start":"10:00","end":"18:00"},"2":{"start":"10:00","end":"18:00"},"3":{"start":"10:00","end":"18:00"},"4":{"start":"10:00","end":"18:00"},"5":{"start":"10:00","end":"18:00"}}),
+     *                         @OA\Property(property="working_hours", type="string", description="Working hours", example={"1","2","3","4","5"}),
+     *                         @OA\Property(property="daily_cap", type="integer", description="Daily cap"),
+     *                     )
+     *                 ),
      *             )
      *         )
      *     ),
@@ -273,7 +291,25 @@ class CampaignController extends Controller
      *                 @OA\Property(property="monthly_pv", type="integer", description="Campaign monthly pv"),
      *                 @OA\Property(property="crg_cost", type="float", description="Campaign crg cost"),
      *                 @OA\Property(property="ftd_cost", type="float", description="Campaign ftd cost"),
-     *                 @OA\Property(property="country_id", type="integer", description="Campaign country id"),
+     *                 @OA\Property(
+     *                     property="countries",
+     *                     type="array",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         required={
+     *                             "cpa",
+     *                             "crg",
+     *                             "working_days",
+     *                             "working_hours",
+     *                             "daily_cap",
+     *                         },
+     *                         @OA\Property(property="cpa", type="float", description="Cpa"),
+     *                         @OA\Property(property="crg", type="float", description="Crg"),
+     *                         @OA\Property(property="working_days", type="string", description="Working days", example={"1":{"start":"10:00","end":"18:00"},"2":{"start":"10:00","end":"18:00"},"3":{"start":"10:00","end":"18:00"},"4":{"start":"10:00","end":"18:00"},"5":{"start":"10:00","end":"18:00"}}),
+     *                         @OA\Property(property="working_hours", type="string", description="Working hours", example={"1","2","3","4","5"}),
+     *                         @OA\Property(property="daily_cap", type="integer", description="Daily cap"),
+     *                     )
+     *                 ),
      *             )
      *         )
      *     ),

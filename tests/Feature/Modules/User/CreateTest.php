@@ -23,7 +23,7 @@ final class CreateTest extends TestCase
         $response = $this->post('/admin/workers', array_merge(
             User::factory()->withParent()
                 ->withAffiliate()
-                ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
+                ->raw(['password' => self::$basePassword, 'is_active' => fake()->boolean]),
             [
                 'roles' => [
                     [
@@ -62,7 +62,7 @@ final class CreateTest extends TestCase
             User::factory()
                 ->withParent()
                 ->withAffiliate()
-                ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
+                ->raw(['password' => self::$basePassword, 'is_active' => fake()->boolean]),
             [
                 'role_id' => [
                     Role::factory()->create()->id,

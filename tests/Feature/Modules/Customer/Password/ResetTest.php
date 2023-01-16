@@ -40,8 +40,8 @@ final class ResetTest extends BrandTestCase
         $customer->save();
 
         $response = $this->post(route('admin.customers.password.reset', ['customer' => $customer]), [
-            'password' => 'password123',
-            'password_confirmation' => 'password123',
+            'password' => 'Password%',
+            'password_confirmation' => 'Password%',
             'send_email' => true,
         ]);
 
@@ -97,8 +97,8 @@ final class ResetTest extends BrandTestCase
         $customerId = Customer::orderByDesc('id')->first()?->id ?? 1;
 
         $response = $this->post(route('admin.customers.password.reset', ['customer' => $customerId]), [
-            'password' => 'password123',
-            'password_confirmation' => 'password1234',
+            'password' => 'Password%',
+            'password_confirmation' => 'Password%',
         ]);
 
         $response->assertUnprocessable();

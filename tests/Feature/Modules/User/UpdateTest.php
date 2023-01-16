@@ -28,7 +28,7 @@ final class UpdateTest extends BrandTestCase
             User::factory()
                 ->withParent()
                 ->withAffiliate()
-                ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
+                ->raw(['password' => self::$basePassword, 'is_active' => fake()->boolean]),
             [
                 'change_password' => true,
                 'roles' => [
@@ -77,7 +77,7 @@ final class UpdateTest extends BrandTestCase
             User::factory()
                 ->withParent()
                 ->withAffiliate()
-                ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
+                ->raw(['password' => self::$basePassword, 'is_active' => fake()->boolean]),
             [
                 'change_password' => true,
                 'roles' => [
@@ -125,7 +125,7 @@ final class UpdateTest extends BrandTestCase
             User::factory()
                 ->withParent()
                 ->withAffiliate()
-                ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
+                ->raw(['password' => self::$basePassword, 'is_active' => fake()->boolean]),
             [
                 'change_password' => true,
                 'roles' => [
@@ -152,7 +152,7 @@ final class UpdateTest extends BrandTestCase
             User::factory()
                 ->withParent()
                 ->withAffiliate()
-                ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
+                ->raw(['password' => self::$basePassword, 'is_active' => fake()->boolean]),
             [
                 'change_password' => true,
                 'roles' => [
@@ -179,7 +179,7 @@ final class UpdateTest extends BrandTestCase
             User::factory()
                 ->withParent()
                 ->withAffiliate()
-                ->raw(['password' => 'admin', 'is_active' => fake()->boolean]),
+                ->raw(['password' => self::$basePassword, 'is_active' => fake()->boolean]),
             [
                 'roles' => [
                     [

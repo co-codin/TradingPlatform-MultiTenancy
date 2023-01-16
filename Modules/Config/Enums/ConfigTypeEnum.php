@@ -6,7 +6,7 @@ namespace Modules\Config\Enums;
 
 use App\Enums\BaseEnum;
 
-final class ConfigType extends BaseEnum
+final class ConfigTypeEnum extends BaseEnum
 {
     /**
      * @var string

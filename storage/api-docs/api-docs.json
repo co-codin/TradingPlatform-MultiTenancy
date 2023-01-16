@@ -674,6 +674,72 @@
                                         "description": "Campaign ftd cost",
                                         "type": "number",
                                         "format": "float"
+                                    },
+                                    "countries": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "cpa",
+                                                "crg",
+                                                "working_days",
+                                                "working_hours",
+                                                "daily_cap"
+                                            ],
+                                            "properties": {
+                                                "cpa": {
+                                                    "description": "Cpa",
+                                                    "type": "number",
+                                                    "format": "float"
+                                                },
+                                                "crg": {
+                                                    "description": "Crg",
+                                                    "type": "number",
+                                                    "format": "float"
+                                                },
+                                                "working_days": {
+                                                    "description": "Working days",
+                                                    "type": "string",
+                                                    "example": {
+                                                        "1": {
+                                                            "start": "10:00",
+                                                            "end": "18:00"
+                                                        },
+                                                        "2": {
+                                                            "start": "10:00",
+                                                            "end": "18:00"
+                                                        },
+                                                        "3": {
+                                                            "start": "10:00",
+                                                            "end": "18:00"
+                                                        },
+                                                        "4": {
+                                                            "start": "10:00",
+                                                            "end": "18:00"
+                                                        },
+                                                        "5": {
+                                                            "start": "10:00",
+                                                            "end": "18:00"
+                                                        }
+                                                    }
+                                                },
+                                                "working_hours": {
+                                                    "description": "Working hours",
+                                                    "type": "string",
+                                                    "example": [
+                                                        "1",
+                                                        "2",
+                                                        "3",
+                                                        "4",
+                                                        "5"
+                                                    ]
+                                                },
+                                                "daily_cap": {
+                                                    "description": "Daily cap",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -803,6 +869,72 @@
                                         "description": "Campaign ftd cost",
                                         "type": "number",
                                         "format": "float"
+                                    },
+                                    "countries": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "cpa",
+                                                "crg",
+                                                "working_days",
+                                                "working_hours",
+                                                "daily_cap"
+                                            ],
+                                            "properties": {
+                                                "cpa": {
+                                                    "description": "Cpa",
+                                                    "type": "number",
+                                                    "format": "float"
+                                                },
+                                                "crg": {
+                                                    "description": "Crg",
+                                                    "type": "number",
+                                                    "format": "float"
+                                                },
+                                                "working_days": {
+                                                    "description": "Working days",
+                                                    "type": "string",
+                                                    "example": {
+                                                        "1": {
+                                                            "start": "10:00",
+                                                            "end": "18:00"
+                                                        },
+                                                        "2": {
+                                                            "start": "10:00",
+                                                            "end": "18:00"
+                                                        },
+                                                        "3": {
+                                                            "start": "10:00",
+                                                            "end": "18:00"
+                                                        },
+                                                        "4": {
+                                                            "start": "10:00",
+                                                            "end": "18:00"
+                                                        },
+                                                        "5": {
+                                                            "start": "10:00",
+                                                            "end": "18:00"
+                                                        }
+                                                    }
+                                                },
+                                                "working_hours": {
+                                                    "description": "Working hours",
+                                                    "type": "string",
+                                                    "example": [
+                                                        "1",
+                                                        "2",
+                                                        "3",
+                                                        "4",
+                                                        "5"
+                                                    ]
+                                                },
+                                                "daily_cap": {
+                                                    "description": "Daily cap",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -5782,6 +5914,192 @@
                 ]
             }
         },
+        "/affiliate/customers": {
+            "get": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Get affiliate customers list",
+                "description": "Returns affiliate customers list data.",
+                "operationId": "f8f506eea645d0cbc9da62737ca67ce5",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AffiliateCustomerCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Store affiliate customer",
+                "description": "Returns affiliate customer data.",
+                "operationId": "d953774dfde418a6a5d00bbf34df1a17",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "first_name",
+                                    "last_name",
+                                    "phone",
+                                    "email",
+                                    "country",
+                                    "language",
+                                    "currency",
+                                    "campaign_id"
+                                ],
+                                "properties": {
+                                    "first_name": {
+                                        "description": "First name",
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "description": "Last name",
+                                        "type": "string"
+                                    },
+                                    "phone": {
+                                        "description": "Phone",
+                                        "type": "string"
+                                    },
+                                    "country": {
+                                        "description": "ISO2, ISO3 or name of country",
+                                        "type": "string"
+                                    },
+                                    "language": {
+                                        "description": "ISO2 or full name of language",
+                                        "type": "string"
+                                    },
+                                    "currency": {
+                                        "description": "ISO3 of currency",
+                                        "type": "string"
+                                    },
+                                    "campaign_id": {
+                                        "description": "Available IDs for affiliate",
+                                        "type": "integer"
+                                    },
+                                    "brand_id": {
+                                        "description": "Brand ID",
+                                        "type": "integer"
+                                    },
+                                    "desk_id": {
+                                        "description": "Desk ID",
+                                        "type": "integer"
+                                    },
+                                    "offer_name": {
+                                        "description": "Offer name",
+                                        "type": "string"
+                                    },
+                                    "offer_url": {
+                                        "description": "Offer URL",
+                                        "type": "string"
+                                    },
+                                    "comment_about_customer": {
+                                        "description": "Comment about customer",
+                                        "type": "string"
+                                    },
+                                    "source": {
+                                        "description": "Source",
+                                        "type": "string"
+                                    },
+                                    "click_id": {
+                                        "description": "Click ID",
+                                        "type": "string"
+                                    },
+                                    "free_param_1": {
+                                        "description": "Free param 1",
+                                        "type": "string"
+                                    },
+                                    "free_param_2": {
+                                        "description": "Free param 2",
+                                        "type": "string"
+                                    },
+                                    "free_param_3": {
+                                        "description": "Free param 3",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AffiliateCustomerResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/affiliate/ftd-customers": {
+            "get": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Get affiliate customers with ftd list",
+                "description": "Returns affiliate customers with ftd list data.",
+                "operationId": "799145978c5074390556e39362339ba1",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AffiliateCustomerCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/customer/auth/login": {
             "post": {
                 "tags": [
@@ -10298,7 +10616,8 @@
                                     "name",
                                     "title",
                                     "mt5_id",
-                                    "currency_id"
+                                    "currency_id",
+                                    "customer_id"
                                 ],
                                 "properties": {
                                     "name": {
@@ -10314,6 +10633,10 @@
                                     },
                                     "currency_id": {
                                         "description": "Wallet currency_id",
+                                        "type": "integer"
+                                    },
+                                    "customer_id": {
+                                        "description": "Wallet customer_id",
                                         "type": "integer"
                                     }
                                 },
@@ -10420,7 +10743,8 @@
                                     "name",
                                     "title",
                                     "mt5_id",
-                                    "currency_id"
+                                    "currency_id",
+                                    "customer_id"
                                 ],
                                 "properties": {
                                     "name": {
@@ -10436,6 +10760,10 @@
                                     },
                                     "currency_id": {
                                         "description": "Wallet currency_id",
+                                        "type": "integer"
+                                    },
+                                    "customer_id": {
+                                        "description": "Wallet customer_id",
                                         "type": "integer"
                                     }
                                 },
@@ -10547,6 +10875,10 @@
                                     "currency_id": {
                                         "description": "Wallet currency_id",
                                         "type": "integer"
+                                    },
+                                    "customer_id": {
+                                        "description": "Wallet customer_id",
+                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"
@@ -10628,12 +10960,12 @@
                             "schema": {
                                 "required": [
                                     "type",
-                                    "mt5_type",
-                                    "status",
+                                    "mt5_type_id",
                                     "amount",
                                     "customer_id",
                                     "method_id",
-                                    "wallet_id"
+                                    "wallet_id",
+                                    "currency_id"
                                 ],
                                 "properties": {
                                     "type": {
@@ -10644,7 +10976,7 @@
                                             "deposit"
                                         ]
                                     },
-                                    "mt5_type": {
+                                    "mt5_type_id": {
                                         "description": "Transaction MT5 type",
                                         "type": "string",
                                         "enum": [
@@ -10656,12 +10988,16 @@
                                         ]
                                     },
                                     "amount": {
-                                        "description": "ID of customer",
+                                        "description": "Amount",
                                         "type": "number",
                                         "format": "float"
                                     },
                                     "customer_id": {
                                         "description": "ID of customer",
+                                        "type": "integer"
+                                    },
+                                    "currency_id": {
+                                        "description": "ID of currency",
                                         "type": "integer"
                                     },
                                     "method_id": {
@@ -10670,6 +11006,10 @@
                                     },
                                     "external_id": {
                                         "description": "ID of transaction in external service",
+                                        "type": "string"
+                                    },
+                                    "wallet_id": {
+                                        "description": "ID of wallet",
                                         "type": "string"
                                     },
                                     "description": {
@@ -14333,6 +14673,67 @@
                 },
                 "type": "object"
             },
+            "AffiliateCustomer": {
+                "required": [
+                    "id",
+                    "email"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Worker ID",
+                        "type": "integer"
+                    },
+                    "email": {
+                        "description": "Email",
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "is_ftd": {
+                        "description": "Is FTD",
+                        "type": "boolean",
+                        "nullable": "true"
+                    },
+                    "first_deposit_date": {
+                        "description": "First deposit date",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": "true"
+                    },
+                    "created_at": {
+                        "description": "Date and time of creation",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "conversion_sale_status": {
+                        "$ref": "#/components/schemas/SaleStatusResource"
+                    }
+                },
+                "type": "object"
+            },
+            "AffiliateCustomerCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AffiliateCustomer"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "AffiliateCustomerResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/AffiliateCustomer"
+                    }
+                },
+                "type": "object"
+            },
             "AuthCustomer": {
                 "properties": {
                     "id": {
@@ -15814,6 +16215,7 @@
                     "title",
                     "mt5_id",
                     "currency_id",
+                    "customer_id",
                     "created_at",
                     "updated_at"
                 ],
@@ -15836,6 +16238,10 @@
                     },
                     "currency_id": {
                         "description": "Wallet currency_id",
+                        "type": "integer"
+                    },
+                    "customer_id": {
+                        "description": "Wallet customer_id",
                         "type": "integer"
                     },
                     "created_at": {
@@ -16275,7 +16681,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }

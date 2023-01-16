@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Modules\Config\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Config\Enums\ConfigTypeEnum;
 use Modules\Config\Models\ConfigType;
-use Modules\Config\Enums\ConfigType as ConfigTypeEnum;
 
 final class ConfigTypeFactory extends Factory
 {
@@ -29,4 +29,3 @@ final class ConfigTypeFactory extends Factory
         ];
     }
 }
-

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Role\Repositories\Criteria;
 
 use App\Repositories\Criteria\BaseCriteria;
@@ -7,7 +9,7 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class RoleRequestCriteria extends BaseCriteria
+final class RoleRequestCriteria extends BaseCriteria
 {
     /**
      * {@inheritdoc}
@@ -31,8 +33,7 @@ class RoleRequestCriteria extends BaseCriteria
             ->allowedSorts(['name', 'id'])
             ->allowedIncludes([
                 'permissions',
-                'usersCount',
-                'permissionsCount',
+                'users',
             ]);
     }
 }

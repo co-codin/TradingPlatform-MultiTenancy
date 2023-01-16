@@ -6,7 +6,10 @@ namespace Modules\Transaction\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Currency\Models\Currency;
+use Modules\Customer\Models\Customer;
 use Modules\Transaction\Models\Wallet;
+use Spatie\Multitenancy\Landlord;
+use Spatie\Multitenancy\Models\Tenant;
 
 final class WalletFactory extends Factory
 {
@@ -27,6 +30,7 @@ final class WalletFactory extends Factory
             'title' => $this->faker->title(),
             'mt5_id' => $this->faker->unique()->name(),
             'currency_id' => Currency::inRandomOrder()->first() ?? Currency::factory(),
+            'customer_id' => (Customer::inRandomOrder()->first() ?? Customer::factory()->create())->id,
         ];
     }
 }

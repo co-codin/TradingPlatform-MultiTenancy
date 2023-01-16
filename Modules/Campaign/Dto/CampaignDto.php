@@ -20,5 +20,5 @@ final class CampaignDto extends BaseDto
     public ?int $monthly_pv;
     public ?float $crg_cost;
     public ?float $ftd_cost;
-    public ?int $country_id;
+    public ?array $countries = null;
 }
