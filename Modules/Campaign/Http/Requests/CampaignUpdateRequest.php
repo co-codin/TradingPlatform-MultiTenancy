@@ -25,6 +25,7 @@ final class CampaignUpdateRequest extends BaseFormRequest
             'monthly_pv' => 'required|integer',
             'crg_cost' => 'required|numeric',
             'ftd_cost' => 'required|numeric',
+            'country_id' => 'required|int|exists:landlord.countries,id',
         ];
     }
 }

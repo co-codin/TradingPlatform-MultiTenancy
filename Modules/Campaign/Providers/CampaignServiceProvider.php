@@ -22,4 +22,13 @@ final class CampaignServiceProvider extends BaseModuleServiceProvider
     {
         return 'Campaign';
     }
+    /**
+     * {@inheritDoc}
+     */
+    public function boot(): void
+    {
+        parent::boot();
+
+        $this->loadMigrations();
+    }
 }

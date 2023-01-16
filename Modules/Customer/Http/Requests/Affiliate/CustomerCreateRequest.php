@@ -23,7 +23,7 @@ final class CustomerCreateRequest extends BaseFormRequest
             'country' => 'required|string',
             'language' => 'required|string',
             'currency' => 'required|string',
-            'campaign_id' => 'required|integer|exists:tenant.campaigns,id',
+            'campaign_id' => 'required|integer|exists:landlord.campaigns,id',
             'brand_id' => 'sometimes|integer|exists:landlord.brand,id',
             'desk_id' => 'sometimes|integer|exists:tenant.desks,id',
             'offer_name' => 'sometimes|string',
