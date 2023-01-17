@@ -30,15 +30,15 @@ return new class extends Migration
             $table->foreignId('language_id')->nullable()
                 ->constrained('public.languages')
                 ->references('id')
-                ->onDelete('CASCADE');
+                ->onDelete('SET NULL');
             $table->foreignId('supposed_language_id')->nullable()
                 ->constrained('public.languages')
                 ->references('id')
-                ->onDelete('CASCADE');
+                ->onDelete('SET NULL');
             $table->foreignId('platform_language_id')->nullable()
                 ->constrained('public.languages')
                 ->references('id')
-                ->onDelete('CASCADE');
+                ->onDelete('SET NULL');
 
             $table->string('state')->nullable();
             $table->string('city')->nullable();
