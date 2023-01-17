@@ -15,12 +15,15 @@ final class UserFactory extends Factory
 
     public function definition(): array
     {
+        $email = $this->faker->unique()->email;
+        $username = $this->faker->word().$email;
+
         return [
-            'username' => $this->faker->unique()->userName(),
+            'username' => $username,
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
-            'email' => $this->faker->unique()->email,
-            'password' => Hash::make('admin'),
+            'email' => $email,
+            'password' => Hash::make('Password%'),
             'remember_token' => Str::random(10),
             'is_active' => true,
             'target' => $this->faker->randomNumber(),

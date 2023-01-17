@@ -117,12 +117,10 @@ return [
      * Required migrations after tenant created.
      */
     'tenant_required_migrations' => [
-        'Currency' => 'Currency',
         'Media' => 'Media',
         'Config' => 'Config',
         'Department' => 'Department',
         'Sale' => 'Sale',
-        'Language' => 'Language',
         'Desk' => 'Desk',
         'Customer' => 'Customer',
         'Communication' => 'Communication',

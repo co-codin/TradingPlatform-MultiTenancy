@@ -24,6 +24,7 @@ final class GeoServiceProvider extends BaseModuleServiceProvider
     {
         return 'Geo';
     }
+
     /**
      * {@inheritDoc}
      */

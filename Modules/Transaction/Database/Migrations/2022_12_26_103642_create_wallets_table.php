@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('title');
             $table->string('mt5_id')->unique();
-            $table->integer('currency_id');
+            $table->foreignId('currency_id')->constrained('public.currencies')->references('id')->onDelete('CASCADE');
             $table->foreignId('customer_id')->constrained('customers');
 
             $table->softDeletes();

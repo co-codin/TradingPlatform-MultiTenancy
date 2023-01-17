@@ -27,7 +27,7 @@ final class CustomerUpdateRequest extends BaseFormRequest
             'phone' => 'sometimes|required|string',
             'country_id' => 'sometimes|required|int|exists:landlord.countries,id',
             'phone2' => 'sometimes',
-            'language_id' => 'sometimes|required|int|exists:tenant.languages,id',
+            'language_id' => 'sometimes|required|int|exists:landlord.languages,id',
             'city' => 'sometimes|string',
             'address' => 'sometimes|string',
             'postal_code' => 'sometimes|string',

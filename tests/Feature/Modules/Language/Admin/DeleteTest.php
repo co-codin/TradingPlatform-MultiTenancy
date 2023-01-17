@@ -6,15 +6,10 @@ namespace Tests\Feature\Modules\Language\Admin;
 
 use Modules\Language\Enums\LanguagePermission;
 use Modules\Language\Models\Language;
-use Spatie\Multitenancy\Commands\Concerns\TenantAware;
-use Tests\BrandTestCase;
-use Tests\Traits\HasAuth;
+use Tests\TestCase;
 
-final class DeleteTest extends BrandTestCase
+final class DeleteTest extends TestCase
 {
-    use TenantAware;
-    use HasAuth;
-
     /**
      * Test authorized user can delete language.
      *
@@ -25,8 +20,6 @@ final class DeleteTest extends BrandTestCase
     public function authorized_user_can_delete_language(): void
     {
         $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::DELETE_LANGUAGES));
-
-        $this->brand->makeCurrent();
 
         $language = Language::factory()->create();
 
@@ -44,8 +37,6 @@ final class DeleteTest extends BrandTestCase
      */
     public function unauthorized_user_cant_delete_language(): void
     {
-        $this->brand->makeCurrent();
-
         $language = Language::factory()->create();
 
         $response = $this->patchJson(route('admin.languages.destroy', ['language' => $language->id]));

@@ -18,10 +18,20 @@ final class LanguageServiceProvider extends BaseModuleServiceProvider
     ];
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getModuleName(): string
     {
         return 'Language';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function boot(): void
+    {
+        parent::boot();
+
+        $this->loadMigrations();
     }
 }

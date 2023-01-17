@@ -7,7 +7,9 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Modules\Brand\Database\Seeders\BrandDatabaseSeeder;
 use Modules\Campaign\Database\Seeders\CampaignDatabaseSeeder;
+use Modules\Currency\Database\Seeders\CurrencyDatabaseSeeder;
 use Modules\Geo\Database\Seeders\GeoDatabaseSeeder;
+use Modules\Language\Database\Seeders\LanguageDatabaseSeeder;
 use Modules\Role\Database\Seeders\RoleDatabaseSeeder;
 use Modules\User\Database\Seeders\UserDatabaseSeeder;
 
@@ -21,6 +23,8 @@ final class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            CurrencyDatabaseSeeder::class,
+            LanguageDatabaseSeeder::class,
             RoleDatabaseSeeder::class,
             UserDatabaseSeeder::class,
             GeoDatabaseSeeder::class,

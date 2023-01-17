@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Geo\Country\Admin;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Str;
 use Modules\Geo\Enums\CountryPermission;
 use Modules\Geo\Models\Country;
-use Spatie\Multitenancy\Commands\Concerns\TenantAware;
-use Tests\BrandTestCase;
-use Tests\Traits\HasAuth;
+use Tests\TestCase;
 
-class ReadTest extends BrandTestCase
+class ReadTest extends TestCase
 {
-    use TenantAware;
-    use HasAuth;
+    use DatabaseTransactions;
 
     /**
      * Test authorized user can get countries list.
@@ -26,8 +24,6 @@ class ReadTest extends BrandTestCase
     public function authorized_user_can_get_countries_list(): void
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
-
-        $this->brand->makeCurrent();
 
         $country = Country::factory()->create(static::demoData())->toArray();
 
@@ -47,8 +43,6 @@ class ReadTest extends BrandTestCase
      */
     public function unauthorized_user_cant_get_countries_list(): void
     {
-        $this->brand->makeCurrent();
-
         Country::factory()->create(static::demoData());
 
         $response = $this->getJson(route('admin.countries.index'));
@@ -66,8 +60,6 @@ class ReadTest extends BrandTestCase
     public function authorized_user_can_get_country(): void
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::VIEW_COUNTRIES));
-
-        $this->brand->makeCurrent();
 
         $country = Country::factory()->create(static::demoData());
 
@@ -89,8 +81,6 @@ class ReadTest extends BrandTestCase
      */
     public function unauthorized_user_cant_get_country(): void
     {
-        $this->brand->makeCurrent();
-
         $country = Country::factory()->create(static::demoData());
 
         $response = $this->getJson(route('admin.countries.show', ['country' => $country->id]));

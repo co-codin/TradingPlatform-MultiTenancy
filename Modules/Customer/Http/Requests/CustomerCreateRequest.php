@@ -29,7 +29,7 @@ final class CustomerCreateRequest extends BaseFormRequest
             'phone' => 'required|string',
             'country_id' => 'required|int|exists:landlord.countries,id',
             'phone2' => 'sometimes',
-            'language_id' => 'required|int|exists:tenant.languages,id',
+            'language_id' => 'required|int|exists:landlord.languages,id',
             'city' => 'sometimes|string',
             'address' => 'sometimes|string',
             'postal_code' => 'sometimes|string',
@@ -43,7 +43,7 @@ final class CustomerCreateRequest extends BaseFormRequest
             'free_param_1' => 'sometimes|string',
             'free_param_2' => 'sometimes|string',
             'free_param_3' => 'sometimes|string',
-            'currency_id' => 'required|int|exists:tenant.currencies,id',
+            'currency_id' => 'required|int|exists:landlord.currencies,id',
         ];
     }
 }

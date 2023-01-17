@@ -15,9 +15,8 @@ return new class extends Migration
     {
         Schema::create('user_country', function (Blueprint $table) {
             $table->primary(['user_id', 'country_id'], 'id');
-            $table->integer('user_id');
-            $table->foreign('user_id')->on('public.users')->references('id')->onDelete('CASCADE');
-            $table->foreignId('country_id')->constrained()->on('public.countries');
+            $table->foreignId('user_id')->constrained('public.users')->references('id')->onDelete('CASCADE');
+            $table->foreignId('country_id')->constrained('public.countries')->references('id')->onDelete('CASCADE');
         });
     }
 

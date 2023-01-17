@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -16,7 +17,7 @@ return new class extends Migration {
             $table->primary(['user_id', 'language_id'], 'id');
             $table->integer('user_id');
             $table->foreign('user_id')->on('public.users')->references('id')->onDelete('CASCADE');
-            $table->foreignId('language_id')->constrained();
+            $table->foreignId('language_id')->constrained('public.languages')->references('id')->onDelete('CASCADE');
         });
     }
 

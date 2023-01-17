@@ -7,12 +7,12 @@ namespace Modules\Currency\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Currency\Database\factories\CurrencyFactory;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
 final class Currency extends Model
 {
     use HasFactory;
-    use UsesTenantConnection;
+    use UsesLandlordConnection;
 
     /**
      * {@inheritdoc}

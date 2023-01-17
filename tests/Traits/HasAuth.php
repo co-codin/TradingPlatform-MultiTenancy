@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Traits;
 
+use App\Models\Action;
+use App\Models\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Arr;
 use Modules\Customer\Models\Customer;
@@ -113,6 +115,10 @@ trait HasAuth
         $permission = Permission::whereName($permissionEnum->value)->first() ??
             Permission::factory()->create([
                 'name' => $permissionEnum->value,
+                'action_id' => Action::where('name', $permissionEnum::actions()[$permissionEnum->value])->first()?->id
+                    ?? Action::factory()->create(['name' => $permissionEnum::actions()[$permissionEnum->value]])->id,
+                'model_id' => Model::where('name', trim('\\', $permissionEnum::model()))->first()?->id
+                    ?? Model::factory()->create(['name' => trim('\\', $permissionEnum::model())])->id,
                 'guard_name' => $guard,
             ]);
 

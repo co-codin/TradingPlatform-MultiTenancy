@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Geo\Country\Admin;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Str;
 use Modules\Geo\Enums\CountryPermission;
 use Modules\Geo\Models\Country;
-use Spatie\Multitenancy\Commands\Concerns\TenantAware;
-use Tests\BrandTestCase;
-use Tests\Traits\HasAuth;
+use Tests\TestCase;
 
-class DeleteTest extends BrandTestCase
+class DeleteTest extends TestCase
 {
-    use TenantAware;
-    use HasAuth;
+    use DatabaseTransactions;
 
     /**
      * Test authorized user can delete country.
@@ -26,8 +24,6 @@ class DeleteTest extends BrandTestCase
     public function authorized_user_can_delete_country(): void
     {
         $this->authenticateWithPermission(CountryPermission::fromValue(CountryPermission::DELETE_COUNTRIES));
-
-        $this->brand->makeCurrent();
 
         $country = Country::factory()->create(static::demoData());
 
@@ -45,8 +41,6 @@ class DeleteTest extends BrandTestCase
      */
     public function unauthorized_user_cant_delete_country(): void
     {
-        $this->brand->makeCurrent();
-
         $country = Country::factory()->create(static::demoData());
 
         $response = $this->patchJson(route('admin.countries.destroy', ['country' => $country->id]));

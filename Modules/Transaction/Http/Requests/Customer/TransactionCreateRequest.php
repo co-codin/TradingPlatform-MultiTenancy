@@ -21,7 +21,7 @@ final class TransactionCreateRequest extends BaseFormRequest
             'customer_id' => 'required|int|exists:tenant.customers,id',
             'method_id' => 'required|int|exists:tenant.transaction_methods,id',
             'wallet_id' => 'required|int|exists:tenant.wallets,id',
-            'currency_id' => 'required|int|exists:tenant.currencies,id',
+            'currency_id' => 'required|int|exists:landlord.currencies,id',
             'mt5_type_id' => 'required|int|exists:tenant.transaction_mt5_types,id',
 
             'external_id' => 'sometimes|required|string|nullable',

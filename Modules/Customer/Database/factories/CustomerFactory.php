@@ -62,9 +62,6 @@ class CustomerFactory extends BaseFactory
             'password' => Hash::make('password'),
             'phone' => $this->faker->e164PhoneNumber(),
             'phone2' => $this->faker->e164PhoneNumber(),
-
-            'language_id' => Language::factory(),
-            'currency_id' => Currency::inRandomOrder()->first(),
             'department_id' => Department::inRandomOrder()->first(),
             'desk_id' => Desk::factory(),
 
@@ -93,6 +90,8 @@ class CustomerFactory extends BaseFactory
     private function getLandlordData(): array
     {
         return [
+            'currency_id' => Currency::inRandomOrder()->first() ?? Currency::factory(),
+            'language_id' => Language::inRandomOrder()->first() ?? Language::factory(),
             'country_id' => Country::inRandomOrder()->first() ?? Country::factory(),
             'campaign_id' => Campaign::factory(),
             'affiliate_user_id' => User::factory(),

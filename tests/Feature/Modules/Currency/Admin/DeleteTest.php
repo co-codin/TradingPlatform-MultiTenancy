@@ -6,15 +6,10 @@ namespace Tests\Feature\Modules\Currency\Admin;
 
 use Modules\Currency\Enums\CurrencyPermission;
 use Modules\Currency\Models\Currency;
-use Spatie\Multitenancy\Commands\Concerns\TenantAware;
-use Tests\BrandTestCase;
-use Tests\Traits\HasAuth;
+use Tests\TestCase;
 
-final class DeleteTest extends BrandTestCase
+final class DeleteTest extends TestCase
 {
-    use TenantAware;
-    use HasAuth;
-
     /**
      * @test
      */
@@ -23,8 +18,6 @@ final class DeleteTest extends BrandTestCase
         $this->authenticateWithPermission(
             CurrencyPermission::fromValue(CurrencyPermission::DELETE_CURRENCIES)
         );
-
-        $this->brand->makeCurrent();
 
         Currency::truncate();
         $currency = Currency::factory()->create();
@@ -41,8 +34,6 @@ final class DeleteTest extends BrandTestCase
     {
         $this->authenticateUser();
 
-        $this->brand->makeCurrent();
-
         Currency::truncate();
         $currency = Currency::factory()->create();
 
@@ -58,8 +49,6 @@ final class DeleteTest extends BrandTestCase
     {
         $this->authenticateUser();
 
-        $this->brand->makeCurrent();
-
         $currencyId = Currency::orderByDesc('id')->first()?->id + 1 ?? 1;
 
         $response = $this->delete(route('admin.currencies.destroy', ['currency' => $currencyId]));
@@ -72,8 +61,6 @@ final class DeleteTest extends BrandTestCase
      */
     public function unauthorized(): void
     {
-        $this->brand->makeCurrent();
-
         Currency::truncate();
         $currency = Currency::factory()->create();
 
