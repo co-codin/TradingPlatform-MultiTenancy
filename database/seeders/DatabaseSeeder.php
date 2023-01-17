@@ -6,9 +6,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Modules\Brand\Database\Seeders\BrandDatabaseSeeder;
-use Modules\Brand\Models\Brand;
 use Modules\Campaign\Database\Seeders\CampaignDatabaseSeeder;
-use Modules\Customer\Models\Customer;
 use Modules\Geo\Database\Seeders\GeoDatabaseSeeder;
 use Modules\Language\Database\Seeders\LanguageDatabaseSeeder;
 use Modules\Role\Database\Seeders\RoleDatabaseSeeder;
