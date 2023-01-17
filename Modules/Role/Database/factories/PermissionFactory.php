@@ -23,8 +23,10 @@ class PermissionFactory extends Factory
      */
     public function definition()
     {
-        $model = Model::factory()->create();
-        $action = Action::factory()->create();
+        $model = Model::factory()->make();
+        $model = Model::where('name', $model->value('name'))->first() ?? $model->save();
+        $action = Action::factory()->make();
+        $action = Action::where('name', $action->value('name'))->first() ?? $action->save();
 
         return [
             'name' => mb_strtolower("{$action->name} {$model->name}"),

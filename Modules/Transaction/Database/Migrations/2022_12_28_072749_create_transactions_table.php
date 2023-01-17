@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreignId('desk_id')->nullable()->constrained('desks');
 
             $table->foreignId('status_id')->constrained('transaction_statuses');
-            $table->foreignId('currency_id')->constrained('currencies');
+            $table->foreignId('currency_id')->constrained('public.currencies')->references('id')->onDelete('CASCADE');
             $table->foreignId('mt5_type_id')->constrained('transaction_mt5_types');
             $table->foreignId('method_id')->constrained('transaction_methods');
             $table->foreignId('wallet_id')->constrained('wallets');

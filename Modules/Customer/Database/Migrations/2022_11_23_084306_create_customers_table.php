@@ -25,7 +25,7 @@ return new class extends Migration
             $table->timestamp('birthday')->nullable();
 
             $table->foreignId('country_id')->constrained('public.countries')->references('id')->onDelete('CASCADE');
-            $table->foreignId('currency_id')->constrained();
+            $table->foreignId('currency_id')->constrained('public.currencies')->references('id')->onDelete('CASCADE');
 
             $table->foreignId('language_id')->nullable()
                 ->constrained('public.languages')

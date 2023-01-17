@@ -16,8 +16,8 @@ final class CurrencyStoreRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|unique:tenant.currencies,name',
-            'iso3' => 'required|string|unique:tenant.currencies,iso3',
+            'name' => 'required|string|unique:landlord.currencies,name',
+            'iso3' => 'required|string|unique:landlord.currencies,iso3',
             'symbol' => 'required|string',
             'is_available' => 'sometimes|required|boolean',
         ];
