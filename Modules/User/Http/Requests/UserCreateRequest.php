@@ -61,7 +61,7 @@ final class UserCreateRequest extends BaseFormRequest
                 'required',
                 'integer',
                 'min:1',
-                'exists:tenant.languages,id',
+                'exists:landlord.languages,id',
             ],
             'countries' => 'sometimes|required|array',
             'countries.*.id' => [

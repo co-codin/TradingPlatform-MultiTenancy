@@ -29,7 +29,7 @@ final class CustomerCreateRequest extends BaseFormRequest
             'phone' => 'required|string',
             'country_id' => 'required|int|exists:landlord.countries,id',
             'phone2' => 'sometimes',
-            'language_id' => 'required|int|exists:tenant.languages,id',
+            'language_id' => 'required|int|exists:landlord.languages,id',
             'city' => 'sometimes|string',
             'address' => 'sometimes|string',
             'postal_code' => 'sometimes|string',
