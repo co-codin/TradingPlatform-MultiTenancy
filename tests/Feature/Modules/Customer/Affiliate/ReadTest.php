@@ -5,6 +5,7 @@ namespace Tests\Feature\Modules\Customer\Affiliate;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Modules\Customer\Models\Customer;
+use Modules\Geo\Database\Seeders\GeoDatabaseSeeder;
 use Modules\Role\Enums\DefaultRole;
 use Modules\Role\Models\Role;
 use Modules\User\Models\User;
@@ -16,6 +17,13 @@ class ReadTest extends BrandTestCase
 {
     use TenantAware;
     use HasAuth;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed(GeoDatabaseSeeder::class);
+    }
 
     /**
      * Test affiliate user can get customer list.
@@ -37,13 +45,9 @@ class ReadTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $customers = $this->brand->execute(function () use ($user) {
-            return Customer::factory()->make([
-                'affiliate_user_id' => $user->id,
-            ]);
-        });
-
-        $customers->save();
+        $customers = Customer::factory()->create([
+            'affiliate_user_id' => $user->id,
+        ]);
 
         $user->assignRole(
             Role::where('name', DefaultRole::AFFILIATE)->first()
@@ -62,11 +66,10 @@ class ReadTest extends BrandTestCase
                 'email',
                 'is_ftd',
                 'first_deposit_date',
-                'created_at'
+                'created_at',
             ])],
         ]);
     }
-
 
     /**
      * Test affiliate user send wrong affiliate token.
