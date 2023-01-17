@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Modules\Customer;
+namespace Tests\Feature\Modules\Customer\UrlAuth;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
@@ -11,7 +11,7 @@ use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasCustomerAuth;
 
-final class UrlLoginTest extends BrandTestCase
+final class LoginTest extends BrandTestCase
 {
     use TenantAware;
     use HasCustomerAuth;
