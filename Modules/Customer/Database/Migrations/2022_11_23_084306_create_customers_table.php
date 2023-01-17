@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('phone2')->nullable();
             $table->timestamp('birthday')->nullable();
 
-            $table->foreignId('country_id')->constrained()->on('public.countries');
+            $table->foreignId('country_id')->constrained('public.countries')->references('id')->onDelete('CASCADE');
             $table->foreignId('currency_id')->constrained();
 
             $table->foreignId('language_id')->nullable()->constrained();

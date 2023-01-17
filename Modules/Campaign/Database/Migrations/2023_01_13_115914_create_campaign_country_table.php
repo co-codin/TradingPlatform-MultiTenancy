@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -16,8 +16,7 @@ return new class extends Migration
         Schema::create('campaign_country', function (Blueprint $table) {
             $table->id();
 
-            $table->integer('country_id');
-            $table->foreign('country_id')->on('public.countries')->references('id')->onDelete('CASCADE');
+            $table->foreignId('country_id')->constrained('public.countries')->references('id')->onDelete('CASCADE');
             $table->foreignId('campaign_id')->constrained();
             $table->unique(['country_id', 'campaign_id']);
 

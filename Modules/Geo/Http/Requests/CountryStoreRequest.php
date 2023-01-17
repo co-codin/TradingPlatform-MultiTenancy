@@ -14,9 +14,9 @@ final class CountryStoreRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|unique:tenant.countries,name',
-            'iso2' => 'required|string|unique:tenant.countries,iso2',
-            'iso3' => 'required|string|unique:tenant.countries,iso3',
+            'name' => 'required|string|unique:landlord.countries,name',
+            'iso2' => 'required|string|unique:landlord.countries,iso2',
+            'iso3' => 'required|string|unique:landlord.countries,iso3',
             'currency' => 'sometimes|required|string',
         ];
     }
