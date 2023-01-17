@@ -37,7 +37,7 @@ final class DeleteTest extends BrandTestCase
     {
         $this->authenticateWithPermission(RolePermission::fromValue(RolePermission::DELETE_ROLES));
 
-        $role = Role::factory()->create();
+        $role = Role::factory()->create(['is_default' => false]);
 
         $response = $this->delete(route('admin.roles.destroy', ['role' => $role]));
 
@@ -51,7 +51,7 @@ final class DeleteTest extends BrandTestCase
     {
         $this->authenticateWithPermission(RolePermission::fromValue(RolePermission::DELETE_ROLES));
 
-        $role = Role::factory()->create(['brand_id' => $this->brand->id]);
+        $role = Role::factory()->create(['brand_id' => $this->brand->id, 'is_default' => false]);
 
         $this->brand->makeCurrent();
 

@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Role\Dto;
 
 use App\Dto\BaseDto;
-use Illuminate\Foundation\Http\FormRequest;
 
-class RoleDto extends BaseDto
+final class RoleDto extends BaseDto
 {
     public ?string $name;
 
@@ -15,13 +16,5 @@ class RoleDto extends BaseDto
 
     public ?array $permissions;
 
-    public static function fromFormRequest(FormRequest $request): static
-    {
-        $validated = $request->validated();
-        return new self([
-            'name' => $validated['name'],
-            'key' => $validated['key'],
-            'permissions' => $validated['permissions'] ?? [],
-        ]);
-    }
+    public ?bool $is_default;
 }

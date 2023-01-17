@@ -6,6 +6,7 @@ namespace Modules\Role\Http\Resources;
 
 use App\Http\Resources\BaseJsonResource;
 use Modules\Role\Models\Role;
+use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema (
@@ -23,6 +24,7 @@ use Modules\Role\Models\Role;
  *     @OA\Property(property="name", type="string", description="User"),
  *     @OA\Property(property="guard_name", type="string", description="api"),
  *     @OA\Property(property="key", type="string", description="key"),
+ *     @OA\Property(property="is_default", type="boolean"),
  *     @OA\Property(property="created_at", type="string", format="date-time", description="Date and time of creation", example="1970-01-01 00:00:00"),
  *     @OA\Property(property="updated_at", type="string", format="date-time", description="Date and time of last update", example="1970-01-01 00:00:00"),
  *     @OA\Property(property="permissions", type="array", @OA\Items(ref="#/components/schemas/Permission"), description="Permission array"),

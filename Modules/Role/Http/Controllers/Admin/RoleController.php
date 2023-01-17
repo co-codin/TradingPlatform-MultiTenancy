@@ -26,7 +26,7 @@ final class RoleController extends Controller
 {
     use ValidatesRequests;
 
-    final public function __construct(
+    public function __construct(
         protected RoleStorage $roleStorage,
         protected RoleRepository $roleRepository
     ) {
@@ -93,7 +93,7 @@ final class RoleController extends Controller
      *
      * @throws AuthorizationException
      */
-    final public function index(): JsonResource
+    public function index(): JsonResource
     {
         $this->authorize('viewAny', Role::class);
 
@@ -146,7 +146,7 @@ final class RoleController extends Controller
      *
      * @throws AuthorizationException
      */
-    final public function show(int $role): JsonResource
+    public function show(int $role): JsonResource
     {
         $role = $this->roleRepository->find($role);
 
@@ -179,6 +179,7 @@ final class RoleController extends Controller
      *                 @OA\Property(property="name", description="Name of role"),
      *                 @OA\Property(property="guard_name", type="string", description="Guard name"),
      *                 @OA\Property(property="key", type="string", description="Key"),
+     *                 @OA\Property(property="is_default", type="boolean"),
      *                 @OA\Property(property="permissions", type="array", description="Array of permission`s ID",
      *                     @OA\Items(@OA\Property(property="id", type="integer")),
      *                 ),
@@ -212,7 +213,7 @@ final class RoleController extends Controller
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
-    final public function store(RoleCreateRequest $request): JsonResource
+    public function store(RoleCreateRequest $request): JsonResource
     {
         $this->authorize('create', Role::class);
 
@@ -247,6 +248,7 @@ final class RoleController extends Controller
      *                 @OA\Property(property="name", description="Name of role"),
      *                 @OA\Property(property="guard_name", type="string", description="Guard name"),
      *                 @OA\Property(property="key", type="string", description="Key"),
+     *                 @OA\Property(property="is_default", type="boolean"),
      *                 @OA\Property(property="permissions", type="array", description="Array of permission`s ID",
      *                     @OA\Items(@OA\Property(property="id", type="integer")),
      *                 ),
@@ -294,6 +296,7 @@ final class RoleController extends Controller
      *                 @OA\Property(property="name", description="Name of role"),
      *                 @OA\Property(property="guard_name", type="string", description="Guard name"),
      *                 @OA\Property(property="key", type="string", description="Key"),
+     *                 @OA\Property(property="is_default", type="boolean"),
      *                 @OA\Property(property="permissions", type="array", description="Array of permission`s ID",
      *                     @OA\Items(@OA\Property(property="id", type="integer")),
      *                 ),
@@ -332,7 +335,7 @@ final class RoleController extends Controller
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
-    final public function update(int $role, RoleUpdateRequest $request): JsonResource
+    public function update(int $role, RoleUpdateRequest $request): JsonResource
     {
         $role = $this->roleRepository->find($role);
 
@@ -381,7 +384,7 @@ final class RoleController extends Controller
      *
      * @throws AuthorizationException
      */
-    final public function destroy(int $role): Response
+    public function destroy(int $role): Response
     {
         $role = $this->roleRepository->find($role);
 
