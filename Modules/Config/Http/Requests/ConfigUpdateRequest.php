@@ -6,7 +6,7 @@ namespace Modules\Config\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
 use BenSampo\Enum\Rules\EnumValue;
-use Modules\Config\Enums\DataType;
+use Modules\Config\Enums\ConfigDataTypeEnum;
 
 final class ConfigUpdateRequest extends BaseFormRequest
 {
@@ -21,7 +21,7 @@ final class ConfigUpdateRequest extends BaseFormRequest
                 'sometimes',
                 'required',
                 'string',
-                new EnumValue(DataType::class, false),
+                new EnumValue(ConfigDataTypeEnum::class, false),
             ],
             'name' => 'sometimes|required|string',
             'value' => 'sometimes|required|string',

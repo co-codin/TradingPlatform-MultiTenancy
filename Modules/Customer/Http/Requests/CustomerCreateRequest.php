@@ -43,6 +43,7 @@ final class CustomerCreateRequest extends BaseFormRequest
             'free_param_1' => 'sometimes|string',
             'free_param_2' => 'sometimes|string',
             'free_param_3' => 'sometimes|string',
+            'currency_id' => 'required|int|exists:tenant.currencies,id',
         ];
     }
 }

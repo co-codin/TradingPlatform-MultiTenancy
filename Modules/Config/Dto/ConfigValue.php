@@ -17,12 +17,14 @@ final class ConfigValue extends BaseDto implements CastsAttributes
      * @param  array  $attributes
      * @return array|string
      */
-    final public function get($model, string $key, $value, array $attributes): array|string
+    public function get($model, string $key, $value, array $attributes): mixed
     {
         /** @var Config $model */
         return match (true) {
             $model->isJsonDataType() => json_decode($value, true),
             $model->isStringDataType() => $value,
+            $model->isIntegerDataType() => (int) $value,
+            default => $value,
         };
     }
 
@@ -33,12 +35,13 @@ final class ConfigValue extends BaseDto implements CastsAttributes
      * @param  array  $attributes
      * @return string
      */
-    final public function set($model, string $key, $value, array $attributes): string
+    public function set($model, string $key, $value, array $attributes): string
     {
         /** @var Config $model */
         return match (true) {
             $model->isJsonDataType() => json_encode($value),
             $model->isStringDataType() => $value,
+            default => (string) $value,
         };
     }
 }

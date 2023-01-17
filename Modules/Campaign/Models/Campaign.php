@@ -10,12 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Modules\Campaign\Database\factories\CampaignFactory;
 use Modules\Geo\Models\Country;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
 final class Campaign extends Model
 {
     use HasFactory;
-    use UsesTenantConnection;
+    use UsesLandlordConnection;
 
     /**
      * @var array

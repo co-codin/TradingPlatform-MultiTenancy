@@ -11,12 +11,18 @@ use Modules\Geo\Models\Country;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
+use Modules\Geo\Database\Seeders\GeoDatabaseSeeder;
 
 final class UpdateTest extends BrandTestCase
 {
     use TenantAware;
     use HasAuth;
+    protected function setUp(): void
+    {
+        parent::setUp();
 
+        $this->seed(GeoDatabaseSeeder::class);
+    }
     /**
      * @test
      */
@@ -28,14 +34,9 @@ final class UpdateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $campaign = $this->brand->execute(function () {
-            return Campaign::factory()->make();
-        });
-        $campaign->save();
+        $campaign = Campaign::factory()->create();
 
         $campaignData = Campaign::factory()->make()->toArray();
-
-        $this->brand->makeCurrent();
 
         $countries = Country::query()->limit(3)->get();
 
@@ -67,14 +68,9 @@ final class UpdateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $campaign = $this->brand->execute(function () {
-            return Campaign::factory()->make();
-        });
-        $campaign->save();
+        $campaign = Campaign::factory()->create();
 
         $data = Campaign::factory()->make();
-
-        $this->brand->makeCurrent();
 
         $response = $this->patch(
             route('admin.campaign.update', ['campaign' => $campaign]),
@@ -96,8 +92,6 @@ final class UpdateTest extends BrandTestCase
         $campaignId = Campaign::orderByDesc('id')->first()?->id + 1 ?? 1;
         $data = Campaign::factory()->make();
 
-        $this->brand->makeCurrent();
-
         $response = $this->patch(
             route('admin.campaign.update', ['campaign' => $campaignId]),
             $data->toArray()
@@ -113,10 +107,7 @@ final class UpdateTest extends BrandTestCase
     {
         $this->brand->makeCurrent();
 
-        $campaign = $this->brand->execute(function () {
-            return Campaign::factory()->make();
-        });
-        $campaign->save();
+        $campaign = Campaign::factory()->create();
 
         $response = $this->patch(route('admin.campaign.update', ['campaign' => $campaign]));
 

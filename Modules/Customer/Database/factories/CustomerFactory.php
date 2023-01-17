@@ -63,9 +63,6 @@ class CustomerFactory extends BaseFactory
             'phone' => $this->faker->e164PhoneNumber(),
             'phone2' => $this->faker->e164PhoneNumber(),
 
-            'campaign_id' => Campaign::factory(),
-
-            'country_id' => Country::inRandomOrder()->first(),
             'language_id' => Language::factory(),
             'currency_id' => Currency::inRandomOrder()->first(),
             'department_id' => Department::inRandomOrder()->first(),
@@ -96,6 +93,8 @@ class CustomerFactory extends BaseFactory
     private function getLandlordData(): array
     {
         return [
+            'country_id' => Country::inRandomOrder()->first() ?? Country::factory(),
+            'campaign_id' => Campaign::factory(),
             'affiliate_user_id' => User::factory(),
             'conversion_user_id' => $conversion = User::factory()->create(),
             'retention_user_id' => $retention = User::factory()->create(),

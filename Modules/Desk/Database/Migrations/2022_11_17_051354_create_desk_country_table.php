@@ -16,8 +16,7 @@ return new class extends Migration
         Schema::create('desk_country', function (Blueprint $table) {
             $table->primary(['desk_id', 'country_id'], 'id');
             $table->foreignId('desk_id')->constrained();
-            $table->integer('country_id');
-            $table->foreign('country_id')->on('public.countries')->references('id')->onDelete('CASCADE');
+            $table->foreignId('country_id')->constrained()->on('public.countries');
         });
     }
 

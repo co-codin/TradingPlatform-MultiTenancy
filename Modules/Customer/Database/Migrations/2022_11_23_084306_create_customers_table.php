@@ -24,8 +24,7 @@ return new class extends Migration
             $table->string('phone2')->nullable();
             $table->timestamp('birthday')->nullable();
 
-            $table->integer('country_id');
-            $table->foreign('country_id')->on('public.countries')->references('id')->onDelete('CASCADE');
+            $table->foreignId('country_id')->constrained()->on('public.countries');
             $table->foreignId('currency_id')->constrained();
 
             $table->foreignId('language_id')->nullable()->constrained();
@@ -78,7 +77,7 @@ return new class extends Migration
             $table->timestamp('banned_at')->nullable();
 
             // affiliation
-            $table->foreignId('campaign_id')->nullable()->constrained();
+            $table->foreignId('campaign_id')->nullable()->constrained()->on('public.campaigns');
             $table->string('offer_name')->nullable();
             $table->string('offer_url')->nullable();
             $table->string('comment_about_customer')->nullable();

@@ -135,7 +135,7 @@ final class UpdateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $customerId = Customer::orderByDesc('id')->first()?->id ?? 1;
+        $customerId = Customer::orderByDesc('id')->first()?->id + 1 ?? 1;
         $data = Customer::factory()->make();
 
         $this->brand->makeCurrent();
