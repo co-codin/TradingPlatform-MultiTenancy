@@ -6,15 +6,10 @@ namespace Tests\Feature\Modules\Currency\Admin;
 
 use Modules\Currency\Enums\CurrencyPermission;
 use Modules\Currency\Models\Currency;
-use Spatie\Multitenancy\Commands\Concerns\TenantAware;
-use Tests\BrandTestCase;
-use Tests\Traits\HasAuth;
+use Tests\TestCase;
 
-final class ReadTest extends BrandTestCase
+final class ReadTest extends TestCase
 {
-    use TenantAware;
-    use HasAuth;
-
     /**
      * @test
      */
@@ -23,8 +18,6 @@ final class ReadTest extends BrandTestCase
         $this->authenticateWithPermission(
             CurrencyPermission::fromValue(CurrencyPermission::VIEW_CURRENCIES)
         );
-
-        $this->brand->makeCurrent();
 
         Currency::truncate();
         $currencies = Currency::factory(10)->create();
@@ -45,8 +38,6 @@ final class ReadTest extends BrandTestCase
     {
         $this->authenticateUser();
 
-        $this->brand->makeCurrent();
-
         $response = $this->get(route('admin.currencies.index'));
 
         $response->assertForbidden();
@@ -60,8 +51,6 @@ final class ReadTest extends BrandTestCase
         $this->authenticateWithPermission(
             CurrencyPermission::fromValue(CurrencyPermission::VIEW_CURRENCIES)
         );
-
-        $this->brand->makeCurrent();
 
         Currency::truncate();
         $currency = Currency::factory()->create();
@@ -79,8 +68,6 @@ final class ReadTest extends BrandTestCase
     {
         $this->authenticateUser();
 
-        $this->brand->makeCurrent();
-
         Currency::truncate();
         $currency = Currency::factory()->create();
 
@@ -96,7 +83,6 @@ final class ReadTest extends BrandTestCase
     {
         $this->authenticateUser();
 
-        $this->brand->makeCurrent();
         $currencyId = Currency::query()->orderByDesc('id')->first()?->id + 1 ?? 1;
 
         $response = $this->get(route('admin.currencies.show', ['currency' => $currencyId]));
@@ -119,8 +105,6 @@ final class ReadTest extends BrandTestCase
      */
     public function not_unauthorized_view(): void
     {
-        $this->brand->makeCurrent();
-
         Currency::truncate();
         $currency = Currency::factory()->create();
 

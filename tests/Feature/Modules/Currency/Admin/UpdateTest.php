@@ -6,15 +6,10 @@ namespace Tests\Feature\Modules\Currency\Admin;
 
 use Modules\Currency\Enums\CurrencyPermission;
 use Modules\Currency\Models\Currency;
-use Spatie\Multitenancy\Commands\Concerns\TenantAware;
-use Tests\BrandTestCase;
-use Tests\Traits\HasAuth;
+use Tests\TestCase;
 
-final class UpdateTest extends BrandTestCase
+final class UpdateTest extends TestCase
 {
-    use TenantAware;
-    use HasAuth;
-
     /**
      * @test
      */
@@ -24,13 +19,9 @@ final class UpdateTest extends BrandTestCase
             CurrencyPermission::fromValue(CurrencyPermission::EDIT_CURRENCIES)
         );
 
-        $this->brand->makeCurrent();
-
         Currency::truncate();
         $currency = Currency::factory()->create();
         $currencyData = Currency::factory()->make()->toArray();
-
-        $this->brand->makeCurrent();
 
         $response = $this->patch(route('admin.currencies.update', ['currency' => $currency]), $currencyData);
 
@@ -45,13 +36,9 @@ final class UpdateTest extends BrandTestCase
     {
         $this->authenticateUser();
 
-        $this->brand->makeCurrent();
-
         Currency::truncate();
         $currency = Currency::factory()->create();
         $data = Currency::factory()->make();
-
-        $this->brand->makeCurrent();
 
         $response = $this->patch(
             route('admin.currencies.update', ['currency' => $currency]), $data->toArray()
@@ -67,13 +54,9 @@ final class UpdateTest extends BrandTestCase
     {
         $this->authenticateUser();
 
-        $this->brand->makeCurrent();
-
         Currency::truncate();
         $currencyId = Currency::orderByDesc('id')->first()?->id + 1 ?? 1;
         $data = Currency::factory()->make();
-
-        $this->brand->makeCurrent();
 
         $response = $this->patch(route('admin.currencies.update', ['currency' => $currencyId]),
             $data->toArray());
@@ -86,8 +69,6 @@ final class UpdateTest extends BrandTestCase
      */
     public function unauthorized(): void
     {
-        $this->brand->makeCurrent();
-
         Currency::truncate();
         $currency = Currency::factory()->create();
 

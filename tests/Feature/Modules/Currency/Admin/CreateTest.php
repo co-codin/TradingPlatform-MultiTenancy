@@ -6,33 +6,26 @@ namespace Tests\Feature\Modules\Currency\Admin;
 
 use Modules\Currency\Enums\CurrencyPermission;
 use Modules\Currency\Models\Currency;
-use Spatie\Multitenancy\Commands\Concerns\TenantAware;
-use Tests\BrandTestCase;
-use Tests\Traits\HasAuth;
+use Tests\TestCase;
 
-final class CreateTest extends BrandTestCase
+final class CreateTest extends TestCase
 {
-    use TenantAware;
-    use HasAuth;
-
     /**
      * @test
      */
     public function can_create(): void
     {
-         $this->authenticateWithPermission(
-             CurrencyPermission::fromValue(CurrencyPermission::CREATE_CURRENCIES)
-         );
+        $this->authenticateWithPermission(
+            CurrencyPermission::fromValue(CurrencyPermission::CREATE_CURRENCIES)
+        );
 
-         $this->brand->makeCurrent();
+        Currency::truncate();
+        $data = Currency::factory()->make()->toArray();
 
-         Currency::truncate();
-         $data = Currency::factory()->make()->toArray();
+        $response = $this->post(route('admin.currencies.store'), $data);
 
-         $response = $this->post(route('admin.currencies.store'), $data);
-
-         $response->assertCreated();
-         $response->assertJson(['data' => $data]);
+        $response->assertCreated();
+        $response->assertJson(['data' => $data]);
     }
 
     /**
@@ -41,8 +34,6 @@ final class CreateTest extends BrandTestCase
     public function can_not_create(): void
     {
         $this->authenticateUser();
-
-        $this->brand->makeCurrent();
 
         Currency::truncate();
         $data = Currency::factory()->make()->toArray();

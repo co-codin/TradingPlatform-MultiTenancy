@@ -24,4 +24,14 @@ final class CurrencyServiceProvider extends BaseModuleServiceProvider
     {
         return 'Currency';
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function boot(): void
+    {
+        parent::boot();
+
+        $this->loadMigrations();
+    }
 }

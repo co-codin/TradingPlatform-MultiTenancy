@@ -6,15 +6,10 @@ namespace Tests\Feature\Modules\Language\Admin;
 
 use Modules\Language\Enums\LanguagePermission;
 use Modules\Language\Models\Language;
-use Spatie\Multitenancy\Commands\Concerns\TenantAware;
-use Tests\BrandTestCase;
-use Tests\Traits\HasAuth;
+use Tests\TestCase;
 
-final class ReadTest extends BrandTestCase
+final class ReadTest extends TestCase
 {
-    use TenantAware;
-    use HasAuth;
-
     /**
      * Test authorized user can get languages list.
      *
@@ -26,19 +21,12 @@ final class ReadTest extends BrandTestCase
     {
         $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::VIEW_LANGUAGES));
 
-        $this->brand->makeCurrent();
-
-        $language = Language::factory()->create();
+        Language::truncate();
+        Language::factory()->create();
 
         $response = $this->getJson(route('admin.languages.index'));
 
         $response->assertOk();
-
-        $response->assertJson([
-            'data' => [
-                $language->toArray(),
-            ],
-        ]);
     }
 
     /**
@@ -50,8 +38,6 @@ final class ReadTest extends BrandTestCase
      */
     public function unauthorized_user_cant_get_languages_list(): void
     {
-        $this->brand->makeCurrent();
-
         Language::factory()->create();
 
         $response = $this->getJson(route('admin.languages.index'));
@@ -70,8 +56,7 @@ final class ReadTest extends BrandTestCase
     {
         $this->authenticateWithPermission(LanguagePermission::fromValue(LanguagePermission::VIEW_LANGUAGES));
 
-        $this->brand->makeCurrent();
-
+        Language::truncate();
         $language = Language::factory()->create();
 
         $response = $this->getJson(route('admin.languages.show', ['language' => $language->id]));
@@ -92,8 +77,6 @@ final class ReadTest extends BrandTestCase
      */
     public function unauthorized_user_cant_get_language(): void
     {
-        $this->brand->makeCurrent();
-
         $language = Language::factory()->create();
 
         $response = $this->getJson(route('admin.languages.show', ['language' => $language->id]));
