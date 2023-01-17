@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Modules\Campaign\Admin;
+namespace Tests\Feature\Modules\Campaign\Admin\Transaction;
 
-use Modules\Campaign\Enums\CampaignPermission;
-use Modules\Campaign\Models\Campaign;
+use Modules\Campaign\Enums\CampaignTransactionPermission;
+use Modules\Campaign\Models\CampaignTransaction;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
@@ -21,14 +21,14 @@ final class CreateTest extends BrandTestCase
     public function can_create(): void
     {
         $this->authenticateWithPermission(
-            CampaignPermission::fromValue(CampaignPermission::CREATE_CAMPAIGN)
+            CampaignTransactionPermission::fromValue(CampaignTransactionPermission::CREATE_CAMPAIGN_TRANSACTION)
         );
 
         $this->brand->makeCurrent();
 
-        $data = Campaign::factory()->make()->toArray();
+        $data = CampaignTransaction::factory()->make()->toArray();
 
-        $response = $this->post(route('admin.campaign.store'), $data);
+        $response = $this->post(route('admin.campaign-transactions.store'), $data);
 
         $response->assertCreated();
         $response->assertJson(['data' => $data]);
@@ -43,9 +43,9 @@ final class CreateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $data = Campaign::factory()->make()->toArray();
+        $data = CampaignTransaction::factory()->make()->toArray();
 
-        $response = $this->post(route('admin.campaign.store'), $data);
+        $response = $this->post(route('admin.campaign-transactions.store'), $data);
 
         $response->assertForbidden();
     }
@@ -55,9 +55,7 @@ final class CreateTest extends BrandTestCase
      */
     public function not_unauthorized(): void
     {
-        $this->brand->makeCurrent();
-
-        $response = $this->post(route('admin.campaign.store'));
+        $response = $this->post(route('admin.campaign-transactions.store'));
 
         $response->assertUnauthorized();
     }

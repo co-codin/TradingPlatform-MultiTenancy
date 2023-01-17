@@ -7,12 +7,12 @@ namespace Modules\Campaign\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Modules\Campaign\Database\factories\CampaignCountryFactory;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
 final class CampaignCountry extends Pivot
 {
     use HasFactory;
-    use UsesTenantConnection;
+    use UsesLandlordConnection;
 
     /**
      * {@inheritdoc}
