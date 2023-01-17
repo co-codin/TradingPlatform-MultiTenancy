@@ -9,5 +9,5 @@ use Modules\Campaign\Http\Controllers\Admin\CampaignTransactionController;
 Route::group(['middleware' => 'tenant'], function () {
     Route::patch('campaign/{campaign}/change-status', [CampaignController::class, 'changeStatus'])->name('campaign.change-status');
     Route::apiResource('campaign', CampaignController::class)->except('destroy');
-    Route::apiResource('campaign-transaction', CampaignTransactionController::class)->except('destroy');
+    Route::apiResource('campaign-transactions', CampaignTransactionController::class)->except('destroy');
 });

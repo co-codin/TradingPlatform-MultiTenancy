@@ -28,7 +28,7 @@ final class CreateTest extends BrandTestCase
 
         $data = CampaignTransaction::factory()->make()->toArray();
 
-        $response = $this->post(route('admin.campaign-transaction.store'), $data);
+        $response = $this->post(route('admin.campaign-transactions.store'), $data);
 
         $response->assertCreated();
         $response->assertJson(['data' => $data]);
@@ -45,7 +45,7 @@ final class CreateTest extends BrandTestCase
 
         $data = CampaignTransaction::factory()->make()->toArray();
 
-        $response = $this->post(route('admin.campaign-transaction.store'), $data);
+        $response = $this->post(route('admin.campaign-transactions.store'), $data);
 
         $response->assertForbidden();
     }
@@ -55,7 +55,7 @@ final class CreateTest extends BrandTestCase
      */
     public function not_unauthorized(): void
     {
-        $response = $this->post(route('admin.campaign-transaction.store'));
+        $response = $this->post(route('admin.campaign-transactions.store'));
 
         $response->assertUnauthorized();
     }

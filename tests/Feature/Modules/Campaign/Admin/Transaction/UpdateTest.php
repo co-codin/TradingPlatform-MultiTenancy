@@ -32,7 +32,7 @@ final class UpdateTest extends BrandTestCase
 
         $campaignTransactionData = CampaignTransaction::factory()->make()->toArray();
 
-        $response = $this->patchJson(route('admin.campaign-transaction.update', ['campaign_transaction' => $campaignTransaction]), $campaignTransactionData);
+        $response = $this->patchJson(route('admin.campaign-transactions.update', ['campaign_transaction' => $campaignTransaction]), $campaignTransactionData);
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -54,7 +54,7 @@ final class UpdateTest extends BrandTestCase
         $data = CampaignTransaction::factory()->make();
 
         $response = $this->patch(
-            route('admin.campaign-transaction.update', ['campaign_transaction' => $campaignTransaction]),
+            route('admin.campaign-transactions.update', ['campaign_transaction' => $campaignTransaction]),
             $data->toArray()
         );
 
@@ -76,7 +76,7 @@ final class UpdateTest extends BrandTestCase
         $this->brand->makeCurrent();
 
         $response = $this->patch(
-            route('admin.campaign-transaction.update', ['campaign_transaction' => $campaignTransactionId]),
+            route('admin.campaign-transactions.update', ['campaign_transaction' => $campaignTransactionId]),
             $data->toArray()
         );
 
@@ -92,7 +92,7 @@ final class UpdateTest extends BrandTestCase
 
         $campaignTransaction = CampaignTransaction::factory()->create();
 
-        $response = $this->patch(route('admin.campaign-transaction.update', ['campaign_transaction' => $campaignTransaction]));
+        $response = $this->patch(route('admin.campaign-transactions.update', ['campaign_transaction' => $campaignTransaction]));
 
         $response->assertUnauthorized();
     }

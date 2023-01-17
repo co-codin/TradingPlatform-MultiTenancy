@@ -32,7 +32,7 @@ class CampaignTransactionController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/admin/campaign-transaction",
+     *     path="/admin/campaign-transactions",
      *     tags={"Campaign"},
      *     security={ {"sanctum": {} }},
      *     summary="Get campaigns",
@@ -64,7 +64,7 @@ class CampaignTransactionController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/admin/campaign-transaction/{id}",
+     *     path="/admin/campaign-transactions/{id}",
      *     tags={"Campaign"},
      *     security={ {"sanctum": {} }},
      *     summary="Get campaign data",
@@ -110,7 +110,7 @@ class CampaignTransactionController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/admin/campaign-transaction",
+     *     path="/admin/campaign-transactions",
      *     tags={"Campaign"},
      *     security={ {"sanctum": {} }},
      *     summary="Add a new campaign transaction",
@@ -163,7 +163,7 @@ class CampaignTransactionController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/admin/campaign-transaction/{id}",
+     *     path="/admin/campaign-transactions/{id}",
      *     tags={"Campaign"},
      *     security={ {"sanctum": {} }},
      *     summary="Update a campaign transaction",
@@ -213,7 +213,7 @@ class CampaignTransactionController extends Controller
      *     )
      * ),
      * @OA\Patch(
-     *     path="/admin/campaign-transaction/{id}",
+     *     path="/admin/campaign-transactions/{id}",
      *     tags={"Campaign"},
      *     security={ {"sanctum": {} }},
      *     summary="Update a campaign",

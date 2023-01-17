@@ -26,7 +26,7 @@ final class ReadTest extends BrandTestCase
 
         $campaignTransaction = CampaignTransaction::factory()->create()->toArray();
 
-        $response = $this->getJson(route('admin.campaign-transaction.index'));
+        $response = $this->getJson(route('admin.campaign-transactions.index'));
 
         $response->assertOk();
 
@@ -44,7 +44,7 @@ final class ReadTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $response = $this->get(route('admin.campaign-transaction.index'));
+        $response = $this->get(route('admin.campaign-transactions.index'));
 
         $response->assertForbidden();
     }
@@ -62,7 +62,7 @@ final class ReadTest extends BrandTestCase
 
         $campaignTransaction = CampaignTransaction::factory()->create();
 
-        $response = $this->get(route('admin.campaign-transaction.show', ['campaign_transaction' => $campaignTransaction]));
+        $response = $this->get(route('admin.campaign-transactions.show', ['campaign_transaction' => $campaignTransaction]));
 
         $response->assertOk();
         $response->assertJson(['data' => $campaignTransaction->toArray()]);
@@ -79,7 +79,7 @@ final class ReadTest extends BrandTestCase
 
         $campaignTransaction = CampaignTransaction::factory()->create();
 
-        $response = $this->get(route('admin.campaign-transaction.show', ['campaign_transaction' => $campaignTransaction]));
+        $response = $this->get(route('admin.campaign-transactions.show', ['campaign_transaction' => $campaignTransaction]));
 
         $response->assertForbidden();
     }
@@ -95,7 +95,7 @@ final class ReadTest extends BrandTestCase
 
         $campaignTransactionId = CampaignTransaction::query()->orderByDesc('id')->first()?->id + 1 ?? 1;
 
-        $response = $this->get(route('admin.campaign-transaction.show', ['campaign_transaction' => $campaignTransactionId]));
+        $response = $this->get(route('admin.campaign-transactions.show', ['campaign_transaction' => $campaignTransactionId]));
 
         $response->assertNotFound();
     }
@@ -105,7 +105,7 @@ final class ReadTest extends BrandTestCase
      */
     public function unauthorized_view_any(): void
     {
-        $response = $this->get(route('admin.campaign-transaction.index'));
+        $response = $this->get(route('admin.campaign-transactions.index'));
 
         $response->assertUnauthorized();
     }
@@ -119,7 +119,7 @@ final class ReadTest extends BrandTestCase
 
         $campaignTransaction = CampaignTransaction::factory()->create();
 
-        $response = $this->get(route('admin.campaign-transaction.show', ['campaign_transaction' => $campaignTransaction]));
+        $response = $this->get(route('admin.campaign-transactions.show', ['campaign_transaction' => $campaignTransaction]));
 
         $response->assertUnauthorized();
     }

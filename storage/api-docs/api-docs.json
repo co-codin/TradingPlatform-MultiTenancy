@@ -1019,13 +1019,13 @@
                 ]
             }
         },
-        "/admin/campaign-transaction": {
+        "/admin/campaign-transactions": {
             "get": {
                 "tags": [
                     "Campaign"
                 ],
                 "summary": "Get campaigns",
-                "operationId": "53a4134f5e6eca9bd1fde723d519d396",
+                "operationId": "0dc7373b802fa623da39816fb4fb1493",
                 "responses": {
                     "200": {
                         "description": "success",
@@ -1055,7 +1055,7 @@
                     "Campaign"
                 ],
                 "summary": "Add a new campaign transaction",
-                "operationId": "52f02ce3cb623b44408b31cbbd24679f",
+                "operationId": "94ec58f4295b7c516e62c1c97f4414ff",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -1131,13 +1131,13 @@
                 ]
             }
         },
-        "/admin/campaign-transaction/{id}": {
+        "/admin/campaign-transactions/{id}": {
             "get": {
                 "tags": [
                     "Campaign"
                 ],
                 "summary": "Get campaign data",
-                "operationId": "08d046df17c32219ea74e182a629e7eb",
+                "operationId": "36ca3a032035f4bd0084bf8fc4a011b4",
                 "parameters": [
                     {
                         "name": "id",
@@ -1181,7 +1181,7 @@
                     "Campaign"
                 ],
                 "summary": "Update a campaign transaction",
-                "operationId": "324b3dbfdc1095fe2c986dc84db001a6",
+                "operationId": "376a65147660a5fd05b5a0f8de181d7d",
                 "parameters": [
                     {
                         "name": "id",
@@ -1270,7 +1270,7 @@
                     "Campaign"
                 ],
                 "summary": "Update a campaign",
-                "operationId": "aa10eb3195dd6224f5ccab09ad6a8dfd",
+                "operationId": "dfcfe561e9db56e1945fadc504ea1613",
                 "parameters": [
                     {
                         "name": "id",
