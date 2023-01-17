@@ -16,9 +16,10 @@ return new class extends Migration
         Schema::create('campaign_country', function (Blueprint $table) {
             $table->id();
 
+            $table->integer('country_id');
+            $table->foreign('country_id')->on('public.countries')->references('id')->onDelete('CASCADE');
             $table->foreignId('campaign_id')->constrained();
-            $table->foreignId('country_id')->constrained();
-            $table->unique(['campaign_id', 'country_id']);
+            $table->unique(['country_id', 'campaign_id']);
 
             $table->float('cpa');
             $table->float('crg');
