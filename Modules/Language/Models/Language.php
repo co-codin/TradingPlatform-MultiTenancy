@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Language\Database\factories\LanguageFactory;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
 /**
  * Class Language
@@ -25,7 +25,7 @@ class Language extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    use UsesTenantConnection;
+    use UsesLandlordConnection;
     use WhereHasForTenant;
 
     /**

@@ -122,7 +122,6 @@ return [
         'Config' => 'Config',
         'Department' => 'Department',
         'Sale' => 'Sale',
-        'Language' => 'Language',
         'Desk' => 'Desk',
         'Customer' => 'Customer',
         'Communication' => 'Communication',

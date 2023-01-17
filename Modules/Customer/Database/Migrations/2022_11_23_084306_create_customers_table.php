@@ -27,9 +27,18 @@ return new class extends Migration
             $table->foreignId('country_id')->constrained('public.countries')->references('id')->onDelete('CASCADE');
             $table->foreignId('currency_id')->constrained();
 
-            $table->foreignId('language_id')->nullable()->constrained();
-            $table->foreignId('supposed_language_id')->nullable()->constrained()->on('languages');
-            $table->foreignId('platform_language_id')->nullable()->constrained()->on('languages');
+            $table->foreignId('language_id')->nullable()
+                ->constrained('public.languages')
+                ->references('id')
+                ->onDelete('SET NULL');
+            $table->foreignId('supposed_language_id')->nullable()
+                ->constrained('public.languages')
+                ->references('id')
+                ->onDelete('SET NULL');
+            $table->foreignId('platform_language_id')->nullable()
+                ->constrained('public.languages')
+                ->references('id')
+                ->onDelete('SET NULL');
 
             $table->string('state')->nullable();
             $table->string('city')->nullable();
