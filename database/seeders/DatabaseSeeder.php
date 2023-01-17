@@ -24,9 +24,9 @@ final class DatabaseSeeder extends Seeder
             RoleDatabaseSeeder::class,
             UserDatabaseSeeder::class,
             GeoDatabaseSeeder::class,
-            CampaignDatabaseSeeder::class,
             BrandDatabaseSeeder::class,
             ModelsTableSeeder::class,
+            CampaignDatabaseSeeder::class,
         ]);
     }
 }

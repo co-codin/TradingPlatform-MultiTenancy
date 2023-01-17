@@ -6,13 +6,23 @@ namespace Tests\Feature\Modules\Campaign\Admin;
 
 use Modules\Campaign\Enums\CampaignPermission;
 use Modules\Campaign\Models\Campaign;
+use Modules\Campaign\Models\CampaignCountry;
+use Modules\Geo\Models\Country;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
+use Modules\Geo\Database\Seeders\GeoDatabaseSeeder;
 
 final class UpdateTest extends BrandTestCase
 {
+    use TenantAware;
     use HasAuth;
+    protected function setUp(): void
+    {
+        parent::setUp();
 
+        $this->seed(GeoDatabaseSeeder::class);
+    }
     /**
      * @test
      */
@@ -22,11 +32,26 @@ final class UpdateTest extends BrandTestCase
             CampaignPermission::fromValue(CampaignPermission::EDIT_CAMPAIGN)
         );
 
+        $this->brand->makeCurrent();
+
         $campaign = Campaign::factory()->create();
 
         $campaignData = Campaign::factory()->make()->toArray();
 
-        $response = $this->patchJson(route('admin.campaign.update', ['campaign' => $campaign->id]), $campaignData);
+        $countries = Country::query()->limit(3)->get();
+
+        $campaignCountryData = [];
+
+        foreach ($countries as $country) {
+            $campaignCountryData[$country->id] = CampaignCountry::factory()->create([
+                'campaign_id' => $campaign->id,
+                'country_id' => $country->id,
+            ]);
+        }
+
+        $response = $this->patchJson(route('admin.campaign.update', ['campaign' => $campaign->id]), array_merge($campaignData, [
+            'countries' => $campaignCountryData,
+        ]));
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -40,6 +65,8 @@ final class UpdateTest extends BrandTestCase
     public function can_not_update(): void
     {
         $this->authenticateUser();
+
+        $this->brand->makeCurrent();
 
         $campaign = Campaign::factory()->create();
 
@@ -60,6 +87,8 @@ final class UpdateTest extends BrandTestCase
     {
         $this->authenticateUser();
 
+        $this->brand->makeCurrent();
+
         $campaignId = Campaign::orderByDesc('id')->first()?->id + 1 ?? 1;
         $data = Campaign::factory()->make();
 
@@ -76,6 +105,8 @@ final class UpdateTest extends BrandTestCase
      */
     public function unauthorized(): void
     {
+        $this->brand->makeCurrent();
+
         $campaign = Campaign::factory()->create();
 
         $response = $this->patch(route('admin.campaign.update', ['campaign' => $campaign]));

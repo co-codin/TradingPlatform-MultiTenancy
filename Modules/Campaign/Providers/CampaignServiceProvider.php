@@ -4,7 +4,9 @@ namespace Modules\Campaign\Providers;
 
 use App\Providers\BaseModuleServiceProvider;
 use Modules\Campaign\Models\Campaign;
+use Modules\Campaign\Models\CampaignTransaction;
 use Modules\Campaign\Policies\CampaignPolicy;
+use Modules\Campaign\Policies\CampaignTransactionPolicy;
 
 final class CampaignServiceProvider extends BaseModuleServiceProvider
 {
@@ -13,6 +15,7 @@ final class CampaignServiceProvider extends BaseModuleServiceProvider
      */
     protected array $policies = [
         Campaign::class => CampaignPolicy::class,
+        CampaignTransaction::class => CampaignTransactionPolicy::class,
     ];
 
     /**
