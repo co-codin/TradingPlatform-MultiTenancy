@@ -1,32 +1,25 @@
 <?php
 
+use App\Fixer\ClassNotation\CustomControllerOrderFixer;
+use App\Fixer\ClassNotation\CustomOrderedClassElementsFixer;
+use App\Fixer\ClassNotation\CustomPhpUnitOrderFixer;
+use App\Support\PhpCsFixer;
 use PhpCsFixer\Config;
-use PhpCsFixer\Finder;
-use Tighten\Duster\Fixer\ClassNotation\CustomOrderedClassElementsFixer;
-
-$finder = Finder::create()
-    ->in(array_filter(
-        [
-            './app',
-            './config',
-            './database',
-            './public',
-            './resources',
-            './routes',
-            './tests',
-        ],
-        fn($dir) => is_dir($dir)
-    ))
-    ->notName('*.blade.php');
 
 return (new Config())
-    ->setFinder($finder)
+    ->setFinder(PhpCsFixer::getFinder())
     ->setUsingCache(false)
-    ->registerCustomFixers([new CustomOrderedClassElementsFixer()])
+    ->registerCustomFixers([
+        new CustomControllerOrderFixer(),
+        new CustomOrderedClassElementsFixer(),
+        new CustomPhpUnitOrderFixer(),
+    ])
     ->setRules([
+        'Tighten/custom_controller_order' => true,
         'Tighten/custom_ordered_class_elements' => [
             'order' => [
                 'use_trait',
+                'case',
                 'property_public_static',
                 'property_protected_static',
                 'property_private_static',
@@ -37,7 +30,7 @@ return (new Config())
                 'property_protected',
                 'property_private',
                 'construct',
-                'invoke',
+                'method:__invoke',
                 'method_public_static',
                 'method_protected_static',
                 'method_private_static',
@@ -47,4 +40,5 @@ return (new Config())
                 'magic',
             ],
         ],
+        'Tighten/custom_phpunit_order' => true,
     ]);
