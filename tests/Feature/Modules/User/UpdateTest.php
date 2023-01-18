@@ -8,13 +8,10 @@ use Modules\Brand\Models\Brand;
 use Modules\Role\Models\Role;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
-use Tests\BrandTestCase;
-use Tests\Traits\HasAuth;
+use Tests\TestCase;
 
-final class UpdateTest extends BrandTestCase
+final class UpdateTest extends TestCase
 {
-    use HasAuth;
-
     /**
      * @test
      */
@@ -55,7 +52,6 @@ final class UpdateTest extends BrandTestCase
                 'deleted_at',
                 'last_login',
                 'created_at',
-                'roles',
             ],
         ]);
     }
@@ -67,7 +63,7 @@ final class UpdateTest extends BrandTestCase
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
-        ($brand = Brand::factory()
+        (Brand::factory()
             ->create()
             ->makeCurrent())
             ->users()
@@ -104,7 +100,6 @@ final class UpdateTest extends BrandTestCase
                 'deleted_at',
                 'last_login',
                 'created_at',
-                'roles',
             ],
         ]);
     }
@@ -116,8 +111,9 @@ final class UpdateTest extends BrandTestCase
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
-        Brand::factory()
+        (Brand::factory()
             ->create()
+            ->makeCurrent())
             ->users()
             ->sync($user = User::factory()->create());
 
@@ -136,7 +132,7 @@ final class UpdateTest extends BrandTestCase
             ]
         ));
 
-        $response->assertForbidden();
+        $response->assertNotFound();
     }
 
     /**

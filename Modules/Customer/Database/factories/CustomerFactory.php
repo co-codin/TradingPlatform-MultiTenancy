@@ -55,8 +55,8 @@ class CustomerFactory extends BaseFactory
     private function getTenantData(): array
     {
         return [
-            'first_name' => $this->faker->name(),
-            'last_name' => $this->faker->name(),
+            'first_name' => $this->faker->unique()->regexify('[a-zA-Z0-9]{8,20}'),
+            'last_name' => $this->faker->unique()->regexify('[a-zA-Z0-9]{8,20}'),
             'gender' => $this->faker->randomElement(Gender::getValues()),
             'email' => $this->faker->unique()->safeEmail(),
             'password' => Hash::make('password'),
@@ -93,14 +93,14 @@ class CustomerFactory extends BaseFactory
             'currency_id' => Currency::inRandomOrder()->first() ?? Currency::factory(),
             'language_id' => Language::inRandomOrder()->first() ?? Language::factory(),
             'country_id' => Country::inRandomOrder()->first() ?? Country::factory(),
-            'campaign_id' => Campaign::factory(),
-            'affiliate_user_id' => User::factory(),
-            'conversion_user_id' => $conversion = User::factory()->create(),
-            'retention_user_id' => $retention = User::factory()->create(),
-            'compliance_user_id' => User::factory(),
-            'support_user_id' => User::factory(),
-            'conversion_manager_user_id' => User::factory(),
-            'retention_manager_user_id' => User::factory(),
+            'campaign_id' => Campaign::inRandomOrder()->first() ?? Campaign::factory(),
+            'affiliate_user_id' => User::inRandomOrder()->first() ?? User::factory(),
+            'conversion_user_id' => $conversion = User::inRandomOrder()->first() ?? User::factory()->create(),
+            'retention_user_id' => $retention = User::inRandomOrder()->first() ?? User::factory()->create(),
+            'compliance_user_id' => User::inRandomOrder()->first() ?? User::factory(),
+            'support_user_id' => User::inRandomOrder()->first() ?? User::factory(),
+            'conversion_manager_user_id' => User::inRandomOrder()->first() ?? User::factory(),
+            'retention_manager_user_id' => User::inRandomOrder()->first() ?? User::factory(),
             'first_conversion_user_id' => $conversion,
             'first_retention_user_id' => $retention,
         ];

@@ -24,14 +24,25 @@ class PermissionFactory extends Factory
     public function definition()
     {
         $model = Model::factory()->make();
-        $model = Model::where('name', $model->value('name'))->first() ?? $model->save();
+
+        if (Model::where('name', $model->name)->exists()) {
+            $model = Model::where('name', $model->name)->first();
+        } else {
+            $model->save();
+        }
+
         $action = Action::factory()->make();
-        $action = Action::where('name', $action->value('name'))->first() ?? $action->save();
+
+        if (Action::where('name', $action->name)->exists()) {
+            $action = Action::where('name', $action->name)->first();
+        } else {
+            $action->save();
+        }
 
         return [
             'name' => mb_strtolower("{$action->name} {$model->name}"),
-            'model_id' => $model,
-            'action_id' => $action,
+            'model_id' => $model->id,
+            'action_id' => $action->id,
             'guard_name' => User::DEFAULT_AUTH_GUARD,
         ];
     }
