@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\User\Http\Requests;
 
+use App\Enums\RegexValidation;
 use App\Http\Requests\BaseFormRequest;
 
 final class UserCreateRequest extends BaseFormRequest
@@ -16,17 +17,19 @@ final class UserCreateRequest extends BaseFormRequest
                 'string',
                 'max:255',
                 'unique:landlord.users,username',
-                'regex:/^[\p{Alphabetic}0-9]+(?:_[\p{Alphabetic}0-9]+)*$/u',
+                'regex:' . RegexValidation::fromValue(RegexValidation::USERNAME)->value,
             ],
             'first_name' => [
                 'required',
                 'string',
                 'max:255',
+                'regex:' . RegexValidation::fromValue(RegexValidation::FIRSTNAME)->value,
             ],
             'last_name' => [
                 'required',
                 'string',
                 'max:255',
+                'regex:' . RegexValidation::fromValue(RegexValidation::LASTNAME)->value,
             ],
             'email' => [
                 'email',
@@ -37,7 +40,7 @@ final class UserCreateRequest extends BaseFormRequest
                 'required',
                 'string',
                 'min:8',
-                'regex:/(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[\p{Alphabetic}0-9!@#$%^&*]{8,}/',
+                'regex:' . RegexValidation::fromValue(RegexValidation::PASSWORD)->value,
             ],
             'is_active' => 'boolean',
             'target' => 'numeric',

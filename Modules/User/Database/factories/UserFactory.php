@@ -15,14 +15,11 @@ final class UserFactory extends Factory
 
     public function definition(): array
     {
-        $email = $this->faker->unique()->email;
-        $username = $this->faker->word().$email;
-
         return [
-            'username' => $username,
-            'first_name' => $this->faker->firstName,
-            'last_name' => $this->faker->lastName,
-            'email' => $email,
+            'username' => $this->faker->unique()->regexify('[a-zA-Z0-9]{8,20}'),
+            'first_name' => $this->faker->unique()->regexify('[a-zA-Z0-9]{8,20}'),
+            'last_name' => $this->faker->unique()->regexify('[a-zA-Z0-9]{8,20}'),
+            'email' => $this->faker->unique()->email,
             'password' => Hash::make('Password%'),
             'remember_token' => Str::random(10),
             'is_active' => true,
@@ -70,6 +67,14 @@ final class UserFactory extends Factory
                     Role::factory()->create(['name' => DefaultRole::ADMIN])
                 );
             }
+
+            ! Role::where([
+                ['name', '=', DefaultRole::AFFILIATE],
+                ['guard_name', '=', 'api'],
+            ])->exists() && Role::factory()->create([
+                'name' => DefaultRole::AFFILIATE,
+                'guard_name' => 'api',
+            ]);
 
             return [
                 'affiliate_id' => $admin->id,

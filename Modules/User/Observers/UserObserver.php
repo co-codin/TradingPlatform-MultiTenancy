@@ -20,6 +20,7 @@ final class UserObserver
     {
         if ($user->affiliate()->exists()) {
             $user->tokens()->create([
+                'name' => $user->username . $user->id,
                 'token' => Str::random(),
                 'ip' => request()->ip(),
             ]);

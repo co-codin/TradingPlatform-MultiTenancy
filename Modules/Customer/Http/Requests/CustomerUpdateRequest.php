@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Customer\Http\Requests;
 
+use App\Enums\RegexValidation;
 use App\Http\Requests\BaseFormRequest;
 use BenSampo\Enum\Rules\EnumValue;
 use Modules\Customer\Enums\Gender;
@@ -17,8 +18,8 @@ final class CustomerUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'first_name' => 'sometimes|required|string',
-            'last_name' => 'sometimes|required|string',
+            'first_name' => 'sometimes|required|string|regex:' . RegexValidation::fromValue(RegexValidation::FIRSTNAME)->value,
+            'last_name' => 'sometimes|required|string|regex:' . RegexValidation::fromValue(RegexValidation::LASTNAME)->value,
             'gender' => [
                 'sometimes',
                 'required',

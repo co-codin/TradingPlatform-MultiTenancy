@@ -55,8 +55,8 @@ class CustomerFactory extends BaseFactory
     private function getTenantData(): array
     {
         return [
-            'first_name' => $this->faker->name(),
-            'last_name' => $this->faker->name(),
+            'first_name' => $this->faker->unique()->regexify('[a-zA-Z0-9]{8,20}'),
+            'last_name' => $this->faker->unique()->regexify('[a-zA-Z0-9]{8,20}'),
             'gender' => $this->faker->randomElement(Gender::getValues()),
             'email' => $this->faker->unique()->safeEmail(),
             'password' => Hash::make('password'),

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\User\Http\Requests;
 
+use App\Enums\RegexValidation;
 use App\Http\Requests\BaseFormRequest;
 
 final class UserUpdateRequest extends BaseFormRequest
@@ -16,24 +17,27 @@ final class UserUpdateRequest extends BaseFormRequest
                 'required',
                 'string',
                 'max:255',
-                'unique:landlord.users,username,' . $this->route('worker'),
+                "unique:landlord.users,username,{$this->route('worker')}",
+                'regex:' . RegexValidation::fromValue(RegexValidation::USERNAME)->value,
             ],
             'first_name' => [
                 'sometimes',
                 'required',
                 'string',
                 'max:255',
+                'regex:' . RegexValidation::fromValue(RegexValidation::FIRSTNAME)->value,
             ],
             'last_name' => [
                 'sometimes',
                 'required',
                 'string',
                 'max:255',
+                'regex:' . RegexValidation::fromValue(RegexValidation::LASTNAME)->value,
             ],
             'email' => [
                 'email',
                 'max:255',
-                'unique:landlord.users,email,' . $this->route('worker'),
+                "unique:landlord.users,email,{$this->route('worker')}",
             ],
             'is_active' => 'boolean',
             'parent_id' => 'integer|exists:landlord.users,id',
@@ -45,6 +49,7 @@ final class UserUpdateRequest extends BaseFormRequest
                 'exclude_unless:change_password,true',
                 'required',
                 'string',
+                'regex:' . RegexValidation::fromValue(RegexValidation::PASSWORD)->value,
             ],
             'roles.*.id' => [
                 'sometimes',
