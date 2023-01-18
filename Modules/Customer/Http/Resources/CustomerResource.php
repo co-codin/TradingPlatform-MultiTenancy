@@ -6,6 +6,7 @@ namespace Modules\Customer\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Customer\Models\Customer;
+use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema (
@@ -33,6 +34,7 @@ use Modules\Customer\Models\Customer;
  *     @OA\Property(property="language_id", type="integer", description="Language id", nullable="true"),
  *     @OA\Property(property="supposed_language_id", type="integer", description="Supposed language id", nullable="true"),
  *     @OA\Property(property="platform_language_id", type="integer", description="Platform language id", nullable="true"),
+ *     @OA\Property(property="browser_language_id", type="integer", description="Browser language id", nullable="true"),
  *     @OA\Property(property="state", type="string", description="State", nullable="true"),
  *     @OA\Property(property="city", type="string", description="City", nullable="true"),
  *     @OA\Property(property="address", type="string", description="Address", nullable="true"),
@@ -79,7 +81,6 @@ use Modules\Customer\Models\Customer;
  *     @OA\Property(property="updated_at", type="string", format="date-time", description="Date and time of last update", example="2022-12-17 08:44:09"),
  *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true, description="Date and time of soft delete", example="2022-12-17 08:44:09"),
  * ),
- *
  * @OA\Schema (
  *     schema="CustomerCollection",
  *     type="object",
@@ -94,7 +95,6 @@ use Modules\Customer\Models\Customer;
  *         ref="#/components/schemas/Meta"
  *     )
  * ),
- *
  * @OA\Schema (
  *     schema="CustomerResource",
  *     type="object",
@@ -106,6 +106,7 @@ use Modules\Customer\Models\Customer;
  * )
  *
  * Class CustomerResource
+ *
  * @mixin Customer
  */
 final class CustomerResource extends JsonResource

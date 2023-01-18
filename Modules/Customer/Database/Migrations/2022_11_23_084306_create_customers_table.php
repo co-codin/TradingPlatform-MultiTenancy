@@ -39,6 +39,10 @@ return new class extends Migration
                 ->constrained('public.languages')
                 ->references('id')
                 ->onDelete('SET NULL');
+            $table->foreignId('browser_language_id')->nullable()
+                ->constrained('public.languages')
+                ->references('id')
+                ->onDelete('SET NULL');
 
             $table->string('state')->nullable();
             $table->string('city')->nullable();

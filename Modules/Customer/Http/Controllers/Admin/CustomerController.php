@@ -19,6 +19,7 @@ use Modules\Customer\Repositories\CustomerRepository;
 use Modules\Customer\Services\CustomerBanService;
 use Modules\Customer\Services\CustomerStorage;
 use Modules\User\Models\User;
+use OpenApi\Annotations as OA;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -100,6 +101,8 @@ final class CustomerController extends Controller
      *                 @OA\Property(property="phone", type="string", format="phone", description="Phone"),
      *                 @OA\Property(property="country_id", type="integer", description="Country id"),
      *                 @OA\Property(property="language_id", type="integer", description="Language id", nullable="true"),
+     *                 @OA\Property(property="platform_language_id", type="integer", description="Platform language id", nullable="true"),
+     *                 @OA\Property(property="browser_language_id", type="integer", description="Browser language id", nullable="true"),
      *                 @OA\Property(property="phone2", type="string", format="phone", description="Second phone", nullable="true"),
      *                 @OA\Property(property="city", type="string", description="City", nullable="true"),
      *                 @OA\Property(property="address", type="string", description="Address", nullable="true"),
@@ -218,6 +221,8 @@ final class CustomerController extends Controller
      *                 @OA\Property(property="phone", type="string", format="phone", description="Phone"),
      *                 @OA\Property(property="country_id", type="integer", description="Country id"),
      *                 @OA\Property(property="language_id", type="integer", description="Language id", nullable="true"),
+     *                 @OA\Property(property="platform_language_id", type="integer", description="Platform language id", nullable="true"),
+     *                 @OA\Property(property="browser_language_id", type="integer", description="Browser language id", nullable="true"),
      *                 @OA\Property(property="phone2", type="string", format="phone", description="Second phone", nullable="true"),
      *                 @OA\Property(property="city", type="string", description="City", nullable="true"),
      *                 @OA\Property(property="address", type="string", description="Address", nullable="true"),
@@ -302,6 +307,8 @@ final class CustomerController extends Controller
      *                 @OA\Property(property="phone", type="string", format="phone", description="Phone"),
      *                 @OA\Property(property="country_id", type="integer", description="Country id"),
      *                 @OA\Property(property="language_id", type="integer", description="Language id", nullable="true"),
+     *                 @OA\Property(property="platform_language_id", type="integer", description="Platform language id", nullable="true"),
+     *                 @OA\Property(property="browser_language_id", type="integer", description="Browser language id", nullable="true"),
      *                 @OA\Property(property="phone2", type="string", format="phone", description="Second phone", nullable="true"),
      *                 @OA\Property(property="city", type="string", description="City", nullable="true"),
      *                 @OA\Property(property="address", type="string", description="Address", nullable="true"),
