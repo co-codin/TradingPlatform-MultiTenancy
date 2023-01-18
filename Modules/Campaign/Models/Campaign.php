@@ -8,7 +8,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Campaign\Database\factories\CampaignFactory;
+use Modules\Customer\Models\Customer;
 use Modules\Geo\Models\Country;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
@@ -86,5 +88,15 @@ final class Campaign extends Model
             ->using(CampaignCountry::class)
             ->withPivot('cpa', 'crg', 'working_days', 'working_hours', 'daily_cap')
             ->withTimestamps();
+    }
+
+    /**
+     * Campaign customers
+     *
+     * @return hasMany
+     */
+    public function customers(): HasMany
+    {
+        return $this->hasMany(Customer::class);
     }
 }
