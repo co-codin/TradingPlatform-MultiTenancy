@@ -8795,6 +8795,9 @@
                                         "description": "Key",
                                         "type": "string"
                                     },
+                                    "is_default": {
+                                        "type": "boolean"
+                                    },
                                     "permissions": {
                                         "description": "Array of permission`s ID",
                                         "type": "array",
@@ -8925,6 +8928,9 @@
                                         "description": "Key",
                                         "type": "string"
                                     },
+                                    "is_default": {
+                                        "type": "boolean"
+                                    },
                                     "permissions": {
                                         "description": "Array of permission`s ID",
                                         "type": "array",
@@ -9042,6 +9048,9 @@
                                     "key": {
                                         "description": "Key",
                                         "type": "string"
+                                    },
+                                    "is_default": {
+                                        "type": "boolean"
                                     },
                                     "permissions": {
                                         "description": "Array of permission`s ID",
@@ -16181,6 +16190,9 @@
                     "key": {
                         "description": "key",
                         "type": "string"
+                    },
+                    "is_default": {
+                        "type": "boolean"
                     },
                     "created_at": {
                         "description": "Date and time of creation",

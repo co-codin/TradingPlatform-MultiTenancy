@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Modules\Role\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
+use Illuminate\Validation\Rule;
+use Modules\Brand\Models\Brand;
 
 final class RoleUpdateRequest extends BaseFormRequest
 {
@@ -14,9 +16,26 @@ final class RoleUpdateRequest extends BaseFormRequest
     final public function rules(): array
     {
         return [
-            'name' => 'sometimes|required|string|max:255',
-            'key' => 'sometimes|required|string|max:255|regex:/[A-Z0-9_-]+/',
-            'guard_name' => 'sometimes|nullable|string|max:255',
+            'name' => [
+                'sometimes',
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('landlord.roles')->ignore($this->route('role'))->where(
+                    fn ($query) => $query->where(['guard_name' => $this->guard_name, 'brand_id' => Brand::current()?->id])
+                ),
+            ],
+            'key' => 'sometimes|required|string|regex:/^[\w-]+$/|max:255',
+            'guard_name' => [
+                'sometimes',
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('landlord.roles')->ignore($this->route('role'))->where(
+                    fn ($query) => $query->where(['name' => $this->name, 'brand_id' => Brand::current()?->id])
+                ),
+            ],
+            'is_default' => 'sometimes|required|boolean',
             'permissions' => 'sometimes|required|array',
             'permissions.*.id' => 'required|exists:landlord.permissions,id',
         ];

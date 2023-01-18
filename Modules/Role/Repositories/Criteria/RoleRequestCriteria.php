@@ -19,18 +19,21 @@ final class RoleRequestCriteria extends BaseCriteria
         'name',
         'key',
         'guard_name',
+        'is_default',
     ];
 
     public function apply($model, RepositoryInterface $repository)
     {
         return QueryBuilder::for($model)
-            ->defaultSort('id')
+            ->defaultSort('-id')
             ->allowedFields(self::$allowedModelFields)
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::partial('name'),
+                AllowedFilter::exact('key'),
+                AllowedFilter::exact('is_default'),
             ])
-            ->allowedSorts(['name', 'id'])
+            ->allowedSorts(['name', 'key', 'id', 'is_default'])
             ->allowedIncludes([
                 'permissions',
                 'users',

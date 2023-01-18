@@ -20,8 +20,9 @@ final class RoleStorage
      */
     final public function store(RoleDto $dto): Role
     {
-        $role = new Role(Arr::only($dto->toArray(),
-            ['name', 'key', 'guard_name']
+        $role = new Role(Arr::only(
+            $dto->toArray(),
+            ['name', 'key', 'guard_name', 'is_default']
         ));
 
         if (Tenant::checkCurrent()) {
@@ -29,7 +30,7 @@ final class RoleStorage
         }
 
         if (! $role->save()) {
-            throw new \LogicException('Не удалось сохранить Роль');
+            throw new \LogicException('Failed to save Role');
         }
 
         if ($dto->permissions) {
@@ -50,10 +51,11 @@ final class RoleStorage
      */
     final public function update(Role $role, RoleDto $dto): Role
     {
-        if (! $role->update(Arr::only($dto->toArray(),
-            ['name', 'key']
-        ))) {
-            throw new \LogicException('Не удалось изменить данные Роли');
+        if (
+            ($role->is_default && $dto->key && $role->key !== $dto->key)
+            || ! $role->update(Arr::only($dto->toArray(), ['name', 'key', 'is_default']))
+        ) {
+            throw new \LogicException('Failed to change Role data');
         }
 
         if ($dto->permissions) {
@@ -89,7 +91,7 @@ final class RoleStorage
      */
     final public function delete(Role $role): void
     {
-        if (! $role->delete()) {
+        if ($role->is_default || ! $role->delete()) {
             throw new \LogicException('can not delete role');
         }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Role\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 final class RoleFactory extends Factory
 {
@@ -22,10 +23,14 @@ final class RoleFactory extends Factory
      */
     public function definition()
     {
+        $name = $this->faker->unique()->sentence(2);
+        $guard = 'web';
+
         return [
-            'name' => $this->faker->name,
-            'key' => $this->faker->name,
-            'guard_name' => 'web',
+            'name' => $name,
+            'key' => Str::slug("{$name} {$guard}"),
+            'guard_name' => $guard,
+            'is_default' => $this->faker->boolean(10),
         ];
     }
 }

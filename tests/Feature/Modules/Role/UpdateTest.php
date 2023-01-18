@@ -23,7 +23,7 @@ final class UpdateTest extends BrandTestCase
     {
         $this->authenticateAdmin();
 
-        $role = Role::factory()->create();
+        $role = Role::factory()->create(['is_default' => false]);
         $data = Role::factory()->make()->toArray();
 
         $response = $this->patch(route('admin.roles.update', ['role' => $role]), $data);
@@ -42,7 +42,7 @@ final class UpdateTest extends BrandTestCase
     {
         $this->authenticateWithPermission(RolePermission::fromValue(RolePermission::EDIT_ROLES));
 
-        $role = Role::factory()->create();
+        $role = Role::factory()->create(['is_default' => false]);
         $data = Role::factory()->make()->toArray();
 
         $response = $this->patch(route('admin.roles.update', ['role' => $role]), $data);
@@ -64,7 +64,7 @@ final class UpdateTest extends BrandTestCase
         $data = Role::factory()->make()->toArray();
 
         $this->brand->makeCurrent();
-        $role = Role::factory()->create();
+        $role = Role::factory()->create(['is_default' => false]);
 
         $response = $this->patch(route('admin.roles.update', ['role' => $role]), $data);
 
