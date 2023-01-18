@@ -45,6 +45,7 @@ final class UserCreateRequest extends BaseFormRequest
             'roles' => 'required|array',
             'roles.*.id' => [
                 'required',
+                'distinct',
                 'integer',
                 'min:1',
                 'exists:landlord.roles,id',
@@ -52,6 +53,7 @@ final class UserCreateRequest extends BaseFormRequest
             'desks' => 'sometimes|required|array',
             'desks.*.id' => [
                 'required',
+                'distinct',
                 'integer',
                 'min:1',
                 'exists:tenant.desks,id',
@@ -59,6 +61,7 @@ final class UserCreateRequest extends BaseFormRequest
             'languages' => 'sometimes|required|array',
             'languages.*.id' => [
                 'required',
+                'distinct',
                 'integer',
                 'min:1',
                 'exists:landlord.languages,id',
@@ -66,6 +69,7 @@ final class UserCreateRequest extends BaseFormRequest
             'countries' => 'sometimes|required|array',
             'countries.*.id' => [
                 'required',
+                'distinct',
                 'integer',
                 'min:1',
                 'exists:landlord.countries,id',
@@ -73,13 +77,6 @@ final class UserCreateRequest extends BaseFormRequest
             'affiliate_id' => 'nullable|integer|exists:landlord.users,id',
             'show_on_scoreboards' => 'sometimes|required|boolean',
             'communication_provider_id' => 'nullable|integer|exists:tenant.communication_providers,id',
-        ];
-    }
-
-    public function attributes(): array
-    {
-        return [
-            'role_id' => 'Role',
         ];
     }
 }
