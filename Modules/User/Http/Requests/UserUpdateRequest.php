@@ -46,9 +46,10 @@ final class UserUpdateRequest extends BaseFormRequest
                 'required',
                 'string',
             ],
+            'roles' => 'sometimes|required|array',
             'roles.*.id' => [
-                'sometimes',
                 'required',
+                'distinct',
                 'integer',
                 'min:1',
                 'exists:landlord.roles,id',
@@ -56,13 +57,6 @@ final class UserUpdateRequest extends BaseFormRequest
             'affiliate_id' => 'nullable|integer|exists:landlord.users,id',
             'show_on_scoreboards' => 'sometimes|required|boolean',
             'communication_provider_id' => 'nullable|integer|exists:tenant.communication_providers,id',
-        ];
-    }
-
-    public function attributes(): array
-    {
-        return [
-            'role_id' => 'Роль',
         ];
     }
 }
