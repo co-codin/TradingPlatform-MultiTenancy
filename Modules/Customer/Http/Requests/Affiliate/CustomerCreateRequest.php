@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Customer\Http\Requests\Affiliate;
 
+use App\Enums\RegexValidation;
 use App\Http\Requests\BaseFormRequest;
 
 final class CustomerCreateRequest extends BaseFormRequest
@@ -16,8 +17,8 @@ final class CustomerCreateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
+            'first_name' => 'required|string|regex:' . RegexValidation::fromValue(RegexValidation::FIRSTNAME)->value,
+            'last_name' => 'required|string|regex:' . RegexValidation::fromValue(RegexValidation::LASTNAME)->value,
             'phone' => 'required|string',
             'email' => 'required|email|max:100|unique:tenant.customers,email',
             'country' => 'required|string',

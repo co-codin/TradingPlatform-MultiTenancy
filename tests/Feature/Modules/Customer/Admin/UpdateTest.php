@@ -16,6 +16,7 @@ final class UpdateTest extends BrandTestCase
 {
     use TenantAware;
     use HasAuth;
+
     /**
      * Test authorized user can update customer.
      *
@@ -65,20 +66,26 @@ final class UpdateTest extends BrandTestCase
 
         $customer->save();
 
+        $permissions = Permission::inRandomOrder()->limit(3)->get();
+
+        if ($permissions->count() < 3) {
+            $permissions = Permission::factory(3)->create();
+        }
+
         $data['permissions'] = [
             [
-                'id' => Permission::factory()->create()->id,
+                'id' => $permissions->shift()->id,
                 'status' => ModelHasPermissionStatus::ACTIVE,
             ],
             [
-                'id' => Permission::factory()->create()->id,
+                'id' => $permissions->shift()->id,
                 'status' => ModelHasPermissionStatus::ACTIVE,
                 'data' => [
                     'reason' => 'reason',
                 ],
             ],
             [
-                'id' => Permission::factory()->create()->id,
+                'id' => $permissions->shift()->id,
                 'status' => ModelHasPermissionStatus::SUSPENDED,
                 'data' => [
                     'reason' => 'reason',

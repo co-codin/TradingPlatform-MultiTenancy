@@ -49,7 +49,7 @@ final class UserStorage
         }
 
         if (isset($attributes['roles'])) {
-            $user->syncRoles($attributes['roles']);
+            $user->roles()->sync(Arr::pluck($attributes['roles'], 'id'));
         }
 
         return $user;
