@@ -48,6 +48,8 @@ final class RegisterController extends Controller
      *                 @OA\Property(property="password_confirmation", format="password", type="string", description="Password confirmation", minLength=6),
      *                 @OA\Property(property="phone", type="string", format="phone", description="Phone", pattern="^\+(?:\d){6,14}\d$"),
      *                 @OA\Property(property="country_id", type="integer", description="Country id"),
+     *                 @OA\Property(property="platform_language_id", type="integer", description="Platform language id", nullable="true"),
+     *                 @OA\Property(property="browser_language_id", type="integer", description="Browser language id", nullable="true"),
      *             )
      *         )
      *      ),

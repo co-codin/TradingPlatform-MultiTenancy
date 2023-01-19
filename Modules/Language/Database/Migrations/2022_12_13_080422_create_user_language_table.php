@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('user_language', function (Blueprint $table) {
             $table->primary(['user_id', 'language_id'], 'id');
             $table->integer('user_id');
-            $table->foreign('user_id')->on('public.users')->references('id')->onDelete('CASCADE');
-            $table->foreignId('language_id')->constrained('public.languages')->references('id')->onDelete('CASCADE');
+            $table->foreign('user_id')->on('public.users')->references('id');
+            $table->foreignId('language_id')->constrained('public.languages')->references('id');
         });
     }
 

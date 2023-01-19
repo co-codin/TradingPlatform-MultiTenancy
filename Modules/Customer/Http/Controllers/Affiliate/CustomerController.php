@@ -17,6 +17,7 @@ use Modules\Customer\Http\Requests\Affiliate\CustomerCreateRequest;
 use Modules\Customer\Http\Resources\AffiliateCustomerResource;
 use Modules\Customer\Repositories\CustomerRepository;
 use Modules\Customer\Services\CustomerStorage;
+use Modules\Customer\Services\LanguageDetector;
 use Modules\Customer\Services\UrlAuthCreator;
 use Modules\Geo\Repositories\CountryRepository;
 use Modules\Language\Repositories\LanguageRepository;
@@ -146,8 +147,11 @@ final class CustomerController extends Controller
      *
      * @throws UnknownProperties
      */
-    public function store(CustomerCreateRequest $request, UrlAuthCreator $urlAuthCreator): Response
-    {
+    public function store(
+        CustomerCreateRequest $request,
+        UrlAuthCreator $urlAuthCreator,
+        LanguageDetector $languageDetector
+    ): Response {
         $country = $this->countryRepository
             ->whereLowerCase('iso2', strtolower($request->post('country')))
             ->orWhereLowerCase('iso3', strtolower($request->post('country')))
@@ -165,12 +169,17 @@ final class CustomerController extends Controller
 
         $token = $this->tokenRepository->whereToken($request->header('AffiliateToken'))->firstOrFail();
 
+        $validated = $request->validated();
         $data = array_merge($request->validated(), [
             'country_id' => $country->id,
             'language_id' => $language->id,
             'currency_id' => $currency->id,
             'password' => $password = Str::random(),
             'affiliate_user_id' => $token->user_id,
+            'supposed_language_id' => $this->languageRepository->findByField(
+                'code',
+                $languageDetector->detectBest("$validated[first_name] $validated[last_name]")
+            )->id,
         ]);
 
         $customer = $this->customerStorage->store(new CustomerDto($data));

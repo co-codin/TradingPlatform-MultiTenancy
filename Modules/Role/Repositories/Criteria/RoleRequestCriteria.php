@@ -37,6 +37,8 @@ final class RoleRequestCriteria extends BaseCriteria
             ->allowedIncludes([
                 'permissions',
                 'users',
+                'usersCount',
+                'permissionsCount',
             ]);
     }
 }

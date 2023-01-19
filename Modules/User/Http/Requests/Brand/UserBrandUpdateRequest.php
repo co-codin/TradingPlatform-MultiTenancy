@@ -11,10 +11,7 @@ final class UserBrandUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'brands' => [
-                'required',
-                'array',
-            ],
+            'brands' => 'present|array',
             'brands.*.id' => 'distinct|integer|exists:landlord.brands,id',
         ];
     }

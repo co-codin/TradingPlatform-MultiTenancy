@@ -192,7 +192,7 @@ final class User extends Authenticatable
      */
     public function languages(): BelongsToMany
     {
-        return $this->belongsToManyTenant(Language::class, 'user_language');
+        return $this->belongsToMany(Language::class, 'user_language');
     }
 
     /**
@@ -202,7 +202,7 @@ final class User extends Authenticatable
      */
     public function countries(): BelongsToMany
     {
-        return $this->belongsToManyTenant(Country::class, 'user_country');
+        return $this->belongsToMany(Country::class, 'user_country');
     }
 
     /**
