@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\User\Http\Requests;
 
-use App\Enums\RegexValidation;
+use App\Enums\RegexValidationEnum;
 use App\Http\Requests\BaseFormRequest;
 
 final class UserUpdateRequest extends BaseFormRequest
@@ -18,21 +18,21 @@ final class UserUpdateRequest extends BaseFormRequest
                 'string',
                 'max:255',
                 "unique:landlord.users,username,{$this->route('worker')}",
-                'regex:' . RegexValidation::fromValue(RegexValidation::USERNAME)->value,
+                'regex:' . RegexValidationEnum::fromValue(RegexValidationEnum::USERNAME)->value,
             ],
             'first_name' => [
                 'sometimes',
                 'required',
                 'string',
                 'max:255',
-                'regex:' . RegexValidation::fromValue(RegexValidation::FIRSTNAME)->value,
+                'regex:' . RegexValidationEnum::fromValue(RegexValidationEnum::FIRSTNAME)->value,
             ],
             'last_name' => [
                 'sometimes',
                 'required',
                 'string',
                 'max:255',
-                'regex:' . RegexValidation::fromValue(RegexValidation::LASTNAME)->value,
+                'regex:' . RegexValidationEnum::fromValue(RegexValidationEnum::LASTNAME)->value,
             ],
             'email' => [
                 'email',
@@ -49,7 +49,7 @@ final class UserUpdateRequest extends BaseFormRequest
                 'exclude_unless:change_password,true',
                 'required',
                 'string',
-                'regex:' . RegexValidation::fromValue(RegexValidation::PASSWORD)->value,
+                'regex:' . RegexValidationEnum::fromValue(RegexValidationEnum::PASSWORD)->value,
             ],
             'roles' => 'sometimes|required|array',
             'roles.*.id' => [

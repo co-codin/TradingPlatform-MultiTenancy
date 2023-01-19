@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Customer\Http\Requests;
 
-use App\Enums\RegexValidation;
+use App\Enums\RegexValidationEnum;
 use App\Http\Requests\BaseFormRequest;
 use BenSampo\Enum\Rules\EnumValue;
 use Modules\Customer\Enums\Gender;
@@ -19,15 +19,15 @@ final class CustomerCreateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'first_name' => 'required|string|regex:' . RegexValidation::fromValue(RegexValidation::FIRSTNAME)->value,
-            'last_name' => 'required|string|regex:' . RegexValidation::fromValue(RegexValidation::LASTNAME)->value,
+            'first_name' => 'required|string|regex:' . RegexValidationEnum::fromValue(RegexValidationEnum::FIRSTNAME)->value,
+            'last_name' => 'required|string|regex:' . RegexValidationEnum::fromValue(RegexValidationEnum::LASTNAME)->value,
             'gender' => [
                 'required',
                 new EnumValue(Gender::class, false),
             ],
             'email' => 'required|email|max:100|unique:tenant.customers,email',
-            'password' => 'required|string|regex:' . RegexValidation::fromValue(RegexValidation::PASSWORD)->value,
-            'phone' => 'required|string',
+            'password' => 'required|string|regex:' . RegexValidationEnum::fromValue(RegexValidationEnum::PASSWORD)->value,
+            'phone' => 'required|string|phone:AUTO',
             'country_id' => 'required|int|exists:landlord.countries,id',
             'phone2' => 'sometimes',
             'language_id' => 'required|int|exists:landlord.languages,id',

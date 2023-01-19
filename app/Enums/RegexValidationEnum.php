@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-class RegexValidation extends BaseEnum
+class RegexValidationEnum extends BaseEnum
 {
     /**
      * @var string
