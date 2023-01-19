@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('campaign_country', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('country_id')->constrained('public.countries')->references('id')->onDelete('CASCADE');
+            $table->foreignId('country_id')->constrained('public.countries')->references('id');
             $table->foreignId('campaign_id')->constrained();
             $table->unique(['country_id', 'campaign_id']);
 

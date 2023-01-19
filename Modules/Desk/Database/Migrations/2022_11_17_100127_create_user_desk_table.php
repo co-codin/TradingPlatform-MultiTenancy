@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('user_desk', function (Blueprint $table) {
             $table->primary(['user_id', 'desk_id'], 'id');
             $table->integer('user_id');
-            $table->foreign('user_id')->on('public.users')->references('id')->onDelete('CASCADE');
+            $table->foreign('user_id')->on('public.users')->references('id');
             $table->foreignId('desk_id')->constrained();
         });
     }
