@@ -10,13 +10,10 @@ use Modules\Language\Models\Language;
 
 final class LanguageDetector
 {
-    private readonly Detector $detector;
-
     private readonly array $whiteList;
 
-    public function __construct()
+    public function __construct(private readonly Detector $detector)
     {
-        $this->detector = new Detector();
         $this->whiteList = Language::pluck('code')->toArray();
     }
 
