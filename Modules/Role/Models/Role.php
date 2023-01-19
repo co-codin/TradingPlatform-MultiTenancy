@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Cache;
 use Modules\Brand\Models\Brand;
 use Modules\Role\Database\factories\RoleFactory;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
@@ -16,6 +17,19 @@ class Role extends SpatieRole
 {
     use HasFactory;
     use UsesLandlordConnection;
+
+    /**
+     * Get permissions by total count attribute.
+     *
+     * @return string
+     */
+    public function getPermissionsByTotalCountAttribute(): string
+    {
+        $count = Cache::tags(['permissions', 'count'])->get($this->id, fn () => $this->permissions()->count());
+        $total = Cache::tags(['permissions', 'count'])->get('total', fn () => Permission::query()->count());
+
+        return "{$count}/{$total}";
+    }
 
     /**
      * Scope get roles without brand and with brands.
