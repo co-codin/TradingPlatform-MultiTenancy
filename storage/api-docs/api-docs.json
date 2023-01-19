@@ -5167,6 +5167,16 @@
                                         "type": "integer",
                                         "nullable": "true"
                                     },
+                                    "platform_language_id": {
+                                        "description": "Platform language id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "browser_language_id": {
+                                        "description": "Browser language id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
                                     "phone2": {
                                         "description": "Second phone",
                                         "type": "string",
@@ -5361,6 +5371,16 @@
                                     },
                                     "language_id": {
                                         "description": "Language id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "platform_language_id": {
+                                        "description": "Platform language id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "browser_language_id": {
+                                        "description": "Browser language id",
                                         "type": "integer",
                                         "nullable": "true"
                                     },
@@ -5637,6 +5657,16 @@
                                     },
                                     "language_id": {
                                         "description": "Language id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "platform_language_id": {
+                                        "description": "Platform language id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "browser_language_id": {
+                                        "description": "Browser language id",
                                         "type": "integer",
                                         "nullable": "true"
                                     },
@@ -6816,6 +6846,16 @@
                                     "country_id": {
                                         "description": "Country id",
                                         "type": "integer"
+                                    },
+                                    "platform_language_id": {
+                                        "description": "Platform language id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "browser_language_id": {
+                                        "description": "Browser language id",
+                                        "type": "integer",
+                                        "nullable": "true"
                                     }
                                 },
                                 "type": "object"
@@ -15463,6 +15503,11 @@
                     },
                     "platform_language_id": {
                         "description": "Platform language id",
+                        "type": "integer",
+                        "nullable": "true"
+                    },
+                    "browser_language_id": {
+                        "description": "Browser language id",
                         "type": "integer",
                         "nullable": "true"
                     },
