@@ -24,21 +24,21 @@ return new class extends Migration
             $table->string('phone2')->nullable();
             $table->timestamp('birthday')->nullable();
 
-            $table->foreignId('country_id')->constrained('public.countries')->references('id')->onDelete('CASCADE');
-            $table->foreignId('currency_id')->constrained('public.currencies')->references('id')->onDelete('CASCADE');
+            $table->foreignId('country_id')->constrained('public.countries')->references('id');
+            $table->foreignId('currency_id')->constrained('public.currencies')->references('id');
 
             $table->foreignId('language_id')->nullable()
                 ->constrained('public.languages')
                 ->references('id')
-                ->onDelete('SET NULL');
+                ;
             $table->foreignId('supposed_language_id')->nullable()
                 ->constrained('public.languages')
                 ->references('id')
-                ->onDelete('SET NULL');
+                ;
             $table->foreignId('platform_language_id')->nullable()
                 ->constrained('public.languages')
                 ->references('id')
-                ->onDelete('SET NULL');
+                ;
 
             $table->string('state')->nullable();
             $table->string('city')->nullable();
@@ -62,15 +62,15 @@ return new class extends Migration
             $table->integer('first_conversion_user_id')->nullable();
             $table->integer('first_retention_user_id')->nullable();
 
-            $table->foreign('affiliate_user_id')->on('public.users')->references('id')->onDelete('SET NULL');
-            $table->foreign('conversion_user_id')->on('public.users')->references('id')->onDelete('SET NULL');
-            $table->foreign('retention_user_id')->on('public.users')->references('id')->onDelete('SET NULL');
-            $table->foreign('compliance_user_id')->on('public.users')->references('id')->onDelete('SET NULL');
-            $table->foreign('support_user_id')->on('public.users')->references('id')->onDelete('SET NULL');
-            $table->foreign('conversion_manager_user_id')->on('public.users')->references('id')->onDelete('SET NULL');
-            $table->foreign('retention_manager_user_id')->on('public.users')->references('id')->onDelete('SET NULL');
-            $table->foreign('first_conversion_user_id')->on('public.users')->references('id')->onDelete('SET NULL');
-            $table->foreign('first_retention_user_id')->on('public.users')->references('id')->onDelete('SET NULL');
+            $table->foreign('affiliate_user_id')->on('public.users')->references('id');
+            $table->foreign('conversion_user_id')->on('public.users')->references('id');
+            $table->foreign('retention_user_id')->on('public.users')->references('id');
+            $table->foreign('compliance_user_id')->on('public.users')->references('id');
+            $table->foreign('support_user_id')->on('public.users')->references('id');
+            $table->foreign('conversion_manager_user_id')->on('public.users')->references('id');
+            $table->foreign('retention_manager_user_id')->on('public.users')->references('id');
+            $table->foreign('first_conversion_user_id')->on('public.users')->references('id');
+            $table->foreign('first_retention_user_id')->on('public.users')->references('id');
 
             $table->foreignId('desk_id')->nullable()->constrained();
             $table->foreignId('department_id')->nullable()->constrained();
