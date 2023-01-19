@@ -11,10 +11,7 @@ final class UserDepartmentUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'departments' => [
-                'required',
-                'array',
-            ],
+            'departments' => 'present|array',
             'departments.*.id' => 'distinct|integer|exists:tenant.departments,id',
         ];
     }

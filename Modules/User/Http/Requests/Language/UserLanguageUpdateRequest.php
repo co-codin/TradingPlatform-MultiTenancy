@@ -11,10 +11,7 @@ final class UserLanguageUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'languages' => [
-                'required',
-                'array',
-            ],
+            'languages' => 'present|array',
             'languages.*.id' => 'distinct|integer|exists:landlord.languages,id',
         ];
     }
