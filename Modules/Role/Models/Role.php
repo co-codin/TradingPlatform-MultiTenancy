@@ -23,7 +23,7 @@ class Role extends SpatieRole
      *
      * @return string
      */
-    public function getAllPermissionsCountAttribute(): string
+    public function getPermissionsByTotalCountAttribute(): string
     {
         $count = Cache::tags(['permissions', 'count'])->get($this->id, fn () => $this->permissions()->count());
         $total = Cache::tags(['permissions', 'count'])->get('total', fn () => Permission::query()->count());
