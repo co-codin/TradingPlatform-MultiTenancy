@@ -67,6 +67,7 @@ final class RoleResource extends BaseJsonResource
     final public function toArray($request): array
     {
         return array_merge(parent::toArray($request), [
+            'all_permissions_count' => $this->resource->all_permissions_count,
             'permissions' => PermissionResource::collection($this->whenLoaded('permissions')),
         ]);
     }
