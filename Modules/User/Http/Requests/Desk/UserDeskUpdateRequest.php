@@ -11,10 +11,7 @@ final class UserDeskUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'desks' => [
-                'required',
-                'array',
-            ],
+            'desks' => 'present|array',
             'desks.*.id' => 'distinct|integer|exists:tenant.desks,id',
         ];
     }

@@ -11,11 +11,8 @@ final class UserCountryUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'countries' => [
-                'required',
-                'array',
-            ],
-            'countries.*.id' => 'distinct|integer|exists:tenant.countries,id',
+            'countries' => 'present|array',
+            'countries.*.id' => 'distinct|integer|exists:landlord.countries,id',
         ];
     }
 }
