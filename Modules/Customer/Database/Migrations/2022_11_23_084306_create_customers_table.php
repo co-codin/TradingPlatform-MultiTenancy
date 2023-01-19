@@ -29,16 +29,16 @@ return new class extends Migration
 
             $table->foreignId('language_id')->nullable()
                 ->constrained('public.languages')
-                ->references('id')
-                ;
+                ->references('id');
             $table->foreignId('supposed_language_id')->nullable()
                 ->constrained('public.languages')
-                ->references('id')
-                ;
+                ->references('id');
             $table->foreignId('platform_language_id')->nullable()
                 ->constrained('public.languages')
-                ->references('id')
-                ;
+                ->references('id');
+            $table->foreignId('browser_language_id')->nullable()
+                ->constrained('public.languages')
+                ->references('id');
 
             $table->string('state')->nullable();
             $table->string('city')->nullable();
