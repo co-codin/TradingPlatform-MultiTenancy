@@ -61,16 +61,6 @@ class Brand extends Tenant
     }
 
     /**
-     * Drop tenant database
-     *
-     * @return void
-     */
-    public function dropSchema(): void
-    {
-        DB::connection($this->tenantDatabaseConnectionName())->statement("DROP SCHEMA {$this->database} CASCADE");
-    }
-
-    /**
      * Get activity log options.
      *
      * @return LogOptions
