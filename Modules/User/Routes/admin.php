@@ -12,6 +12,7 @@ use Modules\User\Http\Controllers\Admin\DisplayOption\UserDisplayOptionControlle
 use Modules\User\Http\Controllers\Admin\Impersonate\UserImpersonateController;
 use Modules\User\Http\Controllers\Admin\Language\UserLanguageController;
 use Modules\User\Http\Controllers\Admin\PasswordController;
+use Modules\User\Http\Controllers\Admin\Permission\UserPermissionController;
 use Modules\User\Http\Controllers\Admin\Preset\UserPresetController;
 use Modules\User\Http\Controllers\Admin\SocialAuthController;
 use Modules\User\Http\Controllers\Admin\UserController;
@@ -67,15 +68,19 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
             Route::get('csv', [UserExportController::class, 'csv'])->name('export.csv');
         });
 
-        Route::group(['middleware' => 'tenant'], function () {
-            // Country
-            Route::put('/{id}/country', [UserCountryController::class, 'update'])->name('country.update');
+        // Country
+        Route::put('/{id}/country', [UserCountryController::class, 'update'])->name('country.update');
 
+        // Language
+        Route::put('/{id}/language', [UserLanguageController::class, 'update'])->name('language.update');
+
+        // Permission
+        Route::put('/{id}/permission/{permissionId}/columns', [UserPermissionController::class, 'columns'])
+            ->name('permission.columns');
+
+        Route::group(['middleware' => 'tenant'], function () {
             // Department
             Route::put('/{id}/department', [UserDepartmentController::class, 'update'])->name('department.update');
-
-            // Language
-            Route::put('/{id}/language', [UserLanguageController::class, 'update'])->name('language.update');
 
             // Desk
             Route::put('/{id}/desk', [UserDeskController::class, 'update'])->name('desk.update');

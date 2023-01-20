@@ -28,6 +28,7 @@ use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
 use Modules\Geo\Models\Country;
 use Modules\Language\Models\Language;
+use Modules\Role\Models\Column;
 use Modules\Role\Models\Role;
 use Modules\Role\Models\Traits\HasRoles;
 use Modules\Token\Models\Token;
@@ -363,5 +364,15 @@ final class User extends Authenticatable
     public function affiliateToken(): hasMany
     {
         return $this->hasMany(Token::class);
+    }
+
+    public function columns(): BelongsToMany
+    {
+        return $this->belongsToMany(Column::class, 'permission_column');
+    }
+
+    public function columnsByPermission(int $id): BelongsToMany
+    {
+        return $this->belongsToMany(Column::class, 'permission_column')->wherePivot('permission_id', $id);
     }
 }
