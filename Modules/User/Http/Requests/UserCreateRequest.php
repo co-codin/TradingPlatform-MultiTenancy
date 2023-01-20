@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\User\Http\Requests;
 
-use App\Enums\RegexValidation;
+use App\Enums\RegexValidationEnum;
 use App\Http\Requests\BaseFormRequest;
 
 final class UserCreateRequest extends BaseFormRequest
@@ -17,19 +17,19 @@ final class UserCreateRequest extends BaseFormRequest
                 'string',
                 'max:255',
                 'unique:landlord.users,username',
-                'regex:' . RegexValidation::fromValue(RegexValidation::USERNAME)->value,
+                'regex:' . RegexValidationEnum::fromValue(RegexValidationEnum::USERNAME)->value,
             ],
             'first_name' => [
                 'required',
                 'string',
                 'max:255',
-                'regex:' . RegexValidation::fromValue(RegexValidation::FIRSTNAME)->value,
+                'regex:' . RegexValidationEnum::fromValue(RegexValidationEnum::FIRSTNAME)->value,
             ],
             'last_name' => [
                 'required',
                 'string',
                 'max:255',
-                'regex:' . RegexValidation::fromValue(RegexValidation::LASTNAME)->value,
+                'regex:' . RegexValidationEnum::fromValue(RegexValidationEnum::LASTNAME)->value,
             ],
             'email' => [
                 'email',
@@ -40,7 +40,7 @@ final class UserCreateRequest extends BaseFormRequest
                 'required',
                 'string',
                 'min:8',
-                'regex:' . RegexValidation::fromValue(RegexValidation::PASSWORD)->value,
+                'regex:' . RegexValidationEnum::fromValue(RegexValidationEnum::PASSWORD)->value,
             ],
             'is_active' => 'boolean',
             'target' => 'numeric',

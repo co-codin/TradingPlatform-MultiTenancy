@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\User\Http\Requests;
 
-use App\Enums\RegexValidation;
+use App\Enums\RegexValidationEnum;
 use App\Http\Requests\BaseFormRequest;
 
 final class UserUpdateBatchRequest extends BaseFormRequest
@@ -24,14 +24,14 @@ final class UserUpdateBatchRequest extends BaseFormRequest
                 'required',
                 'string',
                 'max:255',
-                'regex:' . RegexValidation::fromValue(RegexValidation::FIRSTNAME)->value,
+                'regex:' . RegexValidationEnum::fromValue(RegexValidationEnum::FIRSTNAME)->value,
             ],
             'users.*.last_name' => [
                 'sometimes',
                 'required',
                 'string',
                 'max:255',
-                'regex:' . RegexValidation::fromValue(RegexValidation::LASTNAME)->value,
+                'regex:' . RegexValidationEnum::fromValue(RegexValidationEnum::LASTNAME)->value,
             ],
             'users.*.email' => 'sometimes|required|email|max:255|unique:landlord.users,email',
             'users.*.is_active' => 'boolean',

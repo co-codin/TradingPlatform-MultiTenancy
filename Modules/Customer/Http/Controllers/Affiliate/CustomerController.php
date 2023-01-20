@@ -141,8 +141,9 @@ final class CustomerController extends Controller
      *
      * Store customer.
      *
-     * @param  CustomerCreateRequest  $request
-     * @param  UrlAuthCreator  $urlAuthCreator
+     * @param CustomerCreateRequest $request
+     * @param UrlAuthCreator $urlAuthCreator
+     * @param LanguageDetector $languageDetector
      * @return Response
      *
      * @throws UnknownProperties

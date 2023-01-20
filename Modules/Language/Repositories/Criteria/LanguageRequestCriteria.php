@@ -27,7 +27,7 @@ final class LanguageRequestCriteria extends BaseCriteria
     {
         return QueryBuilder::for($model)
             ->defaultSort('-id')
-            ->allowedFields(self::$allowedModelFields)
+            ->allowedFields(self::allowedModelFields())
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::partial('name'),
