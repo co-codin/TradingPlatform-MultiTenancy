@@ -32,6 +32,7 @@ final class CopyCustomerService
 
         $this->runCopyCustomer();
     }
+
     private function runCopyCustomer(): void
     {
         $this->currentBrand->makeCurrent();
