@@ -149,7 +149,7 @@ final class UserPermissionController extends Controller
 
         $columns = [];
         foreach ($request->validated('columns') as $item) {
-            $columns[] = ['column_id' => $item, 'permission_id' => $permission->id];
+            $columns[$item] = ['permission_id' => $permission->id];
         }
 
         return $user->columnsByPermission($permission->id)->sync($columns);
