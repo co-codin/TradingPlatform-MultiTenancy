@@ -43,7 +43,6 @@ class CreateTest extends BrandTestCase
             'retention_manager_user_id',
             'first_conversion_user_id',
             'first_retention_user_id',
-            'campaign_id'
         ]);
 
         $response = $this->postJson(route('admin.customers.store'), array_merge($data, ['password' => self::$basePassword]));

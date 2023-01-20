@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Customer\Http\Controllers\Affiliate;
 
 use App\Http\Controllers\Controller;
+use App\Services\Validation\Phone;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -140,10 +141,15 @@ final class CustomerController extends Controller
      * @param  CustomerCreateRequest  $request
      * @param  UrlAuthCreator  $urlAuthCreator
      * @param  LanguageDetector  $languageDetector
+     * @param  CountryRepository  $countryRepository
+     * @param  LanguageRepository  $languageRepository
+     * @param  CurrencyRepository  $currencyRepository
+     * @param  CampaignRepository  $campaignRepository
      * @return Response
      *
      * @throws UnknownProperties
      * @throws ValidationException
+     * @throws \Exception
      */
     public function store(
         CustomerCreateRequest $request,
@@ -155,25 +161,23 @@ final class CustomerController extends Controller
         CampaignRepository $campaignRepository,
     ): Response {
         $country = $countryRepository
-            ->whereLowerCase('iso2', strtolower($request->post('country')))
-            ->orWhereLowerCase('iso3', strtolower($request->post('country')))
-            ->orWhereLowerCase('name', strtolower($request->post('country')))
+            ->where('iso2', 'ilike', $request->post('country'))
+            ->orWhere('iso3', 'ilike', $request->post('country'))
+            ->orWhere('name', 'ilike', $request->post('country'))
             ->firstOrFail();
 
         $language = $languageRepository
-            ->whereLowerCase('code', strtolower($request->post('language')))
-            ->orWhereLowerCase('name', strtolower($request->post('language')))
+            ->where('code', 'ilike', $request->post('language'))
+            ->orWhere('name', 'ilike', $request->post('language'))
             ->firstOrFail();
 
         $currency = $currencyRepository
-            ->whereLowerCase('iso3', strtolower($request->post('currency')))
+            ->where('iso3', 'ilike', $request->post('currency'))
             ->firstOrFail();
 
-        $campaign = $campaignRepository->find($request->post('campaign_id'));
-
-        if ($campaign->phone_verification) {
+        if ($campaignRepository->find($request->post('campaign_id'))->phone_verification) {
             $this->validate($request, [
-                'phone' => "phone:{$country->iso2}",
+                'phone' => (new Phone)->country($country),
             ]);
         }
 
@@ -186,10 +190,10 @@ final class CustomerController extends Controller
             'currency_id' => $currency->id,
             'password' => $password = Str::random(),
             'affiliate_user_id' => $token->user_id,
-            'supposed_language_id' => $this->languageRepository->findByField(
-                'code',
-                $languageDetector->detectBest("$validated[first_name] $validated[last_name]")
-            )->id,
+            //            'supposed_language_id' => $languageRepository->findByField(
+            //                'code',
+            //                $languageDetector->detectBest("$validated[first_name] $validated[last_name]")
+            //            )->id,
         ]);
 
         $customer = $this->customerStorage->store(new CustomerDto($data));

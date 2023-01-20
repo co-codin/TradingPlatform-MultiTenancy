@@ -5,8 +5,12 @@ declare(strict_types=1);
 namespace Modules\Customer\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
+use App\Services\Validation\Phone;
 use BenSampo\Enum\Rules\EnumValue;
+use Illuminate\Support\Arr;
+use Modules\Campaign\Models\Campaign;
 use Modules\Customer\Enums\Gender;
+use Modules\Geo\Models\Country;
 
 final class CustomerRegisterRequest extends BaseFormRequest
 {
@@ -17,7 +21,7 @@ final class CustomerRegisterRequest extends BaseFormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'first_name' => 'required|string',
             'last_name' => 'required|string',
             'gender' => [
@@ -26,11 +30,24 @@ final class CustomerRegisterRequest extends BaseFormRequest
             ],
             'email' => 'required|email|max:100|unique:tenant.customers,email',
             'password' => 'required|string|min:6|confirmed',
-            'phone' => 'required|string|phone:AUTO',
+            'phone' => [
+                'required',
+                'string',
+            ],
             'country_id' => 'required|int|exists:landlord.countries,id',
             'platform_language_id' => 'sometimes|required|int|exists:landlord.languages,id',
             'browser_language_id' => 'sometimes|required|int|exists:landlord.languages,id',
         ];
+
+        $this->validate(Arr::only($rules, ['country_id', 'campaign_id']));
+
+        if (Campaign::query()->find($this->post('campaign_id'))?->phone_verification) {
+            $rules['phone'][] = (new Phone)->country(
+                Country::query()->find($this->post('country_id'))
+            );
+        }
+
+        return $rules;
     }
 
     public function validated($key = null, $default = null)

@@ -4,6 +4,7 @@ namespace Modules\Customer\Database\factories;
 
 use Database\Factories\BaseFactory;
 use Illuminate\Support\Facades\Hash;
+use libphonenumber\PhoneNumberUtil;
 use Modules\Campaign\Models\Campaign;
 use Modules\Currency\Models\Currency;
 use Modules\Customer\Enums\Gender;
@@ -14,7 +15,7 @@ use Modules\Geo\Models\Country;
 use Modules\Language\Models\Language;
 use Modules\Sale\Models\SaleStatus;
 use Modules\User\Models\User;
-use Propaganistas\LaravelPhone\PhoneNumber;
+use Propaganistas\LaravelPhone\Exceptions\CountryCodeException;
 use Spatie\Multitenancy\Landlord;
 use Spatie\Multitenancy\Models\Tenant;
 
@@ -85,18 +86,22 @@ class CustomerFactory extends BaseFactory
      * Get landlord data.
      *
      * @return array
+     *
+     * @throws CountryCodeException
      */
     private function getLandlordData(): array
     {
         $country = Country::inRandomOrder()->first() ?? Country::factory()->create();
+        $phone = PhoneNumberUtil::getInstance()->getExampleNumber($country->iso2);
+        $phone2 = PhoneNumberUtil::getInstance()->getExampleNumber($country->iso2);
 
         return [
-            'phone' => PhoneNumber::make($this->faker->e164PhoneNumber())->formatForMobileDialingInCountry($country->iso2),
-            'phone2' => PhoneNumber::make($this->faker->e164PhoneNumber())->formatForMobileDialingInCountry($country->iso2),
+            'phone' => phone($phone->getCountryCode().$phone->getNationalNumber(), $country->iso2)->formatE164(),
+            'phone2' => phone($phone2->getCountryCode().$phone->getNationalNumber(), $country->iso2)->formatE164(),
             'currency_id' => Currency::inRandomOrder()->first() ?? Currency::factory(),
             'language_id' => Language::inRandomOrder()->first() ?? Language::factory(),
             'country_id' => $country,
-            'campaign_id' => Campaign::inRandomOrder()->first() ?? Campaign::factory(),
+            'campaign_id' => Campaign::inRandomOrder()->where('is_active', true)->first() ?? Campaign::factory(['is_active' => true]),
             'affiliate_user_id' => User::inRandomOrder()->first() ?? User::factory(),
             'conversion_user_id' => $conversion = User::inRandomOrder()->first() ?? User::factory()->create(),
             'retention_user_id' => $retention = User::inRandomOrder()->first() ?? User::factory()->create(),
