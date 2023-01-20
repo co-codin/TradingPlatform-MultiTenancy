@@ -190,10 +190,10 @@ final class CustomerController extends Controller
             'currency_id' => $currency->id,
             'password' => $password = Str::random(),
             'affiliate_user_id' => $token->user_id,
-            //            'supposed_language_id' => $languageRepository->findByField(
-            //                'code',
-            //                $languageDetector->detectBest("$validated[first_name] $validated[last_name]")
-            //            )->id,
+            'supposed_language_id' => $languageRepository->findByField(
+                'code',
+                $languageDetector->detectBest("$validated[first_name] $validated[last_name]")
+            )->id,
         ]);
 
         $customer = $this->customerStorage->store(new CustomerDto($data));
