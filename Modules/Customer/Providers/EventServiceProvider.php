@@ -13,6 +13,8 @@ use Modules\Customer\Listeners\CheckCustomerRetentionListener;
 use Modules\Customer\Listeners\SendUserAssignedToCustomerEmailOnCustomerEdited;
 use Modules\Customer\Listeners\SendUserAssignedToCustomerEmailOnCustomerStored;
 use Modules\Customer\Listeners\SendWelcomeCustomerEmail;
+use Modules\Customer\Models\Customer;
+use Modules\Customer\Observers\CustomerObserver;
 
 final class EventServiceProvider extends ServiceProvider
 {
@@ -32,4 +34,14 @@ final class EventServiceProvider extends ServiceProvider
             SendUserAssignedToCustomerEmailOnCustomerEdited::class,
         ],
     ];
+
+    /**
+     * Register any events for your application.
+     *
+     * @return void
+     */
+    public function boot(): void
+    {
+        Customer::observe(CustomerObserver::class);
+    }
 }

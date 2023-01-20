@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('phone2')->nullable();
             $table->timestamp('birthday')->nullable();
 
+            $table->foreignId('subbrand_id')->nullable()->constrained('public.brands')->references('id');
+
             $table->foreignId('country_id')->constrained('public.countries')->references('id');
             $table->foreignId('currency_id')->nullable()
                 ->constrained('public.currencies')
