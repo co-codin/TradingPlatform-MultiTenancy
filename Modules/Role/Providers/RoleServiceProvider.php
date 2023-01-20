@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Modules\Role\Providers;
 
 use App\Providers\BaseModuleServiceProvider;
+use Modules\Role\Console\MenuPermissions;
+use Modules\Role\Console\MenuPermissionsAssigning;
 use Modules\Role\Console\SyncPermissions;
 use Modules\Role\Models\Column;
 use Modules\Role\Models\Permission;
@@ -29,6 +31,8 @@ final class RoleServiceProvider extends BaseModuleServiceProvider
      */
     protected array $commands = [
         SyncPermissions::class,
+        MenuPermissions::class,
+        MenuPermissionsAssigning::class,
     ];
 
     /**
