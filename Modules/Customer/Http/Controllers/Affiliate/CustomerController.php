@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace Modules\Customer\Http\Controllers\Affiliate;
 
 use App\Http\Controllers\Controller;
+use App\Services\Validation\Phone;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Modules\Brand\Models\Brand;
+use Modules\Campaign\Repositories\CampaignRepository;
 use Modules\Currency\Repositories\CurrencyRepository;
 use Modules\Customer\Dto\CustomerDto;
 use Modules\Customer\Http\Requests\Affiliate\CustomerCreateRequest;
@@ -28,17 +31,11 @@ final class CustomerController extends Controller
 {
     /**
      * @param  CustomerRepository  $customerRepository
-     * @param  CurrencyRepository  $currencyRepository
-     * @param  CountryRepository  $countryRepository
-     * @param  LanguageRepository  $languageRepository
      * @param  CustomerStorage  $customerStorage
      * @param  TokenRepository  $tokenRepository
      */
     public function __construct(
         protected CustomerRepository $customerRepository,
-        protected CurrencyRepository $currencyRepository,
-        protected CountryRepository $countryRepository,
-        protected LanguageRepository $languageRepository,
         protected CustomerStorage $customerStorage,
         protected TokenRepository $tokenRepository
     ) {
@@ -141,32 +138,48 @@ final class CustomerController extends Controller
      *
      * Store customer.
      *
-     * @param CustomerCreateRequest $request
-     * @param UrlAuthCreator $urlAuthCreator
-     * @param LanguageDetector $languageDetector
+     * @param  CustomerCreateRequest  $request
+     * @param  UrlAuthCreator  $urlAuthCreator
+     * @param  LanguageDetector  $languageDetector
+     * @param  CountryRepository  $countryRepository
+     * @param  LanguageRepository  $languageRepository
+     * @param  CurrencyRepository  $currencyRepository
+     * @param  CampaignRepository  $campaignRepository
      * @return Response
      *
      * @throws UnknownProperties
+     * @throws ValidationException
+     * @throws \Exception
      */
     public function store(
         CustomerCreateRequest $request,
         UrlAuthCreator $urlAuthCreator,
-        LanguageDetector $languageDetector
+        LanguageDetector $languageDetector,
+        CountryRepository $countryRepository,
+        LanguageRepository $languageRepository,
+        CurrencyRepository $currencyRepository,
+        CampaignRepository $campaignRepository,
     ): Response {
-        $country = $this->countryRepository
-            ->whereLowerCase('iso2', strtolower($request->post('country')))
-            ->orWhereLowerCase('iso3', strtolower($request->post('country')))
-            ->orWhereLowerCase('name', strtolower($request->post('country')))
+        $country = $countryRepository
+            ->where('iso2', 'ilike', $request->post('country'))
+            ->orWhere('iso3', 'ilike', $request->post('country'))
+            ->orWhere('name', 'ilike', $request->post('country'))
             ->firstOrFail();
 
-        $language = $this->languageRepository
-            ->whereLowerCase('code', strtolower($request->post('language')))
-            ->orWhereLowerCase('name', strtolower($request->post('language')))
+        $language = $languageRepository
+            ->where('code', 'ilike', $request->post('language'))
+            ->orWhere('name', 'ilike', $request->post('language'))
             ->firstOrFail();
 
-        $currency = $this->currencyRepository
-            ->whereLowerCase('iso3', strtolower($request->post('currency')))
+        $currency = $currencyRepository
+            ->where('iso3', 'ilike', $request->post('currency'))
             ->firstOrFail();
+
+        if ($campaignRepository->find($request->post('campaign_id'))->phone_verification) {
+            $this->validate($request, [
+                'phone' => (new Phone)->country($country),
+            ]);
+        }
 
         $token = $this->tokenRepository->whereToken($request->header('AffiliateToken'))->firstOrFail();
 
@@ -177,7 +190,7 @@ final class CustomerController extends Controller
             'currency_id' => $currency->id,
             'password' => $password = Str::random(),
             'affiliate_user_id' => $token->user_id,
-            'supposed_language_id' => $this->languageRepository->findByField(
+            'supposed_language_id' => $languageRepository->findByField(
                 'code',
                 $languageDetector->detectBest("$validated[first_name] $validated[last_name]")
             )->id,

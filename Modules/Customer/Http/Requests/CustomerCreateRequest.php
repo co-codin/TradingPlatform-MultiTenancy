@@ -6,8 +6,13 @@ namespace Modules\Customer\Http\Requests;
 
 use App\Enums\RegexValidationEnum;
 use App\Http\Requests\BaseFormRequest;
+use App\Services\Validation\Phone;
 use BenSampo\Enum\Rules\EnumValue;
+use Exception;
+use Illuminate\Support\Arr;
+use Modules\Campaign\Models\Campaign;
 use Modules\Customer\Enums\Gender;
+use Modules\Geo\Models\Country;
 
 final class CustomerCreateRequest extends BaseFormRequest
 {
@@ -15,21 +20,29 @@ final class CustomerCreateRequest extends BaseFormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array
+     *
+     * @throws Exception
      */
     public function rules(): array
     {
-        return [
-            'first_name' => 'required|string|regex:' . RegexValidationEnum::fromValue(RegexValidationEnum::FIRSTNAME)->value,
-            'last_name' => 'required|string|regex:' . RegexValidationEnum::fromValue(RegexValidationEnum::LASTNAME)->value,
+        $rules = [
+            'first_name' => 'required|string|regex:'.RegexValidationEnum::fromValue(RegexValidationEnum::FIRSTNAME)->value,
+            'last_name' => 'required|string|regex:'.RegexValidationEnum::fromValue(RegexValidationEnum::LASTNAME)->value,
             'gender' => [
                 'required',
                 new EnumValue(Gender::class, false),
             ],
             'email' => 'required|email|max:100|unique:tenant.customers,email',
-            'password' => 'required|string|regex:' . RegexValidationEnum::fromValue(RegexValidationEnum::PASSWORD)->value,
-            'phone' => 'required|string|phone:AUTO',
-            'country_id' => 'required|int|exists:landlord.countries,id',
-            'phone2' => 'sometimes',
+            'password' => 'required|string|regex:'.RegexValidationEnum::fromValue(RegexValidationEnum::PASSWORD)->value,
+            'phone' => [
+                'required',
+                'string',
+            ],
+            'phone2' => [
+                'sometimes',
+                'required',
+                'string',
+            ],
             'language_id' => 'required|int|exists:landlord.languages,id',
             'platform_language_id' => 'sometimes|required|int|exists:landlord.languages,id',
             'browser_language_id' => 'sometimes|required|int|exists:landlord.languages,id',
@@ -47,6 +60,21 @@ final class CustomerCreateRequest extends BaseFormRequest
             'free_param_2' => 'sometimes|string',
             'free_param_3' => 'sometimes|string',
             'currency_id' => 'required|int|exists:landlord.currencies,id',
+            'country_id' => 'required|int|exists:landlord.countries,id',
+            'campaign_id' => 'sometimes|required|int|exists:landlord.campaigns,id',
         ];
+
+        $this->validate(Arr::only($rules, ['country_id', 'campaign_id']));
+
+        if (Campaign::query()->find($this->post('campaign_id'))?->phone_verification) {
+            $phoneRule = (new Phone)->country(
+                Country::query()->find($this->post('country_id'))
+            );
+
+            $rules['phone'][] = $phoneRule;
+            $rules['phone2'][] = $phoneRule;
+        }
+
+        return $rules;
     }
 }

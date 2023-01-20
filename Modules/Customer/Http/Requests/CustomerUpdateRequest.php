@@ -6,8 +6,13 @@ namespace Modules\Customer\Http\Requests;
 
 use App\Enums\RegexValidationEnum;
 use App\Http\Requests\BaseFormRequest;
+use App\Services\Validation\Phone;
 use BenSampo\Enum\Rules\EnumValue;
+use Illuminate\Support\Arr;
+use Modules\Campaign\Models\Campaign;
 use Modules\Customer\Enums\Gender;
+use Modules\Customer\Models\Customer;
+use Modules\Geo\Models\Country;
 use Modules\Role\Enums\ModelHasPermissionStatus;
 
 final class CustomerUpdateRequest extends BaseFormRequest
@@ -17,17 +22,25 @@ final class CustomerUpdateRequest extends BaseFormRequest
      */
     public function rules(): array
     {
-        return [
-            'first_name' => 'sometimes|required|string|regex:' . RegexValidationEnum::fromValue(RegexValidationEnum::FIRSTNAME)->value,
-            'last_name' => 'sometimes|required|string|regex:' . RegexValidationEnum::fromValue(RegexValidationEnum::LASTNAME)->value,
+        $rules = [
+            'first_name' => 'sometimes|required|string|regex:'.RegexValidationEnum::fromValue(RegexValidationEnum::FIRSTNAME)->value,
+            'last_name' => 'sometimes|required|string|regex:'.RegexValidationEnum::fromValue(RegexValidationEnum::LASTNAME)->value,
             'gender' => [
                 'sometimes',
                 'required',
                 new EnumValue(Gender::class, false),
             ],
-            'phone' => 'sometimes|required|string|phone:AUTO',
             'country_id' => 'sometimes|required|int|exists:landlord.countries,id',
-            'phone2' => 'sometimes',
+            'phone' => [
+                'sometimes',
+                'required',
+                'string',
+            ],
+            'phone2' => [
+                'sometimes',
+                'required',
+                'string',
+            ],
             'language_id' => 'sometimes|required|int|exists:landlord.languages,id',
             'platform_language_id' => 'sometimes|required|int|exists:landlord.languages,id',
             'browser_language_id' => 'sometimes|required|int|exists:landlord.languages,id',
@@ -64,5 +77,23 @@ final class CustomerUpdateRequest extends BaseFormRequest
             ],
             'permissions.*.body.reason' => 'sometimes|required|string',
         ];
+
+        $customer = Customer::query()->where('id', $this->route('customer'))->first();
+
+        $validated = $this->validate(Arr::only($rules, ['country_id', 'campaign_id']));
+
+        $countryId = $validated['country_id'] ?? $customer?->country_id;
+        $campaignId = $validated['campaign_id'] ?? $customer?->campaign_id;
+
+        if (Campaign::query()->find($campaignId)?->phone_verification) {
+            $phoneRule = (new Phone)->country(
+                Country::query()->find($countryId)
+            );
+
+            $rules['phone'][] = $phoneRule;
+            $rules['phone2'][] = $phoneRule;
+        }
+
+        return $rules;
     }
 }

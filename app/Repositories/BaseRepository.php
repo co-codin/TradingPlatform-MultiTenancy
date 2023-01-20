@@ -20,7 +20,7 @@ abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepositor
     /**
      * Add scopes into model request.
      *
-     * @param array $scopes
+     * @param  array  $scopes
      * @return $this
      */
     public function scopes(array $scopes): BaseRepository
@@ -76,34 +76,6 @@ abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepositor
     public function pushPermissionColumnValidator(string $permissionColumnValidator): BaseRepository
     {
         $this->columnPermissionValidator = new $permissionColumnValidator;
-
-        return $this;
-    }
-
-    /**
-     * Where in lower case.
-     *
-     * @param $column
-     * @param $value
-     * @return Builder
-     */
-    public function whereLowerCase($column, $value = null): static
-    {
-        $this->model->query()->whereRaw("LOWER(`{$column}`) = $value", [$value]);
-
-        return $this;
-    }
-
-    /**
-     * Or where in lower case.
-     *
-     * @param $column
-     * @param $value
-     * @return Builder
-     */
-    public function orWhereLowerCase($column, $value = null): static
-    {
-        $this->model->query()->orWhereRaw("LOWER(`{$column}`) = $value", [$value]);
 
         return $this;
     }
