@@ -11,13 +11,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Role\Http\Resources\PermissionResource;
 use Modules\Role\Models\Permission;
 use Modules\Role\Repositories\PermissionRepository;
+use OpenApi\Annotations as OA;
 
 final class PermissionController extends Controller
 {
-    /**
-     * @param  PermissionRepository  $permissionRepository
-     */
-    final public function __construct(
+    public function __construct(
         protected PermissionRepository $permissionRepository
     ) {
     }
@@ -49,7 +47,7 @@ final class PermissionController extends Controller
      *
      * @throws AuthorizationException
      */
-    final public function index(): JsonResource
+    public function index(): JsonResource
     {
         $this->authorize('viewAny', Permission::class);
 
@@ -85,7 +83,7 @@ final class PermissionController extends Controller
      *
      * @throws AuthorizationException
      */
-    final public function all(): JsonResource
+    public function all(): JsonResource
     {
         $this->authorize('viewAny', Permission::class);
 
@@ -133,7 +131,7 @@ final class PermissionController extends Controller
      *
      * @throws AuthorizationException
      */
-    final public function show(int $permission): JsonResource
+    public function show(int $permission): JsonResource
     {
         $this->authorize('view', Permission::class);
 
