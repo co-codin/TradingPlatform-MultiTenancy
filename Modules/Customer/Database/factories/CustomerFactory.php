@@ -14,6 +14,7 @@ use Modules\Geo\Models\Country;
 use Modules\Language\Models\Language;
 use Modules\Sale\Models\SaleStatus;
 use Modules\User\Models\User;
+use Propaganistas\LaravelPhone\PhoneNumber;
 use Spatie\Multitenancy\Landlord;
 use Spatie\Multitenancy\Models\Tenant;
 
@@ -60,8 +61,6 @@ class CustomerFactory extends BaseFactory
             'gender' => $this->faker->randomElement(Gender::getValues()),
             'email' => $this->faker->unique()->safeEmail(),
             'password' => Hash::make('password'),
-            'phone' => $this->faker->e164PhoneNumber(),
-            'phone2' => $this->faker->e164PhoneNumber(),
             'department_id' => Department::inRandomOrder()->first(),
             'desk_id' => Desk::factory(),
 
@@ -89,10 +88,14 @@ class CustomerFactory extends BaseFactory
      */
     private function getLandlordData(): array
     {
+        $country = Country::inRandomOrder()->first() ?? Country::factory()->create();
+
         return [
+            'phone' => PhoneNumber::make($this->faker->e164PhoneNumber())->formatForMobileDialingInCountry($country->iso2),
+            'phone2' => PhoneNumber::make($this->faker->e164PhoneNumber())->formatForMobileDialingInCountry($country->iso2),
             'currency_id' => Currency::inRandomOrder()->first() ?? Currency::factory(),
             'language_id' => Language::inRandomOrder()->first() ?? Language::factory(),
-            'country_id' => Country::inRandomOrder()->first() ?? Country::factory(),
+            'country_id' => $country,
             'campaign_id' => Campaign::inRandomOrder()->first() ?? Campaign::factory(),
             'affiliate_user_id' => User::inRandomOrder()->first() ?? User::factory(),
             'conversion_user_id' => $conversion = User::inRandomOrder()->first() ?? User::factory()->create(),

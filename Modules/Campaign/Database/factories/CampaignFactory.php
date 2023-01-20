@@ -40,6 +40,7 @@ final class CampaignFactory extends Factory
             'daily_cap' => $this->faker->numberBetween(1, 10),
             'crg' => $this->faker->randomFloat(2, 5, 30),
             'is_active' => $this->faker->boolean(),
+            'phone_verification' => true,
             'balance' => $this->faker->randomFloat(2, 500, 3000),
             'monthly_cr' => $this->faker->numberBetween(1, 20),
             'monthly_pv' => $this->faker->numberBetween(1, 20),

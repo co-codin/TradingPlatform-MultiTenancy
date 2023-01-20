@@ -10,7 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Modules\Brand\Models\Brand;
+use Modules\Campaign\Repositories\CampaignRepository;
 use Modules\Currency\Repositories\CurrencyRepository;
 use Modules\Customer\Dto\CustomerDto;
 use Modules\Customer\Http\Requests\Affiliate\CustomerCreateRequest;
@@ -28,17 +30,11 @@ final class CustomerController extends Controller
 {
     /**
      * @param  CustomerRepository  $customerRepository
-     * @param  CurrencyRepository  $currencyRepository
-     * @param  CountryRepository  $countryRepository
-     * @param  LanguageRepository  $languageRepository
      * @param  CustomerStorage  $customerStorage
      * @param  TokenRepository  $tokenRepository
      */
     public function __construct(
         protected CustomerRepository $customerRepository,
-        protected CurrencyRepository $currencyRepository,
-        protected CountryRepository $countryRepository,
-        protected LanguageRepository $languageRepository,
         protected CustomerStorage $customerStorage,
         protected TokenRepository $tokenRepository
     ) {
@@ -141,32 +137,45 @@ final class CustomerController extends Controller
      *
      * Store customer.
      *
-     * @param CustomerCreateRequest $request
-     * @param UrlAuthCreator $urlAuthCreator
-     * @param LanguageDetector $languageDetector
+     * @param  CustomerCreateRequest  $request
+     * @param  UrlAuthCreator  $urlAuthCreator
+     * @param  LanguageDetector  $languageDetector
      * @return Response
      *
      * @throws UnknownProperties
+     * @throws ValidationException
      */
     public function store(
         CustomerCreateRequest $request,
         UrlAuthCreator $urlAuthCreator,
-        LanguageDetector $languageDetector
+        LanguageDetector $languageDetector,
+        CountryRepository $countryRepository,
+        LanguageRepository $languageRepository,
+        CurrencyRepository $currencyRepository,
+        CampaignRepository $campaignRepository,
     ): Response {
-        $country = $this->countryRepository
+        $country = $countryRepository
             ->whereLowerCase('iso2', strtolower($request->post('country')))
             ->orWhereLowerCase('iso3', strtolower($request->post('country')))
             ->orWhereLowerCase('name', strtolower($request->post('country')))
             ->firstOrFail();
 
-        $language = $this->languageRepository
+        $language = $languageRepository
             ->whereLowerCase('code', strtolower($request->post('language')))
             ->orWhereLowerCase('name', strtolower($request->post('language')))
             ->firstOrFail();
 
-        $currency = $this->currencyRepository
+        $currency = $currencyRepository
             ->whereLowerCase('iso3', strtolower($request->post('currency')))
             ->firstOrFail();
+
+        $campaign = $campaignRepository->find($request->post('campaign_id'));
+
+        if ($campaign->phone_verification) {
+            $this->validate($request, [
+                'phone' => "phone:{$country->iso2}",
+            ]);
+        }
 
         $token = $this->tokenRepository->whereToken($request->header('AffiliateToken'))->firstOrFail();
 
