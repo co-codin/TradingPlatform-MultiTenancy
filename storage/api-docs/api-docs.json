@@ -12515,12 +12515,68 @@
             }
         },
         "/admin/workers/{id}/permission/{permissionId}/columns": {
+            "get": {
+                "tags": [
+                    "Worker"
+                ],
+                "summary": "Get a worker permission columns",
+                "operationId": "77e9f2ab23ba836c0b73d04955870c12",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Worker ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "permissionId",
+                        "in": "path",
+                        "description": "Permission ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ColumnCollection"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
             "put": {
                 "tags": [
                     "Worker"
                 ],
                 "summary": "Update a worker permission columns",
-                "operationId": "dbf00e3ac69f0603e5c01809b559be3a",
+                "operationId": "313288a29b46049566b3d5398811b5ff",
                 "parameters": [
                     {
                         "name": "id",

@@ -75,7 +75,9 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
         Route::put('/{id}/language', [UserLanguageController::class, 'update'])->name('language.update');
 
         // Permission
-        Route::put('/{id}/permission/{permissionId}/columns', [UserPermissionController::class, 'columns'])
+        Route::put('/{id}/permission/{permissionId}/columns', [UserPermissionController::class, 'syncColumns'])
+            ->name('permission.columns');
+        Route::get('/{id}/permission/{permissionId}/columns', [UserPermissionController::class, 'getColumns'])
             ->name('permission.columns');
 
         Route::group(['middleware' => 'tenant'], function () {

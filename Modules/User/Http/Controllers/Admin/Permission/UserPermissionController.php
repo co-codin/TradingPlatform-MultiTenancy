@@ -7,24 +7,76 @@ namespace Modules\User\Http\Controllers\Admin\Permission;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Response;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Modules\Role\Http\Resources\ColumnResource;
 use Modules\Role\Repositories\PermissionRepository;
 use Modules\User\Http\Requests\Permission\PermissionColumnsRequest;
 use Modules\User\Models\User;
 use Modules\User\Repositories\UserRepository;
-use Modules\User\Services\UserBanService;
-use Modules\User\Services\UserBatchService;
-use Modules\User\Services\UserStorage;
 use OpenApi\Annotations as OA;
 
 final class UserPermissionController extends Controller
 {
     public function __construct(
-        protected UserStorage $userStorage,
-        protected UserRepository $userRepository,
-        protected UserBanService $userBanService,
-        protected UserBatchService $userBatchService,
+        private readonly UserRepository $userRepository,
+        private readonly PermissionRepository $permissionRepository,
     ) {
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/admin/workers/{id}/permission/{permissionId}/columns",
+     *     tags={"Worker"},
+     *     security={ {"sanctum": {} }},
+     *     summary="Get a worker permission columns",
+     *     @OA\Parameter(
+     *         description="Worker ID",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\Parameter(
+     *         description="Permission ID",
+     *         in="path",
+     *         name="permissionId",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\JsonContent(ref="#/components/schemas/ColumnCollection")
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized Error"
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Forbidden Error"
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Not Found"
+     *     )
+     * )
+     *
+     * @throws AuthorizationException
+     * @throws Exception
+     */
+    public function getColumns(int $id, int $permissionId): AnonymousResourceCollection
+    {
+        /** @var User $user */
+        $user = $this->userRepository->find($id);
+        $this->authorize('view', $user);
+        $permission = $this->permissionRepository->findOrFail($permissionId);
+
+        return ColumnResource::collection($user->columnsByPermission($permission->id)->get()->makeHidden('pivot'));
     }
 
     /**
@@ -85,22 +137,19 @@ final class UserPermissionController extends Controller
      * @throws AuthorizationException
      * @throws Exception
      */
-    public function columns(
+    public function syncColumns(
         PermissionColumnsRequest $request,
         int $id,
-        int $permissionId,
-        PermissionRepository $permissionRepository
+        int $permissionId
     ): array {
         /** @var User $user */
         $user = $this->userRepository->find($id);
-
         $this->authorize('edit', $user);
-
-        $permission = $permissionRepository->findOrFail($permissionId);
+        $permission = $this->permissionRepository->findOrFail($permissionId);
 
         $columns = [];
         foreach ($request->validated('columns') as $item) {
-            $columns[] = ['column_id' => $item, 'permission_id' => $permissionId];
+            $columns[] = ['column_id' => $item, 'permission_id' => $permission->id];
         }
 
         return $user->columnsByPermission($permission->id)->sync($columns);

@@ -6,6 +6,7 @@ namespace Modules\Role\Http\Resources;
 
 use App\Http\Resources\BaseJsonResource;
 use Modules\Role\Models\Column;
+use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema (
@@ -18,7 +19,6 @@ use Modules\Role\Models\Column;
  *     @OA\Property(property="id", type="integer", description="Column ID"),
  *     @OA\Property(property="name", type="string", description="Column name"),
  * ),
- *
  * @OA\Schema (
  *     schema="ColumnCollection",
  *     type="object",
@@ -33,7 +33,6 @@ use Modules\Role\Models\Column;
  *         ref="#/components/schemas/Meta"
  *     )
  * ),
- *
  * @OA\Schema (
  *     schema="ColumnResource",
  *     type="object",
