@@ -23,6 +23,11 @@ final class ColumnsTableSeeder extends Seeder
             $result = array_merge($result, Schema::getColumnListing($table->tablename ?? $table->name));
         }
 
+        $tenantSchema = Schema::connection('tenant');
+        foreach (Schema::connection('tenant')->getAllTables() as $table) {
+            $result = array_merge($result, $tenantSchema->getColumnListing($table->tablename ?? $table->name));
+        }
+
         foreach (array_unique($result) as $columnName) {
             Column::query()->updateOrCreate(
                 ['name' => $columnName],

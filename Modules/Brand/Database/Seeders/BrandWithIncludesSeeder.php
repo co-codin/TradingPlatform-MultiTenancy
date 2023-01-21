@@ -13,6 +13,7 @@ use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
 use Modules\Geo\Database\Seeders\CountryTableSeeder;
 use Modules\Geo\Models\Country;
+use Modules\Role\Database\Seeders\ColumnsTableSeeder;
 use Modules\Transaction\Database\Seeders\TransactionDatabaseSeeder;
 
 final class BrandWithIncludesSeeder extends Seeder
@@ -73,6 +74,8 @@ final class BrandWithIncludesSeeder extends Seeder
             $this->afterCustomers();
             $brand->forget();
         }
+
+        $this->afterBrands();
     }
 
     private function beforeCustomers(): void
@@ -89,5 +92,13 @@ final class BrandWithIncludesSeeder extends Seeder
             NotificationTemplateDatabaseSeeder::class,
             TransactionDatabaseSeeder::class,
         ]);
+    }
+
+    private function afterBrands(): void
+    {
+        $brand = Brand::first();
+        $brand->makeCurrent();
+        $this->call(ColumnsTableSeeder::class);
+        $brand->forget();
     }
 }
