@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace Modules\Communication\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Response;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Modules\Communication\Emails\SendFromDbEmail;
-use Modules\Communication\Http\Resources\EmailResource;
+use Modules\Communication\Http\Requests\EmailSendRequest;
 use Modules\Communication\Repositories\EmailRepository;
 use Modules\Customer\Models\Customer;
-use Modules\User\Models\User;
 use OpenApi\Annotations as OA;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
-use Modules\Communication\Http\Requests\EmailSendToCustomerRequest;
 
 class EmailSendController extends Controller
 {
@@ -30,20 +28,18 @@ class EmailSendController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/admin/communication/email-send-to-customer",
+     *      path="/admin/communication/email-send",
      *      security={ {"sanctum": {} }},
      *      tags={"CommunicationEmailSend"},
-     *      summary="Send email to customer",
+     *      summary="Send email",
      *      @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 required={
      *                     "email_id",
-     *                     "customer_id",
      *                 },
      *                 @OA\Property(property="email_id", type="integer", description="ID of email"),
-     *                 @OA\Property(property="customer_id", type="integer", description="ID of customer"),
      *             )
      *         )
      *      ),
@@ -63,22 +59,20 @@ class EmailSendController extends Controller
      *
      * Email Send To Customer.
      *
-     * @param  EmailSendToCustomerRequest  $request
+     * @param  EmailSendRequest  $request
      * @return Response
      *
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
-    public function emailSendToCustomer(EmailSendToCustomerRequest $request): Response
+    public function emailSend(EmailSendRequest $request): Response
     {
         $email = $this->repository->find($request->validated('email_id'));
 
         $this->authorize('send', $email);
 
-        $customer = Customer::find($request->validated('customer_id'));
-
-        Mail::to($customer->email)->send(
-            new SendFromDbEmail(static::mailRender($email, $customer))
+        Mail::to($email->emailable->email)->send(
+            new SendFromDbEmail(static::mailRender($email, $email->emailable))
         );
 
         return response()->noContent();
@@ -87,14 +81,14 @@ class EmailSendController extends Controller
     /**
      * mailRender
      *
-     * @param  mixed $email
-     * @param  mixed $customer
+     * @param  mixed  $email
+     * @param  mixed  $receiver
      * @return array
      */
-    static function mailRender($email, $customer): array
+    public static function mailRender($email, $receiver): array
     {
         $tags = [
-            'name' => $customer->first_name,
+            'name' => $receiver->first_name,
             'body' => $email->body,
         ];
         preg_match_all('/\{{2}(.*)\}{2}/m', $email->template->body, $matches, PREG_SET_ORDER, 0);
@@ -114,7 +108,7 @@ class EmailSendController extends Controller
 
         return [
             'subject' => $email->subject,
-            'mail_body' => $mail_body
+            'mail_body' => $mail_body,
         ];
     }
 }

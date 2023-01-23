@@ -2443,28 +2443,23 @@
                 ]
             }
         },
-        "/admin/communication/email-send-to-customer": {
+        "/admin/communication/email-send": {
             "post": {
                 "tags": [
                     "CommunicationEmailSend"
                 ],
-                "summary": "Send email to customer",
-                "operationId": "a8d12c5a6c1a0cb6e0228cbe0f727e0b",
+                "summary": "Send email",
+                "operationId": "9bec1f36172541acdf6a9d9a5aecd3cc",
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "email_id",
-                                    "customer_id"
+                                    "email_id"
                                 ],
                                 "properties": {
                                     "email_id": {
                                         "description": "ID of email",
-                                        "type": "integer"
-                                    },
-                                    "customer_id": {
-                                        "description": "ID of customer",
                                         "type": "integer"
                                     }
                                 },
