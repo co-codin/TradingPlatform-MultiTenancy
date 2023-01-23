@@ -16,8 +16,8 @@ final class UserDisplayOptionUpdateRequest extends BaseFormRequest
         return [
             'model_id' => 'sometimes|required|integer|exists:landlord.models,id',
             'name' => 'sometimes|required|string',
+            'per_page' => 'nullable|integer',
             'columns' => 'nullable|array',
-            'columns.*' => 'sometimes|required|string',
         ];
     }
 }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('model_id')->constrained();
             $table->string('name')->nullable();
             $table->json('columns');
+            $table->integer('per_page')->nullable();
             $table->timestamps();
 
             $table->unique(['user_id', 'name']);
