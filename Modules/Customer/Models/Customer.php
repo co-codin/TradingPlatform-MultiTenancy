@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\Customer\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -17,7 +17,7 @@ use Modules\Communication\Models\DatabaseNotification;
 use Modules\Customer\Database\factories\CustomerFactory;
 use Modules\Customer\Events\CustomerSaving;
 use Modules\Customer\Models\Traits\CustomerRelations;
-use Modules\Geo\Models\Country;
+use Modules\Role\Enums\ModelHasPermissionStatus;
 use Modules\Role\Models\Traits\HasRoles;
 use Modules\Transaction\Enums\TransactionMt5TypeEnum;
 use Modules\Transaction\Enums\TransactionStatusEnum;
@@ -145,6 +145,38 @@ final class Customer extends Authenticatable
     }
 
     /**
+     * Get formatted is ftd attribute.
+     *
+     * @return string
+     */
+    public function getFormattedIsFtdAttribute(): string
+    {
+        return $this->is_ftd ? __('FTD') : __('Customer');
+    }
+
+    /**
+     * Get suspended status attribute.
+     *
+     * @return bool
+     */
+    public function getSuspendAttribute(): bool
+    {
+        return $this->permissions()
+                ->where('pivot.status', ModelHasPermissionStatus::SUSPENDED)
+                ->count() > 0;
+    }
+
+    /**
+     * Get local time attribute.
+     *
+     * @return string
+     */
+    public function getLocalTimeAttribute(): string
+    {
+        return Carbon::now()->toString();
+    }
+
+    /**
      * Get brand.
      *
      * @return Brand|null
@@ -190,15 +222,5 @@ final class Customer extends Authenticatable
     public function notifications(): MorphMany
     {
         return $this->morphMany(DatabaseNotification::class, 'notifiable')->latest();
-    }
-
-    /**
-     * Get customer country
-     *
-     * @return belongsTo
-     */
-    public function country(): BelongsTo
-    {
-        return $this->belongsTo(Country::class);
     }
 }

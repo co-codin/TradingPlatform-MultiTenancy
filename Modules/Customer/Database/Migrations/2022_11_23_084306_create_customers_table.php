@@ -56,25 +56,15 @@ return new class extends Migration
             $table->boolean('is_active_trading')->default(true);
             $table->boolean('is_test')->default(false);
 
-            $table->integer('affiliate_user_id')->nullable();
-            $table->integer('conversion_user_id')->nullable();
-            $table->integer('retention_user_id')->nullable();
-            $table->integer('compliance_user_id')->nullable();
-            $table->integer('support_user_id')->nullable();
-            $table->integer('conversion_manager_user_id')->nullable();
-            $table->integer('retention_manager_user_id')->nullable();
-            $table->integer('first_conversion_user_id')->nullable();
-            $table->integer('first_retention_user_id')->nullable();
-
-            $table->foreign('affiliate_user_id')->on('public.users')->references('id');
-            $table->foreign('conversion_user_id')->on('public.users')->references('id');
-            $table->foreign('retention_user_id')->on('public.users')->references('id');
-            $table->foreign('compliance_user_id')->on('public.users')->references('id');
-            $table->foreign('support_user_id')->on('public.users')->references('id');
-            $table->foreign('conversion_manager_user_id')->on('public.users')->references('id');
-            $table->foreign('retention_manager_user_id')->on('public.users')->references('id');
-            $table->foreign('first_conversion_user_id')->on('public.users')->references('id');
-            $table->foreign('first_retention_user_id')->on('public.users')->references('id');
+            $table->foreignId('affiliate_user_id')->nullable()->constrained('public.users')->references('id')->onDelete('SET NULL');
+            $table->foreignId('conversion_user_id')->nullable()->constrained('public.users')->references('id')->onDelete('SET NULL');
+            $table->foreignId('retention_user_id')->nullable()->constrained('public.users')->references('id')->onDelete('SET NULL');
+            $table->foreignId('compliance_user_id')->nullable()->constrained('public.users')->references('id')->onDelete('SET NULL');
+            $table->foreignId('support_user_id')->nullable()->constrained('public.users')->references('id')->onDelete('SET NULL');
+            $table->foreignId('conversion_manager_user_id')->nullable()->constrained('public.users')->references('id')->onDelete('SET NULL');
+            $table->foreignId('retention_manager_user_id')->nullable()->constrained('public.users')->references('id')->onDelete('SET NULL');
+            $table->foreignId('first_conversion_user_id')->nullable()->constrained('public.users')->references('id')->onDelete('SET NULL');
+            $table->foreignId('first_retention_user_id')->nullable()->constrained('public.users')->references('id')->onDelete('SET NULL');
 
             $table->foreignId('desk_id')->nullable()->constrained();
             $table->foreignId('department_id')->nullable()->constrained();
