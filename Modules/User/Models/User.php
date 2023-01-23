@@ -19,6 +19,7 @@ use Illuminate\Support\Collection;
 use Kalnoy\Nestedset\NodeTrait;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Brand\Models\Brand;
+use Modules\Communication\Models\Call;
 use Modules\Communication\Models\Comment;
 use Modules\Communication\Models\CommunicationExtension;
 use Modules\Communication\Models\CommunicationProvider;
@@ -385,5 +386,15 @@ final class User extends Authenticatable
     public function sendEmails(): MorphMany
     {
         return $this->morphMany(Email::class, 'sendemailable')->latest();
+    }
+
+    public function calls(): MorphMany
+    {
+        return $this->morphMany(Call::class, 'callable')->latest();
+    }
+
+    public function sendCalls(): MorphMany
+    {
+        return $this->morphMany(Call::class, 'sendcallable')->latest();
     }
 }

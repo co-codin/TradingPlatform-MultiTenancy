@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Communication\Services;
 
+use Illuminate\Support\Facades\Auth;
 use LogicException;
 use Modules\Communication\Dto\CallDto;
 use Modules\Communication\Models\Call;
+use Modules\User\Models\User;
 
 final class CallStorage
 {
@@ -18,9 +20,13 @@ final class CallStorage
      */
     public function store(CallDto $dto): Call
     {
-        $call = Call::create($dto->toArray());
+        $user = Auth::user();
+        $call = User::find($dto->user_id)->calls()->create(array_merge($dto->toArray(), [
+            'sendcallable_id' => $user->id,
+            'sendcallable_type' => get_class($user),
+        ]));
 
-        if (!$call) {
+        if (! $call) {
             throw new LogicException(__('Can not create call'));
         }
 
@@ -38,7 +44,7 @@ final class CallStorage
      */
     public function update(Call $call, CallDto $dto): Call
     {
-        if (!$call->update($dto->toArray())) {
+        if (! $call->update($dto->toArray())) {
             throw new LogicException(__('Can not update call'));
         }
 
@@ -53,7 +59,7 @@ final class CallStorage
      */
     public function delete(Call $call): bool
     {
-        if (!$call->delete()) {
+        if (! $call->delete()) {
             throw new LogicException(__('Can not delete call'));
         }
 
