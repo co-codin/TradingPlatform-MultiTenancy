@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Customer\Models;
 
+use App\Contracts\Models\HasAttributeColumns;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -49,7 +50,7 @@ use Spatie\Multitenancy\Models\Tenant;
  * @property string $updated_at
  * @property string $deleted_at
  */
-final class Customer extends Authenticatable
+final class Customer extends Authenticatable implements HasAttributeColumns
 {
     use HasFactory;
     use SoftDeletes;
@@ -68,6 +69,11 @@ final class Customer extends Authenticatable
      * @var string
      */
     public const API_AUTH_GUARD = 'api-customer';
+
+    /**
+     * @var string
+     */
+    public const CUSTOMER_AMOUNT_PRECISION = 2;
 
     /**
      * @var array
@@ -162,7 +168,7 @@ final class Customer extends Authenticatable
     public function getSuspendAttribute(): bool
     {
         return $this->permissions()
-                ->where('pivot.status', ModelHasPermissionStatus::SUSPENDED)
+                ->where('status', ModelHasPermissionStatus::SUSPENDED)
                 ->count() > 0;
     }
 
@@ -173,7 +179,93 @@ final class Customer extends Authenticatable
      */
     public function getLocalTimeAttribute(): string
     {
-        return Carbon::now()->toString();
+        return (string) Carbon::now($this->timezone);
+    }
+
+    /**
+     * Get last deposit date attribute.
+     *
+     * @return string
+     */
+    public function getLastDepositDateAttribute(): string
+    {
+        return (string) $this->transactions()
+            ->where('type', '=', TransactionType::DEPOSIT)
+            ->whereHas('mt5Type', fn ($q) => $q->where('name', TransactionMt5TypeEnum::BALANCE))
+            ->orderByDesc('created_at')
+            ->first()
+            ?->created_at;
+    }
+
+    /**
+     * Get ftd amount attribute.
+     *
+     * @return float
+     */
+    public function getFtdAmountAttribute(): float
+    {
+        return round(
+            $this->transactions()
+                ->where('type', '=', TransactionType::DEPOSIT)
+                ->whereHas('status', fn ($q) => $q->where('name', TransactionStatusEnum::APPROVED))
+                ->whereHas('mt5Type', fn ($q) => $q->where('name', TransactionMt5TypeEnum::BALANCE))
+                ->orderBy('created_at')
+                ->first()
+                ?->amount ?: 0,
+            self::CUSTOMER_AMOUNT_PRECISION,
+        );
+    }
+
+    /**
+     * Get total redeposits attribute.
+     *
+     * @return float
+     */
+    public function getTotalRedepositsAttribute(): float
+    {
+        return round(
+            $this->transactions()
+                ->where('type', '=', TransactionType::DEPOSIT)
+                ->whereHas('status', fn ($q) => $q->where('name', TransactionStatusEnum::APPROVED))
+                ->whereHas('mt5Type', fn ($q) => $q->where('name', TransactionMt5TypeEnum::BALANCE))
+                ->offset(1)
+                ->sum('amount') ?: 0,
+            self::CUSTOMER_AMOUNT_PRECISION,
+        );
+    }
+
+    /**
+     * Get total withdrawals attribute.
+     *
+     * @return float
+     */
+    public function getTotalWithdrawalsAttribute(): float
+    {
+        return round(
+            $this->transactions()
+                ->where('type', '=', TransactionType::WITHDRAWAL)
+                ->whereHas('status', fn ($q) => $q->where('name', TransactionStatusEnum::APPROVED))
+                ->whereHas('mt5Type', fn ($q) => $q->where('name', TransactionMt5TypeEnum::BALANCE))
+                ->offset(1)
+                ->sum('amount') ?: 0,
+            self::CUSTOMER_AMOUNT_PRECISION,
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function getAttributeColumns(): array
+    {
+        return [
+            'formatted_is_ftd',
+            'suspend',
+            'local_time',
+            'last_deposit_date',
+            'ftd_amount',
+            'total_redeposits',
+            'total_withdrawals',
+        ];
     }
 
     /**
