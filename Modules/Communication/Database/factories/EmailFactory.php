@@ -58,8 +58,14 @@ class EmailFactory extends Factory
      */
     private function getLandlordData(): array
     {
+        $owner = User::factory()->create();
+
         return [
-            'user_id' => User::factory(),
+            'user_id' => $user = User::inRandomOrder()->first() ?? User::factory()->create(),
+            'sendemailable_type' => get_class($owner),
+            'sendemailable_id' => $owner->id,
+            'emailable_type' => get_class($user),
+            'emailable_id' => $user->id,
         ];
     }
 }

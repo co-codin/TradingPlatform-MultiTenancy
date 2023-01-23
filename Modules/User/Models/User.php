@@ -23,6 +23,7 @@ use Modules\Communication\Models\Comment;
 use Modules\Communication\Models\CommunicationExtension;
 use Modules\Communication\Models\CommunicationProvider;
 use Modules\Communication\Models\DatabaseNotification;
+use Modules\Communication\Models\Email;
 use Modules\Customer\Models\Customer;
 use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
@@ -374,5 +375,15 @@ final class User extends Authenticatable
     public function columnsByPermission(int $id): BelongsToMany
     {
         return $this->belongsToMany(Column::class, 'permission_column')->wherePivot('permission_id', $id);
+    }
+
+    public function emails(): MorphMany
+    {
+        return $this->morphMany(Email::class, 'emailable')->latest();
+    }
+
+    public function sendEmails(): MorphMany
+    {
+        return $this->morphMany(Email::class, 'sendemailable')->latest();
     }
 }
