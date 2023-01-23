@@ -23,8 +23,8 @@ final class CustomerUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         $rules = [
-            'first_name' => 'sometimes|required|string|regex:'.RegexValidationEnum::fromValue(RegexValidationEnum::FIRSTNAME)->value,
-            'last_name' => 'sometimes|required|string|regex:'.RegexValidationEnum::fromValue(RegexValidationEnum::LASTNAME)->value,
+            'first_name' => 'sometimes|required|string|regex:'.RegexValidationEnum::NAME,
+            'last_name' => 'sometimes|required|string|regex:'.RegexValidationEnum::NAME,
             'gender' => [
                 'sometimes',
                 'required',
