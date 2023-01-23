@@ -192,7 +192,6 @@ final class EmailController extends Controller
      *                 @OA\Property(property="subject", type="string", description="Email subject"),
      *                 @OA\Property(property="body", type="string", description="Email body"),
      *                 @OA\Property(property="sent_by_system", type="bool"),
-     *                 @OA\Property(property="user_id", type="integer", description="User ID"),
      *             )
      *         )
      *      ),
@@ -231,7 +230,6 @@ final class EmailController extends Controller
      *                 @OA\Property(property="subject", type="string", description="Email subject"),
      *                 @OA\Property(property="body", type="string", description="Email body"),
      *                 @OA\Property(property="sent_by_system", type="bool"),
-     *                 @OA\Property(property="user_id", type="integer", description="User ID"),
      *             )
      *         )
      *      ),

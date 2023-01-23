@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Communication\Admin\Call;
 
+use Illuminate\Support\Arr;
 use Modules\Communication\Enums\CallPermission;
 use Modules\Communication\Models\Call;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
@@ -33,16 +34,21 @@ final class UpdateTest extends BrandTestCase
         });
         $call->save();
 
-        $data = Call::factory()->make();
+        $data = Arr::except(Call::factory()->make()->toArray(), [
+            'user_id',
+            'sendcallable_type',
+            'sendcallable_id',
+            'callable_type',
+            'callable_id']);
 
         $this->brand->makeCurrent();
 
-        $response = $this->patchJson(route('admin.communication.call.update', ['call' => $call->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.communication.call.update', ['call' => $call->id]), $data);
 
         $response->assertOk();
 
         $response->assertJson([
-            'data' => $data->toArray(),
+            'data' => $data,
         ]);
     }
 

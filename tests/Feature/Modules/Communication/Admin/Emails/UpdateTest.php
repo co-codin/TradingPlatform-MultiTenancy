@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Communication\Admin\Emails;
 
+use Illuminate\Support\Arr;
 use Modules\Communication\Enums\EmailPermission;
 use Modules\Communication\Models\Email;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
@@ -14,6 +15,7 @@ final class UpdateTest extends BrandTestCase
 {
     use TenantAware;
     use HasAuth;
+
     /**
      * Test authorized user can update email.
      *
@@ -32,18 +34,24 @@ final class UpdateTest extends BrandTestCase
         });
         $email->save();
 
-        $data = Email::factory()->make();
+        $data = Arr::except(Email::factory()->make()->toArray(), [
+            'user_id',
+            'sendemailable_type',
+            'sendemailable_id',
+            'emailable_type',
+            'emailable_id']);
 
         $this->brand->makeCurrent();
 
-        $response = $this->patchJson(route('admin.communication.emails.update', ['email' => $email->id]), $data->toArray());
+        $response = $this->patchJson(route('admin.communication.emails.update', ['email' => $email->id]), $data);
 
         $response->assertOk();
 
         $response->assertJson([
-            'data' => $data->toArray(),
+            'data' => $data,
         ]);
     }
+
     /**
      * Test authorized user can`t update email.
      *
@@ -70,6 +78,7 @@ final class UpdateTest extends BrandTestCase
 
         $response->assertForbidden();
     }
+
     /**
      * Test authorized user can update not found email.
      *
@@ -93,6 +102,7 @@ final class UpdateTest extends BrandTestCase
 
         $response->assertNotFound();
     }
+
     /**
      * Test unauthorized user can update email.
      *

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Communication\Admin\Call;
 
+use Illuminate\Support\Arr;
 use Modules\Communication\Enums\CallPermission;
 use Modules\Communication\Models\Call;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
@@ -28,7 +29,7 @@ final class CreateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $data = Call::factory()->make()->toArray();
+        $data = Arr::except(Call::factory()->make()->toArray(), ['sendcallable_type', 'sendcallable_id']);
 
         $this->brand->makeCurrent();
 

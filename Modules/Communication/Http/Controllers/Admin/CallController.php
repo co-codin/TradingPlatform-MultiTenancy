@@ -184,11 +184,9 @@ final class CallController extends Controller
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 required={
-     *                     "user_id",
      *                     "provider_id",
      *                     "text",
      *                 },
-     *                 @OA\Property(property="user_id", type="integer", description="User ID"),
      *                 @OA\Property(property="provider_id", type="integer", description="Communication provider ID"),
      *                 @OA\Property(property="duration", type="integer", description="Duration sec."),
      *                 @OA\Property(property="text", type="string", description="Text"),
@@ -227,7 +225,6 @@ final class CallController extends Controller
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
-     *                 @OA\Property(property="user_id", type="integer", description="User ID"),
      *                 @OA\Property(property="provider_id", type="integer", description="Communication provider ID"),
      *                 @OA\Property(property="duration", type="integer", description="Duration sec."),
      *                 @OA\Property(property="text", type="string", description="Text"),
@@ -252,7 +249,7 @@ final class CallController extends Controller
      *
      * Update the Call.
      *
-     * @param  CallUpdateRequest $request
+     * @param  CallUpdateRequest  $request
      * @param  int  $id
      * @return JsonResource
      *
