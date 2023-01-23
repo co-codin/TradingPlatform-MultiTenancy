@@ -23,6 +23,7 @@ final class DisplayOptionCriteria extends BaseCriteria
                 'name',
                 'user_id',
                 'columns',
+                'per_page',
                 'created_at',
                 'updated_at',
             ])
