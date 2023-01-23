@@ -16,32 +16,17 @@ final class MenuPermissions extends Command
 
     public function handle(): void
     {
-        $permission = $this->choice('Please choice menu permission', array_merge(UserMenu::getValues(), ['all' => 'Add all permissions']));
-
-        if ($permission == 'all') {
-            foreach (UserMenu::getValues() as $permissionKey => $permissionName) {
-                $this->createPermission($permissionKey);
-            }
-        } else {
-            $this->createPermission($permission);
-        }
-    }
-
-    private function createPermission($permission): void
-    {
-        $permissionLists = UserMenu::getValues();
-
-        $permissionModel = Permission::query()
+        foreach (UserMenu::getValues() as $permissionName) {
+            Permission::query()
             ->updateOrCreate(
                 [
-                    'name' => $permissionLists[$permission],
+                    'name' => $permissionName,
                     'guard_name' => 'web',
                 ]
             );
-        if ($permissionModel->wasRecentlyCreated) {
-            $this->info($permissionLists[$permission] . ': created successfully');
-        } else {
-            $this->error($permissionLists[$permission] . ': already exists');
         }
+
+        $this->info('Created successfully');
     }
+
 }
