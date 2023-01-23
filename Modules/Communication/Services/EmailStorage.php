@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Communication\Services;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use LogicException;
 use Modules\Communication\Dto\EmailDto;
 use Modules\Communication\Models\Email;
+use Modules\User\Models\User;
 
 final class EmailStorage
 {
@@ -18,7 +21,11 @@ final class EmailStorage
      */
     public function store(EmailDto $dto): Email
     {
-        $email = Email::create($dto->toArray());
+        $user = Auth::user();
+        $email = User::find($dto->user_id)->emails()->create(array_merge($dto->toArray(), [
+            'sendemailable_id' => $user->id,
+            'sendemailable_type' => get_class($user),
+        ]));
 
         if (! $email) {
             throw new LogicException(__('Can not create email'));
@@ -38,7 +45,7 @@ final class EmailStorage
      */
     public function update(Email $email, EmailDto $dto): Email
     {
-        if (! $email->update($dto->toArray())) {
+        if (! $email->update(Arr::except($dto->toArray(), ['user_id']))) {
             throw new LogicException(__('Can not update email'));
         }
 

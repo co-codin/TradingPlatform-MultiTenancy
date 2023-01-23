@@ -13,7 +13,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Brand\Models\Brand;
+use Modules\Communication\Models\Call;
 use Modules\Communication\Models\DatabaseNotification;
+use Modules\Communication\Models\Email;
 use Modules\Customer\Database\factories\CustomerFactory;
 use Modules\Customer\Events\CustomerSaving;
 use Modules\Customer\Models\Traits\CustomerRelations;
@@ -200,5 +202,45 @@ final class Customer extends Authenticatable
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);
+    }
+
+    /**
+     * Customer emails
+     *
+     * @return MorphMany
+     */
+    public function emails(): MorphMany
+    {
+        return $this->morphMany(Email::class, 'emailable')->latest();
+    }
+
+    /**
+     * Customer send emails
+     *
+     * @return MorphMany
+     */
+    public function sendEmails(): MorphMany
+    {
+        return $this->morphMany(Email::class, 'sendemailable')->latest();
+    }
+
+    /**
+     * Customercalls
+     *
+     * @return MorphMany
+     */
+    public function calls(): MorphMany
+    {
+        return $this->morphMany(Call::class, 'callable')->latest();
+    }
+
+    /**
+     * Customer send calls
+     *
+     * @return MorphMany
+     */
+    public function sendCalls(): MorphMany
+    {
+        return $this->morphMany(Call::class, 'sendcallable')->latest();
     }
 }

@@ -58,8 +58,14 @@ class CallFactory extends Factory
      */
     private function getLandlordData(): array
     {
+        $owner = User::factory()->create();
+
         return [
-            'user_id' => User::factory(),
+            'user_id' => $user = User::inRandomOrder()->first() ?? User::factory()->create(),
+            'sendcallable_type' => get_class($owner),
+            'sendcallable_id' => $owner->id,
+            'callable_type' => get_class($user),
+            'callable_id' => $user->id,
         ];
     }
 }

@@ -7,6 +7,7 @@ namespace Modules\Communication\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Communication\Database\factories\CallFactory;
 use Modules\User\Models\User;
@@ -46,5 +47,15 @@ final class Call extends Model
     public function provider(): BelongsTo
     {
         return $this->belongsTo(CommunicationProvider::class);
+    }
+
+    public function sendcallable(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    public function callable(): MorphTo
+    {
+        return $this->morphTo();
     }
 }
