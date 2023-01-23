@@ -109,14 +109,14 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
             'destroy' => 'users.display-options.destroy',
         ]);
 
-    Route::apiResource('workers.presets', UserPresetController::class)
-        ->except([
-            'index',
-        ])
-        ->names([
-            'show' => 'users.presets.show',
-            'store' => 'users.presets.store',
-            'update' => 'users.presets.update',
-            'destroy' => 'users.presets.destroy',
-        ]);
+//    Route::apiResource('workers.presets', UserPresetController::class)
+//        ->except([
+//            'index',
+//        ])
+//        ->names([
+//            'show' => 'users.presets.show',
+//            'store' => 'users.presets.store',
+//            'update' => 'users.presets.update',
+//            'destroy' => 'users.presets.destroy',
+//        ]);
 });

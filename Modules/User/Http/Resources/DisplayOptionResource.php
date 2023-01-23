@@ -24,6 +24,7 @@ use Modules\User\Models\User;
  *     @OA\Property(property="columns", type="array", @OA\Items(type="string")),
  *     @OA\Property(property="user", type="array", @OA\Items(ref="#/components/schemas/Worker")),
  *     @OA\Property(property="model", type="object"),
+ *     @OA\Property(property="per_page", type="integer"),
  * ),
  *
  * @OA\Schema (
