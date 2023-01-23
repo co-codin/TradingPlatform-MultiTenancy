@@ -17,8 +17,8 @@ final class CustomerCreateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'first_name' => 'required|string|regex:' . RegexValidationEnum::fromValue(RegexValidationEnum::FIRSTNAME)->value,
-            'last_name' => 'required|string|regex:' . RegexValidationEnum::fromValue(RegexValidationEnum::LASTNAME)->value,
+            'first_name' => 'required|string|regex:' . RegexValidationEnum::NAME,
+            'last_name' => 'required|string|regex:' . RegexValidationEnum::NAME,
             'phone' => 'required|string',
             'email' => 'required|email|max:100|unique:tenant.customers,email',
             'country' => 'required|string',

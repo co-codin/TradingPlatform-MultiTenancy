@@ -1,26 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enums;
 
-class RegexValidationEnum extends BaseEnum
+final class RegexValidationEnum extends BaseEnum
 {
     /**
      * @var string
      */
-    const USERNAME = '/^[\p{Alphabetic}0-9]+(?:_[\p{Alphabetic}0-9]+)*$/u';
+    public const USERNAME = '/^[A-Za-z\d_]+$/';
 
     /**
      * @var string
      */
-    const FIRSTNAME = self::USERNAME;
+    public const NAME = "/^[\p{L} ,.'-]+/u";
 
     /**
      * @var string
      */
-    const LASTNAME = self::USERNAME;
-
-    /**
-     * @var string
-     */
-    const PASSWORD = '/(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[\p{Alphabetic}0-9!@#$%^&*]{8,}/';
+    public const PASSWORD = "/^(?!.* )(?=.*[A-Z])(?=.*\d)(?=.*[!\"#$%&'()*+,.\\\/:;<=>?@\[\]^_`{|}~-])[A-Za-z\d!\"#$%&'()*+,.\\\/:;<=>?@\[\]^_`{|}~-]{8,}$/";
 }
