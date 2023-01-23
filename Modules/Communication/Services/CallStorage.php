@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Communication\Services;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use LogicException;
 use Modules\Communication\Dto\CallDto;
@@ -44,7 +45,7 @@ final class CallStorage
      */
     public function update(Call $call, CallDto $dto): Call
     {
-        if (! $call->update($dto->toArray())) {
+        if (! $call->update(Arr::except($dto->toArray(), ['user_id']))) {
             throw new LogicException(__('Can not update call'));
         }
 

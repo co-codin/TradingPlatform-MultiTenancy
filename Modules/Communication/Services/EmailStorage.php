@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Communication\Services;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use LogicException;
 use Modules\Communication\Dto\EmailDto;
@@ -44,7 +45,7 @@ final class EmailStorage
      */
     public function update(Email $email, EmailDto $dto): Email
     {
-        if (! $email->update($dto->toArray())) {
+        if (! $email->update(Arr::except($dto->toArray(), ['user_id']))) {
             throw new LogicException(__('Can not update email'));
         }
 
