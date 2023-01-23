@@ -16974,6 +16974,36 @@
                             },
                             "type": "object"
                         }
+                    },
+                    "notifications": {
+                        "description": "User notifications",
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "count",
+                                "list"
+                            ],
+                            "properties": {
+                                "count": {
+                                    "description": "Count of notifications",
+                                    "type": "integer"
+                                },
+                                "list": {
+                                    "description": "List of notifications",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "menu": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/UserMenu"
+                        }
                     }
                 },
                 "type": "object"
@@ -17116,6 +17146,41 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/Preset"
+                    }
+                },
+                "type": "object"
+            },
+            "UserMenu": {
+                "required": [
+                    "name",
+                    "link",
+                    "submenu"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "link": {
+                        "type": "string"
+                    },
+                    "submenu": {
+                        "description": "Submenu",
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "name",
+                                "link"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "link": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
                     }
                 },
                 "type": "object"

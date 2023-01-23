@@ -67,5 +67,7 @@ final class SyncPermissions extends Command
         Permission::query()
             ->whereNotIn('name', $availablePermissions)
             ->delete();
+
+        $this->call('permission:menu');
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\User\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\User\Enums\UserMenu;
 use Modules\User\Models\User;
 use OpenApi\Annotations as OA;
 
@@ -41,6 +42,21 @@ use OpenApi\Annotations as OA;
  *             @OA\Property(property="guard_name", type="string", description="Name of auth guard"),
  *         ),
  *     ),
+ *     @OA\Property(
+ *         property="notifications",
+ *         description="User notifications",
+ *         type="array",
+ *         @OA\Items(
+ *             type="object",
+ *             required={
+ *                 "count",
+ *                 "list",
+ *             },
+ *             @OA\Property(property="count", type="integer", description="Count of notifications"),
+ *             @OA\Property(property="list", type="array", @OA\Items(type="string"), description="List of notifications"),
+ *         ),
+ *     ),
+ *     @OA\Property(property="menu", type="array", @OA\Items(ref="#/components/schemas/UserMenu")),
  * )
  *
  * @OA\Schema (
@@ -86,6 +102,7 @@ class AuthUserResource extends JsonResource
                 'count' => $this->unreadNotifications->count(),
                 'list' => $this->unreadNotifications,
             ],
+            'menu' => new UserMenuResource($this),
         ];
     }
 }
