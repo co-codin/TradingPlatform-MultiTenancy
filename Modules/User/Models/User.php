@@ -378,21 +378,41 @@ final class User extends Authenticatable
         return $this->belongsToMany(Column::class, 'permission_column')->wherePivot('permission_id', $id);
     }
 
+    /**
+     * Users emails
+     *
+     * @return MorphMany
+     */
     public function emails(): MorphMany
     {
         return $this->morphMany(Email::class, 'emailable')->latest();
     }
 
+    /**
+     * User send emails
+     *
+     * @return MorphMany
+     */
     public function sendEmails(): MorphMany
     {
         return $this->morphMany(Email::class, 'sendemailable')->latest();
     }
 
+    /**
+     * User calls
+     *
+     * @return MorphMany
+     */
     public function calls(): MorphMany
     {
         return $this->morphMany(Call::class, 'callable')->latest();
     }
 
+    /**
+     * User send calls
+     *
+     * @return MorphMany
+     */
     public function sendCalls(): MorphMany
     {
         return $this->morphMany(Call::class, 'sendcallable')->latest();

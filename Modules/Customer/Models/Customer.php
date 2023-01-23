@@ -204,21 +204,41 @@ final class Customer extends Authenticatable
         return $this->belongsTo(Country::class);
     }
 
+    /**
+     * Customer emails
+     *
+     * @return MorphMany
+     */
     public function emails(): MorphMany
     {
         return $this->morphMany(Email::class, 'emailable')->latest();
     }
 
+    /**
+     * Customer send emails
+     *
+     * @return MorphMany
+     */
     public function sendEmails(): MorphMany
     {
         return $this->morphMany(Email::class, 'sendemailable')->latest();
     }
 
+    /**
+     * Customercalls
+     *
+     * @return MorphMany
+     */
     public function calls(): MorphMany
     {
         return $this->morphMany(Call::class, 'callable')->latest();
     }
 
+    /**
+     * Customer send calls
+     *
+     * @return MorphMany
+     */
     public function sendCalls(): MorphMany
     {
         return $this->morphMany(Call::class, 'sendcallable')->latest();
