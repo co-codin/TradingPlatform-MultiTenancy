@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('email_template_id')->references('id')->on('email_templates');
+            $table->morphs('sendemailable');
+            $table->morphs('emailable');
             $table->string('subject');
             $table->text('body');
             $table->boolean('sent_by_system')->default(true);
