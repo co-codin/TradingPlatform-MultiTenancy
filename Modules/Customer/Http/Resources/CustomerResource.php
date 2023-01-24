@@ -128,9 +128,7 @@ final class CustomerResource extends JsonResource
     {
         $data = parent::toArray($request);
 
-        $user = $request->user() ?? User::where('username', 'admin')->first();
-
-        $displayOptionModelColumns = $user?->displayOptions()->where([
+        $displayOptionModelColumns = $request->user()?->displayOptions()->where([
             'model_id' => Model::where('name', get_class($this->resource))->first()?->id,
         ])->first()?->columns ?: [];
 
