@@ -3,13 +3,20 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
+use Modules\Role\Http\Controllers\Admin\ActionController;
 use Modules\Role\Http\Controllers\Admin\ColumnController;
-use Modules\Role\Http\Controllers\Admin\PermissionColumnController;
+use Modules\Role\Http\Controllers\Admin\Permission\RolePermissionController;
 use Modules\Role\Http\Controllers\Admin\PermissionController;
 use Modules\Role\Http\Controllers\Admin\RoleController;
 
 Route::put('roles/{role}/permissions', [RoleController::class, 'updatePermissions']);
 Route::get('roles/all', [RoleController::class, 'all'])->name('roles.all');
+
+Route::put('roles/{id}/permission/{permissionId}/columns', [RolePermissionController::class, 'syncColumns'])
+    ->name('roles.permission.columns');
+Route::get('roles/{id}/permission/{permissionId}/columns', [RolePermissionController::class, 'getColumns'])
+    ->name('roles.permission.columns');
+
 Route::apiResource('roles', RoleController::class);
 
 Route::get('permissions/all', [PermissionController::class, 'all']);
@@ -31,6 +38,4 @@ Route::apiResource('permissions', PermissionController::class)->only('index', 's
     'destroy' => 'permissions.destroy',
 ]);
 
-// Columns
-Route::put('/permissions/{id}/columns', [PermissionColumnController::class, 'update'])
-    ->name('permissions.columns.update');
+Route::get('actions/all', [ActionController::class, 'all']);

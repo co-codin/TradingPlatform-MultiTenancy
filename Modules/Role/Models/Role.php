@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Role\Models;
 
 use Illuminate\Database\Eloquent\Builder;
@@ -13,7 +15,7 @@ use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 use Spatie\Multitenancy\Models\Tenant;
 use Spatie\Permission\Models\Role as SpatieRole;
 
-class Role extends SpatieRole
+final class Role extends SpatieRole
 {
     use HasFactory;
     use UsesLandlordConnection;
@@ -75,5 +77,15 @@ class Role extends SpatieRole
     protected static function newFactory(): RoleFactory
     {
         return RoleFactory::new();
+    }
+
+    public function columns(): BelongsToMany
+    {
+        return $this->belongsToMany(Column::class, 'permission_column');
+    }
+
+    public function columnsByPermission(int $id): BelongsToMany
+    {
+        return $this->belongsToMany(Column::class, 'permission_column')->wherePivot('permission_id', $id);
     }
 }

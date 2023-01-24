@@ -12,7 +12,6 @@ use Modules\User\Http\Controllers\Admin\DisplayOption\UserDisplayOptionControlle
 use Modules\User\Http\Controllers\Admin\Impersonate\UserImpersonateController;
 use Modules\User\Http\Controllers\Admin\Language\UserLanguageController;
 use Modules\User\Http\Controllers\Admin\PasswordController;
-use Modules\User\Http\Controllers\Admin\Permission\UserPermissionController;
 use Modules\User\Http\Controllers\Admin\Preset\UserPresetController;
 use Modules\User\Http\Controllers\Admin\SocialAuthController;
 use Modules\User\Http\Controllers\Admin\UserController;
@@ -73,12 +72,6 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
 
         // Language
         Route::put('/{id}/language', [UserLanguageController::class, 'update'])->name('language.update');
-
-        // Permission
-        Route::put('/{id}/permission/{permissionId}/columns', [UserPermissionController::class, 'syncColumns'])
-            ->name('permission.columns');
-        Route::get('/{id}/permission/{permissionId}/columns', [UserPermissionController::class, 'getColumns'])
-            ->name('permission.columns');
 
         Route::group(['middleware' => 'tenant'], function () {
             // Department

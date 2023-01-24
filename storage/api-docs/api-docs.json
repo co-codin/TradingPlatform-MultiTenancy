@@ -4061,7 +4061,8 @@
                                     "config_type_id",
                                     "data_type",
                                     "name",
-                                    "value"
+                                    "value",
+                                    "description"
                                 ],
                                 "properties": {
                                     "config_type_id": {
@@ -4078,6 +4079,10 @@
                                     },
                                     "value": {
                                         "description": "Config`s value",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Config`s description",
                                         "type": "string"
                                     }
                                 },
@@ -4184,7 +4189,8 @@
                                     "config_type_id",
                                     "data_type",
                                     "name",
-                                    "value"
+                                    "value",
+                                    "description"
                                 ],
                                 "properties": {
                                     "config_type_id": {
@@ -4201,6 +4207,10 @@
                                     },
                                     "value": {
                                         "description": "Config`s value",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Config`s description",
                                         "type": "string"
                                     }
                                 },
@@ -4313,6 +4323,10 @@
                                     "value": {
                                         "description": "Config`s value",
                                         "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Config`s description",
+                                        "type": "string"
                                     }
                                 },
                                 "type": "object"
@@ -4342,6 +4356,38 @@
                     },
                     "404": {
                         "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/configs/types/all": {
+            "get": {
+                "tags": [
+                    "ConfigType"
+                ],
+                "summary": "Get config types",
+                "operationId": "586f61d2325c5741bb0f9c06d5bf46c1",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConfigTypeAllCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
                     }
                 },
                 "security": [
@@ -8185,6 +8231,38 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/LanguageResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/actions/all": {
+            "get": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Get actions list all",
+                "operationId": "73533929a7ff00628dfdbf46072641e4",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ActionCollection"
                                 }
                             }
                         }
@@ -15065,6 +15143,7 @@
                     "data_type",
                     "name",
                     "value",
+                    "description",
                     "created_at",
                     "updated_at"
                 ],
@@ -15090,6 +15169,10 @@
                     "value": {
                         "type": "string",
                         "example": "{}"
+                    },
+                    "description": {
+                        "description": "Config description",
+                        "type": "string"
                     },
                     "created_at": {
                         "type": "string",
@@ -15126,6 +15209,59 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/Config"
+                    }
+                },
+                "type": "object"
+            },
+            "ConfigTypeAll": {
+                "title": "ConfigTypeAll",
+                "description": "Config all type model",
+                "required": [
+                    "id",
+                    "name",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ConfigType.",
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Name"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ConfigType"
+                }
+            },
+            "ConfigTypeAllCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ConfigTypeAll"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ConfigTypeAllResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ConfigTypeAll"
                     }
                 },
                 "type": "object"
@@ -16248,6 +16384,45 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/Language"
+                    }
+                },
+                "type": "object"
+            },
+            "Action": {
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Action ID",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Action name",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "ActionCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Action"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "ActionResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Action"
                     }
                 },
                 "type": "object"

@@ -21,6 +21,7 @@ use Modules\Config\Models\Config;
  *         "data_type",
  *         "name",
  *         "value",
+ *         "description",
  *         "created_at",
  *         "updated_at",
  *     },
@@ -30,11 +31,11 @@ use Modules\Config\Models\Config;
  *     @OA\Property(property="config_type_id", type="integer", example="1"),
  *     @OA\Property(property="data_type", type="string", example="json"),
  *     @OA\Property(property="value", type="string", example="{}"),
+ *     @OA\Property(property="description", type="string", description="Config description"),
  *     @OA\Property(property="created_at", type="string", format="date-time"),
  *     @OA\Property(property="updated_at", type="string", format="date-time"),
  *     @OA\Property(property="configType", ref="#/components/schemas/ConfigType", description="Config type"),
  * ),
- *
  * @OA\Schema (
  *     schema="ConfigCollection",
  *     type="object",
@@ -49,7 +50,6 @@ use Modules\Config\Models\Config;
  *         ref="#/components/schemas/Meta"
  *     )
  * ),
- *
  * @OA\Schema (
  *     schema="ConfigResource",
  *     type="object",
@@ -62,7 +62,6 @@ use Modules\Config\Models\Config;
  *
  * Class ConfigResource
  *
- * @package Modules\Config\Http\Resources
  * @mixin Config
  */
 class ConfigResource extends BaseJsonResource
@@ -70,7 +69,7 @@ class ConfigResource extends BaseJsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      */
     public function toArray($request): array

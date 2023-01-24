@@ -19,6 +19,7 @@ final class ConfigRequestCriteria extends BaseCriteria
         'data_type',
         'name',
         'value',
+        'description',
     ];
 
     /**
@@ -37,6 +38,7 @@ final class ConfigRequestCriteria extends BaseCriteria
                 AllowedFilter::custom('live', new LiveFilter([
                     'id' => '=',
                 ])),
+                AllowedFilter::partial('description'),
                 AllowedFilter::trashed(),
             ])
             ->allowedIncludes([

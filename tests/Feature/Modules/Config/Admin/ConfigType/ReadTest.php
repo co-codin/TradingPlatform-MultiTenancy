@@ -16,6 +16,32 @@ final class ReadTest extends BrandTestCase
     use HasAuth;
 
     /**
+     * Test authorized user can get config types all list.
+     *
+     * @return void
+     *
+     * @test
+     */
+    final public function authorized_user_can_get_config_types_all_list(): void
+    {
+        $this->authenticateWithPermission(ConfigTypePermission::fromValue(ConfigTypePermission::VIEW_CONFIG_TYPES));
+
+        $this->brand->makeCurrent();
+
+        $configType = ConfigType::factory()->create();
+
+        $response = $this->getJson(route('admin.configs.types.all'));
+
+        $response->assertOk();
+
+        $response->assertJson([
+            'data' => [
+                $configType->toArray(),
+            ],
+        ]);
+    }
+
+    /**
      * Test authorized user can get config types list.
      *
      * @return void
