@@ -9447,6 +9447,349 @@
                 ]
             }
         },
+        "/admin/splitter": {
+            "get": {
+                "tags": [
+                    "Splitter"
+                ],
+                "summary": "Get splitters",
+                "operationId": "178fc0c59e765e38c6391fb25f07eb09",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SplitterCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Splitter"
+                ],
+                "summary": "Add a new splitter",
+                "operationId": "34bc4c2f6082562c962090204c29269b",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "name",
+                                    "is_active",
+                                    "conditions",
+                                    "position"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "description": "Splitter user id",
+                                        "type": "integer"
+                                    },
+                                    "name": {
+                                        "description": "Splitter name",
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "description": "Splitter is active",
+                                        "type": "boolean"
+                                    },
+                                    "conditions": {
+                                        "description": "Splitter conditions",
+                                        "type": "string",
+                                        "example": []
+                                    },
+                                    "position": {
+                                        "description": "Splitter position",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SplitterResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/splitter/{id}": {
+            "get": {
+                "tags": [
+                    "Splitter"
+                ],
+                "summary": "Get splitter data",
+                "operationId": "b19443039670b32428f39c6343a4961f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Splitter ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SplitterResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Splitter"
+                ],
+                "summary": "Update a splitter",
+                "operationId": "110da30075ea9960b32c9879eb649dc7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Splitter ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "is_active",
+                                    "conditions",
+                                    "position"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Splitter name",
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "description": "Splitter is active",
+                                        "type": "boolean"
+                                    },
+                                    "conditions": {
+                                        "description": "Splitter conditions",
+                                        "type": "string",
+                                        "example": []
+                                    },
+                                    "position": {
+                                        "description": "Splitter position",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SplitterResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Splitter"
+                ],
+                "summary": "Delete a splitter",
+                "operationId": "55e347984f8131c74253f2f940cd1c33",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Splitter ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Splitter"
+                ],
+                "summary": "Update a splitter",
+                "operationId": "7eabfc2d015364ed117a8f4d0434bb61",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Splitter ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Splitter name",
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "description": "Splitter is active",
+                                        "type": "boolean"
+                                    },
+                                    "conditions": {
+                                        "description": "Splitter conditions",
+                                        "type": "string",
+                                        "example": []
+                                    },
+                                    "position": {
+                                        "description": "Splitter position",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SplitterResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/tokens/all": {
             "get": {
                 "tags": [
@@ -16336,7 +16679,7 @@
                         "type": "string"
                     },
                     "guard_name": {
-                        "description": "api",
+                        "description": "Role guard name",
                         "type": "string"
                     },
                     "key": {
@@ -16465,6 +16808,87 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/SaleStatus"
+                    }
+                },
+                "type": "object"
+            },
+            "Splitter": {
+                "required": [
+                    "id",
+                    "user_id",
+                    "name",
+                    "is_active",
+                    "conditions",
+                    "position",
+                    "deleted_at",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Splitter ID",
+                        "type": "integer"
+                    },
+                    "user_id": {
+                        "description": "Splitter user id",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Splitter name",
+                        "type": "string"
+                    },
+                    "is_active": {
+                        "description": "Splitter is active",
+                        "type": "boolean"
+                    },
+                    "conditions": {
+                        "description": "Splitter conditions",
+                        "type": "string",
+                        "example": []
+                    },
+                    "position": {
+                        "description": "Splitter position",
+                        "type": "integer"
+                    },
+                    "deleted_at": {
+                        "description": "Date and time of deleted",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "created_at": {
+                        "description": "Date and time of creation",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "updated_at": {
+                        "description": "Date and time of last update",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    }
+                },
+                "type": "object"
+            },
+            "SplitterCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Splitter"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "SplitterResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Splitter"
                     }
                 },
                 "type": "object"
@@ -17042,6 +17466,9 @@
                     },
                     "model": {
                         "type": "object"
+                    },
+                    "per_page": {
+                        "type": "integer"
                     }
                 },
                 "type": "object"

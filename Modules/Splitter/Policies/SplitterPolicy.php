@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Splitter\Policies;
 
 use App\Policies\BasePolicy;
+use Modules\Role\Enums\DefaultRole;
 use Modules\Splitter\Enums\SplitterPermission;
 use Modules\Splitter\Models\Splitter;
 use Modules\User\Models\User;
@@ -42,7 +43,7 @@ class SplitterPolicy extends BasePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can(SplitterPermission::CREATE_SPLITTER);
+        return $user->can(SplitterPermission::CREATE_SPLITTER) && $user->hasRole(DefaultRole::AFFILIATE);
     }
 
     /**
@@ -54,18 +55,18 @@ class SplitterPolicy extends BasePolicy
      */
     public function update(User $user, Splitter $splitter): bool
     {
-        return $user->can(SplitterPermission::EDIT_SPLITTER);
+        return $user->can(SplitterPermission::EDIT_SPLITTER) && $user->hasRole(DefaultRole::AFFILIATE);
     }
 
     /**
      * Delete policy.
      *
-     * @param User $user
-     * @param Splitter $splitter
+     * @param  User  $user
+     * @param  Splitter  $splitter
      * @return bool
      */
     public function delete(User $user, Splitter $splitter): bool
     {
-        return $user->can(SplitterPermission::DELETE_SPLITTER);
+        return $user->can(SplitterPermission::DELETE_SPLITTER) && $user->hasRole(DefaultRole::AFFILIATE);
     }
 }

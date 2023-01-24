@@ -270,4 +270,49 @@ final class SplitterController extends Controller
 
         return new SplitterResource($this->storage->update($splitter, SplitterDto::fromFormRequest($request)));
     }
+
+    /**
+     * @OA\Delete(
+     *     path="/admin/splitter/{id}",
+     *     tags={"Splitter"},
+     *     security={ {"sanctum": {} }},
+     *     summary="Delete a splitter",
+     *     @OA\Parameter(
+     *         description="Splitter ID",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="No content"
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized Error"
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Forbidden Error"
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Not Found"
+     *     )
+     * )
+     *
+     * @throws AuthorizationException
+     * @throws Exception
+     */
+    public function destroy(int $id): Response
+    {
+        $splitter = $this->repository->find($id);
+
+        $this->authorize('delete', $splitter);
+
+        $this->storage->delete($splitter);
+
+        return response()->noContent();
+    }
 }
