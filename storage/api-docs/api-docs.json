@@ -8363,6 +8363,38 @@
                 ]
             }
         },
+        "/admin/permissions/columns/all": {
+            "get": {
+                "tags": [
+                    "Permission"
+                ],
+                "summary": "Get columns list all",
+                "operationId": "6285d1b9a11381948c478ef80b3d68b7",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ColumnCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/permissions/columns/{id}": {
             "get": {
                 "tags": [

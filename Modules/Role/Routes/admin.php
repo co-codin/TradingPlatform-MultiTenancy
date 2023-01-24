@@ -23,6 +23,8 @@ Route::apiResource('roles', RoleController::class);
 Route::get('permissions/all', [PermissionController::class, 'all']);
 Route::get('permissions/count', [PermissionController::class, 'count']);
 
+Route::get('permissions/columns/all', [ColumnController::class, 'all'])->name('permissions.columns.all');
+
 Route::apiResource('permissions/columns', ColumnController::class)->names([
     'index' => 'permissions.columns.index',
     'show' => 'permissions.columns.show',
