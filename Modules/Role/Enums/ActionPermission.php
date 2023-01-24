@@ -17,18 +17,29 @@ class ActionPermission extends Enum implements PermissionEnum
         ];
     }
 
-    public static function module(): string
-    {
-        // TODO: Implement module() method.
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     public static function model(): string
     {
-        // TODO: Implement model() method.
+        return Action::class;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public static function descriptions(): array
     {
-        // TODO: Implement descriptions() method.
+        return [
+            self::VIEW_ACTIONS => 'View actions',
+        ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function module(): string
+    {
+        return 'Roles';
     }
 }
