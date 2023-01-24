@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Customer\Http\Resources;
 
+use App\Contracts\Models\HasAttributeColumns;
+use App\Models\Model;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Customer\Models\Customer;
+use Modules\User\Models\User;
 use OpenApi\Annotations as OA;
 
 /**
@@ -77,6 +80,13 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="balance_usd", type="float", description="Balance USD", nullable="true"),
  *     @OA\Property(property="is_ftd", type="boolean", description="Is FTD", nullable="true"),
  *     @OA\Property(property="timezone", type="string", description="Timezone", nullable="true"),
+ *     @OA\Property(property="formatted_is_ftd", type="string", readOnly="true", description="Ftd in format Customer/FTD", nullable="true"),
+ *     @OA\Property(property="suspend", type="boolean", readOnly="true", description="Suspend true or false", nullable="true"),
+ *     @OA\Property(property="local_time", type="string", readOnly="true", description="Customer local time", nullable="true"),
+ *     @OA\Property(property="last_deposit_date", type="string", readOnly="true", description="Last deposit date", nullable="true"),
+ *     @OA\Property(property="ftd_amount", type="integer", readOnly="true", description="FTD amount value", nullable="true"),
+ *     @OA\Property(property="total_redeposits", type="integer", readOnly="true", description="Total deposits without FTD", nullable="true"),
+ *     @OA\Property(property="total_withdrawals", type="integer", readOnly="true", description="Total withdrawals", nullable="true"),
  *     @OA\Property(property="created_at", type="string", format="date-time", description="Date and time of creation", example="2022-12-17 08:44:09"),
  *     @OA\Property(property="updated_at", type="string", format="date-time", description="Date and time of last update", example="2022-12-17 08:44:09"),
  *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true, description="Date and time of soft delete", example="2022-12-17 08:44:09"),
@@ -116,6 +126,22 @@ final class CustomerResource extends JsonResource
      */
     public function toArray($request): array
     {
-        return parent::toArray($request);
+        $data = parent::toArray($request);
+
+        $user = $request->user() ?? User::where('username', 'admin')->first();
+
+        $displayOptionModelColumns = $user?->displayOptions()->where([
+            'model_id' => Model::where('name', get_class($this->resource))->first()?->id,
+        ])->first()?->columns ?: [];
+
+        if ($this->resource instanceof HasAttributeColumns) {
+            foreach ($this::getAttributeColumns() as $column) {
+                if (in_array($column, $displayOptionModelColumns)) {
+                    $data[$column] = $this->{$column};
+                }
+            }
+        }
+
+        return $data;
     }
 }

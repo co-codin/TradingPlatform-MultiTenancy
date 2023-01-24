@@ -80,6 +80,7 @@ final class UserRequestCriteria extends BaseCriteria
                 'children',
                 'brands',
                 'displayOptions',
+                'displayOptions.model',
                 'desks',
                 'departments',
                 'languages',

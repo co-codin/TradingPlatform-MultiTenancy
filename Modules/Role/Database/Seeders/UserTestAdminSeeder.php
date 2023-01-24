@@ -7,13 +7,40 @@ namespace Modules\Role\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Modules\Brand\Models\Brand;
 use Modules\Role\Enums\DefaultRole;
 use Modules\Role\Models\Role;
 use Modules\User\Models\User;
 
 final class UserTestAdminSeeder extends Seeder
 {
+    private Brand $brand;
+
+    public function __construct()
+    {
+        $this->brand = $this->createBrandForAdmin();
+    }
+
+    private function createBrandForAdmin(): Brand
+    {
+        $data = array_merge(Brand::factory()->make()->toArray(), [
+            'name' => DefaultRole::ADMIN,
+            'title' => DefaultRole::ADMIN,
+            'database' => strtolower(DefaultRole::ADMIN),
+            'domain' => strtolower(DefaultRole::ADMIN),
+        ]);
+
+        return Brand::query()->updateOrCreate($data);
+    }
+
     public function run(): void
+    {
+        $this->createAdmin();
+        $this->createWorkers();
+        $this->createTestUsers();
+    }
+
+    private function createAdmin(): void
     {
         $user = $this->getUserByEmail('admin@stoxtech.com');
 
@@ -33,8 +60,7 @@ final class UserTestAdminSeeder extends Seeder
             ),
         ]);
 
-        $this->createWorkers();
-        $this->createTestUsers();
+        $user->brands()->sync($this->brand);
     }
 
     private function createTestUsers(): void
@@ -58,9 +84,15 @@ final class UserTestAdminSeeder extends Seeder
             ]),
         );
 
+        $userIds = [];
+
         foreach ($emails as $email) {
-            $this->getUserByEmail($email)->assignRole($roles);
+            $user = $this->getUserByEmail($email);
+            $user->assignRole($roles);
+            $userIds[] = $user->id;
         }
+
+        $this->brand->users()->sync($userIds, false);
     }
 
     public function createWorkers()
@@ -77,10 +109,15 @@ final class UserTestAdminSeeder extends Seeder
             DefaultRole::IT,
         ];
 
+        $userIds = [];
+
         for ($i = 0; $i < 300; $i++) {
             $role = fake()->randomElement($roles);
 
-            User::factory()->create()->assignRole(
+            $user = User::factory()->create();
+            $userIds[] = $user->id;
+
+            $user->assignRole(
                 Role::query()->firstOrCreate(
                     Role::factory()->raw([
                         'name' => $role,
@@ -89,6 +126,8 @@ final class UserTestAdminSeeder extends Seeder
                 )
             );
         }
+
+        $this->brand->users()->sync($userIds, false);
     }
 
     private function getUserByEmail(string $email): User

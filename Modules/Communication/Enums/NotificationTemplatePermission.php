@@ -6,7 +6,7 @@ namespace Modules\Communication\Enums;
 
 use App\Enums\BaseEnum;
 use App\Models\Action;
-use Modules\Communication\Notifications\TemplateNotification;
+use Modules\Communication\Models\NotificationTemplate;
 use Modules\Role\Contracts\PermissionEnum;
 
 final class NotificationTemplatePermission extends BaseEnum implements PermissionEnum
@@ -30,6 +30,7 @@ final class NotificationTemplatePermission extends BaseEnum implements Permissio
      * @var string
      */
     public const DELETE_NOTIFICATION_TEMPLATE = 'delete notification template';
+
     /**
      * @var string
      */
@@ -54,7 +55,7 @@ final class NotificationTemplatePermission extends BaseEnum implements Permissio
      */
     public static function model(): string
     {
-        return TemplateNotification::class;
+        return NotificationTemplate::class;
     }
 
     /**

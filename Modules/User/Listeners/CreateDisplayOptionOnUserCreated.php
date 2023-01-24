@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Modules\User\Events\UserCreated;
-use Spatie\Multitenancy\Landlord;
+use Modules\User\Models\DisplayOption;
 
 final class CreateDisplayOptionOnUserCreated implements ShouldQueue
 {
@@ -24,18 +24,13 @@ final class CreateDisplayOptionOnUserCreated implements ShouldQueue
     public function handle(UserCreated $event): void
     {
         foreach (Model::get() as $model) {
-            try {
-                Landlord::execute(function () use ($event, $model) {
-                    $event->user
-                        ->displayOptions()
-                        ->create([
-                            'model_id' => $model->id,
-                            'columns' => [],
-                        ]);
-                });
-            } catch (\Throwable $e) {
-                dd($e->getMessage());
-            }
+            $event->user
+                ->displayOptions()
+                ->create([
+                    'model_id' => $model->id,
+                    'columns' => [],
+                    'per_page' => DisplayOption::DEFAULT_PER_PAGE,
+                ]);
         }
     }
 }
