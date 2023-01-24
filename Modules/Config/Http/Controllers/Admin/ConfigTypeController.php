@@ -11,6 +11,7 @@ use Illuminate\Http\Response;
 use Modules\Config\Dto\ConfigTypeDto;
 use Modules\Config\Http\Requests\ConfigTypeCreateRequest;
 use Modules\Config\Http\Requests\ConfigTypeUpdateRequest;
+use Modules\Config\Http\Resources\ConfigTypeAllResource;
 use Modules\Config\Http\Resources\ConfigTypeResource;
 use Modules\Config\Models\ConfigType;
 use Modules\Config\Repositories\ConfigTypeRepository;
@@ -20,13 +21,50 @@ use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 final class ConfigTypeController extends Controller
 {
     /**
-     * @param ConfigTypeStorage $configTypeStorage
-     * @param ConfigTypeRepository $configTypeRepository
+     * @param  ConfigTypeStorage  $configTypeStorage
+     * @param  ConfigTypeRepository  $configTypeRepository
      */
     final public function __construct(
         protected ConfigTypeStorage $configTypeStorage,
         protected ConfigTypeRepository $configTypeRepository,
-    ) {}
+    ) {
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/admin/configs/types/all",
+     *     tags={"ConfigType"},
+     *     security={ {"sanctum": {} }},
+     *     summary="Get config types",
+     *     @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\JsonContent(ref="#/components/schemas/ConfigTypeAllCollection")
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized Error"
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Forbidden Error"
+     *     )
+     * )
+     *
+     * Index config type.
+     *
+     * @return JsonResource
+     *
+     * @throws AuthorizationException
+     */
+    final public function all(): JsonResource
+    {
+        $this->authorize('viewAny', ConfigType::class);
+
+        return ConfigTypeAllResource::collection(
+            $this->configTypeRepository->all()
+        );
+    }
 
     /**
      * @OA\Get(
@@ -52,6 +90,7 @@ final class ConfigTypeController extends Controller
      * Index config type.
      *
      * @return JsonResource
+     *
      * @throws AuthorizationException
      */
     final public function index(): JsonResource
@@ -97,8 +136,9 @@ final class ConfigTypeController extends Controller
      *
      * Show config type.
      *
-     * @param int $configType
+     * @param  int  $configType
      * @return JsonResource
+     *
      * @throws AuthorizationException
      */
     final public function show(int $configType): JsonResource
@@ -148,8 +188,9 @@ final class ConfigTypeController extends Controller
      *
      * Store config type.
      *
-     * @param ConfigTypeCreateRequest $request
+     * @param  ConfigTypeCreateRequest  $request
      * @return JsonResource
+     *
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
@@ -253,9 +294,10 @@ final class ConfigTypeController extends Controller
      *
      * Update config type.
      *
-     * @param ConfigTypeUpdateRequest $request
-     * @param int $configType
+     * @param  ConfigTypeUpdateRequest  $request
+     * @param  int  $configType
      * @return JsonResource
+     *
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
@@ -303,8 +345,9 @@ final class ConfigTypeController extends Controller
      *
      * Destroy config type.
      *
-     * @param int $configType
+     * @param  int  $configType
      * @return Response
+     *
      * @throws AuthorizationException
      */
     final public function destroy(int $configType): Response

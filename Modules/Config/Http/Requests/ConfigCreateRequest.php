@@ -24,6 +24,7 @@ final class ConfigCreateRequest extends BaseFormRequest
             ],
             'name' => 'required|string',
             'value' => 'required|string',
+            'description' => 'sometimes|required|string|max:255',
         ];
     }
 }

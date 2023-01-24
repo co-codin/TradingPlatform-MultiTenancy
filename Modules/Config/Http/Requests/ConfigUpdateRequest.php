@@ -25,6 +25,7 @@ final class ConfigUpdateRequest extends BaseFormRequest
             ],
             'name' => 'sometimes|required|string',
             'value' => 'sometimes|required|string',
+            'description' => 'sometimes|required|string|max:255',
         ];
     }
 }

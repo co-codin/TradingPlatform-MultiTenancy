@@ -20,13 +20,14 @@ use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 final class ConfigController extends Controller
 {
     /**
-     * @param ConfigStorage $configStorage
-     * @param ConfigRepository $configRepository
+     * @param  ConfigStorage  $configStorage
+     * @param  ConfigRepository  $configRepository
      */
     final public function __construct(
         protected ConfigStorage $configStorage,
         protected ConfigRepository $configRepository,
-    ) {}
+    ) {
+    }
 
     /**
      * @OA\Get(
@@ -52,6 +53,7 @@ final class ConfigController extends Controller
      * Index config.
      *
      * @return JsonResource
+     *
      * @throws AuthorizationException
      */
     public function index(): JsonResource
@@ -97,8 +99,9 @@ final class ConfigController extends Controller
      *
      * Show config.
      *
-     * @param int $config
+     * @param  int  $config
      * @return JsonResource
+     *
      * @throws AuthorizationException
      */
     public function show(int $config): JsonResource
@@ -125,11 +128,13 @@ final class ConfigController extends Controller
      *                     "data_type",
      *                     "name",
      *                     "value",
+     *                     "description",
      *                 },
      *                 @OA\Property(property="config_type_id", type="integer", description="Config type ID"),
      *                 @OA\Property(property="data_type", type="string", description="Data type"),
      *                 @OA\Property(property="name", type="string", description="Config`s name"),
      *                 @OA\Property(property="value", type="string", description="Config`s value"),
+     *                 @OA\Property(property="description", type="string", description="Config`s description"),
      *             )
      *         )
      *     ),
@@ -154,8 +159,9 @@ final class ConfigController extends Controller
      *
      * Store config.
      *
-     * @param ConfigCreateRequest $request
+     * @param  ConfigCreateRequest  $request
      * @return JsonResource
+     *
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
@@ -190,11 +196,13 @@ final class ConfigController extends Controller
      *                     "data_type",
      *                     "name",
      *                     "value",
+     *                     "description",
      *                 },
      *                 @OA\Property(property="config_type_id", type="integer", description="Config type ID"),
      *                 @OA\Property(property="data_type", type="string", description="Data type"),
      *                 @OA\Property(property="name", type="string", description="Config`s name"),
      *                 @OA\Property(property="value", type="string", description="Config`s value"),
+     *                 @OA\Property(property="description", type="string", description="Config`s description"),
      *             )
      *         )
      *     ),
@@ -240,6 +248,7 @@ final class ConfigController extends Controller
      *                 @OA\Property(property="data_type", type="string", description="Data type"),
      *                 @OA\Property(property="name", type="string", description="Config`s name"),
      *                 @OA\Property(property="value", type="string", description="Config`s value"),
+     *                 @OA\Property(property="description", type="string", description="Config`s description"),
      *             )
      *         )
      *     ),
@@ -268,9 +277,10 @@ final class ConfigController extends Controller
      *
      * Update config.
      *
-     * @param ConfigUpdateRequest $request
-     * @param int $config
+     * @param  ConfigUpdateRequest  $request
+     * @param  int  $config
      * @return JsonResource
+     *
      * @throws AuthorizationException
      * @throws UnknownProperties
      */
@@ -318,8 +328,9 @@ final class ConfigController extends Controller
      *
      * Destroy config.
      *
-     * @param int $config
+     * @param  int  $config
      * @return Response
+     *
      * @throws AuthorizationException
      */
     public function destroy(int $config): Response
