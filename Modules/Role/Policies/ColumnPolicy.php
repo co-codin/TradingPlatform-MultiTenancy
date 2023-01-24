@@ -12,8 +12,6 @@ use Modules\User\Models\User;
 
 final class ColumnPolicy extends BasePolicy
 {
-    use HandlesAuthorization;
-
     public function viewAny(User $user): bool
     {
         return $user->isAdmin() || $user->can(ColumnPermission::VIEW_COLUMNS);

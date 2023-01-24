@@ -7,12 +7,14 @@ use Modules\Role\Http\Controllers\Admin\ColumnController;
 use Modules\Role\Http\Controllers\Admin\PermissionColumnController;
 use Modules\Role\Http\Controllers\Admin\PermissionController;
 use Modules\Role\Http\Controllers\Admin\RoleController;
+use Modules\Role\Http\Controllers\Admin\ActionController;
 
 Route::put('roles/{role}/permissions', [RoleController::class, 'updatePermissions']);
 Route::get('roles/all', [RoleController::class, 'all'])->name('roles.all');
 Route::apiResource('roles', RoleController::class);
 
 Route::get('permissions/all', [PermissionController::class, 'all']);
+Route::get('actions/all', [ActionController::class, 'all']);
 Route::get('permissions/count', [PermissionController::class, 'count']);
 
 Route::apiResource('permissions/columns', ColumnController::class)->names([
