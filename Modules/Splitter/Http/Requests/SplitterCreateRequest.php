@@ -1,0 +1,24 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Modules\Splitter\Http\Requests;
+
+use App\Http\Requests\BaseFormRequest;
+
+final class SplitterCreateRequest extends BaseFormRequest
+{
+    /**
+     * {@inheritDoc}
+     */
+    public function rules(): array
+    {
+        return [
+            'user_id' => 'required|int|exists:landlord.users,id',
+            'name' => 'required|max:35|string',
+            'is_active' => 'required|boolean',
+            'conditions' => 'sometimes|array',
+            'position' => 'sometimes|integer',
+        ];
+    }
+}

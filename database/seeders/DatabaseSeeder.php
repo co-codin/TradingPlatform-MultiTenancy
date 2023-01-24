@@ -11,6 +11,7 @@ use Modules\Currency\Database\Seeders\CurrencyDatabaseSeeder;
 use Modules\Geo\Database\Seeders\GeoDatabaseSeeder;
 use Modules\Language\Database\Seeders\LanguageDatabaseSeeder;
 use Modules\Role\Database\Seeders\RoleDatabaseSeeder;
+use Modules\Splitter\Database\Seeders\SplitterDatabaseSeeder;
 use Modules\User\Database\Seeders\UserDatabaseSeeder;
 use Modules\User\Database\Seeders\UserPermissionColumnsSeeder;
 
@@ -33,6 +34,7 @@ final class DatabaseSeeder extends Seeder
             ModelsTableSeeder::class,
             UserPermissionColumnsSeeder::class,
             CampaignDatabaseSeeder::class,
+            SplitterDatabaseSeeder::class,
         ]);
     }
 }
