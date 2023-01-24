@@ -11,8 +11,8 @@ use Modules\Currency\Database\Seeders\CurrencyDatabaseSeeder;
 use Modules\Geo\Database\Seeders\GeoDatabaseSeeder;
 use Modules\Language\Database\Seeders\LanguageDatabaseSeeder;
 use Modules\Role\Database\Seeders\RoleDatabaseSeeder;
+use Modules\Role\Database\Seeders\RolePermissionColumnsSeeder;
 use Modules\User\Database\Seeders\UserDatabaseSeeder;
-use Modules\User\Database\Seeders\UserPermissionColumnsSeeder;
 
 final class DatabaseSeeder extends Seeder
 {
@@ -31,7 +31,7 @@ final class DatabaseSeeder extends Seeder
             GeoDatabaseSeeder::class,
             BrandDatabaseSeeder::class,
             ModelsTableSeeder::class,
-            UserPermissionColumnsSeeder::class,
+            RolePermissionColumnsSeeder::class,
             CampaignDatabaseSeeder::class,
         ]);
     }

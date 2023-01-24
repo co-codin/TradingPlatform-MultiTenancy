@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Modules\User\Http\Requests\Permission;
+namespace Modules\Role\Http\Requests\Permission;
 
 use App\Http\Requests\BaseFormRequest;
 
-final class PermissionColumnsRequest extends BaseFormRequest
+final class RolePermissionColumnsRequest extends BaseFormRequest
 {
     public function rules(): array
     {

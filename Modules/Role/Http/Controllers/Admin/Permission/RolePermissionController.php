@@ -2,35 +2,35 @@
 
 declare(strict_types=1);
 
-namespace Modules\User\Http\Controllers\Admin\Permission;
+namespace Modules\Role\Http\Controllers\Admin\Permission;
 
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Modules\Role\Http\Requests\Permission\RolePermissionColumnsRequest;
 use Modules\Role\Http\Resources\ColumnResource;
+use Modules\Role\Models\Role;
 use Modules\Role\Repositories\PermissionRepository;
-use Modules\User\Http\Requests\Permission\PermissionColumnsRequest;
-use Modules\User\Models\User;
-use Modules\User\Repositories\UserRepository;
+use Modules\Role\Repositories\RoleRepository;
 use OpenApi\Annotations as OA;
 
-final class UserPermissionController extends Controller
+final class RolePermissionController extends Controller
 {
     public function __construct(
-        private readonly UserRepository $userRepository,
+        private readonly RoleRepository $roleRepository,
         private readonly PermissionRepository $permissionRepository,
     ) {
     }
 
     /**
      * @OA\Get(
-     *     path="/admin/workers/{id}/permission/{permissionId}/columns",
-     *     tags={"Worker"},
+     *     path="/admin/roles/{id}/permission/{permissionId}/columns",
+     *     tags={"Role"},
      *     security={ {"sanctum": {} }},
-     *     summary="Get a worker permission columns",
+     *     summary="Get a role permission columns",
      *     @OA\Parameter(
-     *         description="Worker ID",
+     *         description="Role ID",
      *         in="path",
      *         name="id",
      *         required=true,
@@ -71,22 +71,22 @@ final class UserPermissionController extends Controller
      */
     public function getColumns(int $id, int $permissionId): AnonymousResourceCollection
     {
-        /** @var User $user */
-        $user = $this->userRepository->find($id);
-        $this->authorize('view', $user);
+        /** @var Role $role */
+        $role = $this->roleRepository->find($id);
+        $this->authorize('view', $role);
         $permission = $this->permissionRepository->findOrFail($permissionId);
 
-        return ColumnResource::collection($user->columnsByPermission($permission->id)->get()->makeHidden('pivot'));
+        return ColumnResource::collection($role->columnsByPermission($permission->id)->get()->makeHidden('pivot'));
     }
 
     /**
      * @OA\Put(
-     *     path="/admin/workers/{id}/permission/{permissionId}/columns",
-     *     tags={"Worker"},
+     *     path="/admin/roles/{id}/permission/{permissionId}/columns",
+     *     tags={"Role"},
      *     security={ {"sanctum": {} }},
-     *     summary="Update a worker permission columns",
+     *     summary="Update a role permission columns",
      *     @OA\Parameter(
-     *         description="Worker ID",
+     *         description="Role ID",
      *         in="path",
      *         name="id",
      *         required=true,
@@ -138,13 +138,13 @@ final class UserPermissionController extends Controller
      * @throws Exception
      */
     public function syncColumns(
-        PermissionColumnsRequest $request,
+        RolePermissionColumnsRequest $request,
         int $id,
         int $permissionId
     ): array {
-        /** @var User $user */
-        $user = $this->userRepository->find($id);
-        $this->authorize('edit', $user);
+        /** @var Role $role */
+        $role = $this->roleRepository->find($id);
+        $this->authorize('edit', $role);
         $permission = $this->permissionRepository->findOrFail($permissionId);
 
         $columns = [];
@@ -152,6 +152,6 @@ final class UserPermissionController extends Controller
             $columns[$item] = ['permission_id' => $permission->id];
         }
 
-        return $user->columnsByPermission($permission->id)->sync($columns);
+        return $role->columnsByPermission($permission->id)->sync($columns);
     }
 }
