@@ -7,7 +7,6 @@ namespace Modules\User\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Modules\User\Http\Requests\LoginRequest;
 use Modules\User\Http\Resources\AuthUserResource;
@@ -82,14 +81,17 @@ final class AuthController extends Controller
      *
      * @throws ValidationException
      * @throws \Exception
+     *
      * @noinspection NullPointerExceptionInspection
      */
     public function login(LoginRequest $request): Response
     {
         $login = $request->validated('login');
         $loginType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        $login = $loginType === 'username' ? fn ($query) => $query->whereRaw('lower(username)=?', [$login]) : $login;
+
         if (
-            ! Auth::guard(self::GUARD)->attempt([
+            ! auth()->guard(self::GUARD)->attempt([
                 $loginType => $login, 'password' => $request->validated('password'),
             ], $request->validated('remember_me', false))
         ) {
@@ -98,9 +100,9 @@ final class AuthController extends Controller
             ]);
         }
 
-        $user = Auth::user();
+        $user = auth()->user();
         if ($user->banned_at) {
-            Auth::guard(self::GUARD)->logout();
+            auth()->guard(self::GUARD)->logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
             throw ValidationException::withMessages([
@@ -139,7 +141,7 @@ final class AuthController extends Controller
      */
     public function logout(Request $request): Response
     {
-        Auth::guard(self::GUARD)->logout();
+        auth()->guard(self::GUARD)->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

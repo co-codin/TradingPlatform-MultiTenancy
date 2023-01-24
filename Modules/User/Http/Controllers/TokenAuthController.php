@@ -74,7 +74,9 @@ final class TokenAuthController extends Controller
     {
         $login = $request->validated('login');
         $loginType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        $user = User::where($loginType, $login)->first();
+        $user = $loginType === 'username'
+            ? User::whereRaw('lower(username)=?', [$login])->first()
+            : User::where($loginType, $login)->first();
 
         if (! $user || ! Hash::check($request->validated('password'), $user->password)) {
             throw ValidationException::withMessages([
@@ -119,7 +121,7 @@ final class TokenAuthController extends Controller
      */
     public function logout(): Response
     {
-        Auth::user()->tokens()->where('name', 'api')->delete();
+        auth()->user()->tokens()->where('name', 'api')->delete();
 
         return response()->noContent();
     }
