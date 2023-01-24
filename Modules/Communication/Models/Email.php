@@ -7,6 +7,7 @@ namespace Modules\Communication\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Communication\Database\factories\EmailFactory;
 use Modules\User\Models\User;
@@ -46,5 +47,15 @@ final class Email extends Model
     public function template(): BelongsTo
     {
         return $this->belongsTo(EmailTemplates::class, 'email_template_id');
+    }
+
+    public function sendemailable(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    public function emailable(): MorphTo
+    {
+        return $this->morphTo();
     }
 }

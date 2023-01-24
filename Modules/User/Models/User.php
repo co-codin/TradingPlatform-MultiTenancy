@@ -19,10 +19,12 @@ use Illuminate\Support\Collection;
 use Kalnoy\Nestedset\NodeTrait;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Brand\Models\Brand;
+use Modules\Communication\Models\Call;
 use Modules\Communication\Models\Comment;
 use Modules\Communication\Models\CommunicationExtension;
 use Modules\Communication\Models\CommunicationProvider;
 use Modules\Communication\Models\DatabaseNotification;
+use Modules\Communication\Models\Email;
 use Modules\Customer\Models\Customer;
 use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
@@ -144,11 +146,6 @@ final class User extends Authenticatable
     public function setEmailAttribute(string $value): void
     {
         $this->attributes['email'] = strtolower($value);
-    }
-
-    public function setUsernameAttribute(string $value): void
-    {
-        $this->attributes['username'] = strtolower($value);
     }
 
     public function comments()
@@ -374,5 +371,45 @@ final class User extends Authenticatable
     public function columnsByPermission(int $id): BelongsToMany
     {
         return $this->belongsToMany(Column::class, 'permission_column')->wherePivot('permission_id', $id);
+    }
+
+    /**
+     * Users emails
+     *
+     * @return MorphMany
+     */
+    public function emails(): MorphMany
+    {
+        return $this->morphMany(Email::class, 'emailable')->latest();
+    }
+
+    /**
+     * User send emails
+     *
+     * @return MorphMany
+     */
+    public function sendEmails(): MorphMany
+    {
+        return $this->morphMany(Email::class, 'sendemailable')->latest();
+    }
+
+    /**
+     * User calls
+     *
+     * @return MorphMany
+     */
+    public function calls(): MorphMany
+    {
+        return $this->morphMany(Call::class, 'callable')->latest();
+    }
+
+    /**
+     * User send calls
+     *
+     * @return MorphMany
+     */
+    public function sendCalls(): MorphMany
+    {
+        return $this->morphMany(Call::class, 'sendcallable')->latest();
     }
 }

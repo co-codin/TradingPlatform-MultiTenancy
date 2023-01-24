@@ -15,6 +15,8 @@ final class EmailRequestCriteria extends BaseCriteria
     protected static array $allowedModelFields = [
         'id',
         'email_template_id',
+        'emailable_type',
+        'emailable_id',
         'subject',
         'body',
         'sent_by_system',
@@ -35,6 +37,7 @@ final class EmailRequestCriteria extends BaseCriteria
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('email_template_id'),
+                AllowedFilter::exact('emailable_id'),
                 AllowedFilter::partial('subject'),
                 AllowedFilter::partial('body'),
                 AllowedFilter::partial('sent_by_system'),
@@ -43,13 +46,24 @@ final class EmailRequestCriteria extends BaseCriteria
             ])
             ->allowedIncludes([
                 'user',
-                'template'
+                'template',
+                'sendemailable',
+                'emailable',
             ])
             ->with([
-                'user', 'template'
+                'user',
+                'template',
             ])
             ->allowedSorts([
-                'id', 'email_template_id', 'subject', 'body', 'sent_by_system', 'user_id', 'created_at', 'updated_at', 'deleted_at',
+                'id',
+                'email_template_id',
+                'subject',
+                'body',
+                'sent_by_system',
+                'user_id',
+                'created_at',
+                'updated_at',
+                'deleted_at',
             ]);
     }
 }

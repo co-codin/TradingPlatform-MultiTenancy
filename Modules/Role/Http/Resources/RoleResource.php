@@ -22,7 +22,7 @@ use OpenApi\Annotations as OA;
  *     },
  *     @OA\Property(property="id", type="integer", description="Role ID"),
  *     @OA\Property(property="name", type="string", description="User"),
- *     @OA\Property(property="guard_name", type="string", description="api"),
+ *     @OA\Property(property="guard_name", type="string", description="Role guard name"),
  *     @OA\Property(property="key", type="string", description="key"),
  *     @OA\Property(property="is_default", type="boolean"),
  *     @OA\Property(property="created_at", type="string", format="date-time", description="Date and time of creation", example="1970-01-01 00:00:00"),

@@ -6,7 +6,7 @@ namespace Modules\Communication\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
 
-final class EmailSendToCustomerRequest extends BaseFormRequest
+final class EmailSendRequest extends BaseFormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -17,7 +17,6 @@ final class EmailSendToCustomerRequest extends BaseFormRequest
     {
         return [
             'email_id' => 'required|int|exists:tenant.emails,id',
-            'customer_id' => 'required|int|exists:tenant.customers,id',
         ];
     }
 }

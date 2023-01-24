@@ -30,8 +30,8 @@ Route::group(['middleware' => 'tenant'], function () {
 
         Route::apiResource('emails', EmailController::class);
         Route::apiResource('email-templates', EmailTemplatesController::class);
-        Route::post('email-send-to-customer', [EmailSendController::class, 'emailSendToCustomer'])
-            ->name('email.send.to.customer');
+        Route::post('email-send', [EmailSendController::class, 'emailSend'])
+            ->name('email.send');
 
         Route::post('notifications/send', [NotificationController::class, 'send'])
             ->name('notifications.send');

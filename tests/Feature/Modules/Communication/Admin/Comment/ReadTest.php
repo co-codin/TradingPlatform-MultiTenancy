@@ -6,6 +6,7 @@ namespace Tests\Feature\Modules\Communication\Admin\Comment;
 
 use Modules\Communication\Enums\CommentPermission;
 use Modules\Communication\Models\Comment;
+use Modules\Geo\Database\Seeders\GeoDatabaseSeeder;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
@@ -14,6 +15,13 @@ final class ReadTest extends BrandTestCase
 {
     use TenantAware;
     use HasAuth;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed(GeoDatabaseSeeder::class);
+    }
 
     /**
      * @test

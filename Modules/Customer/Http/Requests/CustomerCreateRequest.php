@@ -26,14 +26,18 @@ final class CustomerCreateRequest extends BaseFormRequest
     public function rules(): array
     {
         $rules = [
-            'first_name' => 'required|string|regex:'.RegexValidationEnum::fromValue(RegexValidationEnum::FIRSTNAME)->value,
-            'last_name' => 'required|string|regex:'.RegexValidationEnum::fromValue(RegexValidationEnum::LASTNAME)->value,
+            'first_name' => 'required|string|regex:'.RegexValidationEnum::NAME,
+            'last_name' => 'required|string|regex:'.RegexValidationEnum::NAME,
             'gender' => [
                 'required',
                 new EnumValue(Gender::class, false),
             ],
             'email' => 'required|email|max:100|unique:tenant.customers,email',
-            'password' => 'required|string|regex:'.RegexValidationEnum::fromValue(RegexValidationEnum::PASSWORD)->value,
+            'password' => [
+                'required',
+                'string',
+                'regex:'.RegexValidationEnum::PASSWORD
+            ],
             'phone' => [
                 'required',
                 'string',
