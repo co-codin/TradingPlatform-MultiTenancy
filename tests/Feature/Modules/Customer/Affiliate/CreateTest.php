@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Modules\Customer\Admin\Affiliate;
+namespace Tests\Feature\Modules\Customer\Affiliate;
 
 use Illuminate\Support\Str;
 use Modules\Campaign\Models\Campaign;
