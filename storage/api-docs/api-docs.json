@@ -1516,15 +1516,10 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "user_id",
                                     "provider_id",
                                     "text"
                                 ],
                                 "properties": {
-                                    "user_id": {
-                                        "description": "User ID",
-                                        "type": "integer"
-                                    },
                                     "provider_id": {
                                         "description": "Communication provider ID",
                                         "type": "integer"
@@ -1628,10 +1623,6 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "user_id": {
-                                        "description": "User ID",
-                                        "type": "integer"
-                                    },
                                     "provider_id": {
                                         "description": "Communication provider ID",
                                         "type": "integer"
@@ -2301,10 +2292,6 @@
                                     },
                                     "sent_by_system": {
                                         "type": "boolean"
-                                    },
-                                    "user_id": {
-                                        "description": "User ID",
-                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"
@@ -2407,10 +2394,6 @@
                                     },
                                     "sent_by_system": {
                                         "type": "boolean"
-                                    },
-                                    "user_id": {
-                                        "description": "User ID",
-                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"

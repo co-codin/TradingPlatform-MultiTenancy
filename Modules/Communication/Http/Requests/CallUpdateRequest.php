@@ -16,7 +16,6 @@ final class CallUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|int|exists:landlord.users,id',
             'provider_id' => 'required|int|exists:tenant.communication_providers,id',
             'duration' => 'required|int',
             'text' => 'required|string',

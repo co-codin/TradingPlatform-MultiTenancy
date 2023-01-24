@@ -46,6 +46,7 @@ final class EmailPermission extends BaseEnum implements PermissionEnum
             self::VIEW_COMMUNICATION_EMAIL => Action::NAMES['view'],
             self::EDIT_COMMUNICATION_EMAIL => Action::NAMES['edit'],
             self::DELETE_COMMUNICATION_EMAIL => Action::NAMES['delete'],
+            self::SEND_COMMUNICATION_EMAIL => Action::NAMES['send'],
         ];
     }
 

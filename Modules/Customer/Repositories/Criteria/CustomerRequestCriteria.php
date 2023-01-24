@@ -124,6 +124,11 @@ final class CustomerRequestCriteria extends BaseCriteria
                 'firstRetentionUser',
                 'conversionSaleStatus',
                 'retentionSaleStatus',
+
+                'emails',
+                'sendEmails',
+                'calls',
+                'sendCalls',
             ])
             ->allowedSorts([
                 'id',

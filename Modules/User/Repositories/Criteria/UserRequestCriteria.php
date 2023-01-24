@@ -98,6 +98,11 @@ final class UserRequestCriteria extends BaseCriteria
                 'retentionManageCustomers',
                 'firstConversionCustomers',
                 'firstRetentionCustomers',
+
+                'emails',
+                'sendEmails',
+                'calls',
+                'sendCalls',
             ])
             ->allowedSorts([
                 'id',

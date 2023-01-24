@@ -15,6 +15,8 @@ final class CallRequestCriteria extends BaseCriteria
     protected static array $allowedModelFields = [
         'id',
         'user_id',
+        'callable_type',
+        'callable_id',
         'provider_id',
         'duration',
         'text',
@@ -35,6 +37,7 @@ final class CallRequestCriteria extends BaseCriteria
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('user_id'),
+                AllowedFilter::exact('callable_id'),
                 AllowedFilter::exact('provider_id'),
                 AllowedFilter::partial('duration'),
                 AllowedFilter::partial('text'),
@@ -42,13 +45,25 @@ final class CallRequestCriteria extends BaseCriteria
                 AllowedFilter::trashed(),
             ])
             ->allowedIncludes([
-                'user', 'provider'
+                'user',
+                'provider',
+                'sendcallable',
+                'callable',
             ])
             ->with([
-                'user', 'provider'
+                'user',
+                'provider',
             ])
             ->allowedSorts([
-                'id', 'user_id', 'provider_id', 'duration', 'text', 'status', 'created_at', 'updated_at', 'deleted_at',
+                'id',
+                'user_id',
+                'provider_id',
+                'duration',
+                'text',
+                'status',
+                'created_at',
+                'updated_at',
+                'deleted_at',
             ]);
     }
 }

@@ -7,6 +7,7 @@ namespace Tests\Feature\Modules\Communication\Admin\EmailSend;
 use Modules\Communication\Enums\EmailPermission;
 use Modules\Communication\Models\Email;
 use Modules\Customer\Models\Customer;
+use Modules\Geo\Database\Seeders\GeoDatabaseSeeder;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
@@ -15,6 +16,13 @@ final class ToCustomerTest extends BrandTestCase
 {
     use TenantAware;
     use HasAuth;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed(GeoDatabaseSeeder::class);
+    }
 
     /**
      * Test authorized user can send email.
@@ -39,10 +47,11 @@ final class ToCustomerTest extends BrandTestCase
         });
         $customer->save();
 
-        $response = $this->postJson(route('admin.communication.email.send.to.customer'), ['customer_id' => $customer->id, 'email_id' => $email->id]);
+        $response = $this->postJson(route('admin.communication.email.send'), ['email_id' => $email->id]);
 
         $response->assertNoContent();
     }
+
     /**
      * Test authorized user can`t send email.
      *
@@ -66,10 +75,11 @@ final class ToCustomerTest extends BrandTestCase
         });
         $customer->save();
 
-        $response = $this->postJson(route('admin.communication.email.send.to.customer'), ['customer_id' => $customer->id, 'email_id' => $email->id]);
+        $response = $this->postJson(route('admin.communication.email.send'), ['email_id' => $email->id]);
 
         $response->assertForbidden();
     }
+
     /**
      * Test unauthorized user can`t send email.
      *
@@ -91,7 +101,7 @@ final class ToCustomerTest extends BrandTestCase
         });
         $customer->save();
 
-        $response = $this->postJson(route('admin.communication.email.send.to.customer'), ['customer_id' => $customer->id, 'email_id' => $email->id]);
+        $response = $this->postJson(route('admin.communication.email.send'), ['email_id' => $email->id]);
 
         $response->assertUnauthorized();
     }

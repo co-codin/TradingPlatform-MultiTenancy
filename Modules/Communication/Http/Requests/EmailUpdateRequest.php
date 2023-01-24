@@ -20,7 +20,6 @@ final class EmailUpdateRequest extends BaseFormRequest
             'subject' => 'required|string',
             'body' => 'required|string',
             'sent_by_system' => 'sometimes|boolean',
-            'user_id' => 'sometimes|int|exists:landlord.users,id',
         ];
     }
 }

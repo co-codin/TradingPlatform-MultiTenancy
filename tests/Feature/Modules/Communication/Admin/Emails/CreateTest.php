@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Communication\Admin\Emails;
 
+use Illuminate\Support\Arr;
 use Modules\Communication\Enums\EmailPermission;
 use Modules\Communication\Models\Email;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
@@ -28,7 +29,7 @@ final class CreateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $data = Email::factory()->make()->toArray();
+        $data = Arr::except(Email::factory()->make()->toArray(), ['sendemailable_type', 'sendemailable_id']);
 
         $this->brand->makeCurrent();
 
