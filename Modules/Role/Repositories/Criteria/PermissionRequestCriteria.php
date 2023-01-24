@@ -20,6 +20,7 @@ final class PermissionRequestCriteria extends BaseCriteria
         'description',
         'guard_name',
         'module',
+        'action_id',
     ];
 
     /**
@@ -35,10 +36,19 @@ final class PermissionRequestCriteria extends BaseCriteria
             ))
             ->allowedFilters([
                 AllowedFilter::exact('id'),
+                AllowedFilter::exact('action_id'),
                 AllowedFilter::partial('name'),
                 AllowedFilter::partial('description'),
             ])
-            ->allowedSorts(['name', 'id', 'description'])
-            ->allowedIncludes(['roles', 'columns']);
+            ->allowedSorts([
+                'name',
+                'id',
+                'description',
+            ])
+            ->allowedIncludes([
+                'roles',
+                'columns',
+                'action',
+            ]);
     }
 }
