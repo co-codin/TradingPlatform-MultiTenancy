@@ -1,0 +1,11 @@
+{
+    "name": "Splitter",
+    "alias": "splitter",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Splitter\\Providers\\SplitterServiceProvider"
+    ],
+    "files": []
+}

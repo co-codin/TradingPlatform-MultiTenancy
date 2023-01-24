@@ -15,5 +15,6 @@
     "Communication": true,
     "CommunicationProvider": true,
     "Currency": true,
-    "Transaction": true
+    "Transaction": true,
+    "Splitter": true
 }
