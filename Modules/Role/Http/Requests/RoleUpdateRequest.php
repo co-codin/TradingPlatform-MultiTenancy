@@ -20,17 +20,17 @@ final class RoleUpdateRequest extends BaseFormRequest
                 'sometimes',
                 'required',
                 'string',
-                'max:255',
+                'max:35',
                 Rule::unique('landlord.roles')->ignore($this->route('role'))->where(
                     fn ($query) => $query->where(['guard_name' => $this->guard_name, 'brand_id' => Brand::current()?->id])
                 ),
             ],
-            'key' => 'sometimes|required|string|regex:/^[\w-]+$/|max:255',
+            'key' => 'sometimes|required|string|regex:/^[\w-]+$/|max:35',
             'guard_name' => [
                 'sometimes',
                 'required',
                 'string',
-                'max:255',
+                'max:35',
                 Rule::unique('landlord.roles')->ignore($this->route('role'))->where(
                     fn ($query) => $query->where(['name' => $this->name, 'brand_id' => Brand::current()?->id])
                 ),

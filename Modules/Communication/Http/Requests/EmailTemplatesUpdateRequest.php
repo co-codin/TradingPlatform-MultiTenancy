@@ -16,7 +16,7 @@ final class EmailTemplatesUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
+            'name' => 'required|string|max:35',
             'body' => 'required|string',
         ];
     }

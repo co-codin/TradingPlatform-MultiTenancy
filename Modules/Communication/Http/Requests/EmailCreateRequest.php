@@ -17,7 +17,7 @@ final class EmailCreateRequest extends BaseFormRequest
     {
         return [
             'email_template_id' => 'required|int|exists:tenant.email_templates,id',
-            'subject' => 'required|string',
+            'subject' => 'required|string|max:35',
             'body' => 'required|string',
             'sent_by_system' => 'sometimes|boolean',
             'user_id' => 'sometimes|int|exists:landlord.users,id',

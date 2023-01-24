@@ -22,7 +22,7 @@ final class ConfigCreateRequest extends BaseFormRequest
                 'string',
                 new EnumValue(ConfigDataTypeEnum::class, false),
             ],
-            'name' => 'required|string',
+            'name' => 'required|string|max:35',
             'value' => 'required|string',
             'description' => 'sometimes|required|string|max:255',
         ];

@@ -16,7 +16,7 @@ final class LoginRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'login' => 'required|string',
+            'login' => 'required|string|max:35',
             'password' => 'required|string',
             'remember_me' => 'boolean',
         ];

@@ -19,12 +19,12 @@ final class TransactionStatusCreateRequest extends BaseFormRequest
             'name' => [
                 'required',
                 'string',
-                'max:255',
+                'max:35',
                 new EnumValue(TransactionStatusEnum::class, false),
             ],
-            'title' => 'required|string|max:255',
-            'is_active' => 'sometimes|required|boolean|max:255',
-            'is_valid' => 'sometimes|required|boolean|max:255',
+            'title' => 'required|string|max:35',
+            'is_active' => 'sometimes|required|boolean',
+            'is_valid' => 'sometimes|required|boolean',
         ];
     }
 }

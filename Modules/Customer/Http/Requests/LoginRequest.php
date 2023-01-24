@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Customer\Http\Requests;
 
+use App\Enums\RegexValidationEnum;
 use App\Http\Requests\BaseFormRequest;
 
 final class LoginRequest extends BaseFormRequest
@@ -17,7 +18,11 @@ final class LoginRequest extends BaseFormRequest
     {
         return [
             'email' => 'required|string',
-            'password' => 'required|string',
+            'password' => [
+                'required',
+                'string',
+                'regex:'.RegexValidationEnum::PASSWORD,
+            ],
             'remember_me' => 'boolean',
         ];
     }

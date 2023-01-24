@@ -14,8 +14,8 @@ final class DeskCreateRequest extends BaseFormRequest
     final public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'title' => 'required|string|max:255',
+            'name' => 'required|string|max:35',
+            'title' => 'required|string|max:35',
             'is_active' => 'sometimes|boolean',
             'parent_id' => 'sometimes|int|exists:tenant.desks,id',
         ];

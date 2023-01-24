@@ -20,7 +20,7 @@ final class NotificationSendRequest extends BaseFormRequest
         return [
             'notifiable_id' => 'required|int',
             'notifiable_type' => ['required', new EnumValue(NotifiableType::class)],
-            'subject' => 'required|string',
+            'subject' => 'required|string|max:35',
             'text' => 'required|string',
             'immediately' => 'sometimes|required|boolean',
         ];

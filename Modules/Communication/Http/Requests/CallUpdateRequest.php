@@ -18,7 +18,7 @@ final class CallUpdateRequest extends BaseFormRequest
         return [
             'provider_id' => 'required|int|exists:tenant.communication_providers,id',
             'duration' => 'required|int',
-            'text' => 'required|string',
+            'text' => 'required|string|max:255',
             'status' => 'required|int',
         ];
     }

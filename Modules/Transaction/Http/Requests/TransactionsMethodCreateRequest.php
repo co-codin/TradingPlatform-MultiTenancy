@@ -14,9 +14,9 @@ final class TransactionsMethodCreateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'title' => 'required|string|max:255',
-            'is_active' => 'sometimes|required|boolean|max:255',
+            'name' => 'required|string|max:35',
+            'title' => 'required|string|max:35',
+            'is_active' => 'sometimes|required|boolean',
         ];
     }
 }

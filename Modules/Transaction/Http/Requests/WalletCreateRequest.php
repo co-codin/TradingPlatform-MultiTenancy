@@ -14,11 +14,11 @@ final class WalletCreateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'title' => 'required|string|max:255',
-            'mt5_id' => 'required|string|max:255',
-            'currency_id' => 'required|integer|max:255|exists:landlord.currencies,id',
-            'customer_id' => 'required|integer|max:255|exists:tenant.customers,id',
+            'name' => 'required|string|max:35',
+            'title' => 'required|string|max:35',
+            'mt5_id' => 'required|string|max:35',
+            'currency_id' => 'required|integer|exists:landlord.currencies,id',
+            'customer_id' => 'required|integer|exists:tenant.customers,id',
         ];
     }
 }

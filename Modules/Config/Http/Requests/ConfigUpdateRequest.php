@@ -23,7 +23,7 @@ final class ConfigUpdateRequest extends BaseFormRequest
                 'string',
                 new EnumValue(ConfigDataTypeEnum::class, false),
             ],
-            'name' => 'sometimes|required|string',
+            'name' => 'sometimes|required|string|max:35',
             'value' => 'sometimes|required|string',
             'description' => 'sometimes|required|string|max:255',
         ];

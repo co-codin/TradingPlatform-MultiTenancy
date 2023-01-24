@@ -16,12 +16,12 @@ final class SaleStatusStoreRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
-            'title' => 'required|string',
+            'name' => 'required|string|max:35',
+            'title' => 'required|string|max:35',
             'department_id' => 'nullable|int|exists:tenant.departments,id',
             'color' => [
                 'required',
-                'string',
+                'string|max:35',
                 'regex:/^(#[a-zA-Z0-9]{6})$/i',
             ],
         ];
