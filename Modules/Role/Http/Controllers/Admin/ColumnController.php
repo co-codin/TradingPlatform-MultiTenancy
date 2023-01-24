@@ -64,6 +64,40 @@ final class ColumnController extends Controller
 
     /**
      * @OA\Get(
+     *      path="/admin/permissions/columns/all",
+     *      security={ {"sanctum": {} }},
+     *      tags={"Permission"},
+     *      summary="Get columns list all",
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/ColumnCollection")
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     *
+     * Display columns list all.
+     *
+     * @throws AuthorizationException
+     */
+    public function all(): AnonymousResourceCollection
+    {
+        $this->authorize('viewAny', Column::class);
+
+        return ColumnResource::collection(
+            $this->columnRepository->all()
+        );
+    }
+
+    /**
+     * @OA\Get(
      *     path="/admin/permissions/columns/{id}",
      *     tags={"Permission"},
      *     security={ {"sanctum": {} }},

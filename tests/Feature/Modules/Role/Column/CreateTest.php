@@ -20,7 +20,7 @@ final class CreateTest extends TestCase
 
         $data = Column::factory()->make();
 
-        $response = $this->post(route('admin.permissions-columns.store'), $data->toArray());
+        $response = $this->post(route('admin.permissions.columns.store'), $data->toArray());
 
         $response->assertCreated();
         $response->assertJson([
@@ -38,7 +38,7 @@ final class CreateTest extends TestCase
 
         $data = Column::factory()->make();
 
-        $response = $this->post(route('admin.permissions-columns.store'), $data->toArray());
+        $response = $this->post(route('admin.permissions.columns.store'), $data->toArray());
 
         $response->assertForbidden();
     }
@@ -48,7 +48,7 @@ final class CreateTest extends TestCase
      */
     public function not_unauthorized(): void
     {
-        $response = $this->post(route('admin.permissions-columns.store'));
+        $response = $this->post(route('admin.permissions.columns.store'));
 
         $response->assertUnauthorized();
     }
@@ -61,7 +61,7 @@ final class CreateTest extends TestCase
         $this->authenticateWithPermission(ColumnPermission::fromValue(ColumnPermission::CREATE_COLUMNS));
 
         $column = Column::factory()->create();
-        $response = $this->post(route('admin.permissions-columns.store'), [
+        $response = $this->post(route('admin.permissions.columns.store'), [
             'name' => $column->name,
         ]);
 

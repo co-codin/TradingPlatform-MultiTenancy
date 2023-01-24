@@ -18,7 +18,7 @@ final class DeleteTest extends TestCase
         $this->authenticateWithPermission(ColumnPermission::fromValue(ColumnPermission::DELETE_COLUMNS));
 
         $column = Column::factory()->create();
-        $response = $this->delete(route('admin.permissions-columns.destroy', ['permissions_column' => $column->id]));
+        $response = $this->delete(route('admin.permissions.columns.destroy', ['column' => $column->id]));
 
         $response->assertNoContent();
         $this->assertModelMissing($column);
@@ -32,7 +32,7 @@ final class DeleteTest extends TestCase
         $this->authenticateWithPermission(ColumnPermission::fromValue(ColumnPermission::DELETE_COLUMNS));
 
         $columnId = Column::orderByDesc('id')->first()?->id + 1 ?? 1;
-        $response = $this->delete(route('admin.permissions-columns.destroy', ['permissions_column' => $columnId]));
+        $response = $this->delete(route('admin.permissions.columns.destroy', ['column' => $columnId]));
 
         $response->assertNotFound();
     }
@@ -45,7 +45,7 @@ final class DeleteTest extends TestCase
         $this->authenticateUser();
 
         $column = Column::factory()->create();
-        $response = $this->delete(route('admin.permissions-columns.destroy', ['permissions_column' => $column->id]));
+        $response = $this->delete(route('admin.permissions.columns.destroy', ['column' => $column->id]));
 
         $response->assertForbidden();
     }
@@ -56,7 +56,7 @@ final class DeleteTest extends TestCase
     public function not_unauthorized(): void
     {
         $column = Column::factory()->create();
-        $response = $this->delete(route('admin.permissions-columns.destroy', ['permissions_column' => $column->id]));
+        $response = $this->delete(route('admin.permissions.columns.destroy', ['column' => $column->id]));
 
         $response->assertUnauthorized();
     }
