@@ -19,7 +19,7 @@ class ActionController extends Controller
 //        $this->authorize('viewAny', Action::class);
 
         return ActionResource::collection(
-            $this->actionRepository->jsonPaginate()
+            $this->actionRepository->all()
         );
     }
 }
