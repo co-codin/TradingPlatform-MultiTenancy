@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Modules\Brand\Database\factories\BrandFactory;
+use Modules\Role\Enums\DefaultRole;
 use Modules\User\Models\User;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -57,7 +58,7 @@ class Brand extends Tenant
      */
     public function createDatabase(): void
     {
-        DB::connection($this->tenantDatabaseConnectionName())->statement("CREATE SCHEMA {$this->database}");
+        DB::connection($this->tenantDatabaseConnectionName())->statement("CREATE SCHEMA IF NOT EXISTS {$this->database}");
     }
 
     /**
@@ -92,6 +93,16 @@ class Brand extends Tenant
     public function getTenantSchemaName(): string
     {
         return Str::snake(Str::camel($this->slug));
+    }
+
+    /**
+     * Get admin brand.
+     *
+     * @return $this|null
+     */
+    public static function getAdminBrand(): ?self
+    {
+        return self::query()->where('name', DefaultRole::ADMIN)->first();
     }
 
     /**

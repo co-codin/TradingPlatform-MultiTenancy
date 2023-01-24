@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Brand\Observers;
 
 use Illuminate\Support\Arr;
@@ -7,7 +9,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Modules\Brand\Models\Brand;
 
-class BrandObserver
+final class BrandObserver
 {
     /**
      * Handle the Brand "created" event.
@@ -35,12 +37,12 @@ class BrandObserver
     }
 
     /**
-     * prepareMigrations
+     * Prepare migrations.
      *
-     * @param  mixed  $module
+     * @param  string  $module
      * @return string
      */
-    private function prepareMigrations($module): string
+    private function prepareMigrations(string $module): string
     {
         $migrations = array_values(
             array_diff(

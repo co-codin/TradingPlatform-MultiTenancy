@@ -16323,6 +16323,48 @@
                         "type": "string",
                         "nullable": "true"
                     },
+                    "formatted_is_ftd": {
+                        "description": "Ftd in format Customer/FTD",
+                        "type": "string",
+                        "readOnly": "true",
+                        "nullable": "true"
+                    },
+                    "suspend": {
+                        "description": "Suspend true or false",
+                        "type": "boolean",
+                        "readOnly": "true",
+                        "nullable": "true"
+                    },
+                    "local_time": {
+                        "description": "Customer local time",
+                        "type": "string",
+                        "readOnly": "true",
+                        "nullable": "true"
+                    },
+                    "last_deposit_date": {
+                        "description": "Last deposit date",
+                        "type": "string",
+                        "readOnly": "true",
+                        "nullable": "true"
+                    },
+                    "ftd_amount": {
+                        "description": "FTD amount value",
+                        "type": "integer",
+                        "readOnly": "true",
+                        "nullable": "true"
+                    },
+                    "total_redeposits": {
+                        "description": "Total deposits without FTD",
+                        "type": "integer",
+                        "readOnly": "true",
+                        "nullable": "true"
+                    },
+                    "total_withdrawals": {
+                        "description": "Total withdrawals",
+                        "type": "integer",
+                        "readOnly": "true",
+                        "nullable": "true"
+                    },
                     "created_at": {
                         "description": "Date and time of creation",
                         "type": "string",
@@ -17958,7 +18000,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }

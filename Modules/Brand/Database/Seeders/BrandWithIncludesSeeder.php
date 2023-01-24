@@ -12,7 +12,6 @@ use Modules\Customer\Models\Customer;
 use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
 use Modules\Geo\Database\Seeders\CountryTableSeeder;
-use Modules\Geo\Models\Country;
 use Modules\Role\Database\Seeders\ColumnsTableSeeder;
 use Modules\Transaction\Database\Seeders\TransactionDatabaseSeeder;
 
@@ -27,7 +26,6 @@ final class BrandWithIncludesSeeder extends Seeder
             $brand->makeCurrent();
             $this->beforeCustomers();
 
-            $countries = Country::get();
             $desks = Desk::factory(3)->create();
 
             Department::factory(3)->create();
