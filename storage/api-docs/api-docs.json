@@ -8203,6 +8203,38 @@
                 ]
             }
         },
+        "/admin/actions/all": {
+            "get": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Get actions list all",
+                "operationId": "73533929a7ff00628dfdbf46072641e4",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ActionCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/permissions/columns": {
             "get": {
                 "tags": [
@@ -16210,6 +16242,45 @@
                 },
                 "type": "object"
             },
+            "Action": {
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Action ID",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Action name",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "ActionCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Action"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "ActionResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Action"
+                    }
+                },
+                "type": "object"
+            },
             "Column": {
                 "required": [
                     "id",
@@ -16336,7 +16407,7 @@
                         "type": "string"
                     },
                     "guard_name": {
-                        "description": "api",
+                        "description": "Role guard name",
                         "type": "string"
                     },
                     "key": {
@@ -17042,6 +17113,9 @@
                     },
                     "model": {
                         "type": "object"
+                    },
+                    "per_page": {
+                        "type": "integer"
                     }
                 },
                 "type": "object"

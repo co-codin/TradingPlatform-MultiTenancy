@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Role\Policies;
 
 use App\Policies\BasePolicy;
 use Modules\Role\Enums\ActionPermission;
 use Modules\User\Models\User;
 
-class ActionPolicy  extends BasePolicy
+final class ActionPolicy extends BasePolicy
 {
     public function viewAny(User $user): bool
     {
