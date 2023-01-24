@@ -45,7 +45,6 @@ final class PermissionRequestCriteria extends BaseCriteria
                 'id',
                 'description',
             ])
-            ->with('action')
             ->allowedIncludes([
                 'roles',
                 'columns',
