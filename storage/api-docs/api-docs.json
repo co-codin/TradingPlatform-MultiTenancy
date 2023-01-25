@@ -9689,17 +9689,12 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "user_id",
                                     "name",
                                     "is_active",
                                     "conditions",
-                                    "position"
+                                    "share_conditions"
                                 ],
                                 "properties": {
-                                    "user_id": {
-                                        "description": "Splitter user id",
-                                        "type": "integer"
-                                    },
                                     "name": {
                                         "description": "Splitter name",
                                         "type": "string"
@@ -9713,9 +9708,10 @@
                                         "type": "string",
                                         "example": []
                                     },
-                                    "position": {
-                                        "description": "Splitter position",
-                                        "type": "integer"
+                                    "share_conditions": {
+                                        "description": "Splitter share conditions",
+                                        "type": "string",
+                                        "example": []
                                     }
                                 },
                                 "type": "object"
@@ -9821,7 +9817,7 @@
                                     "name",
                                     "is_active",
                                     "conditions",
-                                    "position"
+                                    "share_conditions"
                                 ],
                                 "properties": {
                                     "name": {
@@ -9837,9 +9833,10 @@
                                         "type": "string",
                                         "example": []
                                     },
-                                    "position": {
-                                        "description": "Splitter position",
-                                        "type": "integer"
+                                    "share_conditions": {
+                                        "description": "Splitter share conditions",
+                                        "type": "string",
+                                        "example": []
                                     }
                                 },
                                 "type": "object"
@@ -9949,9 +9946,10 @@
                                         "type": "string",
                                         "example": []
                                     },
-                                    "position": {
-                                        "description": "Splitter position",
-                                        "type": "integer"
+                                    "share_conditions": {
+                                        "description": "Splitter share conditions",
+                                        "type": "string",
+                                        "example": []
                                     }
                                 },
                                 "type": "object"
@@ -9981,6 +9979,56 @@
                     },
                     "404": {
                         "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/splitter/update-positions": {
+            "post": {
+                "tags": [
+                    "Splitter"
+                ],
+                "summary": "Update splitter positions",
+                "operationId": "df363dbfce713aac8f4261a9e2e24733",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "splitterids"
+                                ],
+                                "properties": {
+                                    "splitterids": {
+                                        "description": "Splitter IDs",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": "[1, 2, 3]"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
                     }
                 },
                 "security": [
@@ -17114,6 +17162,7 @@
                     "name",
                     "is_active",
                     "conditions",
+                    "share_conditions",
                     "position",
                     "deleted_at",
                     "created_at",
@@ -17138,6 +17187,11 @@
                     },
                     "conditions": {
                         "description": "Splitter conditions",
+                        "type": "string",
+                        "example": []
+                    },
+                    "share_conditions": {
+                        "description": "Splitter share conditions",
                         "type": "string",
                         "example": []
                     },
@@ -18078,7 +18132,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }
