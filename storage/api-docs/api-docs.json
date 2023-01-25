@@ -6381,9 +6381,9 @@
                                         "description": "Available IDs for affiliate",
                                         "type": "integer"
                                     },
-                                    "brand_id": {
-                                        "description": "Brand ID",
-                                        "type": "integer"
+                                    "tenant": {
+                                        "description": "Brand domain",
+                                        "type": "string"
                                     },
                                     "desk_id": {
                                         "description": "Desk ID",
@@ -18037,7 +18037,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }

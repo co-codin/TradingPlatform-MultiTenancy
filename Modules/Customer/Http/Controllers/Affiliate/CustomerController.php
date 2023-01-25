@@ -13,6 +13,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Modules\Brand\Models\Brand;
+use Modules\Brand\Repositories\BrandRepository;
 use Modules\Campaign\Repositories\CampaignRepository;
 use Modules\Currency\Repositories\CurrencyRepository;
 use Modules\Customer\Dto\CustomerDto;
@@ -65,9 +66,8 @@ final class CustomerController extends Controller
      *
      * Display customer list.
      *
+     * @param Request $request
      * @return JsonResource
-     *
-     * @throws AuthorizationException
      */
     public function index(Request $request): JsonResource
     {
@@ -108,7 +108,7 @@ final class CustomerController extends Controller
      *                 @OA\Property(property="language", type="string", description="ISO2 or full name of language"),
      *                 @OA\Property(property="currency", type="string", description="ISO3 of currency"),
      *                 @OA\Property(property="campaign_id", type="integer", description="Available IDs for affiliate"),
-     *                 @OA\Property(property="brand_id", type="integer", description="Brand ID"),
+     *                 @OA\Property(property="tenant", type="string", description="Brand domain"),
      *                 @OA\Property(property="desk_id", type="integer", description="Desk ID"),
      *                 @OA\Property(property="offer_name", type="string", description="Offer name"),
      *                 @OA\Property(property="offer_url", type="string", description="Offer URL"),
@@ -145,6 +145,7 @@ final class CustomerController extends Controller
      * @param  LanguageRepository  $languageRepository
      * @param  CurrencyRepository  $currencyRepository
      * @param  CampaignRepository  $campaignRepository
+     * @param  BrandRepository  $brandRepository
      * @return Response
      *
      * @throws UnknownProperties
@@ -159,6 +160,7 @@ final class CustomerController extends Controller
         LanguageRepository $languageRepository,
         CurrencyRepository $currencyRepository,
         CampaignRepository $campaignRepository,
+        BrandRepository $brandRepository,
     ): Response {
         $country = $countryRepository
             ->where('iso2', 'ilike', $request->post('country'))
@@ -195,6 +197,8 @@ final class CustomerController extends Controller
                 $languageDetector->detectBest("$validated[first_name] $validated[last_name]")
             )->id,
         ]);
+
+        $brandRepository->findByField('domain', $request->post('tenant'))->makeCurrent();
 
         $customer = $this->customerStorage->store(new CustomerDto($data));
 

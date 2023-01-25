@@ -1,8 +1,9 @@
 <?php
 
-namespace Tests\Feature\Modules\Customer\Admin\Affiliate;
+namespace Tests\Feature\Modules\Customer\Affiliate;
 
 use Illuminate\Support\Str;
+use Modules\Brand\Models\Brand;
 use Modules\Campaign\Models\Campaign;
 use Modules\Currency\Models\Currency;
 use Modules\Customer\Models\Customer;
@@ -71,9 +72,10 @@ class CreateTest extends BrandTestCase
         $data['language'] = Language::find($data['language_id'])->name;
         $data['currency'] = Currency::find($data['currency_id'])->iso3;
         $data['campaign_id'] = $campaign->id;
+        $data['tenant'] = $this->brand->domain;
 
         $response = $this->postJson(route('affiliate.customers.store'), $data);
-
+dd($response->json());
         $response->assertCreated();
 
         $response->assertJsonStructure(['data' => [
@@ -124,6 +126,7 @@ class CreateTest extends BrandTestCase
         $data['language'] = Language::find($data['language_id'])->name;
         $data['currency'] = Currency::find($data['currency_id'])->iso3;
         $data['campaign_id'] = $campaign->id;
+        $data['tenant'] = $this->brand->domain;
 
         $response = $this->postJson(route('affiliate.customers.store'), $data);
 
@@ -172,6 +175,7 @@ class CreateTest extends BrandTestCase
         $data['language'] = Language::find($data['language_id'])->name;
         $data['currency'] = Currency::find($data['currency_id'])->iso3;
         $data['campaign_id'] = $campaign->id;
+        $data['tenant'] = $this->brand->domain;
 
         $response = $this->postJson(route('affiliate.customers.store'), $data);
 
