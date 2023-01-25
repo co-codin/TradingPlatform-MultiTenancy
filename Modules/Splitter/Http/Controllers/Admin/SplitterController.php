@@ -59,10 +59,7 @@ final class SplitterController extends Controller
         $this->authorize('viewAny', Splitter::class);
 
         return SplitterResource::collection(
-            $this->repository
-                ->orderBy('is_active', 'DESC')
-                ->orderBy('position', 'ASC')
-                ->jsonPaginate()
+            $this->repository->jsonPaginate()
         );
     }
 
