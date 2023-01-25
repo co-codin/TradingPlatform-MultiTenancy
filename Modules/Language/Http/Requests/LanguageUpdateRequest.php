@@ -16,8 +16,8 @@ final class LanguageUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => "sometimes|required|string|unique:landlord.languages,name,{$this->route('language')}",
-            'code' => "sometimes|required|string|unique:landlord.languages,code,{$this->route('language')}",
+            'name' => "sometimes|required|string|max:35|unique:landlord.languages,name,{$this->route('language')}",
+            'code' => "sometimes|required|string|max:5|unique:landlord.languages,code,{$this->route('language')}",
         ];
     }
 }

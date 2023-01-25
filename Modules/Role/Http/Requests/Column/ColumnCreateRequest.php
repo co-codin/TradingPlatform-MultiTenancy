@@ -14,7 +14,7 @@ final class ColumnCreateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|unique:landlord.columns,name',
+            'name' => 'required|string|max:35|unique:landlord.columns,name',
         ];
     }
 

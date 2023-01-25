@@ -14,7 +14,7 @@ final class ColumnUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => "sometimes|required|string|max:255|unique:landlord.columns,name,{$this->route('column')}",
+            'name' => "sometimes|required|string|max:35|unique:landlord.columns,name,{$this->route('column')}",
         ];
     }
 

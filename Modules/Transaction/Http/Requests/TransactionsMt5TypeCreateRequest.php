@@ -14,9 +14,9 @@ final class TransactionsMt5TypeCreateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'title' => 'required|string|max:255',
-            'mt5_id' => 'required|string|max:255',
+            'name' => 'required|string|max:35',
+            'title' => 'required|string|max:35',
+            'mt5_id' => 'required|string|max:35',
         ];
     }
 }

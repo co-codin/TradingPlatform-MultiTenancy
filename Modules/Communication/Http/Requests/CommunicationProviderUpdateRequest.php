@@ -16,7 +16,7 @@ final class CommunicationProviderUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => 'sometimes|required|string',
+            'name' => 'sometimes|required|string|max:35',
         ];
     }
 }

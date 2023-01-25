@@ -16,9 +16,9 @@ final class CurrencyUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => 'sometimes|required|string|unique:landlord.currencies,name',
-            'iso3' => 'sometimes|required|string|unique:landlord.currencies,iso3',
-            'symbol' => 'sometimes|required|string',
+            'name' => 'sometimes|required|string|max:35|unique:landlord.currencies,name',
+            'iso3' => 'sometimes|required|string|max:3|unique:landlord.currencies,iso3',
+            'symbol' => 'sometimes|required|string|max:3',
             'is_available' => 'sometimes|required|boolean',
         ];
     }

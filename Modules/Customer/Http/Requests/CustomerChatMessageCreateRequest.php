@@ -16,7 +16,7 @@ final class CustomerChatMessageCreateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'message' => 'required|string',
+            'message' => 'required|string|max:255',
         ];
     }
 }

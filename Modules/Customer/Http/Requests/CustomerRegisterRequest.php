@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Customer\Http\Requests;
 
+use App\Enums\RegexValidationEnum;
 use App\Http\Requests\BaseFormRequest;
 use App\Services\Validation\Phone;
 use BenSampo\Enum\Rules\EnumValue;
@@ -22,14 +23,19 @@ final class CustomerRegisterRequest extends BaseFormRequest
     public function rules(): array
     {
         $rules = [
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
+            'first_name' => 'required|string|max:35',
+            'last_name' => 'required|string|max:35',
             'gender' => [
                 'required',
                 new EnumValue(Gender::class, false),
             ],
             'email' => 'required|email|max:100|unique:tenant.customers,email',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => [
+                'required',
+                'string',
+                'confirmed',
+                'regex:'.RegexValidationEnum::PASSWORD,
+            ],
             'phone' => [
                 'required',
                 'string',

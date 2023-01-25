@@ -14,7 +14,7 @@ final class SplitterUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|max:35|string',
+            'name' => 'required|string|max:35',
             'is_active' => 'required|boolean',
             'conditions' => 'sometimes|array',
             'position' => 'sometimes|integer',

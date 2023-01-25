@@ -17,24 +17,24 @@ final class CustomerCreateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'first_name' => 'required|string|regex:' . RegexValidationEnum::NAME,
-            'last_name' => 'required|string|regex:' . RegexValidationEnum::NAME,
+            'first_name' => 'required|string|max:35|regex:'.RegexValidationEnum::NAME,
+            'last_name' => 'required|string|max:35|regex:'.RegexValidationEnum::NAME,
             'phone' => 'required|string',
             'email' => 'required|email|max:100|unique:tenant.customers,email',
-            'country' => 'required|string',
-            'language' => 'required|string',
-            'currency' => 'required|string',
+            'country' => 'required|string|max:35',
+            'language' => 'required|string|max:35',
+            'currency' => 'required|string|max:35',
             'campaign_id' => 'required|integer|exists:landlord.campaigns,id',
             'brand_id' => 'sometimes|integer|exists:landlord.brand,id',
             'desk_id' => 'sometimes|integer|exists:tenant.desks,id',
-            'offer_name' => 'sometimes|string',
+            'offer_name' => 'sometimes|string|max:35',
             'offer_url' => 'sometimes|string',
-            'comment_about_customer' => 'sometimes|string',
-            'source' => 'sometimes|string',
-            'click_id' => 'sometimes|string',
-            'free_param_1' => 'sometimes|string',
-            'free_param_2' => 'sometimes|string',
-            'free_param_3' => 'sometimes|string',
+            'comment_about_customer' => 'sometimes|string|max:255',
+            'source' => 'sometimes|string|max:35',
+            'click_id' => 'sometimes|string|max:35',
+            'free_param_1' => 'sometimes|string|max:35',
+            'free_param_2' => 'sometimes|string|max:35',
+            'free_param_3' => 'sometimes|string|max:35',
         ];
     }
 }

@@ -22,13 +22,13 @@ final class UserCreateRequest extends BaseFormRequest
             'first_name' => [
                 'required',
                 'string',
-                'max:255',
+                'max:35',
                 'regex:'.RegexValidationEnum::NAME,
             ],
             'last_name' => [
                 'required',
                 'string',
-                'max:255',
+                'max:35',
                 'regex:'.RegexValidationEnum::NAME,
             ],
             'email' => [

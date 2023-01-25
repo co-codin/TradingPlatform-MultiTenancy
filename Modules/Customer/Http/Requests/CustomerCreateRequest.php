@@ -26,8 +26,8 @@ final class CustomerCreateRequest extends BaseFormRequest
     public function rules(): array
     {
         $rules = [
-            'first_name' => 'required|string|regex:'.RegexValidationEnum::NAME,
-            'last_name' => 'required|string|regex:'.RegexValidationEnum::NAME,
+            'first_name' => 'required|string|max:35|regex:'.RegexValidationEnum::NAME,
+            'last_name' => 'required|string|max:35|regex:'.RegexValidationEnum::NAME,
             'gender' => [
                 'required',
                 new EnumValue(Gender::class, false),
@@ -36,7 +36,7 @@ final class CustomerCreateRequest extends BaseFormRequest
             'password' => [
                 'required',
                 'string',
-                'regex:'.RegexValidationEnum::PASSWORD
+                'regex:'.RegexValidationEnum::PASSWORD,
             ],
             'phone' => [
                 'required',
@@ -50,19 +50,19 @@ final class CustomerCreateRequest extends BaseFormRequest
             'language_id' => 'required|int|exists:landlord.languages,id',
             'platform_language_id' => 'sometimes|required|int|exists:landlord.languages,id',
             'browser_language_id' => 'sometimes|required|int|exists:landlord.languages,id',
-            'city' => 'sometimes|string',
-            'address' => 'sometimes|string',
-            'postal_code' => 'sometimes|string',
+            'city' => 'sometimes|string|max:35',
+            'address' => 'sometimes|string|max:100',
+            'postal_code' => 'sometimes|string|max:35',
             'desk_id' => 'sometimes|integer|exists:tenant.desks,id',
             'department_id' => 'sometimes|integer|exists:tenant.departments,id',
-            'offer_name' => 'sometimes|string',
+            'offer_name' => 'sometimes|string|max:35',
             'offer_url' => 'sometimes|string',
             'comment_about_customer' => 'sometimes|string',
-            'source' => 'sometimes|string',
-            'click_id' => 'sometimes|string',
-            'free_param_1' => 'sometimes|string',
-            'free_param_2' => 'sometimes|string',
-            'free_param_3' => 'sometimes|string',
+            'source' => 'sometimes|string|max:35',
+            'click_id' => 'sometimes|string|max:35',
+            'free_param_1' => 'sometimes|string|max:35',
+            'free_param_2' => 'sometimes|string|max:35',
+            'free_param_3' => 'sometimes|string|max:35',
             'currency_id' => 'required|int|exists:landlord.currencies,id',
             'country_id' => 'required|int|exists:landlord.countries,id',
             'campaign_id' => 'sometimes|required|int|exists:landlord.campaigns,id',

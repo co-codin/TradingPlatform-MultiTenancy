@@ -14,10 +14,10 @@ final class BrandCreateRequest extends BaseFormRequest
     final public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'title' => 'required|string|max:255',
-            'database' => 'required|string|regex:/^[a-z0-9]+(?:_[a-z0-9]+)*$/|unique:landlord.brands,database',
-            'domain' => 'required|string|regex:/^[a-z0-9]+(?:_[a-z0-9]+)*$/|unique:landlord.brands,domain',
+            'name' => 'required|string|max:35',
+            'title' => 'required|string|max:35',
+            'database' => 'required|string|max:35|regex:/^[a-z0-9]+(?:_[a-z0-9]+)*$/|unique:landlord.brands,database',
+            'domain' => 'required|string|max:35|regex:/^[a-z0-9]+(?:_[a-z0-9]+)*$/|unique:landlord.brands,domain',
             'logo_url' => 'required|string|max:255',
             'is_active' => 'sometimes|boolean',
         ];

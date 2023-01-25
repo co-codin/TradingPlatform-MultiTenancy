@@ -14,8 +14,8 @@ class DepartmentStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|unique:tenant.departments,name',
-            'title' => 'required|string|unique:tenant.departments,title',
+            'name' => 'required|string|max:35|unique:tenant.departments,name',
+            'title' => 'required|string|max:35|unique:tenant.departments,title',
             'is_active' => 'sometimes|required|boolean',
             'is_default' => 'sometimes|required|boolean',
         ];

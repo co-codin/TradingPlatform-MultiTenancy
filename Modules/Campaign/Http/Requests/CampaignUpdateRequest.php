@@ -14,7 +14,7 @@ final class CampaignUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
+            'name' => 'required|string|max:35',
             'cpa' => 'required|numeric',
             'working_hours' => 'required|array',
             'daily_cap' => 'required|integer',

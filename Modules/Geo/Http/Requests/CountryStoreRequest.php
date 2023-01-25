@@ -14,10 +14,10 @@ final class CountryStoreRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|unique:landlord.countries,name',
-            'iso2' => 'required|string|unique:landlord.countries,iso2',
-            'iso3' => 'required|string|unique:landlord.countries,iso3',
-            'currency' => 'sometimes|required|string',
+            'name' => 'required|string|max:35|unique:landlord.countries,name',
+            'iso2' => 'required|string|max:2|unique:landlord.countries,iso2',
+            'iso3' => 'required|string|max:3|unique:landlord.countries,iso3',
+            'currency' => 'sometimes|required|string|max:35',
         ];
     }
 }

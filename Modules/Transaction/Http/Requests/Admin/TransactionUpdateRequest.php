@@ -17,7 +17,7 @@ final class TransactionUpdateRequest extends BaseFormRequest
     {
         return [
             'status' => ['required', new EnumValue(TransactionStatusEnum::class)],
-            'amount' => 'required|max:20',
+            'amount' => 'required|max:20|decimal:10',
             'method_id' => 'required|int|exists:tenant.transaction_methods,id',
             'worker_id' => 'required|int|exists:landlord.users,id',
 

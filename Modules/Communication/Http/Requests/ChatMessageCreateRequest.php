@@ -17,7 +17,7 @@ final class ChatMessageCreateRequest extends BaseFormRequest
     {
         return [
             'customer_id' => 'required|int|exists:tenant.customers,id',
-            'message' => 'required|string',
+            'message' => 'required|string|max:255',
         ];
     }
 }

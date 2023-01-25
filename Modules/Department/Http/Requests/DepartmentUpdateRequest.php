@@ -14,10 +14,10 @@ class DepartmentUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => "sometimes|required|string|unique:tenant.departments,name,{$this->route('department')}",
-            'title' => "sometimes|required|string|unique:tenant.departments,title,{$this->route('department')}",
-            'is_active' => "sometimes|required|boolean",
-            'is_default' => "sometimes|required|boolean",
+            'name' => "sometimes|required|string|max:35|unique:tenant.departments,name,{$this->route('department')}",
+            'title' => "sometimes|required|string|max:35|unique:tenant.departments,title,{$this->route('department')}",
+            'is_active' => 'sometimes|required|boolean',
+            'is_default' => 'sometimes|required|boolean',
         ];
     }
 }

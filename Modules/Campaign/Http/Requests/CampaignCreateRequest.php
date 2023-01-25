@@ -15,7 +15,7 @@ final class CampaignCreateRequest extends BaseFormRequest
     {
         return [
             'affiliate_id' => 'required|int|exists:landlord.users,id',
-            'name' => 'required|string',
+            'name' => 'required|string|max:35',
             'cpa' => 'required|numeric',
             'working_hours' => 'required|array',
             'daily_cap' => 'required|integer',

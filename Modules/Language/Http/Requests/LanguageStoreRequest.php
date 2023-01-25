@@ -16,8 +16,8 @@ final class LanguageStoreRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|unique:landlord.languages,name',
-            'code' => 'required|string|unique:landlord.languages,code',
+            'name' => 'required|string|max:35|unique:landlord.languages,name',
+            'code' => 'required|string|max:5|unique:landlord.languages,code',
         ];
     }
 }

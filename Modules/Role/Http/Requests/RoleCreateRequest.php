@@ -19,17 +19,17 @@ final class RoleCreateRequest extends BaseFormRequest
             'name' => [
                 'required',
                 'string',
-                'max:255',
+                'max:35',
                 Rule::unique('landlord.roles')->where(
                     fn ($query) => $query->where(['guard_name' => $this->guard_name, 'brand_id' => Brand::current()?->id])
                 ),
             ],
-            'key' => 'required|string|regex:/^[\w-]+$/|max:255',
+            'key' => 'required|string|regex:/^[\w-]+$/|max:35',
             'guard_name' => [
                 'sometimes',
                 'required',
                 'string',
-                'max:255',
+                'max:35',
                 Rule::unique('landlord.roles')->where(
                     fn ($query) => $query->where(['name' => $this->name, 'brand_id' => Brand::current()?->id])
                 ),

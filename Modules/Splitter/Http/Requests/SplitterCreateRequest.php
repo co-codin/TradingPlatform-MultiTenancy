@@ -15,7 +15,7 @@ final class SplitterCreateRequest extends BaseFormRequest
     {
         return [
             'user_id' => 'required|int|exists:landlord.users,id',
-            'name' => 'required|max:35|string',
+            'name' => 'required|string|max:35',
             'is_active' => 'required|boolean',
             'conditions' => 'sometimes|array',
             'position' => 'sometimes|integer',

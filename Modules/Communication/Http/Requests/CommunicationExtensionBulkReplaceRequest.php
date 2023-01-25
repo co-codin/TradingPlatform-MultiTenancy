@@ -18,7 +18,7 @@ final class CommunicationExtensionBulkReplaceRequest extends BaseFormRequest
         return [
             'user_id' => 'required|int|exists:landlord.users,id',
             'extensions' => 'present|array|max:255',
-            'extensions.*.name' => 'required|string|max:255',
+            'extensions.*.name' => 'required|string|max:35',
             'extensions.*.provider_id' => [
                 'required',
                 'distinct',

@@ -14,7 +14,7 @@ final class ConfigTypeUpdateRequest extends BaseFormRequest
     final public function rules(): array
     {
         return [
-            'name' => 'sometimes|required|string',
+            'name' => 'sometimes|required|string|max:35',
         ];
     }
 }
