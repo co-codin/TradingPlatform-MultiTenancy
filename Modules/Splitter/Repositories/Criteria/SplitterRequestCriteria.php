@@ -17,6 +17,7 @@ final class SplitterRequestCriteria extends BaseCriteria
         'name',
         'is_active',
         'conditions',
+        'share_conditions',
         'position',
         'deleted_at',
         'created_at',
@@ -29,15 +30,17 @@ final class SplitterRequestCriteria extends BaseCriteria
     public function apply($model, RepositoryInterface $repository)
     {
         return QueryBuilder::for($model)
-            ->defaultSort('-id')
+            ->defaultSort('-is_active')
+            ->defaultSort('position')
             ->allowedFields(array_merge(
                 self::allowedModelFields(),
             ))
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::exact('user_id'),
+                AllowedFilter::exact('is_active'),
+                AllowedFilter::exact('position'),
                 AllowedFilter::partial('name'),
-                AllowedFilter::partial('is_active'),
                 AllowedFilter::partial('created_at'),
                 AllowedFilter::trashed(),
             ])
@@ -48,6 +51,7 @@ final class SplitterRequestCriteria extends BaseCriteria
                 'name',
                 'is_active',
                 'conditions',
+                'share_conditions',
                 'position',
                 'deleted_at',
                 'created_at',

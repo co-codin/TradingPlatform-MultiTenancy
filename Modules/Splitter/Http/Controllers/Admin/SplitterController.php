@@ -58,7 +58,9 @@ final class SplitterController extends Controller
     {
         $this->authorize('viewAny', Splitter::class);
 
-        return SplitterResource::collection($this->repository->jsonPaginate());
+        return SplitterResource::collection(
+            $this->repository->jsonPaginate()
+        );
     }
 
     /**
@@ -122,12 +124,14 @@ final class SplitterController extends Controller
      *                     "name",
      *                     "is_active",
      *                     "conditions",
+     *                     "share_conditions",
      *                     "position",
      *                 },
      *                 @OA\Property(property="user_id", type="integer", description="Splitter user id"),
      *                 @OA\Property(property="name", type="string", description="Splitter name"),
      *                 @OA\Property(property="is_active", type="boolean", description="Splitter is active"),
      *                 @OA\Property(property="conditions", type="string", description="Splitter conditions", example={}),
+     *                 @OA\Property(property="share_conditions", type="string", description="Splitter share conditions", example={}),
      *                 @OA\Property(property="position", type="integer", description="Splitter position"),
      *             )
      *         )
@@ -182,11 +186,13 @@ final class SplitterController extends Controller
      *                     "name",
      *                     "is_active",
      *                     "conditions",
+     *                     "share_conditions",
      *                     "position",
      *                 },
      *                 @OA\Property(property="name", type="string", description="Splitter name"),
      *                 @OA\Property(property="is_active", type="boolean", description="Splitter is active"),
      *                 @OA\Property(property="conditions", type="string", description="Splitter conditions", example={}),
+     *                 @OA\Property(property="share_conditions", type="string", description="Splitter share conditions", example={}),
      *                 @OA\Property(property="position", type="integer", description="Splitter position"),
      *             )
      *         )
@@ -232,6 +238,7 @@ final class SplitterController extends Controller
      *                 @OA\Property(property="name", type="string", description="Splitter name"),
      *                 @OA\Property(property="is_active", type="boolean", description="Splitter is active"),
      *                 @OA\Property(property="conditions", type="string", description="Splitter conditions", example={}),
+     *                 @OA\Property(property="share_conditions", type="string", description="Splitter share conditions", example={}),
      *                 @OA\Property(property="position", type="integer", description="Splitter position"),
      *             )
      *         )

@@ -16,5 +16,7 @@ final class SplitterDto extends BaseDto
 
     public ?array $conditions;
 
+    public ?array $share_conditions;
+
     public ?int $position;
 }
