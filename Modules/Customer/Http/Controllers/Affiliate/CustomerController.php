@@ -176,13 +176,15 @@ final class CustomerController extends Controller
             ->where('iso3', 'ilike', $request->post('currency'))
             ->firstOrFail();
 
+        $token = $this->tokenRepository->whereToken($request->header('AffiliateToken'))->firstOrFail();
+
+        $brandRepository->findByField('domain', $request->post('tenant'))->first()->makeCurrent();
+
         if ($campaignRepository->find($request->post('campaign_id'))->phone_verification) {
             $this->validate($request, [
                 'phone' => (new Phone)->country($country),
             ]);
         }
-
-        $token = $this->tokenRepository->whereToken($request->header('AffiliateToken'))->firstOrFail();
 
         $validated = $request->validated();
         $data = array_merge($request->validated(), [
@@ -196,8 +198,6 @@ final class CustomerController extends Controller
                 $languageDetector->detectBest("$validated[first_name] $validated[last_name]")
             )->id,
         ]);
-
-        $brandRepository->findByField('domain', $request->post('tenant'))->first()->makeCurrent();
 
         $customer = $this->customerStorage->store(new CustomerDto($data));
 
