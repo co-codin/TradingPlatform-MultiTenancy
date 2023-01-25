@@ -6,7 +6,6 @@ namespace Modules\Customer\Http\Controllers\Affiliate;
 
 use App\Http\Controllers\Controller;
 use App\Services\Validation\Phone;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
@@ -66,7 +65,7 @@ final class CustomerController extends Controller
      *
      * Display customer list.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return JsonResource
      */
     public function index(Request $request): JsonResource
@@ -198,7 +197,7 @@ final class CustomerController extends Controller
             )->id,
         ]);
 
-        $brandRepository->findByField('domain', $request->post('tenant'))->makeCurrent();
+        $brandRepository->findByField('domain', $request->post('tenant'))->first()->makeCurrent();
 
         $customer = $this->customerStorage->store(new CustomerDto($data));
 

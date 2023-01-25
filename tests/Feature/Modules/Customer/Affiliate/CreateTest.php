@@ -3,7 +3,6 @@
 namespace Tests\Feature\Modules\Customer\Affiliate;
 
 use Illuminate\Support\Str;
-use Modules\Brand\Models\Brand;
 use Modules\Campaign\Models\Campaign;
 use Modules\Currency\Models\Currency;
 use Modules\Customer\Models\Customer;
@@ -75,7 +74,7 @@ class CreateTest extends BrandTestCase
         $data['tenant'] = $this->brand->domain;
 
         $response = $this->postJson(route('affiliate.customers.store'), $data);
-dd($response->json());
+
         $response->assertCreated();
 
         $response->assertJsonStructure(['data' => [
