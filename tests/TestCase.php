@@ -12,7 +12,7 @@ use Tests\Traits\HasAuth;
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
-//    use DatabaseMigrations;
+    use DatabaseMigrations;
     use HasAuth;
 
     /**

@@ -16,6 +16,49 @@ final class ReadTest extends TestCase
     /**
      * @test
      */
+    public function admin_can_view_list(): void
+    {
+        $this->authenticateAdmin();
+
+        $displayOptions = DisplayOption::factory(10)->create([
+            'user_id' => $this->getUser()->id,
+        ]);
+
+        $response = $this->get(route('admin.users.display-options.index', ['worker' => $this->getUser()->id]));
+
+        $response->assertOk();
+        $response->assertJson([
+            'data' => $displayOptions->only('id')->toArray(),
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function can_not_view_list(): void
+    {
+        $this->authenticateUser();
+
+        $response = $this->get(route('admin.users.display-options.index', ['worker' => $this->getUser()->id]));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * @test
+     */
+    public function not_unauthorized_view_list(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->get(route('admin.users.display-options.index', ['worker' => $user->id]));
+
+        $response->assertUnauthorized();
+    }
+
+    /**
+     * @test
+     */
     public function admin_can_view(): void
     {
         $this->authenticateAdmin();
