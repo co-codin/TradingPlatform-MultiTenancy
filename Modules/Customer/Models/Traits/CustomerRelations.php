@@ -6,7 +6,10 @@ namespace Modules\Customer\Models\Traits;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Modules\Campaign\Models\Campaign;
+use Modules\Communication\Models\Call;
+use Modules\Communication\Models\Email;
 use Modules\Currency\Models\Currency;
 use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
@@ -229,5 +232,43 @@ trait CustomerRelations
         return $this->hasMany(Wallet::class, 'customer_id', 'id');
     }
 
-    // TODO надо допольнить всех отношений
+    /**
+     * Customer emails.
+     *
+     * @return MorphMany
+     */
+    public function emails(): MorphMany
+    {
+        return $this->morphMany(Email::class, 'emailable')->latest();
+    }
+
+    /**
+     * Customer send emails.
+     *
+     * @return MorphMany
+     */
+    public function sendEmails(): MorphMany
+    {
+        return $this->morphMany(Email::class, 'sendemailable')->latest();
+    }
+
+    /**
+     * Customer calls.
+     *
+     * @return MorphMany
+     */
+    public function calls(): MorphMany
+    {
+        return $this->morphMany(Call::class, 'callable')->latest();
+    }
+
+    /**
+     * Customer send calls.
+     *
+     * @return MorphMany
+     */
+    public function sendCalls(): MorphMany
+    {
+        return $this->morphMany(Call::class, 'sendcallable')->latest();
+    }
 }

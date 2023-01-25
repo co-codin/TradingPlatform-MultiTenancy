@@ -93,15 +93,13 @@ class CustomerFactory extends BaseFactory
     {
         $supportedCountriesForPhones = PhoneNumberUtil::getInstance()->getSupportedRegions();
         $country = Country::inRandomOrder()->whereIn('iso2', $supportedCountriesForPhones)->first()
-            ?? Country::factory()->create(['iso2', $supportedCountriesForPhones[0]]);
-//        $phone = PhoneNumberUtil::getInstance()->getExampleNumber($country->iso2);
-//        $phone2 = PhoneNumberUtil::getInstance()->getExampleNumber($country->iso2);
+            ?? Country::factory()->create(['iso2', $this->faker->randomElement($supportedCountriesForPhones)]);
+        $phone = PhoneNumberUtil::getInstance()->getExampleNumber($country->iso2);
+        $phone2 = PhoneNumberUtil::getInstance()->getExampleNumber($country->iso2);
 
         return [
-//            'phone' => phone($phone->getCountryCode().$phone->getNationalNumber(), $country->iso2)->formatE164(),
-//            'phone2' => phone($phone2->getCountryCode().$phone->getNationalNumber(), $country->iso2)->formatE164(),
-            'phone' => $this->faker->phoneNumber,
-            'phone2' => $this->faker->phoneNumber,
+            'phone' => phone($phone->getCountryCode().$phone->getNationalNumber(), Country::pluck('iso2')->toArray())->formatE164(),
+            'phone2' => phone($phone2->getCountryCode().$phone->getNationalNumber(), Country::pluck('iso2')->toArray())->formatE164(),
             'currency_id' => Currency::inRandomOrder()->first() ?? Currency::factory(),
             'language_id' => Language::inRandomOrder()->first() ?? Language::factory(),
             'country_id' => $country,

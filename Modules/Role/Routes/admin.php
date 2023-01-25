@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Support\Facades\Route;
 use Modules\Role\Http\Controllers\Admin\ActionController;
 use Modules\Role\Http\Controllers\Admin\ColumnController;
+use Modules\Role\Http\Controllers\Admin\ModelController;
 use Modules\Role\Http\Controllers\Admin\Permission\RolePermissionController;
 use Modules\Role\Http\Controllers\Admin\PermissionController;
 use Modules\Role\Http\Controllers\Admin\RoleController;
@@ -22,6 +23,8 @@ Route::apiResource('roles', RoleController::class);
 Route::get('permissions/all', [PermissionController::class, 'all']);
 Route::get('permissions/count', [PermissionController::class, 'count']);
 
+Route::get('permissions/columns/all', [ColumnController::class, 'all'])->name('permissions.columns.all');
+
 Route::apiResource('permissions/columns', ColumnController::class)->names([
     'index' => 'permissions.columns.index',
     'show' => 'permissions.columns.show',
@@ -38,4 +41,5 @@ Route::apiResource('permissions', PermissionController::class)->only('index', 's
     'destroy' => 'permissions.destroy',
 ]);
 
-Route::get('actions/all', [ActionController::class, 'all']);
+Route::get('actions/all', [ActionController::class, 'all'])->name('actions.all');
+Route::get('models/all', [ModelController::class, 'all'])->name('models.all');

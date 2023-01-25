@@ -20,6 +20,11 @@ class DisplayOption extends Model
     protected $guarded = ['id'];
 
     /**
+     * @var int
+     */
+    public const DEFAULT_PER_PAGE = 15;
+
+    /**
      * {@inheritdoc}
      */
     protected $casts = [

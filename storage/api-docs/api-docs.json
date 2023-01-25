@@ -8363,6 +8363,38 @@
                 ]
             }
         },
+        "/admin/permissions/columns/all": {
+            "get": {
+                "tags": [
+                    "Permission"
+                ],
+                "summary": "Get columns list all",
+                "operationId": "6285d1b9a11381948c478ef80b3d68b7",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ColumnCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/permissions/columns/{id}": {
             "get": {
                 "tags": [
@@ -8591,18 +8623,115 @@
                 ]
             }
         },
-        "/admin/permissions/{id}/columns": {
-            "put": {
+        "/admin/models/all": {
+            "get": {
                 "tags": [
-                    "Permission"
+                    "Role"
                 ],
-                "summary": "Update permission columns",
-                "operationId": "9361892c39a0ae8b8da9be21536ca618",
+                "summary": "Get models list all",
+                "operationId": "8b0816541d676c12686cd2a10ef699dd",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ModelCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/roles/{id}/permission/{permissionId}/columns": {
+            "get": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Get a role permission columns",
+                "operationId": "4a82cbdee68da22255f2192feded6849",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Permission id",
+                        "description": "Role ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "permissionId",
+                        "in": "path",
+                        "description": "Permission ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ColumnCollection"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Update a role permission columns",
+                "operationId": "19fa9648dbd38d07f9ae8cd6c055101e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Role ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "permissionId",
+                        "in": "path",
+                        "description": "Permission ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -8618,18 +8747,11 @@
                                 ],
                                 "properties": {
                                     "columns": {
+                                        "description": "Array of columns ID",
                                         "type": "array",
                                         "items": {
-                                            "required": [
-                                                "id"
-                                            ],
-                                            "properties": {
-                                                "id": {
-                                                    "description": "Column id",
-                                                    "type": "integer"
-                                                }
-                                            },
-                                            "type": "object"
+                                            "description": "Column ID",
+                                            "type": "integer"
                                         }
                                     }
                                 },
@@ -8640,7 +8762,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Ok"
+                        "description": "Success"
                     },
                     "400": {
                         "description": "Bad Request"
@@ -12913,135 +13035,6 @@
                 }
             }
         },
-        "/admin/workers/{id}/permission/{permissionId}/columns": {
-            "get": {
-                "tags": [
-                    "Worker"
-                ],
-                "summary": "Get a worker permission columns",
-                "operationId": "77e9f2ab23ba836c0b73d04955870c12",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Worker ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "permissionId",
-                        "in": "path",
-                        "description": "Permission ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ColumnCollection"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "401": {
-                        "description": "Unauthorized Error"
-                    },
-                    "403": {
-                        "description": "Forbidden Error"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            },
-            "put": {
-                "tags": [
-                    "Worker"
-                ],
-                "summary": "Update a worker permission columns",
-                "operationId": "313288a29b46049566b3d5398811b5ff",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Worker ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "permissionId",
-                        "in": "path",
-                        "description": "Permission ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "columns"
-                                ],
-                                "properties": {
-                                    "columns": {
-                                        "description": "Array of columns ID",
-                                        "type": "array",
-                                        "items": {
-                                            "description": "Column ID",
-                                            "type": "integer"
-                                        }
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "401": {
-                        "description": "Unauthorized Error"
-                    },
-                    "403": {
-                        "description": "Forbidden Error"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
         "/admin/workers/{workerId}/presets/{presetId}": {
             "get": {
                 "tags": [
@@ -16323,6 +16316,48 @@
                         "type": "string",
                         "nullable": "true"
                     },
+                    "formatted_is_ftd": {
+                        "description": "Ftd in format Customer/FTD",
+                        "type": "string",
+                        "readOnly": "true",
+                        "nullable": "true"
+                    },
+                    "suspend": {
+                        "description": "Suspend true or false",
+                        "type": "boolean",
+                        "readOnly": "true",
+                        "nullable": "true"
+                    },
+                    "local_time": {
+                        "description": "Customer local time",
+                        "type": "string",
+                        "readOnly": "true",
+                        "nullable": "true"
+                    },
+                    "last_deposit_date": {
+                        "description": "Last deposit date",
+                        "type": "string",
+                        "readOnly": "true",
+                        "nullable": "true"
+                    },
+                    "ftd_amount": {
+                        "description": "FTD amount value",
+                        "type": "integer",
+                        "readOnly": "true",
+                        "nullable": "true"
+                    },
+                    "total_redeposits": {
+                        "description": "Total deposits without FTD",
+                        "type": "integer",
+                        "readOnly": "true",
+                        "nullable": "true"
+                    },
+                    "total_withdrawals": {
+                        "description": "Total withdrawals",
+                        "type": "integer",
+                        "readOnly": "true",
+                        "nullable": "true"
+                    },
                     "created_at": {
                         "description": "Date and time of creation",
                         "type": "string",
@@ -16763,6 +16798,50 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/Column"
+                    }
+                },
+                "type": "object"
+            },
+            "Model": {
+                "required": [
+                    "id",
+                    "name",
+                    "permissions_count"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Model ID",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Model name",
+                        "type": "string"
+                    },
+                    "permissions_count": {
+                        "description": "Model count of premissions",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "ModelCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Model"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "ModelResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Model"
                     }
                 },
                 "type": "object"

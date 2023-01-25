@@ -1,29 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Brand\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Modules\Brand\Models\Brand;
 
-class BrandFactory extends Factory
+final class BrandFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = \Modules\Brand\Models\Brand::class;
+    protected $model = Brand::class;
 
     /**
      * Define the model's default state.
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         $name = $this->faker->name;
 
-        $uniqueName = str_replace('-', '_', Str::slug($name));
+        $uniqueName = Str::slug($name, '_');
 
         return [
             'name' => $name,
@@ -32,7 +35,6 @@ class BrandFactory extends Factory
             'database' => $uniqueName,
             'logo_url' => $this->faker->imageUrl,
             'is_active' => true,
-         ];
+        ];
     }
 }
-

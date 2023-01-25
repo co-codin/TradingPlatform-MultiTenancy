@@ -18,7 +18,7 @@ final class ReadTest extends TestCase
         $columns = Column::factory($count = 5)->create();
 
         $this->authenticateWithPermission(ColumnPermission::fromValue(ColumnPermission::VIEW_COLUMNS));
-        $response = $this->get(route('admin.permissions-columns.index'));
+        $response = $this->get(route('admin.permissions.columns.index'));
 
         $response->assertOk();
         $this->assertCount($count, $response['data']);
@@ -44,7 +44,7 @@ final class ReadTest extends TestCase
         $this->authenticateWithPermission(ColumnPermission::fromValue(ColumnPermission::VIEW_COLUMNS));
 
         $column = Column::factory()->create();
-        $response = $this->get(route('admin.permissions-columns.show', ['permissions_column' => $column->id]));
+        $response = $this->get(route('admin.permissions.columns.show', ['column' => $column->id]));
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -61,12 +61,40 @@ final class ReadTest extends TestCase
     /**
      * @test
      */
+    public function can_view_all(): void
+    {
+        $this->authenticateWithPermission(ColumnPermission::fromValue(ColumnPermission::VIEW_COLUMNS));
+
+        Column::factory()->count(10)->create();
+
+        $response = $this->get(route('admin.permissions.columns.all'));
+
+        $response->assertOk();
+
+        $response->assertJsonStructure(['data' => [['id', 'name']]]);
+    }
+
+    /**
+     * @test
+     */
+    public function can_not_view_all(): void
+    {
+        $this->authenticateUser();
+
+        $response = $this->get(route('admin.permissions.columns.all'));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * @test
+     */
     public function user_can_view_not_found(): void
     {
         $this->authenticateWithPermission(ColumnPermission::fromValue(ColumnPermission::VIEW_COLUMNS));
 
-        $response = $this->get(route('admin.permissions-columns.show',
-            ['permissions_column' => Column::orderByDesc('id')->first()?->id + 1 ?? 1]));
+        $response = $this->get(route('admin.permissions.columns.show',
+            ['column' => Column::orderByDesc('id')->first()?->id + 1 ?? 1]));
 
         $response->assertNotFound();
     }
@@ -77,7 +105,7 @@ final class ReadTest extends TestCase
     public function can_not_view_any(): void
     {
         $this->authenticateUser();
-        $response = $this->get(route('admin.permissions-columns.index'));
+        $response = $this->get(route('admin.permissions.columns.index'));
 
         $response->assertForbidden();
     }
@@ -91,7 +119,7 @@ final class ReadTest extends TestCase
 
         $this->authenticateUser();
 
-        $response = $this->get(route('admin.permissions-columns.show', ['permissions_column' => $column->id]));
+        $response = $this->get(route('admin.permissions.columns.show', ['column' => $column->id]));
 
         $response->assertForbidden();
     }
@@ -101,7 +129,7 @@ final class ReadTest extends TestCase
      */
     public function not_unauthorized_view_any(): void
     {
-        $response = $this->get(route('admin.permissions-columns.index'));
+        $response = $this->get(route('admin.permissions.columns.index'));
 
         $response->assertUnauthorized();
     }
@@ -112,7 +140,7 @@ final class ReadTest extends TestCase
     public function not_unauthorized_view(): void
     {
         $column = Column::factory()->create();
-        $response = $this->get(route('admin.permissions-columns.show', ['permissions_column' => $column->id]));
+        $response = $this->get(route('admin.permissions.columns.show', ['column' => $column->id]));
 
         $response->assertUnauthorized();
     }

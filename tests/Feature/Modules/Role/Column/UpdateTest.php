@@ -21,7 +21,7 @@ final class UpdateTest extends TestCase
         $column = Column::factory()->create();
         $data = Column::factory()->make();
 
-        $response = $this->put(route('admin.permissions-columns.update', ['permissions_column' => $column->id]),
+        $response = $this->put(route('admin.permissions.columns.update', ['column' => $column->id]),
             $data->toArray());
 
         $response->assertOk();
@@ -46,7 +46,7 @@ final class UpdateTest extends TestCase
         $columnId = Column::orderByDesc('id')->first()?->id + 1 ?? 1;
         $data = Column::factory()->make();
 
-        $response = $this->put(route('admin.permissions-columns.update', ['permissions_column' => $columnId]),
+        $response = $this->put(route('admin.permissions.columns.update', ['column' => $columnId]),
             $data->toArray());
 
         $response->assertNotFound();
@@ -62,7 +62,7 @@ final class UpdateTest extends TestCase
         $column = Column::factory()->create();
         $data = Column::factory()->make();
 
-        $response = $this->put(route('admin.permissions-columns.update', ['permissions_column' => $column->id]),
+        $response = $this->put(route('admin.permissions.columns.update', ['column' => $column->id]),
             $data->toArray());
 
         $response->assertForbidden();
@@ -77,7 +77,7 @@ final class UpdateTest extends TestCase
 
         $columnOne = Column::factory()->create();
         $columnTwo = Column::factory()->create();
-        $response = $this->put(route('admin.permissions-columns.update', ['permissions_column' => $columnOne->id]), [
+        $response = $this->put(route('admin.permissions.columns.update', ['column' => $columnOne->id]), [
             'name' => $columnTwo->name,
         ]);
 
