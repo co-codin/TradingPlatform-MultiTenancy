@@ -6381,9 +6381,9 @@
                                         "description": "Available IDs for affiliate",
                                         "type": "integer"
                                     },
-                                    "brand_id": {
-                                        "description": "Brand ID",
-                                        "type": "integer"
+                                    "tenant": {
+                                        "description": "Brand domain",
+                                        "type": "string"
                                     },
                                     "desk_id": {
                                         "description": "Desk ID",

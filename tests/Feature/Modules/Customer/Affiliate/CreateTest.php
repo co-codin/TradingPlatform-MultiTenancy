@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Modules\Customer\Admin\Affiliate;
+namespace Tests\Feature\Modules\Customer\Affiliate;
 
 use Illuminate\Support\Str;
 use Modules\Campaign\Models\Campaign;
@@ -71,6 +71,7 @@ class CreateTest extends BrandTestCase
         $data['language'] = Language::find($data['language_id'])->name;
         $data['currency'] = Currency::find($data['currency_id'])->iso3;
         $data['campaign_id'] = $campaign->id;
+        $data['tenant'] = $this->brand->domain;
 
         $response = $this->postJson(route('affiliate.customers.store'), $data);
 
@@ -124,6 +125,7 @@ class CreateTest extends BrandTestCase
         $data['language'] = Language::find($data['language_id'])->name;
         $data['currency'] = Currency::find($data['currency_id'])->iso3;
         $data['campaign_id'] = $campaign->id;
+        $data['tenant'] = $this->brand->domain;
 
         $response = $this->postJson(route('affiliate.customers.store'), $data);
 
@@ -172,6 +174,7 @@ class CreateTest extends BrandTestCase
         $data['language'] = Language::find($data['language_id'])->name;
         $data['currency'] = Currency::find($data['currency_id'])->iso3;
         $data['campaign_id'] = $campaign->id;
+        $data['tenant'] = $this->brand->domain;
 
         $response = $this->postJson(route('affiliate.customers.store'), $data);
 

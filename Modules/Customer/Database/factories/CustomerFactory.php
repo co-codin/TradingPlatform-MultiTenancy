@@ -32,6 +32,8 @@ class CustomerFactory extends BaseFactory
      * Define the model's default state.
      *
      * @return array
+     *
+     * @throws CountryCodeException
      */
     public function definition(): array
     {
@@ -57,8 +59,8 @@ class CustomerFactory extends BaseFactory
     private function getTenantData(): array
     {
         return [
-            'first_name' => $this->faker->unique()->regexify('[a-zA-Z0-9]{8,20}'),
-            'last_name' => $this->faker->unique()->regexify('[a-zA-Z0-9]{8,20}'),
+            'first_name' => $this->faker->unique()->regexify('[a-zA-Z]{8,20}'),
+            'last_name' => $this->faker->unique()->regexify('[a-zA-Z]{8,20}'),
             'gender' => $this->faker->randomElement(Gender::getValues()),
             'email' => $this->faker->unique()->safeEmail(),
             'password' => Hash::make('password'),
@@ -93,13 +95,13 @@ class CustomerFactory extends BaseFactory
     {
         $supportedCountriesForPhones = PhoneNumberUtil::getInstance()->getSupportedRegions();
         $country = Country::inRandomOrder()->whereIn('iso2', $supportedCountriesForPhones)->first()
-            ?? Country::factory()->create(['iso2', $this->faker->randomElement($supportedCountriesForPhones)]);
+            ?: Country::factory()->create(['iso2', $this->faker->randomElement($supportedCountriesForPhones)]);
         $phone = PhoneNumberUtil::getInstance()->getExampleNumber($country->iso2);
         $phone2 = PhoneNumberUtil::getInstance()->getExampleNumber($country->iso2);
 
         return [
-            'phone' => phone($phone->getCountryCode().$phone->getNationalNumber(), Country::pluck('iso2')->toArray())->formatE164(),
-            'phone2' => phone($phone2->getCountryCode().$phone->getNationalNumber(), Country::pluck('iso2')->toArray())->formatE164(),
+            'phone' => $phone->getCountryCode().$phone->getNationalNumber(),
+            'phone2' => $phone2->getCountryCode().$phone2->getNationalNumber(),
             'currency_id' => Currency::inRandomOrder()->first() ?? Currency::factory(),
             'language_id' => Language::inRandomOrder()->first() ?? Language::factory(),
             'country_id' => $country,

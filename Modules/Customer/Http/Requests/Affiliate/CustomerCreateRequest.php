@@ -25,7 +25,7 @@ final class CustomerCreateRequest extends BaseFormRequest
             'language' => 'required|string|max:35',
             'currency' => 'required|string|max:35',
             'campaign_id' => 'required|integer|exists:landlord.campaigns,id',
-            'brand_id' => 'sometimes|integer|exists:landlord.brand,id',
+            'tenant' => 'required|string|max:35|exists:landlord.brands,domain',
             'desk_id' => 'sometimes|integer|exists:tenant.desks,id',
             'offer_name' => 'sometimes|string|max:35',
             'offer_url' => 'sometimes|string',
