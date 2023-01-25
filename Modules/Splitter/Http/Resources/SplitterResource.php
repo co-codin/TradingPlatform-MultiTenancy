@@ -18,6 +18,7 @@ use OpenApi\Annotations as OA;
  *         "name",
  *         "is_active",
  *         "conditions",
+ *         "share_conditions",
  *         "position",
  *         "deleted_at",
  *         "created_at",
@@ -28,12 +29,12 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="name", type="string", description="Splitter name"),
  *     @OA\Property(property="is_active", type="boolean", description="Splitter is active"),
  *     @OA\Property(property="conditions", type="string", description="Splitter conditions", example={}),
+ *     @OA\Property(property="share_conditions", type="string", description="Splitter share conditions", example={}),
  *     @OA\Property(property="position", type="integer", description="Splitter position"),
  *     @OA\Property(property="deleted_at", type="string", format="date-time", description="Date and time of deleted", example="2022-12-17 08:44:09"),
  *     @OA\Property(property="created_at", type="string", format="date-time", description="Date and time of creation", example="2022-12-17 08:44:09"),
  *     @OA\Property(property="updated_at", type="string", format="date-time", description="Date and time of last update", example="2022-12-17 08:44:09"),
  * ),
- *
  * @OA\Schema (
  *     schema="SplitterCollection",
  *     type="object",
@@ -48,7 +49,6 @@ use OpenApi\Annotations as OA;
  *         ref="#/components/schemas/Meta"
  *     )
  * ),
- *
  * @OA\Schema (
  *     schema="SplitterResource",
  *     type="object",
@@ -60,6 +60,7 @@ use OpenApi\Annotations as OA;
  * )
  *
  * Class SplitterResource
+ *
  * @mixin Splitter
  */
 final class SplitterResource extends JsonResource

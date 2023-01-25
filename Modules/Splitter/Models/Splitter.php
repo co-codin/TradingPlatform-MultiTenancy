@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Splitter\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Splitter\Database\factories\SplitterFactory;
+use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
 class Splitter extends Model
 {
@@ -26,6 +26,7 @@ class Splitter extends Model
      */
     protected $casts = [
         'conditions' => 'collection',
+        'share_conditions' => 'collection',
     ];
 
     protected static function newFactory()

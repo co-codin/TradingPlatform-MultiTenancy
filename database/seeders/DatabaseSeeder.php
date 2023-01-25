@@ -12,6 +12,7 @@ use Modules\Geo\Database\Seeders\GeoDatabaseSeeder;
 use Modules\Language\Database\Seeders\LanguageDatabaseSeeder;
 use Modules\Role\Database\Seeders\RoleDatabaseSeeder;
 use Modules\Role\Database\Seeders\RolePermissionColumnsSeeder;
+use Modules\Splitter\Database\Seeders\SplitterDatabaseSeeder;
 use Modules\User\Database\Seeders\UserDatabaseSeeder;
 
 final class DatabaseSeeder extends Seeder
@@ -33,6 +34,7 @@ final class DatabaseSeeder extends Seeder
             ModelsTableSeeder::class,
             RolePermissionColumnsSeeder::class,
             CampaignDatabaseSeeder::class,
+            SplitterDatabaseSeeder::class,
         ]);
     }
 }
