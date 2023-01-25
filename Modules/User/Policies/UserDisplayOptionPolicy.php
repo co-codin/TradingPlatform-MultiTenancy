@@ -12,6 +12,17 @@ use Modules\User\Models\User;
 class UserDisplayOptionPolicy extends BasePolicy
 {
     /**
+     * View any policy.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function viewAny(User $user): bool
+    {
+        return $user->can(UserDisplayOptionPermission::VIEW_USER_DISPLAY_OPTIONS);
+    }
+
+    /**
      * View policy.
      *
      * @param  User  $user

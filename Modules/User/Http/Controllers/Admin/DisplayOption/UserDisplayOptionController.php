@@ -7,6 +7,7 @@ namespace Modules\User\Http\Controllers\Admin\DisplayOption;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Modules\User\Http\Requests\DisplayOption\UserDisplayOptionCreateRequest;
@@ -29,6 +30,47 @@ final class UserDisplayOptionController extends Controller
         protected DisplayOptionRepository $displayOptionRepository,
         protected UserDisplayOptionStorage $userDisplayOptionStorage
     ) {
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/admin/workers/{workerId}/display-options",
+     *     tags={"Worker"},
+     *     security={ {"sanctum": {} }},
+     *     summary="Show display options list.",
+     *     @OA\Parameter(
+     *         description="Worker id",
+     *         in="path",
+     *         name="workerId",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\JsonContent(ref="#/components/schemas/WorkerCollection")
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized Error"
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Forbidden Error"
+     *     )
+     * )
+     *
+     * @return AnonymousResourceCollection
+     *
+     * @throws AuthorizationException
+     */
+    public function index(): AnonymousResourceCollection
+    {
+        $this->authorize('viewAny', DisplayOption::class);
+
+        $displayOptions = $this->displayOptionRepository->jsonPaginate();
+
+        return DisplayOptionResource::collection($displayOptions);
     }
 
     /**

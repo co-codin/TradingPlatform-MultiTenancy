@@ -92,10 +92,8 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
         ]);
 
     Route::apiResource('workers.display-options', UserDisplayOptionController::class)
-        ->except([
-            'index',
-        ])
         ->names([
+            'index' => 'users.display-options.index',
             'show' => 'users.display-options.show',
             'store' => 'users.display-options.store',
             'update' => 'users.display-options.update',

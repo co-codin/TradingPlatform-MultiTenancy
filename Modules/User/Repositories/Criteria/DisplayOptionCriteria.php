@@ -22,6 +22,7 @@ final class DisplayOptionCriteria extends BaseCriteria
                 'id',
                 'name',
                 'user_id',
+                'model_id',
                 'columns',
                 'per_page',
                 'created_at',
@@ -29,7 +30,8 @@ final class DisplayOptionCriteria extends BaseCriteria
             ])
             ->allowedFilters([
                 AllowedFilter::exact('id'),
-                AllowedFilter::partial('user_id'),
+                AllowedFilter::exact('user_id'),
+                AllowedFilter::exact('model_id'),
                 AllowedFilter::partial('name'),
                 AllowedFilter::trashed(),
             ])
@@ -41,6 +43,7 @@ final class DisplayOptionCriteria extends BaseCriteria
                 'id',
                 'name',
                 'user_id',
+                'model_id',
                 'created_at',
                 'updated_at',
             ]);
