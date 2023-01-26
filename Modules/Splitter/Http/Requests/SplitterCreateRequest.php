@@ -14,12 +14,10 @@ final class SplitterCreateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|int|exists:landlord.users,id',
             'name' => 'required|string|max:35',
             'is_active' => 'required|boolean',
             'conditions' => 'sometimes|array',
             'share_conditions' => 'sometimes|array',
-            'position' => 'sometimes|integer',
         ];
     }
 }

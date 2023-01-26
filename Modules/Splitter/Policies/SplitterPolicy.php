@@ -59,6 +59,17 @@ class SplitterPolicy extends BasePolicy
     }
 
     /**
+     * Update positions policy.
+     *
+     * @param  User  $user
+     * @return bool
+     */
+    public function updatePositions(User $user): bool
+    {
+        return $user->can(SplitterPermission::EDIT_SPLITTER_POSITIONS) && $user->hasRole(DefaultRole::AFFILIATE);
+    }
+
+    /**
      * Delete policy.
      *
      * @param  User  $user

@@ -8,8 +8,6 @@ use App\Dto\BaseDto;
 
 final class SplitterDto extends BaseDto
 {
-    public ?int $user_id;
-
     public ?string $name;
 
     public ?bool $is_active;
@@ -17,6 +15,4 @@ final class SplitterDto extends BaseDto
     public ?array $conditions;
 
     public ?array $share_conditions;
-
-    public ?int $position;
 }

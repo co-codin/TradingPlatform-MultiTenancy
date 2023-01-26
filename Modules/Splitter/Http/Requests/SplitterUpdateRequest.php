@@ -18,7 +18,6 @@ final class SplitterUpdateRequest extends BaseFormRequest
             'is_active' => 'required|boolean',
             'conditions' => 'sometimes|array',
             'share_conditions' => 'sometimes|array',
-            'position' => 'sometimes|integer',
         ];
     }
 }
