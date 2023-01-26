@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\User\Services;
 
+use App\Services\Storage\Traits\HasBelongsToMany;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
@@ -12,6 +13,8 @@ use Modules\User\Models\User;
 
 final class UserStorage
 {
+    use HasBelongsToMany;
+
     /**
      * @param  array  $attributes
      * @return User
@@ -24,10 +27,10 @@ final class UserStorage
 
         $user->roles()->sync(Arr::pluck($attributes['roles'], 'id'));
 
-        ! empty($attributes['desks']) && $user->desks()->sync(Arr::pluck($attributes['desks'], 'id'));
-        ! empty($attributes['languages']) && $user->languages()->sync(Arr::pluck($attributes['languages'], 'id'));
-        ! empty($attributes['countries']) && $user->countries()->sync(Arr::pluck($attributes['countries'], 'id'));
-        ! empty($attributes['brands']) && $user->brands()->sync(Arr::pluck($attributes['brands'], 'id'));
+        $this->syncBelongsToManyWithPivot($user, $attributes, 'desks');
+        $this->syncBelongsToManyWithPivot($user, $attributes, 'languages');
+        $this->syncBelongsToManyWithPivot($user, $attributes, 'countries');
+        $this->syncBelongsToManyWithPivot($user, $attributes, 'brands');
 
         return $user;
     }
@@ -49,8 +52,8 @@ final class UserStorage
             throw new Exception('Cant update user');
         }
 
-        ! empty($attributes['roles']) && $user->roles()->sync(Arr::pluck($attributes['roles'], 'id'));
-        ! empty($attributes['brands']) && $user->brands()->sync(Arr::pluck($attributes['brands'], 'id'));
+        $this->syncBelongsToManyWithPivot($user, $attributes, 'roles');
+        $this->syncBelongsToManyWithPivot($user, $attributes, 'brands');
 
         return $user;
     }

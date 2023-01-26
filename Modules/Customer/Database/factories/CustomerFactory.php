@@ -101,7 +101,7 @@ class CustomerFactory extends BaseFactory
 
         return [
             'phone' => $phone->getCountryCode().$phone->getNationalNumber(),
-            'phone2' => $phone2->getCountryCode().$phone2->getNationalNumber(),
+            'phone_2' => $phone2->getCountryCode().$phone2->getNationalNumber(),
             'currency_id' => Currency::inRandomOrder()->first() ?? Currency::factory(),
             'language_id' => Language::inRandomOrder()->first() ?? Language::factory(),
             'country_id' => $country,

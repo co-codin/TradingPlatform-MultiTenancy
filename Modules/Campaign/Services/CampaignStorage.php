@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Modules\Campaign\Services;
 
+use App\Services\Storage\Traits\HasBelongsToMany;
 use Exception;
 use Modules\Campaign\Dto\CampaignDto;
 use Modules\Campaign\Models\Campaign;
 
 final class CampaignStorage
 {
+    use HasBelongsToMany;
+
     /**
      * Store.
      *
@@ -20,9 +23,13 @@ final class CampaignStorage
      */
     public function store(CampaignDto $campaignDto): Campaign
     {
-        if (! $campaign = Campaign::query()->create($campaignDto->toArray())) {
+        $data = $campaignDto->toArray();
+
+        if (! $campaign = Campaign::query()->create($data)) {
             throw new Exception(__('Can not store campaign'));
         }
+
+        $this->syncBelongsToManyWithPivot($campaign, $data, 'countries');
 
         return $campaign;
     }
@@ -38,13 +45,13 @@ final class CampaignStorage
      */
     public function update(Campaign $campaign, CampaignDto $campaignDto): Campaign
     {
+        $data = $campaignDto->toArray();
+
         if (! $campaign->update($campaignDto->toArray())) {
             throw new Exception('Can not update campaign');
         }
 
-        if ($campaignDto->countries) {
-            $campaign->countries()->sync($campaignDto->countries);
-        }
+        $this->syncBelongsToManyWithPivot($campaign, $data, 'countries');
 
         return $campaign;
     }
