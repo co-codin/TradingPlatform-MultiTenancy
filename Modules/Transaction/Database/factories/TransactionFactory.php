@@ -15,7 +15,6 @@ use Modules\Transaction\Models\TransactionsMt5Type;
 use Modules\Transaction\Models\TransactionStatus;
 use Modules\Transaction\Models\Wallet;
 use Modules\User\Models\User;
-use Spatie\Multitenancy\Models\Tenant;
 
 final class TransactionFactory extends BaseFactory
 {
@@ -38,7 +37,7 @@ final class TransactionFactory extends BaseFactory
             : TransactionMt5TypeEnum::getValues());
 
         /** @var Customer $customer */
-        $customer = Customer::inRandomOrder()->first() ?? Customer::factory()->create();
+        $customer = Customer::inRandomOrder()->first();
         $wallet = Wallet::inRandomOrder()->first() ?? Wallet::factory()->create();
 
         return [

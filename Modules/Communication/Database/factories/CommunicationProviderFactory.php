@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Communication\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 use Modules\Communication\Models\CommunicationProvider;
 
 final class CommunicationProviderFactory extends Factory
@@ -24,7 +25,7 @@ final class CommunicationProviderFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->unique()->word,
+            'name' => $this->faker->unique(true)->word . '_' . Str::random(3),
         ];
     }
 }
