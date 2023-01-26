@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Modules\Campaign\Services;
 
-use App\Services\Storage\Traits\HasBelongsToMany;
+use App\Services\Storage\Traits\SyncHelper;
 use Exception;
 use Modules\Campaign\Dto\CampaignDto;
 use Modules\Campaign\Models\Campaign;
 
 final class CampaignStorage
 {
-    use HasBelongsToMany;
+    use SyncHelper;
 
     /**
      * Store.

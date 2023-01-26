@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\User\Services;
 
-use App\Services\Storage\Traits\HasBelongsToMany;
+use App\Services\Storage\Traits\SyncHelper;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
@@ -13,7 +13,7 @@ use Modules\User\Models\User;
 
 final class UserStorage
 {
-    use HasBelongsToMany;
+    use SyncHelper;
 
     /**
      * @param  array  $attributes
