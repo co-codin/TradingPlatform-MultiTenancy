@@ -58,14 +58,12 @@ final class UserTestAdminSeeder extends Seeder
 
     private function createBrandForAdmin(): Brand
     {
-        $data = array_merge(Brand::factory()->make()->toArray(), [
+        return Brand::query()->create(Brand::factory()->make([
             'name' => DefaultRole::ADMIN,
             'title' => DefaultRole::ADMIN,
             'database' => strtolower(DefaultRole::ADMIN),
             'domain' => strtolower(DefaultRole::ADMIN),
-        ]);
-
-        return Brand::query()->create($data);
+        ])->toArray());
     }
 
     private function createAdmin(): void

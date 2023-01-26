@@ -23,8 +23,8 @@ trait SyncHelper
         $relation = $relation ?: $key;
 
         // TODO: fix pivot attrs set
-        return $model->{$relation}()->sync(
-            Arr::map($data[$key] ?? [], fn ($item) => [$item['id'] => Arr::except($item, 'id')])
-        );
+        return isset($data[$key]) ? $model->{$relation}()->sync(
+            Arr::map($data[$key], fn ($item) => [$item['id'] => Arr::except($item, 'id')])
+        ) : [];
     }
 }
