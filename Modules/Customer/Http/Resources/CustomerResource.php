@@ -31,7 +31,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="last_name", type="string", description="Last name"),
  *     @OA\Property(property="email", type="string", format="email", description="Email"),
  *     @OA\Property(property="phone", type="string", format="phone", description="Phone"),
- *     @OA\Property(property="phone2", type="string", format="phone", description="Second phone", nullable="true"),
+ *     @OA\Property(property="phone_2", type="string", format="phone", description="Second phone", nullable="true"),
  *     @OA\Property(property="birthday", type="string", description="Birthday", nullable="true"),
  *     @OA\Property(property="country_id", type="integer", description="Country id"),
  *     @OA\Property(property="language_id", type="integer", description="Language id", nullable="true"),
