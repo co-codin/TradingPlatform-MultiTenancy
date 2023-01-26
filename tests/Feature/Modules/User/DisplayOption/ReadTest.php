@@ -24,6 +24,8 @@ final class ReadTest extends TestCase
             'user_id' => $this->getUser()->id,
         ]);
 
+        $model = $displayOptions->first()->model->name;
+
         $response = $this->get(route('admin.users.display-options.index', ['worker' => $this->getUser()->id]));
 
         $response->assertOk();
