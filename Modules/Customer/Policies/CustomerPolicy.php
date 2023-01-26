@@ -135,4 +135,16 @@ final class CustomerPolicy extends BasePolicy
     {
         return $user->can(CustomerPermission::IMPORT_CUSTOMERS);
     }
+
+    /**
+     * Change password customers policy.
+     *
+     * @param  User  $user
+     * @param  Customer  $customer
+     * @return bool
+     */
+    public function changePassword(User $user, Customer $customer): bool
+    {
+        return $user->can(CustomerPermission::EDIT_CUSTOMERS);
+    }
 }
