@@ -27,6 +27,7 @@ final class UserStorage
         ! empty($attributes['desks']) && $user->desks()->sync(Arr::pluck($attributes['desks'], 'id'));
         ! empty($attributes['languages']) && $user->languages()->sync(Arr::pluck($attributes['languages'], 'id'));
         ! empty($attributes['countries']) && $user->countries()->sync(Arr::pluck($attributes['countries'], 'id'));
+        ! empty($attributes['brands']) && $user->brands()->sync(Arr::pluck($attributes['brands'], 'id'));
 
         return $user;
     }
@@ -48,9 +49,8 @@ final class UserStorage
             throw new Exception('Cant update user');
         }
 
-        if (isset($attributes['roles'])) {
-            $user->roles()->sync(Arr::pluck($attributes['roles'], 'id'));
-        }
+        ! empty($attributes['roles']) && $user->roles()->sync(Arr::pluck($attributes['roles'], 'id'));
+        ! empty($attributes['brands']) && $user->brands()->sync(Arr::pluck($attributes['brands'], 'id'));
 
         return $user;
     }
