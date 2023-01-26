@@ -18,6 +18,7 @@ yarn-error.log
 /.idea
 /.vscoded
 /stubs
+dump.rdb
 
 # IDE Helper
 .phpstorm.meta.php
