@@ -13646,6 +13646,18 @@
                                             "type": "object"
                                         }
                                     },
+                                    "brands": {
+                                        "description": "Array of brands ID",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
                                     "affiliate_id": {
                                         "description": "Affiliate worker ID",
                                         "type": "integer"
@@ -13808,6 +13820,18 @@
                                             "type": "object"
                                         }
                                     },
+                                    "brands": {
+                                        "description": "Array of brands ID",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
                                     "change_password": {
                                         "description": "Must be set to true if the password is changed.",
                                         "type": "boolean"
@@ -13951,6 +13975,18 @@
                                     },
                                     "roles": {
                                         "description": "Array of roles ID",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "brands": {
+                                        "description": "Array of brands ID",
                                         "type": "array",
                                         "items": {
                                             "properties": {

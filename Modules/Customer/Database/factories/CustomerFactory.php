@@ -95,7 +95,7 @@ class CustomerFactory extends BaseFactory
     {
         $supportedCountriesForPhones = PhoneNumberUtil::getInstance()->getSupportedRegions();
         $country = Country::inRandomOrder()->whereIn('iso2', $supportedCountriesForPhones)->first()
-            ?: Country::factory()->create(['iso2', $this->faker->randomElement($supportedCountriesForPhones)]);
+            ?: Country::factory()->create(['iso2' => $this->faker->randomElement($supportedCountriesForPhones)]);
         $phone = PhoneNumberUtil::getInstance()->getExampleNumber($country->iso2);
         $phone2 = PhoneNumberUtil::getInstance()->getExampleNumber($country->iso2);
 
