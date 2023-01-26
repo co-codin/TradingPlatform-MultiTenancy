@@ -24,10 +24,10 @@ final class DeleteTest extends BrandTestCase
 
         $this->user->assignRole(Role::factory()->create([
             'name' => DefaultRole::AFFILIATE,
-            'guard_name' => 'api'
+            'guard_name' => 'api',
         ]));
 
-        $splitter = Splitter::factory()->create();
+        $splitter = Splitter::factory()->create(['user_id' => $this->user->id]);
 
         $response = $this->deleteJson(route('admin.splitter.destroy', ['splitter' => $splitter->id]));
 

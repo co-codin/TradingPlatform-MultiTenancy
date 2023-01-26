@@ -489,6 +489,72 @@
                                         "description": "Campaign ftd cost",
                                         "type": "number",
                                         "format": "float"
+                                    },
+                                    "countries": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "cpa",
+                                                "crg",
+                                                "working_days",
+                                                "working_hours",
+                                                "daily_cap"
+                                            ],
+                                            "properties": {
+                                                "cpa": {
+                                                    "description": "Cpa",
+                                                    "type": "number",
+                                                    "format": "float"
+                                                },
+                                                "crg": {
+                                                    "description": "Crg",
+                                                    "type": "number",
+                                                    "format": "float"
+                                                },
+                                                "working_hours": {
+                                                    "description": "Working days",
+                                                    "type": "string",
+                                                    "example": {
+                                                        "1": {
+                                                            "start": "10:00",
+                                                            "end": "18:00"
+                                                        },
+                                                        "2": {
+                                                            "start": "10:00",
+                                                            "end": "18:00"
+                                                        },
+                                                        "3": {
+                                                            "start": "10:00",
+                                                            "end": "18:00"
+                                                        },
+                                                        "4": {
+                                                            "start": "10:00",
+                                                            "end": "18:00"
+                                                        },
+                                                        "5": {
+                                                            "start": "10:00",
+                                                            "end": "18:00"
+                                                        }
+                                                    }
+                                                },
+                                                "working_days": {
+                                                    "description": "Working hours",
+                                                    "type": "string",
+                                                    "example": [
+                                                        "1",
+                                                        "2",
+                                                        "3",
+                                                        "4",
+                                                        "5"
+                                                    ]
+                                                },
+                                                "daily_cap": {
+                                                    "description": "Daily cap",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -696,7 +762,7 @@
                                                     "type": "number",
                                                     "format": "float"
                                                 },
-                                                "working_days": {
+                                                "working_hours": {
                                                     "description": "Working days",
                                                     "type": "string",
                                                     "example": {
@@ -722,7 +788,7 @@
                                                         }
                                                     }
                                                 },
-                                                "working_hours": {
+                                                "working_days": {
                                                     "description": "Working hours",
                                                     "type": "string",
                                                     "example": [
@@ -891,7 +957,7 @@
                                                     "type": "number",
                                                     "format": "float"
                                                 },
-                                                "working_days": {
+                                                "working_hours": {
                                                     "description": "Working days",
                                                     "type": "string",
                                                     "example": {
@@ -917,7 +983,7 @@
                                                         }
                                                     }
                                                 },
-                                                "working_hours": {
+                                                "working_days": {
                                                     "description": "Working hours",
                                                     "type": "string",
                                                     "example": [
@@ -9710,18 +9776,12 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "user_id",
                                     "name",
                                     "is_active",
                                     "conditions",
-                                    "share_conditions",
-                                    "position"
+                                    "share_conditions"
                                 ],
                                 "properties": {
-                                    "user_id": {
-                                        "description": "Splitter user id",
-                                        "type": "integer"
-                                    },
                                     "name": {
                                         "description": "Splitter name",
                                         "type": "string"
@@ -9732,11 +9792,6 @@
                                     },
                                     "conditions": {
                                         "description": "Splitter conditions",
-                                        "type": "string",
-                                        "example": []
-                                    },
-                                    "share_conditions": {
-                                        "description": "Splitter share conditions",
                                         "type": "string",
                                         "example": []
                                     },
@@ -9848,7 +9903,6 @@
                                     "name",
                                     "is_active",
                                     "conditions",
-                                    "share_conditions",
                                     "position"
                                 ],
                                 "properties": {
@@ -9862,11 +9916,6 @@
                                     },
                                     "conditions": {
                                         "description": "Splitter conditions",
-                                        "type": "string",
-                                        "example": []
-                                    },
-                                    "share_conditions": {
-                                        "description": "Splitter share conditions",
                                         "type": "string",
                                         "example": []
                                     },
@@ -9982,11 +10031,6 @@
                                         "type": "string",
                                         "example": []
                                     },
-                                    "share_conditions": {
-                                        "description": "Splitter share conditions",
-                                        "type": "string",
-                                        "example": []
-                                    },
                                     "position": {
                                         "description": "Splitter position",
                                         "type": "integer"
@@ -10019,6 +10063,56 @@
                     },
                     "404": {
                         "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/splitter/update-positions": {
+            "post": {
+                "tags": [
+                    "Splitter"
+                ],
+                "summary": "Update splitter positions",
+                "operationId": "df363dbfce713aac8f4261a9e2e24733",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "splitterids"
+                                ],
+                                "properties": {
+                                    "splitterids": {
+                                        "description": "Splitter IDs",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": "[1, 2, 3]"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
                     }
                 },
                 "security": [
@@ -18158,7 +18252,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }

@@ -26,14 +26,14 @@ final class CreateTest extends BrandTestCase
 
         $this->user->assignRole(Role::factory()->create([
             'name' => DefaultRole::AFFILIATE,
-            'guard_name' => 'api'
+            'guard_name' => 'api',
         ]));
 
-        $data = Splitter::factory()->make()->toArray();
+        $data = Splitter::factory()->make(['user_id' => $this->user->id])->toArray();
 
         $response = $this->post(route('admin.splitter.store'), $data);
 
-        $response->assertCreated();
+        $response->assertOk();
         $response->assertJson(['data' => $data]);
     }
 

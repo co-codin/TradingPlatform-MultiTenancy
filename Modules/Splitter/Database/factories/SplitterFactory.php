@@ -17,6 +17,8 @@ final class SplitterFactory extends Factory
      */
     protected $model = Splitter::class;
 
+    private static $position = 0;
+
     /**
      * Define the model's default state.
      *
@@ -24,10 +26,19 @@ final class SplitterFactory extends Factory
      */
     public function definition(): array
     {
+        $user_id = (User::first() ?? User::factory()->create())->id;
+
+        if (self::$position == 0) {
+            self::$position = Splitter::whereUserId($user_id)->whereIsActive(true)->max('position') ?? 0;
+        }
+
+        self::$position++;
+
         return [
-            'user_id' => (User::first() ?? User::factory()->create())->id,
+            'user_id' => $user_id,
             'name' => $this->faker->sentence(3),
-            'is_active' => $this->faker->boolean(),
+            'is_active' => true,
+            'position' => self::$position,
         ];
     }
 }

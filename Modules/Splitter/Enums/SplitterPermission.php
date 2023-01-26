@@ -6,8 +6,8 @@ namespace Modules\Splitter\Enums;
 
 use App\Models\Action;
 use BenSampo\Enum\Enum;
-use Modules\Splitter\Models\Splitter;
 use Modules\Role\Contracts\PermissionEnum;
+use Modules\Splitter\Models\Splitter;
 
 final class SplitterPermission extends Enum implements PermissionEnum
 {
@@ -29,6 +29,11 @@ final class SplitterPermission extends Enum implements PermissionEnum
     /**
      * @var string
      */
+    public const EDIT_SPLITTER_POSITIONS = 'edit splitter postitions';
+
+    /**
+     * @var string
+     */
     public const DELETE_SPLITTER = 'delete splitter';
 
     /**
@@ -40,6 +45,7 @@ final class SplitterPermission extends Enum implements PermissionEnum
             self::CREATE_SPLITTER => Action::NAMES['create'],
             self::VIEW_SPLITTER => Action::NAMES['view'],
             self::EDIT_SPLITTER => Action::NAMES['edit'],
+            self::EDIT_SPLITTER_POSITIONS => Action::NAMES['edit'],
             self::DELETE_SPLITTER => Action::NAMES['delete'],
         ];
     }
@@ -61,6 +67,7 @@ final class SplitterPermission extends Enum implements PermissionEnum
             self::CREATE_SPLITTER => 'Create splitter',
             self::VIEW_SPLITTER => 'View splitter',
             self::EDIT_SPLITTER => 'Edit splitter',
+            self::EDIT_SPLITTER_POSITIONS => 'Edit splitter positions',
             self::DELETE_SPLITTER => 'Delete splitter',
         ];
     }

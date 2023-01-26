@@ -60,7 +60,7 @@ final class CustomerCreateRequest extends BaseFormRequest
             'postal_code' => 'sometimes|string|max:35',
             'offer_name' => 'sometimes|string|max:35',
             'offer_url' => 'sometimes|string',
-            'comment_about_customer' => 'sometimes|string',
+            'comment_about_customer' => 'sometimes|string|max:255',
             'source' => 'sometimes|string|max:35',
             'click_id' => 'sometimes|string|max:35',
             'free_param_1' => 'sometimes|string|max:35',

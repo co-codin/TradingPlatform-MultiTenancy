@@ -33,6 +33,7 @@ final class DisplayOptionCriteria extends BaseCriteria
                 AllowedFilter::exact('user_id'),
                 AllowedFilter::exact('model_id'),
                 AllowedFilter::partial('name'),
+                AllowedFilter::exact('model.name'),
                 AllowedFilter::trashed(),
             ])
             ->allowedIncludes([
