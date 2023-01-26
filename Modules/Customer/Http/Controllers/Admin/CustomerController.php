@@ -18,8 +18,6 @@ use Modules\Customer\Models\Customer;
 use Modules\Customer\Repositories\CustomerRepository;
 use Modules\Customer\Services\CustomerBanService;
 use Modules\Customer\Services\CustomerStorage;
-use Modules\User\Models\User;
-use OpenApi\Annotations as OA;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -99,15 +97,18 @@ final class CustomerController extends Controller
      *                 @OA\Property(property="email", type="string", format="email", description="Email"),
      *                 @OA\Property(property="password", type="string", description="Password of customer"),
      *                 @OA\Property(property="phone", type="string", format="phone", description="Phone"),
-     *                 @OA\Property(property="country_id", type="integer", description="Country id"),
-     *                 @OA\Property(property="language_id", type="integer", description="Language id", nullable="true"),
+     *                 @OA\Property(property="phone_2", type="string", format="phone", description="Second phone", nullable="true"),
+     *                 @OA\Property(property="language_id", type="integer", description="Language id"),
      *                 @OA\Property(property="platform_language_id", type="integer", description="Platform language id", nullable="true"),
      *                 @OA\Property(property="browser_language_id", type="integer", description="Browser language id", nullable="true"),
-     *                 @OA\Property(property="phone2", type="string", format="phone", description="Second phone", nullable="true"),
+     *                 @OA\Property(property="currency_id", type="integer", description="Currency id"),
+     *                 @OA\Property(property="country_id", type="integer", description="Country id"),
+     *                 @OA\Property(property="campaign_id", type="integer", description="Campaign id", nullable="true"),
+     *                 @OA\Property(property="desk_id", type="integer", description="Desk id", nullable="true"),
+     *                 @OA\Property(property="department_id", type="integer", description="Department id", nullable="true"),
      *                 @OA\Property(property="city", type="string", description="City", nullable="true"),
      *                 @OA\Property(property="address", type="string", description="Address", nullable="true"),
      *                 @OA\Property(property="postal_code", type="integer", description="Post code"),
-     *                 @OA\Property(property="desk_id", type="integer", description="Desk id", nullable="true"),
      *                 @OA\Property(property="offer_name", type="string", description="Offer name", nullable="true"),
      *                 @OA\Property(property="offer_url", type="string", description="Offer url", nullable="true"),
      *                 @OA\Property(property="comment_about_customer", type="string", description="Comment about customer", nullable="true"),
@@ -219,11 +220,12 @@ final class CustomerController extends Controller
      *                 @OA\Property(property="email", type="string", format="email", description="Email"),
      *                 @OA\Property(property="password", type="string", description="Password of customer"),
      *                 @OA\Property(property="phone", type="string", format="phone", description="Phone"),
+     *                 @OA\Property(property="currency_id", type="integer", description="Currency id"),
      *                 @OA\Property(property="country_id", type="integer", description="Country id"),
      *                 @OA\Property(property="language_id", type="integer", description="Language id", nullable="true"),
      *                 @OA\Property(property="platform_language_id", type="integer", description="Platform language id", nullable="true"),
      *                 @OA\Property(property="browser_language_id", type="integer", description="Browser language id", nullable="true"),
-     *                 @OA\Property(property="phone2", type="string", format="phone", description="Second phone", nullable="true"),
+     *                 @OA\Property(property="phone_2", type="string", format="phone", description="Second phone", nullable="true"),
      *                 @OA\Property(property="city", type="string", description="City", nullable="true"),
      *                 @OA\Property(property="address", type="string", description="Address", nullable="true"),
      *                 @OA\Property(property="postal_code", type="integer", description="Post code"),
@@ -305,11 +307,12 @@ final class CustomerController extends Controller
      *                 @OA\Property(property="email", type="string", format="email", description="Email"),
      *                 @OA\Property(property="password", type="string", description="Password of customer"),
      *                 @OA\Property(property="phone", type="string", format="phone", description="Phone"),
+     *                 @OA\Property(property="currency_id", type="integer", description="Currency id"),
      *                 @OA\Property(property="country_id", type="integer", description="Country id"),
      *                 @OA\Property(property="language_id", type="integer", description="Language id", nullable="true"),
      *                 @OA\Property(property="platform_language_id", type="integer", description="Platform language id", nullable="true"),
      *                 @OA\Property(property="browser_language_id", type="integer", description="Browser language id", nullable="true"),
-     *                 @OA\Property(property="phone2", type="string", format="phone", description="Second phone", nullable="true"),
+     *                 @OA\Property(property="phone_2", type="string", format="phone", description="Second phone", nullable="true"),
      *                 @OA\Property(property="city", type="string", description="City", nullable="true"),
      *                 @OA\Property(property="address", type="string", description="Address", nullable="true"),
      *                 @OA\Property(property="postal_code", type="integer", description="Post code"),

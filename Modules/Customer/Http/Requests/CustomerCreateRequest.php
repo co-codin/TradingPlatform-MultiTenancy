@@ -42,7 +42,7 @@ final class CustomerCreateRequest extends BaseFormRequest
                 'required',
                 'string',
             ],
-            'phone2' => [
+            'phone_2' => [
                 'sometimes',
                 'required',
                 'string',
@@ -50,11 +50,14 @@ final class CustomerCreateRequest extends BaseFormRequest
             'language_id' => 'required|int|exists:landlord.languages,id',
             'platform_language_id' => 'sometimes|required|int|exists:landlord.languages,id',
             'browser_language_id' => 'sometimes|required|int|exists:landlord.languages,id',
+            'currency_id' => 'required|int|exists:landlord.currencies,id',
+            'country_id' => 'required|int|exists:landlord.countries,id',
+            'campaign_id' => 'sometimes|required|int|exists:landlord.campaigns,id',
+            'desk_id' => 'sometimes|integer|exists:tenant.desks,id',
+            'department_id' => 'sometimes|integer|exists:tenant.departments,id',
             'city' => 'sometimes|string|max:35',
             'address' => 'sometimes|string|max:100',
             'postal_code' => 'sometimes|string|max:35',
-            'desk_id' => 'sometimes|integer|exists:tenant.desks,id',
-            'department_id' => 'sometimes|integer|exists:tenant.departments,id',
             'offer_name' => 'sometimes|string|max:35',
             'offer_url' => 'sometimes|string',
             'comment_about_customer' => 'sometimes|string',
@@ -63,9 +66,6 @@ final class CustomerCreateRequest extends BaseFormRequest
             'free_param_1' => 'sometimes|string|max:35',
             'free_param_2' => 'sometimes|string|max:35',
             'free_param_3' => 'sometimes|string|max:35',
-            'currency_id' => 'required|int|exists:landlord.currencies,id',
-            'country_id' => 'required|int|exists:landlord.countries,id',
-            'campaign_id' => 'sometimes|required|int|exists:landlord.campaigns,id',
         ];
 
         $this->validate(Arr::only($rules, ['country_id', 'campaign_id']));
@@ -76,7 +76,7 @@ final class CustomerCreateRequest extends BaseFormRequest
             );
 
             $rules['phone'][] = $phoneRule;
-            $rules['phone2'][] = $phoneRule;
+            $rules['phone_2'][] = $phoneRule;
         }
 
         return $rules;

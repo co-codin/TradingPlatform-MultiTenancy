@@ -22,14 +22,17 @@ final class CustomerDto extends BaseDto
      * @var int|null
      */
     public ?int $gender = 0;
+
     /**
      * @var string|null
      */
     public ?string $email;
+
     /**
      * @var string|null
      */
     public ?string $password;
+
     /**
      * @var string|null
      */
@@ -44,66 +47,82 @@ final class CustomerDto extends BaseDto
      * @var int|null
      */
     public ?int $currency_id = null;
+
     /**
      * @var string|null
      */
-    public ?string $phone2;
+    public ?string $phone_2;
+
     /**
      * @var int|null
      */
     public ?int $language_id = null;
+
     /**
      * @var string|null
      */
     public ?string $city;
+
     /**
      * @var string|null
      */
     public ?string $address;
+
     /**
      * @var string|null
      */
     public ?string $postal_code;
+
     /**
      * @var int|null
      */
     public ?int $desk_id = null;
+
     /**
      * @var int|null
      */
     public ?int $department_id = null;
+
     /**
      * @var string|null
      */
     public ?string $offer_name;
+
     /**
      * @var string|null
      */
     public ?string $offer_url;
+
     /**
      * @var string|null
      */
     public ?string $comment_about_customer;
+
     /**
      * @var string|null
      */
     public ?string $source;
+
     /**
      * @var string|null
      */
     public ?string $click_id;
+
     /**
      * @var string|null
      */
     public ?string $free_param_1;
+
     /**
      * @var string|null
      */
     public ?string $free_param_2;
+
     /**
      * @var string|null
      */
     public ?string $free_param_3;
+
     /**
      * @var ?string
      */

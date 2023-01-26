@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('phone');
-            $table->string('phone2')->nullable();
+            $table->string('phone_2')->nullable();
             $table->timestamp('birthday')->nullable();
 
             $table->foreignId('subbrand_id')->nullable()->constrained('public.brands')->references('id');
