@@ -25,7 +25,7 @@ final class UserStorage
 
         $user = User::create($attributes);
 
-        $user->roles()->sync(Arr::pluck($attributes['roles'], 'id'));
+        $user->roles()->syncRoles(Arr::pluck($attributes['roles'], 'id'));
 
         $this->syncBelongsToManyWithPivot($user, $attributes, 'desks');
         $this->syncBelongsToManyWithPivot($user, $attributes, 'languages');

@@ -40,7 +40,7 @@ final class UserFactory extends Factory
         return $this->state(function (array $attributes) {
             if (! $admin = User::getAdmin()) {
                 $admin = User::factory()->create();
-                $admin->roles()->sync(
+                $admin->roles()->syncRoles(
                     Role::where('name', DefaultRole::ADMIN)->first() ??
                     Role::factory()->create(['name' => DefaultRole::ADMIN])
                 );
@@ -62,7 +62,7 @@ final class UserFactory extends Factory
         return $this->state(function (array $attributes) {
             if (! $admin = User::getAdmin()) {
                 $admin = User::factory()->create();
-                $admin->roles()->sync(
+                $admin->roles()->syncRoles(
                     Role::where('name', DefaultRole::ADMIN)->first() ??
                     Role::factory()->create(['name' => DefaultRole::ADMIN])
                 );

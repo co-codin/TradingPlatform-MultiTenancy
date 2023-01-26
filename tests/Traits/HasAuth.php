@@ -86,7 +86,7 @@ trait HasAuth
                 'name' => DefaultRole::ADMIN,
             ]);
 
-        $user->roles()->sync($role);
+        $user->roles()->syncRoles($role);
 
         $this->setUser($user);
 
