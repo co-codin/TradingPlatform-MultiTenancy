@@ -16,13 +16,15 @@ trait SyncHelper
      * @param  array  $data
      * @param  string  $key
      * @param  string|null  $relation
-     * @return bool
+     * @return array
      */
-    private function syncBelongsToManyWithPivot(Model $model, array $data, string $key, ?string $relation = null): bool
+    private function syncBelongsToManyWithPivot(Model $model, array $data, string $key, ?string $relation = null): array
     {
         $relation = $relation ?: $key;
-        $data = Arr::map($data[$key], fn ($item) => [$item['id'] => Arr::except($item, 'id')]);
 
-        return ! empty($data[$key]) && $model->{$relation}()->sync($data);
+        // TODO: fix pivot attrs set
+        return $model->{$relation}()->sync(
+            Arr::map($data[$key] ?? [], fn ($item) => [$item['id'] => Arr::except($item, 'id')])
+        );
     }
 }
