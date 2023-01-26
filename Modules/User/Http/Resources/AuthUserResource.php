@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Modules\User\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Modules\User\Enums\UserMenu;
+use Illuminate\Support\Facades\Schema;
+use Modules\Brand\Models\Brand;
 use Modules\User\Models\User;
 use OpenApi\Annotations as OA;
 
@@ -98,9 +99,12 @@ class AuthUserResource extends JsonResource
             'email' => $this->email,
             'permissions' => $this->getPermissionsViaRoles()->pluck('name'),
             'roles' => $this->roles->map->only(['id', 'name', 'guard_name', 'key'])->values(),
-            'notifications' => [
+            'notifications' => Brand::whereDatabase($request->header('tenant'))->exists() ? [
                 'count' => $this->unreadNotifications->count(),
                 'list' => $this->unreadNotifications,
+            ] : [
+                'count' => 0,
+                'list' => [],
             ],
             'menu' => new UserMenuResource($this),
         ];
