@@ -21,18 +21,6 @@ final class UserTestAdminSeeder extends Seeder
         $this->brand = $this->createBrandForAdmin();
     }
 
-    private function createBrandForAdmin(): Brand
-    {
-        $data = array_merge(Brand::factory()->make()->toArray(), [
-            'name' => DefaultRole::ADMIN,
-            'title' => DefaultRole::ADMIN,
-            'database' => strtolower(DefaultRole::ADMIN),
-            'domain' => strtolower(DefaultRole::ADMIN),
-        ]);
-
-        return Brand::query()->updateOrCreate($data);
-    }
-
     public function run(): void
     {
         $this->createAdmin();
@@ -40,62 +28,7 @@ final class UserTestAdminSeeder extends Seeder
         $this->createTestUsers();
     }
 
-    private function createAdmin(): void
-    {
-        $user = $this->getUserByEmail('admin@stoxtech.com');
-
-        $user->assignRole([
-            Role::query()->firstOrCreate(
-                Role::factory()->raw([
-                    'name' => DefaultRole::ADMIN,
-                    'key' => strtolower(DefaultRole::ADMIN),
-                ])
-            ),
-            Role::query()->firstOrCreate(
-                Role::factory()->raw([
-                    'name' => DefaultRole::ADMIN,
-                    'key' => strtolower(DefaultRole::ADMIN),
-                    'guard_name' => 'api',
-                ])
-            ),
-        ]);
-
-        $user->brands()->sync($this->brand);
-    }
-
-    private function createTestUsers(): void
-    {
-        $emails = [
-            'qa@stoxtech.dev',
-            'qa+worker@stoxtech.dev',
-            'qa+worker1@stoxtech.dev',
-            'qa+worker2@stoxtech.dev',
-        ];
-
-        $roles = Role::query()->firstOrCreate(
-            Role::factory()->raw([
-                'name' => 'Brand Admin',
-                'key' => 'brand-admin',
-            ]),
-            Role::factory()->raw([
-                'name' => 'Brand Admin',
-                'key' => 'brand-admin',
-                'guard_name' => 'api',
-            ]),
-        );
-
-        $userIds = [];
-
-        foreach ($emails as $email) {
-            $user = $this->getUserByEmail($email);
-            $user->assignRole($roles);
-            $userIds[] = $user->id;
-        }
-
-        $this->brand->users()->sync($userIds, false);
-    }
-
-    public function createWorkers()
+    public function createWorkers(): void
     {
         $roles = [
             DefaultRole::BRAND_MANAGER,
@@ -117,14 +50,49 @@ final class UserTestAdminSeeder extends Seeder
             $user = User::factory()->create();
             $userIds[] = $user->id;
 
-            $user->assignRole(
-                Role::query()->firstOrCreate(
-                    Role::factory()->raw([
-                        'name' => $role,
-                        'key' => Str::slug($role),
-                    ])
-                )
-            );
+            $user->roles()->sync(Role::firstWhere('name', $role));
+        }
+
+        $this->brand->users()->sync($userIds, false);
+    }
+
+    private function createBrandForAdmin(): Brand
+    {
+        $data = array_merge(Brand::factory()->make()->toArray(), [
+            'name' => DefaultRole::ADMIN,
+            'title' => DefaultRole::ADMIN,
+            'database' => strtolower(DefaultRole::ADMIN),
+            'domain' => strtolower(DefaultRole::ADMIN),
+        ]);
+
+        return Brand::query()->create($data);
+    }
+
+    private function createAdmin(): void
+    {
+        $user = $this->getUserByEmail('admin@stoxtech.com');
+
+        $user->roles()->sync(Role::where('name', DefaultRole::ADMIN)->get());
+
+        $user->brands()->sync($this->brand);
+    }
+
+    private function createTestUsers(): void
+    {
+        $emails = [
+            'qa@stoxtech.dev',
+            'qa+worker@stoxtech.dev',
+            'qa+worker1@stoxtech.dev',
+            'qa+worker2@stoxtech.dev',
+        ];
+
+        $roles = Role::where('name', DefaultRole::BRAND_ADMIN)->get();
+        $userIds = [];
+
+        foreach ($emails as $email) {
+            $user = $this->getUserByEmail($email);
+            $user->roles()->sync($roles);
+            $userIds[] = $user->id;
         }
 
         $this->brand->users()->sync($userIds, false);

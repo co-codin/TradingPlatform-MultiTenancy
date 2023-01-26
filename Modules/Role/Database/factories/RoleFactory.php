@@ -28,7 +28,7 @@ final class RoleFactory extends Factory
 
         return [
             'name' => $name,
-            'key' => Str::slug("{$name} {$guard}"),
+            'key' => Str::slug($name),
             'guard_name' => $guard,
             'is_default' => $this->faker->boolean(10),
         ];

@@ -17,12 +17,11 @@ use Modules\User\Models\User;
 
 trait HasAuth
 {
-    protected readonly Authenticatable $user;
-
     /**
      * @var string
      */
     public static string $basePassword = 'Password%12345';
+    protected readonly Authenticatable $user;
 
     /**
      * Authenticate user.
@@ -86,7 +85,7 @@ trait HasAuth
                 'name' => DefaultRole::ADMIN,
             ]);
 
-        $user->roles()->syncRoles($role);
+        $user->roles()->sync($role);
 
         $this->setUser($user);
 
