@@ -5182,14 +5182,15 @@
                                         "type": "string",
                                         "format": "phone"
                                     },
-                                    "country_id": {
-                                        "description": "Country id",
-                                        "type": "integer"
+                                    "phone_2": {
+                                        "description": "Second phone",
+                                        "type": "string",
+                                        "format": "phone",
+                                        "nullable": "true"
                                     },
                                     "language_id": {
                                         "description": "Language id",
-                                        "type": "integer",
-                                        "nullable": "true"
+                                        "type": "integer"
                                     },
                                     "platform_language_id": {
                                         "description": "Platform language id",
@@ -5201,10 +5202,27 @@
                                         "type": "integer",
                                         "nullable": "true"
                                     },
-                                    "phone2": {
-                                        "description": "Second phone",
-                                        "type": "string",
-                                        "format": "phone",
+                                    "currency_id": {
+                                        "description": "Currency id",
+                                        "type": "integer"
+                                    },
+                                    "country_id": {
+                                        "description": "Country id",
+                                        "type": "integer"
+                                    },
+                                    "campaign_id": {
+                                        "description": "Campaign id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "desk_id": {
+                                        "description": "Desk id",
+                                        "type": "integer",
+                                        "nullable": "true"
+                                    },
+                                    "department_id": {
+                                        "description": "Department id",
+                                        "type": "integer",
                                         "nullable": "true"
                                     },
                                     "city": {
@@ -5220,11 +5238,6 @@
                                     "postal_code": {
                                         "description": "Post code",
                                         "type": "integer"
-                                    },
-                                    "desk_id": {
-                                        "description": "Desk id",
-                                        "type": "integer",
-                                        "nullable": "true"
                                     },
                                     "offer_name": {
                                         "description": "Offer name",
@@ -5389,6 +5402,10 @@
                                         "type": "string",
                                         "format": "phone"
                                     },
+                                    "currency_id": {
+                                        "description": "Currency id",
+                                        "type": "integer"
+                                    },
                                     "country_id": {
                                         "description": "Country id",
                                         "type": "integer"
@@ -5408,7 +5425,7 @@
                                         "type": "integer",
                                         "nullable": "true"
                                     },
-                                    "phone2": {
+                                    "phone_2": {
                                         "description": "Second phone",
                                         "type": "string",
                                         "format": "phone",
@@ -5675,6 +5692,10 @@
                                         "type": "string",
                                         "format": "phone"
                                     },
+                                    "currency_id": {
+                                        "description": "Currency id",
+                                        "type": "integer"
+                                    },
                                     "country_id": {
                                         "description": "Country id",
                                         "type": "integer"
@@ -5694,7 +5715,7 @@
                                         "type": "integer",
                                         "nullable": "true"
                                     },
-                                    "phone2": {
+                                    "phone_2": {
                                         "description": "Second phone",
                                         "type": "string",
                                         "format": "phone",
@@ -9708,10 +9729,9 @@
                                         "type": "string",
                                         "example": []
                                     },
-                                    "share_conditions": {
-                                        "description": "Splitter share conditions",
-                                        "type": "string",
-                                        "example": []
+                                    "position": {
+                                        "description": "Splitter position",
+                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"
@@ -9817,7 +9837,7 @@
                                     "name",
                                     "is_active",
                                     "conditions",
-                                    "share_conditions"
+                                    "position"
                                 ],
                                 "properties": {
                                     "name": {
@@ -9833,10 +9853,9 @@
                                         "type": "string",
                                         "example": []
                                     },
-                                    "share_conditions": {
-                                        "description": "Splitter share conditions",
-                                        "type": "string",
-                                        "example": []
+                                    "position": {
+                                        "description": "Splitter position",
+                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"
@@ -9946,10 +9965,9 @@
                                         "type": "string",
                                         "example": []
                                     },
-                                    "share_conditions": {
-                                        "description": "Splitter share conditions",
-                                        "type": "string",
-                                        "example": []
+                                    "position": {
+                                        "description": "Splitter position",
+                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"
@@ -13694,6 +13712,18 @@
                                             "type": "object"
                                         }
                                     },
+                                    "brands": {
+                                        "description": "Array of brands ID",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
                                     "affiliate_id": {
                                         "description": "Affiliate worker ID",
                                         "type": "integer"
@@ -13856,6 +13886,18 @@
                                             "type": "object"
                                         }
                                     },
+                                    "brands": {
+                                        "description": "Array of brands ID",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
                                     "change_password": {
                                         "description": "Must be set to true if the password is changed.",
                                         "type": "boolean"
@@ -13999,6 +14041,18 @@
                                     },
                                     "roles": {
                                         "description": "Array of roles ID",
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "brands": {
+                                        "description": "Array of brands ID",
                                         "type": "array",
                                         "items": {
                                             "properties": {
@@ -16144,7 +16198,7 @@
                         "type": "string",
                         "format": "phone"
                     },
-                    "phone2": {
+                    "phone_2": {
                         "description": "Second phone",
                         "type": "string",
                         "format": "phone",

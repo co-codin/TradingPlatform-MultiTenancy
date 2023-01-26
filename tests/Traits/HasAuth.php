@@ -22,7 +22,7 @@ trait HasAuth
     /**
      * @var string
      */
-    public static string $basePassword = 'Password%';
+    public static string $basePassword = 'Password%12345';
 
     /**
      * Authenticate user.

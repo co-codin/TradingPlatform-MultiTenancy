@@ -36,11 +36,12 @@ final class CustomerUpdateRequest extends BaseFormRequest
                 'required',
                 'string',
             ],
-            'phone2' => [
+            'phone_2' => [
                 'sometimes',
                 'required',
                 'string',
             ],
+            'currency_id' => 'sometimes|required|int|exists:landlord.currencies,id',
             'language_id' => 'sometimes|required|int|exists:landlord.languages,id',
             'platform_language_id' => 'sometimes|required|int|exists:landlord.languages,id',
             'browser_language_id' => 'sometimes|required|int|exists:landlord.languages,id',
@@ -91,7 +92,7 @@ final class CustomerUpdateRequest extends BaseFormRequest
             );
 
             $rules['phone'][] = $phoneRule;
-            $rules['phone2'][] = $phoneRule;
+            $rules['phone_2'][] = $phoneRule;
         }
 
         return $rules;
