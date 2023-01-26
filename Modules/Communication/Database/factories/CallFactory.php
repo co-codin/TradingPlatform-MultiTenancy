@@ -44,7 +44,7 @@ class CallFactory extends Factory
     private function getTenantData(): array
     {
         return [
-            'provider_id' => CommunicationProvider::factory(),
+            'provider_id' => CommunicationProvider::inRandomOrder()->first() ?? CommunicationProvider::factory(),
             'duration' => $this->faker->numberBetween(5, 60),
             'text' => $this->faker->sentence(15),
             'status' => $this->faker->numberBetween(1, 3),
