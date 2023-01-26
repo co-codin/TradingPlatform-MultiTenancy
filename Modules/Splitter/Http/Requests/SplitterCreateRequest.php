@@ -22,11 +22,7 @@ final class SplitterCreateRequest extends BaseFormRequest
                 'array',
                 new ConditionsRule(),
             ],
-            'share_conditions' => [
-                'sometimes',
-                'array',
-                new ConditionsRule(),
-            ],
+            'share_conditions' => 'sometimes|array',
         ];
     }
 }
