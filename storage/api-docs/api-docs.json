@@ -5167,6 +5167,79 @@
                 }
             }
         },
+        "/admin/customers/{id}/change-password": {
+            "post": {
+                "tags": [
+                    "Customer"
+                ],
+                "summary": "Change password",
+                "operationId": "04cf4b85874c94f642456cc731c8d7da",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Customer ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "password"
+                                ],
+                                "properties": {
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "password": {
+                                            "type": "string",
+                                            "format": "password"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "202": {
+                        "description": "Accepted"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
         "/admin/customers": {
             "get": {
                 "tags": [
@@ -9795,9 +9868,10 @@
                                         "type": "string",
                                         "example": []
                                     },
-                                    "position": {
-                                        "description": "Splitter position",
-                                        "type": "integer"
+                                    "share_conditions": {
+                                        "description": "Splitter share conditions",
+                                        "type": "string",
+                                        "example": []
                                     }
                                 },
                                 "type": "object"
@@ -9903,7 +9977,7 @@
                                     "name",
                                     "is_active",
                                     "conditions",
-                                    "position"
+                                    "share_conditions"
                                 ],
                                 "properties": {
                                     "name": {
@@ -9919,9 +9993,10 @@
                                         "type": "string",
                                         "example": []
                                     },
-                                    "position": {
-                                        "description": "Splitter position",
-                                        "type": "integer"
+                                    "share_conditions": {
+                                        "description": "Splitter share conditions",
+                                        "type": "string",
+                                        "example": []
                                     }
                                 },
                                 "type": "object"
@@ -10031,9 +10106,10 @@
                                         "type": "string",
                                         "example": []
                                     },
-                                    "position": {
-                                        "description": "Splitter position",
-                                        "type": "integer"
+                                    "share_conditions": {
+                                        "description": "Splitter share conditions",
+                                        "type": "string",
+                                        "example": []
                                     }
                                 },
                                 "type": "object"

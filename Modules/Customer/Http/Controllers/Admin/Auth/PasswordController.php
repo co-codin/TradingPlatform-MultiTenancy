@@ -9,6 +9,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Password;
+use Modules\Customer\Http\Requests\PasswordChangeRequest;
 use Modules\Customer\Http\Requests\PasswordResetRequest;
 use Modules\Customer\Repositories\CustomerRepository;
 use OpenApi\Annotations as OA;
@@ -107,5 +108,73 @@ class PasswordController extends Controller
                     'password' => $request->validated('password'),
                 ],
             ]);
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/admin/customers/{id}/change-password",
+     *     tags={"Customer"},
+     *     summary="Change password",
+     *     @OA\Parameter(
+     *         description="Customer ID",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *     ),
+     *     @OA\RequestBody(
+     *          required=true,
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema (
+     *                  type="object",
+     *                  required={"password"},
+     *                  @OA\Property(property="password", format="password", type="string"),
+     *              )
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Successful",
+     *          @OA\JsonContent (
+     *              type="object",
+     *              @OA\Property(property="password", format="password", type="string"),
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=202,
+     *          description="Accepted"
+     *     ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="Validation Error",
+     *          @OA\JsonContent(ref="#/components/schemas/ValidationError")
+     *     ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *     )
+     * )
+     *
+     * @param  PasswordResetRequest  $request
+     * @param  int  $customer
+     * @return Response|JsonResponse
+     *
+     * @throws AuthorizationException
+     * @throws UnknownProperties
+     */
+    public function change(PasswordChangeRequest $request, int $customer)
+    {
+        $customer = $this->customerRepository->findOrFail($customer);
+
+        $this->authorize('changePassword', $customer);
+
+        $this->passwordService->change($customer, $request->validated('password'));
+
+        return response()->json([
+            'data' => [
+                'password' => $request->validated('password'),
+            ],
+        ]);
     }
 }

@@ -31,6 +31,10 @@ Route::group(['middleware' => 'tenant'], function () {
         Route::post('customers/{customer}/reset-password', [PasswordController::class, 'reset'])
             ->name('customers.password.reset');
 
+        // Сhange password
+        Route::post('customers/{customer}/change-password', [PasswordController::class, 'change'])
+        ->name('customers.password.change');
+
         // Impersonation
         Route::post('customers/{id}/impersonate/token', [CustomerImpersonateController::class, 'token'])
             ->name('customers.impersonate.token');

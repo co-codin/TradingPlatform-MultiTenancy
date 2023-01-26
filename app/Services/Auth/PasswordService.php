@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Services\Auth;
 
 use App\Dto\Auth\PasswordResetDto;
+use Exception;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Modules\Customer\Models\Customer;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 final class PasswordService
@@ -76,5 +78,14 @@ final class PasswordService
     public function sendResetLink(array $credentials): string
     {
         return Password::broker($this->broker)->sendResetLink($credentials);
+    }
+
+    public function change(Customer $customer, string $password): void
+    {
+        if (! $customer->update([
+            'password' => Hash::make($password),
+        ])) {
+            throw new Exception('Can not update customer paassword');
+        }
     }
 }
