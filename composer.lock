@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5450b18a6bb78ca208fd550651c62a4d",
+    "content-hash": "b6bbe663ee5e27d4e94e73d7dc8294eb",
     "packages": [
         {
             "name": "bensampo/laravel-enum",
@@ -3936,16 +3936,16 @@
         },
         {
             "name": "phpoffice/phpspreadsheet",
-            "version": "1.26.0",
+            "version": "1.27.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-                "reference": "5b6ceea9705b068f993e268e4debc566c2637063"
+                "reference": "eeb8582f9cabf5a7f4ef78015691163233a1834f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/5b6ceea9705b068f993e268e4debc566c2637063",
-                "reference": "5b6ceea9705b068f993e268e4debc566c2637063",
+                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/eeb8582f9cabf5a7f4ef78015691163233a1834f",
+                "reference": "eeb8582f9cabf5a7f4ef78015691163233a1834f",
                 "shasum": ""
             },
             "require": {
@@ -4035,9 +4035,9 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPOffice/PhpSpreadsheet/issues",
-                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/1.26.0"
+                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/1.27.0"
             },
-            "time": "2022-12-21T12:22:06+00:00"
+            "time": "2023-01-24T20:07:45+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -4113,76 +4113,6 @@
                 }
             ],
             "time": "2022-07-30T15:51:26+00:00"
-        },
-        {
-            "name": "predis/predis",
-            "version": "v2.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/predis/predis.git",
-                "reference": "c5b60884e89630f9518a7919f0566db438f0fc9a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/predis/predis/zipball/c5b60884e89630f9518a7919f0566db438f0fc9a",
-                "reference": "c5b60884e89630f9518a7919f0566db438f0fc9a",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.2 || ^8.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^8.0 || ~9.4.4"
-            },
-            "suggest": {
-                "ext-curl": "Allows access to Webdis when paired with phpiredis"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "2.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Predis\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Till Krüss",
-                    "homepage": "https://till.im",
-                    "role": "Maintainer"
-                },
-                {
-                    "name": "Daniele Alessandri",
-                    "email": "suppakilla@gmail.com",
-                    "homepage": "http://clorophilla.net",
-                    "role": "Creator"
-                }
-            ],
-            "description": "A flexible and feature-complete Redis client for PHP.",
-            "homepage": "http://github.com/predis/predis",
-            "keywords": [
-                "nosql",
-                "predis",
-                "redis"
-            ],
-            "support": {
-                "issues": "https://github.com/predis/predis/issues",
-                "source": "https://github.com/predis/predis/tree/v2.1.1"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/tillkruss",
-                    "type": "github"
-                }
-            ],
-            "time": "2023-01-17T20:57:35+00:00"
         },
         {
             "name": "prettus/l5-repository",
@@ -5342,28 +5272,28 @@
         },
         {
             "name": "spatie/laravel-activitylog",
-            "version": "4.7.2",
+            "version": "4.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-activitylog.git",
-                "reference": "eee61436e2984119fd71fc338a45ec7d68e3b548"
+                "reference": "ec65a478a909b8df1b4f0c3c45de2592ca7639e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-activitylog/zipball/eee61436e2984119fd71fc338a45ec7d68e3b548",
-                "reference": "eee61436e2984119fd71fc338a45ec7d68e3b548",
+                "url": "https://api.github.com/repos/spatie/laravel-activitylog/zipball/ec65a478a909b8df1b4f0c3c45de2592ca7639e5",
+                "reference": "ec65a478a909b8df1b4f0c3c45de2592ca7639e5",
                 "shasum": ""
             },
             "require": {
-                "illuminate/config": "^8.0 || ^9.0",
-                "illuminate/database": "^8.69 || ^9.27",
-                "illuminate/support": "^8.0 || ^9.0",
+                "illuminate/config": "^8.0 || ^9.0 || ^10.0",
+                "illuminate/database": "^8.69 || ^9.27 || ^10.0",
+                "illuminate/support": "^8.0 || ^9.0 || ^10.0",
                 "php": "^8.0",
                 "spatie/laravel-package-tools": "^1.6.3"
             },
             "require-dev": {
                 "ext-json": "*",
-                "orchestra/testbench": "^6.23 || ^7.0",
+                "orchestra/testbench": "^6.23 || ^7.0 || ^8.0",
                 "pestphp/pest": "^1.20"
             },
             "type": "library",
@@ -5417,7 +5347,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-activitylog/issues",
-                "source": "https://github.com/spatie/laravel-activitylog/tree/4.7.2"
+                "source": "https://github.com/spatie/laravel-activitylog/tree/4.7.3"
             },
             "funding": [
                 {
@@ -5429,28 +5359,28 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-11-14T12:16:46+00:00"
+            "time": "2023-01-25T17:04:51+00:00"
         },
         {
             "name": "spatie/laravel-json-api-paginate",
-            "version": "1.12.1",
+            "version": "1.12.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-json-api-paginate.git",
-                "reference": "f1819952d24a90ec445e0f61759faaeb58a5ea26"
+                "reference": "5ffbeccb542ba96edbfb333f000fa1ae05f413a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-json-api-paginate/zipball/f1819952d24a90ec445e0f61759faaeb58a5ea26",
-                "reference": "f1819952d24a90ec445e0f61759faaeb58a5ea26",
+                "url": "https://api.github.com/repos/spatie/laravel-json-api-paginate/zipball/5ffbeccb542ba96edbfb333f000fa1ae05f413a2",
+                "reference": "5ffbeccb542ba96edbfb333f000fa1ae05f413a2",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "^6.0|^7.0|^8.0|^9.0",
+                "illuminate/support": "^6.0|^7.0|^8.0|^9.0|^10.0",
                 "php": "^7.3|^8.0"
             },
             "require-dev": {
-                "orchestra/testbench": "^4.0|^5.0|^6.0|^7.0",
+                "orchestra/testbench": "^4.0|^5.0|^6.0|^7.0|^8.0",
                 "pestphp/pest": "^1.22",
                 "phpunit/phpunit": "^8.0|^9.0"
             },
@@ -5486,7 +5416,7 @@
                 "spatie"
             ],
             "support": {
-                "source": "https://github.com/spatie/laravel-json-api-paginate/tree/1.12.1"
+                "source": "https://github.com/spatie/laravel-json-api-paginate/tree/1.12.2"
             },
             "funding": [
                 {
@@ -5494,7 +5424,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2022-11-19T20:12:18+00:00"
+            "time": "2023-01-25T00:19:54+00:00"
         },
         {
             "name": "spatie/laravel-multitenancy",
@@ -5719,29 +5649,29 @@
         },
         {
             "name": "spatie/laravel-query-builder",
-            "version": "5.1.1",
+            "version": "5.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-query-builder.git",
-                "reference": "14a6802cd513cfd2abf68044cca5fd7391eb543d"
+                "reference": "5908f58fdff70fb600982b58c187e84855e2b5bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-query-builder/zipball/14a6802cd513cfd2abf68044cca5fd7391eb543d",
-                "reference": "14a6802cd513cfd2abf68044cca5fd7391eb543d",
+                "url": "https://api.github.com/repos/spatie/laravel-query-builder/zipball/5908f58fdff70fb600982b58c187e84855e2b5bc",
+                "reference": "5908f58fdff70fb600982b58c187e84855e2b5bc",
                 "shasum": ""
             },
             "require": {
-                "illuminate/database": "^9.0",
-                "illuminate/http": "^9.0",
-                "illuminate/support": "^9.0",
+                "illuminate/database": "^9.0|^10.0",
+                "illuminate/http": "^9.0|^10.0",
+                "illuminate/support": "^9.0|^10.0",
                 "php": "^8.0",
                 "spatie/laravel-package-tools": "^1.11"
             },
             "require-dev": {
                 "ext-json": "*",
                 "mockery/mockery": "^1.4",
-                "orchestra/testbench": "^7.0",
+                "orchestra/testbench": "^7.0|^8.0",
                 "pestphp/pest": "^1.20",
                 "spatie/laravel-ray": "^1.28"
             },
@@ -5787,7 +5717,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2022-12-02T21:28:40+00:00"
+            "time": "2023-01-24T23:33:10+00:00"
         },
         {
             "name": "spatie/temporary-directory",
@@ -10119,16 +10049,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "9.2.23",
+            "version": "9.2.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "9f1f0f9a2fbb680b26d1cf9b61b6eac43a6e4e9c"
+                "reference": "2cf940ebc6355a9d430462811b5aaa308b174bed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/9f1f0f9a2fbb680b26d1cf9b61b6eac43a6e4e9c",
-                "reference": "9f1f0f9a2fbb680b26d1cf9b61b6eac43a6e4e9c",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/2cf940ebc6355a9d430462811b5aaa308b174bed",
+                "reference": "2cf940ebc6355a9d430462811b5aaa308b174bed",
                 "shasum": ""
             },
             "require": {
@@ -10184,7 +10114,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.23"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.24"
             },
             "funding": [
                 {
@@ -10192,7 +10122,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-12-28T12:41:10+00:00"
+            "time": "2023-01-26T08:26:55+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
