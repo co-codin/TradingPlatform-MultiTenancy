@@ -9726,12 +9726,37 @@
                                     },
                                     "conditions": {
                                         "description": "Splitter conditions",
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "field",
+                                                "operator",
+                                                "value"
+                                            ],
+                                            "properties": {
+                                                "field": {
+                                                    "description": "Splitter condition field",
+                                                    "type": "string",
+                                                    "example": "Gender"
+                                                },
+                                                "operator": {
+                                                    "description": "Splitter condition field operator",
+                                                    "type": "string",
+                                                    "example": "="
+                                                },
+                                                "value": {
+                                                    "description": "Splitter condition field value",
+                                                    "type": "string",
+                                                    "example": "male"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "share_conditions": {
+                                        "description": "Splitter share conditions",
                                         "type": "string",
                                         "example": []
-                                    },
-                                    "position": {
-                                        "description": "Splitter position",
-                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"
@@ -9837,7 +9862,7 @@
                                     "name",
                                     "is_active",
                                     "conditions",
-                                    "position"
+                                    "share_conditions"
                                 ],
                                 "properties": {
                                     "name": {
@@ -9850,12 +9875,37 @@
                                     },
                                     "conditions": {
                                         "description": "Splitter conditions",
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "field",
+                                                "operator",
+                                                "value"
+                                            ],
+                                            "properties": {
+                                                "field": {
+                                                    "description": "Splitter condition field",
+                                                    "type": "string",
+                                                    "example": "Gender"
+                                                },
+                                                "operator": {
+                                                    "description": "Splitter condition field operator",
+                                                    "type": "string",
+                                                    "example": "="
+                                                },
+                                                "value": {
+                                                    "description": "Splitter condition field value",
+                                                    "type": "string",
+                                                    "example": "male"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "share_conditions": {
+                                        "description": "Splitter share conditions",
                                         "type": "string",
                                         "example": []
-                                    },
-                                    "position": {
-                                        "description": "Splitter position",
-                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"
@@ -9962,12 +10012,37 @@
                                     },
                                     "conditions": {
                                         "description": "Splitter conditions",
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "field",
+                                                "operator",
+                                                "value"
+                                            ],
+                                            "properties": {
+                                                "field": {
+                                                    "description": "Splitter condition field",
+                                                    "type": "string",
+                                                    "example": "Gender"
+                                                },
+                                                "operator": {
+                                                    "description": "Splitter condition field operator",
+                                                    "type": "string",
+                                                    "example": "="
+                                                },
+                                                "value": {
+                                                    "description": "Splitter condition field value",
+                                                    "type": "string",
+                                                    "example": "male"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "share_conditions": {
+                                        "description": "Splitter share conditions",
                                         "type": "string",
                                         "example": []
-                                    },
-                                    "position": {
-                                        "description": "Splitter position",
-                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"
