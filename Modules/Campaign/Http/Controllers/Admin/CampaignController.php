@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Response;
 use Modules\Campaign\Dto\CampaignDto;
 use Modules\Campaign\Http\Requests\CampaignCreateRequest;
 use Modules\Campaign\Http\Requests\CampaignUpdateRequest;
@@ -16,7 +15,6 @@ use Modules\Campaign\Http\Resources\CampaignResource;
 use Modules\Campaign\Models\Campaign;
 use Modules\Campaign\Repositories\CampaignRepository;
 use Modules\Campaign\Services\CampaignStorage;
-use OpenApi\Annotations as OA;
 
 class CampaignController extends Controller
 {
@@ -150,17 +148,28 @@ class CampaignController extends Controller
      *                     @OA\Items(
      *                         type="object",
      *                         required={
-     *                             "cpa",
-     *                             "crg",
-     *                             "working_days",
-     *                             "working_hours",
-     *                             "daily_cap",
+     *                             "id",
      *                         },
-     *                         @OA\Property(property="cpa", type="float", description="Cpa"),
-     *                         @OA\Property(property="crg", type="float", description="Crg"),
-     *                         @OA\Property(property="working_hours", type="string", description="Working days", example={"1":{"start":"10:00","end":"18:00"},"2":{"start":"10:00","end":"18:00"},"3":{"start":"10:00","end":"18:00"},"4":{"start":"10:00","end":"18:00"},"5":{"start":"10:00","end":"18:00"}}),
-     *                         @OA\Property(property="working_days", type="string", description="Working hours", example={"1","2","3","4","5"}),
-     *                         @OA\Property(property="daily_cap", type="integer", description="Daily cap"),
+     *                         @OA\Property(property="id", type="integer", description="Country ID"),
+     *                         @OA\Property(
+     *                          property="pivot",
+     *                          type="array",
+     *                          @OA\Items(
+     *                              type="object",
+     *                              required={
+     *                                  "cpa",
+     *                                  "crg",
+     *                                  "working_days",
+     *                                  "working_hours",
+     *                                  "daily_cap",
+     *                              },
+     *                              @OA\Property(property="cpa", type="float", description="Cpa"),
+     *                              @OA\Property(property="crg", type="float", description="Crg"),
+     *                              @OA\Property(property="working_hours", type="string", description="Working days", example={"1":{"start":"10:00","end":"18:00"},"2":{"start":"10:00","end":"18:00"},"3":{"start":"10:00","end":"18:00"},"4":{"start":"10:00","end":"18:00"},"5":{"start":"10:00","end":"18:00"}}),
+     *                              @OA\Property(property="working_days", type="string", description="Working hours", example={"1","2","3","4","5"}),
+     *                              @OA\Property(property="daily_cap", type="integer", description="Daily cap"),
+     *                          ),
+     *                         ),
      *                     )
      *                 ),
      *             )
@@ -242,17 +251,21 @@ class CampaignController extends Controller
      *                     @OA\Items(
      *                         type="object",
      *                         required={
-     *                             "cpa",
-     *                             "crg",
-     *                             "working_days",
-     *                             "working_hours",
-     *                             "daily_cap",
+     *                             "id",
      *                         },
-     *                         @OA\Property(property="cpa", type="float", description="Cpa"),
-     *                         @OA\Property(property="crg", type="float", description="Crg"),
-     *                         @OA\Property(property="working_hours", type="string", description="Working days", example={"1":{"start":"10:00","end":"18:00"},"2":{"start":"10:00","end":"18:00"},"3":{"start":"10:00","end":"18:00"},"4":{"start":"10:00","end":"18:00"},"5":{"start":"10:00","end":"18:00"}}),
-     *                         @OA\Property(property="working_days", type="string", description="Working hours", example={"1","2","3","4","5"}),
-     *                         @OA\Property(property="daily_cap", type="integer", description="Daily cap"),
+     *                         @OA\Property(property="id", type="integer", description="Country ID"),
+     *                         @OA\Property(
+     *                          property="pivot",
+     *                          type="array",
+     *                          @OA\Items(
+     *                              type="object",
+     *                              @OA\Property(property="cpa", type="float", description="Cpa"),
+     *                              @OA\Property(property="crg", type="float", description="Crg"),
+     *                              @OA\Property(property="working_hours", type="string", description="Working days", example={"1":{"start":"10:00","end":"18:00"},"2":{"start":"10:00","end":"18:00"},"3":{"start":"10:00","end":"18:00"},"4":{"start":"10:00","end":"18:00"},"5":{"start":"10:00","end":"18:00"}}),
+     *                              @OA\Property(property="working_days", type="string", description="Working hours", example={"1","2","3","4","5"}),
+     *                              @OA\Property(property="daily_cap", type="integer", description="Daily cap"),
+     *                          ),
+     *                         ),
      *                     )
      *                 ),
      *             )
@@ -313,17 +326,21 @@ class CampaignController extends Controller
      *                     @OA\Items(
      *                         type="object",
      *                         required={
-     *                             "cpa",
-     *                             "crg",
-     *                             "working_days",
-     *                             "working_hours",
-     *                             "daily_cap",
+     *                             "id",
      *                         },
-     *                         @OA\Property(property="cpa", type="float", description="Cpa"),
-     *                         @OA\Property(property="crg", type="float", description="Crg"),
-     *                         @OA\Property(property="working_hours", type="string", description="Working days", example={"1":{"start":"10:00","end":"18:00"},"2":{"start":"10:00","end":"18:00"},"3":{"start":"10:00","end":"18:00"},"4":{"start":"10:00","end":"18:00"},"5":{"start":"10:00","end":"18:00"}}),
-     *                         @OA\Property(property="working_days", type="string", description="Working hours", example={"1","2","3","4","5"}),
-     *                         @OA\Property(property="daily_cap", type="integer", description="Daily cap"),
+     *                         @OA\Property(property="id", type="integer", description="Country ID"),
+     *                         @OA\Property(
+     *                          property="pivot",
+     *                          type="array",
+     *                          @OA\Items(
+     *                              type="object",
+     *                              @OA\Property(property="cpa", type="float", description="Cpa"),
+     *                              @OA\Property(property="crg", type="float", description="Crg"),
+     *                              @OA\Property(property="working_hours", type="string", description="Working days", example={"1":{"start":"10:00","end":"18:00"},"2":{"start":"10:00","end":"18:00"},"3":{"start":"10:00","end":"18:00"},"4":{"start":"10:00","end":"18:00"},"5":{"start":"10:00","end":"18:00"}}),
+     *                              @OA\Property(property="working_days", type="string", description="Working hours", example={"1","2","3","4","5"}),
+     *                              @OA\Property(property="daily_cap", type="integer", description="Daily cap"),
+     *                          ),
+     *                         ),
      *                     )
      *                 ),
      *             )

@@ -339,11 +339,15 @@ final class CustomerController extends Controller
      *                 @OA\Property(property="permissions", type="array",
      *                    @OA\Items(required={"id"},
      *                        @OA\Property(property="id", type="integer", description="Permission ID"),
-     *                        @OA\Property(property="status", type="string", description="Status of customer permission"),
-     *                        @OA\Property(property="data", type="array",
-     *                          @OA\Items(
-     *                              @OA\Property(property="reason", type="string", description="Reason of change status"),
-     *                          ),
+     *                        @OA\Property(property="pivot", type="array",
+     *                            @OA\Items(
+     *                                @OA\Property(property="status", type="string", description="Status of customer permission"),
+     *                                @OA\Property(property="data", type="array",
+     *                                   @OA\Items(
+     *                                      @OA\Property(property="reason", type="string", description="Reason of change status"),
+     *                                   ),
+     *                                ),
+     *                            ),
      *                        ),
      *                    ),
      *                 )

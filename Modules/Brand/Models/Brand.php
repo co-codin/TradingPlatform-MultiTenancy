@@ -38,6 +38,16 @@ class Brand extends Tenant
      */
     protected $guarded = ['id'];
 
+    /**
+     * Get admin brand.
+     *
+     * @return $this|null
+     */
+    public static function getAdminBrand(): ?self
+    {
+        return self::query()->where('name', DefaultRole::ADMIN)->first();
+    }
+
     protected static function booted()
     {
         static::creating(fn (Brand $brand) => $brand->createDatabase());
@@ -96,22 +106,13 @@ class Brand extends Tenant
     }
 
     /**
-     * Get admin brand.
-     *
-     * @return $this|null
-     */
-    public static function getAdminBrand(): ?self
-    {
-        return self::query()->where('name', DefaultRole::ADMIN)->first();
-    }
-
-    /**
      * Get users relation.
      *
      * @return BelongsToMany
      */
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_brand');
+        return $this->belongsToMany(User::class, 'user_brand')
+            ->using(UserBrand::class);
     }
 }
