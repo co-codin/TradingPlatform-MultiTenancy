@@ -21,6 +21,7 @@ use Modules\User\Services\UserBanService;
 use Modules\User\Services\UserBatchService;
 use Modules\User\Services\UserStorage;
 use OpenApi\Annotations as OA;
+use Spatie\Multitenancy\Models\Tenant;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 final class UserController extends Controller
@@ -62,7 +63,12 @@ final class UserController extends Controller
     {
         $this->authorize('viewAny', User::class);
 
-        $users = $this->userRepository->jsonPaginate();
+        $users = $this->userRepository;
+        if ($brandId = Tenant::current()?->id) {
+            $users = $users->whereRelation('brands', 'brand_id', $brandId);
+        }
+
+        $users = $users->jsonPaginate();
 
         return UserResource::collection($users);
     }
