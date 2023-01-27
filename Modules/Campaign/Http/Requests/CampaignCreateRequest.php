@@ -21,11 +21,42 @@ final class CampaignCreateRequest extends BaseFormRequest
             'daily_cap' => 'required|integer',
             'crg' => 'required|numeric',
             'is_active' => 'required|boolean',
+            'phone_verification' => 'sometimes|required|boolean',
             'balance' => 'required|numeric',
             'monthly_cr' => 'required|integer',
             'monthly_pv' => 'required|integer',
             'crg_cost' => 'required|numeric',
             'ftd_cost' => 'required|numeric',
+            'countries' => 'sometimes|required|array',
+            'countries.*.id' => [
+                'required',
+                'distinct',
+                'integer',
+                'min:1',
+                'exists:landlord.countries,id',
+            ],
+            'countries.*.cpa' => [
+                'required',
+                'numeric',
+                'min:1',
+            ],
+            'countries.*.crg' => [
+                'required',
+                'numeric',
+                'min:1',
+            ],
+            'countries.*.working_days' => [
+                'required',
+                'array',
+            ],
+            'countries.*.working_hours' => [
+                'required',
+                'array',
+            ],
+            'countries.*.daily_cap' => [
+                'required',
+                'integer',
+            ],
         ];
     }
 }

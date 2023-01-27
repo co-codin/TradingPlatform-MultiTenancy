@@ -26,9 +26,9 @@ final class CommunicationExtensionFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->word,
+            'name' => $this->faker->bothify('?????-#####'),
             'provider_id' => CommunicationProvider::factory(),
-            'user_id' => User::inRandomOrder()->first() ?? User::factory()->create(),
+            'user_id' => User::inRandomOrder()->first() ?? User::factory(),
         ];
     }
 }

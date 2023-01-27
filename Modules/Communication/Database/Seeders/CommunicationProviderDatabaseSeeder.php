@@ -20,7 +20,7 @@ final class CommunicationProviderDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        CommunicationProvider::factory()->count(5)->create();
-        CommunicationExtension::factory()->count(10)->create();
+        CommunicationProvider::factory(25)->create();
+        CommunicationExtension::factory(50)->create();
     }
 }

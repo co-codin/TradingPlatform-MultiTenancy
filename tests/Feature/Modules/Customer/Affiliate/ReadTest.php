@@ -49,7 +49,7 @@ class ReadTest extends BrandTestCase
             'affiliate_user_id' => $user->id,
         ]);
 
-        $user->assignRole(
+        $user->roles()->sync(
             Role::where('name', DefaultRole::AFFILIATE)->first()
                 ?? Role::factory()->create([
                     'name' => DefaultRole::AFFILIATE,

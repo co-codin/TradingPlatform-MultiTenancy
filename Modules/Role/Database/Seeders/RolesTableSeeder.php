@@ -12,7 +12,6 @@ use Modules\Role\Models\Role;
 final class RolesTableSeeder extends Seeder
 {
     protected array $roles = [
-        DefaultRole::ADMIN,
         DefaultRole::BRAND_ADMIN,
         DefaultRole::BRAND_MANAGER,
         DefaultRole::DESK_ADMIN,
@@ -26,15 +25,35 @@ final class RolesTableSeeder extends Seeder
         DefaultRole::IT,
     ];
 
-    public function run()
+    public function run(): void
     {
+        $this->seedAdmin();
         $this->seedRoles();
     }
 
-    protected function seedRoles()
+    private function seedAdmin(): void
+    {
+        $admin = [
+            'name' => DefaultRole::ADMIN,
+            'key' => Str::slug(DefaultRole::ADMIN),
+            'is_default' => true,
+            'guard_name' => 'web',
+        ];
+        Role::query()->firstOrCreate(Role::factory()->raw($admin));
+        $admin['guard_name'] = 'api';
+        Role::query()->firstOrCreate(Role::factory()->raw($admin));
+    }
+
+    private function seedRoles(): void
     {
         foreach ($this->roles as $role) {
-            Role::query()->firstOrCreate(Role::factory()->raw(['name' => $role, 'key' => Str::slug($role)]));
+            Role::query()->firstOrCreate(
+                Role::factory()->raw([
+                    'name' => $role,
+                    'key' => Str::slug($role),
+                    'is_default' => true,
+                ])
+            );
         }
     }
 }

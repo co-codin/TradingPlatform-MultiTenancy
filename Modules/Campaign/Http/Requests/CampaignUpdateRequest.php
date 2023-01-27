@@ -20,6 +20,7 @@ final class CampaignUpdateRequest extends BaseFormRequest
             'daily_cap' => 'required|integer',
             'crg' => 'required|numeric',
             'is_active' => 'required|boolean',
+            'phone_verification' => 'sometimes|required|boolean',
             'balance' => 'required|numeric',
             'monthly_cr' => 'required|integer',
             'monthly_pv' => 'required|integer',
