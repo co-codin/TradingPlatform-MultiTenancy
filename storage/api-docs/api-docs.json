@@ -9896,11 +9896,6 @@
                                         "description": "Splitter share conditions",
                                         "type": "string",
                                         "example": []
-                                    },
-                                    "share_conditions": {
-                                        "description": "Splitter share conditions",
-                                        "type": "string",
-                                        "example": []
                                     }
                                 },
                                 "type": "object"
@@ -10050,11 +10045,6 @@
                                         "description": "Splitter share conditions",
                                         "type": "string",
                                         "example": []
-                                    },
-                                    "share_conditions": {
-                                        "description": "Splitter share conditions",
-                                        "type": "string",
-                                        "example": []
                                     }
                                 },
                                 "type": "object"
@@ -10187,11 +10177,6 @@
                                             },
                                             "type": "object"
                                         }
-                                    },
-                                    "share_conditions": {
-                                        "description": "Splitter share conditions",
-                                        "type": "string",
-                                        "example": []
                                     },
                                     "share_conditions": {
                                         "description": "Splitter share conditions",
