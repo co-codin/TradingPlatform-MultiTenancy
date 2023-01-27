@@ -6,6 +6,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Modules\Brand\Models\Brand;
+use Modules\Brand\Models\UserBrand;
 use Modules\Brand\Observers\BrandObserver;
 
 class EventServiceProvider extends ServiceProvider
@@ -26,9 +27,10 @@ class EventServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Brand::observe(BrandObserver::class);
+        UserBrand::observe(UserBrand::class);
     }
 
     /**
@@ -36,7 +38,7 @@ class EventServiceProvider extends ServiceProvider
      *
      * @return bool
      */
-    public function shouldDiscoverEvents()
+    public function shouldDiscoverEvents(): bool
     {
         return false;
     }

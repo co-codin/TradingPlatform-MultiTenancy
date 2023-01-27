@@ -85,6 +85,11 @@ final class UserCreateRequest extends BaseFormRequest
                 'min:1',
                 'exists:landlord.brands,id',
             ],
+            'brands.*.pivot.is_default' => [
+                'sometimes',
+                'required',
+                'bool',
+            ],
             'affiliate_id' => 'nullable|integer|exists:landlord.users,id',
             'show_on_scoreboards' => 'sometimes|required|boolean',
             'communication_provider_id' => 'nullable|integer|exists:tenant.communication_providers,id',
