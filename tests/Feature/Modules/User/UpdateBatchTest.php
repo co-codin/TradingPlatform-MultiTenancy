@@ -6,8 +6,6 @@ namespace Tests\Feature\Modules\User;
 
 use Exception;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\Hash;
-use Modules\Role\Models\Permission;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
 use Tests\TestCase;
@@ -30,26 +28,32 @@ final class UpdateBatchTest extends TestCase
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::EDIT_USERS));
 
         $users = User::factory(3)->create();
-        $fakeUserData = User::factory(3)->withParent()->make();
+        $fakeUserData = User::factory(3)->withParent()->make(['password' => self::$basePassword])->toArray();
 
         $data['users'] = [
             [
                 'id' => $users[0]['id'],
-                'username' => $fakeUserData[0]['username'],
-                'first_name' => $fakeUserData[0]['first_name'],
-                'last_name' => $fakeUserData[0]['last_name'],
+                'pivot' => [
+                    'username' => $fakeUserData[0]['username'],
+                    'first_name' => $fakeUserData[0]['first_name'],
+                    'last_name' => $fakeUserData[0]['last_name'],
+                ],
             ],
             [
                 'id' => $users[1]['id'],
-                'email' => $fakeUserData[1]['email'],
-                'confirm_password' => true,
-                'password' => $fakeUserData[1]['password'],
+                'pivot' => [
+                    'email' => $fakeUserData[1]['email'],
+                    'confirm_password' => true,
+                    'password' => self::$basePassword,
+                ],
             ],
             [
                 'id' => $users[2]['id'],
-                'is_active' => $fakeUserData[2]['is_active'],
-                'target' => $fakeUserData[2]['target'],
-                'parent_id' => $fakeUserData[2]['parent_id'],
+                'pivot' => [
+                    'is_active' => $fakeUserData[2]['is_active'],
+                    'target' => $fakeUserData[2]['target'],
+                    'parent_id' => $fakeUserData[2]['parent_id'],
+                ],
             ],
         ];
 
@@ -61,19 +65,12 @@ final class UpdateBatchTest extends TestCase
             'data' => [
                 [
                     'id' => $users[0]['id'],
-                    'username' => $fakeUserData[0]['username'],
-                    'first_name' => $fakeUserData[0]['first_name'],
-                    'last_name' => $fakeUserData[0]['last_name'],
                 ],
                 [
                     'id' => $users[1]['id'],
-                    'email' => $fakeUserData[1]['email'],
                 ],
                 [
                     'id' => $users[2]['id'],
-                    'is_active' => $fakeUserData[2]['is_active'],
-                    'target' => $fakeUserData[2]['target'],
-                    'parent_id' => $fakeUserData[2]['parent_id'],
                 ],
             ],
         ]);
@@ -96,21 +93,27 @@ final class UpdateBatchTest extends TestCase
         $data['users'] = [
             [
                 'id' => $users[0]['id'],
-                'username' => $fakeUserData[0]['username'],
-                'first_name' => $fakeUserData[0]['first_name'],
-                'last_name' => $fakeUserData[0]['last_name'],
+                'pivot' => [
+                    'username' => $fakeUserData[0]['username'],
+                    'first_name' => $fakeUserData[0]['first_name'],
+                    'last_name' => $fakeUserData[0]['last_name'],
+                ],
             ],
             [
                 'id' => $users[1]['id'],
-                'email' => $fakeUserData[1]['email'],
-                'confirm_password' => true,
-                'password' => $fakeUserData[1]['password'],
+                'pivot' => [
+                    'email' => $fakeUserData[1]['email'],
+                    'confirm_password' => true,
+                    'password' => $fakeUserData[1]['password'],
+                ],
             ],
             [
                 'id' => $users[2]['id'],
-                'is_active' => $fakeUserData[2]['is_active'],
-                'target' => $fakeUserData[2]['target'],
-                'parent_id' => $fakeUserData[2]['parent_id'],
+                'pivot' => [
+                    'is_active' => $fakeUserData[2]['is_active'],
+                    'target' => $fakeUserData[2]['target'],
+                    'parent_id' => $fakeUserData[2]['parent_id'],
+                ],
             ],
         ];
 
@@ -138,21 +141,27 @@ final class UpdateBatchTest extends TestCase
         $data['users'] = [
             [
                 'id' => $users[0]['id'],
-                'username' => $fakeUserData[0]['username'],
-                'first_name' => $fakeUserData[0]['first_name'],
-                'last_name' => $fakeUserData[0]['last_name'],
+                'pivot' => [
+                    'username' => $fakeUserData[0]['username'],
+                    'first_name' => $fakeUserData[0]['first_name'],
+                    'last_name' => $fakeUserData[0]['last_name'],
+                ],
             ],
             [
                 'id' => $users[1]['id'],
-                'email' => $fakeUserData[1]['email'],
-                'confirm_password' => true,
-                'password' => $fakeUserData[1]['password'],
+                'pivot' => [
+                    'email' => $fakeUserData[1]['email'],
+                    'confirm_password' => true,
+                    'password' => $fakeUserData[1]['password'],
+                ],
             ],
             [
                 'id' => $users[2]['id'],
-                'is_active' => $fakeUserData[2]['is_active'],
-                'target' => $fakeUserData[2]['target'],
-                'parent_id' => $fakeUserData[2]['parent_id'],
+                'pivot' => [
+                    'is_active' => $fakeUserData[2]['is_active'],
+                    'target' => $fakeUserData[2]['target'],
+                    'parent_id' => $fakeUserData[2]['parent_id'],
+                ],
             ],
         ];
 

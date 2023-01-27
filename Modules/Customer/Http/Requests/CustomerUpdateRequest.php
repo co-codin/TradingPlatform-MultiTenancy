@@ -71,12 +71,12 @@ final class CustomerUpdateRequest extends BaseFormRequest
             'retention_sale_status_id' => 'sometimes|required|exists:tenant.sale_statuses,id',
             'permissions' => 'sometimes|required|array',
             'permissions.*.id' => 'required',
-            'permissions.*.status' => [
+            'permissions.*.pivot.status' => [
                 'sometimes',
                 'required',
                 new EnumValue(ModelHasPermissionStatus::class, false),
             ],
-            'permissions.*.body.reason' => 'sometimes|required|string',
+            'permissions.*.pivot.body.reason' => 'sometimes|required|string',
         ];
 
         $customer = Customer::query()->where('id', $this->route('customer'))->first();
