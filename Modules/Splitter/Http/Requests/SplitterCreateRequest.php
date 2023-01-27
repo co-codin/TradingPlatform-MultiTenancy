@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Splitter\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
+use Modules\Splitter\Rules\ConditionsRule;
 
 final class SplitterCreateRequest extends BaseFormRequest
 {
@@ -16,7 +17,11 @@ final class SplitterCreateRequest extends BaseFormRequest
         return [
             'name' => 'required|string|max:35',
             'is_active' => 'required|boolean',
-            'conditions' => 'sometimes|array',
+            'conditions' => [
+                'sometimes',
+                'array',
+                new ConditionsRule(),
+            ],
             'share_conditions' => 'sometimes|array',
         ];
     }
