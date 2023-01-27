@@ -75,20 +75,26 @@ final class UpdateTest extends BrandTestCase
         $data['permissions'] = [
             [
                 'id' => $permissions->shift()->id,
-                'status' => ModelHasPermissionStatus::ACTIVE,
-            ],
-            [
-                'id' => $permissions->shift()->id,
-                'status' => ModelHasPermissionStatus::ACTIVE,
-                'data' => [
-                    'reason' => 'reason',
+                'pivot' => [
+                    'status' => ModelHasPermissionStatus::ACTIVE,
                 ],
             ],
             [
                 'id' => $permissions->shift()->id,
-                'status' => ModelHasPermissionStatus::SUSPENDED,
-                'data' => [
-                    'reason' => 'reason',
+                'pivot' => [
+                    'status' => ModelHasPermissionStatus::ACTIVE,
+                    'data' => [
+                        'reason' => 'reason',
+                    ],
+                ],
+            ],
+            [
+                'id' => $permissions->shift()->id,
+                'pivot' => [
+                    'status' => ModelHasPermissionStatus::SUSPENDED,
+                    'data' => [
+                        'reason' => 'reason',
+                    ],
                 ],
             ],
         ];

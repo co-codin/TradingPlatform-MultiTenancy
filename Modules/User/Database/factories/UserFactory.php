@@ -15,10 +15,10 @@ final class UserFactory extends Factory
     {
         return [
             'username' => $this->faker->unique()->regexify('[a-zA-Z0-9]{8,20}'),
-            'first_name' => $this->faker->unique()->regexify('[a-zA-Z0-9]{8,20}'),
-            'last_name' => $this->faker->unique()->regexify('[a-zA-Z0-9]{8,20}'),
+            'first_name' => $this->faker->unique()->regexify('[a-zA-Z]{8,20}'),
+            'last_name' => $this->faker->unique()->regexify('[a-zA-Z]{8,20}'),
             'email' => $this->faker->unique()->email,
-            'password' => Hash::make('Password%'),
+            'password' => Hash::make('Password%12345'),
             'remember_token' => Str::random(10),
             'is_active' => true,
             'target' => $this->faker->randomNumber(),
@@ -37,7 +37,7 @@ final class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'parent_id' => User::getAdmin()?->id,
+                'parent_id' => User::factory()->create()?->id,
             ];
         });
     }
@@ -51,7 +51,7 @@ final class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'affiliate_id' => User::getAdmin()?->id,
+                'affiliate_id' => User::factory()->create()?->id,
             ];
         });
     }

@@ -2,7 +2,7 @@
 
 namespace Modules\Customer\Services;
 
-use Illuminate\Support\Arr;
+use App\Services\Storage\Traits\SyncHelper;
 use Illuminate\Support\Facades\Hash;
 use LogicException;
 use Modules\Campaign\Models\Campaign;
@@ -13,6 +13,8 @@ use Modules\Customer\Models\Customer;
 
 final class CustomerStorage
 {
+    use SyncHelper;
+
     /**
      * Store customer.
      *
@@ -60,13 +62,7 @@ final class CustomerStorage
             throw new LogicException(__('Can not update customer'));
         }
 
-        if ($dto->permissions) {
-            foreach ($dto->permissions as $permission) {
-                $customer->permissions()->sync([
-                    $permission['id'] => Arr::except($permission, ['id']),
-                ], false);
-            }
-        }
+        $this->syncBelongsToManyWithPivot($customer, $attributes, 'permissions');
 
         // event(new CustomerEdited($customer, dto: $dto));
 

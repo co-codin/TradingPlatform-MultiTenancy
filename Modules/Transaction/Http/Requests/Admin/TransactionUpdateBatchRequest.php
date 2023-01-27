@@ -18,10 +18,10 @@ final class TransactionUpdateBatchRequest extends BaseFormRequest
         return [
             'transactions' => 'required',
             'transactions.*.id' => 'required|integer|exists:tenant.transactions,id',
-            'transactions.*.status' => ['sometimes', new EnumValue(TransactionStatusEnum::class)],
-            'transactions.*.worker_id' => 'sometimes|int|exists:landlord.users,id',
-            'transactions.*.is_test' => 'sometimes|required|boolean',
-            'transactions.*.method_id' => 'sometimes|int|exists:tenant.transaction_methods,id',
+            'transactions.*.pivot.status' => ['sometimes', new EnumValue(TransactionStatusEnum::class)],
+            'transactions.*.pivot.worker_id' => 'sometimes|int|exists:landlord.users,id',
+            'transactions.*.pivot.is_test' => 'sometimes|required|boolean',
+            'transactions.*.pivot.method_id' => 'sometimes|int|exists:tenant.transaction_methods,id',
         ];
     }
 }

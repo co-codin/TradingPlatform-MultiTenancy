@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services\Storage\Traits;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 
 trait SyncHelper
 {
@@ -22,9 +21,22 @@ trait SyncHelper
     {
         $relation = $relation ?: $key;
 
-        // TODO: fix pivot attrs set
-        return isset($data[$key]) ? $model->{$relation}()->sync(
-            Arr::map($data[$key], fn ($item) => [$item['id'] => Arr::except($item, 'id')])
-        ) : [];
+        if (! isset($data[$key])) {
+            return [];
+        }
+
+        $modelData = [];
+
+        foreach ($data[$key] as $datum) {
+            if (isset($datum['id'])) {
+                if (isset($datum['pivot'])) {
+                    $modelData[$datum['id']] ??= $datum['pivot'];
+                } else {
+                    $modelData[] = $datum['id'];
+                }
+            }
+        }
+
+        return $model->{$relation}()->sync($modelData);
     }
 }

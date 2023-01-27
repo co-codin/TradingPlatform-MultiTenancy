@@ -7,22 +7,24 @@ namespace Tests\Feature\Modules\Campaign\Admin;
 use Modules\Campaign\Enums\CampaignPermission;
 use Modules\Campaign\Models\Campaign;
 use Modules\Campaign\Models\CampaignCountry;
+use Modules\Geo\Database\Seeders\GeoDatabaseSeeder;
 use Modules\Geo\Models\Country;
 use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
-use Modules\Geo\Database\Seeders\GeoDatabaseSeeder;
 
 final class UpdateTest extends BrandTestCase
 {
     use TenantAware;
     use HasAuth;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->seed(GeoDatabaseSeeder::class);
     }
+
     /**
      * @test
      */
@@ -43,10 +45,13 @@ final class UpdateTest extends BrandTestCase
         $campaignCountryData = [];
 
         foreach ($countries as $country) {
-            $campaignCountryData[$country->id] = CampaignCountry::factory()->create([
-                'campaign_id' => $campaign->id,
-                'country_id' => $country->id,
-            ]);
+            $campaignCountryData[] = [
+                'id' => $country->id,
+                'pivot' => CampaignCountry::factory()->create([
+                    'campaign_id' => $campaign->id,
+                    'country_id' => $country->id,
+                ])->toArray(),
+            ];
         }
 
         $response = $this->patchJson(route('admin.campaign.update', ['campaign' => $campaign->id]), array_merge($campaignData, [

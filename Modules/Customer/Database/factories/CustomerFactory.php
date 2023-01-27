@@ -73,10 +73,10 @@ class CustomerFactory extends BaseFactory
             'city' => $this->faker->city(),
             'address' => $this->faker->address(),
             'postal_code' => $this->faker->postcode(),
-            'offer_name' => $this->faker->sentence(3),
+            'offer_name' => $this->faker->text(35),
             'offer_url' => $this->faker->url(),
             'comment_about_customer' => $this->faker->sentence(20),
-            'source' => $this->faker->sentence(5),
+            'source' => $this->faker->text(35),
             'click_id' => $this->faker->lexify(),
             'free_param_1' => $this->faker->sentence(1),
             'free_param_2' => $this->faker->sentence(1),
@@ -100,8 +100,8 @@ class CustomerFactory extends BaseFactory
         $phone2 = PhoneNumberUtil::getInstance()->getExampleNumber($country->iso2);
 
         return [
-            'phone' => $phone->getCountryCode() . $phone->getNationalNumber(),
-            'phone_2' => $phone2->getCountryCode() . $phone2->getNationalNumber(),
+            'phone' => $phone->getCountryCode().$phone->getNationalNumber(),
+            'phone_2' => $phone2->getCountryCode().$phone2->getNationalNumber(),
             'currency_id' => Currency::inRandomOrder()->first() ?? Currency::factory(),
             'language_id' => Language::inRandomOrder()->first() ?? Language::factory(),
             'country_id' => $country,

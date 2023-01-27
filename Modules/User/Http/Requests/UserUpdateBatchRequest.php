@@ -19,35 +19,35 @@ final class UserUpdateBatchRequest extends BaseFormRequest
         return [
             'users' => 'required|max:255',
             'users.*.id' => 'required|integer|exists:landlord.users,id',
-            'users.*.first_name' => [
+            'users.*.pivot.first_name' => [
                 'sometimes',
                 'required',
                 'string',
                 'max:35',
                 'regex:'.RegexValidationEnum::NAME,
             ],
-            'users.*.last_name' => [
+            'users.*.pivot.last_name' => [
                 'sometimes',
                 'required',
                 'string',
                 'max:35',
                 'regex:'.RegexValidationEnum::NAME,
             ],
-            'users.*.email' => 'sometimes|required|email|max:255|unique:landlord.users,email',
-            'users.*.is_active' => 'boolean',
-            'users.*.parent_id' => 'integer|exists:landlord.users,id',
-            'users.*.change_password' => 'nullable|boolean',
-            'users.*.password' => [
+            'users.*.pivot.email' => 'sometimes|required|email|max:255|unique:landlord.users,email',
+            'users.*.pivot.is_active' => 'boolean',
+            'users.*.pivot.parent_id' => 'integer|exists:landlord.users,id',
+            'users.*.pivot.change_password' => 'nullable|boolean',
+            'users.*.pivot.password' => [
                 'exclude_unless:change_password,true',
                 'required',
                 'string',
                 'regex:'.RegexValidationEnum::PASSWORD,
             ],
-            'users.*.roles' => 'sometimes|required|array',
-            'users.*.roles.*.id' => 'required|distinct|integer|min:1|exists:landlord.roles,id',
-            'users.*.affiliate_id' => 'nullable|integer|exists:landlord.users,id',
-            'users.*.show_on_scoreboards' => 'sometimes|required|boolean',
-            'users.*.communication_provider_id' => 'nullable|integer|exists:tenant.communication_providers,id',
+            'users.*.pivot.roles' => 'sometimes|required|array',
+            'users.*.pivot.roles.*.id' => 'required|distinct|integer|min:1|exists:landlord.roles,id',
+            'users.*.pivot.affiliate_id' => 'nullable|integer|exists:landlord.users,id',
+            'users.*.pivot.show_on_scoreboards' => 'sometimes|required|boolean',
+            'users.*.pivot.communication_provider_id' => 'nullable|integer|exists:tenant.communication_providers,id',
         ];
     }
 }
