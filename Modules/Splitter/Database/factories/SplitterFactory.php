@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Modules\Splitter\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Splitter\Enums\SplitterChoiceOptionPerDay;
+use Modules\Splitter\Enums\SplitterChoiceType;
 use Modules\Splitter\Models\Splitter;
 use Modules\User\Models\User;
 
@@ -40,5 +42,17 @@ final class SplitterFactory extends Factory
             'is_active' => true,
             'position' => self::$position,
         ];
+    }
+
+    public function addSplitterChoiceData()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'splitter_choice' => [
+                    'type' => $this->faker->randomElement(SplitterChoiceType::getValues()),
+                    'option_per_day' => $this->faker->randomElement(SplitterChoiceOptionPerDay::getValues()),
+                ],
+            ];
+        });
     }
 }

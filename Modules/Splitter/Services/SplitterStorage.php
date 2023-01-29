@@ -6,7 +6,10 @@ namespace Modules\Splitter\Services;
 
 use Exception;
 use Modules\Splitter\Dto\SplitterDto;
+use Modules\Splitter\Enums\SplitterChoiceOptionPerDay;
+use Modules\Splitter\Enums\SplitterChoiceType;
 use Modules\Splitter\Models\Splitter;
+use Modules\Splitter\Models\SplitterChoice;
 use Modules\User\Models\User;
 
 final class SplitterStorage
@@ -23,6 +26,7 @@ final class SplitterStorage
     public function store(User $user, SplitterDto $splitterDto): Splitter
     {
         $createData = $splitterDto->toArray();
+
         $createData['user_id'] = $user->id;
 
         if ($splitterDto->is_active) {
@@ -33,7 +37,9 @@ final class SplitterStorage
             throw new Exception(__('Can not store splitter'));
         }
 
-        return $splitter->fresh();
+        $splitter->splitterChoice()->create($splitterDto->splitter_choice);
+
+        return $splitter->fresh()->load('splitterChoice');
     }
 
     /**
@@ -51,9 +57,11 @@ final class SplitterStorage
             throw new Exception(__('Can not update splitter'));
         }
 
+        $splitter->splitterChoice()->update($splitterDto->splitter_choice);
+
         $this->reposition($splitter->user_id);
 
-        return $splitter->fresh();
+        return $splitter->fresh()->load('splitterChoice');
     }
 
     /**
@@ -68,6 +76,8 @@ final class SplitterStorage
             throw new Exception(__('Can not delete splitter'));
         }
 
+        $splitter->splitterChoice()->delete();
+
         $this->reposition($splitter->user_id);
 
         return true;
@@ -80,7 +90,7 @@ final class SplitterStorage
      * @param  array  $splitterids
      * @return bool
      */
-    public function updatePositions(User $user, array $splitterids) //: bool
+    public function updatePositions(User $user, array $splitterids): bool
     {
         $postition = 1;
         if (
@@ -120,5 +130,35 @@ final class SplitterStorage
 
             $splitter->save();
         }
+    }
+
+    /**
+     * Splitter Choice Put.
+     *
+     * @param  SplitterChoice  $splitterChoice
+     * @param  array  $ids
+     * @return SplitterChoice
+     *
+     * @throws Exception
+     */
+    public function put(SplitterChoice $splitterChoice, array $ids): SplitterChoice
+    {
+        $percentage = $splitterChoice->option_per_day == SplitterChoiceOptionPerDay::PERCENT_PER_DAY ? 100 : 0;
+
+        if ($splitterChoice->type == SplitterChoiceType::DESK) {
+            if (! $splitterChoice->desks()->syncWithPivotValues($ids, [
+                'percentage' => $percentage,
+            ])) {
+                throw new Exception(__('Can not update desks for splitter choice'));
+            }
+        } else {
+            if (! $splitterChoice->workers()->syncWithPivotValues($ids, [
+                'percentage' => $percentage,
+            ])) {
+                throw new Exception(__('Can not update workers for splitter choice'));
+            }
+        }
+
+        return $splitterChoice->refresh();
     }
 }

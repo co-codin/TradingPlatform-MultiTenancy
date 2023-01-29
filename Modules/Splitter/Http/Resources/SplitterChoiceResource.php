@@ -5,44 +5,40 @@ declare(strict_types=1);
 namespace Modules\Splitter\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Modules\Splitter\Models\Splitter;
+use Modules\Splitter\Models\SplitterChoice;
 use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema (
- *     schema="Splitter",
+ *     schema="SplitterChoice",
  *     type="object",
  *     required={
  *         "id",
- *         "user_id",
- *         "name",
- *         "is_active",
- *         "conditions",
- *         "share_conditions",
- *         "position",
+ *         "splitter_id",
+ *         "type",
+ *         "option_per_day",
  *         "deleted_at",
  *         "created_at",
  *         "updated_at",
  *     },
- *     @OA\Property(property="id", type="integer", description="Splitter ID"),
- *     @OA\Property(property="user_id", type="integer", description="Splitter user id"),
- *     @OA\Property(property="name", type="string", description="Splitter name"),
- *     @OA\Property(property="is_active", type="boolean", description="Splitter is active"),
- *     @OA\Property(property="conditions", type="string", description="Splitter conditions", example={}),
- *     @OA\Property(property="share_conditions", type="string", description="Splitter share conditions", example={}),
- *     @OA\Property(property="position", type="integer", description="Splitter position"),
+ *     @OA\Property(property="id", type="integer", description="Splitter Choice ID"),
+ *     @OA\Property(property="splitter_id", type="integer", description="Splitter id"),
+ *     @OA\Property(property="type", type="integer", description="Splitter Choice type (Desk = 1, Worker = 2)", example="1"),
+ *     @OA\Property(property="option_per_day", type="integer", description="Splitter Choice option per day (Percent Per Day = 1 , Cap Per Day = 2)", example="1"),
+ *     @OA\Property(property="splitter", type="array", @OA\Items(ref="#/components/schemas/Splitter")),
+ *     @OA\Property(property="desks", type="array", @OA\Items(ref="#/components/schemas/Desk")),
+ *     @OA\Property(property="workers", type="array", @OA\Items(ref="#/components/schemas/Worker")),
  *     @OA\Property(property="deleted_at", type="string", format="date-time", description="Date and time of deleted", example="2022-12-17 08:44:09"),
  *     @OA\Property(property="created_at", type="string", format="date-time", description="Date and time of creation", example="2022-12-17 08:44:09"),
  *     @OA\Property(property="updated_at", type="string", format="date-time", description="Date and time of last update", example="2022-12-17 08:44:09"),
- *     @OA\Property(property="splitter_choice", type="array", @OA\Items(ref="#/components/schemas/SplitterChoice")),
  * ),
  * @OA\Schema (
- *     schema="SplitterCollection",
+ *     schema="SplitterChoiceCollection",
  *     type="object",
  *     @OA\Property(
  *         property="data",
  *         type="array",
- *         @OA\Items(ref="#/components/schemas/Splitter")
+ *         @OA\Items(ref="#/components/schemas/SplitterChoice")
  *     ),
  *     @OA\Property(
  *         property="meta",
@@ -51,20 +47,20 @@ use OpenApi\Annotations as OA;
  *     )
  * ),
  * @OA\Schema (
- *     schema="SplitterResource",
+ *     schema="SplitterChoiceResource",
  *     type="object",
  *     @OA\Property(
  *         property="data",
  *         type="object",
- *         ref="#/components/schemas/Splitter"
+ *         ref="#/components/schemas/SplitterChoice"
  *     )
  * )
  *
- * Class SplitterResource
+ * Class SplitterChoiceResource
  *
- * @mixin Splitter
+ * @mixin SplitterChoice
  */
-final class SplitterResource extends JsonResource
+final class SplitterChoiceResource extends JsonResource
 {
     /**
      * {@inheritDoc}

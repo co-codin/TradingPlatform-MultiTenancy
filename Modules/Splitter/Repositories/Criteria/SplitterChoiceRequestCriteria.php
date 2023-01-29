@@ -9,16 +9,13 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-final class SplitterRequestCriteria extends BaseCriteria
+final class SplitterChoiceRequestCriteria extends BaseCriteria
 {
     protected static array $allowedModelFields = [
         'id',
-        'user_id',
-        'name',
-        'is_active',
-        'conditions',
-        'share_conditions',
-        'position',
+        'splitter_id',
+        'type',
+        'option_per_day',
         'deleted_at',
         'created_at',
         'updated_at',
@@ -30,34 +27,28 @@ final class SplitterRequestCriteria extends BaseCriteria
     public function apply($model, RepositoryInterface $repository)
     {
         return QueryBuilder::for($model)
-            ->defaultSort('-is_active')
-            ->defaultSort('position')
-            ->allowedFields(array_merge(
-                self::allowedModelFields(),
-            ))
+            ->defaultSort('-id')
+            ->allowedFields(
+                self::allowedModelFields()
+            )
             ->allowedFilters([
                 AllowedFilter::exact('id'),
-                AllowedFilter::exact('user_id'),
-                AllowedFilter::exact('is_active'),
-                AllowedFilter::exact('position'),
-                AllowedFilter::partial('name'),
+                AllowedFilter::exact('splitter_id'),
+                AllowedFilter::exact('type'),
+                AllowedFilter::exact('option_per_day'),
                 AllowedFilter::partial('created_at'),
                 AllowedFilter::trashed(),
             ])
             ->allowedIncludes([
-                'splitterChoice',
-                'splitterChoice.workers',
-                'splitterChoice.desks',
+                'splitter',
+                'workers',
+                'desks'
             ])
             ->allowedSorts([
                 'id',
-                'user_id',
-                'name',
-                'is_active',
-                'conditions',
-                'share_conditions',
-                'position',
-                'deleted_at',
+                'splitter_id',
+                'type',
+                'option_per_day',
                 'created_at',
                 'updated_at',
             ]);

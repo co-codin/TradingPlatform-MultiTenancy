@@ -6,6 +6,7 @@ namespace Tests\Feature\Modules\Splitter\Admin;
 
 use Modules\Splitter\Enums\SplitterPermission;
 use Modules\Splitter\Models\Splitter;
+use Modules\Splitter\Models\SplitterChoice;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
 
@@ -20,7 +21,9 @@ final class ReadTest extends BrandTestCase
     {
         $this->authenticateWithPermission(SplitterPermission::fromValue(SplitterPermission::VIEW_SPLITTER));
 
-        $splitter = Splitter::factory()->create(['user_id' => $this->user->id]);
+        $splitter = Splitter::factory()
+            ->has(SplitterChoice::factory(), 'splitterChoice')
+            ->create(['user_id' => $this->user->id]);
 
         $response = $this->getJson(route('admin.splitter.index'));
 
@@ -52,7 +55,9 @@ final class ReadTest extends BrandTestCase
             SplitterPermission::fromValue(SplitterPermission::VIEW_SPLITTER)
         );
 
-        $splitter = Splitter::factory()->create(['user_id' => $this->user->id]);
+        $splitter = Splitter::factory()
+            ->has(SplitterChoice::factory(), 'splitterChoice')
+            ->create(['user_id' => $this->user->id]);
 
         $response = $this->get(route('admin.splitter.show', ['splitter' => $splitter]));
 

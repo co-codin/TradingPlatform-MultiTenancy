@@ -35,4 +35,9 @@ final class Splitter extends Model
     {
         return SplitterFactory::new();
     }
+
+    public function splitterChoice()
+    {
+        return $this->hasOne(SplitterChoice::class);
+    }
 }

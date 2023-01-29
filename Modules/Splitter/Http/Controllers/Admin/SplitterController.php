@@ -15,6 +15,7 @@ use Modules\Splitter\Http\Requests\SplitterCreateRequest;
 use Modules\Splitter\Http\Requests\SplitterPositionsUpdateRequest;
 use Modules\Splitter\Http\Requests\SplitterUpdateRequest;
 use Modules\Splitter\Http\Resources\SplitterResource;
+use Modules\Splitter\Models\Splitter;
 use Modules\Splitter\Repositories\SplitterRepository;
 use Modules\Splitter\Services\SplitterStorage;
 use OpenApi\Annotations as OA;
@@ -128,11 +129,26 @@ final class SplitterController extends Controller
      *                     "is_active",
      *                     "conditions",
      *                     "share_conditions",
+     *                     "splitter_choice",
      *                 },
      *                 @OA\Property(property="name", type="string", description="Splitter name"),
      *                 @OA\Property(property="is_active", type="boolean", description="Splitter is active"),
      *                 @OA\Property(property="conditions", type="string", description="Splitter conditions", example={}),
      *                 @OA\Property(property="share_conditions", type="string", description="Splitter share conditions", example={}),
+     *                 @OA\Property(
+     *                     property="splitter_choice",
+     *                     description="Array of splitter_choice",
+     *                     type="array",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         required={
+     *                             "type",
+     *                             "option_per_day",
+     *                         },
+     *                         @OA\Property(property="type", type="integer", description="Splitter Choice type (Desk = 1, Worker = 2)", example="1"),
+     *                         @OA\Property(property="option_per_day", type="integer", description="Splitter Choice option per day (Percent Per Day = 1 , Cap Per Day = 2)", example="1"),
+     *                     ),
+     *                 ),
      *             )
      *         )
      *     ),
@@ -187,11 +203,26 @@ final class SplitterController extends Controller
      *                     "is_active",
      *                     "conditions",
      *                     "share_conditions",
+     *                     "splitter_choice",
      *                 },
      *                 @OA\Property(property="name", type="string", description="Splitter name"),
      *                 @OA\Property(property="is_active", type="boolean", description="Splitter is active"),
      *                 @OA\Property(property="conditions", type="string", description="Splitter conditions", example={}),
      *                 @OA\Property(property="share_conditions", type="string", description="Splitter share conditions", example={}),
+     *                 @OA\Property(
+     *                     property="splitter_choice",
+     *                     description="Array of splitter_choice",
+     *                     type="array",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         required={
+     *                             "type",
+     *                             "option_per_day",
+     *                         },
+     *                         @OA\Property(property="type", type="integer", description="Splitter Choice type (Desk = 1, Worker = 2)", example="1"),
+     *                         @OA\Property(property="option_per_day", type="integer", description="Splitter Choice option per day (Percent Per Day = 1 , Cap Per Day = 2)", example="1"),
+     *                     ),
+     *                 ),
      *             )
      *         )
      *     ),
@@ -237,6 +268,20 @@ final class SplitterController extends Controller
      *                 @OA\Property(property="is_active", type="boolean", description="Splitter is active"),
      *                 @OA\Property(property="conditions", type="string", description="Splitter conditions", example={}),
      *                 @OA\Property(property="share_conditions", type="string", description="Splitter share conditions", example={}),
+     *                 @OA\Property(
+     *                     property="splitter_choice",
+     *                     description="Array of splitter_choice",
+     *                     type="array",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         required={
+     *                             "type",
+     *                             "option_per_day",
+     *                         },
+     *                         @OA\Property(property="type", type="integer", description="Splitter Choice type (Desk = 1, Worker = 2)", example="1"),
+     *                         @OA\Property(property="option_per_day", type="integer", description="Splitter Choice option per day (Percent Per Day = 1 , Cap Per Day = 2)", example="1"),
+     *                     ),
+     *                 ),
      *             )
      *         )
      *     ),
