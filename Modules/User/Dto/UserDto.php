@@ -9,52 +9,57 @@ use App\Dto\BaseDto;
 final class UserDto extends BaseDto
 {
     /**
-     * @var string|null $username
+     * @var string|null
      */
     public ?string $username;
 
     /**
-     * @var string|null $first_name
+     * @var string|null
      */
     public ?string $first_name;
 
     /**
-     * @var string|null $last_name
+     * @var string|null
      */
     public ?string $last_name;
 
     /**
-     * @var string|null $email
+     * @var string|null
      */
     public ?string $email;
 
     /**
-     * @var string|null $password
+     * @var string|null
      */
     public ?string $password;
 
     /**
-     * @var bool|null $is_active
+     * @var bool|null
      */
     public ?bool $is_active;
 
     /**
-     * @var int|null $target
+     * @var int|null
      */
     public ?int $target;
 
     /**
-     * @var int|null $affiliate_id
+     * @var int|null
+     */
+    public ?int $parent_id;
+
+    /**
+     * @var int|null
      */
     public ?int $affiliate_id;
 
     /**
-     * @var bool|null $show_on_scoreboards
+     * @var bool|null
      */
     public ?bool $show_on_scoreboards;
 
     /**
-     * @var string|null $last_login
+     * @var string|null
      */
     public ?string $last_login;
 }

@@ -19,6 +19,7 @@ use Illuminate\Support\Collection;
 use Kalnoy\Nestedset\NodeTrait;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Brand\Models\Brand;
+use Modules\Brand\Models\UserBrand;
 use Modules\Communication\Models\Call;
 use Modules\Communication\Models\Comment;
 use Modules\Communication\Models\CommunicationExtension;
@@ -159,7 +160,11 @@ final class User extends Authenticatable
      */
     public function brands(): BelongsToMany
     {
-        return $this->belongsToMany(Brand::class, 'user_brand');
+        return $this->belongsToMany(Brand::class, 'user_brand')
+            ->using(UserBrand::class)
+            ->withPivot([
+                'is_default',
+            ]);
     }
 
     /**

@@ -32,9 +32,10 @@ final class CreateTest extends BrandTestCase
 
         $response = $this->post(route('admin.campaign.store'), array_merge($data, [
             'countries' => [
-                array_merge($campaignCountryData, [
+                [
                     'id' => $campaignCountryData['country_id'],
-                ]),
+                    'pivot' => $campaignCountryData,
+                ],
             ],
         ]));
 

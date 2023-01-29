@@ -494,63 +494,78 @@
                                         "type": "array",
                                         "items": {
                                             "required": [
-                                                "cpa",
-                                                "crg",
-                                                "working_days",
-                                                "working_hours",
-                                                "daily_cap"
+                                                "id"
                                             ],
                                             "properties": {
-                                                "cpa": {
-                                                    "description": "Cpa",
-                                                    "type": "number",
-                                                    "format": "float"
-                                                },
-                                                "crg": {
-                                                    "description": "Crg",
-                                                    "type": "number",
-                                                    "format": "float"
-                                                },
-                                                "working_hours": {
-                                                    "description": "Working days",
-                                                    "type": "string",
-                                                    "example": {
-                                                        "1": {
-                                                            "start": "10:00",
-                                                            "end": "18:00"
-                                                        },
-                                                        "2": {
-                                                            "start": "10:00",
-                                                            "end": "18:00"
-                                                        },
-                                                        "3": {
-                                                            "start": "10:00",
-                                                            "end": "18:00"
-                                                        },
-                                                        "4": {
-                                                            "start": "10:00",
-                                                            "end": "18:00"
-                                                        },
-                                                        "5": {
-                                                            "start": "10:00",
-                                                            "end": "18:00"
-                                                        }
-                                                    }
-                                                },
-                                                "working_days": {
-                                                    "description": "Working hours",
-                                                    "type": "string",
-                                                    "example": [
-                                                        "1",
-                                                        "2",
-                                                        "3",
-                                                        "4",
-                                                        "5"
-                                                    ]
-                                                },
-                                                "daily_cap": {
-                                                    "description": "Daily cap",
+                                                "id": {
+                                                    "description": "Country ID",
                                                     "type": "integer"
+                                                },
+                                                "pivot": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "required": [
+                                                            "cpa",
+                                                            "crg",
+                                                            "working_days",
+                                                            "working_hours",
+                                                            "daily_cap"
+                                                        ],
+                                                        "properties": {
+                                                            "cpa": {
+                                                                "description": "Cpa",
+                                                                "type": "number",
+                                                                "format": "float"
+                                                            },
+                                                            "crg": {
+                                                                "description": "Crg",
+                                                                "type": "number",
+                                                                "format": "float"
+                                                            },
+                                                            "working_hours": {
+                                                                "description": "Working days",
+                                                                "type": "string",
+                                                                "example": {
+                                                                    "1": {
+                                                                        "start": "10:00",
+                                                                        "end": "18:00"
+                                                                    },
+                                                                    "2": {
+                                                                        "start": "10:00",
+                                                                        "end": "18:00"
+                                                                    },
+                                                                    "3": {
+                                                                        "start": "10:00",
+                                                                        "end": "18:00"
+                                                                    },
+                                                                    "4": {
+                                                                        "start": "10:00",
+                                                                        "end": "18:00"
+                                                                    },
+                                                                    "5": {
+                                                                        "start": "10:00",
+                                                                        "end": "18:00"
+                                                                    }
+                                                                }
+                                                            },
+                                                            "working_days": {
+                                                                "description": "Working hours",
+                                                                "type": "string",
+                                                                "example": [
+                                                                    "1",
+                                                                    "2",
+                                                                    "3",
+                                                                    "4",
+                                                                    "5"
+                                                                ]
+                                                            },
+                                                            "daily_cap": {
+                                                                "description": "Daily cap",
+                                                                "type": "integer"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
                                                 }
                                             },
                                             "type": "object"
@@ -745,63 +760,71 @@
                                         "type": "array",
                                         "items": {
                                             "required": [
-                                                "cpa",
-                                                "crg",
-                                                "working_days",
-                                                "working_hours",
-                                                "daily_cap"
+                                                "id"
                                             ],
                                             "properties": {
-                                                "cpa": {
-                                                    "description": "Cpa",
-                                                    "type": "number",
-                                                    "format": "float"
-                                                },
-                                                "crg": {
-                                                    "description": "Crg",
-                                                    "type": "number",
-                                                    "format": "float"
-                                                },
-                                                "working_hours": {
-                                                    "description": "Working days",
-                                                    "type": "string",
-                                                    "example": {
-                                                        "1": {
-                                                            "start": "10:00",
-                                                            "end": "18:00"
-                                                        },
-                                                        "2": {
-                                                            "start": "10:00",
-                                                            "end": "18:00"
-                                                        },
-                                                        "3": {
-                                                            "start": "10:00",
-                                                            "end": "18:00"
-                                                        },
-                                                        "4": {
-                                                            "start": "10:00",
-                                                            "end": "18:00"
-                                                        },
-                                                        "5": {
-                                                            "start": "10:00",
-                                                            "end": "18:00"
-                                                        }
-                                                    }
-                                                },
-                                                "working_days": {
-                                                    "description": "Working hours",
-                                                    "type": "string",
-                                                    "example": [
-                                                        "1",
-                                                        "2",
-                                                        "3",
-                                                        "4",
-                                                        "5"
-                                                    ]
-                                                },
-                                                "daily_cap": {
-                                                    "description": "Daily cap",
+                                                "id": {
+                                                    "description": "Country ID",
                                                     "type": "integer"
+                                                },
+                                                "pivot": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "cpa": {
+                                                                "description": "Cpa",
+                                                                "type": "number",
+                                                                "format": "float"
+                                                            },
+                                                            "crg": {
+                                                                "description": "Crg",
+                                                                "type": "number",
+                                                                "format": "float"
+                                                            },
+                                                            "working_hours": {
+                                                                "description": "Working days",
+                                                                "type": "string",
+                                                                "example": {
+                                                                    "1": {
+                                                                        "start": "10:00",
+                                                                        "end": "18:00"
+                                                                    },
+                                                                    "2": {
+                                                                        "start": "10:00",
+                                                                        "end": "18:00"
+                                                                    },
+                                                                    "3": {
+                                                                        "start": "10:00",
+                                                                        "end": "18:00"
+                                                                    },
+                                                                    "4": {
+                                                                        "start": "10:00",
+                                                                        "end": "18:00"
+                                                                    },
+                                                                    "5": {
+                                                                        "start": "10:00",
+                                                                        "end": "18:00"
+                                                                    }
+                                                                }
+                                                            },
+                                                            "working_days": {
+                                                                "description": "Working hours",
+                                                                "type": "string",
+                                                                "example": [
+                                                                    "1",
+                                                                    "2",
+                                                                    "3",
+                                                                    "4",
+                                                                    "5"
+                                                                ]
+                                                            },
+                                                            "daily_cap": {
+                                                                "description": "Daily cap",
+                                                                "type": "integer"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
                                                 }
                                             },
                                             "type": "object"
@@ -940,63 +963,71 @@
                                         "type": "array",
                                         "items": {
                                             "required": [
-                                                "cpa",
-                                                "crg",
-                                                "working_days",
-                                                "working_hours",
-                                                "daily_cap"
+                                                "id"
                                             ],
                                             "properties": {
-                                                "cpa": {
-                                                    "description": "Cpa",
-                                                    "type": "number",
-                                                    "format": "float"
-                                                },
-                                                "crg": {
-                                                    "description": "Crg",
-                                                    "type": "number",
-                                                    "format": "float"
-                                                },
-                                                "working_hours": {
-                                                    "description": "Working days",
-                                                    "type": "string",
-                                                    "example": {
-                                                        "1": {
-                                                            "start": "10:00",
-                                                            "end": "18:00"
-                                                        },
-                                                        "2": {
-                                                            "start": "10:00",
-                                                            "end": "18:00"
-                                                        },
-                                                        "3": {
-                                                            "start": "10:00",
-                                                            "end": "18:00"
-                                                        },
-                                                        "4": {
-                                                            "start": "10:00",
-                                                            "end": "18:00"
-                                                        },
-                                                        "5": {
-                                                            "start": "10:00",
-                                                            "end": "18:00"
-                                                        }
-                                                    }
-                                                },
-                                                "working_days": {
-                                                    "description": "Working hours",
-                                                    "type": "string",
-                                                    "example": [
-                                                        "1",
-                                                        "2",
-                                                        "3",
-                                                        "4",
-                                                        "5"
-                                                    ]
-                                                },
-                                                "daily_cap": {
-                                                    "description": "Daily cap",
+                                                "id": {
+                                                    "description": "Country ID",
                                                     "type": "integer"
+                                                },
+                                                "pivot": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "cpa": {
+                                                                "description": "Cpa",
+                                                                "type": "number",
+                                                                "format": "float"
+                                                            },
+                                                            "crg": {
+                                                                "description": "Crg",
+                                                                "type": "number",
+                                                                "format": "float"
+                                                            },
+                                                            "working_hours": {
+                                                                "description": "Working days",
+                                                                "type": "string",
+                                                                "example": {
+                                                                    "1": {
+                                                                        "start": "10:00",
+                                                                        "end": "18:00"
+                                                                    },
+                                                                    "2": {
+                                                                        "start": "10:00",
+                                                                        "end": "18:00"
+                                                                    },
+                                                                    "3": {
+                                                                        "start": "10:00",
+                                                                        "end": "18:00"
+                                                                    },
+                                                                    "4": {
+                                                                        "start": "10:00",
+                                                                        "end": "18:00"
+                                                                    },
+                                                                    "5": {
+                                                                        "start": "10:00",
+                                                                        "end": "18:00"
+                                                                    }
+                                                                }
+                                                            },
+                                                            "working_days": {
+                                                                "description": "Working hours",
+                                                                "type": "string",
+                                                                "example": [
+                                                                    "1",
+                                                                    "2",
+                                                                    "3",
+                                                                    "4",
+                                                                    "5"
+                                                                ]
+                                                            },
+                                                            "daily_cap": {
+                                                                "description": "Daily cap",
+                                                                "type": "integer"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
                                                 }
                                             },
                                             "type": "object"
@@ -5974,17 +6005,25 @@
                                                     "description": "Permission ID",
                                                     "type": "integer"
                                                 },
-                                                "status": {
-                                                    "description": "Status of customer permission",
-                                                    "type": "string"
-                                                },
-                                                "data": {
+                                                "pivot": {
                                                     "type": "array",
                                                     "items": {
                                                         "properties": {
-                                                            "reason": {
-                                                                "description": "Reason of change status",
+                                                            "status": {
+                                                                "description": "Status of customer permission",
                                                                 "type": "string"
+                                                            },
+                                                            "data": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "properties": {
+                                                                        "reason": {
+                                                                            "description": "Reason of change status",
+                                                                            "type": "string"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
                                                             }
                                                         },
                                                         "type": "object"
@@ -10006,8 +10045,32 @@
                                     },
                                     "conditions": {
                                         "description": "Splitter conditions",
-                                        "type": "string",
-                                        "example": []
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "field",
+                                                "operator",
+                                                "value"
+                                            ],
+                                            "properties": {
+                                                "field": {
+                                                    "description": "Splitter condition field",
+                                                    "type": "string",
+                                                    "example": "Gender"
+                                                },
+                                                "operator": {
+                                                    "description": "Splitter condition field operator",
+                                                    "type": "string",
+                                                    "example": "="
+                                                },
+                                                "value": {
+                                                    "description": "Splitter condition field value",
+                                                    "type": "string",
+                                                    "example": "male"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     },
                                     "share_conditions": {
                                         "description": "Splitter share conditions",
@@ -10155,8 +10218,32 @@
                                     },
                                     "conditions": {
                                         "description": "Splitter conditions",
-                                        "type": "string",
-                                        "example": []
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "field",
+                                                "operator",
+                                                "value"
+                                            ],
+                                            "properties": {
+                                                "field": {
+                                                    "description": "Splitter condition field",
+                                                    "type": "string",
+                                                    "example": "Gender"
+                                                },
+                                                "operator": {
+                                                    "description": "Splitter condition field operator",
+                                                    "type": "string",
+                                                    "example": "="
+                                                },
+                                                "value": {
+                                                    "description": "Splitter condition field value",
+                                                    "type": "string",
+                                                    "example": "male"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     },
                                     "share_conditions": {
                                         "description": "Splitter share conditions",
@@ -10291,8 +10378,32 @@
                                     },
                                     "conditions": {
                                         "description": "Splitter conditions",
-                                        "type": "string",
-                                        "example": []
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "field",
+                                                "operator",
+                                                "value"
+                                            ],
+                                            "properties": {
+                                                "field": {
+                                                    "description": "Splitter condition field",
+                                                    "type": "string",
+                                                    "example": "Gender"
+                                                },
+                                                "operator": {
+                                                    "description": "Splitter condition field operator",
+                                                    "type": "string",
+                                                    "example": "="
+                                                },
+                                                "value": {
+                                                    "description": "Splitter condition field value",
+                                                    "type": "string",
+                                                    "example": "male"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     },
                                     "share_conditions": {
                                         "description": "Splitter share conditions",
@@ -10850,27 +10961,35 @@
                                                     "description": "Transaction ID",
                                                     "type": "integer"
                                                 },
-                                                "status": {
-                                                    "description": "Transaction status",
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "approved",
-                                                        "declined",
-                                                        "canceled",
-                                                        "pending"
-                                                    ]
-                                                },
-                                                "worker_id": {
-                                                    "description": "Worker ID",
-                                                    "type": "integer"
-                                                },
-                                                "is_test": {
-                                                    "description": "Is test",
-                                                    "type": "boolean"
-                                                },
-                                                "method_id": {
-                                                    "description": "Method ID",
-                                                    "type": "integer"
+                                                "pivot": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "status": {
+                                                                "description": "Transaction status",
+                                                                "type": "string",
+                                                                "enum": [
+                                                                    "approved",
+                                                                    "declined",
+                                                                    "canceled",
+                                                                    "pending"
+                                                                ]
+                                                            },
+                                                            "worker_id": {
+                                                                "description": "Worker ID",
+                                                                "type": "integer"
+                                                            },
+                                                            "is_test": {
+                                                                "description": "Is test",
+                                                                "type": "boolean"
+                                                            },
+                                                            "method_id": {
+                                                                "description": "Method ID",
+                                                                "type": "integer"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
                                                 }
                                             },
                                             "type": "object"
@@ -14067,6 +14186,20 @@
                                     },
                                     "brands": {
                                         "description": "Array of brands ID",
+                                        "properties": {
+                                            "pivot": {
+                                                "description": "Array of brands ID",
+                                                "type": "array",
+                                                "items": {
+                                                    "properties": {
+                                                        "is_default": {
+                                                            "type": "boolean"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            }
+                                        },
                                         "type": "array",
                                         "items": {
                                             "properties": {
@@ -14241,6 +14374,20 @@
                                     },
                                     "brands": {
                                         "description": "Array of brands ID",
+                                        "properties": {
+                                            "pivot": {
+                                                "description": "Array of brands ID",
+                                                "type": "array",
+                                                "items": {
+                                                    "properties": {
+                                                        "is_default": {
+                                                            "type": "boolean"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            }
+                                        },
                                         "type": "array",
                                         "items": {
                                             "properties": {
@@ -14406,6 +14553,20 @@
                                     },
                                     "brands": {
                                         "description": "Array of brands ID",
+                                        "properties": {
+                                            "pivot": {
+                                                "description": "Array of brands ID",
+                                                "type": "array",
+                                                "items": {
+                                                    "properties": {
+                                                        "is_default": {
+                                                            "type": "boolean"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            }
+                                        },
                                         "type": "array",
                                         "items": {
                                             "properties": {
@@ -14605,55 +14766,63 @@
                                                     "description": "Worker ID",
                                                     "type": "integer"
                                                 },
-                                                "username": {
-                                                    "description": "Worker username",
-                                                    "type": "string"
-                                                },
-                                                "first_name": {
-                                                    "description": "First name",
-                                                    "type": "string"
-                                                },
-                                                "last_name": {
-                                                    "description": "Last name",
-                                                    "type": "string"
-                                                },
-                                                "email": {
-                                                    "description": "Email",
-                                                    "type": "string",
-                                                    "format": "email"
-                                                },
-                                                "password": {
-                                                    "description": "Password",
-                                                    "type": "string",
-                                                    "format": "password"
-                                                },
-                                                "is_active": {
-                                                    "description": "Worker activity flag",
-                                                    "type": "boolean"
-                                                },
-                                                "target": {
-                                                    "description": "Target amount for the worker",
-                                                    "type": "integer"
-                                                },
-                                                "parent_id": {
-                                                    "description": "Parent worker ID",
-                                                    "type": "integer"
-                                                },
-                                                "roles": {
-                                                    "description": "Array of roles ID",
+                                                "users": {
                                                     "type": "array",
                                                     "items": {
                                                         "properties": {
-                                                            "id": {
+                                                            "username": {
+                                                                "description": "Worker username",
+                                                                "type": "string"
+                                                            },
+                                                            "first_name": {
+                                                                "description": "First name",
+                                                                "type": "string"
+                                                            },
+                                                            "last_name": {
+                                                                "description": "Last name",
+                                                                "type": "string"
+                                                            },
+                                                            "email": {
+                                                                "description": "Email",
+                                                                "type": "string",
+                                                                "format": "email"
+                                                            },
+                                                            "password": {
+                                                                "description": "Password",
+                                                                "type": "string",
+                                                                "format": "password"
+                                                            },
+                                                            "is_active": {
+                                                                "description": "Worker activity flag",
+                                                                "type": "boolean"
+                                                            },
+                                                            "target": {
+                                                                "description": "Target amount for the worker",
                                                                 "type": "integer"
+                                                            },
+                                                            "parent_id": {
+                                                                "description": "Parent worker ID",
+                                                                "type": "integer"
+                                                            },
+                                                            "roles": {
+                                                                "description": "Array of roles ID",
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "properties": {
+                                                                        "id": {
+                                                                            "type": "integer"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "change_password": {
+                                                                "description": "Must be set to true if the password is changed.",
+                                                                "type": "boolean"
                                                             }
                                                         },
                                                         "type": "object"
                                                     }
-                                                },
-                                                "change_password": {
-                                                    "description": "Must be set to true if the password is changed.",
-                                                    "type": "boolean"
                                                 }
                                             },
                                             "type": "object"
@@ -18635,7 +18804,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }

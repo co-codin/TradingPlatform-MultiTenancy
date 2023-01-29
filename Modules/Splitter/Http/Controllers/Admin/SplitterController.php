@@ -133,7 +133,22 @@ final class SplitterController extends Controller
      *                 },
      *                 @OA\Property(property="name", type="string", description="Splitter name"),
      *                 @OA\Property(property="is_active", type="boolean", description="Splitter is active"),
-     *                 @OA\Property(property="conditions", type="string", description="Splitter conditions", example={}),
+     *                 @OA\Property(
+     *                     property="conditions",
+     *                     type="array",
+     *                     description="Splitter conditions",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         required={
+     *                             "field",
+     *                             "operator",
+     *                             "value",
+     *                         },
+     *                         @OA\Property(property="field", type="string", example="Gender", description="Splitter condition field"),
+     *                         @OA\Property(property="operator", type="string", example="=", description="Splitter condition field operator"),
+     *                         @OA\Property(property="value", type="string", example="male", description="Splitter condition field value"),
+     *                     )
+     *                 ),
      *                 @OA\Property(property="share_conditions", type="string", description="Splitter share conditions", example={}),
      *                 @OA\Property(
      *                     property="splitter_choice",
@@ -207,7 +222,22 @@ final class SplitterController extends Controller
      *                 },
      *                 @OA\Property(property="name", type="string", description="Splitter name"),
      *                 @OA\Property(property="is_active", type="boolean", description="Splitter is active"),
-     *                 @OA\Property(property="conditions", type="string", description="Splitter conditions", example={}),
+     *                 @OA\Property(
+     *                     property="conditions",
+     *                     type="array",
+     *                     description="Splitter conditions",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         required={
+     *                             "field",
+     *                             "operator",
+     *                             "value",
+     *                         },
+     *                         @OA\Property(property="field", type="string", example="Gender", description="Splitter condition field"),
+     *                         @OA\Property(property="operator", type="string", example="=", description="Splitter condition field operator"),
+     *                         @OA\Property(property="value", type="string", example="male", description="Splitter condition field value"),
+     *                     )
+     *                 ),
      *                 @OA\Property(property="share_conditions", type="string", description="Splitter share conditions", example={}),
      *                 @OA\Property(
      *                     property="splitter_choice",
@@ -266,7 +296,22 @@ final class SplitterController extends Controller
      *             @OA\Schema(
      *                 @OA\Property(property="name", type="string", description="Splitter name"),
      *                 @OA\Property(property="is_active", type="boolean", description="Splitter is active"),
-     *                 @OA\Property(property="conditions", type="string", description="Splitter conditions", example={}),
+     *                 @OA\Property(
+     *                     property="conditions",
+     *                     type="array",
+     *                     description="Splitter conditions",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         required={
+     *                             "field",
+     *                             "operator",
+     *                             "value",
+     *                         },
+     *                         @OA\Property(property="field", type="string", example="Gender", description="Splitter condition field"),
+     *                         @OA\Property(property="operator", type="string", example="=", description="Splitter condition field operator"),
+     *                         @OA\Property(property="value", type="string", example="male", description="Splitter condition field value"),
+     *                     )
+     *                 ),
      *                 @OA\Property(property="share_conditions", type="string", description="Splitter share conditions", example={}),
      *                 @OA\Property(
      *                     property="splitter_choice",

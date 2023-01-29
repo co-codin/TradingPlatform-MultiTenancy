@@ -7,7 +7,6 @@ namespace Modules\Transaction\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Modules\Transaction\Dto\TransactionDto;
 use Modules\Transaction\Enums\TransactionStatusEnum;
@@ -179,7 +178,7 @@ final class TransactionController extends Controller
         }
 
         $dto = TransactionDto::fromFormRequest($request);
-        $dto->creator_id = Auth::id();
+        $dto->creator_id = auth()->id();
 
         return new TransactionResource(
             $this->storage->store($dto),
@@ -322,10 +321,14 @@ final class TransactionController extends Controller
      *                @OA\Property(property="transactions", type="array",
      *                    @OA\Items(required={"id"},
      *                        @OA\Property(property="id", type="integer", description="Transaction ID"),
-     *                        @OA\Property(property="status", type="string", enum={"approved", "declined", "canceled", "pending"}, description="Transaction status"),
-     *                        @OA\Property(property="worker_id", type="integer", description="Worker ID"),
-     *                        @OA\Property(property="is_test", type="boolean", description="Is test"),
-     *                        @OA\Property(property="method_id", type="integer", description="Method ID"),
+     *                        @OA\Property(property="pivot", type="array",
+     *                            @OA\Items(
+     *                                @OA\Property(property="status", type="string", enum={"approved", "declined", "canceled", "pending"}, description="Transaction status"),
+     *                                @OA\Property(property="worker_id", type="integer", description="Worker ID"),
+     *                                @OA\Property(property="is_test", type="boolean", description="Is test"),
+     *                                @OA\Property(property="method_id", type="integer", description="Method ID"),
+     *                            )
+     *                        )
      *                    )
      *                )
      *            ),

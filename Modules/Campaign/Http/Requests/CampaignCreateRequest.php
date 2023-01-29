@@ -35,25 +35,25 @@ final class CampaignCreateRequest extends BaseFormRequest
                 'min:1',
                 'exists:landlord.countries,id',
             ],
-            'countries.*.cpa' => [
+            'countries.*.pivot.cpa' => [
                 'required',
                 'numeric',
                 'min:1',
             ],
-            'countries.*.crg' => [
+            'countries.*.pivot.crg' => [
                 'required',
                 'numeric',
                 'min:1',
             ],
-            'countries.*.working_days' => [
+            'countries.*.pivot.working_days' => [
                 'required',
                 'array',
             ],
-            'countries.*.working_hours' => [
+            'countries.*.pivot.working_hours' => [
                 'required',
                 'array',
             ],
-            'countries.*.daily_cap' => [
+            'countries.*.pivot.daily_cap' => [
                 'required',
                 'integer',
             ],
