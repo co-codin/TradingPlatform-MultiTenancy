@@ -9,6 +9,7 @@ use Modules\Role\Http\Controllers\Admin\ModelController;
 use Modules\Role\Http\Controllers\Admin\Permission\RolePermissionController;
 use Modules\Role\Http\Controllers\Admin\PermissionController;
 use Modules\Role\Http\Controllers\Admin\RoleController;
+use Modules\Role\Http\Controllers\Admin\RoleModelController;
 
 Route::put('roles/{role}/permissions', [RoleController::class, 'updatePermissions']);
 Route::get('roles/all', [RoleController::class, 'all'])->name('roles.all');
@@ -17,6 +18,9 @@ Route::put('roles/{id}/permission/{permissionId}/columns', [RolePermissionContro
     ->name('roles.permission.columns');
 Route::get('roles/{id}/permission/{permissionId}/columns', [RolePermissionController::class, 'getColumns'])
     ->name('roles.permission.columns');
+
+Route::get('roles/{id}/models', [RoleModelController::class, 'index'])->name('roles.models.index');
+Route::get('roles/{id}/models/{modelId}', [RoleModelController::class, 'show'])->name('roles.models.show');
 
 Route::apiResource('roles', RoleController::class);
 
