@@ -9869,18 +9869,34 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "ids"
+                                    "desks"
                                 ],
-                                "properties": {
-                                    "ids": {
-                                        "description": "Desks IDs",
-                                        "type": "array",
-                                        "items": {
-                                            "type": "integer"
+                                "type": "array",
+                                "items": {
+                                    "required": [
+                                        "id",
+                                        "cap_per_day",
+                                        "percentage_per_day"
+                                    ],
+                                    "properties": {
+                                        "id": {
+                                            "description": "Desk ID",
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "cap_per_day": {
+                                            "description": "Cap per day",
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "percentage_per_day": {
+                                            "description": "Percentage per day",
+                                            "type": "integer",
+                                            "example": "10"
                                         }
-                                    }
-                                },
-                                "type": "object"
+                                    },
+                                    "type": "object"
+                                }
                             }
                         }
                     }
@@ -9939,18 +9955,34 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "ids"
+                                    "workers"
                                 ],
-                                "properties": {
-                                    "ids": {
-                                        "description": "Workers IDs",
-                                        "type": "array",
-                                        "items": {
-                                            "type": "integer"
+                                "type": "array",
+                                "items": {
+                                    "required": [
+                                        "id",
+                                        "cap_per_day",
+                                        "percentage_per_day"
+                                    ],
+                                    "properties": {
+                                        "id": {
+                                            "description": "Worker ID",
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "cap_per_day": {
+                                            "description": "Cap per day",
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "percentage_per_day": {
+                                            "description": "Percentage per day",
+                                            "type": "integer",
+                                            "example": "10"
                                         }
-                                    }
-                                },
-                                "type": "object"
+                                    },
+                                    "type": "object"
+                                }
                             }
                         }
                     }
@@ -10029,10 +10061,7 @@
                             "schema": {
                                 "required": [
                                     "name",
-                                    "is_active",
-                                    "conditions",
-                                    "share_conditions",
-                                    "splitter_choice"
+                                    "is_active"
                                 ],
                                 "properties": {
                                     "name": {
@@ -10202,10 +10231,7 @@
                             "schema": {
                                 "required": [
                                     "name",
-                                    "is_active",
-                                    "conditions",
-                                    "share_conditions",
-                                    "splitter_choice"
+                                    "is_active"
                                 ],
                                 "properties": {
                                     "name": {
@@ -18804,7 +18830,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }

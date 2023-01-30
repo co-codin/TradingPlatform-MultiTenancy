@@ -32,7 +32,11 @@ final class PutWorkersTest extends BrandTestCase
         $splitterChoice = $splitter->splitterChoice()->first();
 
         $response = $this->put(route('admin.splitter-choice.worker', ['splitter_choice' => $splitterChoice->id]), [
-            'ids' => [User::first()->id]
+            'workers' => [[
+                'id' => User::first()->id,
+                'cap_per_day' => 1,
+                'percentage_per_day' => 20,
+            ]],
         ]);
 
         $response->assertOk();
@@ -52,7 +56,11 @@ final class PutWorkersTest extends BrandTestCase
         $splitterChoice = $splitter->splitterChoice()->first();
 
         $response = $this->put(route('admin.splitter-choice.worker', ['splitter_choice' => $splitterChoice->id]), [
-            'ids' => [User::first()->id]
+            'workers' => [[
+                'id' => User::first()->id,
+                'cap_per_day' => 1,
+                'percentage_per_day' => 20,
+            ]],
         ]);
 
         $response->assertForbidden();
@@ -72,7 +80,11 @@ final class PutWorkersTest extends BrandTestCase
         $splitterChoice = $splitter->splitterChoice()->first();
 
         $response = $this->put(route('admin.splitter-choice.worker', ['splitter_choice' => $splitterChoice->id + 9]), [
-            'ids' => [User::first()->id]
+            'workers' => [[
+                'id' => User::first()->id,
+                'cap_per_day' => 1,
+                'percentage_per_day' => 20,
+            ]],
         ]);
 
         $response->assertNotFound();
@@ -90,7 +102,11 @@ final class PutWorkersTest extends BrandTestCase
         $splitterChoice = $splitter->splitterChoice()->first();
 
         $response = $this->put(route('admin.splitter-choice.worker', ['splitter_choice' => $splitterChoice->id + 9]), [
-            'ids' => [User::first()->id]
+            'workers' => [[
+                'id' => User::first()->id,
+                'cap_per_day' => 1,
+                'percentage_per_day' => 20,
+            ]],
         ]);
 
         $response->assertUnauthorized();

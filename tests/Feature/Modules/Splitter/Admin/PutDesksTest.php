@@ -36,7 +36,11 @@ final class PutDesksTest extends BrandTestCase
         $splitterChoice = $splitter->splitterChoice()->first();
 
         $response = $this->put(route('admin.splitter-choice.desk', ['splitter_choice' => $splitterChoice->id]), [
-            'ids' => [(Desk::first() ?? Desk::factory())->id]
+            'desks' => [[
+                'id' => (Desk::first() ?? Desk::factory()->create())->id,
+                'cap_per_day' => 1,
+                'percentage_per_day' => 20,
+            ]],
         ]);
 
         $response->assertOk();
@@ -58,7 +62,11 @@ final class PutDesksTest extends BrandTestCase
         $splitterChoice = $splitter->splitterChoice()->first();
 
         $response = $this->put(route('admin.splitter-choice.desk', ['splitter_choice' => $splitterChoice->id]), [
-            'ids' => [(Desk::first() ?? Desk::factory()->create())->id]
+            'desks' => [[
+                'id' => (Desk::first() ?? Desk::factory()->create())->id,
+                'cap_per_day' => 1,
+                'percentage_per_day' => 20,
+            ]],
         ]);
 
         $response->assertForbidden();
@@ -80,7 +88,11 @@ final class PutDesksTest extends BrandTestCase
         $splitterChoice = $splitter->splitterChoice()->first();
 
         $response = $this->put(route('admin.splitter-choice.desk', ['splitter_choice' => $splitterChoice->id + 9]), [
-            'ids' => [(Desk::first() ?? Desk::factory()->create())->id]
+            'desks' => [[
+                'id' => (Desk::first() ?? Desk::factory()->create())->id,
+                'cap_per_day' => 1,
+                'percentage_per_day' => 20,
+            ]],
         ]);
 
         $response->assertNotFound();
@@ -100,7 +112,11 @@ final class PutDesksTest extends BrandTestCase
         $splitterChoice = $splitter->splitterChoice()->first();
 
         $response = $this->put(route('admin.splitter-choice.desk', ['splitter_choice' => $splitterChoice->id + 9]), [
-            'ids' => [(Desk::first() ?? Desk::factory()->create())->id]
+            'desks' => [[
+                'id' => (Desk::first() ?? Desk::factory()->create())->id,
+                'cap_per_day' => 1,
+                'percentage_per_day' => 20,
+            ]],
         ]);
 
         $response->assertUnauthorized();

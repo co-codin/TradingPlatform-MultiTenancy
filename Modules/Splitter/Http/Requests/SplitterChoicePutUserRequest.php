@@ -14,8 +14,10 @@ final class SplitterChoicePutUserRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'ids' => 'required|array',
-            'ids.*' => 'required|int|exists:users,id',
+            'workers' => 'required|array',
+            'workers.*.id' => 'required|int|exists:users,id',
+            'workers.*.cap_per_day' => 'required|int',
+            'workers.*.percentage_per_day' => 'required|int',
         ];
     }
 }

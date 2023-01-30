@@ -127,9 +127,6 @@ final class SplitterController extends Controller
      *                 required={
      *                     "name",
      *                     "is_active",
-     *                     "conditions",
-     *                     "share_conditions",
-     *                     "splitter_choice",
      *                 },
      *                 @OA\Property(property="name", type="string", description="Splitter name"),
      *                 @OA\Property(property="is_active", type="boolean", description="Splitter is active"),
@@ -216,9 +213,6 @@ final class SplitterController extends Controller
      *                 required={
      *                     "name",
      *                     "is_active",
-     *                     "conditions",
-     *                     "share_conditions",
-     *                     "splitter_choice",
      *                 },
      *                 @OA\Property(property="name", type="string", description="Splitter name"),
      *                 @OA\Property(property="is_active", type="boolean", description="Splitter is active"),

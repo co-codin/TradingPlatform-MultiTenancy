@@ -37,7 +37,9 @@ final class SplitterStorage
             throw new Exception(__('Can not store splitter'));
         }
 
-        $splitter->splitterChoice()->create($splitterDto->splitter_choice);
+        if ($splitterDto->splitter_choice) {
+            $splitter->splitterChoice()->create($splitterDto->splitter_choice);
+        }
 
         return $splitter->fresh()->load('splitterChoice');
     }
@@ -57,7 +59,9 @@ final class SplitterStorage
             throw new Exception(__('Can not update splitter'));
         }
 
-        $splitter->splitterChoice()->update($splitterDto->splitter_choice);
+        if ($splitterDto->splitter_choice) {
+            $splitter->splitterChoice()->updateOrCreate($splitterDto->splitter_choice);
+        }
 
         $this->reposition($splitter->user_id);
 
@@ -145,16 +149,21 @@ final class SplitterStorage
     {
         $percentage = $splitterChoice->option_per_day == SplitterChoiceOptionPerDay::PERCENT_PER_DAY ? 100 : 0;
 
-        if ($splitterChoice->type == SplitterChoiceType::DESK) {
-            if (! $splitterChoice->desks()->syncWithPivotValues($ids, [
+        $idList = [];
+        collect($ids)->each(function ($item) use (&$idList, $percentage) {
+            $idList[$item['id']] = [
                 'percentage' => $percentage,
-            ])) {
+                'cap_per_day' => $item['cap_per_day'],
+                'percentage_per_day' => $item['percentage_per_day'],
+            ];
+        });
+
+        if ($splitterChoice->type == SplitterChoiceType::DESK) {
+            if (! $splitterChoice->desks()->sync($idList)) {
                 throw new Exception(__('Can not update desks for splitter choice'));
             }
         } else {
-            if (! $splitterChoice->workers()->syncWithPivotValues($ids, [
-                'percentage' => $percentage,
-            ])) {
+            if (! $splitterChoice->workers()->sync($idList)) {
                 throw new Exception(__('Can not update workers for splitter choice'));
             }
         }

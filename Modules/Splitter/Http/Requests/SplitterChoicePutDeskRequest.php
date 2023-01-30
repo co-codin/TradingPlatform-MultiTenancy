@@ -14,8 +14,10 @@ final class SplitterChoicePutDeskRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'ids' => 'required|array',
-            'ids.*' => 'required|int|exists:tenant.desks,id',
+            'desks' => 'required|array',
+            'desks.*.id' => 'required|int|exists:tenant.desks,id',
+            'desks.*.cap_per_day' => 'required|int',
+            'desks.*.percentage_per_day' => 'required|int',
         ];
     }
 }

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Modules\Splitter\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
-use Modules\Splitter\Rules\ConditionsRule;
 use BenSampo\Enum\Rules\EnumValue;
 use Modules\Splitter\Enums\SplitterChoiceOptionPerDay;
 use Modules\Splitter\Enums\SplitterChoiceType;
+use Modules\Splitter\Rules\ConditionsRule;
 
 final class SplitterCreateRequest extends BaseFormRequest
 {
@@ -26,13 +26,13 @@ final class SplitterCreateRequest extends BaseFormRequest
                 new ConditionsRule(),
             ],
             'share_conditions' => 'sometimes|array',
-            'splitter_choice' => 'required|array',
+            'splitter_choice' => 'sometimes|array',
             'splitter_choice.type' => [
-                'required',
+                'required_with:splitter_choice',
                 new EnumValue(SplitterChoiceType::class, false),
             ],
             'splitter_choice.option_per_day' => [
-                'required',
+                'required_with:splitter_choice',
                 new EnumValue(SplitterChoiceOptionPerDay::class, false),
             ],
         ];

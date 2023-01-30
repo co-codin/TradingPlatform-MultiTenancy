@@ -43,9 +43,20 @@ class SplitterChoiceController extends Controller
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 required={
-     *                     "ids",
+     *                     "desks",
      *                 },
-     *                 @OA\Property(property="ids", type="array", @OA\Items(type="integer"), description="Desks IDs"),
+     *                 type="array",
+     *                 @OA\Items(
+     *                    type="object",
+     *                    required={
+     *                        "id",
+     *                        "cap_per_day",
+     *                        "percentage_per_day",
+     *                     },
+     *                     @OA\Property(property="id", type="integer", example="1", description="Desk ID"),
+     *                     @OA\Property(property="cap_per_day", type="integer", example="1", description="Cap per day"),
+     *                     @OA\Property(property="percentage_per_day", type="integer", example="10", description="Percentage per day"),
+     *                 ),
      *             )
      *         )
      *     ),
@@ -84,7 +95,7 @@ class SplitterChoiceController extends Controller
 
         $this->authorize('update', $splitterChoice->splitter()->first());
 
-        return new SplitterChoiceResource($this->storage->put($splitterChoice, $request->validated('ids')));
+        return new SplitterChoiceResource($this->storage->put($splitterChoice, $request->validated('desks')));
     }
 
     /**
@@ -105,9 +116,20 @@ class SplitterChoiceController extends Controller
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 required={
-     *                     "ids",
+     *                     "workers",
      *                 },
-     *                 @OA\Property(property="ids", type="array", @OA\Items(type="integer"), description="Workers IDs"),
+     *                 type="array",
+     *                 @OA\Items(
+     *                    type="object",
+     *                    required={
+     *                        "id",
+     *                        "cap_per_day",
+     *                        "percentage_per_day",
+     *                     },
+     *                     @OA\Property(property="id", type="integer", example="1", description="Worker ID"),
+     *                     @OA\Property(property="cap_per_day", type="integer", example="1", description="Cap per day"),
+     *                     @OA\Property(property="percentage_per_day", type="integer", example="10", description="Percentage per day"),
+     *                 ),
      *             )
      *         )
      *     ),
@@ -146,6 +168,6 @@ class SplitterChoiceController extends Controller
 
         $this->authorize('update', $splitterChoice->splitter()->first());
 
-        return new SplitterChoiceResource($this->storage->put($splitterChoice, $request->validated('ids')));
+        return new SplitterChoiceResource($this->storage->put($splitterChoice, $request->validated('workers')));
     }
 }
