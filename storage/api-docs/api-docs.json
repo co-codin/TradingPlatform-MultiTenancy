@@ -9614,6 +9614,102 @@
                         "sanctum": []
                     }
                 ]
+            },
+            "put": {
+                "tags": [
+                    "Role"
+                ],
+                "summary": "Update a role model",
+                "operationId": "fb3855a93e5b38242d527b70d58bfbeb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Role ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "modelId",
+                        "in": "path",
+                        "description": "Model ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "selected_actions",
+                                    "selected_view_columns",
+                                    "selected_edit_columns"
+                                ],
+                                "properties": {
+                                    "selected_actions": {
+                                        "description": "List of selected actions",
+                                        "type": "array",
+                                        "items": {
+                                            "description": "Actiom name",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "selected_view_columns": {
+                                        "description": "List of selected columns for view",
+                                        "type": "array",
+                                        "items": {
+                                            "description": "Column name",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "selected_edit_columns": {
+                                        "description": "List of selected columns for edit",
+                                        "type": "array",
+                                        "items": {
+                                            "description": "Column name",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RoleModelCollection"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/admin/sale-statuses": {

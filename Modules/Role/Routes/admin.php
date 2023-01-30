@@ -21,6 +21,7 @@ Route::get('roles/{id}/permission/{permissionId}/columns', [RolePermissionContro
 
 Route::get('roles/{id}/models', [RoleModelController::class, 'index'])->name('roles.models.index');
 Route::get('roles/{id}/models/{modelId}', [RoleModelController::class, 'show'])->name('roles.models.show');
+Route::put('roles/{id}/models/{modelId}', [RoleModelController::class, 'update'])->name('roles.models.update');
 
 Route::apiResource('roles', RoleController::class);
 
