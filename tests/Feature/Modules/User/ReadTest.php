@@ -36,9 +36,6 @@ final class ReadTest extends BrandTestCase
                 [
                     'id',
                     'username',
-                    'first_name',
-                    'last_name',
-                    'email',
                     'is_active',
                     'target',
                     '_lft',
@@ -113,9 +110,6 @@ final class ReadTest extends BrandTestCase
                 [
                     'id',
                     'username',
-                    'first_name',
-                    'last_name',
-                    'email',
                     'is_active',
                     'target',
                     '_lft',
@@ -214,9 +208,6 @@ final class ReadTest extends BrandTestCase
             'data' => [
                 'id',
                 'username',
-                'first_name',
-                'last_name',
-                'email',
                 'is_active',
                 'target',
                 '_lft',

@@ -13,6 +13,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('brand_id')->constrained();
             $table->boolean('is_default')->default(false);
+            $table->timestamps();
         });
     }
 

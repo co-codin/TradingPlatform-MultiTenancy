@@ -15,9 +15,6 @@ final class UserFactory extends Factory
     {
         return [
             'username' => $this->faker->unique()->regexify('[a-zA-Z0-9]{8,20}'),
-            'first_name' => $this->faker->unique()->regexify('[a-zA-Z]{8,20}'),
-            'last_name' => $this->faker->unique()->regexify('[a-zA-Z]{8,20}'),
-            'email' => $this->faker->unique()->email,
             'password' => Hash::make('Password%12345'),
             'remember_token' => Str::random(10),
             'is_active' => true,

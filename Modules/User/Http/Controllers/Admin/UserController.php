@@ -64,8 +64,10 @@ final class UserController extends Controller
         $this->authorize('viewAny', User::class);
 
         $users = $this->userRepository;
+
         if ($brandId = Tenant::current()?->id) {
             $users = $users->whereRelation('brands', 'brand_id', $brandId);
+            $users->with('workerInfo');
         }
 
         $users = $users->jsonPaginate();
@@ -112,7 +114,13 @@ final class UserController extends Controller
      */
     public function show(int $id): UserResource
     {
-        $user = $this->userRepository->find($id);
+        $user = $this->userRepository;
+
+        if (Tenant::checkCurrent()) {
+            $user->with('workerInfo');
+        }
+
+        $user = $user->find($id);
 
         $this->authorize('view', $user);
 

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -42,9 +43,6 @@ use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
  * Class User
  *
  * @property int $id
- * @property string $first_name
- * @property string $last_name
- * @property string $email
  * @property int|null $affiliate_id
  * @property bool $show_on_scoreboards
  * @property-read Role[]|Collection $roles
@@ -405,5 +403,15 @@ final class User extends Authenticatable
     public function sendCalls(): MorphMany
     {
         return $this->morphMany(Call::class, 'sendcallable')->latest();
+    }
+
+    /**
+     * User relation.
+     *
+     * @return HasOne
+     */
+    public function workerInfo(): HasOne
+    {
+        return $this->hasOne(WorkerInfo::class, 'user_id', 'id');
     }
 }

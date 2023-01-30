@@ -101,16 +101,12 @@ final class UserTestAdminSeeder extends Seeder
         $username = Str::before($email, '@');
 
         $user = User::query()
-            ->where('email', $email)
-            ->orWhere('username', $username)
+            ->where('username', $username)
             ->first();
 
         if (! $user) {
             $user = User::factory()->create([
                 'username' => $username,
-                'first_name' => Str::before($username, '@') ?: $username,
-                'last_name' => Str::before($username, '@') ?: $username,
-                'email' => $email,
                 'password' => Hash::make('password'),
             ]);
         }

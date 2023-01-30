@@ -16,21 +16,6 @@ final class UserDto extends BaseDto
     /**
      * @var string|null
      */
-    public ?string $first_name;
-
-    /**
-     * @var string|null
-     */
-    public ?string $last_name;
-
-    /**
-     * @var string|null
-     */
-    public ?string $email;
-
-    /**
-     * @var string|null
-     */
     public ?string $password;
 
     /**
