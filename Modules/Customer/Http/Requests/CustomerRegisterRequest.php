@@ -39,6 +39,7 @@ final class CustomerRegisterRequest extends BaseFormRequest
             'phone' => [
                 'required',
                 'string',
+                'regex:'.RegexValidationEnum::PHONE,
             ],
             'country_id' => 'required|int|exists:landlord.countries,id',
             'platform_language_id' => 'sometimes|required|int|exists:landlord.languages,id',

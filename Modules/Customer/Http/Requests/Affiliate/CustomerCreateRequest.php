@@ -19,7 +19,8 @@ final class CustomerCreateRequest extends BaseFormRequest
         return [
             'first_name' => 'required|string|max:35|regex:'.RegexValidationEnum::NAME,
             'last_name' => 'required|string|max:35|regex:'.RegexValidationEnum::NAME,
-            'phone' => 'required|string',
+            'phone' => 'required|string|regex:'.RegexValidationEnum::PHONE,
+            'phone_2' => 'sometimes|required|string|regex:'.RegexValidationEnum::PHONE,
             'email' => 'required|email|max:100|unique:tenant.customers,email',
             'country' => 'required|string|max:35',
             'language' => 'required|string|max:35',
