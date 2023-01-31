@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Customer\Models;
 
 use App\Contracts\Models\HasAttributeColumns;
+use App\Contracts\Models\HasEmail;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,7 +15,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Brand\Models\Brand;
-use Modules\Communication\Models\Call;
 use Modules\Communication\Models\DatabaseNotification;
 use Modules\Communication\Models\Email;
 use Modules\Customer\Database\factories\CustomerFactory;
@@ -52,7 +52,7 @@ use Spatie\Multitenancy\Models\Tenant;
  * @property string $updated_at
  * @property string $deleted_at
  */
-final class Customer extends Authenticatable implements HasAttributeColumns
+final class Customer extends Authenticatable implements HasAttributeColumns, HasEmail
 {
     use HasFactory;
     use SoftDeletes;
@@ -136,6 +136,22 @@ final class Customer extends Authenticatable implements HasAttributeColumns
     /**
      * {@inheritDoc}
      */
+    public static function getAttributeColumns(): array
+    {
+        return [
+            'formatted_is_ftd',
+            'suspend',
+            'local_time',
+            'last_deposit_date',
+            'ftd_amount',
+            'total_redeposits',
+            'total_withdrawals',
+        ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     protected static function newFactory(): CustomerFactory
     {
         return CustomerFactory::new();
@@ -150,6 +166,22 @@ final class Customer extends Authenticatable implements HasAttributeColumns
     public function setEmailAttribute(string $value): void
     {
         $this->attributes['email'] = strtolower($value);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFirstName(): string
+    {
+        return $this->getOriginal('first_name', '');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEmail(): string
+    {
+        return $this->getOriginal('email', '');
     }
 
     /**
@@ -252,22 +284,6 @@ final class Customer extends Authenticatable implements HasAttributeColumns
                 ->sum('amount') ?: 0,
             self::CUSTOMER_AMOUNT_PRECISION,
         );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public static function getAttributeColumns(): array
-    {
-        return [
-            'formatted_is_ftd',
-            'suspend',
-            'local_time',
-            'last_deposit_date',
-            'ftd_amount',
-            'total_redeposits',
-            'total_withdrawals',
-        ];
     }
 
     /**

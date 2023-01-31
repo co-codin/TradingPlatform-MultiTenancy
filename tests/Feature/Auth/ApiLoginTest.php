@@ -6,18 +6,33 @@ namespace Tests\Feature\Auth;
 
 use Illuminate\Support\Facades\Hash;
 use Modules\User\Models\User;
-use Tests\TestCase;
+use Modules\User\Models\WorkerInfo;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-final class ApiLoginTest extends TestCase
+final class ApiLoginTest extends BrandTestCase
 {
+    use HasAuth;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->setUser(User::factory()->create([
+            'password' => Hash::make('password'),
+        ]));
+    }
+
     /**
      * @test
      */
     public function success(): void
     {
         $user = $this->getUser();
+        $this->brand->makeCurrent();
+        WorkerInfo::factory()->create(['user_id' => $user->id]);
         $response = $this->post(route('admin.token-auth.login'), [
-            'login' => $user->email,
+            'login' => $user->getEmail(),
             'password' => 'password',
         ]);
 
@@ -34,13 +49,16 @@ final class ApiLoginTest extends TestCase
 
     /**
      * @test
+     *
      * @depends success
      */
     public function remember_success(): void
     {
         $user = $this->getUser();
+        $this->brand->makeCurrent();
+        WorkerInfo::factory()->create(['user_id' => $user->id]);
         $response = $this->post(route('admin.token-auth.login'), [
-            'login' => $user->email,
+            'login' => $user->getEmail(),
             'password' => 'password',
             'remember_me' => true,
         ]);
@@ -61,20 +79,13 @@ final class ApiLoginTest extends TestCase
     public function failed(): void
     {
         $user = $this->getUser();
+        $this->brand->makeCurrent();
+        WorkerInfo::factory()->create(['user_id' => $user->id]);
         $response = $this->post(route('admin.token-auth.login'), [
-            'login' => $user->email,
+            'login' => $user->getEmail(),
             'password' => 'random',
         ]);
 
         $response->assertUnprocessable();
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->setUser(User::factory()->create([
-            'password' => Hash::make('password'),
-        ]));
     }
 }

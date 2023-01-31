@@ -8,16 +8,20 @@ use Modules\Brand\Models\Brand;
 use Modules\Role\Models\Role;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
-use Spatie\Multitenancy\Models\Tenant;
 use Spatie\Permission\PermissionRegistrar;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\BrandTestCase;
-use Tests\TestCase;
 use Tests\Traits\HasAuth;
 
 final class CreateTest extends BrandTestCase
 {
     use HasAuth;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->app->make(PermissionRegistrar::class)->registerPermissions();
+    }
 
     /**
      * @test
@@ -49,9 +53,6 @@ final class CreateTest extends BrandTestCase
             'data' => [
                 'id',
                 'username',
-                'first_name',
-                'last_name',
-                'email',
                 'is_active',
                 'target',
                 'parent_id',
@@ -99,11 +100,5 @@ final class CreateTest extends BrandTestCase
         $response = $this->post('/admin/workers');
 
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->app->make(PermissionRegistrar::class)->registerPermissions();
     }
 }

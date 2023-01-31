@@ -17,10 +17,9 @@ use OpenApi\Annotations as OA;
  *     @OA\Xml(name="ChatMessage"),
  *     @OA\Property(property="id", type="integer", description="User ID"),
  *     @OA\Property(property="username", type="string", description="Username"),
- *     @OA\Property(property="first_name", type="string", description="User first name"),
- *     @OA\Property(property="last_name", type="string", description="User last name"),
+ *     @OA\Property(property="first_name", type="string", description="Worker first name"),
+ *     @OA\Property(property="last_name", type="string", description="Worker last name"),
  * ),
- *
  * @OA\Schema (
  *     schema="ChatUserMessageCollection",
  *     type="object",
@@ -35,7 +34,6 @@ use OpenApi\Annotations as OA;
  *         ref="#/components/schemas/Meta"
  *     )
  * ),
- *
  * @OA\Schema (
  *     schema="ChatUserMessageResource",
  *     type="object",
@@ -62,9 +60,9 @@ class ChatUserResource extends BaseJsonResource
     {
         return [
             'id' => $this->id,
-            'username' => $this->username,
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
+            'username' => $this->resource->username,
+            'first_name' => $this->resource->workerInfo->first_name,
+            'last_name' => $this->resource->workerInfo->last_name,
         ];
     }
 }

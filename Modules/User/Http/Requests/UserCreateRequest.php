@@ -19,22 +19,23 @@ final class UserCreateRequest extends BaseFormRequest
                 'iunique:landlord.users,username',
                 'regex:'.RegexValidationEnum::USERNAME,
             ],
-            'first_name' => [
+            'worker_info' => 'required|array',
+            'worker_info.first_name' => [
                 'required',
                 'string',
                 'max:35',
                 'regex:'.RegexValidationEnum::NAME,
             ],
-            'last_name' => [
+            'worker_info.last_name' => [
                 'required',
                 'string',
                 'max:35',
                 'regex:'.RegexValidationEnum::NAME,
             ],
-            'email' => [
+            'worker_info.email' => [
                 'email',
                 'max:255',
-                'unique:landlord.users,email',
+                'unique:tenant.worker_info,email',
             ],
             'password' => [
                 'required',

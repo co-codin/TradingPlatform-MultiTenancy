@@ -8,12 +8,25 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Modules\User\Models\User;
+use Modules\User\Models\WorkerInfo;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\TestCase;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-final class ResetTest extends TestCase
+final class ResetTest extends BrandTestCase
 {
+    use HasAuth;
+
     protected string $testEmail = 'test@admin.com';
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->setUser(User::factory()->create([
+            'password' => Hash::make('password'),
+        ]));
+    }
 
     /**
      * @test
@@ -21,10 +34,12 @@ final class ResetTest extends TestCase
     public function accepted(): void
     {
         $user = $this->getUser();
+        $this->brand->makeCurrent();
+        WorkerInfo::factory()->create(['user_id' => $user->id]);
         $response = $this->post(route('admin.auth.password.reset'), [
-            'email' => $user->email,
-            'password' => 'password123',
-            'password_confirmation' => 'password123',
+            'email' => $user->getEmail(),
+            'password' => self::$basePassword,
+            'password_confirmation' => self::$basePassword,
             'token' => Password::createToken($user),
         ]);
 
@@ -38,10 +53,12 @@ final class ResetTest extends TestCase
     public function invalid_token(): void
     {
         $user = $this->getUser();
+        $this->brand->makeCurrent();
+        WorkerInfo::factory()->create(['user_id' => $user->id]);
         $response = $this->post(route('admin.auth.password.reset'), [
-            'email' => $user->email,
-            'password' => 'password123',
-            'password_confirmation' => 'password123',
+            'email' => $user->getEmail(),
+            'password' => self::$basePassword,
+            'password_confirmation' => self::$basePassword,
             'token' => Str::random(),
         ]);
 
@@ -55,10 +72,11 @@ final class ResetTest extends TestCase
     public function invalid_user(): void
     {
         $user = $this->getUser();
+        $this->brand->makeCurrent();
         $response = $this->post(route('admin.auth.password.reset'), [
             'email' => 'test@non-existent.test',
-            'password' => 'password123',
-            'password_confirmation' => 'password123',
+            'password' => self::$basePassword,
+            'password_confirmation' => self::$basePassword,
             'token' => Password::createToken($user),
         ]);
 
@@ -73,20 +91,11 @@ final class ResetTest extends TestCase
     {
         $response = $this->post(route('admin.auth.password.reset'), [
             'email' => 'test',
-            'password' => 'password123',
-            'password_confirmation' => 'password1234',
+            'password' => self::$basePassword,
+            'password_confirmation' => self::$basePassword,
         ]);
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['token', 'email', 'password']);
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->setUser(User::factory()->create([
-            'password' => Hash::make('password'),
-        ]));
     }
 }

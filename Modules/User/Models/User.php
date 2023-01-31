@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\User\Models;
 
+use App\Contracts\Models\HasEmail;
 use App\Relationships\Traits\WhereHasForTenant;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -38,6 +39,7 @@ use Modules\Token\Models\Token;
 use Modules\User\Database\factories\UserFactory;
 use Modules\User\Events\UserCreated;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
+use Spatie\Multitenancy\Models\Tenant;
 
 /**
  * Class User
@@ -55,7 +57,7 @@ use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
  *
  * @method static self create(array $attributes)
  */
-final class User extends Authenticatable
+final class User extends Authenticatable implements HasEmail
 {
     use HasApiTokens;
     use HasFactory;
@@ -144,6 +146,22 @@ final class User extends Authenticatable
     public function setEmailAttribute(string $value): void
     {
         $this->attributes['email'] = strtolower($value);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFirstName(): string
+    {
+        return (string) (Tenant::checkCurrent() ? $this->workerInfo?->first_name : null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEmail(): string
+    {
+        return (string) (Tenant::checkCurrent() ? $this->workerInfo?->email : null);
     }
 
     public function comments()

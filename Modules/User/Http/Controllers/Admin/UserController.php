@@ -139,8 +139,6 @@ final class UserController extends Controller
      *             @OA\Schema(
      *                 required={
      *                     "username",
-     *                     "first_name",
-     *                     "last_name",
      *                     "password",
      *                     "roles",
      *                     "desks",
@@ -148,9 +146,18 @@ final class UserController extends Controller
      *                     "countries",
      *                 },
      *                 @OA\Property(property="username", description="Worker username"),
-     *                 @OA\Property(property="first_name", type="string", description="First name"),
-     *                 @OA\Property(property="last_name", type="string", description="Last name"),
-     *                 @OA\Property(property="email", type="string", format="email", description="Email"),
+     *                 @OA\Property(property="worker_info", type="array",
+     *                      @OA\Items(
+     *                          required={
+     *                              "first_name",
+     *                              "last_name",
+     *                              "email",
+     *                          },
+     *                          @OA\Property(property="first_name", type="string", description="First name"),
+     *                          @OA\Property(property="last_name", type="string", description="Last name"),
+     *                          @OA\Property(property="email", type="string", format="email", description="Email"),
+     *                      )
+     *                 ),
      *                 @OA\Property(property="password", type="string", format="password", description="Password"),
      *                 @OA\Property(property="is_active", type="boolean", description="Worker activity flag"),
      *                 @OA\Property(property="target", type="integer", description="Target amount for the worker"),
@@ -223,15 +230,17 @@ final class UserController extends Controller
      *             @OA\Schema(
      *                 required={
      *                     "username",
-     *                     "first_name",
-     *                     "last_name",
      *                     "password",
      *                     "roles",
      *                 },
      *                 @OA\Property(property="username", type="string", description="Worker username"),
-     *                 @OA\Property(property="first_name", type="string", description="First name"),
-     *                 @OA\Property(property="last_name", type="string", description="Last name"),
-     *                 @OA\Property(property="email", type="string", format="email", description="Email"),
+     *                 @OA\Property(property="worker_info", type="array",
+     *                      @OA\Items(
+     *                          @OA\Property(property="first_name", type="string", description="First name"),
+     *                          @OA\Property(property="last_name", type="string", description="Last name"),
+     *                          @OA\Property(property="email", type="string", format="email", description="Email"),
+     *                      )
+     *                 ),
      *                 @OA\Property(property="password", type="string", format="password", description="Password"),
      *                 @OA\Property(property="is_active", type="boolean", description="Worker activity flag"),
      *                 @OA\Property(property="target", type="integer", description="Target amount for the worker"),
@@ -291,9 +300,13 @@ final class UserController extends Controller
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 @OA\Property(property="username", type="string", description="Worker username"),
-     *                 @OA\Property(property="first_name", type="string", description="First name"),
-     *                 @OA\Property(property="last_name", type="string", description="Last name"),
-     *                 @OA\Property(property="email", type="string", format="email", description="Email"),
+     *                 @OA\Property(property="worker_info", type="array",
+     *                      @OA\Items(
+     *                          @OA\Property(property="first_name", type="string", description="First name"),
+     *                          @OA\Property(property="last_name", type="string", description="Last name"),
+     *                          @OA\Property(property="email", type="string", format="email", description="Email"),
+     *                      )
+     *                 ),
      *                 @OA\Property(property="password", type="string", format="password", description="Password"),
      *                 @OA\Property(property="is_active", type="boolean", description="Worker activity flag"),
      *                 @OA\Property(property="target", type="integer", description="Target amount for the worker"),
@@ -523,9 +536,18 @@ final class UserController extends Controller
      *                        @OA\Property(property="users", type="array",
      *                            @OA\Items(
      *                                @OA\Property(property="username", type="string", description="Worker username"),
-     *                                @OA\Property(property="first_name", type="string", description="First name"),
-     *                                @OA\Property(property="last_name", type="string", description="Last name"),
-     *                                @OA\Property(property="email", type="string", format="email", description="Email"),
+     *                                @OA\Property(property="worker_info", type="array",
+     *                                       @OA\Items(
+     *                                           required={
+     *                                               "first_name",
+     *                                               "last_name",
+     *                                               "email",
+     *                                           },
+     *                                           @OA\Property(property="first_name", type="string", description="First name"),
+     *                                           @OA\Property(property="last_name", type="string", description="Last name"),
+     *                                           @OA\Property(property="email", type="string", format="email", description="Email"),
+     *                                       )
+     *                                ),
      *                                @OA\Property(property="password", type="string", format="password", description="Password"),
      *                                @OA\Property(property="is_active", type="boolean", description="Worker activity flag"),
      *                                @OA\Property(property="target", type="integer", description="Target amount for the worker"),
@@ -574,7 +596,7 @@ final class UserController extends Controller
             ->setAuthUser($request->user())
             ->updateBatch($request->validated('users', []));
 
-        abort_if($users->isEmpty(), ResponseAlias::HTTP_UNAUTHORIZED);
+        abort_if($users->isEmpty(), ResponseAlias::HTTP_UNAUTHORIZED, __('Cant update user'));
 
         return UserResource::collection($users);
     }

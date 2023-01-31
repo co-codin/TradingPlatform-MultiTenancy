@@ -13883,8 +13883,6 @@
                             "schema": {
                                 "required": [
                                     "username",
-                                    "first_name",
-                                    "last_name",
                                     "password",
                                     "roles",
                                     "desks",
@@ -13895,18 +13893,31 @@
                                     "username": {
                                         "description": "Worker username"
                                     },
-                                    "first_name": {
-                                        "description": "First name",
-                                        "type": "string"
-                                    },
-                                    "last_name": {
-                                        "description": "Last name",
-                                        "type": "string"
-                                    },
-                                    "email": {
-                                        "description": "Email",
-                                        "type": "string",
-                                        "format": "email"
+                                    "worker_info": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "first_name",
+                                                "last_name",
+                                                "email"
+                                            ],
+                                            "properties": {
+                                                "first_name": {
+                                                    "description": "First name",
+                                                    "type": "string"
+                                                },
+                                                "last_name": {
+                                                    "description": "Last name",
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "description": "Email",
+                                                    "type": "string",
+                                                    "format": "email"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     },
                                     "password": {
                                         "description": "Password",
@@ -14109,8 +14120,6 @@
                             "schema": {
                                 "required": [
                                     "username",
-                                    "first_name",
-                                    "last_name",
                                     "password",
                                     "roles"
                                 ],
@@ -14119,18 +14128,26 @@
                                         "description": "Worker username",
                                         "type": "string"
                                     },
-                                    "first_name": {
-                                        "description": "First name",
-                                        "type": "string"
-                                    },
-                                    "last_name": {
-                                        "description": "Last name",
-                                        "type": "string"
-                                    },
-                                    "email": {
-                                        "description": "Email",
-                                        "type": "string",
-                                        "format": "email"
+                                    "worker_info": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "first_name": {
+                                                    "description": "First name",
+                                                    "type": "string"
+                                                },
+                                                "last_name": {
+                                                    "description": "Last name",
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "description": "Email",
+                                                    "type": "string",
+                                                    "format": "email"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     },
                                     "password": {
                                         "description": "Password",
@@ -14298,18 +14315,26 @@
                                         "description": "Worker username",
                                         "type": "string"
                                     },
-                                    "first_name": {
-                                        "description": "First name",
-                                        "type": "string"
-                                    },
-                                    "last_name": {
-                                        "description": "Last name",
-                                        "type": "string"
-                                    },
-                                    "email": {
-                                        "description": "Email",
-                                        "type": "string",
-                                        "format": "email"
+                                    "worker_info": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "first_name": {
+                                                    "description": "First name",
+                                                    "type": "string"
+                                                },
+                                                "last_name": {
+                                                    "description": "Last name",
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "description": "Email",
+                                                    "type": "string",
+                                                    "format": "email"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     },
                                     "password": {
                                         "description": "Password",
@@ -14563,18 +14588,31 @@
                                                                 "description": "Worker username",
                                                                 "type": "string"
                                                             },
-                                                            "first_name": {
-                                                                "description": "First name",
-                                                                "type": "string"
-                                                            },
-                                                            "last_name": {
-                                                                "description": "Last name",
-                                                                "type": "string"
-                                                            },
-                                                            "email": {
-                                                                "description": "Email",
-                                                                "type": "string",
-                                                                "format": "email"
+                                                            "worker_info": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "required": [
+                                                                        "first_name",
+                                                                        "last_name",
+                                                                        "email"
+                                                                    ],
+                                                                    "properties": {
+                                                                        "first_name": {
+                                                                            "description": "First name",
+                                                                            "type": "string"
+                                                                        },
+                                                                        "last_name": {
+                                                                            "description": "Last name",
+                                                                            "type": "string"
+                                                                        },
+                                                                        "email": {
+                                                                            "description": "Email",
+                                                                            "type": "string",
+                                                                            "format": "email"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
                                                             },
                                                             "password": {
                                                                 "description": "Password",
@@ -15390,11 +15428,11 @@
                         "type": "string"
                     },
                     "first_name": {
-                        "description": "User first name",
+                        "description": "Worker first name",
                         "type": "string"
                     },
                     "last_name": {
-                        "description": "User last name",
+                        "description": "Worker last name",
                         "type": "string"
                     }
                 },
@@ -16439,11 +16477,11 @@
                         "type": "string"
                     },
                     "first_name": {
-                        "description": "User first name",
+                        "description": "Worker first name",
                         "type": "string"
                     },
                     "last_name": {
-                        "description": "User last name",
+                        "description": "Worker last name",
                         "type": "string"
                     }
                 },
@@ -18039,20 +18077,12 @@
             "AuthUser": {
                 "required": [
                     "id",
-                    "first_name",
-                    "last_name",
                     "permissions",
                     "roles"
                 ],
                 "properties": {
                     "id": {
                         "type": "integer"
-                    },
-                    "first_name": {
-                        "type": "string"
-                    },
-                    "last_name": {
-                        "type": "string"
                     },
                     "permissions": {
                         "type": "array",
@@ -18120,6 +18150,9 @@
                         "items": {
                             "$ref": "#/components/schemas/UserMenu"
                         }
+                    },
+                    "worker_info": {
+                        "$ref": "#/components/schemas/WorkerInfo"
                     }
                 },
                 "type": "object"
@@ -18308,8 +18341,6 @@
                 "required": [
                     "id",
                     "username",
-                    "first_name",
-                    "last_name",
                     "is_active",
                     "show_on_scoreboards",
                     "created_at",
@@ -18323,19 +18354,6 @@
                     "username": {
                         "description": "Worker username",
                         "type": "string"
-                    },
-                    "first_name": {
-                        "description": "First name",
-                        "type": "string"
-                    },
-                    "last_name": {
-                        "description": "Last name",
-                        "type": "string"
-                    },
-                    "email": {
-                        "description": "Email",
-                        "type": "string",
-                        "format": "email"
                     },
                     "is_active": {
                         "description": "Worker activity flag",
@@ -18407,6 +18425,9 @@
                         "items": {
                             "$ref": "#/components/schemas/CommunicationExtension"
                         }
+                    },
+                    "worker_info": {
+                        "$ref": "#/components/schemas/WorkerInfo"
                     }
                 },
                 "type": "object"
@@ -18429,6 +18450,77 @@
                 "properties": {
                     "data": {
                         "$ref": "#/components/schemas/Worker"
+                    }
+                },
+                "type": "object"
+            },
+            "WorkerInfo": {
+                "required": [
+                    "id",
+                    "first_name",
+                    "last_name",
+                    "email",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Worker ID",
+                        "type": "integer"
+                    },
+                    "first_name": {
+                        "description": "First name",
+                        "type": "string"
+                    },
+                    "last_name": {
+                        "description": "Last name",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "Email",
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "created_at": {
+                        "description": "Date and time of creation",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "updated_at": {
+                        "description": "Date and time of last update",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "deleted_at": {
+                        "description": "Date and time of soft delete",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "WorkerInfoCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/WorkerInfo"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "WorkerInfoResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/WorkerInfo"
                     }
                 },
                 "type": "object"

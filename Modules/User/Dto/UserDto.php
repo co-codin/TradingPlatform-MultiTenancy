@@ -47,4 +47,9 @@ final class UserDto extends BaseDto
      * @var string|null
      */
     public ?string $last_login;
+
+    /**
+     * @var array|null
+     */
+    public ?array $worker_info = null;
 }

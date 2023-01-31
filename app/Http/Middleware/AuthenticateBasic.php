@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Middleware;
@@ -20,7 +21,7 @@ class AuthenticateBasic
     /**
      * Create a new middleware instance.
      *
-     * @param AuthFactory $auth
+     * @param  AuthFactory  $auth
      * @return void
      */
     public function __construct(AuthFactory $auth)
@@ -31,15 +32,15 @@ class AuthenticateBasic
     /**
      * Handle an incoming request.
      *
-     * @param Request  $request
-     * @param Closure $next
+     * @param  Request  $request
+     * @param  Closure  $next
      * @return mixed
      *
      * @throws UnauthorizedHttpException
      */
     public function handle(Request $request, Closure $next)
     {
-        $this->auth->guard('basic')->basic();
+        $this->auth->guard('basic')->basic('username');
 
         return $next($request);
     }
