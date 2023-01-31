@@ -10,27 +10,29 @@ use Modules\Splitter\Enums\SplitterChoiceOptionPerDay;
 use Modules\Splitter\Enums\SplitterChoiceType;
 use Modules\Splitter\Models\Splitter;
 use Modules\Splitter\Models\SplitterChoice;
-use Modules\User\Models\User;
+use Spatie\Multitenancy\Models\Tenant;
 
 final class SplitterStorage
 {
     /**
      * Store.
      *
-     * @param  User  $user
      * @param  SplitterDto  $splitterDto
      * @return Splitter
      *
      * @throws Exception
      */
-    public function store(User $user, SplitterDto $splitterDto): Splitter
+    public function store(SplitterDto $splitterDto): Splitter
     {
-        $createData = $splitterDto->toArray();
+        if (! $brand_id = Tenant::current()?->id) {
+            throw new Exception(__('Can not store splitter without brand'));
+        }
 
-        $createData['user_id'] = $user->id;
+        $createData = $splitterDto->toArray();
+        $createData['brand_id'] = $brand_id;
 
         if ($splitterDto->is_active) {
-            $createData['position'] = Splitter::whereUserId($user->id)->max('position') + 1;
+            $createData['position'] = Splitter::whereBrandId($brand_id)->max('position') + 1;
         }
 
         if (! $splitter = Splitter::query()->create($createData)) {
@@ -90,21 +92,24 @@ final class SplitterStorage
     /**
      * Update Positions.
      *
-     * @param  User  $user
      * @param  array  $splitterids
      * @return bool
      */
-    public function updatePositions(User $user, array $splitterids): bool
+    public function updatePositions(User $user, array $splitterids) //: bool
     {
+        if (! $brand_id = Tenant::current()?->id) {
+            throw new Exception(__('Can not update positions without brand'));
+        }
+
         $postition = 1;
         if (
             collect($splitterids)->each(function ($id) use (&$postition) {
                 Splitter::whereIsActive(true)->find($id)?->update([
                     'position' => $postition++,
                 ]);
-            })->count() < Splitter::whereIsActive(true)->whereUserId($user->id)->count()
+            })->count() < Splitter::whereIsActive(true)->whereBrandId($brand_id)->count()
         ) {
-            $this->reposition($user->id);
+            $this->reposition();
         }
 
         return true;
@@ -113,12 +118,13 @@ final class SplitterStorage
     /**
      * Reposition.
      *
-     * @param  int  $id
      * @return void
      */
-    private function reposition(int $id): void
+    private function reposition(): void
     {
-        $splitters = Splitter::withTrashed()->whereUserId($id)
+        $brand_id = Tenant::current()?->id;
+
+        $splitters = Splitter::withTrashed()->whereBrandId($brand_id)
             ->orderBy('is_active', 'DESC')
             ->orderBy('position', 'ASC')
             ->orderBy('updated_at', 'DESC')

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('splitters', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('user_id')->constrained('public.users');
+            $table->foreignId('brand_id')->constrained('public.brands');
             $table->string('name');
             $table->boolean('is_active')->default(false);
             $table->json('conditions')->nullable();

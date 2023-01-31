@@ -22,7 +22,9 @@ final class CreateTest extends BrandTestCase
             SplitterPermission::fromValue(SplitterPermission::CREATE_SPLITTER)
         );
 
-        $data = Splitter::factory()->addSplitterChoiceData()->make(['user_id' => $this->user->id])->toArray();
+        $this->brand->makeCurrent();
+
+        $data = Splitter::factory()->addSplitterChoiceData()->make(['brand_id' => $this->brand->id])->toArray();
 
         $response = $this->post(route('admin.splitter.store'), $data);
 
@@ -37,7 +39,9 @@ final class CreateTest extends BrandTestCase
     {
         $this->authenticateUser();
 
-        $data = Splitter::factory()->addSplitterChoiceData()->make(['user_id' => $this->user->id])->toArray();
+        $this->brand->makeCurrent();
+
+        $data = Splitter::factory()->addSplitterChoiceData()->make(['brand_id' => $this->brand->id])->toArray();
 
         $response = $this->post(route('admin.splitter.store'), $data);
 

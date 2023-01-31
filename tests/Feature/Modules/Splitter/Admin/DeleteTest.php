@@ -21,9 +21,11 @@ final class DeleteTest extends BrandTestCase
     {
         $this->authenticateWithPermission(SplitterPermission::fromValue(SplitterPermission::DELETE_SPLITTER));
 
+        $this->brand->makeCurrent();
+
         $splitter = Splitter::factory()
             ->has(SplitterChoice::factory(), 'splitterChoice')
-            ->create(['user_id' => $this->user->id]);
+            ->create(['brand_id' => $this->brand->id]);
 
         $response = $this->deleteJson(route('admin.splitter.destroy', ['splitter' => $splitter->id]));
 

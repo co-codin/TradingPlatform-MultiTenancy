@@ -23,9 +23,11 @@ final class UpdatePositionsTest extends BrandTestCase
             SplitterPermission::fromValue(SplitterPermission::EDIT_SPLITTER_POSITIONS)
         );
 
+        $this->brand->makeCurrent();
+
         $splitterIds = Splitter::factory()
             ->has(SplitterChoice::factory(), 'splitterChoice')
-            ->create(['user_id' => $this->user->id])
+            ->create(['brand_id' => $this->brand->id])
             ->pluck('id')
             ->toArray();
 
@@ -41,9 +43,11 @@ final class UpdatePositionsTest extends BrandTestCase
     {
         $this->authenticateUser();
 
+        $this->brand->makeCurrent();
+
         $splitterIds = Splitter::factory()
             ->has(SplitterChoice::factory(), 'splitterChoice')
-            ->create(['user_id' => $this->user->id])
+            ->create(['brand_id' => $this->brand->id])
             ->pluck('id')
             ->toArray();
 
