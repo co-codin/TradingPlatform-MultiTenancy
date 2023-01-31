@@ -22,4 +22,9 @@ final class RegexValidationEnum extends BaseEnum
     public const PASSWORD = <<<'EOD'
 /^(?!.* )(?=.*[A-Z])(?=.*\d)(?=.*[!"#$%&'()*+,.\/\\:;<=>?@\][^_`{|}~-])[A-Za-z\d!"#$%&'()*+,.\/\\:;<=>?@\][^_`{|}~-]{8,}$/
 EOD;
+
+    /**
+     * @var string
+     */
+    public const PHONE = "/^(\s*)?(\+)?([- ()]?\d[- ()]?){10,14}(\s*)?$/";
 }

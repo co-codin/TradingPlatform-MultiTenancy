@@ -35,11 +35,13 @@ final class CustomerUpdateRequest extends BaseFormRequest
                 'sometimes',
                 'required',
                 'string',
+                (new Phone)->country(Country::query()->find($this->post('country_id'))),
             ],
             'phone_2' => [
                 'sometimes',
                 'required',
                 'string',
+                (new Phone)->country(Country::query()->find($this->post('country_id'))),
             ],
             'currency_id' => 'sometimes|required|int|exists:landlord.currencies,id',
             'language_id' => 'sometimes|required|int|exists:landlord.languages,id',
