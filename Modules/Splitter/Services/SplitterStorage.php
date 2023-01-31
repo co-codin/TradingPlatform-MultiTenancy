@@ -6,7 +6,10 @@ namespace Modules\Splitter\Services;
 
 use Exception;
 use Modules\Splitter\Dto\SplitterDto;
+use Modules\Splitter\Enums\SplitterChoiceOptionPerDay;
+use Modules\Splitter\Enums\SplitterChoiceType;
 use Modules\Splitter\Models\Splitter;
+use Modules\Splitter\Models\SplitterChoice;
 use Spatie\Multitenancy\Models\Tenant;
 
 final class SplitterStorage
@@ -36,7 +39,11 @@ final class SplitterStorage
             throw new Exception(__('Can not store splitter'));
         }
 
-        return $splitter->fresh();
+        if ($splitterDto->splitter_choice) {
+            $splitter->splitterChoice()->create($splitterDto->splitter_choice);
+        }
+
+        return $splitter->fresh()->load('splitterChoice');
     }
 
     /**
@@ -54,9 +61,13 @@ final class SplitterStorage
             throw new Exception(__('Can not update splitter'));
         }
 
+        if ($splitterDto->splitter_choice) {
+            $splitter->splitterChoice()->updateOrCreate($splitterDto->splitter_choice);
+        }
+
         $this->reposition();
 
-        return $splitter->fresh();
+        return $splitter->fresh()->load('splitterChoice');
     }
 
     /**
@@ -70,6 +81,8 @@ final class SplitterStorage
         if (! $splitter->delete()) {
             throw new Exception(__('Can not delete splitter'));
         }
+
+        $splitter->splitterChoice()->delete();
 
         $this->reposition();
 
@@ -127,5 +140,40 @@ final class SplitterStorage
 
             $splitter->save();
         }
+    }
+
+    /**
+     * Splitter Choice Put.
+     *
+     * @param  SplitterChoice  $splitterChoice
+     * @param  array  $ids
+     * @return SplitterChoice
+     *
+     * @throws Exception
+     */
+    public function put(SplitterChoice $splitterChoice, array $ids): SplitterChoice
+    {
+        $percentage = $splitterChoice->option_per_day == SplitterChoiceOptionPerDay::PERCENT_PER_DAY ? 100 : 0;
+
+        $idList = [];
+        collect($ids)->each(function ($item) use (&$idList, $percentage) {
+            $idList[$item['id']] = [
+                'percentage' => $percentage,
+                'cap_per_day' => $item['cap_per_day'],
+                'percentage_per_day' => $item['percentage_per_day'],
+            ];
+        });
+
+        if ($splitterChoice->type == SplitterChoiceType::DESK) {
+            if (! $splitterChoice->desks()->sync($idList)) {
+                throw new Exception(__('Can not update desks for splitter choice'));
+            }
+        } else {
+            if (! $splitterChoice->workers()->sync($idList)) {
+                throw new Exception(__('Can not update workers for splitter choice'));
+            }
+        }
+
+        return $splitterChoice->refresh();
     }
 }

@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Splitter\Admin;
 
-use Modules\Role\Enums\DefaultRole;
-use Modules\Role\Models\Role;
 use Modules\Splitter\Enums\SplitterPermission;
 use Modules\Splitter\Models\Splitter;
+use Modules\Splitter\Models\SplitterChoice;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
 
 final class UpdateTest extends BrandTestCase
 {
     use HasAuth;
+    use TenantAware;
 
     /**
      * @test
@@ -26,9 +27,11 @@ final class UpdateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $splitter = Splitter::factory()->create(['brand_id' => $this->brand->id]);
+        $splitter = Splitter::factory()
+            ->has(SplitterChoice::factory(), 'splitterChoice')
+            ->create(['brand_id' => $this->brand->id]);
 
-        $splitterData = Splitter::factory()->make()->toArray();
+        $splitterData = Splitter::factory()->addSplitterChoiceData()->make()->toArray();
 
         $response = $this->patchJson(route('admin.splitter.update', ['splitter' => $splitter->id]), $splitterData);
 
@@ -47,9 +50,11 @@ final class UpdateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $splitter = Splitter::factory()->create(['brand_id' => $this->brand->id]);
+        $splitter = Splitter::factory()
+            ->has(SplitterChoice::factory(), 'splitterChoice')
+            ->create(['brand_id' => $this->brand->id]);
 
-        $data = Splitter::factory()->make();
+        $data = Splitter::factory()->addSplitterChoiceData()->make();
 
         $response = $this->patch(
             route('admin.splitter.update', ['splitter' => $splitter]),
@@ -66,14 +71,9 @@ final class UpdateTest extends BrandTestCase
     {
         $this->authenticateUser();
 
-        $this->user->assignRole(Role::factory()->create([
-            'name' => DefaultRole::AFFILIATE,
-            'guard_name' => 'api',
-        ]));
-
         $splitterId = Splitter::orderByDesc('id')->first()?->id + 1 ?? 1;
 
-        $data = Splitter::factory()->make();
+        $data = Splitter::factory()->addSplitterChoiceData()->make();
 
         $response = $this->patch(
             route('admin.splitter.update', ['splitter' => $splitterId]),
@@ -88,7 +88,9 @@ final class UpdateTest extends BrandTestCase
      */
     public function unauthorized(): void
     {
-        $splitter = Splitter::factory()->create();
+        $splitter = Splitter::factory()
+            ->has(SplitterChoice::factory(), 'splitterChoice')
+            ->create();
 
         $response = $this->patch(route('admin.splitter.update', ['splitter' => $splitter]));
 

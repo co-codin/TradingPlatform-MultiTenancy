@@ -6,12 +6,15 @@ namespace Tests\Feature\Modules\Splitter\Admin;
 
 use Modules\Splitter\Enums\SplitterPermission;
 use Modules\Splitter\Models\Splitter;
+use Modules\Splitter\Models\SplitterChoice;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
 
 final class DeleteTest extends BrandTestCase
 {
     use HasAuth;
+    use TenantAware;
 
     /**
      * @test
@@ -22,7 +25,9 @@ final class DeleteTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $splitter = Splitter::factory()->create(['brand_id' => $this->brand->id]);
+        $splitter = Splitter::factory()
+            ->has(SplitterChoice::factory(), 'splitterChoice')
+            ->create(['brand_id' => $this->brand->id]);
 
         $response = $this->deleteJson(route('admin.splitter.destroy', ['splitter' => $splitter->id]));
 
@@ -34,7 +39,9 @@ final class DeleteTest extends BrandTestCase
      */
     public function can_not_delete(): void
     {
-        $splitter = Splitter::factory()->create();
+        $splitter = Splitter::factory()
+            ->has(SplitterChoice::factory(), 'splitterChoice')
+            ->create();
 
         $response = $this->patchJson(route('admin.splitter.destroy', ['splitter' => $splitter->id]));
 
