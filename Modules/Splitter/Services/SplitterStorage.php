@@ -21,7 +21,9 @@ final class SplitterStorage
      */
     public function store(SplitterDto $splitterDto): Splitter
     {
-        $brand_id = Tenant::current()?->id;
+        if (! $brand_id = Tenant::current()?->id) {
+            throw new Exception(__('Can not store splitter without brand'));
+        }
 
         $createData = $splitterDto->toArray();
         $createData['brand_id'] = $brand_id;
@@ -82,7 +84,9 @@ final class SplitterStorage
      */
     public function updatePositions(array $splitterids): bool
     {
-        $brand_id = Tenant::current()?->id;
+        if (! $brand_id = Tenant::current()?->id) {
+            throw new Exception(__('Can not update positions without brand'));
+        }
 
         $postition = 1;
         if (
