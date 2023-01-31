@@ -15,7 +15,7 @@ final class SplitterChoicePutUserRequest extends BaseFormRequest
     {
         return [
             'workers' => 'required|array',
-            'workers.*.id' => 'required|int|exists:users,id',
+            'workers.*.id' => 'required|int|exists:landlord.users,id',
             'workers.*.cap_per_day' => 'required|int',
             'workers.*.percentage_per_day' => 'required|int',
         ];

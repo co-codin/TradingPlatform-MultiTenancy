@@ -9,12 +9,14 @@ use Modules\Splitter\Enums\SplitterPermission;
 use Modules\Splitter\Models\Splitter;
 use Modules\Splitter\Models\SplitterChoice;
 use Modules\User\Models\User;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
 
 final class PutWorkersTest extends BrandTestCase
 {
     use HasAuth;
+    use TenantAware;
 
     /**
      * @test
@@ -25,9 +27,11 @@ final class PutWorkersTest extends BrandTestCase
             SplitterPermission::fromValue(SplitterPermission::EDIT_SPLITTER)
         );
 
+        $this->brand->makeCurrent();
+
         $splitter = Splitter::factory()
             ->has(SplitterChoice::factory(['type' => SplitterChoiceType::WORKER]), 'splitterChoice')
-            ->create(['user_id' => $this->user->id]);
+            ->create(['brand_id' => $this->brand->id]);
 
         $splitterChoice = $splitter->splitterChoice()->first();
 
@@ -49,9 +53,11 @@ final class PutWorkersTest extends BrandTestCase
     {
         $this->authenticateUser();
 
+        $this->brand->makeCurrent();
+
         $splitter = Splitter::factory()
             ->has(SplitterChoice::factory(['type' => SplitterChoiceType::WORKER]), 'splitterChoice')
-            ->create(['user_id' => $this->user->id]);
+            ->create(['brand_id' => $this->brand->id]);
 
         $splitterChoice = $splitter->splitterChoice()->first();
 
@@ -73,9 +79,11 @@ final class PutWorkersTest extends BrandTestCase
     {
         $this->authenticateUser();
 
+        $this->brand->makeCurrent();
+
         $splitter = Splitter::factory()
             ->has(SplitterChoice::factory(['type' => SplitterChoiceType::WORKER]), 'splitterChoice')
-            ->create(['user_id' => $this->user->id]);
+            ->create(['brand_id' => $this->brand->id]);
 
         $splitterChoice = $splitter->splitterChoice()->first();
 
@@ -95,6 +103,8 @@ final class PutWorkersTest extends BrandTestCase
      */
     public function unauthorized(): void
     {
+        $this->brand->makeCurrent();
+
         $splitter = Splitter::factory()
             ->has(SplitterChoice::factory(['type' => SplitterChoiceType::WORKER]), 'splitterChoice')
             ->create();

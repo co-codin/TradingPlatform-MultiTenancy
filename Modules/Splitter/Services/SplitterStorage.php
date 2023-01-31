@@ -65,7 +65,7 @@ final class SplitterStorage
             $splitter->splitterChoice()->updateOrCreate($splitterDto->splitter_choice);
         }
 
-        $this->reposition($splitter->user_id);
+        $this->reposition();
 
         return $splitter->fresh()->load('splitterChoice');
     }
@@ -84,7 +84,7 @@ final class SplitterStorage
 
         $splitter->splitterChoice()->delete();
 
-        $this->reposition($splitter->user_id);
+        $this->reposition();
 
         return true;
     }
@@ -95,7 +95,7 @@ final class SplitterStorage
      * @param  array  $splitterids
      * @return bool
      */
-    public function updatePositions(User $user, array $splitterids) //: bool
+    public function updatePositions(array $splitterids): bool
     {
         if (! $brand_id = Tenant::current()?->id) {
             throw new Exception(__('Can not update positions without brand'));

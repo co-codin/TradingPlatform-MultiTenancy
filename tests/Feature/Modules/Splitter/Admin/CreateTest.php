@@ -6,12 +6,14 @@ namespace Tests\Feature\Modules\Splitter\Admin;
 
 use Modules\Splitter\Enums\SplitterPermission;
 use Modules\Splitter\Models\Splitter;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
 
 final class CreateTest extends BrandTestCase
 {
     use HasAuth;
+    use TenantAware;
 
     /**
      * @test

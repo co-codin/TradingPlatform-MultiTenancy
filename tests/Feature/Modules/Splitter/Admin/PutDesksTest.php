@@ -31,7 +31,7 @@ final class PutDesksTest extends BrandTestCase
 
         $splitter = Splitter::factory()
             ->has(SplitterChoice::factory(['type' => SplitterChoiceType::DESK]), 'splitterChoice')
-            ->create(['user_id' => $this->user->id]);
+            ->create(['brand_id' => $this->brand->id]);
 
         $splitterChoice = $splitter->splitterChoice()->first();
 
@@ -57,7 +57,7 @@ final class PutDesksTest extends BrandTestCase
 
         $splitter = Splitter::factory()
             ->has(SplitterChoice::factory(['type' => SplitterChoiceType::DESK]), 'splitterChoice')
-            ->create(['user_id' => $this->user->id]);
+            ->create(['brand_id' => $this->brand->id]);
 
         $splitterChoice = $splitter->splitterChoice()->first();
 
@@ -83,7 +83,7 @@ final class PutDesksTest extends BrandTestCase
 
         $splitter = Splitter::factory()
             ->has(SplitterChoice::factory(['type' => SplitterChoiceType::DESK]), 'splitterChoice')
-            ->create(['user_id' => $this->user->id]);
+            ->create(['brand_id' => $this->brand->id]);
 
         $splitterChoice = $splitter->splitterChoice()->first();
 

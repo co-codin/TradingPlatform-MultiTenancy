@@ -7,7 +7,6 @@ namespace Modules\Splitter\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Modules\Splitter\Dto\SplitterDto;
@@ -19,7 +18,6 @@ use Modules\Splitter\Models\Splitter;
 use Modules\Splitter\Repositories\SplitterRepository;
 use Modules\Splitter\Services\SplitterStorage;
 use OpenApi\Annotations as OA;
-use Spatie\Multitenancy\Models\Tenant;
 
 final class SplitterController extends Controller
 {
@@ -63,7 +61,7 @@ final class SplitterController extends Controller
         $this->authorize('viewAny', Splitter::class);
 
         return SplitterResource::collection(
-            $this->repository->whereBrandId(Tenant::current()?->id)->jsonPaginate()
+            $this->repository->currentBrand()->jsonPaginate()
         );
     }
 
@@ -106,7 +104,7 @@ final class SplitterController extends Controller
      */
     public function show(int $id): JsonResource
     {
-        $splitter = $this->repository->whereBrandId(Tenant::current()?->id)->find($id);
+        $splitter = $this->repository->find($id);
 
         $this->authorize('view', $splitter);
 
@@ -351,7 +349,7 @@ final class SplitterController extends Controller
      */
     public function update(SplitterUpdateRequest $request, int $id): JsonResource
     {
-        $splitter = $this->repository->whereBrandId(Tenant::current()?->id)->findOrFail($id);
+        $splitter = $this->repository->findOrFail($id);
 
         $this->authorize('update', $splitter);
 
@@ -394,7 +392,7 @@ final class SplitterController extends Controller
      */
     public function destroy(int $id): Response
     {
-        $splitter = $this->repository->whereBrandId(Tenant::current()?->id)->findOrFail($id);
+        $splitter = $this->repository->findOrFail($id);
 
         $this->authorize('delete', $splitter);
 

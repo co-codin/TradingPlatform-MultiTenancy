@@ -88,7 +88,7 @@ class SplitterChoiceController extends Controller
      */
     public function desk(SplitterChoicePutDeskRequest $request, int $id)
     {
-        $splitterChoice = $this->repository->whereRelation('splitter', 'user_id', $request->user()->id)
+        $splitterChoice = $this->repository
             ->whereType(SplitterChoiceType::DESK)
             ->with(['splitter', 'desks'])
             ->findOrFail($id);
@@ -161,7 +161,7 @@ class SplitterChoiceController extends Controller
      */
     public function worker(SplitterChoicePutUserRequest $request, int $id)
     {
-        $splitterChoice = $this->repository->whereRelation('splitter', 'user_id', $request->user()->id)
+        $splitterChoice = $this->repository
             ->whereType(SplitterChoiceType::WORKER)
             ->with(['splitter', 'workers'])
             ->findOrFail($id);

@@ -39,10 +39,13 @@ final class SplitterChoiceRequestCriteria extends BaseCriteria
                 AllowedFilter::partial('created_at'),
                 AllowedFilter::trashed(),
             ])
+            ->scopes([
+                'currentBrand',
+            ])
             ->allowedIncludes([
                 'splitter',
                 'workers',
-                'desks'
+                'desks',
             ])
             ->allowedSorts([
                 'id',

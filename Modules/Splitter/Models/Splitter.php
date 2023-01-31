@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Splitter\Database\factories\SplitterFactory;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
+use Spatie\Multitenancy\Models\Tenant;
 
 final class Splitter extends Model
 {
@@ -39,5 +40,10 @@ final class Splitter extends Model
     public function splitterChoice()
     {
         return $this->hasOne(SplitterChoice::class);
+    }
+
+    public function scopeCurrentBrand($query)
+    {
+        return $query->whereBrandId(Tenant::current()?->id);
     }
 }

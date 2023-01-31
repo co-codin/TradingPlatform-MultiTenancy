@@ -7,12 +7,14 @@ namespace Tests\Feature\Modules\Splitter\Admin;
 use Modules\Splitter\Enums\SplitterPermission;
 use Modules\Splitter\Models\Splitter;
 use Modules\Splitter\Models\SplitterChoice;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
 
 final class DeleteTest extends BrandTestCase
 {
     use HasAuth;
+    use TenantAware;
 
     /**
      * @test

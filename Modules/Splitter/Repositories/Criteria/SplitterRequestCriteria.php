@@ -13,7 +13,7 @@ final class SplitterRequestCriteria extends BaseCriteria
 {
     protected static array $allowedModelFields = [
         'id',
-        'user_id',
+        'brand_id',
         'name',
         'is_active',
         'conditions',
@@ -37,12 +37,15 @@ final class SplitterRequestCriteria extends BaseCriteria
             ))
             ->allowedFilters([
                 AllowedFilter::exact('id'),
-                AllowedFilter::exact('user_id'),
+                AllowedFilter::exact('brand_id'),
                 AllowedFilter::exact('is_active'),
                 AllowedFilter::exact('position'),
                 AllowedFilter::partial('name'),
                 AllowedFilter::partial('created_at'),
                 AllowedFilter::trashed(),
+            ])
+            ->scopes([
+                'currentBrand',
             ])
             ->allowedIncludes([
                 'splitterChoice',
@@ -51,7 +54,7 @@ final class SplitterRequestCriteria extends BaseCriteria
             ])
             ->allowedSorts([
                 'id',
-                'user_id',
+                'brand_id',
                 'name',
                 'is_active',
                 'conditions',

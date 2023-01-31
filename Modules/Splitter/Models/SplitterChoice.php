@@ -9,6 +9,7 @@ use Modules\Desk\Models\Desk;
 use Modules\Splitter\Database\factories\SplitterChoiceFactory;
 use Modules\User\Models\User;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
+use Spatie\Multitenancy\Models\Tenant;
 
 class SplitterChoice extends Model
 {
@@ -43,5 +44,10 @@ class SplitterChoice extends Model
     {
         return $this->belongsToMany(Desk::class, 'public.splitter_choice_desk')
             ->withPivot('percentage', 'cap_per_day', 'percentage_per_day');
+    }
+
+    public function scopeCurrentBrand($query)
+    {
+        return $query->whereRelation('splitter', 'brand_id', Tenant::current()?->id);
     }
 }
