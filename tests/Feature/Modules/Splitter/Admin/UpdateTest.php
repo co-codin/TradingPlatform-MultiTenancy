@@ -24,12 +24,9 @@ final class UpdateTest extends BrandTestCase
             SplitterPermission::fromValue(SplitterPermission::EDIT_SPLITTER)
         );
 
-        $this->user->assignRole(Role::factory()->create([
-            'name' => DefaultRole::AFFILIATE,
-            'guard_name' => 'api',
-        ]));
+        $this->brand->makeCurrent();
 
-        $splitter = Splitter::factory()->create(['user_id' => $this->user->id]);
+        $splitter = Splitter::factory()->create(['brand_id' => $this->brand->id]);
 
         $splitterData = Splitter::factory()->make()->toArray();
 
@@ -48,7 +45,9 @@ final class UpdateTest extends BrandTestCase
     {
         $this->authenticateUser();
 
-        $splitter = Splitter::factory()->create(['user_id' => $this->user->id]);
+        $this->brand->makeCurrent();
+
+        $splitter = Splitter::factory()->create(['brand_id' => $this->brand->id]);
 
         $data = Splitter::factory()->make();
 

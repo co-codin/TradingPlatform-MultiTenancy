@@ -20,7 +20,9 @@ final class ReadTest extends BrandTestCase
     {
         $this->authenticateWithPermission(SplitterPermission::fromValue(SplitterPermission::VIEW_SPLITTER));
 
-        $splitter = Splitter::factory()->create(['user_id' => $this->user->id]);
+        $this->brand->makeCurrent();
+
+        $splitter = Splitter::factory()->create(['brand_id' => $this->brand->id]);
 
         $response = $this->getJson(route('admin.splitter.index'));
 
@@ -52,7 +54,9 @@ final class ReadTest extends BrandTestCase
             SplitterPermission::fromValue(SplitterPermission::VIEW_SPLITTER)
         );
 
-        $splitter = Splitter::factory()->create(['user_id' => $this->user->id]);
+        $this->brand->makeCurrent();
+
+        $splitter = Splitter::factory()->create(['brand_id' => $this->brand->id]);
 
         $response = $this->get(route('admin.splitter.show', ['splitter' => $splitter]));
 
