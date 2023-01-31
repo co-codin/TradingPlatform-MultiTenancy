@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Splitter\Admin;
 
-use Modules\Role\Enums\DefaultRole;
-use Modules\Role\Models\Role;
 use Modules\Splitter\Enums\SplitterPermission;
 use Modules\Splitter\Models\Splitter;
 use Tests\BrandTestCase;
@@ -24,12 +22,9 @@ final class CreateTest extends BrandTestCase
             SplitterPermission::fromValue(SplitterPermission::CREATE_SPLITTER)
         );
 
-        $this->user->assignRole(Role::factory()->create([
-            'name' => DefaultRole::AFFILIATE,
-            'guard_name' => 'api',
-        ]));
+        $this->brand->makeCurrent();
 
-        $data = Splitter::factory()->make(['user_id' => $this->user->id])->toArray();
+        $data = Splitter::factory()->make(['brand_id' => $this->brand->id])->toArray();
 
         $response = $this->post(route('admin.splitter.store'), $data);
 

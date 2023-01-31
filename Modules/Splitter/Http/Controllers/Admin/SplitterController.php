@@ -18,6 +18,7 @@ use Modules\Splitter\Http\Resources\SplitterResource;
 use Modules\Splitter\Repositories\SplitterRepository;
 use Modules\Splitter\Services\SplitterStorage;
 use OpenApi\Annotations as OA;
+use Spatie\Multitenancy\Models\Tenant;
 
 final class SplitterController extends Controller
 {
@@ -52,17 +53,16 @@ final class SplitterController extends Controller
      *     )
      * )
      *
-     * @param  Request  $request
      * @return JsonResource
      *
      * @throws AuthorizationException
      */
-    public function index(Request $request): JsonResource
+    public function index(): JsonResource
     {
         $this->authorize('viewAny', Splitter::class);
 
         return SplitterResource::collection(
-            $this->repository->whereUserId($request->user()->id)->jsonPaginate()
+            $this->repository->whereBrandId(Tenant::current()?->id)->jsonPaginate()
         );
     }
 
@@ -98,15 +98,14 @@ final class SplitterController extends Controller
      *     )
      * )
      *
-     * @param  Request  $request
      * @param  int  $id
      * @return JsonResource
      *
      * @throws AuthorizationException
      */
-    public function show(Request $request, int $id): JsonResource
+    public function show(int $id): JsonResource
     {
-        $splitter = $this->repository->whereUserId($request->user()->id)->find($id);
+        $splitter = $this->repository->whereBrandId(Tenant::current()?->id)->find($id);
 
         $this->authorize('view', $splitter);
 
@@ -177,7 +176,7 @@ final class SplitterController extends Controller
     {
         $this->authorize('create', Splitter::class);
 
-        return new SplitterResource($this->storage->store($request->user(), SplitterDto::fromFormRequest($request)));
+        return new SplitterResource($this->storage->store(SplitterDto::fromFormRequest($request)));
     }
 
     /**
@@ -313,7 +312,7 @@ final class SplitterController extends Controller
      */
     public function update(SplitterUpdateRequest $request, int $id): JsonResource
     {
-        $splitter = $this->repository->whereUserId($request->user()->id)->findOrFail($id);
+        $splitter = $this->repository->whereBrandId(Tenant::current()?->id)->findOrFail($id);
 
         $this->authorize('update', $splitter);
 
@@ -354,9 +353,9 @@ final class SplitterController extends Controller
      * @throws AuthorizationException
      * @throws Exception
      */
-    public function destroy(Request $request, int $id): Response
+    public function destroy(int $id): Response
     {
-        $splitter = $this->repository->whereUserId($request->user()->id)->findOrFail($id);
+        $splitter = $this->repository->whereBrandId(Tenant::current()?->id)->findOrFail($id);
 
         $this->authorize('delete', $splitter);
 
@@ -407,7 +406,7 @@ final class SplitterController extends Controller
     {
         $this->authorize('updatePositions', Splitter::class);
 
-        $this->storage->updatePositions($request->user(), $request->validated('splitterids'));
+        $this->storage->updatePositions($request->validated('splitterids'));
 
         return response()->noContent();
     }

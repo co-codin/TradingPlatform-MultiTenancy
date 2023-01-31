@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\Splitter\Admin;
 
-use Modules\Role\Enums\DefaultRole;
-use Modules\Role\Models\Role;
 use Modules\Splitter\Enums\SplitterPermission;
 use Modules\Splitter\Models\Splitter;
 use Tests\BrandTestCase;
@@ -24,12 +22,9 @@ final class UpdatePositionsTest extends BrandTestCase
             SplitterPermission::fromValue(SplitterPermission::EDIT_SPLITTER_POSITIONS)
         );
 
-        $this->user->assignRole(Role::factory()->create([
-            'name' => DefaultRole::AFFILIATE,
-            'guard_name' => 'api'
-        ]));
+        $this->brand->makeCurrent();
 
-        $splitterIds = Splitter::factory()->create(['user_id' => $this->user->id])->pluck('id')->toArray();
+        $splitterIds = Splitter::factory()->create(['brand_id' => $this->brand->id])->pluck('id')->toArray();
 
         $response = $this->postJson(route('admin.splitter.update-positions'), ['splitterids' => $splitterIds]);
 
@@ -43,7 +38,9 @@ final class UpdatePositionsTest extends BrandTestCase
     {
         $this->authenticateUser();
 
-        $splitterIds = Splitter::factory()->create(['user_id' => $this->user->id])->pluck('id')->toArray();
+        $this->brand->makeCurrent();
+
+        $splitterIds = Splitter::factory()->create(['brand_id' => $this->brand->id])->pluck('id')->toArray();
 
         $response = $this->postJson(route('admin.splitter.update-positions'), ['splitterids' => $splitterIds]);
 

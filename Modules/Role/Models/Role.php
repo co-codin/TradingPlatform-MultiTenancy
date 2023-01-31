@@ -21,6 +21,14 @@ final class Role extends SpatieRole
     use UsesLandlordConnection;
 
     /**
+     * {@inheritDoc}
+     */
+    protected static function newFactory(): RoleFactory
+    {
+        return RoleFactory::new();
+    }
+
+    /**
      * Get permissions by total count attribute.
      *
      * @return string
@@ -71,14 +79,6 @@ final class Role extends SpatieRole
         return $this->belongsTo(Brand::class);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    protected static function newFactory(): RoleFactory
-    {
-        return RoleFactory::new();
-    }
-
     public function columns(): BelongsToMany
     {
         return $this->belongsToMany(Column::class, 'permission_column');
@@ -86,6 +86,6 @@ final class Role extends SpatieRole
 
     public function columnsByPermission(int $id): BelongsToMany
     {
-        return $this->belongsToMany(Column::class, 'permission_column')->wherePivot('permission_id', $id);
+        return $this->columns()->wherePivot('permission_id', $id);
     }
 }
