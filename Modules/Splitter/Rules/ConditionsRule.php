@@ -19,41 +19,45 @@ class ConditionsRule implements Rule
     public function passes($attribute, $values)
     {
         foreach ($values as $key => $value) {
-            if (!isset($value['field'])) {
+            if (! isset($value['field'])) {
                 self::$message = "The :attribute.{$key}.field is required.";
+
                 return false;
             }
 
-            if (!isset($value['operator'])) {
+            if (! isset($value['operator'])) {
                 self::$message = "The :attribute.{$key}.operator field is required.";
+
                 return false;
             }
 
-            if (!isset($value['value'])) {
+            if (! isset($value['value'])) {
                 self::$message = "The :attribute.{$key}.value field is required.";
+
                 return false;
             }
 
             $fields = SplitterConditions::fields();
 
-            if (!isset($fields[trim($value['field'])])) {
+            if (! isset($fields[trim($value['field'])])) {
                 self::$message = "The :attribute.{$key}.field is invalid.";
+
                 return false;
             }
 
             $fieldOperator = $fields[trim($value['field'])]['operator'];
 
-            foreach (explode("|", $value['operator']) as $operator) {
-                if (!in_array(trim($operator), $fieldOperator)) {
-                    self::$message = "The :attribute.{$key}.operator is invalid. Valid operator: " . implode(",", $fieldOperator);
-                    return false;
-                }
+            if (! in_array(trim($value['operator']), $fieldOperator)) {
+                self::$message = "The :attribute.{$key}.operator is invalid. Valid operator: ".implode(', ', $fieldOperator);
+
+                return false;
             }
 
             $fieldValueType = $fields[trim($value['field'])]['valueType'];
 
-            if (!in_array(gettype($value['value']), $fieldValueType)) {
-                self::$message = "The :attribute.{$key}.value type is invalid. Valid type: " . implode(",", $fieldValueType);
+            if (! in_array(gettype($value['value']), $fieldValueType)) {
+                self::$message = "The :attribute.{$key}.value type is invalid. Valid type: ".implode(', ', $fieldValueType);
+
                 return false;
             }
         }

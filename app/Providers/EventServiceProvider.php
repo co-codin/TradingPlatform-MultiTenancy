@@ -8,6 +8,7 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Modules\Brand\Models\Brand;
 use Modules\Brand\Models\UserBrand;
 use Modules\Brand\Observers\BrandObserver;
+use Modules\Brand\Observers\UserBrandObserver;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -30,7 +31,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Brand::observe(BrandObserver::class);
-        UserBrand::observe(UserBrand::class);
+        UserBrand::observe(UserBrandObserver::class);
     }
 
     /**
