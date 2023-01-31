@@ -6,12 +6,14 @@ namespace Tests\Feature\Modules\Splitter\Admin;
 
 use Modules\Splitter\Enums\SplitterPermission;
 use Modules\Splitter\Models\Splitter;
+use Spatie\Multitenancy\Commands\Concerns\TenantAware;
 use Tests\BrandTestCase;
 use Tests\Traits\HasAuth;
 
 final class CreateTest extends BrandTestCase
 {
     use HasAuth;
+    use TenantAware;
 
     /**
      * @test
@@ -24,7 +26,7 @@ final class CreateTest extends BrandTestCase
 
         $this->brand->makeCurrent();
 
-        $data = Splitter::factory()->make(['brand_id' => $this->brand->id])->toArray();
+        $data = Splitter::factory()->addSplitterChoiceData()->make(['brand_id' => $this->brand->id])->toArray();
 
         $response = $this->post(route('admin.splitter.store'), $data);
 
@@ -39,7 +41,9 @@ final class CreateTest extends BrandTestCase
     {
         $this->authenticateUser();
 
-        $data = Splitter::factory()->make()->toArray();
+        $this->brand->makeCurrent();
+
+        $data = Splitter::factory()->addSplitterChoiceData()->make(['brand_id' => $this->brand->id])->toArray();
 
         $response = $this->post(route('admin.splitter.store'), $data);
 
