@@ -212,7 +212,7 @@ final class RoleModelController extends Controller
         RoleModelStorage $storage
     ): RoleModelResource {
         $role = $this->roleRepository->find($id);
-        $this->authorize('edit', $role);
+        $this->authorize('update', $role);
         $model = $this->modelRepository->find($modelId);
 
         $storage->update($role, $model, RoleModelDto::fromFormRequest($request));

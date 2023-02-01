@@ -68,4 +68,14 @@ final class ReadTest extends TestCase
 
         $response->assertForbidden();
     }
+
+    /**
+     * @test
+     */
+    public function not_unauthorized_view(): void
+    {
+        $response = $this->get(route('admin.roles.models.show', ['id' => 1, 'modelId' => 1]));
+
+        $response->assertUnauthorized();
+    }
 }

@@ -27,22 +27,13 @@ final readonly class RoleModelService
     public function getSelectedActionNames(): array
     {
         return $this->role->permissions()->whereBelongsTo($this->model)->get(['name'])
-            ->map(function ($permission) {
-                $explode = explode(' ', $permission->name);
-                $permission->name = array_shift($explode);
-
-                return $permission->name;
-            })->toArray();
+            ->map(fn ($p) => head(explode(' ', $p->name)))->unique()->toArray();
     }
 
     public function getAvailableActions(): Collection
     {
-        return $this->model->permissions()->get(['name'])->map(function ($permission) {
-            $explode = explode(' ', $permission->name);
-            $permission->name = array_shift($explode);
-
-            return $permission->name;
-        });
+        return $this->model->permissions()->get(['name'])
+            ->map(fn ($p) => head(explode(' ', $p->name)))->unique();
     }
 
     public function getAvailableColumnNames(): array
