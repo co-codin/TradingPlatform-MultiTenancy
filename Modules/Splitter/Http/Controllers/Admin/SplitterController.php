@@ -7,7 +7,6 @@ namespace Modules\Splitter\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Modules\Splitter\Dto\SplitterDto;
@@ -15,10 +14,10 @@ use Modules\Splitter\Http\Requests\SplitterCreateRequest;
 use Modules\Splitter\Http\Requests\SplitterPositionsUpdateRequest;
 use Modules\Splitter\Http\Requests\SplitterUpdateRequest;
 use Modules\Splitter\Http\Resources\SplitterResource;
+use Modules\Splitter\Models\Splitter;
 use Modules\Splitter\Repositories\SplitterRepository;
 use Modules\Splitter\Services\SplitterStorage;
 use OpenApi\Annotations as OA;
-use Spatie\Multitenancy\Models\Tenant;
 
 final class SplitterController extends Controller
 {
@@ -62,7 +61,7 @@ final class SplitterController extends Controller
         $this->authorize('viewAny', Splitter::class);
 
         return SplitterResource::collection(
-            $this->repository->whereBrandId(Tenant::current()?->id)->jsonPaginate()
+            $this->repository->currentBrand()->jsonPaginate()
         );
     }
 
@@ -105,7 +104,7 @@ final class SplitterController extends Controller
      */
     public function show(int $id): JsonResource
     {
-        $splitter = $this->repository->whereBrandId(Tenant::current()?->id)->find($id);
+        $splitter = $this->repository->find($id);
 
         $this->authorize('view', $splitter);
 
@@ -125,8 +124,6 @@ final class SplitterController extends Controller
      *                 required={
      *                     "name",
      *                     "is_active",
-     *                     "conditions",
-     *                     "share_conditions",
      *                 },
      *                 @OA\Property(property="name", type="string", description="Splitter name"),
      *                 @OA\Property(property="is_active", type="boolean", description="Splitter is active"),
@@ -147,6 +144,20 @@ final class SplitterController extends Controller
      *                     )
      *                 ),
      *                 @OA\Property(property="share_conditions", type="string", description="Splitter share conditions", example={}),
+     *                 @OA\Property(
+     *                     property="splitter_choice",
+     *                     description="Array of splitter_choice",
+     *                     type="array",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         required={
+     *                             "type",
+     *                             "option_per_day",
+     *                         },
+     *                         @OA\Property(property="type", type="integer", description="Splitter Choice type (Desk = 1, Worker = 2)", example="1"),
+     *                         @OA\Property(property="option_per_day", type="integer", description="Splitter Choice option per day (Percent Per Day = 1 , Cap Per Day = 2)", example="1"),
+     *                     ),
+     *                 ),
      *             )
      *         )
      *     ),
@@ -199,8 +210,6 @@ final class SplitterController extends Controller
      *                 required={
      *                     "name",
      *                     "is_active",
-     *                     "conditions",
-     *                     "share_conditions",
      *                 },
      *                 @OA\Property(property="name", type="string", description="Splitter name"),
      *                 @OA\Property(property="is_active", type="boolean", description="Splitter is active"),
@@ -221,6 +230,20 @@ final class SplitterController extends Controller
      *                     )
      *                 ),
      *                 @OA\Property(property="share_conditions", type="string", description="Splitter share conditions", example={}),
+     *                 @OA\Property(
+     *                     property="splitter_choice",
+     *                     description="Array of splitter_choice",
+     *                     type="array",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         required={
+     *                             "type",
+     *                             "option_per_day",
+     *                         },
+     *                         @OA\Property(property="type", type="integer", description="Splitter Choice type (Desk = 1, Worker = 2)", example="1"),
+     *                         @OA\Property(property="option_per_day", type="integer", description="Splitter Choice option per day (Percent Per Day = 1 , Cap Per Day = 2)", example="1"),
+     *                     ),
+     *                 ),
      *             )
      *         )
      *     ),
@@ -281,6 +304,20 @@ final class SplitterController extends Controller
      *                     )
      *                 ),
      *                 @OA\Property(property="share_conditions", type="string", description="Splitter share conditions", example={}),
+     *                 @OA\Property(
+     *                     property="splitter_choice",
+     *                     description="Array of splitter_choice",
+     *                     type="array",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         required={
+     *                             "type",
+     *                             "option_per_day",
+     *                         },
+     *                         @OA\Property(property="type", type="integer", description="Splitter Choice type (Desk = 1, Worker = 2)", example="1"),
+     *                         @OA\Property(property="option_per_day", type="integer", description="Splitter Choice option per day (Percent Per Day = 1 , Cap Per Day = 2)", example="1"),
+     *                     ),
+     *                 ),
      *             )
      *         )
      *     ),
@@ -312,7 +349,7 @@ final class SplitterController extends Controller
      */
     public function update(SplitterUpdateRequest $request, int $id): JsonResource
     {
-        $splitter = $this->repository->whereBrandId(Tenant::current()?->id)->findOrFail($id);
+        $splitter = $this->repository->findOrFail($id);
 
         $this->authorize('update', $splitter);
 
@@ -355,7 +392,7 @@ final class SplitterController extends Controller
      */
     public function destroy(int $id): Response
     {
-        $splitter = $this->repository->whereBrandId(Tenant::current()?->id)->findOrFail($id);
+        $splitter = $this->repository->findOrFail($id);
 
         $this->authorize('delete', $splitter);
 

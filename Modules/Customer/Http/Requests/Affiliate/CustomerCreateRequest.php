@@ -22,6 +22,7 @@ final class CustomerCreateRequest extends BaseFormRequest
             'phone' => 'required|string|regex:'.RegexValidationEnum::PHONE,
             'phone_2' => 'sometimes|required|string|regex:'.RegexValidationEnum::PHONE,
             'email' => 'required|email|max:100|unique:tenant.customers,email',
+            'email_2' => 'sometimes|required|email|max:100',
             'country' => 'required|string|max:35',
             'language' => 'required|string|max:35',
             'currency' => 'required|string|max:35',

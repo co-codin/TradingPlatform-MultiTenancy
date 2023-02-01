@@ -16,12 +16,13 @@ final class UserBrandObserver
      */
     public function saving(UserBrand $userBrand): void
     {
-        UserBrand::withoutEvents(function () use ($userBrand) {
-            UserBrand::query()->where([
-                ['user_id', '=', $userBrand->user_id],
-                ['brand_id', '=', $userBrand->brand_id],
-                ['is_default', '=', true],
-            ])->update(['is_default' => false]);
-        });
+        if ($userBrand->is_default) {
+            UserBrand::withoutEvents(function () use ($userBrand) {
+                UserBrand::query()->where([
+                    ['user_id', '=', $userBrand->user_id],
+                    ['is_default', '=', true],
+                ])->update(['is_default' => false]);
+            });
+        }
     }
 }

@@ -36,6 +36,7 @@ use Modules\Role\Models\Traits\HasRoles;
 use Modules\Token\Models\Token;
 use Modules\User\Database\factories\UserFactory;
 use Modules\User\Events\UserCreated;
+use Modules\User\Models\Scopes\ActiveScope;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
 /**
@@ -114,6 +115,16 @@ final class User extends Authenticatable
      * @var string
      */
     protected $table = 'public.users';
+
+    /**
+     * {@inheritDoc}
+     */
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        self::addGlobalScope(new ActiveScope);
+    }
 
     /**
      * {@inheritDoc}
