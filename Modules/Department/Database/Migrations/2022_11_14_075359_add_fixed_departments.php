@@ -12,10 +12,10 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::table('departments')->insert([
-            ['name' => 'conversion', 'title' => 'Conversion', 'created_at' => CarbonImmutable::now()],
-            ['name' => 'retention', 'title' => 'Retention', 'created_at' => CarbonImmutable::now()],
-        ]);
+//        DB::table('departments')->insert([
+//            ['name' => 'conversion', 'title' => 'Conversion', 'created_at' => CarbonImmutable::now()],
+//            ['name' => 'retention', 'title' => 'Retention', 'created_at' => CarbonImmutable::now()],
+//        ]);
     }
 
     /**
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down()
     {
-        DB::table('departments')->whereIn('name', ['conversion', 'retention'])->delete();
+//        DB::table('departments')->whereIn('name', ['conversion', 'retention'])->delete();
     }
 };

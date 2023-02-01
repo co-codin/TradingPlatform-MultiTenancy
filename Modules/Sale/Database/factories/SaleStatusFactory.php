@@ -6,6 +6,7 @@ namespace Modules\Sale\Database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Department\Models\Department;
+use Modules\Sale\Enums\SaleStatusNameEnum;
 use Modules\Sale\Models\SaleStatus;
 
 final class SaleStatusFactory extends Factory
@@ -25,10 +26,10 @@ final class SaleStatusFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name(),
-            'title' => $this->faker->sentence(10),
+            'name' => $name = $this->faker->randomElement(SaleStatusNameEnum::getValues()),
+            'title' => ucfirst(implode(' ', explode('_', $name))),
             'color' => $this->faker->hexColor(),
-            'department_id' => $this->faker->boolean ? Department::inRandomOrder()->first() : null,
+            'department_id' => Department::inRandomOrder()->first()?->id,
         ];
     }
 }

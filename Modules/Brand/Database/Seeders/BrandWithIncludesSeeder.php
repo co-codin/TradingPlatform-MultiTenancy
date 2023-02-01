@@ -28,7 +28,6 @@ final class BrandWithIncludesSeeder extends Seeder
 
             $desks = Desk::factory(3)->create();
 
-            Department::factory(3)->create();
             $departments = Department::get();
 
             $customers = collect();

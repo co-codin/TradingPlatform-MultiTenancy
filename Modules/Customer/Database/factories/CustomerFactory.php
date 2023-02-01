@@ -66,11 +66,11 @@ class CustomerFactory extends BaseFactory
             'email' => $this->faker->unique()->safeEmail(),
             'email_2' => $this->faker->safeEmail(),
             'password' => Hash::make('password'),
-            'department_id' => Department::inRandomOrder()->first(),
+            'department_id' => $department = Department::inRandomOrder()->first(),
             'desk_id' => Desk::factory(),
 
-            'conversion_sale_status_id' => SaleStatus::factory(),
-            'retention_sale_status_id' => SaleStatus::factory(),
+            'conversion_sale_status_id' => SaleStatus::inRandomOrder()->first(),
+            'retention_sale_status_id' => SaleStatus::inRandomOrder()->first(),
 
             'verification_status' => $this->faker->randomElement(CustomerVerificationStatus::getValues()),
             'city' => $this->faker->city(),

@@ -320,7 +320,7 @@ final class Customer extends Authenticatable implements HasAttributeColumns
             $this->transactions()
                 ->deposit()
                 ->pending()
-                ->balane()
+                ->balance()
                 ->sum('amount') ?: 0,
             self::CUSTOMER_AMOUNT_PRECISION,
         );
