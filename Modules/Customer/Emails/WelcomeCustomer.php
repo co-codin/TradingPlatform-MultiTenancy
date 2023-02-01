@@ -8,7 +8,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Hash;
+use Modules\Brand\Models\Brand;
 use Modules\Customer\Models\Customer;
 
 class WelcomeCustomer extends Mailable implements ShouldQueue
@@ -21,10 +21,10 @@ class WelcomeCustomer extends Mailable implements ShouldQueue
      * @return void
      */
     public function __construct(
-        public readonly Customer $customer,
+        private readonly Brand $brand,
+        public readonly int $customerId,
         public readonly ?string $password = null,
-    )
-    {
+    ) {
         //
     }
 
@@ -35,14 +35,17 @@ class WelcomeCustomer extends Mailable implements ShouldQueue
      */
     public function content(): Content
     {
+        $this->brand->makeCurrent();
+        $customer = Customer::query()->find($this->customerId);
+
         return new Content(
             view: 'customer::emails.welcome',
             with: [
-                'brandName' => $this->customer->getBrand()?->name,
-                'brandLogo' => $this->customer->getBrand()?->logo,
-                'userFirstName' => $this->customer->first_name,
-                'userLastName' => $this->customer->last_name,
-                'userEmail' => $this->customer->email,
+                'brandName' => $this->brand->name,
+                'brandLogo' => $this->brand->logo,
+                'userFirstName' => $customer->first_name,
+                'userLastName' => $customer->last_name,
+                'userEmail' => $customer->email,
                 'userPassword' => $this->password,
             ],
         );
