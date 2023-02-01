@@ -42,7 +42,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="city", type="string", description="City", nullable="true"),
  *     @OA\Property(property="address", type="string", description="Address", nullable="true"),
  *     @OA\Property(property="postal_code", type="string", description="Postal code", nullable="true"),
- *     @OA\Property(property="verification_status_id", type="string", description="Verification status id", nullable="true"),
+ *     @OA\Property(property="verification_status", type="string", description="Verification status", nullable="true"),
  *     @OA\Property(property="is_demo", type="boolean", description="Is demo"),
  *     @OA\Property(property="is_active", type="boolean", description="Is active"),
  *     @OA\Property(property="is_active_trading", type="boolean", description="Is active trading"),
@@ -82,11 +82,15 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="timezone", type="string", description="Timezone", nullable="true"),
  *     @OA\Property(property="formatted_is_ftd", type="string", readOnly="true", description="Ftd in format Customer/FTD", nullable="true"),
  *     @OA\Property(property="suspend", type="boolean", readOnly="true", description="Suspend true or false", nullable="true"),
- *     @OA\Property(property="local_time", type="string", readOnly="true", description="Customer local time", nullable="true"),
  *     @OA\Property(property="last_deposit_date", type="string", readOnly="true", description="Last deposit date", nullable="true"),
- *     @OA\Property(property="ftd_amount", type="integer", readOnly="true", description="FTD amount value", nullable="true"),
- *     @OA\Property(property="total_redeposits", type="integer", readOnly="true", description="Total deposits without FTD", nullable="true"),
- *     @OA\Property(property="total_withdrawals", type="integer", readOnly="true", description="Total withdrawals", nullable="true"),
+ *     @OA\Property(property="ftd_amount", type="float", readOnly="true", description="FTD amount value", nullable="true"),
+ *     @OA\Property(property="total_deposits", type="float", readOnly="true", description="Total deposits", nullable="true"),
+ *     @OA\Property(property="total_redeposits", type="float", readOnly="true", description="Total deposits without FTD", nullable="true"),
+ *     @OA\Property(property="total_withdrawals", type="float", readOnly="true", description="Total bonuses", nullable="true"),
+ *     @OA\Property(property="total_bonuses", type="float", readOnly="true", description="Total withdrawals", nullable="true"),
+ *     @OA\Property(property="net_deposit", type="integer", readOnly="true", description="Net deposit", nullable="true"),
+ *     @OA\Property(property="pernidng_transactions", type="integer", readOnly="true", description="Pending transactions", nullable="true"),
+ *     @OA\Property(property="sale_status", type="object", ref="#/components/schemas/SaleStatus", description="SaleStatus", nullable="true"),
  *     @OA\Property(property="created_at", type="string", format="date-time", description="Date and time of creation", example="2022-12-17 08:44:09"),
  *     @OA\Property(property="updated_at", type="string", format="date-time", description="Date and time of last update", example="2022-12-17 08:44:09"),
  *     @OA\Property(property="deleted_at", type="string", format="date-time", nullable=true, description="Date and time of soft delete", example="2022-12-17 08:44:09"),
@@ -134,7 +138,7 @@ final class CustomerResource extends JsonResource
 
         if ($this->resource instanceof HasAttributeColumns) {
             foreach ($this::getAttributeColumns() as $column) {
-                if (in_array($column, $displayOptionModelColumns)) {
+                if (empty($displayOptionModelColumns) || in_array($column, $displayOptionModelColumns)) {
                     $data[$column] = $this->{$column};
                 }
             }

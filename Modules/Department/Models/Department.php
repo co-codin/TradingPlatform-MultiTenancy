@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Customer\Models\Customer;
 use Modules\Department\Database\factories\DepartmentFactory;
+use Modules\Department\Enums\DepartmentEnum;
 use Modules\Sale\Models\SaleStatus;
 use Modules\User\Models\User;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
@@ -50,7 +51,32 @@ final class Department extends Model
         return DepartmentFactory::new();
     }
 
-    public function customers()
+    /**
+     * Is conversion.
+     *
+     * @return bool
+     */
+    public function isConversion(): bool
+    {
+        return $this->name === DepartmentEnum::CONVERSION;
+    }
+
+    /**
+     * Is retention.
+     *
+     * @return bool
+     */
+    public function isRetention(): bool
+    {
+        return $this->name === DepartmentEnum::RETENTION;
+    }
+
+    /**
+     * Customer relation.
+     *
+     * @return HasMany
+     */
+    public function customers(): HasMany
     {
         return $this->hasMany(Customer::class);
     }
@@ -65,6 +91,11 @@ final class Department extends Model
         return $this->belongsToManyTenant(User::class, 'user_department');
     }
 
+    /**
+     * Sale statuses relation.
+     *
+     * @return HasMany
+     */
     public function saleStatuses(): HasMany
     {
         return $this->hasMany(SaleStatus::class);

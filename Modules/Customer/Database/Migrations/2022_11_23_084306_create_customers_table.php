@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->tinyInteger('gender');
             $table->string('email')->unique();
+            $table->string('email_2')->nullable();
             $table->string('password');
             $table->string('phone');
             $table->string('phone_2')->nullable();
@@ -50,7 +51,7 @@ return new class extends Migration
             $table->string('postal_code')->nullable();
             $table->string('timezone')->default('UTC');
 
-            $table->tinyInteger('verification_status_id')->nullable();
+            $table->enum('verification_status', ['none', 'partial', 'full'])->default('none');
 
             $table->boolean('is_demo')->default(false);
             $table->boolean('is_active')->default(true);

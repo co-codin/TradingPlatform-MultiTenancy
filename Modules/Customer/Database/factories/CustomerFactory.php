@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use libphonenumber\PhoneNumberUtil;
 use Modules\Campaign\Models\Campaign;
 use Modules\Currency\Models\Currency;
+use Modules\Customer\Enums\CustomerVerificationStatus;
 use Modules\Customer\Enums\Gender;
 use Modules\Customer\Models\Customer;
 use Modules\Department\Models\Department;
@@ -63,6 +64,7 @@ class CustomerFactory extends BaseFactory
             'last_name' => $this->faker->unique()->regexify('[a-zA-Z]{8,20}'),
             'gender' => $this->faker->randomElement(Gender::getValues()),
             'email' => $this->faker->unique()->safeEmail(),
+            'email_2' => $this->faker->safeEmail(),
             'password' => Hash::make('password'),
             'department_id' => Department::inRandomOrder()->first(),
             'desk_id' => Desk::factory(),
@@ -70,6 +72,7 @@ class CustomerFactory extends BaseFactory
             'conversion_sale_status_id' => SaleStatus::factory(),
             'retention_sale_status_id' => SaleStatus::factory(),
 
+            'verification_status' => $this->faker->randomElement(CustomerVerificationStatus::getValues()),
             'city' => $this->faker->city(),
             'address' => $this->faker->address(),
             'postal_code' => $this->faker->postcode(),
