@@ -6,10 +6,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Modules\Brand\Database\Seeders\BrandDatabaseSeeder;
-use Modules\Brand\Models\Brand;
 use Modules\Campaign\Database\Seeders\CampaignDatabaseSeeder;
 use Modules\Currency\Database\Seeders\CurrencyDatabaseSeeder;
-use Modules\Customer\Models\Customer;
 use Modules\Geo\Database\Seeders\GeoDatabaseSeeder;
 use Modules\Language\Database\Seeders\LanguageDatabaseSeeder;
 use Modules\Role\Database\Seeders\RoleDatabaseSeeder;
@@ -26,8 +24,6 @@ final class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Brand::where('database', 'administrator')->first()->makeCurrent();
-        dd(Customer::factory()->make());
         $this->call([
             CurrencyDatabaseSeeder::class,
             LanguageDatabaseSeeder::class,
