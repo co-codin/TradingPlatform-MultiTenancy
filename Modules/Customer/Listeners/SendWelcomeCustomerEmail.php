@@ -11,13 +11,13 @@ use Modules\Customer\Events\CustomerStored;
 final class SendWelcomeCustomerEmail
 {
     /**
-     * @param CustomerStored $event
+     * @param  CustomerStored  $event
      * @return void
      */
     public function handle(CustomerStored $event): void
     {
         Mail::to($event->customer->email)->send(
-            new WelcomeCustomer($event->customer, password: $event->dto?->password)
+            new WelcomeCustomer($event->customer->getBrand(), $event->customer->id, password: $event->dto?->password)
         );
     }
 }
