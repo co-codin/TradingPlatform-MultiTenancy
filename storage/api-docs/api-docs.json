@@ -16995,8 +16995,8 @@
                         "type": "string",
                         "nullable": "true"
                     },
-                    "verification_status_id": {
-                        "description": "Verification status id",
+                    "verification_status": {
+                        "description": "Verification status",
                         "type": "string",
                         "nullable": "true"
                     },
@@ -17213,12 +17213,6 @@
                         "readOnly": "true",
                         "nullable": "true"
                     },
-                    "local_time": {
-                        "description": "Customer local time",
-                        "type": "string",
-                        "readOnly": "true",
-                        "nullable": "true"
-                    },
                     "last_deposit_date": {
                         "description": "Last deposit date",
                         "type": "string",
@@ -17227,21 +17221,53 @@
                     },
                     "ftd_amount": {
                         "description": "FTD amount value",
-                        "type": "integer",
+                        "type": "number",
+                        "format": "float",
+                        "readOnly": "true",
+                        "nullable": "true"
+                    },
+                    "total_deposits": {
+                        "description": "Total deposits",
+                        "type": "number",
+                        "format": "float",
                         "readOnly": "true",
                         "nullable": "true"
                     },
                     "total_redeposits": {
                         "description": "Total deposits without FTD",
-                        "type": "integer",
+                        "type": "number",
+                        "format": "float",
                         "readOnly": "true",
                         "nullable": "true"
                     },
                     "total_withdrawals": {
+                        "description": "Total bonuses",
+                        "type": "number",
+                        "format": "float",
+                        "readOnly": "true",
+                        "nullable": "true"
+                    },
+                    "total_bonuses": {
                         "description": "Total withdrawals",
+                        "type": "number",
+                        "format": "float",
+                        "readOnly": "true",
+                        "nullable": "true"
+                    },
+                    "net_deposit": {
+                        "description": "Net deposit",
                         "type": "integer",
                         "readOnly": "true",
                         "nullable": "true"
+                    },
+                    "pernidng_transactions": {
+                        "description": "Pending transactions",
+                        "type": "integer",
+                        "readOnly": "true",
+                        "nullable": "true"
+                    },
+                    "sale_status": {
+                        "$ref": "#/components/schemas/SaleStatus"
                     },
                     "created_at": {
                         "description": "Date and time of creation",
@@ -19113,7 +19139,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }

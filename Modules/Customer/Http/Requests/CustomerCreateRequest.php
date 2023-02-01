@@ -33,6 +33,7 @@ final class CustomerCreateRequest extends BaseFormRequest
                 new EnumValue(Gender::class, false),
             ],
             'email' => 'required|email|max:100|unique:tenant.customers,email',
+            'email_2' => 'sometimes|required|email|max:100',
             'password' => [
                 'required',
                 'string',

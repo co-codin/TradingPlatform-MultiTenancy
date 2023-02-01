@@ -25,6 +25,7 @@ final class CustomerUpdateRequest extends BaseFormRequest
         $rules = [
             'first_name' => 'sometimes|required|string|max:35|regex:'.RegexValidationEnum::NAME,
             'last_name' => 'sometimes|required|string|max:35|regex:'.RegexValidationEnum::NAME,
+            'email_2' => 'sometimes|required|email|max:100',
             'gender' => [
                 'sometimes',
                 'required',
