@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Splitter\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use Modules\Splitter\Enums\SplitterConditions;
 
-class ConditionsRule implements Rule
+final class ConditionsRule implements Rule
 {
     private static string $message = 'The :attribute validation error.';
 
