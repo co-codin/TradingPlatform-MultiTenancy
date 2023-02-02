@@ -36,6 +36,7 @@ final class UserTestAdminSeeder extends Seeder
             DefaultRole::COMPLIANCE,
             DefaultRole::CONVERSION_MANAGER,
             DefaultRole::CONVERSION_AGENT,
+            DefaultRole::RETENTION_MANAGER,
             DefaultRole::RETENTION_AGENT,
             DefaultRole::AFFILIATE,
             DefaultRole::AFFILIATE_MANAGER,
