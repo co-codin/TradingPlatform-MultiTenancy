@@ -60,6 +60,14 @@ class ConditionsRule implements Rule
 
                 return false;
             }
+
+            if ($possibleValues = $fields[trim($value['field'])]['possibleValues'] ?? []) {
+                if (! in_array(strtoupper(trim($value['value'])), $possibleValues)) {
+                    self::$message = "The :attribute.{$key}.value is invalid. Valid value: ".strtolower(implode(', ', $possibleValues));
+
+                    return false;
+                }
+            }
         }
 
         return true;

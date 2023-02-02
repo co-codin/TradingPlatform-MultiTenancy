@@ -62,7 +62,10 @@ final class SplitterStorage
         }
 
         if ($splitterDto->splitter_choice) {
-            $splitter->splitterChoice()->updateOrCreate($splitterDto->splitter_choice);
+            $splitter->splitterChoice()->updateOrCreate(
+                [],
+                $splitterDto->splitter_choice
+            );
         }
 
         $this->reposition();
