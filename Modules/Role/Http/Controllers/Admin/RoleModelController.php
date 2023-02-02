@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Modules\Role\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Action;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Modules\Role\Dto\RoleModelDto;
 use Modules\Role\Http\Requests\Permission\RoleModelUpdateRequest;
 use Modules\Role\Http\Resources\RoleModelResource;
-use Modules\Role\Models\Column;
-use Modules\Role\Models\Permission;
 use Modules\Role\Repositories\ModelRepository;
 use Modules\Role\Repositories\RoleRepository;
+use Modules\Role\Services\RoleModelStorage;
 use OpenApi\Annotations as OA;
+use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 final class RoleModelController extends Controller
 {
@@ -196,47 +196,26 @@ final class RoleModelController extends Controller
      *     )
      * )
      *
+     * @param  RoleModelUpdateRequest  $request
+     * @param  int  $id
+     * @param  int  $modelId
+     * @param  RoleModelStorage  $storage
+     * @return RoleModelResource
+     *
      * @throws AuthorizationException
-     * @throws Exception
+     * @throws UnknownProperties
      */
     public function update(
         RoleModelUpdateRequest $request,
         int $id,
-        int $modelId
+        int $modelId,
+        RoleModelStorage $storage
     ): RoleModelResource {
         $role = $this->roleRepository->find($id);
-        $this->authorize('edit', $role);
-
+        $this->authorize('update', $role);
         $model = $this->modelRepository->find($modelId);
-        $columns = Column::all(['id', 'name']);
 
-        $role->permissions()->sync(
-            Permission::query()->whereBelongsTo($model)
-            ->whereHas('action', fn ($q) => $q->whereIn('name', $request->validated('selected_actions')))
-            ->get(['id'])
-        );
-
-        $viewPermission = Permission::query()->whereBelongsTo($model)
-            ->whereRelation('action', 'name', Action::NAMES['view'])->first(['id']);
-        if ($viewPermission) {
-            $viewColumns = [];
-            foreach ($request->validated('selected_view_columns') as $item) {
-                $column = $columns->where('name', $item)->first();
-                $viewColumns[$column->id] = ['permission_id' => $viewPermission->id];
-            }
-            $role->columnsByPermission($viewPermission->id)->sync($viewColumns);
-        }
-
-        $editPermission = Permission::query()->whereBelongsTo($model)
-            ->whereRelation('action', 'name', Action::NAMES['edit'])->first(['id']);
-        if ($editPermission) {
-            $editColumns = [];
-            foreach ($request->validated('selected_edit_columns') as $item) {
-                $column = $columns->where('name', $item)->first();
-                $editColumns[$column->id] = ['permission_id' => $editPermission->id];
-            }
-            $role->columnsByPermission($editPermission->id)->sync($editColumns);
-        }
+        $storage->update($role, $model, RoleModelDto::fromFormRequest($request));
 
         $resource = new RoleModelResource($model);
         $resource->role = $role;

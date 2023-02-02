@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('model_id')->nullable()->constrained();
             $table->foreignId('action_id')->nullable()->constrained();
 
-            $table->unique(['model_id', 'action_id']);
+            $table->unique(['model_id', 'action_id', 'guard_name']);
         });
     }
 

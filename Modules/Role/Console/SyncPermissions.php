@@ -56,10 +56,22 @@ final class SyncPermissions extends Command
                             [
                                 'action_id' => $action->id,
                                 'model_id' => $model->id,
+                                'guard_name' => 'web',
                             ],
                             [
                                 'name' => $value,
-                                'guard_name' => 'web',
+                            ]
+                        );
+
+                    Permission::query()
+                        ->updateOrCreate(
+                            [
+                                'action_id' => $action->id,
+                                'model_id' => $model->id,
+                                'guard_name' => 'api',
+                            ],
+                            [
+                                'name' => $value,
                             ]
                         );
                 }

@@ -21,6 +21,7 @@ trait HasAuth
      * @var string
      */
     public static string $basePassword = 'Password%12345';
+
     protected readonly Authenticatable $user;
 
     /**
@@ -111,17 +112,19 @@ trait HasAuth
                 'email' => $email,
             ]);
 
-        $permission = Permission::whereName($permissionEnum->value)->first() ??
-            Permission::factory()->create([
+        $permissions = Permission::whereName($permissionEnum->value)->get();
+        $permissions = ! $permissions->isEmpty()
+            ? $permissions
+            : Permission::create([
                 'name' => $permissionEnum->value,
                 'action_id' => Action::where('name', $permissionEnum::actions()[$permissionEnum->value])->first()?->id
                     ?? Action::factory()->create(['name' => $permissionEnum::actions()[$permissionEnum->value]])->id,
-                'model_id' => Model::where('name', trim('\\', $permissionEnum::model()))->first()?->id
-                    ?? Model::factory()->create(['name' => trim('\\', $permissionEnum::model())])->id,
+                'model_id' => Model::where('name', trim($permissionEnum::model(), '\\'))->first()?->id
+                    ?? Model::factory()->create(['name' => trim($permissionEnum::model(), '\\')])->id,
                 'guard_name' => $guard,
             ]);
 
-        $user->permissions()->syncWithoutDetaching($permission);
+        $user->permissions()->syncWithoutDetaching($permissions);
 
         $this->setUser($user);
 
