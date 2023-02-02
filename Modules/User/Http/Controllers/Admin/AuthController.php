@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\User\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
@@ -37,7 +38,7 @@ final class AuthController extends Controller
      *                      "password"
      *                  },
      *                  type="object",
-     *                  @OA\Property(property="login", type="string", description="Username or Email"),
+     *                  @OA\Property(property="login", type="string", description="Username"),
      *                  @OA\Property(property="password", type="string", format="password"),
      *                  @OA\Property(property="remember_me", type="boolean")
      *              )
@@ -80,19 +81,16 @@ final class AuthController extends Controller
      * @return Response
      *
      * @throws ValidationException
-     * @throws \Exception
+     * @throws Exception
      *
      * @noinspection NullPointerExceptionInspection
      */
     public function login(LoginRequest $request): Response
     {
-        $login = $request->validated('login');
-        $loginType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        $login = $loginType === 'username' ? fn ($query) => $query->whereRaw('lower(username)=?', [$login]) : $login;
-
         if (
             ! auth()->guard(self::GUARD)->attempt([
-                $loginType => $login, 'password' => $request->validated('password'),
+                'username' => fn ($query) => $query->whereRaw('lower(username)=?', [$request->validated('login')]),
+                'password' => $request->validated('password'),
             ], $request->validated('remember_me', false))
         ) {
             throw ValidationException::withMessages([

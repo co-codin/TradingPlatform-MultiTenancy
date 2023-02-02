@@ -32,7 +32,7 @@ final class ApiLoginTest extends BrandTestCase
         $this->brand->makeCurrent();
         WorkerInfo::factory()->create(['user_id' => $user->id]);
         $response = $this->post(route('admin.token-auth.login'), [
-            'login' => $user->getEmail(),
+            'login' => $user->username,
             'password' => 'password',
         ]);
 
@@ -58,7 +58,7 @@ final class ApiLoginTest extends BrandTestCase
         $this->brand->makeCurrent();
         WorkerInfo::factory()->create(['user_id' => $user->id]);
         $response = $this->post(route('admin.token-auth.login'), [
-            'login' => $user->getEmail(),
+            'login' => $user->username,
             'password' => 'password',
             'remember_me' => true,
         ]);
@@ -82,7 +82,7 @@ final class ApiLoginTest extends BrandTestCase
         $this->brand->makeCurrent();
         WorkerInfo::factory()->create(['user_id' => $user->id]);
         $response = $this->post(route('admin.token-auth.login'), [
-            'login' => $user->getEmail(),
+            'login' => $user->username,
             'password' => 'random',
         ]);
 

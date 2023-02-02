@@ -38,7 +38,7 @@ final class TokenAuthController extends Controller
      *                      "password"
      *                  },
      *                  type="object",
-     *                  @OA\Property(property="login", type="string", description="Username or Email"),
+     *                  @OA\Property(property="login", type="string", description="Username"),
      *                  @OA\Property(property="password", type="string", format="password"),
      *                  @OA\Property(property="remember_me", type="boolean")
      *              )
@@ -72,11 +72,7 @@ final class TokenAuthController extends Controller
      */
     public function login(LoginRequest $request): array
     {
-        $login = $request->validated('login');
-        $loginType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        $user = $loginType === 'username'
-            ? User::whereRaw('lower(username)=?', [$login])->first()
-            : User::where($loginType, $login)->first();
+        $user = User::whereRaw('lower(username)=?', [$request->validated('login')])->first();
 
         if (! $user || ! Hash::check($request->validated('password'), $user->password)) {
             throw ValidationException::withMessages([

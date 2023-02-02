@@ -32,7 +32,7 @@ final class LoginTest extends BrandTestCase
         $this->brand->makeCurrent();
         WorkerInfo::factory()->create(['user_id' => $user->id]);
         $response = $this->post(route('admin.auth.login'), [
-            'login' => $user->getEmail(),
+            'login' => $user->username,
             'password' => 'password',
         ]);
 
@@ -51,7 +51,7 @@ final class LoginTest extends BrandTestCase
         $this->brand->makeCurrent();
         WorkerInfo::factory()->create(['user_id' => $user->id]);
         $response = $this->post(route('admin.auth.login'), [
-            'login' => $user->getEmail(),
+            'login' => $user->username,
             'password' => 'password',
             'remember_me' => true,
         ]);
@@ -75,7 +75,7 @@ final class LoginTest extends BrandTestCase
         $this->brand->makeCurrent();
         WorkerInfo::factory()->create(['user_id' => $user->id]);
         $response = $this->post(route('admin.auth.login'), [
-            'login' => $user->getEmail(),
+            'login' => $user->username,
             'password' => 'random',
         ]);
 
