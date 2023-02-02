@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Customer\Models\Customer;
 use Modules\Department\Database\factories\DepartmentFactory;
 use Modules\Department\Enums\DepartmentEnum;
+use Modules\Department\Events\DepartmentCreated;
 use Modules\Sale\Models\SaleStatus;
 use Modules\User\Models\User;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
@@ -41,6 +42,13 @@ final class Department extends Model
      */
     protected $guarded = [
         'id',
+    ];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $dispatchesEvents = [
+        'created' => DepartmentCreated::class,
     ];
 
     /**
@@ -98,6 +106,6 @@ final class Department extends Model
      */
     public function saleStatuses(): HasMany
     {
-        return $this->hasMany(SaleStatus::class);
+        return $this->hasMany(SaleStatus::class, 'department_id', 'id');
     }
 }

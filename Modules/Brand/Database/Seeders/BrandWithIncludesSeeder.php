@@ -9,9 +9,9 @@ use Modules\Brand\Models\Brand;
 use Modules\Communication\Database\Seeders\CommunicationDatabaseSeeder;
 use Modules\Communication\Database\Seeders\NotificationTemplateDatabaseSeeder;
 use Modules\Customer\Models\Customer;
+use Modules\Department\Database\Seeders\DepartmentDatabaseSeeder;
 use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
-use Modules\Geo\Database\Seeders\CountryTableSeeder;
 use Modules\Role\Database\Seeders\ColumnsTableSeeder;
 use Modules\Transaction\Database\Seeders\TransactionDatabaseSeeder;
 
@@ -19,7 +19,8 @@ final class BrandWithIncludesSeeder extends Seeder
 {
     public function run(): void
     {
-        $brands = Brand::factory(3)->create();
+        Brand::factory(3)->create();
+        $brands = Brand::query()->get();
 
         /** @var Brand $brand */
         foreach ($brands as $brand) {
@@ -28,7 +29,6 @@ final class BrandWithIncludesSeeder extends Seeder
 
             $desks = Desk::factory(3)->create();
 
-            Department::factory(3)->create();
             $departments = Department::get();
 
             $customers = collect();
@@ -78,8 +78,8 @@ final class BrandWithIncludesSeeder extends Seeder
     private function beforeCustomers(): void
     {
         $this->call([
-            CountryTableSeeder::class,
             CommunicationDatabaseSeeder::class,
+            DepartmentDatabaseSeeder::class,
         ]);
     }
 
