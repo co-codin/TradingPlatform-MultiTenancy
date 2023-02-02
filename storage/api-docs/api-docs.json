@@ -13272,13 +13272,13 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "model_id",
+                                    "model_name",
                                     "name",
                                     "columns"
                                 ],
                                 "properties": {
-                                    "model_id": {
-                                        "type": "integer"
+                                    "model_name": {
+                                        "type": "string"
                                     },
                                     "name": {
                                         "type": "string"
@@ -13407,13 +13407,9 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "model_id",
-                                    "name"
-                                ],
                                 "properties": {
-                                    "model_id": {
-                                        "type": "integer"
+                                    "model_name": {
+                                        "type": "string"
                                     },
                                     "name": {
                                         "type": "string"
@@ -13537,8 +13533,8 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "model_id": {
-                                        "type": "integer"
+                                    "model_name": {
+                                        "type": "string"
                                     },
                                     "name": {
                                         "type": "string"

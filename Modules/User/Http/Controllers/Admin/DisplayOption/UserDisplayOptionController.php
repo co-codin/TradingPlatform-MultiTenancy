@@ -60,7 +60,7 @@ final class UserDisplayOptionController extends Controller
      *     )
      * )
      *
-     * @param int $user
+     * @param  int  $user
      * @return AnonymousResourceCollection
      *
      * @throws AuthorizationException
@@ -150,11 +150,11 @@ final class UserDisplayOptionController extends Controller
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 required={
-     *                     "model_id",
+     *                     "model_name",
      *                     "name",
      *                     "columns"
      *                 },
-     *                 @OA\Property(property="model_id", type="integer"),
+     *                 @OA\Property(property="model_name", type="string"),
      *                 @OA\Property(property="name", type="string"),
      *                 @OA\Property(property="columns", type="array", @OA\Items(type="string")),
      *             )
@@ -222,11 +222,7 @@ final class UserDisplayOptionController extends Controller
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
-     *                 required={
-     *                     "model_id",
-     *                     "name",
-     *                 },
-     *                 @OA\Property(property="model_id", type="integer"),
+     *                 @OA\Property(property="model_name", type="string"),
      *                 @OA\Property(property="name", type="string"),
      *                 @OA\Property(property="columns", type="array", @OA\Items(type="string")),
      *             )
@@ -277,7 +273,7 @@ final class UserDisplayOptionController extends Controller
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
-     *                 @OA\Property(property="model_id", type="integer"),
+     *                 @OA\Property(property="model_name", type="string"),
      *                 @OA\Property(property="name", type="string"),
      *                 @OA\Property(property="columns", type="array", @OA\Items(type="string")),
      *             )

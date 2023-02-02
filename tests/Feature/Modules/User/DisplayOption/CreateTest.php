@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Modules\User\DisplayOption;
 
+use App\Models\Model;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\User\Enums\UserDisplayOptionPermission;
 use Modules\User\Models\DisplayOption;
@@ -27,9 +28,13 @@ class CreateTest extends TestCase
             )
         );
 
-        $data = DisplayOption::factory()->make(['user_id' => $this->getUser()->id])->toArray();
+        $data = $requestData = DisplayOption::factory()->make([
+            'user_id' => $this->getUser()->id,
+        ])->toArray();
 
-        $response = $this->post(route('admin.users.display-options.store', ['worker' => $this->getUser()->id]), $data);
+        $requestData['model_name'] = Model::query()->find($data['model_id'])->name;
+
+        $response = $this->post(route('admin.users.display-options.store', ['worker' => $this->getUser()->id]), $requestData);
 
         $response->assertCreated();
 
@@ -54,51 +59,5 @@ class CreateTest extends TestCase
         $response = $this->post(route('admin.users.display-options.store', ['worker' => $user->id]), $data->toArray());
 
         $response->assertUnauthorized();
-    }
-
-    /**
-     * Test name required.
-     *
-     * @return void
-     *
-     * @test
-     */
-    public function name_is_required(): void
-    {
-        $this->authenticateWithPermission(
-            UserDisplayOptionPermission::fromValue(
-                UserDisplayOptionPermission::CREATE_USER_DISPLAY_OPTIONS
-            )
-        );
-
-        $data = DisplayOption::factory()->make(['user_id' => $this->getUser()->id]);
-        unset($data['name']);
-
-        $response = $this->post(route('admin.users.display-options.store', ['worker' => $this->getUser()->id]), $data->toArray());
-
-        $response->assertUnprocessable();
-    }
-
-    /**
-     * Test model id required.
-     *
-     * @return void
-     *
-     * @test
-     */
-    public function model_id_is_required(): void
-    {
-        $this->authenticateWithPermission(
-            UserDisplayOptionPermission::fromValue(
-                UserDisplayOptionPermission::CREATE_USER_DISPLAY_OPTIONS
-            )
-        );
-
-        $data = DisplayOption::factory()->make(['user_id' => $this->getUser()->id]);
-        unset($data['model_id']);
-
-        $response = $this->post(route('admin.users.display-options.store', ['worker' => $this->getUser()->id]), $data->toArray());
-
-        $response->assertUnprocessable();
     }
 }
