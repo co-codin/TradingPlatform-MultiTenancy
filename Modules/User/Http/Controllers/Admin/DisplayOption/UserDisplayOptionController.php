@@ -60,15 +60,18 @@ final class UserDisplayOptionController extends Controller
      *     )
      * )
      *
+     * @param int $user
      * @return AnonymousResourceCollection
      *
      * @throws AuthorizationException
      */
-    public function index(): AnonymousResourceCollection
+    public function index(int $user): AnonymousResourceCollection
     {
         $this->authorize('viewAny', DisplayOption::class);
 
-        $displayOptions = $this->displayOptionRepository->jsonPaginate();
+        $displayOptions = $this->displayOptionRepository
+            ->where('user_id', $user)
+            ->jsonPaginate();
 
         return DisplayOptionResource::collection($displayOptions);
     }
