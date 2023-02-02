@@ -27,7 +27,9 @@ final class BrandObserver
                 $this->prepareMigrations($module),
                 $brand->id
             ));
+        }
 
+        foreach ($requiredModules as $module) {
             Artisan::call(sprintf(
                 'tenants:artisan "module:seed %s --database=tenant" --tenant=%s',
                 $module,

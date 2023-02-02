@@ -106,6 +106,6 @@ final class Department extends Model
      */
     public function saleStatuses(): HasMany
     {
-        return $this->hasMany(SaleStatus::class);
+        return $this->hasMany(SaleStatus::class, 'department_id', 'id');
     }
 }

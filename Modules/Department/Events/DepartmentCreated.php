@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Modules\Department\Events;
 
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Queue\SerializesModels;
 use Modules\Department\Models\Department;
+use Spatie\Multitenancy\Models\Tenant;
 
 final class DepartmentCreated
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable;
+
+    public Tenant $tenant;
 
     /**
      * Create a new event instance.
@@ -18,5 +20,7 @@ final class DepartmentCreated
      * @return void
      */
     final public function __construct(public readonly Department $department)
-    {}
+    {
+        $this->tenant = Tenant::current();
+    }
 }

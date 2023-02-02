@@ -30,29 +30,6 @@ final class SaleStatus extends Model
     use SoftDeletes;
     use UsesTenantConnection;
 
-    public const DEFAULT_CONVERSION_NAMES = [
-        'reassign' => 'reassign',
-        'no_answer' => 'no_answer',
-    ];
-
-    /**
-     * @var array
-     */
-    public const DEFAULT_NAMES = [
-        'name1' => 'name1',
-        'name2' => 'name2',
-        'name3' => 'name3',
-    ];
-
-    /**
-     * @var string
-     */
-    public const DEFAULT_COLORS = [
-        self::DEFAULT_NAMES['name1'] => 'red',
-        self::DEFAULT_NAMES['name2'] => 'green',
-        self::DEFAULT_NAMES['name3'] => 'blue',
-    ];
-
     /**
      * {@inheritdoc}
      */

@@ -10,7 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Modules\Department\Events\DepartmentCreated;
 use Modules\Sale\Enums\SaleStatusNameEnum;
 
-final class CreateSaleStatusesOnDepartmentCreated// implements ShouldQueue
+final class CreateSaleStatusesOnDepartmentCreated implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue;
 
@@ -22,13 +22,25 @@ final class CreateSaleStatusesOnDepartmentCreated// implements ShouldQueue
      */
     public function handle(DepartmentCreated $event): void
     {
-        foreach (SaleStatusNameEnum::getValues() as $name) {
-            $event->department->saleStatuses()->create([
-                'name' => $name,
-                'title' => ucfirst(implode(' ', explode('_', $name))),
-                'color' => fake()->hexColor(),
-                'is_active' => true,
-            ]);
+        $event->tenant->makeCurrent();
+
+        $list = match (true) {
+            $event->department->isConversion() => SaleStatusNameEnum::conversionSaleStatusList(),
+            $event->department->isRetention() => SaleStatusNameEnum::retentionSaleStatusList(),
+            default => [],
+        };
+
+        foreach ($list as $name) {
+            $event->department->saleStatuses()->updateOrCreate(
+                [
+                    'name' => $name,
+                ],
+                [
+                    'title' => ucfirst(implode(' ', explode('_', $name))),
+                    'color' => fake()->hexColor(),
+                    'is_active' => true,
+                ]
+            );
         }
     }
 }
