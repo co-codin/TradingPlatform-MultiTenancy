@@ -11,6 +11,7 @@ use Modules\Brand\Models\Brand;
 use Modules\Role\Enums\DefaultRole;
 use Modules\Role\Models\Role;
 use Modules\User\Models\User;
+use Modules\User\Models\WorkerInfo;
 
 final class UserTestAdminSeeder extends Seeder
 {
@@ -101,18 +102,27 @@ final class UserTestAdminSeeder extends Seeder
         $username = Str::before($email, '@');
 
         $user = User::query()
-            ->where('email', $email)
-            ->orWhere('username', $username)
+            ->where('username', $username)
             ->first();
 
         if (! $user) {
+            /** @var User $user */
             $user = User::factory()->create([
                 'username' => $username,
-                'first_name' => Str::before($username, '@') ?: $username,
-                'last_name' => Str::before($username, '@') ?: $username,
-                'email' => $email,
                 'password' => Hash::make('password'),
             ]);
+
+            $this->brand->makeCurrent();
+
+            $workerInfo = $user->workerInfo;
+
+            if (! $workerInfo) {
+                $user->workerInfo()->create(WorkerInfo::factory()->raw([
+                    'first_name' => Str::before($username, '@') ?: $username,
+                    'last_name' => Str::before($username, '@') ?: $username,
+                    'email' => $email,
+                ]));
+            }
         }
 
         return $user;

@@ -22,8 +22,8 @@ use Modules\User\Http\Controllers\TokenController;
 Route::group(['prefix' => 'auth', 'as' => 'auth.', 'middleware' => 'web'], function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-    Route::get('/login/{provider}', [SocialAuthController::class, 'redirect'])->name('social.login');
-    Route::get('/callback/{provider}', [SocialAuthController::class, 'callback'])->name('social.callback');
+//    Route::get('/login/{provider}', [SocialAuthController::class, 'redirect'])->name('social.login');
+//    Route::get('/callback/{provider}', [SocialAuthController::class, 'callback'])->name('social.callback');
 
     Route::post('/forget-password', [PasswordController::class, 'forget'])->name('password.forget');
     Route::post('/reset-password', [PasswordController::class, 'reset'])->name('password.reset');

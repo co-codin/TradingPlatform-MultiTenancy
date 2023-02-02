@@ -26,7 +26,7 @@ abstract class BrandTestCase extends BaseTestCase
      */
     public static function tearDownAfterClass(): void
     {
-        (new static())->refreshApplication();
+        (new static)->refreshApplication();
 
         $schemas = DB::select("
                 SELECT schema_name
@@ -42,6 +42,7 @@ abstract class BrandTestCase extends BaseTestCase
 
         parent::tearDownAfterClass();
     }
+
     /**
      * {@inheritDoc}
      */

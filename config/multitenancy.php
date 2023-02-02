@@ -125,5 +125,6 @@ return [
         'Customer' => 'Customer',
         'Communication' => 'Communication',
         'Transaction' => 'Transaction',
+        'User' => 'User',
     ],
 ];

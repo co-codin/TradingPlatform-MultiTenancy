@@ -18,7 +18,7 @@ trait HasCustomerAuth
      * @param  string  $guard
      * @return void
      */
-    protected function authenticateCustomer(string $guard = Customer::DEFAULT_AUTH_GUARD): void
+    final protected function authenticateCustomer(string $guard = Customer::DEFAULT_AUTH_GUARD): void
     {
         $email = 'customer@service.com';
 
@@ -42,7 +42,7 @@ trait HasCustomerAuth
      * @param  string  $guard
      * @return void
      */
-    protected function authenticateCustomerWithPermission(
+    final protected function authenticateCustomerWithPermission(
         PermissionEnum $permissionEnum,
         string $guard = Customer::DEFAULT_AUTH_GUARD
     ): void {

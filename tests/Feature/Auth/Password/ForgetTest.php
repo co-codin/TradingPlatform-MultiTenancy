@@ -8,11 +8,15 @@ use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Modules\User\Models\User;
+use Modules\User\Models\WorkerInfo;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\TestCase;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-final class ForgetTest extends TestCase
+final class ForgetTest extends BrandTestCase
 {
+    use HasAuth;
+
     /**
      * @test
      */
@@ -21,7 +25,9 @@ final class ForgetTest extends TestCase
         $user = User::factory()->create([
             'password' => Hash::make('password'),
         ]);
-        $response = $this->post(route('admin.auth.password.forget'), ['email' => $user->email]);
+        $this->brand->makeCurrent();
+        WorkerInfo::factory()->create(['user_id' => $user->id]);
+        $response = $this->post(route('admin.auth.password.forget'), ['email' => $user->getEmail()]);
 
         $response->assertStatus(Response::HTTP_ACCEPTED);
         $response->assertContent(Password::RESET_LINK_SENT);
@@ -35,7 +41,9 @@ final class ForgetTest extends TestCase
         $user = User::factory()->create([
             'password' => Hash::make('password'),
         ]);
-        $data = ['email' => $user->email];
+        $this->brand->makeCurrent();
+        WorkerInfo::factory()->create(['user_id' => $user->id]);
+        $data = ['email' => $user->getEmail()];
         $this->post(route('admin.auth.password.forget'), $data);
         $response = $this->post(route('admin.auth.password.forget'), $data);
 
@@ -52,7 +60,9 @@ final class ForgetTest extends TestCase
             'password' => Hash::make('password'),
             'banned_at' => CarbonImmutable::now(),
         ]);
-        $response = $this->post(route('admin.auth.password.forget'), ['email' => $user->email]);
+        $this->brand->makeCurrent();
+        WorkerInfo::factory()->create(['user_id' => $user->id]);
+        $response = $this->post(route('admin.auth.password.forget'), ['email' => $user->getEmail()]);
 
         $response->assertUnprocessable();
         $response->assertJsonValidationErrorFor('banned');
@@ -63,6 +73,7 @@ final class ForgetTest extends TestCase
      */
     public function unprocessable(): void
     {
+        $this->brand->makeCurrent();
         $response = $this->post(route('admin.auth.password.forget'), ['email' => 'test@non-existent.test']);
 
         $response->assertStatus(Response::HTTP_ACCEPTED);

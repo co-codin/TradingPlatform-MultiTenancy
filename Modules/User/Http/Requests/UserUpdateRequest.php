@@ -20,25 +20,6 @@ final class UserUpdateRequest extends BaseFormRequest
                 "unique:landlord.users,username,{$this->route('worker')}",
                 'regex:'.RegexValidationEnum::USERNAME,
             ],
-            'first_name' => [
-                'sometimes',
-                'required',
-                'string',
-                'max:35',
-                'regex:'.RegexValidationEnum::NAME,
-            ],
-            'last_name' => [
-                'sometimes',
-                'required',
-                'string',
-                'max:35',
-                'regex:'.RegexValidationEnum::NAME,
-            ],
-            'email' => [
-                'email',
-                'max:255',
-                "unique:landlord.users,email,{$this->route('worker')}",
-            ],
             'is_active' => 'boolean',
             'parent_id' => 'integer|exists:landlord.users,id',
             'change_password' => [
@@ -75,6 +56,26 @@ final class UserUpdateRequest extends BaseFormRequest
             'affiliate_id' => 'nullable|integer|exists:landlord.users,id',
             'show_on_scoreboards' => 'sometimes|required|boolean',
             'communication_provider_id' => 'nullable|integer|exists:tenant.communication_providers,id',
+            'worker_info' => 'sometimes|required|array',
+            'worker_info.first_name' => [
+                'sometimes',
+                'required',
+                'string',
+                'max:35',
+                'regex:'.RegexValidationEnum::NAME,
+            ],
+            'worker_info.last_name' => [
+                'sometimes',
+                'required',
+                'string',
+                'max:35',
+                'regex:'.RegexValidationEnum::NAME,
+            ],
+            'worker_info.email' => [
+                'email',
+                'max:255',
+                "unique:tenant.worker_info,email,{$this->route('worker')}",
+            ],
         ];
     }
 }

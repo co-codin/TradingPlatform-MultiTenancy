@@ -17,6 +17,8 @@ use Modules\User\Models\User;
 
 trait HasAuth
 {
+    use HasCustomerAuth;
+
     /**
      * @var string
      */
@@ -32,34 +34,7 @@ trait HasAuth
      */
     final protected function authenticateUser(string $guard = User::DEFAULT_AUTH_GUARD): void
     {
-        $email = 'user@service.com';
-
-        $user = User::whereEmail($email)->first() ??
-            User::factory()->create([
-                'email' => $email,
-            ]);
-
-        $this->setUser($user);
-
-        $this->actingAs($user, $guard);
-    }
-
-    /**
-     * Authenticate customer.
-     *
-     * @param  string  $guard
-     * @return void
-     */
-    final protected function authenticateCustomer(string $guard = Customer::API_AUTH_GUARD): void
-    {
-        $this->brand?->makeCurrent();
-
-        $email = 'customer@service.com';
-
-        $user = Customer::whereEmail($email)->first() ??
-            Customer::factory()->create([
-                'email' => $email,
-            ]);
+        $user = $this->getUserByUsername('user@service.com');
 
         $this->setUser($user);
 
@@ -74,12 +49,7 @@ trait HasAuth
      */
     final protected function authenticateAdmin(string $guard = User::DEFAULT_AUTH_GUARD): void
     {
-        $email = 'admin@service.com';
-
-        $user = User::whereEmail($email)->first() ??
-            User::factory()->create([
-                'email' => $email,
-            ]);
+        $user = $this->getUserByUsername('admin@service.com');
 
         $role = Role::where('name', DefaultRole::ADMIN)->first() ??
             Role::factory()->create([
@@ -104,13 +74,7 @@ trait HasAuth
         PermissionEnum $permissionEnum,
         string $guard = User::DEFAULT_AUTH_GUARD
     ): void {
-        $email = 'test@service.com';
-
-        /** @var User $user */
-        $user = User::whereEmail($email)->first() ??
-            User::factory()->create([
-                'email' => $email,
-            ]);
+        $user = $this->getUserByUsername('test@service.com');
 
         $permissions = Permission::whereName($permissionEnum->value)->get();
         $permissions = ! $permissions->isEmpty()
@@ -131,45 +95,6 @@ trait HasAuth
         $this->actingAs($user, $guard);
     }
 
-    /**
-     * Authenticate customer with permission.
-     *
-     * @param  PermissionEnum  $permissionEnum
-     * @param  string  $guard
-     * @return void
-     */
-    final protected function authenticateCustomerWithPermission(
-        PermissionEnum $permissionEnum,
-        string $guard = Customer::API_AUTH_GUARD
-    ): void {
-        $this->brand?->makeCurrent();
-
-        $email = 'test-customer@service.com';
-
-        /** @var Customer $customer */
-        if (! $customer = Customer::whereEmail($email)->first()) {
-            $customer = Customer::factory()->make([
-                'email' => $email,
-            ]);
-
-            $this->brand?->makeCurrent();
-            $customer->save();
-            $this->brand?->makeCurrent();
-        }
-
-        $permission = Permission::whereName($permissionEnum->value)->first() ??
-            Permission::factory()->create([
-                'name' => $permissionEnum->value,
-                'guard_name' => $guard,
-            ]);
-
-        $customer->permissions()->syncWithoutDetaching($permission);
-
-        $this->setUser($customer);
-
-        $this->actingAs($customer, $guard);
-    }
-
     final protected function addPermissions(array $permissionEnums): void
     {
         $user = $this->getUser();
@@ -182,6 +107,20 @@ trait HasAuth
         }
 
         $user->permissions()->syncWithoutDetaching(Arr::pluck($permissions, 'id'));
+    }
+
+    /**
+     * Get user by login.
+     *
+     * @param string $username
+     * @return User
+     */
+    private function getUserByUsername(string $username): User
+    {
+        return User::where('username', $username)->first() ??
+            User::factory()->create([
+                'username' => $username,
+            ]);
     }
 
     /**

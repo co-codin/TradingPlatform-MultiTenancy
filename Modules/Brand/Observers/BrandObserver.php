@@ -46,15 +46,17 @@ final class BrandObserver
      */
     private function prepareMigrations(string $module): string
     {
+        $path = "Modules/{$module}/Database/Migrations/Tenant";
+
         $migrations = array_values(
             array_diff(
-                scandir(base_path("Modules/{$module}/Database/Migrations")),
+                scandir(base_path($path)),
                 ['..', '.']
             ),
         );
 
-        return implode(' ', Arr::map($migrations, function ($migration) use ($module) {
-            return "--path=Modules/{$module}/Database/Migrations/{$migration}";
+        return implode(' ', Arr::map($migrations, function ($migration) use ($path) {
+            return "--path={$path}/{$migration}";
         }));
     }
 }

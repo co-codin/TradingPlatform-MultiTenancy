@@ -16,7 +16,7 @@ final class SendWelcomeCustomerEmail
      */
     public function handle(CustomerStored $event): void
     {
-        Mail::to($event->customer->email)->send(
+        Mail::to($event->customer->getEmail())->send(
             new WelcomeCustomer($event->customer->getBrand(), $event->customer->id, password: $event->dto?->password)
         );
     }

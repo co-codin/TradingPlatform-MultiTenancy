@@ -1,25 +1,29 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Feature\ApiDocs;
 
-use Illuminate\Support\Facades\Hash;
-use Modules\User\Models\User;
-use Tests\TestCase;
+use Modules\User\Models\WorkerInfo;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-class ApiLoginTest extends TestCase
+class ApiLoginTest extends BrandTestCase
 {
-    public function test_api_login(): void
+    use HasAuth;
+
+    /**
+     * @test
+     */
+    public function api_login(): void
     {
         $password = 'password';
 
-        $user = User::factory()->create([
-            'email' => 'test@stoxtech.com',
-            'password' => Hash::make('password'),
-        ]);
+        $this->brand->makeCurrent();
+        WorkerInfo::factory()->create(['user_id' => $this->user->id]);
 
         $response = $this->get('/api/documentation', [
-            'Authorization' => 'Basic '. base64_encode("{$user->email}:{$password}")
+            'Authorization' => 'Basic '.base64_encode("{$this->user->getEmail()}:{$password}"),
         ]);
 
         $response->assertOk();

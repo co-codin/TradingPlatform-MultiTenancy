@@ -13,7 +13,7 @@ use Modules\User\Models\User;
 final class SendUserAssignedToCustomerEmailOnCustomerStored
 {
     /**
-     * @param CustomerStored $event
+     * @param  CustomerStored  $event
      * @return void
      */
     public function handle(CustomerStored $event): void
@@ -28,7 +28,7 @@ final class SendUserAssignedToCustomerEmailOnCustomerStored
         $users = User::whereIn('id', $userIds)->get();
 
         foreach ($users as $user) {
-            Mail::to($user->email)->send(
+            Mail::to($user->getEmail())->send(
                 new UserAssignedToCustomerEmail($user, $event->customer),
             );
         }

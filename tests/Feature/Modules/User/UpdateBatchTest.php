@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace Tests\Feature\Modules\User;
 
 use Exception;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
-use Tests\TestCase;
+use Modules\User\Models\WorkerInfo;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-final class UpdateBatchTest extends TestCase
+final class UpdateBatchTest extends BrandTestCase
 {
-    use DatabaseTransactions;
+    use HasAuth;
 
     /**
      * Test authorized user can update batch.
@@ -30,30 +31,26 @@ final class UpdateBatchTest extends TestCase
         $users = User::factory(3)->create();
         $fakeUserData = User::factory(3)->withParent()->make(['password' => self::$basePassword])->toArray();
 
+        $this->brand->makeCurrent();
+
         $data['users'] = [
             [
                 'id' => $users[0]['id'],
-                'pivot' => [
-                    'username' => $fakeUserData[0]['username'],
-                    'first_name' => $fakeUserData[0]['first_name'],
-                    'last_name' => $fakeUserData[0]['last_name'],
-                ],
+                'worker_info' => WorkerInfo::factory()->raw(['user_id' => $users[0]['id']]),
+                'username' => $fakeUserData[0]['username'],
             ],
             [
                 'id' => $users[1]['id'],
-                'pivot' => [
-                    'email' => $fakeUserData[1]['email'],
-                    'confirm_password' => true,
-                    'password' => self::$basePassword,
-                ],
+                'worker_info' => WorkerInfo::factory()->raw(['user_id' => $users[1]['id']]),
+                'confirm_password' => true,
+                'password' => self::$basePassword,
             ],
             [
                 'id' => $users[2]['id'],
-                'pivot' => [
-                    'is_active' => $fakeUserData[2]['is_active'],
-                    'target' => $fakeUserData[2]['target'],
-                    'parent_id' => $fakeUserData[2]['parent_id'],
-                ],
+                'worker_info' => WorkerInfo::factory()->raw(['user_id' => $users[2]['id']]),
+                'is_active' => $fakeUserData[2]['is_active'],
+                'target' => $fakeUserData[2]['target'],
+                'parent_id' => $fakeUserData[2]['parent_id'],
             ],
         ];
 
@@ -90,30 +87,26 @@ final class UpdateBatchTest extends TestCase
         $users = User::factory(3)->create();
         $fakeUserData = User::factory(3)->withParent()->make();
 
+        $this->brand->makeCurrent();
+
         $data['users'] = [
             [
                 'id' => $users[0]['id'],
-                'pivot' => [
-                    'username' => $fakeUserData[0]['username'],
-                    'first_name' => $fakeUserData[0]['first_name'],
-                    'last_name' => $fakeUserData[0]['last_name'],
-                ],
+                'worker_info' => WorkerInfo::factory()->raw(['user_id' => $users[0]['id']]),
+                'username' => $fakeUserData[0]['username'],
             ],
             [
                 'id' => $users[1]['id'],
-                'pivot' => [
-                    'email' => $fakeUserData[1]['email'],
-                    'confirm_password' => true,
-                    'password' => $fakeUserData[1]['password'],
-                ],
+                'worker_info' => WorkerInfo::factory()->raw(['user_id' => $users[1]['id']]),
+                'confirm_password' => true,
+                'password' => self::$basePassword,
             ],
             [
                 'id' => $users[2]['id'],
-                'pivot' => [
-                    'is_active' => $fakeUserData[2]['is_active'],
-                    'target' => $fakeUserData[2]['target'],
-                    'parent_id' => $fakeUserData[2]['parent_id'],
-                ],
+                'worker_info' => WorkerInfo::factory()->raw(['user_id' => $users[2]['id']]),
+                'is_active' => $fakeUserData[2]['is_active'],
+                'target' => $fakeUserData[2]['target'],
+                'parent_id' => $fakeUserData[2]['parent_id'],
             ],
         ];
 
@@ -138,30 +131,26 @@ final class UpdateBatchTest extends TestCase
         $users = User::factory(3)->create();
         $fakeUserData = User::factory(3)->withParent()->make();
 
+        $this->brand->makeCurrent();
+
         $data['users'] = [
             [
                 'id' => $users[0]['id'],
-                'pivot' => [
-                    'username' => $fakeUserData[0]['username'],
-                    'first_name' => $fakeUserData[0]['first_name'],
-                    'last_name' => $fakeUserData[0]['last_name'],
-                ],
+                'worker_info' => WorkerInfo::factory()->raw(['user_id' => $users[0]['id']]),
+                'username' => $fakeUserData[0]['username'],
             ],
             [
                 'id' => $users[1]['id'],
-                'pivot' => [
-                    'email' => $fakeUserData[1]['email'],
-                    'confirm_password' => true,
-                    'password' => $fakeUserData[1]['password'],
-                ],
+                'worker_info' => WorkerInfo::factory()->raw(['user_id' => $users[1]['id']]),
+                'confirm_password' => true,
+                'password' => self::$basePassword,
             ],
             [
                 'id' => $users[2]['id'],
-                'pivot' => [
-                    'is_active' => $fakeUserData[2]['is_active'],
-                    'target' => $fakeUserData[2]['target'],
-                    'parent_id' => $fakeUserData[2]['parent_id'],
-                ],
+                'worker_info' => WorkerInfo::factory()->raw(['user_id' => $users[2]['id']]),
+                'is_active' => $fakeUserData[2]['is_active'],
+                'target' => $fakeUserData[2]['target'],
+                'parent_id' => $fakeUserData[2]['parent_id'],
             ],
         ];
 

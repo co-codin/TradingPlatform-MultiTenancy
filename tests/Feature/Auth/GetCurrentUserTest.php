@@ -22,9 +22,6 @@ final class GetCurrentUserTest extends TestCase
         $response->assertJsonStructure([
             'data' => [
                 'id',
-                'first_name',
-                'last_name',
-                'email',
                 'permissions',
                 'role',
             ],

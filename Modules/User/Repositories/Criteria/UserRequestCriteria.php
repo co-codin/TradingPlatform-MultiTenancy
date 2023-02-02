@@ -16,8 +16,8 @@ final class UserRequestCriteria extends BaseCriteria
     protected static array $allowedModelFields = [
         'id',
         'username',
-        'first_name',
-        'last_name',
+        'worker_info.first_name',
+        'worker_info.last_name',
         'is_active',
         'target',
         'last_login',
@@ -45,8 +45,9 @@ final class UserRequestCriteria extends BaseCriteria
             ->allowedFilters([
                 AllowedFilter::exact('id'),
                 AllowedFilter::partial('username'),
-                AllowedFilter::partial('email'),
-                AllowedFilter::partial('last_name'),
+                AllowedFilter::partial('worker_info.email'),
+                AllowedFilter::partial('worker_info.first_name'),
+                AllowedFilter::partial('worker_info.last_name'),
                 AllowedFilter::exact('show_on_scoreboards'),
                 AllowedFilter::exact('affiliate_id'),
                 AllowedFilter::exact('communication_provider_id'),
@@ -87,6 +88,7 @@ final class UserRequestCriteria extends BaseCriteria
                 'languages',
                 'countries',
                 'affiliate',
+                'worker_info',
 
                 'communicationProvider',
                 'communicationExtensions',
@@ -109,9 +111,9 @@ final class UserRequestCriteria extends BaseCriteria
             ->allowedSorts([
                 'id',
                 'username',
-                'first_name',
-                'last_name',
-                'email',
+                'worker_info.first_name',
+                'worker_info.last_name',
+                'worker_info.email',
                 'is_active',
                 'target',
                 'last_login',

@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\Customer\Listeners;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
 use Modules\Customer\Emails\UserAssignedToCustomerEmail;
-use Modules\Customer\Emails\WelcomeCustomer;
 use Modules\Customer\Events\CustomerStored;
 use Modules\Customer\Models\Customer;
 use Modules\User\Models\User;
@@ -15,7 +13,7 @@ use Modules\User\Models\User;
 final class SendUserAssignedToCustomerEmailOnCustomerEdited
 {
     /**
-     * @param CustomerStored $event
+     * @param  CustomerStored  $event
      * @return void
      */
     public function handle(CustomerStored $event): void
@@ -30,7 +28,7 @@ final class SendUserAssignedToCustomerEmailOnCustomerEdited
         $users = User::whereIn('id', $userIds)->get();
 
         foreach ($users as $user) {
-            Mail::to($user->email)->send(
+            Mail::to($user->getEmail())->send(
                 new UserAssignedToCustomerEmail($user, $event->customer),
             );
         }

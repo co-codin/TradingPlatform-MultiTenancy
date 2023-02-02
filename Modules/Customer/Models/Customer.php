@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Customer\Models;
 
 use App\Contracts\Models\HasAttributeColumns;
+use App\Contracts\Models\HasEmail;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -14,7 +15,6 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Brand\Models\Brand;
 use Modules\Communication\Models\DatabaseNotification;
-use Modules\Communication\Models\Email;
 use Modules\Customer\Database\factories\CustomerFactory;
 use Modules\Customer\Enums\CustomerVerificationStatus;
 use Modules\Customer\Events\CustomerSaving;
@@ -49,7 +49,7 @@ use Spatie\Multitenancy\Models\Tenant;
  * @property string $updated_at
  * @property string $deleted_at
  */
-final class Customer extends Authenticatable implements HasAttributeColumns
+final class Customer extends Authenticatable implements HasAttributeColumns, HasEmail
 {
     use HasFactory;
     use SoftDeletes;
@@ -168,6 +168,22 @@ final class Customer extends Authenticatable implements HasAttributeColumns
     public function setEmailAttribute(string $value): void
     {
         $this->attributes['email'] = strtolower($value);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFirstName(): string
+    {
+        return $this->getOriginal('first_name', '');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEmail(): string
+    {
+        return $this->getOriginal('email', '');
     }
 
     /**

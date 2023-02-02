@@ -13,6 +13,12 @@ use Tests\TestCase;
 
 final class CreateTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->app->make(PermissionRegistrar::class)->registerPermissions();
+    }
+
     /**
      * @test
      */
@@ -38,9 +44,6 @@ final class CreateTest extends TestCase
             'data' => [
                 'id',
                 'username',
-                'first_name',
-                'last_name',
-                'email',
                 'is_active',
                 'target',
                 'parent_id',
@@ -83,11 +86,5 @@ final class CreateTest extends TestCase
         $response = $this->post('/admin/workers');
 
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->app->make(PermissionRegistrar::class)->registerPermissions();
     }
 }
