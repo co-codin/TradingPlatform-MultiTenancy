@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Modules\Splitter\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Modules\Brand\Models\Brand;
 use Modules\Customer\Models\Customer;
+use Modules\Splitter\Services\CustomerDistribution;
 
 final class CustomerDistributionJob implements ShouldQueue
 {
@@ -22,7 +23,7 @@ final class CustomerDistributionJob implements ShouldQueue
      * @return void
      */
     public function __construct(
-        public Customer $customer,
+        public int $customerId,
         public Brand $brand,
     ) {
     }
@@ -34,6 +35,11 @@ final class CustomerDistributionJob implements ShouldQueue
      */
     public function handle()
     {
-        //
+        $this->brand->makeCurrent();
+
+        (new CustomerDistribution)->run(
+            Customer::find($this->customerId),
+            $this->brand
+        );
     }
 }
