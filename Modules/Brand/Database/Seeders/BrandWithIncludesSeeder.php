@@ -27,13 +27,14 @@ final class BrandWithIncludesSeeder extends Seeder
             $brand->makeCurrent();
             $this->beforeCustomers();
 
-            $desks = Desk::factory(3)->create();
+            Desk::factory(3)->create();
+            $desks = Desk::get();
 
             $departments = Department::get();
 
             $customers = collect();
 
-            for ($i = 0; $i < 10; $i++) {
+            for ($i = 0; $i < 100; $i++) {
                 $customerData = $brand->execute(function () use ($desks, $departments) {
                     return  Customer::factory()->make([
                         'desk_id' => $desks->random()?->id,
@@ -43,7 +44,7 @@ final class BrandWithIncludesSeeder extends Seeder
 
                 $customerData->save();
 
-                $customers = $customers->push($customerData);
+                $customers->push($customerData);
             }
 
             /** @var Customer $customer */
@@ -58,14 +59,11 @@ final class BrandWithIncludesSeeder extends Seeder
                     $customer->retentionManageUser,
                     $customer->firstConversionUser,
                     $customer->firstRetentionUser,
-                ])
-                    ->unique('id')
-                    ->pluck('id')
-                    ->toArray();
+                ])->unique('id')->pluck('id')->toArray();
 
-                $brand->users()->sync($users);
-                $customer->desk->users()->sync($users);
-                $customer->department->users()->sync($users);
+                $brand->users()->sync($users, false);
+                $customer->desk->users()->sync($users, false);
+                $customer->department->users()->sync($users, false);
             }
 
             $this->afterCustomers();
