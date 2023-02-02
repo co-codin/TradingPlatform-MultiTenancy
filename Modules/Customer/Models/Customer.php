@@ -312,9 +312,9 @@ final class Customer extends Authenticatable implements HasAttributeColumns
     /**
      * Get sale status attribute.
      *
-     * @return SaleStatus|null
+     * @return float
      */
-    public function getPendingTransactionsAttribute(): ?SaleStatus
+    public function getPendingTransactionsAttribute(): float
     {
         return round(
             $this->transactions()
