@@ -14,6 +14,7 @@ use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
 use Modules\Geo\Models\Country;
 use Modules\Language\Models\Language;
+use Modules\Sale\Enums\SaleStatusNameEnum;
 use Modules\Sale\Models\SaleStatus;
 use Modules\User\Models\User;
 use Propaganistas\LaravelPhone\Exceptions\CountryCodeException;
@@ -69,8 +70,12 @@ class CustomerFactory extends BaseFactory
             'department_id' => $department = Department::inRandomOrder()->first(),
             'desk_id' => Desk::factory(),
 
-            'conversion_sale_status_id' => SaleStatus::inRandomOrder()->first(),
-            'retention_sale_status_id' => SaleStatus::inRandomOrder()->first(),
+            'conversion_sale_status_id' => SaleStatus::inRandomOrder()
+                ->whereIn('name', SaleStatusNameEnum::conversionSaleStatusList())
+                ->first()?->id,
+            'retention_sale_status_id' => SaleStatus::inRandomOrder()
+                ->whereIn('name', SaleStatusNameEnum::retentionSaleStatusList())
+                ->first()?->id,
 
             'verification_status' => $this->faker->randomElement(CustomerVerificationStatus::getValues()),
             'city' => $this->faker->city(),
