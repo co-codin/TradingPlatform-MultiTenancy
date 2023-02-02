@@ -34,6 +34,7 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="deleted_at", type="string", format="date-time", description="Date and time of deleted", example="2022-12-17 08:44:09"),
  *     @OA\Property(property="created_at", type="string", format="date-time", description="Date and time of creation", example="2022-12-17 08:44:09"),
  *     @OA\Property(property="updated_at", type="string", format="date-time", description="Date and time of last update", example="2022-12-17 08:44:09"),
+ *     @OA\Property(property="splitter_choice", type="array", @OA\Items(ref="#/components/schemas/SplitterChoice")),
  * ),
  * @OA\Schema (
  *     schema="SplitterCollection",

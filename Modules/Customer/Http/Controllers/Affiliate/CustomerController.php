@@ -6,6 +6,7 @@ namespace Modules\Customer\Http\Controllers\Affiliate;
 
 use App\Http\Controllers\Controller;
 use App\Services\Validation\Phone;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
@@ -149,7 +150,7 @@ final class CustomerController extends Controller
      *
      * @throws UnknownProperties
      * @throws ValidationException
-     * @throws \Exception
+     * @throws Exception
      */
     public function store(
         CustomerCreateRequest $request,
@@ -184,6 +185,12 @@ final class CustomerController extends Controller
             $this->validate($request, [
                 'phone' => (new Phone)->country($country),
             ]);
+
+            if ($request->exists('phone_2')) {
+                $this->validate($request, [
+                    'phone_2' => (new Phone)->country($country),
+                ]);
+            }
         }
 
         $validated = $request->validated();
@@ -195,7 +202,7 @@ final class CustomerController extends Controller
             'affiliate_user_id' => $token->user_id,
             'supposed_language_id' => $languageRepository->findByField(
                 'code',
-                $languageDetector->detectBest("$validated[first_name] $validated[last_name]")
+                $languageDetector->detectBest("{$validated['first_name']} {$validated['last_name']}")
             )->id,
         ]);
 

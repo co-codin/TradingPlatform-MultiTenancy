@@ -10040,6 +10040,178 @@
                 ]
             }
         },
+        "/admin/splitter/splitter-choice/{id}/desk": {
+            "put": {
+                "tags": [
+                    "Splitter"
+                ],
+                "summary": "Update a splitter choice desks",
+                "operationId": "ce1b30052e7c1676365942dd2e6bb6f4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Splitter choice ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "desks"
+                                ],
+                                "type": "array",
+                                "items": {
+                                    "required": [
+                                        "id",
+                                        "cap_per_day",
+                                        "percentage_per_day"
+                                    ],
+                                    "properties": {
+                                        "id": {
+                                            "description": "Desk ID",
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "cap_per_day": {
+                                            "description": "Cap per day",
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "percentage_per_day": {
+                                            "description": "Percentage per day",
+                                            "type": "integer",
+                                            "example": "10"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SplitterChoiceResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/splitter/splitter-choice/{id}/worker": {
+            "put": {
+                "tags": [
+                    "Splitter"
+                ],
+                "summary": "Update a splitter choice workers",
+                "operationId": "b67bfe95d870aa970f5f151c9903b404",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Splitter choice ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "workers"
+                                ],
+                                "type": "array",
+                                "items": {
+                                    "required": [
+                                        "id",
+                                        "cap_per_day",
+                                        "percentage_per_day"
+                                    ],
+                                    "properties": {
+                                        "id": {
+                                            "description": "Worker ID",
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "cap_per_day": {
+                                            "description": "Cap per day",
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "percentage_per_day": {
+                                            "description": "Percentage per day",
+                                            "type": "integer",
+                                            "example": "10"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SplitterChoiceResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/splitter": {
             "get": {
                 "tags": [
@@ -10083,9 +10255,7 @@
                             "schema": {
                                 "required": [
                                     "name",
-                                    "is_active",
-                                    "conditions",
-                                    "share_conditions"
+                                    "is_active"
                                 ],
                                 "properties": {
                                     "name": {
@@ -10129,6 +10299,29 @@
                                         "description": "Splitter share conditions",
                                         "type": "string",
                                         "example": []
+                                    },
+                                    "splitter_choice": {
+                                        "description": "Array of splitter_choice",
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "type",
+                                                "option_per_day"
+                                            ],
+                                            "properties": {
+                                                "type": {
+                                                    "description": "Splitter Choice type (Desk = 1, Worker = 2)",
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "option_per_day": {
+                                                    "description": "Splitter Choice option per day (Percent Per Day = 1 , Cap Per Day = 2)",
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -10232,9 +10425,7 @@
                             "schema": {
                                 "required": [
                                     "name",
-                                    "is_active",
-                                    "conditions",
-                                    "share_conditions"
+                                    "is_active"
                                 ],
                                 "properties": {
                                     "name": {
@@ -10278,6 +10469,29 @@
                                         "description": "Splitter share conditions",
                                         "type": "string",
                                         "example": []
+                                    },
+                                    "splitter_choice": {
+                                        "description": "Array of splitter_choice",
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "type",
+                                                "option_per_day"
+                                            ],
+                                            "properties": {
+                                                "type": {
+                                                    "description": "Splitter Choice type (Desk = 1, Worker = 2)",
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "option_per_day": {
+                                                    "description": "Splitter Choice option per day (Percent Per Day = 1 , Cap Per Day = 2)",
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -10415,6 +10629,29 @@
                                         "description": "Splitter share conditions",
                                         "type": "string",
                                         "example": []
+                                    },
+                                    "splitter_choice": {
+                                        "description": "Array of splitter_choice",
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "type",
+                                                "option_per_day"
+                                            ],
+                                            "properties": {
+                                                "type": {
+                                                    "description": "Splitter Choice type (Desk = 1, Worker = 2)",
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "option_per_day": {
+                                                    "description": "Splitter Choice option per day (Percent Per Day = 1 , Cap Per Day = 2)",
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -16796,8 +17033,8 @@
                         "type": "string",
                         "nullable": "true"
                     },
-                    "verification_status_id": {
-                        "description": "Verification status id",
+                    "verification_status": {
+                        "description": "Verification status",
                         "type": "string",
                         "nullable": "true"
                     },
@@ -17014,12 +17251,6 @@
                         "readOnly": "true",
                         "nullable": "true"
                     },
-                    "local_time": {
-                        "description": "Customer local time",
-                        "type": "string",
-                        "readOnly": "true",
-                        "nullable": "true"
-                    },
                     "last_deposit_date": {
                         "description": "Last deposit date",
                         "type": "string",
@@ -17028,21 +17259,53 @@
                     },
                     "ftd_amount": {
                         "description": "FTD amount value",
-                        "type": "integer",
+                        "type": "number",
+                        "format": "float",
+                        "readOnly": "true",
+                        "nullable": "true"
+                    },
+                    "total_deposits": {
+                        "description": "Total deposits",
+                        "type": "number",
+                        "format": "float",
                         "readOnly": "true",
                         "nullable": "true"
                     },
                     "total_redeposits": {
                         "description": "Total deposits without FTD",
-                        "type": "integer",
+                        "type": "number",
+                        "format": "float",
                         "readOnly": "true",
                         "nullable": "true"
                     },
                     "total_withdrawals": {
+                        "description": "Total bonuses",
+                        "type": "number",
+                        "format": "float",
+                        "readOnly": "true",
+                        "nullable": "true"
+                    },
+                    "total_bonuses": {
                         "description": "Total withdrawals",
+                        "type": "number",
+                        "format": "float",
+                        "readOnly": "true",
+                        "nullable": "true"
+                    },
+                    "net_deposit": {
+                        "description": "Net deposit",
                         "type": "integer",
                         "readOnly": "true",
                         "nullable": "true"
+                    },
+                    "pernidng_transactions": {
+                        "description": "Pending transactions",
+                        "type": "integer",
+                        "readOnly": "true",
+                        "nullable": "true"
+                    },
+                    "sale_status": {
+                        "$ref": "#/components/schemas/SaleStatus"
                     },
                     "created_at": {
                         "description": "Date and time of creation",
@@ -17841,6 +18104,96 @@
                 },
                 "type": "object"
             },
+            "SplitterChoice": {
+                "required": [
+                    "id",
+                    "splitter_id",
+                    "type",
+                    "option_per_day",
+                    "deleted_at",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Splitter Choice ID",
+                        "type": "integer"
+                    },
+                    "splitter_id": {
+                        "description": "Splitter id",
+                        "type": "integer"
+                    },
+                    "type": {
+                        "description": "Splitter Choice type (Desk = 1, Worker = 2)",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "option_per_day": {
+                        "description": "Splitter Choice option per day (Percent Per Day = 1 , Cap Per Day = 2)",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "splitter": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Splitter"
+                        }
+                    },
+                    "desks": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Desk"
+                        }
+                    },
+                    "workers": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Worker"
+                        }
+                    },
+                    "deleted_at": {
+                        "description": "Date and time of deleted",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "created_at": {
+                        "description": "Date and time of creation",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "updated_at": {
+                        "description": "Date and time of last update",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    }
+                },
+                "type": "object"
+            },
+            "SplitterChoiceCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SplitterChoice"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "SplitterChoiceResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/SplitterChoice"
+                    }
+                },
+                "type": "object"
+            },
             "Splitter": {
                 "required": [
                     "id",
@@ -17902,6 +18255,12 @@
                         "type": "string",
                         "format": "date-time",
                         "example": "2022-12-17 08:44:09"
+                    },
+                    "splitter_choice": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SplitterChoice"
+                        }
                     }
                 },
                 "type": "object"
@@ -18872,7 +19231,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }

@@ -20,7 +20,6 @@ final class UserBrandObserver
             UserBrand::withoutEvents(function () use ($userBrand) {
                 UserBrand::query()->where([
                     ['user_id', '=', $userBrand->user_id],
-                    ['brand_id', '=', $userBrand->brand_id],
                     ['is_default', '=', true],
                 ])->update(['is_default' => false]);
             });

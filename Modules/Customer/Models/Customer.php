@@ -6,7 +6,6 @@ namespace Modules\Customer\Models;
 
 use App\Contracts\Models\HasAttributeColumns;
 use App\Contracts\Models\HasEmail;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -16,15 +15,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Brand\Models\Brand;
 use Modules\Communication\Models\DatabaseNotification;
-use Modules\Communication\Models\Email;
 use Modules\Customer\Database\factories\CustomerFactory;
+use Modules\Customer\Enums\CustomerVerificationStatus;
 use Modules\Customer\Events\CustomerSaving;
 use Modules\Customer\Models\Traits\CustomerRelations;
 use Modules\Role\Enums\ModelHasPermissionStatus;
 use Modules\Role\Models\Traits\HasRoles;
-use Modules\Transaction\Enums\TransactionMt5TypeEnum;
-use Modules\Transaction\Enums\TransactionStatusEnum;
-use Modules\Transaction\Enums\TransactionType;
+use Modules\Sale\Models\SaleStatus;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 use Spatie\Multitenancy\Models\Tenant;
 
@@ -119,6 +116,7 @@ final class Customer extends Authenticatable implements HasAttributeColumns, Has
         'last_communication_date' => 'datetime',
         'balance' => 'decimal:2',
         'balance_usd' => 'decimal:2',
+        'verification_status' => CustomerVerificationStatus::class,
     ];
 
     /**
@@ -141,11 +139,15 @@ final class Customer extends Authenticatable implements HasAttributeColumns, Has
         return [
             'formatted_is_ftd',
             'suspend',
-            'local_time',
             'last_deposit_date',
             'ftd_amount',
+            'total_deposits',
             'total_redeposits',
             'total_withdrawals',
+            'total_bonuses',
+            'net_deposit',
+            'pending_transactions',
+            'sale_status',
         ];
     }
 
@@ -207,16 +209,6 @@ final class Customer extends Authenticatable implements HasAttributeColumns, Has
     }
 
     /**
-     * Get local time attribute.
-     *
-     * @return string
-     */
-    public function getLocalTimeAttribute(): string
-    {
-        return (string) Carbon::now($this->timezone);
-    }
-
-    /**
      * Get last deposit date attribute.
      *
      * @return string
@@ -224,8 +216,9 @@ final class Customer extends Authenticatable implements HasAttributeColumns, Has
     public function getLastDepositDateAttribute(): string
     {
         return (string) $this->transactions()
-            ->where('type', '=', TransactionType::DEPOSIT)
-            ->whereHas('mt5Type', fn ($q) => $q->where('name', TransactionMt5TypeEnum::BALANCE))
+            ->deposit()
+            ->approved()
+            ->balance()
             ->orderByDesc('created_at')
             ->first()
             ?->created_at;
@@ -240,12 +233,29 @@ final class Customer extends Authenticatable implements HasAttributeColumns, Has
     {
         return round(
             $this->transactions()
-                ->where('type', '=', TransactionType::DEPOSIT)
-                ->whereHas('status', fn ($q) => $q->where('name', TransactionStatusEnum::APPROVED))
-                ->whereHas('mt5Type', fn ($q) => $q->where('name', TransactionMt5TypeEnum::BALANCE))
+                ->deposit()
+                ->approved()
+                ->balance()
                 ->orderBy('created_at')
                 ->first()
                 ?->amount ?: 0,
+            self::CUSTOMER_AMOUNT_PRECISION,
+        );
+    }
+
+    /**
+     * Get total deposits attribute.
+     *
+     * @return float
+     */
+    public function getTotalDepositAttribute(): float
+    {
+        return round(
+            $this->transactions()
+                ->deposit()
+                ->approved()
+                ->balance()
+                ->sum('amount') ?: 0,
             self::CUSTOMER_AMOUNT_PRECISION,
         );
     }
@@ -259,9 +269,9 @@ final class Customer extends Authenticatable implements HasAttributeColumns, Has
     {
         return round(
             $this->transactions()
-                ->where('type', '=', TransactionType::DEPOSIT)
-                ->whereHas('status', fn ($q) => $q->where('name', TransactionStatusEnum::APPROVED))
-                ->whereHas('mt5Type', fn ($q) => $q->where('name', TransactionMt5TypeEnum::BALANCE))
+                ->deposit()
+                ->approved()
+                ->balance()
                 ->offset(1)
                 ->sum('amount') ?: 0,
             self::CUSTOMER_AMOUNT_PRECISION,
@@ -277,13 +287,73 @@ final class Customer extends Authenticatable implements HasAttributeColumns, Has
     {
         return round(
             $this->transactions()
-                ->where('type', '=', TransactionType::WITHDRAWAL)
-                ->whereHas('status', fn ($q) => $q->where('name', TransactionStatusEnum::APPROVED))
-                ->whereHas('mt5Type', fn ($q) => $q->where('name', TransactionMt5TypeEnum::BALANCE))
-                ->offset(1)
+                ->withdrawal()
+                ->approved()
+                ->balance()
                 ->sum('amount') ?: 0,
             self::CUSTOMER_AMOUNT_PRECISION,
         );
+    }
+
+    /**
+     * Get total bonuses attribute.
+     *
+     * @return float
+     */
+    public function getTotalBonusesAttribute(): float
+    {
+        return round(
+            $this->transactions()
+                ->deposit()
+                ->approved()
+                ->bonus()
+                ->sum('amount') ?: 0,
+            self::CUSTOMER_AMOUNT_PRECISION,
+        );
+    }
+
+    /**
+     * Get total bonuses attribute.
+     *
+     * @return float
+     */
+    public function getNetDepositAttribute(): float
+    {
+        return round(
+            $this->total_deposits - $this->total_withdrawals,
+            self::CUSTOMER_AMOUNT_PRECISION,
+        );
+    }
+
+    /**
+     * Get sale status attribute.
+     *
+     * @return float
+     */
+    public function getPendingTransactionsAttribute(): float
+    {
+        return round(
+            $this->transactions()
+                ->deposit()
+                ->pending()
+                ->balance()
+                ->sum('amount') ?: 0,
+            self::CUSTOMER_AMOUNT_PRECISION,
+        );
+    }
+
+    /**
+     * Get sale status attribute.
+     *
+     * @return SaleStatus|null
+     */
+    public function getSaleStatusAttribute(): ?SaleStatus
+    {
+        return match (true) {
+            $this->department?->isConversion() => $this->conversionSaleStatus,
+            $this->department?->isRetention() => $this->retentionSaleStatus,
+            default => null,
+        };
     }
 
     /**
@@ -304,9 +374,9 @@ final class Customer extends Authenticatable implements HasAttributeColumns, Has
     public function getApprovedDeposits(): Collection
     {
         return $this->transactions()
-            ->where('type', '=', TransactionType::DEPOSIT)
-            ->whereHas('status', fn ($q) => $q->where('name', TransactionStatusEnum::APPROVED))
-            ->whereHas('mt5Type', fn ($q) => $q->where('name', TransactionMt5TypeEnum::BALANCE))
+            ->deposit()
+            ->approved()
+            ->balance()
             ->get();
     }
 
@@ -318,9 +388,9 @@ final class Customer extends Authenticatable implements HasAttributeColumns, Has
     public function getApprovedWithdrawals(): Collection
     {
         return $this->transactions()
-            ->where('type', '=', TransactionType::WITHDRAWAL)
-            ->whereHas('status', fn ($q) => $q->where('name', TransactionStatusEnum::APPROVED))
-            ->whereHas('mt5Type', fn ($q) => $q->where('name', TransactionMt5TypeEnum::BALANCE))
+            ->withdrawal()
+            ->approved()
+            ->balance()
             ->get();
     }
 

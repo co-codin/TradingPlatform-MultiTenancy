@@ -59,6 +59,16 @@ final class CustomerDto extends BaseDto
     public ?int $language_id = null;
 
     /**
+     * @var int|null
+     */
+    public ?int $platform_language_id = null;
+
+    /**
+     * @var int|null
+     */
+    public ?int $browser_language_id = null;
+
+    /**
      * @var string|null
      */
     public ?string $city;

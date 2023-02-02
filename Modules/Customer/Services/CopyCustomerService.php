@@ -13,15 +13,17 @@ use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
 use Modules\Sale\Models\SaleStatus;
 use Modules\Transaction\Models\Transaction;
-use Modules\Transaction\Models\TransactionStatus;
-use Modules\Transaction\Models\TransactionsMt5Type;
 use Modules\Transaction\Models\TransactionsMethod;
+use Modules\Transaction\Models\TransactionsMt5Type;
+use Modules\Transaction\Models\TransactionStatus;
 use Modules\Transaction\Models\Wallet;
 
 final class CopyCustomerService
 {
     protected int $customerId;
+
     protected Brand $currentBrand;
+
     protected Brand $destinationBrand;
 
     public function run(int $customerId, Brand $currentBrand, Brand $destinationBrand)
@@ -48,7 +50,7 @@ final class CopyCustomerService
             'department_id' => $this->runCopyModel($customer, Department::class, 'department_id'),
             'conversion_sale_status_id' => $this->runCopyModel($customer, SaleStatus::class, 'conversion_sale_status_id'),
             'retention_sale_status_id' => $this->runCopyModel($customer, SaleStatus::class, 'retention_sale_status_id'),
-            'subbrand_id' => null
+            'subbrand_id' => null,
         ]);
 
         $customerNew = Customer::firstOrCreate([
@@ -66,7 +68,7 @@ final class CopyCustomerService
         $modelData = $model::find($parent->$attribute)?->replicate();
         $this->destinationBrand->makeCurrent();
 
-        return $modelData ? $model::firstOrCreate($modelData->toArray())->id : null;
+        return $modelData ? $model::firstOrCreate($modelData->toArray())->id : 0;
     }
 
     private function runCopyCustomerTransactions(Customer $customerNew): void

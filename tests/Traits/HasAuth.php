@@ -76,17 +76,19 @@ trait HasAuth
     ): void {
         $user = $this->getUserByUsername('test@service.com');
 
-        $permission = Permission::whereName($permissionEnum->value)->first() ??
-            Permission::factory()->create([
+        $permissions = Permission::whereName($permissionEnum->value)->get();
+        $permissions = ! $permissions->isEmpty()
+            ? $permissions
+            : Permission::create([
                 'name' => $permissionEnum->value,
                 'action_id' => Action::where('name', $permissionEnum::actions()[$permissionEnum->value])->first()?->id
                     ?? Action::factory()->create(['name' => $permissionEnum::actions()[$permissionEnum->value]])->id,
-                'model_id' => Model::where('name', trim('\\', $permissionEnum::model()))->first()?->id
-                    ?? Model::factory()->create(['name' => trim('\\', $permissionEnum::model())])->id,
+                'model_id' => Model::where('name', trim($permissionEnum::model(), '\\'))->first()?->id
+                    ?? Model::factory()->create(['name' => trim($permissionEnum::model(), '\\')])->id,
                 'guard_name' => $guard,
             ]);
 
-        $user->permissions()->syncWithoutDetaching($permission);
+        $user->permissions()->syncWithoutDetaching($permissions);
 
         $this->setUser($user);
 

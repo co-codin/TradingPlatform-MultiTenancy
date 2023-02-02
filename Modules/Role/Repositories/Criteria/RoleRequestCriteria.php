@@ -32,7 +32,7 @@ final class RoleRequestCriteria extends BaseCriteria
                 AllowedFilter::partial('name'),
                 AllowedFilter::exact('key'),
                 AllowedFilter::exact('is_default'),
-                AllowedFilter::exact('guard_name'),
+                AllowedFilter::exact('guard_name')->default('web'),
             ])
             ->allowedSorts(['name', 'key', 'id', 'is_default'])
             ->allowedIncludes([

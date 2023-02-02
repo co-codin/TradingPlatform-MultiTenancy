@@ -29,10 +29,12 @@ final class CustomerCreateRequest extends BaseFormRequest
             'first_name' => 'required|string|max:35|regex:'.RegexValidationEnum::NAME,
             'last_name' => 'required|string|max:35|regex:'.RegexValidationEnum::NAME,
             'gender' => [
+                'sometimes',
                 'required',
                 new EnumValue(Gender::class, false),
             ],
             'email' => 'required|email|max:100|unique:tenant.customers,email',
+            'email_2' => 'sometimes|required|email|max:100',
             'password' => [
                 'required',
                 'string',
@@ -41,11 +43,13 @@ final class CustomerCreateRequest extends BaseFormRequest
             'phone' => [
                 'required',
                 'string',
+                'regex:'.RegexValidationEnum::PHONE,
             ],
             'phone_2' => [
                 'sometimes',
                 'required',
                 'string',
+                'regex:'.RegexValidationEnum::PHONE,
             ],
             'language_id' => 'required|int|exists:landlord.languages,id',
             'platform_language_id' => 'sometimes|required|int|exists:landlord.languages,id',
