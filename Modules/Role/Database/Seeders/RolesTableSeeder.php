@@ -47,13 +47,14 @@ final class RolesTableSeeder extends Seeder
     private function seedRoles(): void
     {
         foreach ($this->roles as $role) {
-            Role::query()->firstOrCreate(
-                Role::factory()->raw([
-                    'name' => $role,
-                    'key' => Str::slug($role),
-                    'is_default' => true,
-                ])
-            );
+            $data = [
+                'name' => $role,
+                'key' => Str::slug($role),
+                'is_default' => true,
+            ];
+            Role::query()->firstOrCreate(Role::factory()->raw($data));
+            $data['guard_name'] = 'api';
+            Role::query()->firstOrCreate(Role::factory()->raw($data));
         }
     }
 }

@@ -39,6 +39,7 @@ final class PermissionRequestCriteria extends BaseCriteria
                 AllowedFilter::exact('action_id'),
                 AllowedFilter::partial('name'),
                 AllowedFilter::partial('description'),
+                AllowedFilter::exact('guard_name')->default('web'),
             ])
             ->allowedSorts([
                 'name',
