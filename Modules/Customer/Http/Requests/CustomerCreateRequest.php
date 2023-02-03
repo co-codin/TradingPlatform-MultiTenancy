@@ -6,13 +6,9 @@ namespace Modules\Customer\Http\Requests;
 
 use App\Enums\RegexValidationEnum;
 use App\Http\Requests\BaseFormRequest;
-use App\Services\Validation\Phone;
 use BenSampo\Enum\Rules\EnumValue;
 use Exception;
-use Illuminate\Support\Arr;
-use Modules\Campaign\Models\Campaign;
 use Modules\Customer\Enums\Gender;
-use Modules\Geo\Models\Country;
 
 final class CustomerCreateRequest extends BaseFormRequest
 {
@@ -25,9 +21,9 @@ final class CustomerCreateRequest extends BaseFormRequest
      */
     public function rules(): array
     {
-        $rules = [
-            'first_name' => 'required|string|max:35|regex:'.RegexValidationEnum::NAME,
-            'last_name' => 'required|string|max:35|regex:'.RegexValidationEnum::NAME,
+        return [
+            'first_name' => 'required|string|max:35|regex:' . RegexValidationEnum::NAME,
+            'last_name' => 'required|string|max:35|regex:' . RegexValidationEnum::NAME,
             'gender' => [
                 'sometimes',
                 'required',
@@ -38,18 +34,18 @@ final class CustomerCreateRequest extends BaseFormRequest
             'password' => [
                 'required',
                 'string',
-                'regex:'.RegexValidationEnum::PASSWORD,
+                'regex:' . RegexValidationEnum::PASSWORD,
             ],
             'phone' => [
                 'required',
                 'string',
-                'regex:'.RegexValidationEnum::PHONE,
+                'regex:' . RegexValidationEnum::PHONE,
             ],
             'phone_2' => [
                 'sometimes',
                 'required',
                 'string',
-                'regex:'.RegexValidationEnum::PHONE,
+                'regex:' . RegexValidationEnum::PHONE,
             ],
             'language_id' => 'required|int|exists:landlord.languages,id',
             'platform_language_id' => 'sometimes|required|int|exists:landlord.languages,id',
@@ -71,18 +67,5 @@ final class CustomerCreateRequest extends BaseFormRequest
             'free_param_2' => 'sometimes|string|max:35',
             'free_param_3' => 'sometimes|string|max:35',
         ];
-
-        $this->validate(Arr::only($rules, ['country_id', 'campaign_id']));
-
-        if (Campaign::query()->find($this->post('campaign_id'))?->phone_verification) {
-            $phoneRule = (new Phone)->country(
-                Country::query()->find($this->post('country_id'))
-            );
-
-            $rules['phone'][] = $phoneRule;
-            $rules['phone_2'][] = $phoneRule;
-        }
-
-        return $rules;
     }
 }

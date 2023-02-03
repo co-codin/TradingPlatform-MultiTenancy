@@ -6,13 +6,8 @@ namespace Modules\Customer\Http\Requests;
 
 use App\Enums\RegexValidationEnum;
 use App\Http\Requests\BaseFormRequest;
-use App\Services\Validation\Phone;
 use BenSampo\Enum\Rules\EnumValue;
-use Illuminate\Support\Arr;
-use Modules\Campaign\Models\Campaign;
 use Modules\Customer\Enums\Gender;
-use Modules\Customer\Models\Customer;
-use Modules\Geo\Models\Country;
 use Modules\Role\Enums\ModelHasPermissionStatus;
 
 final class CustomerUpdateRequest extends BaseFormRequest
@@ -22,9 +17,9 @@ final class CustomerUpdateRequest extends BaseFormRequest
      */
     public function rules(): array
     {
-        $rules = [
-            'first_name' => 'sometimes|required|string|max:35|regex:'.RegexValidationEnum::NAME,
-            'last_name' => 'sometimes|required|string|max:35|regex:'.RegexValidationEnum::NAME,
+        return [
+            'first_name' => 'sometimes|required|string|max:35|regex:' . RegexValidationEnum::NAME,
+            'last_name' => 'sometimes|required|string|max:35|regex:' . RegexValidationEnum::NAME,
             'email_2' => 'sometimes|required|email|max:100',
             'gender' => [
                 'sometimes',
@@ -36,13 +31,13 @@ final class CustomerUpdateRequest extends BaseFormRequest
                 'sometimes',
                 'required',
                 'string',
-                (new Phone)->country(Country::query()->find($this->post('country_id'))),
+                'regex:' . RegexValidationEnum::PASSWORD,
             ],
             'phone_2' => [
                 'sometimes',
                 'required',
                 'string',
-                (new Phone)->country(Country::query()->find($this->post('country_id'))),
+                'regex:' . RegexValidationEnum::PASSWORD,
             ],
             'currency_id' => 'sometimes|required|int|exists:landlord.currencies,id',
             'language_id' => 'sometimes|required|int|exists:landlord.languages,id',
@@ -81,23 +76,5 @@ final class CustomerUpdateRequest extends BaseFormRequest
             ],
             'permissions.*.pivot.body.reason' => 'sometimes|required|string',
         ];
-
-        $customer = Customer::query()->where('id', $this->route('customer'))->first();
-
-        $validated = $this->validate(Arr::only($rules, ['country_id', 'campaign_id']));
-
-        $countryId = $validated['country_id'] ?? $customer?->country_id;
-        $campaignId = $validated['campaign_id'] ?? $customer?->campaign_id;
-
-        if (Campaign::query()->find($campaignId)?->phone_verification) {
-            $phoneRule = (new Phone)->country(
-                Country::query()->find($countryId)
-            );
-
-            $rules['phone'][] = $phoneRule;
-            $rules['phone_2'][] = $phoneRule;
-        }
-
-        return $rules;
     }
 }
