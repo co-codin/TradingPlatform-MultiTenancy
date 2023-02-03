@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
 use Modules\User\Http\Controllers\Admin\AuthController;
-use Modules\User\Http\Controllers\Admin\Brand\UserBrandController;
 use Modules\User\Http\Controllers\Admin\Country\UserCountryController;
 use Modules\User\Http\Controllers\Admin\Department\UserDepartmentController;
 use Modules\User\Http\Controllers\Admin\Desk\UserDeskController;
@@ -54,9 +53,6 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
 
         // Batch
         Route::patch('/update/batch', [UserController::class, 'updateBatch'])->name('batch.update');
-
-        // Brand
-        Route::put('/{id}/brand', [UserBrandController::class, 'update'])->name('brand.update');
 
         // Impersonate
         Route::post('/{id}/impersonate/token', [UserImpersonateController::class, 'token'])->name('impersonate.token');
