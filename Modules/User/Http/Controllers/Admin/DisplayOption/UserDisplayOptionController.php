@@ -60,15 +60,18 @@ final class UserDisplayOptionController extends Controller
      *     )
      * )
      *
+     * @param  int  $user
      * @return AnonymousResourceCollection
      *
      * @throws AuthorizationException
      */
-    public function index(): AnonymousResourceCollection
+    public function index(int $user): AnonymousResourceCollection
     {
         $this->authorize('viewAny', DisplayOption::class);
 
-        $displayOptions = $this->displayOptionRepository->jsonPaginate();
+        $displayOptions = $this->displayOptionRepository
+            ->where('user_id', $user)
+            ->jsonPaginate();
 
         return DisplayOptionResource::collection($displayOptions);
     }
@@ -147,11 +150,11 @@ final class UserDisplayOptionController extends Controller
      *             mediaType="application/json",
      *             @OA\Schema(
      *                 required={
-     *                     "model_id",
+     *                     "model_name",
      *                     "name",
      *                     "columns"
      *                 },
-     *                 @OA\Property(property="model_id", type="integer"),
+     *                 @OA\Property(property="model_name", type="string"),
      *                 @OA\Property(property="name", type="string"),
      *                 @OA\Property(property="columns", type="array", @OA\Items(type="string")),
      *             )
@@ -219,11 +222,7 @@ final class UserDisplayOptionController extends Controller
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
-     *                 required={
-     *                     "model_id",
-     *                     "name",
-     *                 },
-     *                 @OA\Property(property="model_id", type="integer"),
+     *                 @OA\Property(property="model_name", type="string"),
      *                 @OA\Property(property="name", type="string"),
      *                 @OA\Property(property="columns", type="array", @OA\Items(type="string")),
      *             )
@@ -274,7 +273,7 @@ final class UserDisplayOptionController extends Controller
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
-     *                 @OA\Property(property="model_id", type="integer"),
+     *                 @OA\Property(property="model_name", type="string"),
      *                 @OA\Property(property="name", type="string"),
      *                 @OA\Property(property="columns", type="array", @OA\Items(type="string")),
      *             )

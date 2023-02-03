@@ -25,8 +25,6 @@ use OpenApi\Annotations as OA;
  *     required={
  *         "id",
  *         "username",
- *         "first_name",
- *         "last_name",
  *         "is_active",
  *         "show_on_scoreboards",
  *         "created_at",
@@ -34,9 +32,6 @@ use OpenApi\Annotations as OA;
  *     },
  *     @OA\Property(property="id", type="integer", description="Worker ID"),
  *     @OA\Property(property="username", type="string", description="Worker username"),
- *     @OA\Property(property="first_name", type="string", description="First name"),
- *     @OA\Property(property="last_name", type="string", description="Last name"),
- *     @OA\Property(property="email", type="string", format="email", description="Email"),
  *     @OA\Property(property="is_active", type="boolean", description="Worker activity flag"),
  *     @OA\Property(property="target", type="integer", nullable=true, description="Target amount for the worker"),
  *     @OA\Property(property="show_on_scoreboards", type="boolean", description="Show on scoreboards"),
@@ -50,8 +45,8 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(property="roles", type="array", @OA\Items(ref="#/components/schemas/Role"), description="Array of roles"),
  *     @OA\Property(property="communication_provider", type="object", ref="#/components/schemas/CommunicationProvider", description="Communication provider"),
  *     @OA\Property(property="communication_extensions", type="array", @OA\Items(ref="#/components/schemas/CommunicationExtension"), description="Array of Communication extensions"),
+ *     @OA\Property(property="worker_info", type="object", ref="#/components/schemas/WorkerInfo", description="Worker info"),
  * ),
- *
  * @OA\Schema (
  *     schema="WorkerCollection",
  *     type="object",
@@ -66,7 +61,6 @@ use OpenApi\Annotations as OA;
  *         ref="#/components/schemas/Meta"
  *     )
  * ),
- *
  * @OA\Schema (
  *     schema="WorkerResource",
  *     type="object",
@@ -78,11 +72,15 @@ use OpenApi\Annotations as OA;
  * )
  *
  * Class WorkerResource
+ *
  * @mixin User
  */
 final class UserResource extends JsonResource
 {
-    public function toArray($request)
+    /**
+     * {@inheritDoc}
+     */
+    public function toArray($request): array
     {
         return array_merge(parent::toArray($request), [
             'roles' => RoleResource::collection($this->whenLoaded('roles')),
@@ -96,6 +94,7 @@ final class UserResource extends JsonResource
             'countries' => CountryResource::collection($this->whenLoaded('countries')),
             'communication_provider' => new CommunicationProviderResource($this->whenLoaded('communicationProvider')),
             'communication_extensions' => CommunicationExtensionResource::collection($this->whenLoaded('communicationExtensions')),
+            'worker_info' => new WorkerInfoResource($this->whenLoaded('worker_info')),
         ]);
     }
 }

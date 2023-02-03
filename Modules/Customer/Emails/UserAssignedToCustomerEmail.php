@@ -10,7 +10,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Hash;
 use Modules\Customer\Models\Customer;
 use Modules\User\Models\User;
 
@@ -37,13 +36,23 @@ class UserAssignedToCustomerEmail extends Mailable //implements ShouldQueue
      */
     public function content(): Content
     {
+        if ($brand = $this->customer->getBrand()) {
+            $brand->makeCurrent();
+            $with = [
+                'brandName' => $brand->name,
+                'brandLogo' => $brand->logo,
+                'userFirstName' => $this->user->workerInfo->first_name,
+                'userLastName' => $this->user->workerInfo->last_name,
+            ];
+        }
+
         return new Content(
             view: 'customer::emails.user-assigned-to-customer',
             with: [
-                'brandName' => $this->customer->getBrand()?->name,
-                'brandLogo' => $this->customer->getBrand()?->logo,
-                'userFirstName' => $this->user->first_name,
-                'userLastName' => $this->user->last_name,
+                'brandName' => $with['brandName'] ?? null,
+                'brandLogo' => $with['brandLogo'] ?? null,
+                'userFirstName' => $with['userFirstName'] ?? null,
+                'userLastName' => $with['userLastName'] ?? null,
                 'customerFirstName' => $this->customer->first_name,
                 'customerLastName' => $this->customer->last_name,
                 'customerEmail' => $this->customer->email,

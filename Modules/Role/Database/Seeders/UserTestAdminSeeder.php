@@ -11,6 +11,7 @@ use Modules\Brand\Models\Brand;
 use Modules\Role\Enums\DefaultRole;
 use Modules\Role\Models\Role;
 use Modules\User\Models\User;
+use Modules\User\Models\WorkerInfo;
 
 final class UserTestAdminSeeder extends Seeder
 {
@@ -35,6 +36,7 @@ final class UserTestAdminSeeder extends Seeder
             DefaultRole::COMPLIANCE,
             DefaultRole::CONVERSION_MANAGER,
             DefaultRole::CONVERSION_AGENT,
+            DefaultRole::RETENTION_MANAGER,
             DefaultRole::RETENTION_AGENT,
             DefaultRole::AFFILIATE,
             DefaultRole::AFFILIATE_MANAGER,
@@ -44,13 +46,13 @@ final class UserTestAdminSeeder extends Seeder
 
         $userIds = [];
 
-        for ($i = 0; $i < 300; $i++) {
+        for ($i = 0; $i < 200; $i++) {
             $role = fake()->randomElement($roles);
 
             $user = User::factory()->create();
             $userIds[] = $user->id;
 
-            $user->roles()->sync(Role::firstWhere('name', $role));
+            $user->roles()->sync(Role::where('name', $role)->get());
         }
 
         $this->brand->users()->sync($userIds, false);
@@ -58,12 +60,12 @@ final class UserTestAdminSeeder extends Seeder
 
     private function createBrandForAdmin(): Brand
     {
-        return Brand::query()->create(Brand::factory()->make([
+        return Brand::factory()->create([
             'name' => DefaultRole::ADMIN,
             'title' => DefaultRole::ADMIN,
             'database' => strtolower(DefaultRole::ADMIN),
             'domain' => strtolower(DefaultRole::ADMIN),
-        ])->toArray());
+        ]);
     }
 
     private function createAdmin(): void
@@ -101,18 +103,25 @@ final class UserTestAdminSeeder extends Seeder
         $username = Str::before($email, '@');
 
         $user = User::query()
-            ->where('email', $email)
-            ->orWhere('username', $username)
+            ->where('username', $username)
             ->first();
 
         if (! $user) {
+            /** @var User $user */
             $user = User::factory()->create([
                 'username' => $username,
-                'first_name' => Str::before($username, '@') ?: $username,
-                'last_name' => Str::before($username, '@') ?: $username,
-                'email' => $email,
                 'password' => Hash::make('password'),
             ]);
+
+            $this->brand->makeCurrent();
+
+            if (! $user->workerInfo()->exists()) {
+                $user->workerInfo()->create(WorkerInfo::factory()->raw([
+                    'first_name' => $username,
+                    'last_name' => $username,
+                    'email' => $email,
+                ]));
+            }
         }
 
         return $user;

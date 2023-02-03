@@ -19,12 +19,13 @@ final class ColumnsTableSeeder extends Seeder
     {
         $result = [];
 
-        foreach (Schema::getAllTables() as $table) {
-            $result = array_merge($result, Schema::getColumnListing($table->tablename ?? $table->name));
+        $landlordSchema = Schema::connection('landlord');
+        foreach ($landlordSchema->getAllTables() as $table) {
+            $result = array_merge($result, $landlordSchema->getColumnListing($table->tablename ?? $table->name));
         }
 
         $tenantSchema = Schema::connection('tenant');
-        foreach (Schema::connection('tenant')->getAllTables() as $table) {
+        foreach ($tenantSchema->getAllTables() as $table) {
             $result = array_merge($result, $tenantSchema->getColumnListing($table->tablename ?? $table->name));
         }
 

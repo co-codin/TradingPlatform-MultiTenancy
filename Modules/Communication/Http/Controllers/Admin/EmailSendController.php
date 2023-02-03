@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Communication\Http\Controllers\Admin;
 
+use App\Contracts\Models\HasEmail;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Response;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Modules\Communication\Emails\SendFromDbEmail;
 use Modules\Communication\Http\Requests\EmailSendRequest;
+use Modules\Communication\Models\Email;
 use Modules\Communication\Repositories\EmailRepository;
 use Modules\Customer\Models\Customer;
 use OpenApi\Annotations as OA;
@@ -24,6 +26,42 @@ class EmailSendController extends Controller
     public function __construct(
         protected EmailRepository $repository,
     ) {
+    }
+
+    /**
+     * Mail render.
+     *
+     * @param  Email  $email
+     * @param  HasEmail  $receiver
+     * @return array
+     */
+    public static function mailRender(Email $email, HasEmail $receiver): array
+    {
+        $tags = [
+            'name' => $receiver->getFirstName(),
+            'body' => $email->body,
+        ];
+        preg_match_all('/\{{2}(.*)\}{2}/m', $email->template->body, $matches, PREG_SET_ORDER, 0);
+
+        $emailBody = $email->template->body;
+
+        foreach ($matches as $match) {
+            if (isset($tags[trim($match[1])])) {
+                $emailBody = Str::replace($match[0], $tags[trim($match[1])], $emailBody);
+            }
+        }
+
+        $emailBodyByLine = explode("\n", $emailBody);
+        $mail_body = '';
+
+        foreach ($emailBodyByLine as $emailBodyLine) {
+            $mail_body .= Str::markdown($emailBodyLine);
+        }
+
+        return [
+            'subject' => $email->subject,
+            'mail_body' => $mail_body,
+        ];
     }
 
     /**
@@ -71,44 +109,10 @@ class EmailSendController extends Controller
 
         $this->authorize('send', $email);
 
-        Mail::to($email->emailable->email)->send(
+        Mail::to($email->emailable->getEmail())->send(
             new SendFromDbEmail(static::mailRender($email, $email->emailable))
         );
 
         return response()->noContent();
-    }
-
-    /**
-     * mailRender
-     *
-     * @param  mixed  $email
-     * @param  mixed  $receiver
-     * @return array
-     */
-    public static function mailRender($email, $receiver): array
-    {
-        $tags = [
-            'name' => $receiver->first_name,
-            'body' => $email->body,
-        ];
-        preg_match_all('/\{{2}(.*)\}{2}/m', $email->template->body, $matches, PREG_SET_ORDER, 0);
-
-        $emailBody = $email->template->body;
-        foreach ($matches as $matche) {
-            if (isset($tags[trim($matche[1])])) {
-                $emailBody = Str::replace($matche[0], $tags[trim($matche[1])], $emailBody);
-            }
-        }
-
-        $emailBodyByLine = explode("\n", $emailBody);
-        $mail_body = '';
-        foreach ($emailBodyByLine as $emailBodyLine) {
-            $mail_body .= Str::markdown($emailBodyLine);
-        }
-
-        return [
-            'subject' => $email->subject,
-            'mail_body' => $mail_body,
-        ];
     }
 }

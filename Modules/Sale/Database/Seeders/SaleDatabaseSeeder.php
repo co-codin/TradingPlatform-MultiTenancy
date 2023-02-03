@@ -3,8 +3,6 @@
 namespace Modules\Sale\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
-use Modules\Sale\Models\SaleStatus;
 
 class SaleDatabaseSeeder extends Seeder
 {
@@ -15,7 +13,6 @@ class SaleDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        SaleStatus::factory()->count(10)->create();
-
+        //
     }
 }

@@ -7,8 +7,8 @@ namespace Modules\Role\Http\Resources;
 use App\Http\Resources\BaseJsonResource;
 use App\Models\Action;
 use App\Models\Model;
-use Modules\Role\Models\Column;
 use Modules\Role\Models\Role;
+use Modules\Role\Services\RoleModelService;
 use OpenApi\Annotations as OA;
 
 /**
@@ -78,41 +78,21 @@ final class RoleModelResource extends BaseJsonResource
 
     public function toArray($request): array
     {
-        $array = parent::toArray($request);
+        $service = app(RoleModelService::class, ['role' => $this->role, 'model' => $this->resource]);
 
+        $actions = $service->getAvailableActions();
+
+        $array = parent::toArray($request);
         $explode = explode('\\', $array['name']);
         $array['name'] = end($explode);
 
-        $viewPermission = $this->permissions()->whereRelation('action', 'name', Action::NAMES['view'])->first(['id']);
-        if ($viewPermission) {
-            $viewColumns = $this->role->columnsByPermission($viewPermission->id)->get(['name']);
-        }
-        $editPermission = $this->permissions()->whereRelation('action', 'name', Action::NAMES['edit'])->first(['id']);
-        if ($editPermission) {
-            $editColumns = $this->role->columnsByPermission($editPermission->id)->get(['name']);
-        }
-
-        $actions = $this->permissions()->get(['name'])->map(function ($permission) {
-            $explode = explode(' ', $permission->name);
-            $permission->name = array_shift($explode);
-
-            return $permission->name;
-        });
-        $selectedActions = $this->role->permissions()->whereBelongsTo($this->resource)->get(['name'])
-            ->map(function ($permission) {
-                $explode = explode(' ', $permission->name);
-                $permission->name = array_shift($explode);
-
-                return $permission->name;
-            });
-
         return array_merge($array, [
             'permissions_count' => $actions->count(),
-            'available_actions' => $actions,
-            'selected_actions' => $selectedActions,
-            'available_columns' => Column::all(['name'])->pluck('name'),
-            'selected_view_columns' => $viewColumns?->pluck('name') ?? [],
-            'selected_edit_columns' => $editColumns?->pluck('name') ?? [],
+            'available_actions' => $actions->toArray(),
+            'selected_actions' => $service->getSelectedActionNames(),
+            'available_columns' => $service->getAvailableColumnNames(),
+            'selected_view_columns' => $service->getColumnNamesByAction(Action::NAMES['view']) ?? [],
+            'selected_edit_columns' => $service->getColumnNamesByAction(Action::NAMES['edit']) ?? [],
         ]);
     }
 }

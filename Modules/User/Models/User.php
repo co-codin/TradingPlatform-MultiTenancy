@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\User\Models;
 
+use App\Contracts\Models\HasEmail;
 use App\Relationships\Traits\WhereHasForTenant;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -36,15 +38,14 @@ use Modules\Role\Models\Traits\HasRoles;
 use Modules\Token\Models\Token;
 use Modules\User\Database\factories\UserFactory;
 use Modules\User\Events\UserCreated;
+use Modules\User\Models\Scopes\ActiveScope;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
+use Spatie\Multitenancy\Models\Tenant;
 
 /**
  * Class User
  *
  * @property int $id
- * @property string $first_name
- * @property string $last_name
- * @property string $email
  * @property int|null $affiliate_id
  * @property bool $show_on_scoreboards
  * @property-read Role[]|Collection $roles
@@ -57,7 +58,7 @@ use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
  *
  * @method static self create(array $attributes)
  */
-final class User extends Authenticatable
+final class User extends Authenticatable implements HasEmail
 {
     use HasApiTokens;
     use HasFactory;
@@ -118,6 +119,16 @@ final class User extends Authenticatable
     /**
      * {@inheritDoc}
      */
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        self::addGlobalScope(new ActiveScope);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     protected static function newFactory(): UserFactory
     {
         return UserFactory::new();
@@ -146,6 +157,22 @@ final class User extends Authenticatable
     public function setEmailAttribute(string $value): void
     {
         $this->attributes['email'] = strtolower($value);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFirstName(): string
+    {
+        return (string) (Tenant::checkCurrent() ? $this->workerInfo?->first_name : null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEmail(): string
+    {
+        return (string) (Tenant::checkCurrent() ? $this->workerInfo?->email : null);
     }
 
     public function comments()
@@ -405,5 +432,15 @@ final class User extends Authenticatable
     public function sendCalls(): MorphMany
     {
         return $this->morphMany(Call::class, 'sendcallable')->latest();
+    }
+
+    /**
+     * User relation.
+     *
+     * @return HasOne
+     */
+    public function workerInfo(): HasOne
+    {
+        return $this->hasOne(WorkerInfo::class, 'user_id', 'id');
     }
 }

@@ -16,14 +16,10 @@ use OpenApi\Annotations as OA;
  *     type="object",
  *     required={
  *         "id",
- *         "first_name",
- *         "last_name",
  *         "permissions",
  *         "roles",
  *     },
  *     @OA\Property(property="id", type="integer"),
- *     @OA\Property(property="first_name", type="string"),
- *     @OA\Property(property="last_name", type="string"),
  *     @OA\Property(property="permissions", type="array", @OA\Items(type="string")),
  *     @OA\Property(
  *         property="roles",
@@ -58,8 +54,8 @@ use OpenApi\Annotations as OA;
  *         ),
  *     ),
  *     @OA\Property(property="menu", type="array", @OA\Items(ref="#/components/schemas/UserMenu")),
+ *     @OA\Property(property="worker_info", type="object", ref="#/components/schemas/WorkerInfo", description="Worker info"),
  * )
- *
  * @OA\Schema (
  *     schema="AuthUserCollection",
  *     type="object",
@@ -74,7 +70,6 @@ use OpenApi\Annotations as OA;
  *         ref="#/components/schemas/Meta"
  *     )
  * )
- *
  * @OA\Schema (
  *     schema="AuthUserResource",
  *     type="object",
@@ -86,6 +81,7 @@ use OpenApi\Annotations as OA;
  * )
  *
  * Class AuthUserResource
+ *
  * @mixin User
  */
 class AuthUserResource extends JsonResource
@@ -94,9 +90,6 @@ class AuthUserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
-            'email' => $this->email,
             'permissions' => $this->getPermissionsViaRoles()->pluck('name'),
             'roles' => $this->roles->map->only(['id', 'name', 'guard_name', 'key'])->values(),
             'notifications' => Brand::whereDatabase($request->header('tenant'))->exists() ? [
@@ -107,6 +100,7 @@ class AuthUserResource extends JsonResource
                 'list' => [],
             ],
             'menu' => new UserMenuResource($this),
+            'worker_info' => new WorkerInfoResource($this->whenLoaded('worker_info')),
         ];
     }
 }

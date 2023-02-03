@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Transaction\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,6 +31,14 @@ final class Transaction extends Model
     protected $guarded = [
         'id',
     ];
+
+    /**
+     * {@inheritDoc}
+     */
+    protected static function newFactory(): TransactionFactory
+    {
+        return TransactionFactory::new();
+    }
 
     /**
      * Transaction type is withdrawal.
@@ -94,6 +103,76 @@ final class Transaction extends Model
             ->count() === 0;
     }
 
+    /*
+     * Scopes
+     */
+
+    /**
+     * Deposit transactions.
+     *
+     * @param  Builder  $query
+     * @return Builder
+     */
+    public function scopeDeposit(Builder $query): Builder
+    {
+        return $query->where('type', '=', TransactionType::DEPOSIT);
+    }
+
+    /**
+     * Withdrawal transactions.
+     *
+     * @param  Builder  $query
+     * @return Builder
+     */
+    public function scopeWithdrawal(Builder $query): Builder
+    {
+        return $query->where('type', '=', TransactionType::WITHDRAWAL);
+    }
+
+    /**
+     * Approved transactions.
+     *
+     * @param  Builder  $query
+     * @return Builder
+     */
+    public function scopeApproved(Builder $query): Builder
+    {
+        return $query->whereHas('status', fn ($q) => $q->where('name', TransactionStatusEnum::APPROVED));
+    }
+
+    /**
+     * Pending transactions.
+     *
+     * @param  Builder  $query
+     * @return Builder
+     */
+    public function scopePending(Builder $query): Builder
+    {
+        return $query->whereHas('status', fn ($q) => $q->where('name', TransactionStatusEnum::PENDING));
+    }
+
+    /**
+     * Balance transactions.
+     *
+     * @param  Builder  $query
+     * @return Builder
+     */
+    public function scopeBalance(Builder $query): Builder
+    {
+        return $query->whereHas('mt5Type', fn ($q) => $q->where('name', TransactionMt5TypeEnum::BALANCE));
+    }
+
+    /**
+     * Balance transactions.
+     *
+     * @param  Builder  $query
+     * @return Builder
+     */
+    public function scopeBonus(Builder $query): Builder
+    {
+        return $query->whereHas('mt5Type', fn ($q) => $q->where('name', TransactionMt5TypeEnum::BONUS));
+    }
+
     /**
      * Customer relation.
      *
@@ -152,13 +231,5 @@ final class Transaction extends Model
     public function currency(): BelongsTo
     {
         return $this->belongsTo(Currency::class);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected static function newFactory(): TransactionFactory
-    {
-        return TransactionFactory::new();
     }
 }

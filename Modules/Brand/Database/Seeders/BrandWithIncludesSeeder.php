@@ -9,9 +9,8 @@ use Modules\Brand\Models\Brand;
 use Modules\Communication\Database\Seeders\CommunicationDatabaseSeeder;
 use Modules\Communication\Database\Seeders\NotificationTemplateDatabaseSeeder;
 use Modules\Customer\Models\Customer;
-use Modules\Department\Models\Department;
+use Modules\Department\Database\Seeders\DepartmentDatabaseSeeder;
 use Modules\Desk\Models\Desk;
-use Modules\Geo\Database\Seeders\CountryTableSeeder;
 use Modules\Role\Database\Seeders\ColumnsTableSeeder;
 use Modules\Transaction\Database\Seeders\TransactionDatabaseSeeder;
 
@@ -19,31 +18,32 @@ final class BrandWithIncludesSeeder extends Seeder
 {
     public function run(): void
     {
-        $brands = Brand::factory(3)->create();
+        if (! app()->environment('local')) {
+            Brand::factory(3)->create();
+        }
+
+        $brands = Brand::all();
 
         /** @var Brand $brand */
         foreach ($brands as $brand) {
             $brand->makeCurrent();
             $this->beforeCustomers();
 
-            $desks = Desk::factory(3)->create();
-
-            Department::factory(3)->create();
-            $departments = Department::get();
+            Desk::factory(3)->create();
+            $desks = Desk::get();
 
             $customers = collect();
 
-            for ($i = 0; $i < 10; $i++) {
-                $customerData = $brand->execute(function () use ($desks, $departments) {
+            for ($i = 0; $i < 100; $i++) {
+                $customerData = $brand->execute(function () use ($desks) {
                     return  Customer::factory()->make([
                         'desk_id' => $desks->random()?->id,
-                        'department_id' => $departments->random()?->id,
                     ]);
                 });
 
                 $customerData->save();
 
-                $customers = $customers->push($customerData);
+                $customers->push($customerData);
             }
 
             /** @var Customer $customer */
@@ -58,14 +58,11 @@ final class BrandWithIncludesSeeder extends Seeder
                     $customer->retentionManageUser,
                     $customer->firstConversionUser,
                     $customer->firstRetentionUser,
-                ])
-                    ->unique('id')
-                    ->pluck('id')
-                    ->toArray();
+                ])->unique('id')->filter()->pluck('id')->toArray();
 
-                $brand->users()->sync($users);
-                $customer->desk->users()->sync($users);
-                $customer->department->users()->sync($users);
+                $brand->users()->sync($users, false);
+                $customer->desk->users()->sync($users, false);
+                $customer->department->users()->sync($users, false);
             }
 
             $this->afterCustomers();
@@ -78,8 +75,8 @@ final class BrandWithIncludesSeeder extends Seeder
     private function beforeCustomers(): void
     {
         $this->call([
-            CountryTableSeeder::class,
             CommunicationDatabaseSeeder::class,
+            DepartmentDatabaseSeeder::class,
         ]);
     }
 

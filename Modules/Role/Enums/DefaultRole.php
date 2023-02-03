@@ -47,7 +47,12 @@ class DefaultRole
     /**
      * @var string
      */
-    const RETENTION_AGENT = 'Retention Manager';
+    const RETENTION_MANAGER = 'Retention Manager';
+
+    /**
+     * @var string
+     */
+    const RETENTION_AGENT = 'Retention Agent';
 
     /**
      * @var string

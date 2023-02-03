@@ -41,9 +41,6 @@ final class UpdateTest extends TestCase
             'data' => [
                 'id',
                 'username',
-                'first_name',
-                'last_name',
-                'email',
                 'is_active',
                 'target',
                 '_lft',
@@ -89,9 +86,6 @@ final class UpdateTest extends TestCase
             'data' => [
                 'id',
                 'username',
-                'first_name',
-                'last_name',
-                'email',
                 'is_active',
                 'target',
                 '_lft',

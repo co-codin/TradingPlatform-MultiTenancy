@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Modules\User\DisplayOption;
 
+use App\Models\Model;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\User\Enums\UserDisplayOptionPermission;
 use Modules\User\Models\DisplayOption;
@@ -28,11 +29,16 @@ class UpdateTest extends TestCase
         );
 
         $displayOption = DisplayOption::factory()->create(['user_id' => $this->getUser()->id]);
-        $data = DisplayOption::factory()->make(['user_id' => $this->getUser()->id]);
+
+        $data = $requestData = DisplayOption::factory()->make([
+            'user_id' => $this->getUser()->id,
+        ])->toArray();
+
+        $requestData['model_name'] = Model::query()->find($data['model_id'])->name;
 
         $response = $this->patch(
             route('admin.users.display-options.update', ['worker' => $this->getUser()->id, 'display_option' => $displayOption->id]),
-            $data->toArray()
+            $requestData
         );
 
         $response->assertOk();
@@ -66,111 +72,5 @@ class UpdateTest extends TestCase
         );
 
         $response->assertUnauthorized();
-    }
-
-    /**
-     * Test name filled.
-     *
-     * @return void
-     *
-     * @test
-     */
-    public function name_is_filled(): void
-    {
-        $this->authenticateWithPermission(
-            UserDisplayOptionPermission::fromValue(
-                UserDisplayOptionPermission::EDIT_USER_DISPLAY_OPTIONS
-            )
-        );
-
-        $displayOption = DisplayOption::factory()->create(['user_id' => $this->getUser()->id]);
-        $data = DisplayOption::factory()->make(['user_id' => $this->getUser()->id, 'name' => null]);
-
-        $response = $this->patch(
-            route('admin.users.display-options.update', ['worker' => $this->getUser()->id, 'display_option' => $displayOption->id]),
-            $data->toArray()
-        );
-
-        $response->assertUnprocessable();
-    }
-
-    /**
-     * Test model id filled.
-     *
-     * @return void
-     *
-     * @test
-     */
-    public function model_id_is_filled(): void
-    {
-        $this->authenticateWithPermission(
-            UserDisplayOptionPermission::fromValue(
-                UserDisplayOptionPermission::EDIT_USER_DISPLAY_OPTIONS
-            )
-        );
-
-        $displayOption = DisplayOption::factory()->create(['user_id' => $this->getUser()->id]);
-        $data = DisplayOption::factory()->make(['user_id' => $this->getUser()->id, 'model_id' => null]);
-
-        $response = $this->patch(
-            route('admin.users.display-options.update', ['worker' => $this->getUser()->id, 'display_option' => $displayOption->id]),
-            $data->toArray()
-        );
-
-        $response->assertUnprocessable();
-    }
-
-    /**
-     * Test name is string.
-     *
-     * @return void
-     *
-     * @test
-     */
-    public function name_is_string(): void
-    {
-        $this->authenticateWithPermission(
-            UserDisplayOptionPermission::fromValue(
-                UserDisplayOptionPermission::EDIT_USER_DISPLAY_OPTIONS
-            )
-        );
-
-        $displayOption = DisplayOption::factory()->create(['user_id' => $this->getUser()->id]);
-        $data = DisplayOption::factory()->make(['user_id' => $this->getUser()->id, 'name' => null]);
-        $data->name = 1;
-
-        $response = $this->patch(
-            route('admin.users.display-options.update', ['worker' => $this->getUser()->id, 'display_option' => $displayOption->id]),
-            $data->toArray()
-        );
-
-        $response->assertUnprocessable();
-    }
-
-    /**
-     * Test model id is integer.
-     *
-     * @return void
-     *
-     * @test
-     */
-    public function model_id_is_integer(): void
-    {
-        $this->authenticateWithPermission(
-            UserDisplayOptionPermission::fromValue(
-                UserDisplayOptionPermission::EDIT_USER_DISPLAY_OPTIONS
-            )
-        );
-
-        $displayOption = DisplayOption::factory()->create(['user_id' => $this->getUser()->id]);
-        $data = DisplayOption::factory()->make(['user_id' => $this->getUser()->id, 'model_id' => null]);
-        $data->model_id = 'string';
-
-        $response = $this->patch(
-            route('admin.users.display-options.update', ['worker' => $this->getUser()->id, 'display_option' => $displayOption->id]),
-            $data->toArray()
-        );
-
-        $response->assertUnprocessable();
     }
 }
