@@ -46,13 +46,13 @@ final class UserTestAdminSeeder extends Seeder
 
         $userIds = [];
 
-        for ($i = 0; $i < 300; $i++) {
+        for ($i = 0; $i < 200; $i++) {
             $role = fake()->randomElement($roles);
 
             $user = User::factory()->create();
             $userIds[] = $user->id;
 
-            $user->roles()->sync(Role::firstWhere('name', $role));
+            $user->roles()->sync(Role::where('name', $role)->get());
         }
 
         $this->brand->users()->sync($userIds, false);
@@ -60,12 +60,12 @@ final class UserTestAdminSeeder extends Seeder
 
     private function createBrandForAdmin(): Brand
     {
-        return Brand::query()->create(Brand::factory()->make([
+        return Brand::factory()->create([
             'name' => DefaultRole::ADMIN,
             'title' => DefaultRole::ADMIN,
             'database' => strtolower(DefaultRole::ADMIN),
             'domain' => strtolower(DefaultRole::ADMIN),
-        ])->toArray());
+        ]);
     }
 
     private function createAdmin(): void
@@ -115,12 +115,10 @@ final class UserTestAdminSeeder extends Seeder
 
             $this->brand->makeCurrent();
 
-            $workerInfo = $user->workerInfo;
-
-            if (! $workerInfo) {
+            if (! $user->workerInfo()->exists()) {
                 $user->workerInfo()->create(WorkerInfo::factory()->raw([
-                    'first_name' => Str::before($username, '@') ?: $username,
-                    'last_name' => Str::before($username, '@') ?: $username,
+                    'first_name' => $username,
+                    'last_name' => $username,
                     'email' => $email,
                 ]));
             }
