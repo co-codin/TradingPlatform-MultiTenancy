@@ -17,7 +17,7 @@ final class TotalPercentageRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        return (collect($value)->sum('percentage_per_day') <= 100) ?? false;
+        return (collect($value)->sum('percentage_per_day') == 100) ?? false;
     }
 
     /**
