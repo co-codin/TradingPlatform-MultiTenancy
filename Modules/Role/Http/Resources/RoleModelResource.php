@@ -88,7 +88,7 @@ final class RoleModelResource extends BaseJsonResource
 
         return array_merge($array, [
             'permissions_count' => $actions->count(),
-            'available_actions' => $actions,
+            'available_actions' => $actions->toArray(),
             'selected_actions' => $service->getSelectedActionNames(),
             'available_columns' => $service->getAvailableColumnNames(),
             'selected_view_columns' => $service->getColumnNamesByAction(Action::NAMES['view']) ?? [],

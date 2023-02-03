@@ -19,8 +19,10 @@ final class BrandWithIncludesSeeder extends Seeder
 {
     public function run(): void
     {
-        Brand::factory(3)->create();
-        $brands = Brand::query()->get();
+        if (! app()->environment('local')) {
+            Brand::factory(3)->create();
+        }
+        $brands = Brand::all();
 
         /** @var Brand $brand */
         foreach ($brands as $brand) {
