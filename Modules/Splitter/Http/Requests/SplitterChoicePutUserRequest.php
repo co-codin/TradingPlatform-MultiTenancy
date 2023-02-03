@@ -23,18 +23,18 @@ final class SplitterChoicePutUserRequest extends BaseFormRequest
             'workers' => [
                 'required',
                 'array',
-                new TotalPercentageRule($splitterChoice->option_per_day == SplitterChoiceOptionPerDay::PERCENT_PER_DAY),
+                new TotalPercentageRule($splitterChoice?->option_per_day == SplitterChoiceOptionPerDay::PERCENT_PER_DAY),
             ],
             'workers.*.id' => 'required|int|exists:landlord.users,id',
             'workers.*.cap_per_day' => [
                 Rule::requiredIf(function () use ($splitterChoice) {
-                    return ($splitterChoice->option_per_day == SplitterChoiceOptionPerDay::CAPACITY_PER_DAY) ?? true;
+                    return ($splitterChoice?->option_per_day == SplitterChoiceOptionPerDay::CAPACITY_PER_DAY) ?? true;
                 }),
                 'int',
             ],
             'workers.*.percentage_per_day' => [
                 Rule::requiredIf(function () use ($splitterChoice) {
-                    return ($splitterChoice->option_per_day == SplitterChoiceOptionPerDay::PERCENT_PER_DAY) ?? true;
+                    return ($splitterChoice?->option_per_day == SplitterChoiceOptionPerDay::PERCENT_PER_DAY) ?? true;
                 }),
                 'int',
             ],

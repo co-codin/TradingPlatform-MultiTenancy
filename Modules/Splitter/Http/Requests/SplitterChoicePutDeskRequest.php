@@ -23,18 +23,18 @@ final class SplitterChoicePutDeskRequest extends BaseFormRequest
             'desks' => [
                 'required',
                 'array',
-                new TotalPercentageRule($splitterChoice->option_per_day == SplitterChoiceOptionPerDay::PERCENT_PER_DAY),
+                new TotalPercentageRule($splitterChoice?->option_per_day == SplitterChoiceOptionPerDay::PERCENT_PER_DAY),
             ],
             'desks.*.id' => 'required|int|exists:tenant.desks,id',
             'desks.*.cap_per_day' => [
                 Rule::requiredIf(function () use ($splitterChoice) {
-                    return ($splitterChoice->option_per_day == SplitterChoiceOptionPerDay::CAPACITY_PER_DAY) ?? true;
+                    return ($splitterChoice?->option_per_day == SplitterChoiceOptionPerDay::CAPACITY_PER_DAY) ?? true;
                 }),
                 'int',
             ],
             'desks.*.percentage_per_day' => [
                 Rule::requiredIf(function () use ($splitterChoice) {
-                    return ($splitterChoice->option_per_day == SplitterChoiceOptionPerDay::PERCENT_PER_DAY) ?? true;
+                    return ($splitterChoice?->option_per_day == SplitterChoiceOptionPerDay::PERCENT_PER_DAY) ?? true;
                 }),
                 'int',
             ],
