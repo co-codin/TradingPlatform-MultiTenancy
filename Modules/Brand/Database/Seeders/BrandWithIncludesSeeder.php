@@ -10,7 +10,6 @@ use Modules\Communication\Database\Seeders\CommunicationDatabaseSeeder;
 use Modules\Communication\Database\Seeders\NotificationTemplateDatabaseSeeder;
 use Modules\Customer\Models\Customer;
 use Modules\Department\Database\Seeders\DepartmentDatabaseSeeder;
-use Modules\Department\Models\Department;
 use Modules\Desk\Models\Desk;
 use Modules\Role\Database\Seeders\ColumnsTableSeeder;
 use Modules\Transaction\Database\Seeders\TransactionDatabaseSeeder;
@@ -22,6 +21,7 @@ final class BrandWithIncludesSeeder extends Seeder
         if (! app()->environment('local')) {
             Brand::factory(3)->create();
         }
+
         $brands = Brand::all();
 
         /** @var Brand $brand */
@@ -32,15 +32,12 @@ final class BrandWithIncludesSeeder extends Seeder
             Desk::factory(3)->create();
             $desks = Desk::get();
 
-            $departments = Department::get();
-
             $customers = collect();
 
             for ($i = 0; $i < 100; $i++) {
-                $customerData = $brand->execute(function () use ($desks, $departments) {
+                $customerData = $brand->execute(function () use ($desks) {
                     return  Customer::factory()->make([
                         'desk_id' => $desks->random()?->id,
-                        'department_id' => $departments->random()?->id,
                     ]);
                 });
 
@@ -61,7 +58,7 @@ final class BrandWithIncludesSeeder extends Seeder
                     $customer->retentionManageUser,
                     $customer->firstConversionUser,
                     $customer->firstRetentionUser,
-                ])->unique('id')->pluck('id')->toArray();
+                ])->unique('id')->filter()->pluck('id')->toArray();
 
                 $brand->users()->sync($users, false);
                 $customer->desk->users()->sync($users, false);
