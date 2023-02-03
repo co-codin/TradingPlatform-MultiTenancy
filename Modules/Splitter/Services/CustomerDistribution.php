@@ -21,20 +21,24 @@ use Spatie\Multitenancy\Models\Tenant;
 
 final class CustomerDistribution implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
-    protected Tenant $currentBrand;
-
+    /**
+     * Run Customer distribution
+     *
+     * @param  Customer  $customer
+     * @param  Tenant  $currentBrand
+     * @return void
+     */
     public function run(Customer $customer, Tenant $currentBrand): void
     {
-        $splitters = $currentBrand->splitters()
-            ->with('splitterChoice', 'splitterChoice.desks', 'splitterChoice.workers')
-            ->whereIsActive(true)
-            ->orderBy('position')
-            ->get();
+        $splitters = $this->getBrandSplitters($currentBrand);
 
         foreach ($splitters as $splitter) {
-            if (count($splitter->conditions) > 0) {
+            if ($splitter->conditions && count($splitter->conditions) > 0) {
                 if ($this->checkConditions($customer, $splitter)) {
                     $this->checkFieldAndUpdate($customer, $this->splitterChoice($splitter));
                 }
@@ -46,6 +50,28 @@ final class CustomerDistribution implements ShouldQueue
         }
     }
 
+    /**
+     * Get current brand splitters
+     *
+     * @param  Tenant  $currentBrand
+     * @return object
+     */
+    private function getBrandSplitters(Tenant $currentBrand): object
+    {
+        return $currentBrand->splitters()
+            ->with('splitterChoice', 'splitterChoice.desks', 'splitterChoice.workers')
+            ->whereIsActive(true)
+            ->orderBy('position')
+            ->get();
+    }
+
+    /**
+     * Update customer desk or worker id in selected field
+     *
+     * @param  Customer  $customer
+     * @param  array  $updateData
+     * @return void
+     */
     private function checkFieldAndUpdate(Customer $customer, array $updateData): void
     {
         if ($updateData['value'] > 0) {
@@ -54,17 +80,30 @@ final class CustomerDistribution implements ShouldQueue
         }
     }
 
+    /**
+     * Checking the splitter type and run the appropriate method (splitterDesks or splitterWorkers)
+     *
+     * @param  object  $splitter
+     * @return array
+     */
     private function splitterChoice(object $splitter): array
     {
-        if ($splitter->splitterChoice->type == SplitterChoiceType::DESK) {
+        if ($splitter->splitterChoice?->type == SplitterChoiceType::DESK) {
             return $this->splitterReturn('desk_id', $this->splitterDesks($splitter));
-        } elseif ($splitter->splitterChoice->type == SplitterChoiceType::WORKER) {
+        } elseif ($splitter->splitterChoice?->type == SplitterChoiceType::WORKER) {
             return $this->splitterWorkers($splitter);
         }
 
         return $this->splitterReturn();
     }
 
+    /**
+     * 1. Checking if there are zero workers then define random worker and return
+     * 2. Checking if there are no zero workers then define worker by the PERCENT_PER_DAY or CAPACITY_PER_DAY and return
+     *
+     * @param  object  $splitter
+     * @return array
+     */
     private function splitterWorkers(object $splitter): array
     {
         $workerIds = $splitter->splitterChoice->workers()->whereIsActive(true)->with('roles')->get();
@@ -73,51 +112,55 @@ final class CustomerDistribution implements ShouldQueue
 
         $zeroWorkers = $mergedWorkerStats->where('customers', 0);
 
-        if ($splitter->splitterChoice->option_per_day == SplitterChoiceOptionPerDay::PERCENT_PER_DAY) {
-            if (count($zeroWorkers) > 0) {
-                $randomZeroWorker = $zeroWorkers->random();
-                $newWorkerData = $this->splitterReturn($randomZeroWorker['field'], $randomZeroWorker['id']);
-            } else {
-                $newWorkerData = $this->splitterReturn();
+        if (count($zeroWorkers) > 0) {
+            $randomZeroWorker = $zeroWorkers->random();
 
-                $workerIds->pluck('pivot.percentage_per_day', 'id')
-                    ->each(function ($percentage, $workerId) use (&$newWorkerData, $mergedWorkerStats) {
-                        if ($workerStat = $mergedWorkerStats->firstWhere('id', $workerId)) {
-                            if ($percentage > $workerStat['percentage']) {
-                                $newWorkerData = $this->splitterReturn($workerStat['field'], $workerStat['id']);
-
-                                return false;
-                            }
-                        }
-                    });
+            return $this->splitterReturn($randomZeroWorker['field'], $randomZeroWorker['id']);
+        } else {
+            if ($splitter->splitterChoice->option_per_day == SplitterChoiceOptionPerDay::PERCENT_PER_DAY) {
+                return $this->splitterWorkerDefinition($workerIds, $mergedWorkerStats, 'pivot.percentage_per_day', 'percentage');
+            } elseif ($splitter->splitterChoice->option_per_day == SplitterChoiceOptionPerDay::CAPACITY_PER_DAY) {
+                return $this->splitterWorkerDefinition($workerIds, $mergedWorkerStats, 'pivot.cap_per_day', 'customers');
             }
-
-            return $newWorkerData;
-        } elseif ($splitter->splitterChoice->option_per_day == SplitterChoiceOptionPerDay::CAPACITY_PER_DAY) {
-            if (count($zeroWorkers) > 0) {
-                $randomZeroWorker = $zeroWorkers->random();
-                $newWorkerData = $this->splitterReturn($randomZeroWorker['field'], $randomZeroWorker['id']);
-            } else {
-                $newWorkerData = $this->splitterReturn();
-
-                $workerIds->pluck('pivot.cap_per_day', 'id')
-                    ->each(function ($cap_per_day, $workerId) use (&$newWorkerData, $mergedWorkerStats) {
-                        if ($workerStat = $mergedWorkerStats->firstWhere('id', $workerId)) {
-                            if ($cap_per_day > $workerStat['customers']) {
-                                $newWorkerData = $this->splitterReturn($workerStat['field'], $workerStat['id']);
-
-                                return false;
-                            }
-                        }
-                    });
-            }
-
-            return $newWorkerData;
         }
 
         return $this->splitterReturn();
     }
 
+    /**
+     * Worker definition by worker statistics
+     *
+     * @param  object  $workerIds
+     * @param  object  $mergedWorkerStats
+     * @param  string  $pivodField
+     * @param  string  $workerStatBy
+     * @return array
+     */
+    private function splitterWorkerDefinition(object $workerIds, object $mergedWorkerStats, string $pivodField, string $workerStatBy): array
+    {
+        $newWorkerData = $this->splitterReturn();
+
+        $workerIds->pluck($pivodField, 'id')
+            ->each(function ($fieldValue, $workerId) use (&$newWorkerData, $mergedWorkerStats, $workerStatBy) {
+                if ($workerStat = $mergedWorkerStats->firstWhere('id', $workerId)) {
+                    if ($fieldValue > $workerStat[$workerStatBy]) {
+                        $newWorkerData = $this->splitterReturn($workerStat['field'], $workerStat['id']);
+
+                        return false;
+                    }
+                }
+            });
+
+        return $newWorkerData;
+    }
+
+    /**
+     * Splitter return tempalte for update customer
+     *
+     * @param  string  $field
+     * @param  int  $value
+     * @return array
+     */
     private function splitterReturn(string $field = '', int $value = 0): array
     {
         return [
@@ -126,6 +169,16 @@ final class CustomerDistribution implements ShouldQueue
         ];
     }
 
+    /**
+     * Collecting and merge worker stat by fields:
+     *  - conversion_user_id
+     *  - retention_user_id
+     *  - conversion_manager_user_id
+     *  - retention_manager_user_id
+     *
+     * @param  object  $workerIds
+     * @return object
+     */
     private function getMergedWorkerStats(object $workerIds): object
     {
         $getWorkersStats = $this->getCustomersStats('conversion_user_id', $workerIds->pluck('id'))
@@ -143,6 +196,40 @@ final class CustomerDistribution implements ShouldQueue
         });
     }
 
+    /**
+     * Desk definition by desk statistics
+     *
+     * @param  object  $deskIds
+     * @param  object  $getDesksStats
+     * @param  string  $pivodField
+     * @param  string  $workerStatBy
+     * @return int
+     */
+    private function splitterDeskDefinition(object $deskIds, object $getDesksStats, string $pivodField, string $workerStatBy): int
+    {
+        $newDeskId = 0;
+
+        $deskIds->pluck($pivodField, 'id')
+            ->each(function ($fieldValue, $deskId) use (&$newDeskId, $getDesksStats, $workerStatBy) {
+                if ($deskStat = $getDesksStats->firstWhere('id', $deskId)) {
+                    if ($fieldValue > $deskStat[$workerStatBy]) {
+                        $newDeskId = $deskId;
+
+                        return false;
+                    }
+                }
+            });
+
+        return $newDeskId;
+    }
+
+    /**
+     * 1. Checking if there are zero desks then define random desk and return
+     * 2. Checking if there are no zero desks then define desk by the PERCENT_PER_DAY or CAPACITY_PER_DAY and return
+     *
+     * @param  object  $splitter
+     * @return int
+     */
     private function splitterDesks(object $splitter): int
     {
         $deskIds = $splitter->splitterChoice->desks()->whereIsActive(true)->get();
@@ -151,49 +238,28 @@ final class CustomerDistribution implements ShouldQueue
 
         $zeroDesks = $getDesksStats->where('customers', 0);
 
-        if ($splitter->splitterChoice->option_per_day == SplitterChoiceOptionPerDay::PERCENT_PER_DAY) {
-            if (count($zeroDesks) > 0) {
-                $newDeskId = $zeroDesks->random()['id'];
-            } else {
-                $newDeskId = 0;
-
-                $deskIds->pluck('pivot.percentage_per_day', 'id')
-                    ->each(function ($percentage, $deskId) use (&$newDeskId, $getDesksStats) {
-                        if ($deskStat = $getDesksStats->firstWhere('id', $deskId)) {
-                            if ($percentage > $deskStat['percentage']) {
-                                $newDeskId = $deskId;
-
-                                return false;
-                            }
-                        }
-                    });
+        if (count($zeroDesks) > 0) {
+            return $zeroDesks->random()['id'];
+        } else {
+            if ($splitter->splitterChoice->option_per_day == SplitterChoiceOptionPerDay::PERCENT_PER_DAY) {
+                return $this->splitterDeskDefinition($deskIds, $getDesksStats, 'pivot.percentage_per_day', 'percentage');
+            } elseif ($splitter->splitterChoice->option_per_day == SplitterChoiceOptionPerDay::CAPACITY_PER_DAY) {
+                return $this->splitterDeskDefinition($deskIds, $getDesksStats, 'pivot.cap_per_day', 'customers');
             }
-
-            return $newDeskId;
-        } elseif ($splitter->splitterChoice->option_per_day == SplitterChoiceOptionPerDay::CAPACITY_PER_DAY) {
-            if (count($zeroDesks) > 0) {
-                $newDeskId = $zeroDesks->random()['id'];
-            } else {
-                $newDeskId = 0;
-
-                $deskIds->pluck('pivot.cap_per_day', 'id')
-                    ->each(function ($cap_per_day, $deskId) use (&$newDeskId, $getDesksStats) {
-                        if ($deskStat = $getDesksStats->firstWhere('id', $deskId)) {
-                            if ($cap_per_day > $deskStat['customers']) {
-                                $newDeskId = $deskId;
-
-                                return false;
-                            }
-                        }
-                    });
-            }
-
-            return $newDeskId;
         }
 
         return 0;
     }
 
+    /**
+     * Grouped customer by:
+     *  - Desk: desk_id
+     *  - Worker: conversion_user_id, retention_user_id, conversion_manager_user_id, retention_manager_user_id
+     *
+     * @param  string  $field
+     * @param  object  $ids
+     * @return object
+     */
     private function getCustomersStats(string $field, object $ids): object
     {
         $customers = Customer::get()
@@ -214,7 +280,14 @@ final class CustomerDistribution implements ShouldQueue
         });
     }
 
-    private function checkConditions(Customer $customer, $splitter): bool
+    /**
+     * Check customer by splitter conditions and return true or false
+     *
+     * @param  Customer  $customer
+     * @param  object  $splitter
+     * @return bool
+     */
+    private function checkConditions(Customer $customer, object $splitter): bool
     {
         foreach ($splitter->conditions as $condition) {
             if ($dbField = collect(SplitterConditions::dbFields())->get($condition['field'])) {

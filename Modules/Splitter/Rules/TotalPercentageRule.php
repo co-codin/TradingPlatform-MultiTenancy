@@ -8,6 +8,11 @@ use Illuminate\Contracts\Validation\Rule;
 
 final class TotalPercentageRule implements Rule
 {
+    public function __construct(
+        protected bool $isPercent
+    ) {
+    }
+
     /**
      * Determine if the validation rule passes.
      *
@@ -17,7 +22,7 @@ final class TotalPercentageRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        return (collect($value)->sum('percentage_per_day') == 100) ?? false;
+        return $this->isPercent ? ((collect($value)->sum('percentage_per_day') == 100) ?? false) : true;
     }
 
     /**

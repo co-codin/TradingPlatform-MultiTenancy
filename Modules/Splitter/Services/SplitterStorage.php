@@ -162,8 +162,8 @@ final class SplitterStorage
         collect($ids)->each(function ($item) use (&$idList, $percentage) {
             $idList[$item['id']] = [
                 'percentage' => $percentage,
-                'cap_per_day' => $item['cap_per_day'],
-                'percentage_per_day' => $item['percentage_per_day'],
+                'cap_per_day' => $item['cap_per_day'] ?? 0,
+                'percentage_per_day' => $item['percentage_per_day'] ?? 0,
             ];
         });
 
