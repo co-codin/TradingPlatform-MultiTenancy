@@ -5,11 +5,13 @@ namespace Modules\Brand\Models;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Modules\Brand\Database\factories\BrandFactory;
 use Modules\Role\Enums\DefaultRole;
+use Modules\Splitter\Models\Splitter;
 use Modules\User\Models\User;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -114,5 +116,10 @@ class Brand extends Tenant
     {
         return $this->belongsToMany(User::class, 'user_brand')
             ->using(UserBrand::class);
+    }
+
+    public function splitters(): HasMany
+    {
+        return $this->hasMany(Splitter::class);
     }
 }

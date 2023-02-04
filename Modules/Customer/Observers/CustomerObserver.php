@@ -7,6 +7,7 @@ namespace Modules\Customer\Observers;
 use Exception;
 use Modules\Customer\Jobs\CopyCustomerJob;
 use Modules\Customer\Models\Customer;
+use Modules\Splitter\Jobs\CustomerDistributionJob;
 use Spatie\Multitenancy\Models\Tenant;
 
 final class CustomerObserver
@@ -29,8 +30,29 @@ final class CustomerObserver
             );
         }
 
+        if ($customer->isDirty('is_ftd')) {
+            CustomerDistributionJob::dispatch(
+                $customer->id,
+                Tenant::current()
+            );
+        }
+
         $this->validateConversionDepartment($customer);
         $this->validateRetentionDepartment($customer);
+    }
+
+    /**
+     * Handle the Customer "created" event.
+     *
+     * @param  Customer  $customer
+     * @return void
+     */
+    public function created(Customer $customer): void
+    {
+        CustomerDistributionJob::dispatch(
+            $customer->id,
+            Tenant::current()
+        );
     }
 
     /**

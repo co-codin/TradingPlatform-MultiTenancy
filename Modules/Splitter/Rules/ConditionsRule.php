@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Splitter\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use Modules\Splitter\Enums\SplitterConditions;
 
-class ConditionsRule implements Rule
+final class ConditionsRule implements Rule
 {
     private static string $message = 'The :attribute validation error.';
 
@@ -59,6 +61,14 @@ class ConditionsRule implements Rule
                 self::$message = "The :attribute.{$key}.value type is invalid. Valid type: ".implode(', ', $fieldValueType);
 
                 return false;
+            }
+
+            if ($possibleValues = $fields[trim($value['field'])]['possibleValues'] ?? []) {
+                if (! in_array(strtoupper(trim($value['value'])), $possibleValues)) {
+                    self::$message = "The :attribute.{$key}.value is invalid. Valid value: ".strtolower(implode(', ', $possibleValues));
+
+                    return false;
+                }
             }
         }
 
