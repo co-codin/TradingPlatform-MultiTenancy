@@ -57,7 +57,7 @@ final class UpdateTest extends TestCase
                 'id' => $model->id,
                 'name' => last(explode('\\', $model->name)),
                 'permissions_count' => count($actionNames),
-                'available_actions' => $actionNames,
+                'available_actions' => array_values($actionNames),
                 'selected_actions' => $selectedActions,
                 'available_columns' => $columnNames,
                 'selected_view_columns' => $selectedViewColumns,

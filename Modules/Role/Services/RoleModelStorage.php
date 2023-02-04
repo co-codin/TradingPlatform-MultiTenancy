@@ -7,6 +7,7 @@ namespace Modules\Role\Services;
 use App\Models\Action;
 use App\Models\Model;
 use Illuminate\Database\Eloquent\Collection;
+use Modules\Brand\Models\Brand;
 use Modules\Role\Dto\RoleModelDto;
 use Modules\Role\Models\Column;
 use Modules\Role\Models\Permission;
@@ -31,11 +32,19 @@ final readonly class RoleModelStorage
      */
     public function update(Role $role, Model $model, RoleModelDto $selected): void
     {
-        $role->permissions()->sync(
-            Permission::query()->whereBelongsTo($model)
+        $permissions = Permission::query()->whereBelongsTo($model)
                 ->whereHas('action', fn ($q) => $q->whereIn('name', $selected->selected_actions))
-                ->get(['id'])
-        );
+                ->get(['id']);
+
+        if (Brand::checkCurrent()) {
+            $ids = [];
+            $brand = Brand::current();
+            foreach ($permissions as $permission) {
+                $ids[$permission->id] = ['brand_id' => $brand->id];
+            }
+        }
+
+        $role->permissions()->sync($ids ?? $permissions);
 
         $this->syncRoleModelColumnsByAction($role, $model, $selected->selected_view_columns, Action::NAMES['view']);
         $this->syncRoleModelColumnsByAction($role, $model, $selected->selected_edit_columns, Action::NAMES['edit']);
@@ -57,12 +66,16 @@ final readonly class RoleModelStorage
         $permission = Permission::query()->whereBelongsTo($model)
             ->whereRelation('action', 'name', $actionName)->first(['id']);
         if ($permission) {
-            $editColumns = [];
+            $syncColumns = [];
+            if ($brandIsset = Brand::checkCurrent()) {
+                $brandId = Brand::current()->id;
+            }
             foreach ($columnNames as $name) {
                 $column = $this->columns->where('name', $name)->first();
-                $editColumns[$column->id] = ['permission_id' => $permission->id];
+                $syncColumns[$column->id] = ['permission_id' => $permission->id];
+                $brandIsset && $syncColumns[$column->id]['brand_id'] = $brandId;
             }
-            $role->columnsByPermission($permission->id)->sync($editColumns);
+            $role->columnsByPermission($permission->id)->sync($syncColumns);
         }
     }
 }

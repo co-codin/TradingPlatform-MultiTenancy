@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Role\Repositories\Criteria;
 
 use App\Repositories\Criteria\BaseCriteria;
+use Modules\Brand\Models\Brand;
 use Prettus\Repository\Contracts\RepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -24,8 +25,7 @@ final class RoleRequestCriteria extends BaseCriteria
 
     public function apply($model, RepositoryInterface $repository)
     {
-        return QueryBuilder::for($model)
-            ->defaultSort('-id')
+        $builder = QueryBuilder::for($model)->defaultSort('-id')
             ->allowedFields(self::$allowedModelFields)
             ->allowedFilters([
                 AllowedFilter::exact('id'),
@@ -41,5 +41,12 @@ final class RoleRequestCriteria extends BaseCriteria
                 'usersCount',
                 'permissionsCount',
             ]);
+
+        $builder->whereNull('brand_id');
+        if (Brand::checkCurrent()) {
+            $builder->orWhere('brand_id', Brand::current()?->id);
+        }
+
+        return $builder;
     }
 }

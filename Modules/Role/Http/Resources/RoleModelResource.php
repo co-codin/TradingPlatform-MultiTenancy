@@ -86,13 +86,14 @@ final class RoleModelResource extends BaseJsonResource
         $explode = explode('\\', $array['name']);
         $array['name'] = end($explode);
 
-        return array_merge($array, [
+        return [
+            ...$array,
             'permissions_count' => $actions->count(),
             'available_actions' => $actions->toArray(),
             'selected_actions' => $service->getSelectedActionNames(),
             'available_columns' => $service->getAvailableColumnNames(),
-            'selected_view_columns' => $service->getColumnNamesByAction(Action::NAMES['view']) ?? [],
-            'selected_edit_columns' => $service->getColumnNamesByAction(Action::NAMES['edit']) ?? [],
-        ]);
+            'selected_view_columns' => $service->getSelectedColumnNamesByAction(Action::NAMES['view']) ?? [],
+            'selected_edit_columns' => $service->getSelectedColumnNamesByAction(Action::NAMES['edit']) ?? [],
+        ];
     }
 }

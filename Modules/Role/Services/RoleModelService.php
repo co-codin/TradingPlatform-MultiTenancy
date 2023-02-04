@@ -6,6 +6,7 @@ namespace Modules\Role\Services;
 
 use App\Models\Model;
 use Illuminate\Support\Collection;
+use Modules\Brand\Models\Brand;
 use Modules\Role\Models\Column;
 use Modules\Role\Models\Role;
 
@@ -15,19 +16,29 @@ final readonly class RoleModelService
     {
     }
 
-    public function getColumnNamesByAction(string $actionName): ?array
+    public function getSelectedColumnNamesByAction(string $actionName): ?array
     {
         $permission = $this->model->permissions()->whereRelation('action', 'name', $actionName)->first(['id']);
+        if (! $permission) {
+            return null;
+        }
 
-        return $permission
-            ? $this->role->columnsByPermission($permission->id)->get(['name'])->pluck('name')->toArray()
-            : null;
+        $columnsByPermission = $this->role->columnsByPermission($permission->id);
+        Brand::checkCurrent()
+            ? $columnsByPermission->wherePivot('brand_id', Brand::current()?->id)
+            : $columnsByPermission->wherePivotNull('brand_id');
+
+        return $columnsByPermission->get(['name'])->pluck('name')->toArray();
     }
 
     public function getSelectedActionNames(): array
     {
-        return $this->role->permissions()->whereBelongsTo($this->model)->get(['name'])
-            ->map(fn ($p) => head(explode(' ', $p->name)))->unique()->toArray();
+        $permissions = $this->role->permissions()->whereBelongsTo($this->model);
+        Brand::checkCurrent()
+            ? $permissions->wherePivot('brand_id', Brand::current()?->id)
+            : $permissions->wherePivotNull('brand_id');
+
+        return $permissions->get(['name'])->map(fn ($p) => head(explode(' ', $p->name)))->unique()->toArray();
     }
 
     public function getAvailableActions(): Collection

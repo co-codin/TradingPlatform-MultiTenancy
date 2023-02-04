@@ -35,8 +35,11 @@ final class Role extends SpatieRole
      */
     public function getPermissionsByTotalCountAttribute(): string
     {
-        $count = Cache::tags(['permissions', 'count'])->get($this->id, fn () => $this->permissions()->count());
-        $total = Cache::tags(['permissions', 'count'])->get('total', fn () => Permission::query()->count());
+        $count = Cache::tags(['permissions', 'count'])
+            ->remember($this->id, null, fn () => $this->permissions()->count());
+
+        $total = Cache::tags(['permissions', 'count'])
+            ->remember('total', null, fn () => Permission::query()->count());
 
         return "{$count}/{$total}";
     }
@@ -61,12 +64,17 @@ final class Role extends SpatieRole
      */
     public function permissions(): BelongsToMany
     {
-        return $this->belongsToMany(
+        $permissions = $this->belongsToMany(
             config('permission.models.permission'),
             config('permission.table_names.role_has_permissions'),
             'role_id',
             'permission_id'
-        );
+        )->where('guard_name', 'web');
+        Brand::checkCurrent()
+            ? $permissions->wherePivot('brand_id', Brand::current()->id)
+            : $permissions->wherePivotNull('brand_id');
+
+        return $permissions;
     }
 
     /**
