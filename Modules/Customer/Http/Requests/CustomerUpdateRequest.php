@@ -8,6 +8,7 @@ use App\Enums\RegexValidationEnum;
 use App\Http\Requests\BaseFormRequest;
 use BenSampo\Enum\Rules\EnumValue;
 use Modules\Customer\Enums\Gender;
+use Modules\Customer\Rules\ForbiddenCountryRule;
 use Modules\Role\Enums\ModelHasPermissionStatus;
 
 final class CustomerUpdateRequest extends BaseFormRequest
@@ -18,26 +19,32 @@ final class CustomerUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'first_name' => 'sometimes|required|string|max:35|regex:' . RegexValidationEnum::NAME,
-            'last_name' => 'sometimes|required|string|max:35|regex:' . RegexValidationEnum::NAME,
+            'first_name' => 'sometimes|required|string|max:35|regex:'.RegexValidationEnum::NAME,
+            'last_name' => 'sometimes|required|string|max:35|regex:'.RegexValidationEnum::NAME,
             'email_2' => 'sometimes|required|email|max:100',
             'gender' => [
                 'sometimes',
                 'required',
                 new EnumValue(Gender::class, false),
             ],
-            'country_id' => 'sometimes|required|int|exists:landlord.countries,id',
+            'country_id' => [
+                'sometimes',
+                'required',
+                'int',
+                'exists:landlord.countries,id',
+                new ForbiddenCountryRule(),
+            ],
             'phone' => [
                 'sometimes',
                 'required',
                 'string',
-                'regex:' . RegexValidationEnum::PASSWORD,
+                'regex:'.RegexValidationEnum::PASSWORD,
             ],
             'phone_2' => [
                 'sometimes',
                 'required',
                 'string',
-                'regex:' . RegexValidationEnum::PASSWORD,
+                'regex:'.RegexValidationEnum::PASSWORD,
             ],
             'currency_id' => 'sometimes|required|int|exists:landlord.currencies,id',
             'language_id' => 'sometimes|required|int|exists:landlord.languages,id',
