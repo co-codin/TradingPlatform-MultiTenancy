@@ -19,7 +19,7 @@ final class UserCreateRequest extends BaseFormRequest
                 'iunique:landlord.users,username',
                 'regex:'.RegexValidationEnum::USERNAME,
             ],
-            'worker_info' => 'required|array',
+            'worker_info' => 'sometimes|array',
             'worker_info.first_name' => [
                 'required',
                 'string',
