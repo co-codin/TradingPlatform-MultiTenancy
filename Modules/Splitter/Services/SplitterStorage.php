@@ -177,6 +177,13 @@ final class SplitterStorage
             }
         }
 
+        activity()
+            ->performedOn($splitterChoice)
+            ->withProperties($idList)
+            ->event('sync')
+            ->causedBy(auth()->user())
+            ->log('sync');
+
         return $splitterChoice->refresh();
     }
 }

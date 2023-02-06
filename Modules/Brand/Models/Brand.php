@@ -2,6 +2,7 @@
 
 namespace Modules\Brand\Models;
 
+use App\Services\Logs\Traits\ActivityLog;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -13,8 +14,6 @@ use Modules\Brand\Database\factories\BrandFactory;
 use Modules\Role\Enums\DefaultRole;
 use Modules\Splitter\Models\Splitter;
 use Modules\User\Models\User;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 use Spatie\Multitenancy\Models\Tenant;
 
@@ -32,8 +31,10 @@ use Spatie\Multitenancy\Models\Tenant;
  */
 class Brand extends Tenant
 {
-    use HasFactory, SoftDeletes, LogsActivity;
+    use HasFactory;
+    use SoftDeletes;
     use UsesLandlordConnection;
+    use ActivityLog;
 
     /**
      * {@inheritdoc}
@@ -71,22 +72,6 @@ class Brand extends Tenant
     public function createDatabase(): void
     {
         DB::connection($this->tenantDatabaseConnectionName())->statement("CREATE SCHEMA IF NOT EXISTS {$this->database}");
-    }
-
-    /**
-     * Get activity log options.
-     *
-     * @return LogOptions
-     */
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-            ->logAll()
-            ->dontLogIfAttributesChangedOnly([
-                'created_at',
-                'updated_at',
-            ])
-            ->logOnlyDirty();
     }
 
     /**

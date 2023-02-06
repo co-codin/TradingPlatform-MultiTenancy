@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Transaction\Models;
 
+use App\Services\Logs\Traits\ActivityLog;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +21,7 @@ final class Transaction extends Model
 {
     use HasFactory;
     use UsesTenantConnection;
+    use ActivityLog;
 
     protected $casts = [
         'data' => 'array',

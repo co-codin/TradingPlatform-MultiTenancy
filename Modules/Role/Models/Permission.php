@@ -6,6 +6,7 @@ namespace Modules\Role\Models;
 
 use App\Models\Action;
 use App\Models\Model;
+use App\Services\Logs\Traits\ActivityLog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -17,6 +18,7 @@ final class Permission extends SpatiePermission
 {
     use HasFactory;
     use UsesLandlordConnection;
+    use ActivityLog;
 
     /**
      * {@inheritDoc}

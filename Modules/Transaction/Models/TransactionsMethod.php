@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Transaction\Models;
 
+use App\Services\Logs\Traits\ActivityLog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Transaction\Database\factories\TransactionsMethodFactory;
@@ -14,6 +15,7 @@ final class TransactionsMethod extends Model
 {
     use HasFactory;
     use UsesTenantConnection;
+    use ActivityLog;
 
     /**
      * {@inheritdoc}

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Role\Models;
 
+use App\Services\Logs\Traits\ActivityLog;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,6 +20,7 @@ final class Role extends SpatieRole
 {
     use HasFactory;
     use UsesLandlordConnection;
+    use ActivityLog;
 
     /**
      * {@inheritDoc}

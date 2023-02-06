@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Config\Models;
 
+use App\Services\Logs\Traits\ActivityLog;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -30,6 +31,7 @@ final class Config extends Model
 {
     use HasFactory;
     use UsesTenantConnection;
+    use ActivityLog;
 
     /**
      * {@inheritdoc}

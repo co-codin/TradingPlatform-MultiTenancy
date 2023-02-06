@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\User\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Services\Logs\Traits\ActivityLog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\User\Database\factories\WorkerInfoFactory;
@@ -16,6 +17,7 @@ final class WorkerInfo extends Model
     use HasFactory;
     use UsesTenantConnection;
     use SoftDeletes;
+    use ActivityLog;
 
     /**
      * {@inheritdoc}

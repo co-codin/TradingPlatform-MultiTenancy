@@ -2,6 +2,7 @@
 
 namespace Modules\Splitter\Models;
 
+use App\Services\Logs\Traits\ActivityLog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -16,6 +17,7 @@ class SplitterChoice extends Model
     use UsesLandlordConnection;
     use HasFactory;
     use SoftDeletes;
+    use ActivityLog;
 
     /**
      * {@inheritdoc}

@@ -6,17 +6,17 @@ namespace Modules\Customer\Listeners;
 
 use Illuminate\Support\Facades\Mail;
 use Modules\Customer\Emails\UserAssignedToCustomerEmail;
-use Modules\Customer\Events\CustomerStored;
+use Modules\Customer\Events\CustomerEdited;
 use Modules\Customer\Models\Customer;
 use Modules\User\Models\User;
 
 final class SendUserAssignedToCustomerEmailOnCustomerEdited
 {
     /**
-     * @param  CustomerStored  $event
+     * @param  CustomerEdited  $event
      * @return void
      */
-    public function handle(CustomerStored $event): void
+    public function handle(CustomerEdited $event): void
     {
         $userIds = collect($event->customer->getChanges())
             ->only(Customer::WORKER_COLUMNS_FOR_EMAILING)

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Brand\Models;
 
+use App\Services\Logs\Traits\ActivityLog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Modules\Brand\Database\factories\UserBrandFactory;
@@ -13,6 +14,7 @@ final class UserBrand extends Pivot
 {
     use HasFactory;
     use UsesLandlordConnection;
+    use ActivityLog;
 
     /**
      * {@inheritdoc}

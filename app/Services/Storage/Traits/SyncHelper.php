@@ -37,6 +37,13 @@ trait SyncHelper
             }
         }
 
+        activity()
+        ->performedOn($model)
+        ->withProperties($modelData)
+        ->event('sync')
+        ->causedBy(auth()->user())
+        ->log('sync');
+
         return $model->{$relation}()->sync($modelData);
     }
 }

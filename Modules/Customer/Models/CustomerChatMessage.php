@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Modules\Customer\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Services\Logs\Traits\ActivityLog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Customer\Database\factories\CustomerChatMessageFactory;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 use Modules\User\Models\User;
-use Modules\Customer\Models\Customer;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 /**
  * Class CustomerChatMessage
@@ -29,14 +29,17 @@ final class CustomerChatMessage extends Model
 {
     use HasFactory;
     use UsesTenantConnection;
+    use ActivityLog;
 
     protected $table = 'chat_messages';
+
     protected $guarded = ['id'];
 
     protected static function newFactory()
     {
         return CustomerChatMessageFactory::new();
     }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

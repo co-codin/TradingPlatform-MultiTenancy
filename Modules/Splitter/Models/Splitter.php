@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Splitter\Models;
 
+use App\Services\Logs\Traits\ActivityLog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -16,6 +17,7 @@ final class Splitter extends Model
     use HasFactory;
     use UsesLandlordConnection;
     use SoftDeletes;
+    use ActivityLog;
 
     /**
      * {@inheritdoc}

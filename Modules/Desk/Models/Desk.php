@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\Desk\Models;
 
 use App\Relationships\Traits\WhereHasForTenant;
+use App\Services\Logs\Traits\ActivityLog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -16,8 +17,6 @@ use Modules\Desk\Database\factories\DeskFactory;
 use Modules\Geo\Models\Country;
 use Modules\Language\Models\Language;
 use Modules\User\Models\User;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 class Desk extends Model
@@ -25,26 +24,15 @@ class Desk extends Model
     use HasFactory;
     use SoftDeletes;
     use NodeTrait;
-    use LogsActivity;
     use UsesTenantConnection;
     use WhereHasForTenant;
+    use ActivityLog;
 
     protected $guarded = ['id'];
 
     protected static function newFactory()
     {
         return DeskFactory::new();
-    }
-
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-            ->logAll()
-            ->dontLogIfAttributesChangedOnly([
-                'created_at',
-                'updated_at',
-            ])
-            ->logOnlyDirty();
     }
 
     /**
