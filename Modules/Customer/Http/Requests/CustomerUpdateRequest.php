@@ -8,6 +8,7 @@ use App\Enums\RegexValidationEnum;
 use App\Http\Requests\BaseFormRequest;
 use BenSampo\Enum\Rules\EnumValue;
 use Modules\Customer\Enums\Gender;
+use Modules\Customer\Rules\ForbiddenCountryRule;
 use Modules\Role\Enums\ModelHasPermissionStatus;
 
 final class CustomerUpdateRequest extends BaseFormRequest
@@ -26,7 +27,13 @@ final class CustomerUpdateRequest extends BaseFormRequest
                 'required',
                 new EnumValue(Gender::class, false),
             ],
-            'country_id' => 'sometimes|required|int|exists:landlord.countries,id',
+            'country_id' => [
+                'sometimes',
+                'required',
+                'int',
+                'exists:landlord.countries,id',
+                new ForbiddenCountryRule(),
+            ],
             'phone' => [
                 'sometimes',
                 'required',
