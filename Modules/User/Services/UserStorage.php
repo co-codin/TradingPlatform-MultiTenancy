@@ -27,6 +27,13 @@ final class UserStorage
         $user = User::create($attributes);
 
         $user->roles()->sync(Arr::pluck($attributes['roles'], 'id'));
+        $attributes['brands'] = array_merge(
+            Arr::map(
+                auth()->user()->brands()->select('id')->get()->toArray(),
+                fn ($item) => Arr::only($item, 'id'),
+            ),
+            $attributes['brands'] ?? [],
+        );
 
         $this->syncBelongsToManyWithPivot($user, $attributes, 'languages');
         $this->syncBelongsToManyWithPivot($user, $attributes, 'countries');
