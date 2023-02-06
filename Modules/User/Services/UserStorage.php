@@ -32,6 +32,8 @@ final class UserStorage
         $this->syncBelongsToManyWithPivot($user, $attributes, 'countries');
         $this->syncBelongsToManyWithPivot($user, $attributes, 'brands');
 
+        $user->brands()->sync(auth()->user()->brands->pluck('id'));
+
         return $user;
     }
 
