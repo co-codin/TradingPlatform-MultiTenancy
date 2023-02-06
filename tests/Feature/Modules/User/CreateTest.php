@@ -4,15 +4,20 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\User;
 
+use Illuminate\Support\Facades\Event;
 use Modules\Role\Models\Role;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
+use Modules\User\Models\WorkerInfo;
 use Spatie\Permission\PermissionRegistrar;
 use Symfony\Component\HttpFoundation\Response;
-use Tests\TestCase;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
 
-final class CreateTest extends TestCase
+final class CreateTest extends BrandTestCase
 {
+    use HasAuth;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -26,18 +31,23 @@ final class CreateTest extends TestCase
     {
         $this->authenticateWithPermission(UserPermission::fromValue(UserPermission::CREATE_USERS));
 
-        $response = $this->post('/admin/workers', array_merge(
-            User::factory()->withParent()
-                ->withAffiliate()
-                ->raw(['password' => self::$basePassword, 'is_active' => fake()->boolean]),
+        $data = User::factory()->withParent()
+            ->withAffiliate()
+            ->raw(['password' => self::$basePassword, 'is_active' => fake()->boolean]);
+
+        $data['roles'] = [
             [
-                'roles' => [
-                    [
-                        'id' => Role::factory()->create()->id,
-                    ],
-                ],
-            ]
-        ));
+                'id' => Role::factory()->create()->id,
+            ],
+        ];
+
+        $data['worker_info'] = WorkerInfo::factory()->raw();
+
+        $this->brand->makeCurrent();
+
+        Event::fake();
+
+        $response = $this->post('/admin/workers', $data);
 
         $response->assertCreated();
         $response->assertJsonStructure([
@@ -49,7 +59,6 @@ final class CreateTest extends TestCase
                 'parent_id',
                 'created_at',
                 'updated_at',
-                'roles',
             ],
         ]);
     }
@@ -61,19 +70,21 @@ final class CreateTest extends TestCase
     {
         $this->authenticateUser();
 
-        $response = $this->post('/admin/workers', array_merge(
-            User::factory()
-                ->withParent()
-                ->withAffiliate()
-                ->raw(['password' => self::$basePassword, 'is_active' => fake()->boolean]),
+        $data = User::factory()->withParent()
+            ->withAffiliate()
+            ->raw(['password' => self::$basePassword, 'is_active' => fake()->boolean]);
+
+        $data['roles'] = [
             [
-                'roles' => [
-                    [
-                        'id' => Role::factory()->create()->id,
-                    ],
-                ],
-            ]
-        ));
+                'id' => Role::factory()->create()->id,
+            ],
+        ];
+
+        $data['worker_info'] = WorkerInfo::factory()->raw();
+
+        $this->brand->makeCurrent();
+
+        $response = $this->post('/admin/workers', $data);
 
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }

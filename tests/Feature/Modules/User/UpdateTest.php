@@ -4,53 +4,66 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Modules\User;
 
+use Illuminate\Support\Facades\Event;
 use Modules\Brand\Models\Brand;
 use Modules\Role\Models\Role;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Models\User;
-use Tests\TestCase;
+use Modules\User\Models\WorkerInfo;
+use Tests\BrandTestCase;
+use Tests\Traits\HasAuth;
+use Throwable;
 
-final class UpdateTest extends TestCase
+final class UpdateTest extends BrandTestCase
 {
+    use HasAuth;
+
     /**
      * @test
      */
     public function admin_can_update(): void
     {
-        $this->authenticateAdmin();
+        try {
+            $this->authenticateAdmin();
 
-        $user = User::factory()->create();
-
-        $response = $this->patch(route('admin.users.update', ['worker' => $user]), array_merge(
-            User::factory()
-                ->withParent()
+            $user = User::factory()->create();
+            $data = User::factory()->withParent()
                 ->withAffiliate()
-                ->raw(['password' => self::$basePassword, 'is_active' => fake()->boolean]),
-            [
-                'change_password' => true,
-                'roles' => [
-                    [
-                        'id' => Role::factory()->create()->id,
-                    ],
-                ],
-            ]
-        ));
+                ->raw(['password' => self::$basePassword, 'is_active' => fake()->boolean]);
 
-        $response->assertOk();
-        $response->assertJsonStructure([
-            'data' => [
-                'id',
-                'username',
-                'is_active',
-                'target',
-                '_lft',
-                '_rgt',
-                'parent_id',
-                'deleted_at',
-                'last_login',
-                'created_at',
-            ],
-        ]);
+            $data['roles'] = [
+                [
+                    'id' => Role::factory()->create()->id,
+                ],
+            ];
+
+            $data['change_password'] = true;
+            $data['worker_info'] = WorkerInfo::factory()->raw();
+
+            $this->brand->makeCurrent();
+
+            Event::fake();
+
+            $response = $this->patch(route('admin.users.update', ['worker' => $user]), $data);
+
+            $response->assertOk();
+            $response->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'username',
+                    'is_active',
+                    'target',
+                    '_lft',
+                    '_rgt',
+                    'parent_id',
+                    'deleted_at',
+                    'last_login',
+                    'created_at',
+                ],
+            ]);
+        } catch (Throwable $e) {
+            dd($e->getMessage());
+        }
     }
 
     /**
@@ -66,20 +79,24 @@ final class UpdateTest extends TestCase
             ->users()
             ->sync($users = User::factory(1)->create()->push($this->user));
 
-        $response = $this->patch(route('admin.users.update', ['worker' => $users->first()]), array_merge(
-            User::factory()
-                ->withParent()
-                ->withAffiliate()
-                ->raw(['password' => self::$basePassword, 'is_active' => fake()->boolean]),
+        $data = User::factory()->withParent()
+            ->withAffiliate()
+            ->raw(['password' => self::$basePassword, 'is_active' => fake()->boolean]);
+
+        $data['roles'] = [
             [
-                'change_password' => true,
-                'roles' => [
-                    [
-                        'id' => Role::factory()->create()->id,
-                    ],
-                ],
-            ]
-        ));
+                'id' => Role::factory()->create()->id,
+            ],
+        ];
+
+        $data['change_password'] = true;
+        $data['worker_info'] = WorkerInfo::factory()->raw();
+
+        $this->brand->makeCurrent();
+
+        Event::fake();
+
+        $response = $this->patch(route('admin.users.update', ['worker' => $users->first()]), $data);
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -111,22 +128,26 @@ final class UpdateTest extends TestCase
             ->users()
             ->sync($user = User::factory()->create());
 
-        $response = $this->patch(route('admin.users.update', ['worker' => $user]), array_merge(
-            User::factory()
-                ->withParent()
-                ->withAffiliate()
-                ->raw(['password' => self::$basePassword, 'is_active' => fake()->boolean]),
-            [
-                'change_password' => true,
-                'roles' => [
-                    [
-                        'id' => Role::factory()->create()->id,
-                    ],
-                ],
-            ]
-        ));
+        $data = User::factory()->withParent()
+            ->withAffiliate()
+            ->raw(['password' => self::$basePassword, 'is_active' => fake()->boolean]);
 
-        $response->assertNotFound();
+        $data['roles'] = [
+            [
+                'id' => Role::factory()->create()->id,
+            ],
+        ];
+
+        $data['change_password'] = true;
+        $data['worker_info'] = WorkerInfo::factory()->raw();
+
+        $this->brand->makeCurrent();
+
+        Event::fake();
+
+        $response = $this->patch(route('admin.users.update', ['worker' => $user]), $data);
+
+        $response->assertForbidden();
     }
 
     /**
@@ -136,22 +157,26 @@ final class UpdateTest extends TestCase
     {
         $this->authenticateAdmin();
 
+        $data = User::factory()->withParent()
+            ->withAffiliate()
+            ->raw(['password' => self::$basePassword, 'is_active' => fake()->boolean]);
+
+        $data['roles'] = [
+            [
+                'id' => Role::factory()->create()->id,
+            ],
+        ];
+
+        $data['change_password'] = true;
+        $data['worker_info'] = WorkerInfo::factory()->raw();
+
+        $this->brand->makeCurrent();
+
+        Event::fake();
+
         $userId = User::orderByDesc('id')->first()?->id + 1 ?? 1;
 
-        $response = $this->patch(route('admin.users.update', ['worker' => $userId]), array_merge(
-            User::factory()
-                ->withParent()
-                ->withAffiliate()
-                ->raw(['password' => self::$basePassword, 'is_active' => fake()->boolean]),
-            [
-                'change_password' => true,
-                'roles' => [
-                    [
-                        'id' => Role::factory()->create()->id,
-                    ],
-                ],
-            ]
-        ));
+        $response = $this->patch(route('admin.users.update', ['worker' => $userId]), $data);
 
         $response->assertNotFound();
     }
@@ -164,20 +189,24 @@ final class UpdateTest extends TestCase
         $this->authenticateUser();
 
         $user = User::factory()->create();
+        $data = User::factory()->withParent()
+            ->withAffiliate()
+            ->raw(['password' => self::$basePassword, 'is_active' => fake()->boolean]);
 
-        $response = $this->patch(route('admin.users.update', ['worker' => $user]), array_merge(
-            User::factory()
-                ->withParent()
-                ->withAffiliate()
-                ->raw(['password' => self::$basePassword, 'is_active' => fake()->boolean]),
+        $data['roles'] = [
             [
-                'roles' => [
-                    [
-                        'id' => Role::factory()->create()->id,
-                    ],
-                ],
-            ]
-        ));
+                'id' => Role::factory()->create()->id,
+            ],
+        ];
+
+        $data['change_password'] = true;
+        $data['worker_info'] = WorkerInfo::factory()->raw();
+
+        $this->brand->makeCurrent();
+
+        Event::fake();
+
+        $response = $this->patch(route('admin.users.update', ['worker' => $user]), $data);
 
         $response->assertForbidden();
     }

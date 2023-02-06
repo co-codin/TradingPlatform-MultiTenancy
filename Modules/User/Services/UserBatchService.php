@@ -5,7 +5,6 @@ namespace Modules\User\Services;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Modules\User\Dto\WorkerInfoDto;
 use Modules\User\Enums\UserPermission;
 use Modules\User\Repositories\UserRepository;
 use Modules\User\Services\Traits\HasAuthUser;
@@ -46,14 +45,6 @@ final class UserBatchService
                 $updatedUsers->push(
                     $this->userStorage->update($user, Arr::except($item, ['id']))
                 );
-
-                if (isset($item['worker_info'])) {
-                    $this->workerInfoStorage->updateOrCreate(
-                        new WorkerInfoDto(array_merge($item['worker_info'], [
-                            'user_id' => $user->id,
-                        ]))
-                    );
-                }
             }
         }
 

@@ -10,6 +10,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Modules\User\Models\DisplayOption;
 use Modules\User\Models\User;
+use Spatie\Multitenancy\Models\Tenant;
 
 final class UserStorage
 {
@@ -27,10 +28,21 @@ final class UserStorage
 
         $user->roles()->sync(Arr::pluck($attributes['roles'], 'id'));
 
-        $this->syncBelongsToManyWithPivot($user, $attributes, 'desks');
         $this->syncBelongsToManyWithPivot($user, $attributes, 'languages');
         $this->syncBelongsToManyWithPivot($user, $attributes, 'countries');
         $this->syncBelongsToManyWithPivot($user, $attributes, 'brands');
+
+        if (Tenant::checkCurrent()) {
+            $this->syncBelongsToManyWithPivot($user, $attributes, 'desks');
+
+            if ($attributes['worker_info']) {
+                if ($user->workerInfo()->exists()) {
+                    $user->workerInfo()->update($attributes['worker_info']);
+                } else {
+                    $user->workerInfo()->create($attributes['worker_info']);
+                }
+            }
+        }
 
         return $user;
     }
@@ -54,6 +66,16 @@ final class UserStorage
 
         $this->syncBelongsToManyWithPivot($user, $attributes, 'roles');
         $this->syncBelongsToManyWithPivot($user, $attributes, 'brands');
+
+        if (Tenant::checkCurrent()) {
+            if ($attributes['worker_info']) {
+                if ($user->workerInfo()->exists()) {
+                    $user->workerInfo()->update($attributes['worker_info']);
+                } else {
+                    $user->workerInfo()->create($attributes['worker_info']);
+                }
+            }
+        }
 
         return $user;
     }

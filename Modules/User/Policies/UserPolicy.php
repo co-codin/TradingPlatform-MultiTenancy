@@ -66,10 +66,10 @@ class UserPolicy extends BasePolicy
     public function update(User $user, User $selectedUser): bool
     {
         return match (true) {
+            $user->id === $selectedUser->id => true,
             $user->isAdmin() => true,
             $user->can(UserPermission::EDIT_USERS)
                 && $user->brands()->whereHas('users', fn ($q) => $q->where('id', $selectedUser->id))->exists() => true,
-            $user->id === $selectedUser->id => true,
             default => false,
         };
     }
