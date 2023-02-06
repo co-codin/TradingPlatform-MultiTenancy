@@ -9,6 +9,7 @@ use App\Http\Requests\BaseFormRequest;
 use BenSampo\Enum\Rules\EnumValue;
 use Exception;
 use Modules\Customer\Enums\Gender;
+use Modules\Customer\Rules\ForbiddenCountryRule;
 
 final class CustomerCreateRequest extends BaseFormRequest
 {
@@ -22,8 +23,8 @@ final class CustomerCreateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'first_name' => 'required|string|max:35|regex:' . RegexValidationEnum::NAME,
-            'last_name' => 'required|string|max:35|regex:' . RegexValidationEnum::NAME,
+            'first_name' => 'required|string|max:35|regex:'.RegexValidationEnum::NAME,
+            'last_name' => 'required|string|max:35|regex:'.RegexValidationEnum::NAME,
             'gender' => [
                 'sometimes',
                 'required',
@@ -34,24 +35,29 @@ final class CustomerCreateRequest extends BaseFormRequest
             'password' => [
                 'required',
                 'string',
-                'regex:' . RegexValidationEnum::PASSWORD,
+                'regex:'.RegexValidationEnum::PASSWORD,
             ],
             'phone' => [
                 'required',
                 'string',
-                'regex:' . RegexValidationEnum::PHONE,
+                'regex:'.RegexValidationEnum::PHONE,
             ],
             'phone_2' => [
                 'sometimes',
                 'required',
                 'string',
-                'regex:' . RegexValidationEnum::PHONE,
+                'regex:'.RegexValidationEnum::PHONE,
             ],
             'language_id' => 'required|int|exists:landlord.languages,id',
             'platform_language_id' => 'sometimes|required|int|exists:landlord.languages,id',
             'browser_language_id' => 'sometimes|required|int|exists:landlord.languages,id',
             'currency_id' => 'required|int|exists:landlord.currencies,id',
-            'country_id' => 'required|int|exists:landlord.countries,id',
+            'country_id' => [
+                'required',
+                'int',
+                'exists:landlord.countries,id',
+                new ForbiddenCountryRule(),
+            ],
             'campaign_id' => 'sometimes|required|int|exists:landlord.campaigns,id',
             'desk_id' => 'sometimes|integer|exists:tenant.desks,id',
             'department_id' => 'sometimes|integer|exists:tenant.departments,id',
