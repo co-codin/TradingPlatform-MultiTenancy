@@ -66,13 +66,12 @@ final class CustomerObserver
     private function validateConversionDepartment(Customer $customer): void
     {
         if (
-            $customer->department->isConversion()
-            && $customer->isDirty([
+            $customer->isDirty([
                 'retention_status_id',
                 'retention_user_id',
                 'retention_manager_user_id',
                 'first_retention_user_id',
-            ])
+            ]) && (! $customer->department || $customer->department->isConversion())
         ) {
             throw new Exception(__("You can't set retention options for a conversion department."));
         }
@@ -89,13 +88,12 @@ final class CustomerObserver
     private function validateRetentionDepartment(Customer $customer): void
     {
         if (
-            $customer->department->isRetention()
-            && $customer->isDirty([
+            $customer->isDirty([
                 'conversion_status_id',
                 'conversion_user_id',
                 'conversion_manager_user_id',
                 'first_conversion_user_id',
-            ])
+            ]) && (! $customer->department || $customer->department->isRetention())
         ) {
             throw new Exception(__("You can't set conversion options for a retention department."));
         }
