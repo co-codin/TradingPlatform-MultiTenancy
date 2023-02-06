@@ -52,4 +52,29 @@ final class UserDto extends BaseDto
      * @var array|null
      */
     public ?array $worker_info = null;
+
+    /**
+     * @var array|null
+     */
+    public ?array $roles = null;
+
+    /**
+     * @var array|null
+     */
+    public ?array $languages = null;
+
+    /**
+     * @var array|null
+     */
+    public ?array $countries = null;
+
+    /**
+     * @var array|null
+     */
+    public ?array $brands = null;
+
+    /**
+     * @var array|null
+     */
+    public ?array $desks = null;
 }
