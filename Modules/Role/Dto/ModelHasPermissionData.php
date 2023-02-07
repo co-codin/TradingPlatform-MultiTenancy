@@ -7,33 +7,32 @@ namespace Modules\Role\Dto;
 use App\Dto\BaseDto;
 use Exception;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
-use Modules\Role\Enums\ModelHasPermissionStatus;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 final class ModelHasPermissionData extends BaseDto implements CastsAttributes
 {
     /**
-     * @var string|null $reason
+     * @var string|null
      */
     public ?string $reason = null;
 
     /**
      * @param $model
-     * @param string $key
+     * @param  string  $key
      * @param $value
-     * @param array $attributes
+     * @param  array  $attributes
      * @return array
      */
     final public function get($model, string $key, $value, array $attributes): array
     {
-        return json_decode($value ?? [], true);
+        return json_decode($value ?? '[]', true);
     }
 
     /**
      * @param $model
-     * @param string $key
+     * @param  string  $key
      * @param $value
-     * @param array $attributes
+     * @param  array  $attributes
      * @return string
      *
      * @throws UnknownProperties
