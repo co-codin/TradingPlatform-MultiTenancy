@@ -107,6 +107,7 @@ final class UserRequestCriteria extends BaseCriteria
                 'sendEmails',
                 'calls',
                 'sendCalls',
+                'logs',
             ])
             ->allowedSorts([
                 'id',
