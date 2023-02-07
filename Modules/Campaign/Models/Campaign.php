@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Campaign\Models;
 
+use App\Services\Logs\Traits\ActivityLog;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +19,7 @@ final class Campaign extends Model
 {
     use HasFactory;
     use UsesLandlordConnection;
+    use ActivityLog;
 
     /**
      * @var array

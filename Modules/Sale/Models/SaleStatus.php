@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Sale\Models;
 
+use App\Services\Logs\Traits\ActivityLog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -29,6 +30,7 @@ final class SaleStatus extends Model
     use HasFactory;
     use SoftDeletes;
     use UsesTenantConnection;
+    use ActivityLog;
 
     /**
      * {@inheritdoc}

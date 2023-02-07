@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Communication\Models;
 
+use App\Services\Logs\Traits\ActivityLog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -31,6 +32,7 @@ final class Email extends Model
     use SoftDeletes;
     use HasFactory;
     use UsesTenantConnection;
+    use ActivityLog;
 
     protected $guarded = ['id'];
 

@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Communication\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Services\Logs\Traits\ActivityLog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 use Modules\Communication\Database\factories\EmailTemplatesFactory;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 /**
  * Class EmailTemplates
@@ -25,10 +26,13 @@ final class EmailTemplates extends Model
     use HasFactory;
     use SoftDeletes;
     use UsesTenantConnection;
+    use ActivityLog;
+
     /**
      * {@inheritDoc}
      */
     protected $guarded = ['id'];
+
     /**
      * {@inheritDoc}
      */

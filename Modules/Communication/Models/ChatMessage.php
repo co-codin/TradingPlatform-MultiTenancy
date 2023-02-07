@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Modules\Communication\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Services\Logs\Traits\ActivityLog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Communication\Database\factories\ChatMessageFactory;
-use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
-use Modules\User\Models\User;
 use Modules\Customer\Models\Customer;
+use Modules\User\Models\User;
+use Spatie\Multitenancy\Models\Concerns\UsesTenantConnection;
 
 /**
  * Class ChatMessage
@@ -29,6 +30,7 @@ final class ChatMessage extends Model
 {
     use HasFactory;
     use UsesTenantConnection;
+    use ActivityLog;
 
     protected $guarded = ['id'];
 

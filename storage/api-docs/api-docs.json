@@ -5,6 +5,84 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/admin/activity_logs": {
+            "get": {
+                "tags": [
+                    "ActivityLog"
+                ],
+                "summary": "Get activity logs",
+                "operationId": "6c40e24b89f8e7b55e55bdc99f13906b",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ActivityLogCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/admin/activity_logs/{id}": {
+            "get": {
+                "tags": [
+                    "ActivityLog"
+                ],
+                "summary": "Get activity log by ID",
+                "operationId": "e136e4f3f3a4ede7f90344f8f0bd4423",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Activity Log ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ActivityLogResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized Error"
+                    },
+                    "403": {
+                        "description": "Forbidden Error"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/admin/brands/all": {
             "get": {
                 "tags": [
@@ -12924,77 +13002,6 @@
                 ]
             }
         },
-        "/admin/workers/{id}/brand": {
-            "put": {
-                "tags": [
-                    "Worker"
-                ],
-                "summary": "Update worker brands",
-                "operationId": "f925d8c3fc4affbee411ed10cf59b255",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Worker id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "brands"
-                                ],
-                                "properties": {
-                                    "brands": {
-                                        "type": "array",
-                                        "items": {
-                                            "required": [
-                                                "id"
-                                            ],
-                                            "properties": {
-                                                "id": {
-                                                    "description": "Brand id",
-                                                    "type": "integer"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ok"
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "401": {
-                        "description": "Unauthorized Error"
-                    },
-                    "403": {
-                        "description": "Forbidden Error"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
         "/admin/workers/{id}/country": {
             "put": {
                 "tags": [
@@ -15265,6 +15272,105 @@
     },
     "components": {
         "schemas": {
+            "ActivityLog": {
+                "required": [
+                    "id",
+                    "log_name",
+                    "description",
+                    "subject_type",
+                    "subject_id",
+                    "causer_type",
+                    "causer_id",
+                    "properties",
+                    "created_at",
+                    "updated_at",
+                    "event",
+                    "batch_uuid",
+                    "brand_id"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Activity log ID",
+                        "type": "integer"
+                    },
+                    "log_name": {
+                        "description": "Activity log name",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "Activity log description",
+                        "type": "string"
+                    },
+                    "subject_type": {
+                        "description": "Activity log subject type",
+                        "type": "string"
+                    },
+                    "subject_id": {
+                        "description": "Activity log subject ID",
+                        "type": "integer"
+                    },
+                    "causer_type": {
+                        "description": "Activity log causer type",
+                        "type": "string"
+                    },
+                    "causer_id": {
+                        "description": "Activity log causer ID",
+                        "type": "integer"
+                    },
+                    "properties": {
+                        "description": "Activity log properties",
+                        "type": "string",
+                        "example": "{}"
+                    },
+                    "created_at": {
+                        "description": "Date and time of creation",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "updated_at": {
+                        "description": "Date and time of last update",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-12-17 08:44:09"
+                    },
+                    "event": {
+                        "description": "Activity log event",
+                        "type": "string"
+                    },
+                    "batch_uuid": {
+                        "description": "Activity log uuid",
+                        "type": "string"
+                    },
+                    "brand_id": {
+                        "description": "Activity log brand ID",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "ActivityLogCollection": {
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ActivityLog"
+                        }
+                    },
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    }
+                },
+                "type": "object"
+            },
+            "ActivityLogResource": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/ActivityLog"
+                    }
+                },
+                "type": "object"
+            },
             "Brand": {
                 "title": "Brand",
                 "description": "Brand model",
@@ -19127,7 +19233,7 @@
                 "description": "Google OAuth2 stateful authentication",
                 "flows": {
                     "implicit": {
-                        "authorizationUrl": "/admin/auth/login/google?redirect_url=https%3A%2F%2Flocalhost&remember_me=1"
+                        "authorizationUrl": "/admin/auth/login/google?redirect_url=http%3A%2F%2Flocalhost&remember_me=1"
                     }
                 }
             }

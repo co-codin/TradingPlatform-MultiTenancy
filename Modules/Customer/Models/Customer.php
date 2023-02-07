@@ -6,6 +6,7 @@ namespace Modules\Customer\Models;
 
 use App\Contracts\Models\HasAttributeColumns;
 use App\Contracts\Models\HasEmail;
+use App\Services\Logs\Traits\ActivityLog;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -58,6 +59,7 @@ final class Customer extends Authenticatable implements HasAttributeColumns, Has
     use HasApiTokens;
     use Notifiable;
     use UsesTenantConnection;
+    use ActivityLog;
 
     /**
      * @var string
@@ -204,8 +206,8 @@ final class Customer extends Authenticatable implements HasAttributeColumns, Has
     public function getSuspendAttribute(): bool
     {
         return $this->permissions()
-                ->where('status', ModelHasPermissionStatus::SUSPENDED)
-                ->count() > 0;
+            ->where('status', ModelHasPermissionStatus::SUSPENDED)
+            ->count() > 0;
     }
 
     /**
@@ -232,7 +234,7 @@ final class Customer extends Authenticatable implements HasAttributeColumns, Has
     public function getFtdAmountAttribute(): float
     {
         return round(
-            $this->transactions()
+            (int) $this->transactions()
                 ->deposit()
                 ->approved()
                 ->balance()
@@ -251,7 +253,7 @@ final class Customer extends Authenticatable implements HasAttributeColumns, Has
     public function getTotalDepositAttribute(): float
     {
         return round(
-            $this->transactions()
+            (int) $this->transactions()
                 ->deposit()
                 ->approved()
                 ->balance()
@@ -268,7 +270,7 @@ final class Customer extends Authenticatable implements HasAttributeColumns, Has
     public function getTotalRedepositsAttribute(): float
     {
         return round(
-            $this->transactions()
+            (int) $this->transactions()
                 ->deposit()
                 ->approved()
                 ->balance()
@@ -286,12 +288,12 @@ final class Customer extends Authenticatable implements HasAttributeColumns, Has
     public function getTotalWithdrawalsAttribute(): float
     {
         return round(
-            $this->transactions()
+            (int) $this->transactions()
                 ->withdrawal()
                 ->approved()
                 ->balance()
                 ->sum('amount') ?: 0,
-            self::CUSTOMER_AMOUNT_PRECISION,
+            self::CUSTOMER_AMOUNT_PRECISION
         );
     }
 
@@ -303,7 +305,7 @@ final class Customer extends Authenticatable implements HasAttributeColumns, Has
     public function getTotalBonusesAttribute(): float
     {
         return round(
-            $this->transactions()
+            (int) $this->transactions()
                 ->deposit()
                 ->approved()
                 ->bonus()
@@ -320,7 +322,7 @@ final class Customer extends Authenticatable implements HasAttributeColumns, Has
     public function getNetDepositAttribute(): float
     {
         return round(
-            $this->total_deposits - $this->total_withdrawals,
+            (int) ($this->total_deposits - $this->total_withdrawals),
             self::CUSTOMER_AMOUNT_PRECISION,
         );
     }
@@ -333,7 +335,7 @@ final class Customer extends Authenticatable implements HasAttributeColumns, Has
     public function getPendingTransactionsAttribute(): float
     {
         return round(
-            $this->transactions()
+            (int) $this->transactions()
                 ->deposit()
                 ->pending()
                 ->balance()

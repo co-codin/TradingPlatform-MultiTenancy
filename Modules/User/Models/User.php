@@ -6,6 +6,7 @@ namespace Modules\User\Models;
 
 use App\Contracts\Models\HasEmail;
 use App\Relationships\Traits\WhereHasForTenant;
+use App\Services\Logs\Traits\ActivityLog;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -68,6 +69,7 @@ final class User extends Authenticatable implements HasEmail
     use SoftDeletes;
     use UsesLandlordConnection;
     use WhereHasForTenant;
+    use ActivityLog;
 
     /**
      * @var string
