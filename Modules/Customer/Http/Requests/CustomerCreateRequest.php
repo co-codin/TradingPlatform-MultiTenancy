@@ -9,7 +9,6 @@ use App\Http\Requests\BaseFormRequest;
 use BenSampo\Enum\Rules\EnumValue;
 use Exception;
 use Modules\Customer\Enums\Gender;
-use Modules\Customer\Rules\ForbiddenCountryRule;
 
 final class CustomerCreateRequest extends BaseFormRequest
 {
@@ -52,12 +51,7 @@ final class CustomerCreateRequest extends BaseFormRequest
             'platform_language_id' => 'sometimes|required|int|exists:landlord.languages,id',
             'browser_language_id' => 'sometimes|required|int|exists:landlord.languages,id',
             'currency_id' => 'required|int|exists:landlord.currencies,id',
-            'country_id' => [
-                'required',
-                'int',
-                'exists:landlord.countries,id',
-                new ForbiddenCountryRule(),
-            ],
+            'country_id' => 'required|int|exists:landlord.countries,id,is_forbidden,false',
             'campaign_id' => 'sometimes|required|int|exists:landlord.campaigns,id',
             'desk_id' => 'sometimes|integer|exists:tenant.desks,id',
             'department_id' => 'sometimes|integer|exists:tenant.departments,id',

@@ -26,7 +26,7 @@ class CountryFactory extends Factory
             'iso2' => $this->faker->unique()->countryCode,
             'iso3' => $this->faker->unique()->countryISOAlpha3,
             'currency' => $this->faker->unique()->currencyCode,
+            'is_forbidden' => false,
         ];
     }
 }
-

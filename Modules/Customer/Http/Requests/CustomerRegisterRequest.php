@@ -50,7 +50,7 @@ final class CustomerRegisterRequest extends BaseFormRequest
 
         if (Campaign::query()->find($this->post('campaign_id'))?->phone_verification) {
             $rules['phone'][] = (new Phone)->country(
-                Country::query()->find($this->post('country_id'))
+                Country::query()->whereIsForbidden(false)->find($this->post('country_id'))
             );
         }
 

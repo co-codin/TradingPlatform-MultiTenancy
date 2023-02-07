@@ -45,4 +45,9 @@ class Country extends Model
     {
         return CountryFactory::new();
     }
+
+    public function scopeIsForbidden($query)
+    {
+        return $query->whereIsForbidden(false);
+    }
 }
