@@ -17,6 +17,7 @@ use Modules\Brand\Repositories\BrandRepository;
 use Modules\Campaign\Repositories\CampaignRepository;
 use Modules\Currency\Repositories\CurrencyRepository;
 use Modules\Customer\Dto\CustomerDto;
+use Modules\Customer\Enums\ForbiddenCountry;
 use Modules\Customer\Http\Requests\Affiliate\CustomerCreateRequest;
 use Modules\Customer\Http\Resources\AffiliateCustomerResource;
 use Modules\Customer\Repositories\CustomerRepository;
@@ -27,6 +28,7 @@ use Modules\Geo\Repositories\CountryRepository;
 use Modules\Language\Repositories\LanguageRepository;
 use Modules\Token\Repositories\TokenRepository;
 use Spatie\DataTransferObject\Exceptions\UnknownProperties;
+use Spatie\Multitenancy\Models\Tenant;
 
 final class CustomerController extends Controller
 {
@@ -166,6 +168,7 @@ final class CustomerController extends Controller
             ->where('iso2', 'ilike', $request->post('country'))
             ->orWhere('iso3', 'ilike', $request->post('country'))
             ->orWhere('name', 'ilike', $request->post('country'))
+            ->whereNotIn('iso2', ForbiddenCountry::getValues())
             ->firstOrFail();
 
         $language = $languageRepository

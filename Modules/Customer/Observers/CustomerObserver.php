@@ -66,12 +66,13 @@ final class CustomerObserver
     private function validateConversionDepartment(Customer $customer): void
     {
         if (
-            $customer->isDirty([
-                'retention_status_id',
-                'retention_user_id',
-                'retention_manager_user_id',
-                'first_retention_user_id',
-            ]) && (! $customer->department || $customer->department->isConversion())
+            (
+                $customer->getOriginal('retention_sale_status_id') !== $customer->retention_sale_status_id
+                && $customer->getOriginal('retention_user_id') !== $customer->retention_user_id
+                && $customer->getOriginal('retention_manager_user_id') !== $customer->retention_manager_user_id
+                && $customer->getOriginal('first_retention_user_id') !== $customer->first_retention_user_id
+            )
+            && (! $customer->department || $customer->department->isConversion())
         ) {
             throw new Exception(__("You can't set retention options for a conversion department."));
         }
@@ -88,12 +89,13 @@ final class CustomerObserver
     private function validateRetentionDepartment(Customer $customer): void
     {
         if (
-            $customer->isDirty([
-                'conversion_status_id',
-                'conversion_user_id',
-                'conversion_manager_user_id',
-                'first_conversion_user_id',
-            ]) && (! $customer->department || $customer->department->isRetention())
+            (
+                $customer->getOriginal('conversion_sale_status_id') !== $customer->conversion_sale_status_id
+                && $customer->getOriginal('conversion_user_id') !== $customer->conversion_user_id
+                && $customer->getOriginal('conversion_manager_user_id') !== $customer->conversion_manager_user_id
+                && $customer->getOriginal('first_conversion_user_id') !== $customer->first_conversion_user_id
+            )
+            && (! $customer->department || $customer->department->isRetention())
         ) {
             throw new Exception(__("You can't set conversion options for a retention department."));
         }
