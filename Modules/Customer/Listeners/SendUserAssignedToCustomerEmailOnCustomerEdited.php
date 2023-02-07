@@ -27,10 +27,14 @@ final class SendUserAssignedToCustomerEmailOnCustomerEdited
 
         $users = User::whereIn('id', $userIds)->get();
 
+        $event->customer->getBrand()?->makeCurrent();
+
         foreach ($users as $user) {
-            Mail::to($user->getEmail())->send(
-                new UserAssignedToCustomerEmail($user, $event->customer),
-            );
+            if ($email = $user->getEmail()) {
+                Mail::to($email)->send(
+                    new UserAssignedToCustomerEmail($user, $event->customer),
+                );
+            }
         }
     }
 }

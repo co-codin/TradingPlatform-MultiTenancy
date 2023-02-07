@@ -41,8 +41,8 @@ class UserAssignedToCustomerEmail extends Mailable //implements ShouldQueue
             $with = [
                 'brandName' => $brand->name,
                 'brandLogo' => $brand->logo,
-                'userFirstName' => $this->user->workerInfo->first_name,
-                'userLastName' => $this->user->workerInfo->last_name,
+                'userFirstName' => $this->user->workerInfo?->first_name,
+                'userLastName' => $this->user->workerInfo?->last_name,
             ];
         }
 
