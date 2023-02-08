@@ -38,6 +38,9 @@ final class CountryRequestCriteria extends BaseCriteria
                 AllowedFilter::partial('updated_at'),
                 AllowedFilter::trashed(),
             ])
+            ->scopes([
+                'isForbidden',
+            ])
             ->allowedSorts([
                 'id',
                 'name',

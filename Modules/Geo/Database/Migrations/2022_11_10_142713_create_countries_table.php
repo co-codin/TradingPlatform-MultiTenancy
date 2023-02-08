@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('iso2')->unique()->index();
             $table->string('iso3')->unique()->index();
             $table->string('currency')->nullable()->index();
+            $table->boolean('is_forbidden')->default(false);
 
             $table->timestamps();
             $table->softDeletes();

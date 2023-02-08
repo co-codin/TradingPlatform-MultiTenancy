@@ -8,7 +8,6 @@ use libphonenumber\PhoneNumberUtil;
 use Modules\Campaign\Models\Campaign;
 use Modules\Currency\Models\Currency;
 use Modules\Customer\Enums\CustomerVerificationStatus;
-use Modules\Customer\Enums\ForbiddenCountry;
 use Modules\Customer\Enums\Gender;
 use Modules\Customer\Models\Customer;
 use Modules\Department\Models\Department;
@@ -105,15 +104,15 @@ class CustomerFactory extends BaseFactory
      */
     private function getLandlordData(): array
     {
-        $supportedCountriesForPhones = array_diff(PhoneNumberUtil::getInstance()->getSupportedRegions(), ForbiddenCountry::getValues());
-        $country = Country::inRandomOrder()->whereIn('iso2', $supportedCountriesForPhones)->first()
+        $supportedCountriesForPhones = PhoneNumberUtil::getInstance()->getSupportedRegions();
+        $country = Country::inRandomOrder()->first()
             ?: Country::factory()->create(['iso2' => $this->faker->randomElement($supportedCountriesForPhones)]);
         $phone = PhoneNumberUtil::getInstance()->getExampleNumber($country->iso2);
         $phone2 = PhoneNumberUtil::getInstance()->getExampleNumber($country->iso2);
 
         $data = [
-            'phone' => $phone->getCountryCode() . $phone->getNationalNumber(),
-            'phone_2' => $phone2->getCountryCode() . $phone2->getNationalNumber(),
+            'phone' => $phone->getCountryCode().$phone->getNationalNumber(),
+            'phone_2' => $phone2->getCountryCode().$phone2->getNationalNumber(),
             'currency_id' => Currency::inRandomOrder()->first() ?? Currency::factory(),
             'language_id' => Language::inRandomOrder()->first() ?? Language::factory(),
             'country_id' => $country,
