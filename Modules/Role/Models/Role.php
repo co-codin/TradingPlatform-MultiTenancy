@@ -37,10 +37,10 @@ final class Role extends SpatieRole
      */
     public function getPermissionsByTotalCountAttribute(): string
     {
-        $count = Cache::tags(['permissions', 'count'])
+        $count = Cache::tags([self::class, 'permissions', 'count'])
             ->remember($this->id, null, fn () => $this->permissions()->count());
 
-        $total = Cache::tags(['permissions', 'count'])
+        $total = Cache::tags([self::class, 'permissions', 'count'])
             ->remember('total', null, fn () => Permission::query()->count());
 
         return "{$count}/{$total}";

@@ -105,14 +105,14 @@ class CustomerFactory extends BaseFactory
     private function getLandlordData(): array
     {
         $supportedCountriesForPhones = PhoneNumberUtil::getInstance()->getSupportedRegions();
-        $country = Country::inRandomOrder()->first()
+        $country = Country::inRandomOrder()->whereIn('iso2', PhoneNumberUtil::getInstance()->getSupportedRegions())->first()
             ?: Country::factory()->create(['iso2' => $this->faker->randomElement($supportedCountriesForPhones)]);
         $phone = PhoneNumberUtil::getInstance()->getExampleNumber($country->iso2);
         $phone2 = PhoneNumberUtil::getInstance()->getExampleNumber($country->iso2);
 
         $data = [
-            'phone' => $phone->getCountryCode().$phone->getNationalNumber(),
-            'phone_2' => $phone2->getCountryCode().$phone2->getNationalNumber(),
+            'phone' => $phone->getCountryCode() . $phone->getNationalNumber(),
+            'phone_2' => $phone2->getCountryCode() . $phone2->getNationalNumber(),
             'currency_id' => Currency::inRandomOrder()->first() ?? Currency::factory(),
             'language_id' => Language::inRandomOrder()->first() ?? Language::factory(),
             'country_id' => $country,

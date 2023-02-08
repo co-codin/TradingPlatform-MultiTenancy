@@ -55,6 +55,7 @@ final class ModelResource extends BaseJsonResource
     {
         return array_merge(parent::toArray($request), [
             'permissions_count' => $this->permissions()->count(),
+            'permissions_by_total_count' => $this->resource->permissions_by_total_count,
         ]);
     }
 }

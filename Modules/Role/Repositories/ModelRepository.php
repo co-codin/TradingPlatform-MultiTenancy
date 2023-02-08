@@ -32,11 +32,24 @@ final class ModelRepository extends BaseRepository
 
     public function allWithoutNamespaces(): Collection
     {
-        return $this->all()->map(function (Model $model) {
-            $explode = explode('\\', $model->name);
-            $model->name = end($explode);
+        return $this->all()
+            ->map(function (Model $model) {
+                $explode = explode('\\', $model->name);
+                $model->name = end($explode);
 
-            return $model;
-        });
+                return $model;
+            })
+            ->when(
+                isset($_GET['sort']),
+                function ($collection) {
+                    if ($_GET['sort'] === 'name') {
+                        return $collection->sortBy('name');
+                    }
+
+                    if ($_GET['sort'] === '-name') {
+                        return $collection->sortByDesc('name');
+                    }
+                },
+            );
     }
 }

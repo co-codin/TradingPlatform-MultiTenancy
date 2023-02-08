@@ -15,9 +15,9 @@ final class RoleModelDto extends BaseDto
     /**
      * @var array<string>
      */
-    public array $selected_view_columns;
+    public array $selected_view_columns = [];
     /**
      * @var array<string>
      */
-    public array $selected_edit_columns;
+    public array $selected_edit_columns = [];
 }
