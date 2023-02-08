@@ -21,6 +21,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Kalnoy\Nestedset\NodeTrait;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\ActivityLog\Models\ActivityLog as ActivityLogModel;
 use Modules\Brand\Models\Brand;
 use Modules\Brand\Models\UserBrand;
 use Modules\Communication\Models\Call;
@@ -444,5 +445,16 @@ final class User extends Authenticatable implements HasEmail
     public function workerInfo(): HasOne
     {
         return $this->hasOne(WorkerInfo::class, 'user_id', 'id');
+    }
+
+    /**
+     * User logs
+     *
+     * @return HasMany
+     */
+    public function logs(): HasMany
+    {
+        return $this->hasMany(ActivityLogModel::class, 'causer_id')
+            ->whereCauserType('Modules\User\Models\User');
     }
 }

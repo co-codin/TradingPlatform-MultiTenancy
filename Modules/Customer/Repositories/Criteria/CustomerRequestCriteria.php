@@ -129,6 +129,7 @@ final class CustomerRequestCriteria extends BaseCriteria
                 'sendEmails',
                 'calls',
                 'sendCalls',
+                'logs',
             ])
             ->allowedSorts([
                 'id',

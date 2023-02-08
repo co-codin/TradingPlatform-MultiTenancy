@@ -9,11 +9,13 @@ use App\Contracts\Models\HasEmail;
 use App\Services\Logs\Traits\ActivityLog;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\ActivityLog\Models\ActivityLog as ActivityLogModel;
 use Modules\Brand\Models\Brand;
 use Modules\Communication\Models\DatabaseNotification;
 use Modules\Customer\Database\factories\CustomerFactory;
@@ -404,5 +406,16 @@ final class Customer extends Authenticatable implements HasAttributeColumns, Has
     public function notifications(): MorphMany
     {
         return $this->morphMany(DatabaseNotification::class, 'notifiable')->latest();
+    }
+
+    /**
+     * Customer logs
+     *
+     * @return HasMany
+     */
+    public function logs(): HasMany
+    {
+        return $this->hasMany(ActivityLogModel::class, 'causer_id')
+            ->whereCauserType('Modules\Customer\Models\Customer');
     }
 }
