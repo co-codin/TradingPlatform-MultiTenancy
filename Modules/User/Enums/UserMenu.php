@@ -77,51 +77,51 @@ final class UserMenu extends Enum
     public static function customers(): array
     {
         return [
-            ['permission' => self::MENU_CUSTOMERS_CUSTOMERS_LIST, 'name' => 'Customers list', 'link' => ''],
-            ['permission' => self::MENU_CUSTOMERS_CONVERSION, 'name' => 'Conversion', 'link' => ''],
-            ['permission' => self::MENU_CUSTOMERS_RETENTION, 'name' => 'Retention', 'link' => ''],
-            ['permission' => self::MENU_CUSTOMERS_SPLITTER, 'name' => 'Splitter', 'link' => ''],
-            ['permission' => self::MENU_CUSTOMERS_COMPLIANCE, 'name' => 'Compliance', 'link' => ''],
-            ['permission' => self::MENU_CUSTOMERS_SUPPORT_TICKETS, 'name' => 'Support Tickets', 'link' => ''],
-            ['permission' => self::MENU_CUSTOMERS_ACCOUNT_TYPES, 'name' => 'Account Types', 'link' => ''],
+            ['permission' => self::MENU_CUSTOMERS_CUSTOMERS_LIST, 'name' => 'Customers list', 'link' => '/customers/list'],
+            ['permission' => self::MENU_CUSTOMERS_CONVERSION, 'name' => 'Conversion', 'link' => '/customers/conversion'],
+            ['permission' => self::MENU_CUSTOMERS_RETENTION, 'name' => 'Retention', 'link' => '/customers/retention'],
+            ['permission' => self::MENU_CUSTOMERS_SPLITTER, 'name' => 'Splitter', 'link' => '/customers/splitter'],
+            ['permission' => self::MENU_CUSTOMERS_COMPLIANCE, 'name' => 'Compliance', 'link' => '/customers/compliance'],
+            ['permission' => self::MENU_CUSTOMERS_SUPPORT_TICKETS, 'name' => 'Support Tickets', 'link' => '/customers/support-tickets'],
+            ['permission' => self::MENU_CUSTOMERS_ACCOUNT_TYPES, 'name' => 'Account Types', 'link' => '/customers/account-types'],
         ];
     }
 
     public static function finance(): array
     {
         return [
-            ['permission' => self::MENU_FINANCE_TRANSACTIONS, 'name' => 'Transactions', 'link' => ''],
-            ['permission' => self::MENU_FINANCE_EXCHANGES, 'name' => 'Exchanges', 'link' => ''],
+            ['permission' => self::MENU_FINANCE_TRANSACTIONS, 'name' => 'Transactions', 'link' => '/finance/transactions'],
+            ['permission' => self::MENU_FINANCE_EXCHANGES, 'name' => 'Exchanges', 'link' => '/finance/exchanges'],
         ];
     }
 
     public static function marketing(): array
     {
         return [
-            ['permission' => self::MENU_MARKETING_AFFILIATION, 'name' => 'Affiliation', 'link' => ''],
-            ['permission' => self::MENU_EMAIL_TEMPLATES, 'name' => 'Email Templates', 'link' => ''],
+            ['permission' => self::MENU_MARKETING_AFFILIATION, 'name' => 'Affiliation', 'link' => '/marketing/affiliation'],
+            ['permission' => self::MENU_EMAIL_TEMPLATES, 'name' => 'Email Templates', 'link' => '/marketing/email-templates'],
         ];
     }
 
     public static function workers(): array
     {
         return [
-            ['permission' => self::MENU_WORKERS_WORKERS_LIST, 'name' => 'Workers list', 'link' => ''],
-            ['permission' => self::MENU_WORKERS_ROLES, 'name' => 'Roles', 'link' => ''],
-            ['permission' => self::MENU_WORKERS_DESKS, 'name' => 'Desks', 'link' => ''],
-            ['permission' => self::MENU_WORKERS_DEPARTMENTS, 'name' => 'Departments', 'link' => ''],
+            ['permission' => self::MENU_WORKERS_WORKERS_LIST, 'name' => 'Workers list', 'link' => '/workers/list'],
+            ['permission' => self::MENU_WORKERS_ROLES, 'name' => 'Roles', 'link' => '/workers/roles'],
+            ['permission' => self::MENU_WORKERS_DESKS, 'name' => 'Desks', 'link' => '/workers/desks'],
+            ['permission' => self::MENU_WORKERS_DEPARTMENTS, 'name' => 'Departments', 'link' => '/workers/departments'],
         ];
     }
 
     public static function administration(): array
     {
         return [
-            ['permission' => self::MENU_ADMINISTRATION_VOIP, 'name' => 'VoIP', 'link' => ''],
-            ['permission' => self::MENU_ADMINISTRATION_NOTIFICATIONS, 'name' => 'Notifications', 'link' => ''],
-            ['permission' => self::MENU_ADMINISTRATION_API_TOKENS, 'name' => 'API Tokens', 'link' => ''],
-            ['permission' => self::MENU_ADMINISTRATION_GLOBAL_CONFIG, 'name' => 'Global Config', 'link' => ''],
-            ['permission' => self::MENU_ADMINISTRATION_RESTRICTED_COUNTRIES, 'name' => 'Restricted Countries', 'link' => ''],
-            ['permission' => self::MENU_ADMINISTRATION_SUSPENDS, 'name' => 'Suspends', 'link' => ''],
+            ['permission' => self::MENU_ADMINISTRATION_VOIP, 'name' => 'VoIP', 'link' => '/administration/voip'],
+            ['permission' => self::MENU_ADMINISTRATION_NOTIFICATIONS, 'name' => 'Notifications', 'link' => '/administration/notifications'],
+            ['permission' => self::MENU_ADMINISTRATION_API_TOKENS, 'name' => 'API Tokens', 'link' => '/administration/api-tokens'],
+            ['permission' => self::MENU_ADMINISTRATION_GLOBAL_CONFIG, 'name' => 'Global Config', 'link' => '/administration/global-config'],
+            ['permission' => self::MENU_ADMINISTRATION_RESTRICTED_COUNTRIES, 'name' => 'Restricted Countries', 'link' => '/administration/restricted-countries'],
+            ['permission' => self::MENU_ADMINISTRATION_SUSPENDS, 'name' => 'Suspends', 'link' => '/administration/suspends'],
         ];
     }
 }
