@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model as BaseModel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 use Modules\Role\Models\Permission;
 use Spatie\Multitenancy\Models\Concerns\UsesLandlordConnection;
 
@@ -22,12 +23,41 @@ final class Model extends BaseModel
     /**
      * {@inheritdoc}
      */
-    protected $guarded = ['id'];
+    public $timestamps = false;
 
     /**
      * {@inheritdoc}
      */
-    public $timestamps = false;
+    protected $guarded = ['id'];
+
+    /**
+     * {@inheritDoc}
+     */
+    protected static function newFactory(): Factory
+    {
+        return ModelFactory::new();
+    }
+
+    /**
+     * Get permissions by total count attribute.
+     *
+     * @return string
+     */
+    public function getPermissionsByTotalCountAttribute(): string
+    {
+        $count = Cache::tags([self::class, 'permissions', 'count'])
+            ->remember($this->id, null, fn () => $this->permissions()->count());
+
+        $total = Cache::tags([self::class, 'permissions', 'count'])
+            ->remember('total', null, fn () => Permission::query()->count());
+
+        return "{$count}/{$total}";
+    }
+
+    public function getShortNameAttribute(): string
+    {
+        return explode('\\', $this->name)[array_key_last(explode('\\', $this->name))];
+    }
 
     /**
      * Permissions relation.
@@ -37,13 +67,5 @@ final class Model extends BaseModel
     public function permissions(): HasMany
     {
         return $this->hasMany(Permission::class);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected static function newFactory(): Factory
-    {
-        return ModelFactory::new();
     }
 }

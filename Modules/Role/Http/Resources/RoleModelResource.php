@@ -94,6 +94,7 @@ final class RoleModelResource extends BaseJsonResource
             'available_columns' => $service->getAvailableColumnNames(),
             'selected_view_columns' => $service->getSelectedColumnNamesByAction(Action::NAMES['view']) ?? [],
             'selected_edit_columns' => $service->getSelectedColumnNamesByAction(Action::NAMES['edit']) ?? [],
+            'permissions_by_total_count' => $this->resource->permissions_by_total_count,
         ];
     }
 }
